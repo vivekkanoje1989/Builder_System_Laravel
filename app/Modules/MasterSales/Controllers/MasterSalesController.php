@@ -192,6 +192,7 @@ class MasterSalesController extends Controller {
                 $loggedInUserId = $input['customerData']['loggedInUserId'];
                 unset($input['customerData']['loggedInUserId']);
                 unset($input['customerData']['id']);
+                unset($input['customerData']['company_name']);
             }
 
             $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
@@ -221,7 +222,7 @@ class MasterSalesController extends Controller {
 
                 foreach ($input['customerContacts'] as $contacts) {
 
-                    if (!empty($contacts['$hashKey']))
+                    if (!empty($contacts['$hashKey']) || $contacts['$$hashKey'] || $contacts['index'])
                         unset($contacts['$hashKey'], $contacts['$$hashKey'], $contacts['index']);
 //                    $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] = $contacts['email_optin_status'] = $contacts['email_verification_status'] = 0;
 //                    $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] = $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;
@@ -991,7 +992,7 @@ class MasterSalesController extends Controller {
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_employee_id" => $input['followup_by']['id']]);
             }
 
-            $input['followup_by'] = $loggedInUserId;
+            $input['followup_by_employee_id'] = $loggedInUserId;
             if (!empty($input)) {
                 $lostReason = $lostSubReason = 0;
                 if ($input['sales_status_id'] == 3) {//booked
@@ -1107,18 +1108,19 @@ Regards,<br>
 
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $editExistingFollowup = $input['editExistingFollowup'];
-                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup']);
+                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], 
+                        $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'],$input['followup_by']);
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
-                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking']);
+                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'],$input['userData'],$input['custInfo']);
 
                 EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDateTime]);
                 if ($editExistingFollowup == true) {
                     $input = array_merge($input, $update);
                     $input['client_id'] = config('global.client_id');
                     $insertFollowup = EnquiryFollowup::where("id", $followupId)->update($input);
-                    $result = ['success' => true, 'message' => "", 'bookingId' => $bookingId];
+                    $result = ['success' => true, 'message' => $msg, 'bookingId' => $bookingId];
                 } else {
                     $input = array_merge($input, $create);
                     $insertFollowup = EnquiryFollowup::create($input);

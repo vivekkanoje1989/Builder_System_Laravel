@@ -4036,7 +4036,8 @@ function $StateRefDirective($state, $timeout) {
           nav = false;
           return false;
         }
-        attrs.$set(attr, newHref);
+
+        attrs.$set(attr, 'office.php'+newHref);
       };
 
       if (ref.paramExpr) {

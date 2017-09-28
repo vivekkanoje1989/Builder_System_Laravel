@@ -61,7 +61,8 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'HR / User Management / Add New User',
+                                        parent: 'userIndex',
+                                        label: 'Add New User',
                                         title: 'Add New User',
                                     },
                                     resolve: {
@@ -1279,7 +1280,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Email Account Configuration'
+                                        parent:'emailConfigIndex',
+                                        label: 'Edit Email Account Configuration'
                                     },
                                     resolve: {
                                         deps: [
@@ -1454,6 +1456,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent:'customersIndex',
                                         label: 'Edit Customer',
                                         title: 'Edit Customer',
                                     },
@@ -1483,8 +1486,8 @@ angular.module('app')
                                     templateUrl: '/master-sales/reassignEnquiry/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        lable: 'Sales / Pre Sales / Reassigned Enquiries',
-                                        title: 'Reassignd Enquiries',
+                                        label: 'Sales / Pre Sales / My Reassigned Enquiries',
+                                        title: 'Reassigned Enquiries',
                                     },
                                     resolve: {
                                         deps:
@@ -1516,7 +1519,7 @@ angular.module('app')
                                     templateUrl: '/master-sales/totalEnquiry/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Total Enquiries',
+                                        label: 'Sales / Pre Sales / My Total Enquiries',
                                         title: 'Total Enquiries',
                                     },
                                     resolve: {
@@ -1552,7 +1555,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Lost Enquiries',
+                                        label: 'Sales / Pre Sales / My Lost Enquiries',
                                         title: 'Lost Enquiries',
                                     },
                                     resolve: {
@@ -1586,7 +1589,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Booked Enquiry',
+                                        label: 'Sales / Pre Sales / My Booked Enquiry',
                                         title: 'Booked Enquiry',
                                     },
                                     resolve: {
@@ -1620,7 +1623,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Todays Followups',
+                                        label: 'Sales / Pre Sales / My Todays Followups',
                                         title: 'Todays Followups',
                                     },
                                     resolve: {
@@ -1654,7 +1657,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Pending Followups',
+                                        label: 'Sales / Pre Sales / My Pending Followups',
                                         title: 'Pending Followups',
                                     },
                                     resolve: {
@@ -1688,7 +1691,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Previous Followups',
+                                        label: 'Sales / Pre Sales / My Previous Followups',
                                         title: 'Previous Followups',
                                     },
                                     resolve: {
@@ -3028,8 +3031,9 @@ angular.module('app')
                                     templateUrl: '/manage-blog/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent:'manageblogIndex',
                                         label: 'Create blog',
-                                        description: ''
+                                        title:'Create blog'
                                     },
                                     resolve: {
                                         deps:
@@ -3088,7 +3092,7 @@ angular.module('app')
                                     templateUrl: '/testimonials/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Response / Testinmonials / Approve',
+                                        label: 'Response / Testimonials / Approve',
                                         title: 'Approved Testimonials',
                                     },
                                     resolve: {
@@ -3205,7 +3209,7 @@ angular.module('app')
                                     templateUrl: '/testimonials/manage',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Response / Testinmonials / Manage',
+                                        label: 'Response / Testimonials / Manage',
                                         title: 'Manage Testimonials',
                                         description: ''
                                     },
@@ -3263,8 +3267,8 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         parent: 'manageJobIndex',
-                                        label: 'Add Details',
-                                        title: 'Add Details',
+                                        label: 'Add Job Details',
+                                        title: 'Add Job Details',
                                     },
                                     resolve: {
                                         deps:
@@ -3294,8 +3298,8 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         parent: 'manageJobIndex',
-                                        label: 'Edit Details',
-                                        title: 'Edit Details',
+                                        label: 'Edit Job Details',
+                                        title: 'Edit Job Details',
                                     },
                                     resolve: {
                                         deps:
@@ -3449,8 +3453,8 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         parent: 'dashboard',
-                                        label: 'My Request',
-                                        title: 'My Request',
+                                        label: 'My Requests',
+                                        title: 'My Requests',
                                     },
                                     resolve: {
                                         deps:
@@ -4015,8 +4019,8 @@ angular.module('app')
                                     templateUrl: '/customers/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Customers',
-                                        description: ''
+                                        label: 'Sales /  Customers Management / Manage Customers ',
+                                         title: 'Manage Customers',
                                     },
                                     resolve: {
                                         deps:
@@ -4226,8 +4230,8 @@ angular.module('app')
                                     templateUrl: '/reports/projectwiseReport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Reports / Pre Sales / My Reports / Sales Report',
-                                        title: 'Sales Report',
+                                        label: 'Reports / Pre Sales / My Reports / Project Report',
+                                        title: 'Project Report',
                                     },
                                     resolve: {
                                         deps:
@@ -4511,8 +4515,9 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'HR / User Management / User Management',
-                                        title: 'User Management',
+                                        parent:'userIndex',
+                                        label: 'Add Quick User',
+                                        title: 'Add Quick User',
                                     },
                                     resolve: {
                                         deps:

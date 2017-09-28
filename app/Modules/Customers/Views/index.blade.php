@@ -27,9 +27,6 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-show="exportBtn == '1'" ng-click="customerDetailsExportToxls()">
-                                                    <span>Export</span>
-                                                </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
@@ -134,7 +131,7 @@
                                 <td>{{(list.email_privacy_status == 1) ? "Yes" : "No"}}</td>     
                                 <td>{{(list.sms_privacy_status == 1) ? "Yes" : "No"}}</td>     
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit"><a href="[[ config('global.backendUrl') ]]#/customers/update/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit"><a href="[[ config('global.backendUrl') ]]#/customers/update/{{ list.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
 
                                 </td>
@@ -175,9 +172,6 @@
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Profession</label>
-<!--                        <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.profession" name="profession" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
-                        </span>-->
                         <span class="input-icon icon-right">
                             <select ng-controller="professionCtrl" ng-model="searchDetails.profession" name="profession" class="form-control" >
                                 <option value="">Select Title</option>

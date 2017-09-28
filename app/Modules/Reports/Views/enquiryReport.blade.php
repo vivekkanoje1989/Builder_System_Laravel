@@ -1,8 +1,11 @@
 <div class="row">
     <div class="widget flat radius-bordered">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="reportsController" ng-init="myEnquiryReport([[$loggedInUserID]])">
-            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{headingName}}</h5>
-            <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
+            <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{headingName}}</h5>-->
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">{{headingName}}</span>                
+            </div>
+            <div class="widget-body col-lg-12 col-sm-12 col-xs-12">
                 <tabset class="col-md-12">
                     <tab heading="Category" ng-click="reportHeading('Enquiry Category Report'); myEnquiryReport([[$loggedInUserID]])">
                         <div class="table-responsive">

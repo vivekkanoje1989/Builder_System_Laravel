@@ -102,7 +102,7 @@
                                 <td>{{ list.profession}}</td> 
                                 <td>{{ list.status == 1 ? "Active" : "Inactive" }}</td> 
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit profession" data-toggle="modal" data-target="#professionModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.profession}}','{{list.status}}',{{ itemsPerPage}},{{$index}})"class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit profession" data-toggle="modal" data-target="#professionModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.profession}}','{{list.status}}',{{ itemsPerPage}},{{$index}})"class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span  ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteProfession({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>

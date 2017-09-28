@@ -16,7 +16,7 @@
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Career</span>                
+                <span class="widget-caption">Manage</span>                
             </div>
             <div class="widget-body table-responsive">
                 
@@ -80,7 +80,6 @@
                     <table class="table table-hover table-striped table-bordered tableHeader" at-config="config">
                         <thead class="bord-bot">
                             <tr>
-                            <tr>
                                 <th style="width:5%">Sr. No.</th>                          
                                 <th style="width:15%">
                                 <a href="javascript:void(0);" ng-click="orderByField('job_title')">Job title
@@ -112,23 +111,20 @@
                                 </th> 
                                 <th style="width:10%">Go to</th>                            
                                 <th style="width: 10%">Actions</th>
-
                             </tr>
                         </thead>
                         <tbody>
-
                             <tr role="row" dir-paginate="list in careerRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{list.job_title}}</td> 
                                 <td>{{list.job_eligibility}}</td> 
                                 <td>{{list.application_start_date}}</td> 
                                 <td>{{list.application_close_date}}</td>
-                                <td><a href="[[ config('global.backendUrl') ]]#/career/show/{{ list.id}}" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>View Applications</a></td>
+                                <td><a href="[[ config('global.backendUrl') ]]#/career/show/{{ list.id}}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>View Applications</a></td>
                                 <td class="">	
-                                    <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/career/update/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/career/update/{{ list.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
-
                             </tr>
                              <tr>
                                 <td colspan="7"  ng-show="(careerRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   

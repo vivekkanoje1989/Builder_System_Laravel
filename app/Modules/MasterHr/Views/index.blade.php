@@ -41,9 +41,7 @@
                             <li>
                                 <a href="[[ config('global.backendUrl') ]]#/user/quickuser">Quick User</a>
                             </li>
-                            <li>
-                                <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" >Permission Wise Users</a>
-                            </li>
+
 
                         </ul>
                     </div>
@@ -60,6 +58,9 @@
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
                                     <a href="" ng-click="hrDetailsExporToxls()" ng-show="exportData == '1'" >Export</a>
+                                </li>
+                                <li>
+                                    <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" >Permission Wise Users</a>
                                 </li>
                             </ul>
                         </a>
@@ -171,7 +172,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort " id="suspend{{$index}}">
+                            <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort " id="{{listUser.id}}" >
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ listUser.firstName}}</td>
                                 <td>{{ listUser.designation == null? '-' : listUser.designation}}</td>
@@ -184,15 +185,15 @@
                                 <td ng-if="listUser.employee_status == 3">Permanent Suspended</td>
                                 <td>{{ listUser.login_date_time == null ? '-' : listUser.login_date_time | date : "dd-MM-yyyy"  }}</td>
                                 <td class="">
-                                    <div class="hrbtn" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/user/update/{{ listUser.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
+                                    <div class="hrbtn" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/user/update/{{ listUser.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
                                     <div class="hrbtn" tooltip-html-unsafe="User Permissions" tooltip-placement="top" ><a href="[[ config('global.backendUrl') ]]#/user/permissions/{{ listUser.id}}"  class=" btn-success btn-xs"><i class="fa fa-user-plus"></i>Permissions</a> &nbsp;&nbsp;</div>
                                     <div class="hrbtn" tooltip-html-unsafe="Change Password" data-toggle="modal" data-target="#myModal" ><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id}},'changePassword')"  class="btn-warning btn-xs"><i class="fa fa-lock"></i>Change Password</a>&nbsp;&nbsp;</div>
-                                    <div class="hrbtn" tooltip-html-unsafe="Suspend Employee" ><a href ng-click="employeeSuspend({{ listUser.id}},{{$index}},itemsPerPage,noOfRows)" class="btn-danger btn-xs" ><i class="fa fa-user-times"></i>Suspend</a>&nbsp;&nbsp;</div>
+                                    <div class="hrbtn" tooltip-html-unsafe="Suspend Employee" ><a href ng-click="employeeSuspend({{ listUser.id}},{{$index}},itemsPerPage, noOfRows)" class="btn-danger btn-xs" ><i class="fa fa-user-times"></i>Suspend</a>&nbsp;&nbsp;</div>
                                 </td>
-                        </tr>
-                        <tr>
-                            <td colspan="10"  ng-show="(listUsers|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
-                        </tr>
+                            </tr>
+                            <tr>
+                                <td colspan="10"  ng-show="(listUsers|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
+                            </tr>
 
                         </tbody>
                     </table>
@@ -228,25 +229,25 @@
 
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="modal.firstName" name="firstName" placeholder="First Name">
+                                <input type="text" class="form-control" ng-model="modal.firstName" name="firstName" placeholder="First Name" readonly="">
                                 <i class="fa fa-user thm-color circular"></i>
                             </span>
                         </div>
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="modal.lastName" name="lastName" placeholder="Last Name">
+                                <input type="text" class="form-control" ng-model="modal.lastName" name="lastName" placeholder="Last Name" readonly="">
                                 <i class="fa fa-user thm-color circular"></i>
                             </span>
                         </div>
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="modal.userName" name="userName" placeholder="User Name">
+                                <input type="text" class="form-control" ng-model="modal.userName" name="userName" placeholder="User Name" readonly="">
                                 <i class="fa fa-user thm-color circular"></i>
                             </span>
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-sub  btn-primary" ng-click="step1 = true">Submit</button>
+                        <button type="submit" class="btn btn-sub  btn-primary" ng-click="step1 = true" ng-disabled="passwordBtn" >Submit</button>
                     </div>
                 </form>
             </div>
@@ -260,7 +261,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center"> Reassign Enquiries</h4>
                 </div>
-                <form name="bulkForm"   ng-submit="bulkForm.$valid && BulkReasignEmployeeFromList(bulkData,suspendId)" novalidate >
+                <form name="bulkForm"   ng-submit="bulkForm.$valid && BulkReasignEmployeeFromList(bulkData, suspendId)" novalidate >
                     <div class="modal-body">
                         <div  ng-if="totsalesEnquiries > '0'">
                             <div class="row">
@@ -283,12 +284,12 @@
                             <div class="">
                                 <span><strong>Total Enquires found : {{totsalesEnquiries}}</strong></span>
                             </div>
-                            <div class="">
+<!--                            <div class="">
                                 <span><strong>Total Deals : </strong></span>
-                            </div>
+                            </div>-->
                         </div>
                         <br>
-                        <div class="row" ng-if="totpresalesEnquiries > 0">
+<!--                        <div class="row" ng-if="totpresalesEnquiries > 0">
                             <div class="col-sm-5 col-sx-12">
                                 <label for="">Customer Care Enquiries Reassign To</label>  <br> 
                                 <span>(<strong>Total Enquires found : {{totpresalesEnquiries}}</strong>)</span>
@@ -305,7 +306,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="modal-footer" align="center">
                         <button  type="submit" ng-click="sbtBtn = true" class="btn btn-primary pull-right">Reassign To</button></center>

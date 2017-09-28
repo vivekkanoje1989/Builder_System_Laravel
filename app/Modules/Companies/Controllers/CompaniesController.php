@@ -243,8 +243,9 @@ class CompaniesController extends Controller {
             $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $allData = array_merge($common, $post);
             $create = CompanyStationaries::create($allData);
+            $lastId =  CompanyStationaries::latest('id')->first();
 //                }
-            return json_encode(['records' => $create, 'status' => true]);
+            return json_encode(['records' => $create, 'status' => true,'lastInsertedId'=>$lastId]);
         }
     }
 
@@ -272,7 +273,10 @@ class CompaniesController extends Controller {
             $allData = array_merge($common, $post);
             $allData["company_id"] = $input['companyid'];
             $create = CompanyDocuments::create($allData);
-            return json_encode(['records' => $create, 'status' => true]);
+            
+           $lastId =  CompanyDocuments::latest('id')->first();
+                      
+            return json_encode(['records' => $create, 'status' => true,'lastinsertid'=>$lastId->id]);
         }
     }
 
@@ -671,20 +675,9 @@ class CompaniesController extends Controller {
 
     public function updateDocuments() {
         $input = Input::all();
+       $allData = [];
         if (!empty($input['documents']['documentId'])) {
-            if (!empty($input['documents']['document_file'])) {
-                $allData['document_file'] = $input['documents']['documentFile'];
-            }
-            $allData['document_name'] = $input['documents']['document_name'];
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-            $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
-            $allData = array_merge($common, $allData);
-            $allData['company_id'] = $input['id'];
-            $allData['status'] = $input['id'];
-            $create = CompanyDocuments::where('id', '=', $input['documents']['documentId'])->update($allData);
-            return json_encode(['records' => $allData, 'status' => true]);
-        } else {
-            $post2 = [];
+           
             if (!empty($input['documents']['document_file'])) {
                 $docFile = is_object($input['documents']['document_file']) ? "1" : "0";
 
@@ -693,29 +686,57 @@ class CompaniesController extends Controller {
                     $imageName = 'company_doc' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['documents']['document_file']->getClientOriginalExtension();
                     S3::s3FileUpload($input['documents']['document_file']->getPathName(), $imageName, $s3FolderName);
                     $document_file = $imageName;
-                    array_push($post2, ["document_file" => $document_file]);
+                    $allData["document_file"] = $document_file;
                 } else {
 
-                    array_push($post2, ["document_file" => $input['documents']['documentFile']]);
+                    $allData["document_file"] = $input['documents']['documentFile'];
                 }
             } else {
-                $input['documents']['documentFile'] = '';
+                $input['documents']['documentFile'] = $input['documents']['documentFile'];
             }
-            if (!empty($input['documents']['document_name'])) {
-                $document_name = $input['documents']['document_name'];
-                array_push($post2, ["document_name" => $document_name]);
-            } else {
-                array_push($post2, ["document_name" => '']);
-            }
-            $docData = array_reduce($post2, 'array_merge', array());
+            $allData['document_name'] = $input['documents']['document_name'];
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
-            $allData = array_merge($common, $docData);
+            $allData = array_merge($common, $allData);
             $allData['company_id'] = $input['id'];
             $allData['status'] = $input['id'];
-            $create = CompanyDocuments::create($allData);
-            return json_encode(['records' => $create, 'status' => true]);
-        }
+            
+            $create = CompanyDocuments::where('id', '=', $input['documents']['documentId'])->update($allData);
+            return json_encode(['records' => $allData, 'status' => true]);
+        } 
+//        else {
+//            $post2 = [];
+//            if (!empty($input['documents']['document_file'])) {
+//                $docFile = is_object($input['documents']['document_file']) ? "1" : "0";
+//
+//                if ($docFile == '1') {
+//                    $s3FolderName = 'Company/documents';
+//                    $imageName = 'company_doc' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['documents']['document_file']->getClientOriginalExtension();
+//                    S3::s3FileUpload($input['documents']['document_file']->getPathName(), $imageName, $s3FolderName);
+//                    $document_file = $imageName;
+//                    array_push($post2, ["document_file" => $document_file]);
+//                } else {
+//
+//                    array_push($post2, ["document_file" => $input['documents']['documentFile']]);
+//                }
+//            } else {
+//                $input['documents']['documentFile'] = '';
+//            }
+//            if (!empty($input['documents']['document_name'])) {
+//                $document_name = $input['documents']['document_name'];
+//                array_push($post2, ["document_name" => $document_name]);
+//            } else {
+//                array_push($post2, ["document_name" => '']);
+//            }
+//            $docData = array_reduce($post2, 'array_merge', array());
+//            $loggedInUserId = Auth::guard('admin')->user()->id;
+//            $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
+//            $allData = array_merge($common, $docData);
+//            $allData['company_id'] = $input['id'];
+//            $allData['status'] = $input['id'];
+//            $create = CompanyDocuments::create($allData);
+//            return json_encode(['records' => $create, 'status' => true]);
+//        }
     }
 
 //    }

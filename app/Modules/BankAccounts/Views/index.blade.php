@@ -39,9 +39,9 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="bankAccountExportToxls()" ng-show="exportData == '1'">   
-                            <span>Export</span>
-                        </a>-->
+                        <!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="bankAccountExportToxls()" ng-show="exportData == '1'">   
+                                                    <span>Export</span>
+                                                </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
@@ -100,13 +100,13 @@
                                 <th style="width:5%">Sr. No.</th>                       
                                 <th style="width:20%">
                                     <a href="javascript:void(0);" ng-click="orderByField('legal_name')">Company
-                                        <span ><img ng-hide="(sortKey == 'legal_name' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ><img ng-hide="(sortKey == 'legal_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'legal_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'legal_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:15%">
-                                     <a href="javascript:void(0);" ng-click="orderByField('name')">Name
+                                    <a href="javascript:void(0);" ng-click="orderByField('name')">Name
                                         <span><img ng-hide="(sortKey == 'name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
@@ -114,7 +114,7 @@
                                 </th>
                                 <th style="width:15%">
                                     <a href="javascript:void(0);" ng-click="orderByField('branch')">Branch
-                                        <span ><img ng-hide="(sortKey == 'branch' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ><img ng-hide="(sortKey == 'branch' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'branch' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'branch' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
@@ -145,7 +145,7 @@
                                 <td>{{item.account_type == '1' ? "Saving":"Current"}}</td>
                                 <td>{{item.account_number}}</td>  
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#bankAccountModal"><a href="javascript:void(0);" ng-click="initialModel({{ item.id}},{{item}},{{itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#bankAccountModal"><a href="javascript:void(0);" ng-click="initialModel({{ item.id}},{{item}},{{itemsPerPage}},{{$index}})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{item.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
@@ -156,7 +156,6 @@
                     </table>
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
-                            <!--<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{itemsPerPage * (noOfRows-1)+1}} to of {{ listUsersLength }} entries</div>-->
                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                         </div>
                         <div class="col-sm-6">
@@ -247,9 +246,11 @@
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!bankAccountForm.account_number.$dirty && bankAccountForm.account_number.$invalid)}">
                                     <label>Account Number<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="bankAccount.account_number" name="account_number" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  required>
+                                        <input type="text" class="form-control" ng-model="bankAccount.account_number" name="account_number"  ng-maxlength="11" ng-minlength="11" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="bankAccountForm.account_number.$error">
                                             <div ng-message="required" class="err">Account number is required</div>
+                                            <div ng-message="minlength" class="err">Account number must be 11 digits.</div>
+                                            <div ng-message="maxlength" class="err">Account number must be 11 digits.</div>
                                         </div>                                        
                                     </span>                                    
                                 </div>

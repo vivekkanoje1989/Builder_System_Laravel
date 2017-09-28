@@ -143,7 +143,7 @@
 
 
                                     <td class="">
-                                        <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/virtualnumber/update/{{ listNumber.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                        <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/virtualnumber/update/{{ listNumber.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                         <span ng-show="deleteData == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteVirtualNumber({{listNumber.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                     </td>
                                 </tr>

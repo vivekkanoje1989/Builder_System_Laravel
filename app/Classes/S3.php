@@ -17,20 +17,20 @@ use Auth;
 class S3 {
     // google storage
     public static function s3Configuration() {
-       $data = DB::table('system_configs')->where('id', 1)->get();
+        $data = DB::table('system_configs')->where('id', 1)->get();
        
      //  Config::set('filesystems.disks.gcs.bucket', $data[0]->aws_bucket_id);
         Config::set('filesystems.disks.gcs.bucket', 'bkt_bms_laravel');
-       Config::set('filesystems.disks.gcs.project_id','756686641793');
-       Config::set('filesystems.disks.gcs.driver', 'gcs');
+        Config::set('filesystems.disks.gcs.project_id','756686641793');
+        Config::set('filesystems.disks.gcs.driver', 'gcs');
         
     }
 
-    public static function s3FileUplod($image, $s3FolderName,$cnt) {
+    public static function s3FileUplod($image, $s3FolderName,$cnt) { // for virtual number 
         S3::s3Configuration();
         $name = '';
         $random = rand(1,1000);
-        //print_r($image);exit;
+        
         for ($i = 0; $i < $cnt; $i++) {
             $imageFileName = time().'_'.$random . $i . '.' . $image[$i]->getClientOriginalExtension();
             $imagePath = $image[$i]->getPathName();
@@ -62,9 +62,9 @@ class S3 {
         }
     }
     
-    public static function s3FileUplodForApp($image, $s3FolderName, $cnt) {
+    public static function s3FileUploadForApp($image, $s3FolderName, $cnt) {
         S3::s3Configuration();
-        //for ($i = 0; $i < $cnt; $i++) {
+        
         $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
         $imageFileName = time() . '.' . $ext;
         $imagePath = $image['tmp_name'];
