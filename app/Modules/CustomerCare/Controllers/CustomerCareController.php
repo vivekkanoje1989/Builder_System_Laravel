@@ -535,7 +535,6 @@ class CustomerCareController extends Controller {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $request = $request['data'];
-
             if (!empty($request['loggedInUserId'])) {
                 $loggedInUserId = $request['loggedInUserId'];
                 if (!empty($request['cc_presales_employee_id'])) {
@@ -557,7 +556,7 @@ class CustomerCareController extends Controller {
             $cc_presales_status_id = !empty($request['cc_presales_status_id']) ? $request['cc_presales_status_id'] : "0";
             $cc_presales_substatus_id = !empty($request['cc_presales_substatus_id']) ? $request['cc_presales_substatus_id'] : "0";
             $enquiry_id = $request['enquiryId'];
-
+           
             $enqUpdate = Enquiry::where('id', $enquiry_id)
                     ->update([
                 "cc_presales_category_id" => $cc_presales_category_id,
@@ -566,6 +565,7 @@ class CustomerCareController extends Controller {
                 "cc_presales_substatus_id" => $cc_presales_substatus_id,
                 "cc_presales_employee_id" => $cc_presales_employee_id
             ]);
+ 
 
             if ($cc_presales_status_id == 2) {
                 $request['next_followup_date'] = "0000-00-00";
@@ -574,7 +574,6 @@ class CustomerCareController extends Controller {
                 $request['next_followup_date'] = date('Y-m-d', strtotime($request['next_followup_date']));
                 $request['next_followup_time'] = date('H:i:s', strtotime($request['next_followup_time']));
             }
-
             $request['followup_date_time'] = date('Y-m-d H:i:s');
             $request['followup_by'] = $loggedInUserId;
             $request['remarks'] = $request['textRemark'];
@@ -588,7 +587,9 @@ class CustomerCareController extends Controller {
             $request['call_recording_log_type'] = 0;
             $request['call_recording_id'] = 0;
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+
             $request = array_merge($request, $create);
+           print_r($request);exit;
 
             $insertFollowup = CcPresalesFollowup::create($request);
             if ($insertFollowup) {
