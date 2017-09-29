@@ -53,6 +53,7 @@ use App\Models\CcPresalesSubstatus;
 use App\Models\CcPresalesSubcategory;
 use App\Models\MlstBmsbCcPresalesCategory;
 use App\Models\MlstBmsbCcPresalesStatus;
+
 class AdminController extends Controller {
 
     /**
@@ -103,7 +104,7 @@ class AdminController extends Controller {
         $fullName = Auth::guard('admin')->user()->first_name . " " . Auth::guard('admin')->user()->last_name;
         return view('layouts.backend.dashboard')->with('id', $fullName);
     }
-    
+
     public function getnextfollowupTime() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
@@ -147,6 +148,7 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+
     public function getCompanyList() {
         $getCompanyList = MlstBmsbCompany::select('id', 'company_name')->get();
         if (!empty($getCompanyList)) {
@@ -386,32 +388,32 @@ class AdminController extends Controller {
     }
 
     public function getMasterData() {
-        $getTitle = MlstTitle::where("status", 1)->get();
-        $getGender = MlstGender::where("status", 1)->get();
-        $getBloodGroup = MlstBloodGroup::all();
-        $getDepartments = MlstBmsbDepartment::all();
-        $getEducationList = MlstEducation::where("status", 1)->get();
-        $getEnquirySource = MlstBmsbEnquirySalesSource::where("status", 1)->get();
-        $getEnquirySubSource = EnquirySalesSubSource::where("sub_source_status", 1)->get();
-        $getMlstProfession = MlstProfession::where("status", 1)->get();
-        $getMlstBmsbDesignation = MlstBmsbDesignation::where("status", 1)->get();
-        $getStates = MlstState::where('country_id', 101)->get();
+        $getTitle = MlstTitle::select('id', 'status', 'title')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $getGender = MlstGender::select('id', 'gender', 'status')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $getBloodGroup = MlstBloodGroup::select('id', 'blood_group')->where('deleted_status', '!=', 1)->get();
+        $getDepartments = MlstBmsbDepartment::select('id', 'client_id', 'vertical_id', 'department_name')->where('deleted_status', '!=', 1)->get();
+        $getEducationList = MlstEducation::select('id', 'status', 'education')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $getEnquirySource = MlstBmsbEnquirySalesSource::select('id', 'status', 'sales_source_name')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $getEnquirySubSource = EnquirySalesSubSource::select('id', 'sub_source_status', 'enquiry_sales_source_id', 'sub_source', 'client_id')->where([["sub_source_status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $getMlstProfession = MlstProfession::select('id', 'status', 'profession')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $getMlstBmsbDesignation = MlstBmsbDesignation::select('id', 'status', 'designation')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $getStates = MlstState::select('id', 'name', 'country_id')->where([["country_id", "=", 101], ['deleted_status', '<>', 1]])->get();
         $getEmployees = Employee::select('id', 'first_name', 'last_name', 'department_id', 'employee_id', 'designation_id', 'employee_status')->where("employee_status", 1)->get();
-        $blockTypeList = MlstBmsbBlockType::select("id", "project_type_id", "block_name")->get();
+        $blockTypeList = MlstBmsbBlockType::select("id", "project_type_id", "block_name")->where('deleted_status', '!=', 1)->get();
         $projectList = Project::select('id', 'project_name')->get();
         $subBlocksList = ProjectBlock::select("id", "project_id", "block_type_id", "block_sub_type")->get();
-        $enquiryFinanceTieup = EnquiryFinanceTieup::where("status", 1)->get();
-        $salesEnqCategoryList = MlstEnquirySalesCategory::select('id', 'enquiry_category')->where("status", 1)->get();
-        $salesEnqSubCategoryList = EnquirySalesSubcategory::select('id', 'enquiry_sales_subcategory', 'enquiry_sales_category_id')->where("status", 1)->get();
-        $salesEnqStatusList = MlstEnquirySalesStatus::select('id', 'sales_status')->where("status", 1)->get();
-        $salesEnqSubStatusList = EnquirySalesSubstatus::select('id', 'enquiry_sales_substatus', 'enquiry_sales_status_id')->where("status", 1)->get();
-        $getEnquiryLocation = MlstCities::rightJoin('laravel_developement_builder_client.lst_enquiry_locations', 'mlst_cities.id', '=', 'laravel_developement_builder_client.lst_enquiry_locations.city_id')->where('laravel_developement_builder_client.lst_enquiry_locations.country_id', '=', 101)->get();
+        $enquiryFinanceTieup = EnquiryFinanceTieup::select('id', 'status', 'client_id', 'title_id', 'first_name', 'last_name', 'mobile1', 'mobile2', 'email1', 'email2', 'designation', 'bank_name', 'bank_branch', 'bank_address', 'bank_email', 'bank_ifsc')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $salesEnqCategoryList = MlstEnquirySalesCategory::select('id', 'enquiry_category', 'status')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $salesEnqSubCategoryList = EnquirySalesSubcategory::select('id', 'enquiry_sales_subcategory', 'enquiry_sales_category_id')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $salesEnqStatusList = MlstEnquirySalesStatus::select('id', 'sales_status')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $salesEnqSubStatusList = EnquirySalesSubstatus::select('id', 'enquiry_sales_substatus', 'enquiry_sales_status_id')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+//        $getEnquiryLocation = MlstCities::with('locationName')->select("id", "state_id", "name")->where("deleted_status", '<>', 1)->get();
         $channelList = MlstEnquirySalesChannel::select('id', 'channel_name')->get();
-        $getCompanyList = MlstBmsbCompany::select('id', 'company_name')->get();
-        $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id', 'reason')->where('lost_reason_status', 1)->orderBy('id')->get();
-        $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id', 'enquiry_lost_reason_id', 'sub_reason')->where(['status' => 1])->get();
+        $getCompanyList = MlstBmsbCompany::select('id', 'company_name')->where('deleted_status', '!=', 1)->get();
+        $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id', 'reason')->where([["lost_reason_status", "=", "1"], ['deleted_status', '<>', 1]])->orderBy('id')->get();
+        $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id', 'enquiry_lost_reason_id', 'sub_reason')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
         $projectWingList = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->get();
-        
+        $getEnquiryLocation = lstEnquiryLocations::select('*')->with('getCityName')->groupBy('city_id')->get();
         $getcttunetype = CtTuneType::all();
         $getctforwardingtype = CtForwardingType::all();
         if (!empty($getTitle)) {
@@ -419,10 +421,10 @@ class AdminController extends Controller {
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource,
                 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation, 'states' => $getStates,
                 "blocks" => $blockTypeList, "projects" => $projectList, 'subblocks' => $subBlocksList, 'agencyList' => $enquiryFinanceTieup,
-                'enquiryLocation' => $getEnquiryLocation, 'salesEnqCategoryList' => $salesEnqCategoryList, 'salesEnqSubCategoryList' => $salesEnqSubCategoryList,
+                 'salesEnqCategoryList' => $salesEnqCategoryList, 'salesEnqSubCategoryList' => $salesEnqSubCategoryList,
                 'salesEnqStatusList' => $salesEnqStatusList, 'salesEnqSubStatusList' => $salesEnqSubStatusList, 'channelList' => $channelList, "getCompanyList" => $getCompanyList,
                 "getLostReasons" => $getSalesLostReason, "getLostSubReasons" => $getSalesLostSubReason, "projectWingList" => $projectWingList, 'getcttunetype' => $getcttunetype,
-                "getctforwardingtype"=> $getctforwardingtype];
+                "getctforwardingtype" => $getctforwardingtype,"getEnquiryLocation"=>$getEnquiryLocation];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -440,6 +442,20 @@ class AdminController extends Controller {
         return json_encode($result);
     }
 
+    
+    
+    public function getEnquiryLocation() {
+          $getEnquiryLocation = MlstCities::with('locationName')->select("id", "state_id", "name")->where("deleted_status", '<>', 1)->get();
+      $getEnquiryLocation= json_decode(json_encode($getEnquiryLocation));
+         if (!empty($getEnquiryLocation)) {
+            $result = ['success' => true, 'records' => $getEnquiryLocation];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    
+    
     public function getStates(Request $request) {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -868,8 +884,7 @@ class AdminController extends Controller {
         return json_encode($result);
     }
 
-    public function getccPreSalesStates()
-    {
+    public function getccPreSalesStates() {
         $getccPreSalesStatus = \App\Models\MlstBmsbCcPresalesStatus::all();
         if (!empty($getccPreSalesStatus)) {
             $result = ['success' => true, 'records' => $getccPreSalesStatus];
@@ -878,10 +893,9 @@ class AdminController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
-        
-    }     
-     public function getccPreSalesCategory()
-    {
+    }
+
+    public function getccPreSalesCategory() {
         $getccPreSalesCategory = \App\Models\MlstBmsbCcPresalesCategory::all();
         if (!empty($getccPreSalesCategory)) {
             $result = ['success' => true, 'records' => $getccPreSalesCategory];
@@ -889,38 +903,37 @@ class AdminController extends Controller {
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
-        }        
+        }
     }
-    
+
     public function getccpresalesSubtatus() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $statusId = $request['data']['statusId'];
-        $getsubStatus = \App\Models\CcPresalesSubstatus::select('id','listing_position','cc_presales_substatus')
-                                                                ->where('cc_presales_status_id', $statusId)
-                                                                ->where('status', 1)    
-                                                                ->orderBy('listing_position')->get();
+        $getsubStatus = \App\Models\CcPresalesSubstatus::select('id', 'listing_position', 'cc_presales_substatus')
+                        ->where('cc_presales_status_id', $statusId)
+                        ->where('status', 1)
+                        ->orderBy('listing_position')->get();
         if (!empty($getsubStatus)) {
             $result = ['success' => true, 'records' => $getsubStatus];
             return json_encode($result);
         }
     }
-    
+
     public function getccPreSalesSubCategory() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $statusId = $request['data']['statusId'];
-        $getsubCategory = \App\Models\CcPresalesSubcategory::select('id','listing_position','cc_presales_subcategory')
-                                                            ->where('cc_presales_category_id', $statusId)
-                                                            ->where('status', 1)  
-                                                            ->orderBy('listing_position')->get();
+        $getsubCategory = \App\Models\CcPresalesSubcategory::select('id', 'listing_position', 'cc_presales_subcategory')
+                        ->where('cc_presales_category_id', $statusId)
+                        ->where('status', 1)
+                        ->orderBy('listing_position')->get();
         if (!empty($getsubCategory)) {
             $result = ['success' => true, 'records' => $getsubCategory];
             return json_encode($result);
         }
     }
-    
-    
+
     /*     * **************************UMA*********************************** */
     /*     * *************************MANDAR******************************** */
 

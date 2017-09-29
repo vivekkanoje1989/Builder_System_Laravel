@@ -39,7 +39,7 @@
                                 <div class="databox radius-bordered databox-shadowed databox-graded databox-vertical">
                                     <div class="databox-top bg-blue">
                                         <div class="databox-icon">
-                                            <i class="fa fa-upload"></i>
+                                            <i class="fa fa fa-plus-square"></i>
                                         </div>
                                     </div>
                                     <div class="databox-bottom text-align-center">
