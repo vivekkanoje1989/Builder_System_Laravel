@@ -272,28 +272,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         };
-//        $scope.getStepDiv = function (stepId, empId)
-//        {
-//            $scope.stepId = stepId;
-//            if (empId != 0) {
-//                $(".user_steps").each(function (index) {
-//                    $(this).addClass('complete');
-//                    $(this).removeClass('active')
-//                });
-//                $(".wizardstep" + stepId).addClass('active');
-//                $(".wizardstep" + stepId).removeClass('complete');
-//
-//                $(".step-pane").css('display', 'none');
-//                $("#wizardstep" + stepId).css('display', 'block');
-//            } else {
-//                if (stepId == 1)
-//                {
-//                    $scope.stepId = 1;
-//                    $("#wizardstep1").css('display', 'block');
-//                    $("#wizardstep1").addClass('active');
-//                }
-//            }
-//        }
 
         $scope.createUser = function (enteredData, empId) {
             var userData = {};
