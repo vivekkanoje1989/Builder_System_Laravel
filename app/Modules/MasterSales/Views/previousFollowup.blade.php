@@ -50,11 +50,13 @@
                     <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Action</a>
                     <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li ng-if="enquiriesLength != 0">
-                            <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
-                               Export
-                            </a> 
-                        </li>
+                        @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
+                            <li ng-if="enquiriesLength != 0">
+                                <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
+                                   Export
+                                </a> 
+                            </li>
+                        @endif
                         <li>
                             <a href ng-model="BulkReasign"  id="BulkReasign"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >
                                 Reassign                                    

@@ -3,7 +3,6 @@
 namespace App\Classes;
 
 class MenuItems {
-
     public static function getMenuItems() {
         $getUrl = config('global.getUrl');
         $menulist = array(
@@ -136,8 +135,8 @@ class MenuItems {
                 'submenu_ids' => '0401,0402,0403,0404,0405', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '0401', 'name' => 'Pre-Sales', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 10,
                         'submenu_ids' => '040101,040102,040103,040104,040105,040106,040107,040108,040109,0401010', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '040101', 'name' => 'Quick Enquiry', 'micon' => 'img/quickEnq.png', 'icon' => '', 'url' => '/sales/createQuickEnquiry', 'slug' => 'createQuickEnquiry', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '040102', 'name' => ' Detailed Enquiry', 'micon' => 'img/detailedEnq.png', 'icon' => '', 'url' => '/sales/create', 'slug' => 'salesCreate', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                           // 1 => array('id' => '040101', 'name' => 'Quick Enquiry', 'micon' => 'img/quickEnq.png', 'icon' => '', 'url' => '/sales/createQuickEnquiry', 'slug' => 'createQuickEnquiry', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                           // 2 => array('id' => '040102', 'name' => ' Detailed Enquiry', 'micon' => 'img/detailedEnq.png', 'icon' => '', 'url' => '/sales/create', 'slug' => 'salesCreate', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             3 => array('id' => '040103', 'name' => 'My Today\'s Followups', 'micon' => 'img/myFollow.png', 'icon' => '', 'url' => '/sales/todaysfollowups', 'slug' => 'todaysfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             4 => array('id' => '040104', 'name' => 'My Pending Followups', 'micon' => 'img/pendingFollow.png', 'icon' => '', 'url' => '/sales/pendingfollowups', 'slug' => 'pendingfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             5 => array('id' => '040105', 'name' => 'My Previous Followups', 'icon' => '', 'micon' => 'img/previousFollow.png', 'url' => '/sales/previousfollowups', 'slug' => 'previousfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),

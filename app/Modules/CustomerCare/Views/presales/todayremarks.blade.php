@@ -191,8 +191,7 @@
                                     </div>                    
                                     
                                 </div>
-                            </div>
-                            
+                            </div>                            
                             <div class="col-sm-6">
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -326,20 +325,20 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>                                            
+                                                </div> 
+                                                    <div class="col-sm-12">                       
+                                                    <div class="col-sm-6">
+                                                        <button type="submit" ng-disabled="btn_todayremark_disable" class="btn btn-primary custom-btn" ng-click="sbtBtn = true;">Submit</button>
+                                                    </div> 
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div> 
-                        <div class="col-sm-12">                       
-                            <div class="col-sm-6">
-                                <button type="submit" ng-disabled="btn_todayremark_disable" class="btn btn-primary custom-btn" ng-click="sbtBtn = true;">Submit</button>
-                            </div> 
-                        </div>
+                        </div>                        
                     </form>
                 </tab>
-                <tab heading="Followup History" ng-click='initTodayHistoryDataModal("{{ enq }}",{{initmoduelswisehisory}},1)'>
+                <tab heading="Followup History">
                     <div>
                         <label>
                             <input type="checkbox" name="chk_today_remark_history" ng-click="getModulesWiseHistory_Today(history_enquiryId,1)"  id="chk_today_remark_history">

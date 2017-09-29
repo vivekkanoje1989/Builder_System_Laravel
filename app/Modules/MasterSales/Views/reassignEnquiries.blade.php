@@ -76,9 +76,8 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config" ng-if="enquiriesLength">
                     <thead>
                         <tr>
-                            <th class="enq-table-th">SR <?php if (in_array('01604', $array)) { ?>/ 
-                                    <label>
-
+                            <th class="enq-table-th">SR <?php if (in_array('01604', $array)) { ?>
+                                    <label ng-if="enquiriesLength">  /
                                         <input type="checkbox"  ng-click='checkAll(all_chk_reassign[pageNumber])' ng-model="all_chk_reassign[pageNumber]" name="all_chk_reassign_enq" id="all_chk_reassign_enq">
                                         <span class="text"></span>
                                     </label> 

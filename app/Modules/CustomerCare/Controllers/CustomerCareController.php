@@ -565,7 +565,6 @@ class CustomerCareController extends Controller {
                 "cc_presales_substatus_id" => $cc_presales_substatus_id,
                 "cc_presales_employee_id" => $cc_presales_employee_id
             ]);
- 
 
             if ($cc_presales_status_id == 2) {
                 $request['next_followup_date'] = "0000-00-00";
@@ -587,10 +586,8 @@ class CustomerCareController extends Controller {
             $request['call_recording_log_type'] = 0;
             $request['call_recording_id'] = 0;
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-
+            unset($request['enquiryId']);
             $request = array_merge($request, $create);
-           print_r($request);exit;
-
             $insertFollowup = CcPresalesFollowup::create($request);
             if ($insertFollowup) {
                 $result = ['success' => true, 'message' => 'Remark inserted successfully'];

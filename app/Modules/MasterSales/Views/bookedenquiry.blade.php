@@ -48,11 +48,13 @@
                         <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Action</a>
                         <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu" ng-if="enquiriesLength != 0">
-                            <li>
-                                <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
-                                   Export
-                                </a> 
-                            </li>
+                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
+                                <li ng-if="enquiriesLength != 0">
+                                    <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
+                                       Export
+                                    </a> 
+                                </li>
+                            @endif
                             <li>
                                 <a href ng-model="BulkReasign"  id="BulkReasign"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >
                                     Reassign                                    
@@ -119,11 +121,11 @@
                             </select>
                         </label>
                     </div><br>    
-                    <table class="table table-hover table-striped table-bordered" ng-if="enquiriesLength">
+                    <table class="table table-hover table-striped table-bordered tableHeader" >
                         <thead>
                             <tr>
-                                <th class="enq-table-th">SR / 
-                                    <label>
+                                <th class="enq-table-th">SR 
+                                    <label  ng-if="enquiriesLength">  /
                                         <input type="checkbox"  ng-click='checkAll(all_chk_reassign[pageNumber])' ng-model="all_chk_reassign[pageNumber]" name="all_chk_reassign_enq" id="all_chk_reassign_enq">
                                         <span class="text"></span>
                                     </label>
@@ -273,15 +275,14 @@
                             <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
                         </td>
                         </tr>
+                         <tr ng-if="enquiriesLength == 0 ||(enquiries|filter:search).length == 0">
+                            <td colspan="5" align="center">No Enquiries Found</td>   
+                        </tr>
                         </tbody>              
                     </table>
 
                     <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'bookedEnquiries','', [[$type]], newPageNumber, listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength" ></dir-pagination-controls>
-                    <div ng-if="enquiriesLength == 0">
-                        <div>
-                            <center><b>No Enquiries Found</b></center>
-                        </div>
-                    </div>
+                    
                 </div>
             <!-- send Document Data Modal ===================================================================================== -->
             <div class="modal fade modal-primary" id="sendDocumentDataModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
