@@ -1707,10 +1707,8 @@ print_r('=============');
                 if (!empty($value->department_id))
                     $value->department_id = explode(',', $value->department_id);
                 $designations = DB::connection('masterdb')->table('mlst_bmsb_designations')->where('id', '=', $value->designation_id)->select('designation')->first();
-
-                $value->designation = $designations->designation;
-
-
+                $designations = json_decode(json_encode($designations),true);
+                $value->designation = $designations['designation'];
                 $value->employee_menus = json_decode($value->employee_submenus);
                 $teams[] = $value->getAttributes();
             }
@@ -1738,7 +1736,6 @@ print_r('=============');
         else {
             $result = ['success' => false, 'message' => "Login expired,please login again.."];
         }
-
         return json_encode($result);
     }
 
