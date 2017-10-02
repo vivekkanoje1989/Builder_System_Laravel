@@ -332,6 +332,7 @@ class CustomerCareController extends Controller {
     public function getEnquiryHistory() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
+        //print_r($input);exit;
         $enquiryId = $input['enquiryId'];
         $modules = $input['moduelswisehisory'];
         $cc_followup_history = array();

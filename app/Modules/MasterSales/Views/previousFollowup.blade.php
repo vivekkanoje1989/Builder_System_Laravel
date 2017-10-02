@@ -209,25 +209,39 @@
                                 </div>        
                                 <div> 
                                     <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory == null" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">
-                                        <b>Category : </b>  
-                                        {{ enquiry.enquiry_category  | limitTo : 45 }}
-                                        <span ng-if="enquiry.enquiry_category > 45" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">...</span>
-                                         <hr class="enq-hr-line">
+                                        <span class="ng-binding">
+                                        <b style="float: left;margin-right: 5px;">Category : </b>
+                                        <i id="catNew" ng-if="enquiry.sales_category_id == 1 "></i>
+                                        <i id="catHot" ng-if="enquiry.sales_category_id == 2 "></i>
+                                        <i id="catWarm" ng-if="enquiry.sales_category_id == 3 "></i>
+                                        <i id="catCold" ng-if="enquiry.sales_category_id == 4 "></i>
+
+                                            {{ enquiry.enquiry_category | limitTo : 45 }}</span>
+                                        <span ng-if="enquiry.enquiry_category > 45" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">...</span>                                
                                     </span>
-                                    <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory != null " data-toggle="tooltip" title="{{enquiry_sales_subcategory}}" ng-init="enquiry_sales_subcategory_length = enquiry.enquiry_sales_subcategory.length + enquiry.enquiry_sales_subcategory.length; enquiry_sales_subcategory = enquiry.enquiry_category +' / '+ enquiry.enquiry_sales_subcategory ">
-                                        <b>Category : </b>  
-                                        {{ enquiry_sales_subcategory  | limitTo : 45 }}
-                                        <span ng-if="enquiry_sales_subcategory_length  > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
-                                        <hr class="enq-hr-line">
-                                    </span>                                
+                                    <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory != null" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}" ng-init="enquiry_sales_subcategory_length = enquiry.enquiry_sales_subcategory.length + enquiry.enquiry_sales_subcategory.length; enquiry_sales_subcategory = enquiry.enquiry_category + ' / ' + enquiry.enquiry_sales_subcategory">
+                                       <span class="ng-binding">
+                                        <b style="float: left;margin-right: 5px;">Category : </b>
+                                        <i id="catNew" ng-if="enquiry.sales_category_id == 1 "></i>
+                                        <i id="catHot" ng-if="enquiry.sales_category_id == 2 "></i>
+                                        <i id="catWarm" ng-if="enquiry.sales_category_id == 3 "></i>
+                                        <i id="catCold" ng-if="enquiry.sales_category_id == 4 "></i>                                
+                                        {{ enquiry_sales_subcategory | limitTo : 45 }}</span>
+                                        <span ng-if="enquiry_sales_subcategory_length > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
+                                    </span>
                                 </div>
                                 <div>                                   
-                                    <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != '' " data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
+                                    <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != ''" data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
                                         <b>Project :</b>
-                                         {{enquiry.project_block_name | limitTo : 45 }}
+                                        {{enquiry.project_block_name| limitTo : 45 }}
                                         <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                        
-                                         <hr class="enq-hr-line">
                                     </span>
+                                    <div ng-if="enquiry.location_name != null && enquiry.location_name != ''" data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
+                                        <b>Location :</b>
+                                        {{enquiry.location_name| limitTo : 45 }}
+                                        <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                                                                 
+                                    <hr class="enq-hr-line">
+                                    </div>                            
                                 </div>
                                 <div>
                                     <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id }}/eid/{{ enquiry.id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>

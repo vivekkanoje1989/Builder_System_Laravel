@@ -466,10 +466,12 @@ class MasterSalesController extends Controller {
                 $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];
             } else {
                 /*  fill customer detail if Quick Enquiry */
+                
                 $request['customerDetails']['first_name'] = !empty($request['enquiryData']['first_name']) ? $request['enquiryData']['first_name'] : '';
                 $request['customerDetails']['last_name'] = !empty($request['enquiryData']['last_name']) ? $request['enquiryData']['last_name'] : '';
                 $request['customerDetails']['title_id'] = !empty($request['enquiryData']['title_id']) ? $request['enquiryData']['title_id'] : '';
-                $request['customerDetails']['client_id'] = config('global.client_id');
+                $request['customerDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
+                
                 $request['customerDetails'] = array_merge($request['customerDetails'], $create);
                 $insertCustomer = Customer::create($request['customerDetails']);
                 $customer_id = $insertCustomer->id;
@@ -478,7 +480,7 @@ class MasterSalesController extends Controller {
                     $request['customer_id'] = $insertCustomer->id;
                     $request['customerContactDetails']['mobile_number'] = !empty($request['MobileNo']) ? $request['MobileNo'] : '';
                     $request['customerContactDetails']['email_id'] = !empty($request['EmailId']) ? $request['EmailId'] : '';
-                    $request['customerContactDetails']['client_id'] = config('global.client_id');
+                    $request['customerContactDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
                     $request['customerContactDetails']['customer_id'] = $insertCustomer->id;
                     $request['customerContactDetails'] = array_merge($request['customerContactDetails'], $create);
                     $insertCustomerContact = CustomersContact::create($request['customerContactDetails']);
