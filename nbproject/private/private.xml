@@ -2,6 +2,34 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/previousFollowup.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customercarepresalesController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/total.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/reassignEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/bookedenquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/pendingFollowup.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysfollowups.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/todayremarks.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/lostenquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/dbcredentials/192.168.0.136:8000.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/history.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Controllers/CustomerCareController.php</file>
+        </group>
+=======
+<<<<<<< HEAD
+        <group/>
+=======
+>>>>>>> 4f8682794df78fa21598346c470d207b29729868
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/inventoryIndex.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/inventoryForm.php</file>
@@ -9,5 +37,10 @@
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/projectController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/webpagedetails.blade.php</file>
         </group>
+<<<<<<< HEAD
+=======
+>>>>>>> 8e3354ae241329b59d7d18a057db8ef88ef39393
+>>>>>>> 6d25ce8bdb7fc24b77b78d9c1dc0ab61d6971f72
+>>>>>>> 4f8682794df78fa21598346c470d207b29729868
     </open-files>
 </project-private>
