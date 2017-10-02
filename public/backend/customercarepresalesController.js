@@ -406,7 +406,6 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                         $scope.login_user_id = response.login_user_id;
                         $scope.loginmobile = response.loginmobile;
                         $scope.remarkData = angular.copy(response.enquiryDetails[0]);
-                        alert("hi");
                         if (response.enquiryDetails[0].title_id == 0 || response.enquiryDetails[0].title_id == null)
                         {
                             $scope.remarkData.title_id = '';
@@ -546,8 +545,6 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
 
         $scope.insertCcPreSalesTodayRemark = function (remarkData)
         {
-            alert("hi");
-            console.log(remarkData);
             $scope.btn_todayremark_disable = true;
             Data.post('customer-care/presales/insertCcPreSalesRemark', {
                 data: remarkData,
