@@ -841,7 +841,6 @@
                                                     <a href ng-click="text()" class="atext"><img src="/images/text_blue.png" tooltip-placement="bottom" tooltip="Enter Remark" class="imgcls"/></a><span class="checkLost" ng-show="mobileList.length > 0 || mobileIcon">&nbsp; OR &nbsp;</span>
                                                     <a href ng-click="sms()" class="checkLost asms" ng-show="mobileList.length > 0 || mobileIcon"><img src="/images/sms_blue.png" tooltip-placement="bottom" tooltip="Send SMS" class="imgcls"/></a><span ng-show="emailList.length > 0 || emailIcon" class="checkLost">&nbsp; OR &nbsp;</span>
                                                     <a href ng-click="email()" class="checkLost aemail" ng-show="emailList.length > 0"><img src="/images/mail_blue.png" tooltip-placement="bottom" tooltip="Send Email" class="imgcls"/></a>
-                                                    <!--<a href style="float: right;"><i class="fa fa-plus"></i></a>-->
                                                 </div>
                                             </div>
                                             <div class="row" class="overlay">

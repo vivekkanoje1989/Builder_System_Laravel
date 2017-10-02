@@ -430,11 +430,10 @@ class CustomerCareController extends Controller {
 
         if ($all_followup_history) {
             $result = ['success' => true, 'records' => $all_followup_history];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'records' => $all_followup_history];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     /* today remark changes */
