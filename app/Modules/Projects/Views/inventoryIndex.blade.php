@@ -1,4 +1,4 @@
-<div class="row" >
+<div class="row">
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div ng-if="notFound">No wings found</div>
         <tabset justified="true" ng-show="wingList">
@@ -19,7 +19,7 @@
                                     <th style="width:10%">Show On Website</th> 
                                     <th style="width:5%">Action</th> 
                                 </tr>
-                                <tr ng-if="inventoryList" ng-repeat="idata in inventoryList">
+                                <tr ng-if="inventoryList" ng-repeat="idata in inventoryList | unique: 'block_type_id'">
                                     <td>{{$index+1}}</td>
                                     <td>{{wlist.wing_name}}</td>
                                     <td>{{idata.block_type_id}}</td>
@@ -29,7 +29,7 @@
                                     <td>{{idata.block_availablity}}</td>
                                     <td>{{idata.show_on_website}}</td>
                                     <td>
-                                        <button type="button" ng-click="getInventoryData({{idata}},'{{wlist.id}}','{{wlist.wing_name}}')" data-toggle="modal" data-target="#inventoryDataModal" class="btn btn-primary btn-xs">
+                                        <button type="button" ng-click="getWingData({{inventoryList}}, '{{idata.id}}','{{wlist.id}}','{{wlist.wing_name}}')" data-toggle="modal" data-target="#inventoryDataModal" class="btn btn-primary btn-xs">
                                             <i class="fa fa-pencil"></i>Edit
                                         </button>
                                     </td>
@@ -44,7 +44,7 @@
                                 <div class="form-group" align="right">
                                     <label for=""></label>
                                     <span class="input-icon icon-right">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inventoryDataModal" ng-click="getInventoryData()">Add</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inventoryDataModal" ng-click="getWingData()">Add</button>
                                         <button type="button" class="btn btn-primary" ng-click="cancel_inventory()">Cancel</button>
                                     </span>
                                 </div>

@@ -216,17 +216,20 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
             }
         }
         $scope.otherData = {};
-        $scope.getInventoryDetails = function (prid, wingId, inventoryData) {
+        $scope.getInventoryDetails = function (prid, wingId, inventoryData, otherData) {
+            
             $scope.inventoryList = [];
             Data.post('projects/getInventoryDetails', {
-                data: {getDataByPrid: prid, wingId: wingId, inventoryData: inventoryData}
+                data: {getDataByPrid: prid, wingId:wingId, inventoryData: inventoryData, otherData:otherData}
             }).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
                     if (inventoryData === '') {
                         $scope.inventoryList = angular.copy(response.records);
-                        console.log($scope.inventoryList);
+                        $scope.inventoryList = angular.copy(response.records);
+                        $scope.inventoryData.wing_id = response.records[0].wing_id;
+                        console.log(response.records);
                     } else {
                         toaster.pop('success', 'Project', response.message);
                     }
@@ -243,14 +246,27 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             });
         }
-        $scope.getInventoryData = function(idata,wingId,wingName){
-            if(typeof idata == 'undefined'){
+        $scope.getWingData = function(inventoryList,idataId,wingId,wingName){
+           
+            
+            if(typeof inventoryList == 'undefined'){
                 $scope.modalHeading = 'Add Project Inventory';
             }else{
                 $scope.modalHeading = 'Edit Project Inventory';
-                $scope.inventoryData = idata;
-            }
-            console.log(idata);            
+                $scope.wingName = wingName;               
+
+                $scope.idata = [];
+                Object.keys(inventoryList).forEach(function (key) {
+                    if(inventoryList[key].id == idataId){
+                        $scope.idata.push(inventoryList[key]);
+                    }                
+                });
+                $scope.inventoryData = $scope.idata[0];
+                $scope.otherDataMultiple = $scope.idata;
+                
+                console.log($scope.inventoryData);
+                console.log($scope.otherDataMultiple);
+            }           
         }
         /*$scope.sqFeetToSqMeter = function(sqft){alert(sqft);
             $scope.otherData.area_in_sqmtr = Math.round(sqft*0.092903);
