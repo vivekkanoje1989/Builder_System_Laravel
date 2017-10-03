@@ -1,3 +1,41 @@
+/* category div blocks css */
+#catHot{
+  width: 16px;
+  height: 16px;
+  background-color: red;
+  display: block;
+  border-radius: 8px;
+  float: left;
+  margin-right: 5px;
+  }
+  #catWarm{
+  width: 16px;
+  height: 16px;
+  background-color: orange;
+  display: block;
+  border-radius: 8px;
+  float: left;
+  margin-right: 5px;
+  }
+  #catCold{
+  width: 16px;
+  height: 16px;
+  background-color: #3caffb;
+  display: block;
+  border-radius: 8px;
+  float: left;
+  margin-right: 5px;
+  }
+  #catNew{
+  width: 16px;
+  height: 16px;
+  background-color: green;
+  display: block;
+  border-radius: 8px;
+  float: left;
+  margin-right: 5px;
+  }
+
 div.help-block{
     color: red !important; 
 }
@@ -4074,7 +4112,7 @@ a:active {
 
 .page-body {
     background: #eee;
-    padding: 45px 20px 24px;
+    padding: 58px 20px 24px;
 }
 
 .widget {

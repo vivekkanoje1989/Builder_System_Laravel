@@ -22,10 +22,14 @@
     -->    
 <script src="/js/filterSlider.js"></script>
 <div class="wrap-filter-form show-widget" id="slideout">
-    <strong align="center">Filters</strong>
-    <button type="button" class="close toggleForm" aria-label="Close">
+    <strong align="center">Filters</strong>{{ filterData }}
+    <button  ng-if="equals({}, filterData)" type="button" class="close toggleForm" aria-label="Close">
         <span aria-hidden="true">&times;</span>
-    </button><hr style="margin-bottom: 0px !important;">
+    </button>
+    <button type="button" class="close toggleForm" aria-label="Close"  ng-if="!equals({}, filterData)">
+        <span aria-hidden="true" ng-click="getFilteredData(filterData,1, 30);">&times;</span>
+    </button>
+    <hr style="margin-bottom: 0px !important;">
     <div class="row" ng-controller="AccordionDemoCtrl">        
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <accordion close-others="oneAtATime">

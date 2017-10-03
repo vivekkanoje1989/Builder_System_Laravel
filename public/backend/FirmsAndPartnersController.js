@@ -6,6 +6,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.stationary = [];
         $scope.stationaryDetails = [];
         $scope.stationaryDetails1 = [];
+        $scope.estimate_letterhead_file_preview = [];
         $scope.editPage = {};
         $scope.documents = [];
         $scope.documentData = [];
@@ -13,7 +14,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.firmBtn = false;
         $scope.stationaryBtn = false;
         $scope.companyDocTab = true;
-   
+
         $scope.manageCompany = function () {
             Data.get('manage-companies/manageCompany').then(function (response) {
                 $scope.CompanyRow = response.result;
@@ -41,7 +42,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 $scope.statesRow = response.records;
             });
         };
-        
+
         $scope.manageCompanies = function () {
             Data.get('manage-companies/manageCompanies').then(function (response) {
                 $scope.companyType = response.result;
@@ -50,15 +51,16 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         };
 
         $scope.manageStateCode = function (state_id) {
-          
+            alert(state_id)
             for (var i = 0; i < $scope.statesRow.length; i++) {
+                
+                console.log($scope.statesRow);
                 if ($scope.statesRow[i]['id'] == state_id) {
+                   
                     $scope.CompanyData.state_code = $scope.statesRow[i]['state_code'];
-                }else{
-                    $scope.CompanyData.state_code = '0';
-                }
+                } 
             }
-            
+
         }
         $scope.filterDetails = function (search) {
 //            $scope.searchDetails = {};
@@ -144,8 +146,8 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
                     } else {
                         toaster.pop('success', 'Manage Stationary', 'Record successfully Updated');
-                        $scope.stationaryDetails.splice(0, 1);
-                        $scope.stationaryDetails.splice(0, $scope.index, {'stationary_set_name': response.data.records.stationary_set_name, 'stationaryId': $scope.id, 'estimate_letterhead_file': response.data.records.estimate_letterhead_file, 'receipt_letterhead_file': response.data.records.receipt_letterhead_file, 'rubber_stamp_file': response.data.records.rubber_stamp_file, 'estimate_logo_file': response.data.records.estimate_logo_file, 'demandletter_letterhead_file': response.data.records.demandletter_letterhead_file, 'demandletter_logo_file': response.data.records.demandletter_logo_file, 'receipt_logo_file': response.data.records.receipt_logo_file});
+                        $scope.stationaryDetails.splice($scope.index, 1);
+                        $scope.stationaryDetails.splice($scope.index,0, {'stationary_set_name': response.data.records.stationary_set_name, 'stationaryId': $scope.id, 'estimate_letterhead_file': response.data.records.estimate_letterhead_file, 'receipt_letterhead_file': response.data.records.receipt_letterhead_file, 'rubber_stamp_file': response.data.records.rubber_stamp_file, 'estimate_logo_file': response.data.records.estimate_logo_file, 'demandletter_letterhead_file': response.data.records.demandletter_letterhead_file, 'demandletter_logo_file': response.data.records.demandletter_logo_file, 'receipt_logo_file': response.data.records.receipt_logo_file});
 
 //                        $state.reload();
                         $timeout(function () {
@@ -228,10 +230,9 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         $scope.loadCompanyData = function (companyId)
         {
-            $scope.CompanyData = [];
+
             Data.post('manage-companies/loadCompanyData', {'id': companyId}).then(function (response) {
-                console.log("Manoj");
-                console.log(response);
+
                 $scope.companyData = response.result;
                 $scope.id = response.result.id;
                 $scope.CompanyData.legal_name = response.result.legal_name;
@@ -248,15 +249,15 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 $scope.CompanyData.marketing_name = response.result.marketing_name;
                 $scope.CompanyData.company_register_no = response.result.company_register_no;
                 $scope.CompanyData.pin_code = response.result.pin_code;
-                $scope.company_type = response.result.company_type;
-                $scope.CompanyData.country = response.result.country_id;
-                $scope.CompanyData.state_code = response.result.state_code;
-                alert(response.result.state_code);
-                $scope.manageStates($scope.CompanyData.country);
-                $timeout(function(){
+                $scope.company_type = response.result.type_of_company;
+                $scope.country = parseInt(response.result.country_id);
+                $scope.manageStates($scope.country);
+                $timeout(function () {
                     $scope.state = response.result.state_id;
-                },1000)
-                
+                    $("#state_id").val(response.result.state_id);
+                    $scope.CompanyData.state_code = response.result.state_code;
+                }, 1500);
+                $scope.fevicon = response.result.fevicon;
                 $scope.CompanyData.pin_code = response.result.pin_code;
                 $scope.CompanyData.contact_person = response.result.contact_person;
                 $scope.firm_logo = response.result.firm_logo;
@@ -304,9 +305,9 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             $scope.stationaryId = list.stationaryId;
             $scope.stationaryid = stationaryid;
 
-            $scope.estimate_letterhead_file = [];
-            $scope.receipt_letterhead_file = [];
-            $scope.rubber_stamp_file = [];
+            $scope.estimate_letterhead_file_preview = [];
+            $scope.receipt_letterhead_file_preview = [];
+            $scope.rubber_stamp_file_preview = [];
             $scope.index = index;
             if (isexitsStationary == 1) {
                 $scope.modalHeading = 'Add Stationary'
@@ -339,9 +340,9 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             $scope.subId = list.id;
             $scope.index = index;
         }
-      
 
-        $scope.docompanyscreateAction = function (FirmLogo,Fevicon, CompanyData)
+
+        $scope.docompanyscreateAction = function (FirmLogo, Fevicon, CompanyData)
         {
             $scope.firmBtn = true;
             $scope.errorMsg = '';
@@ -356,19 +357,21 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 var url = '/manage-companies/';
                 var data = {
                     'CompanyData': CompanyData,
-                    'Fevicon':{'Fevicon':Fevicon},
-                    'FirmLogo': {'FirmLogo': FirmLogo} }
+                    'Fevicon': {'Fevicon': Fevicon},
+                    'FirmLogo': {'FirmLogo': FirmLogo}}
             } else {
                 if (typeof FirmLogo === 'undefined') {
                     FirmLogo = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
                 }
-                 if (typeof Fevicon === 'undefined') {
+                if (typeof Fevicon === 'undefined') {
                     Fevicon = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
                 }
                 var url = '/manage-companies/updateCompany';
-                var data = {'id': $scope.id,
+                var data = {
+                    
+                    'id': $scope.id,
                     'CompanyData': CompanyData,
-                    'Fevicon':{'Fevicon':Fevicon},
+                    'Fevicon': {'Fevicon': Fevicon},
                     'FirmLogo': {'FirmLogo': FirmLogo}}
             }
 
@@ -380,7 +383,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             FirmLogo.upload.then(function (response) {
                 $scope.companyId = response.data.id;
                 if (response.data.status) {
-                    $scope.companyDocTab = false;
+//                    $scope.companyDocTab = false;
                     $timeout(function () {
                         if ($scope.id == 0) {
                             toaster.pop('success', 'Manage Companies', 'Record successfully created');

@@ -6,7 +6,7 @@
         padding: 10px;
     }
 </style>
-<div class="row" ng-controller="companyCtrl" ng-init="loadCompanyData('<?php echo $companyId; ?>');  manageCountry(); manageCompanies();">
+<div class="row" ng-controller="companyCtrl" ng-init="loadCompanyData('<?php echo $companyId; ?>'); manageCountry(); manageCompanies();">
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -15,13 +15,13 @@
             <div class="widget-body">
 
                 <tabset>
-                    <tab heading="Company Information" id="companyTab">{{companysForm.$valid}}
-                        <form  ng-submit="companysForm.$valid && docompanyscreateAction(CompanyData.firm_logo,CompanyData.fevicon, CompanyData, document)" name="companysForm"  novalidate enctype="multipart/form-data">
+                    <tab heading="Company Information" id="companyTab">
+                        <form  ng-submit="companysForm.$valid && docompanyscreateAction(CompanyData.firm_logo, CompanyData.fevicon, CompanyData, document)" name="companysForm"  novalidate enctype="multipart/form-data">
                             <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                             <input type="hidden" ng-model="id" name="id"  class="form-control">
                             <div class="row">
                                 <div class="col-sm-3 col-xs-12 ">
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.legal_name.$dirty && companysForm.legal_name.$invalid) }">
+                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.marketing_name.$dirty && companysForm.marketing_name.$invalid) }">
                                         <label>Marketing name<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <input type="text" class="form-control" ng-model="CompanyData.marketing_name" name="marketing_name"   required capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
@@ -50,9 +50,9 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.type_of_company.$dirty && companysForm.type_of_company.$invalid) }">
                                         <label>Company Type<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-model="CompanyData.type_of_company" required name="type_of_company" class="form-control">
+                                            <select ng-model="CompanyData.type_of_company" ng-required="!company_type > 0" name="type_of_company" id="type_of_company" class="form-control">
                                                 <option value="">Select company type</option>
-                                                <option ng-repeat="list in companyType"  ng-selected="{{type_of_company = list.id}}"  value="{{list.id}}">{{list.type_of_company}}</option>
+                                                <option ng-repeat="list in companyType"  ng-selected="{{company_type == list.id}}"  value="{{list.id}}">{{list.type_of_company}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.type_of_company.$error">
@@ -65,7 +65,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.company_register_no.$dirty && companysForm.company_register_no.$invalid) }">
                                         <label>CIN/FCRN/LLPIN/FLLPIN</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="CompanyData.company_register_no" name="company_register_no"    capitalizeFirst >
+                                            <input type="text" class="form-control" ng-model="CompanyData.company_register_no" name="company_register_no" maxlength="25" >
                                             <!--                                            <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.company_register_no.$error">
                                                                                             <div ng-message="required">Company type is required</div>
                                                                                         </div>-->
@@ -102,9 +102,9 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.country_id.$dirty && companysForm.country_id.$invalid) }">
                                         <label>Country<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select id="country_id" name="country_id" class="form-control"  required  ng-model="companysForm.country_id"  ng-change="manageStates(companysForm.country_id)" >
+                                            <select id="country_id" name="country_id" class="form-control"  ng-required="!country > 0"  ng-model="CompanyData.country_id"  ng-change="manageStates(CompanyData.country_id)" >
                                                 <option value="">Select country</option>
-                                                <option ng-repeat="item in countryRow" ng-selected="{{country = item.id }}" value="{{item.id}}">{{item.name}}</option>
+                                                <option ng-repeat="item in countryRow" ng-selected="{{country == item.id}}" value="{{item.id}}">{{item.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.country_id.$error">
@@ -117,9 +117,9 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.state_id.$dirty && companysForm.state_id.$invalid) }">
                                         <label>State<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select class="form-control" ng-model="companysForm.state_id" required name="state_id" ng-change="manageStateCode(companysForm.state_id)" required>
+                                            <select class="form-control" ng-model="CompanyData.state_id" ng-required="!state > 0" name="state_id" id="state_id" ng-change="manageStateCode(CompanyData.state_id)" required>
                                                 <option value="">Select state</option>
-                                                <option  ng-repeat="itemone in statesRow" ng-selected="{{ state = itemone.id}}" value="{{itemone.id}}">{{itemone.name}}</option>
+                                                <option  ng-repeat="itemone in statesRow"  ng-selected="{{ state == itemone.id}}" value="{{itemone.id}}">{{itemone.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.state_id.$error">
@@ -135,8 +135,15 @@
                                         <label>GSTIN Number</label>
                                         <span class="input-icon icon-right">
                                             <input type="text" class="form-control" style="width: 20%; display: inline-block;" ng-model="CompanyData.state_code" maxlength="2" disabled name="state_code" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
-                                            <input type="text" class="form-control" style="width: 55%; display: inline-block; margin-left: -1%;" maxlength="10" ng-model="CompanyData.pan_num" name="pan_num" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
-                                            <input type="text" class="form-control" style="width: 25%; display: inline-block; margin-left: -1%;" maxlength="3" ng-model="CompanyData.gst_number" name="gst_number" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                                            <input type="text" class="form-control" style="width: 55%; display: inline-block; margin-left: -1%;" maxlength="10" minlength="10" required maxlength="10" ng-model="CompanyData.pan_num" name="pan_num" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                                            <input type="text" class="form-control" style="width: 25%; display: inline-block; margin-left: -1%;" required maxlength="3" ng-model="CompanyData.gst_number" name="gst_number" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                                            <div ng-show="sbtBtn" ng-messages="companysForm.pan_num.$error" class="help-block">
+                                                <div ng-message="maxlength" class="sp-err">Please enter maximum 10 characters PAN Number.</div> 
+                                                <div ng-message="minlength" class="sp-err">Please enter minimum 10 Characters PAN Number.</div>
+                                            </div>
+                                            <div class="help-block" ng-if="sbtBtn" ng-messages="companysForm.gst_number.$error">
+                                                <div ng-message="required">GST number required</div>
+                                            </div>
                                         </span>
                                     </div>   
                                 </div>
@@ -154,7 +161,7 @@
                                 </div>
                                 <div class="col-sm-3 col-xs-12 ">
                                     <div class="form-group">
-                                        <label>Pan Number</label>
+                                        <label>PAN Number</label>
                                         <span class="input-icon icon-right">
                                             <input type="text" class="form-control" ng-model="CompanyData.pan_num" name="pan_num" maxlength="10" minlength="10">
                                             <div ng-show="sbtBtn" ng-messages="companysForm.pan_num.$error" class="help-block">
@@ -167,9 +174,9 @@
                                 </div>
                                 <div class="col-sm-3 col-xs-12 ">
                                     <div class="form-group">
-                                        <label>Vat Number</label>
+                                        <label>VAT Number</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="CompanyData.vat_num" name="vat_num" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                            <input type="text" class="form-control" ng-model="CompanyData.vat_num" maxlength="25" name="vat_num" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                             <br/>
                                         </span>
                                     </div>     
@@ -180,7 +187,7 @@
                                     <div class="form-group">
                                         <label>TAN Number</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="CompanyData.tan_number" name="tan_number" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                                            <input type="text" class="form-control" ng-model="CompanyData.tan_number" maxlength="25" name="tan_number" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
                                         </span>
                                     </div>  
                                 </div>
@@ -211,7 +218,11 @@
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select   ng-model="CompanyData.firm_logo" name="firm_logo" id="firm_logo"  accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >        
                                         </span><br/><br/>
-                                        <img ng-src="[[ Config('global.s3Path') ]]/Company/firmlogo/{{firm_logo}}"  height="80px" width="80px" >
+                                      
+                                        <img ng-if="!firm_logo_preview.length > 0"  ng-src="[[ Config('global.s3Path') ]]/Company/firmlogo/{{firm_logo}}"  height="80px" width="80px" >
+                                        <div class="img-div2" data-title="name" ng-repeat="list in firm_logo_preview">    
+                                            <img ng-src="{{list}}" class="thumb photoPreview">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-xs-12 ">
@@ -223,7 +234,7 @@
                                                 <div ng-message="required">Fevicon is required</div>
                                             </div>
                                             <br/>
-                                            <div ng-if="fevicon" class="sp-err firm_logo">{{firm_logo}}</div>
+                                            <img ng-if="!fevicon_preview.length > 0" ng-src="[[ Config('global.s3Path') ]]/Company/fevicon/{{fevicon}}"  height="80px" width="80px" >
                                             <div class="img-div2" data-title="name" ng-repeat="list1 in fevicon_preview">    
                                                 <img ng-src="{{list1}}" class="thumb photoPreview">
                                             </div>
@@ -368,13 +379,14 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label>Letter Head</label>
+                                        
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select   ng-model="stationary.estimate_letterhead_file" name="estimate_letterhead_file" id="estimate_letterhead_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                         </span>
                                         <div class="img-div2"  data-title="name" ng-repeat="list in estimate_letterhead_file_preview">    
                                             <img ng-src="{{list}}" class="thumb photoPreview">
                                         </div>
-                                        <div ng-if="estimate_letterhead_file && document_file_preview.length == 0">
+                                        <div ng-if="!estimate_letterhead_file_preview.length > 0">
                                             <img ng-src="[[ Config('global.s3Path') ]]/Company/estimateLetterhead/{{estimate_letterhead_file}}" width="80px" height="80px">
                                         </div>
                                     </div>
@@ -388,7 +400,7 @@
                                         <div class="img-div2"  data-title="name" ng-repeat="list in receipt_letterhead_file_preview">    
                                             <img ng-src="{{list}}" class="thumb photoPreview">
                                         </div>
-                                        <div ng-if="receipt_letterhead_file && document_file_preview.length == 0" >
+                                        <div ng-if="!receipt_letterhead_file_preview.length > 0" >
                                             <img ng-src="[[ Config('global.s3Path') ]]/Company/receiptLetterhead/{{receipt_letterhead_file}}" width="80px" height="80px">
                                         </div>
                                     </div>
@@ -396,11 +408,11 @@
                                         <label>Stamp</label>
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select   ng-model="stationary.rubber_stamp_file" name="rubber_stamp_file" id="rubber_stamp_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
-                                        </span>{{rubber_stamp_file_preview}}
+                                        </span>
                                         <div class="img-div2"  data-title="name" ng-repeat="list in rubber_stamp_file_preview">    
                                             <img ng-src="{{list}}" class="thumb photoPreview">
-                                        </div>
-                                        <div ng-if="rubber_stamp_file && document_file_preview.length == 0">
+                                        </div>{{document_file_preview.length}}
+                                        <div ng-if="!rubber_stamp_file_preview.length > 0">
                                             <img ng-src="[[ Config('global.s3Path') ]]/Company/rubberStampFile/{{rubber_stamp_file}}" width="80px" height="80px">
                                         </div>
                                     </div>
@@ -411,24 +423,12 @@
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select   ng-model="stationary.estimate_logo_file" name="estimate_logo_file" id="estimate_logo_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                         </span>
-                                        <div class="img-div2" ng-if="estimate_logo_file == ''" data-title="name" ng-repeat="list in estimate_logo_file_preview">    
-                                            <img ng-src="{{list}}" class="thumb photoPreview">
-                                        </div>
-                                        <div ng-if="estimate_logo_file">
-                                            <img ng-src="[[ Config('global.s3Path') ]]/Company/estimateLogoFile/{{estimate_logo_file}}" width="80px" height="80px">
-                                        </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Demand letter file</label>
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select   ng-model="stationary.demandletter_letterhead_file" name="demandletter_letterhead_file" id="demandletter_letterhead_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                         </span>
-                                        <div class="img-div2" ng-if="demandletter_letterhead_file == ''" data-title="name" ng-repeat="list in demandletter_letterhead_file_preview">    
-                                            <img ng-src="{{list}}" class="thumb photoPreview">
-                                        </div>
-                                        <div ng-if="demandletter_letterhead_file">
-                                            <img ng-src="[[ Config('global.s3Path') ]]/Company/demandletterFile/{{demandletter_letterhead_file}}" width="80px" height="80px">
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -437,24 +437,12 @@
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select   ng-model="stationary.demandletter_logo_file" name="demandletter_logo_file" id="demandletter_logo_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                         </span>
-                                        <div class="img-div2" ng-if="demandletter_logo_file == ''" data-title="name" ng-repeat="list in demandletter_logo_file_preview">    
-                                            <img ng-src="{{list}}" class="thumb photoPreview">
-                                        </div>
-                                        <div ng-if="demandletter_logo_file">
-                                            <img ng-src="[[ Config('global.s3Path') ]]/Company/demandletterLogoFile/{{demandletter_logo_file}}" width="80px" height="80px">
-                                        </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Receipt logo file</label>
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select   ng-model="stationary.receipt_logo_file" name="receipt_logo_file" id="receipt_logo_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                         </span>
-                                        <div class="img-div2" ng-if="receipt_logo_file == ''" data-title="name" ng-repeat="list in receipt_logo_file_preview">    
-                                            <img ng-src="{{list}}" class="thumb photoPreview">
-                                        </div>
-                                        <div ng-if="receipt_logo_file">
-                                            <img ng-src="[[ Config('global.s3Path') ]]/Company/receiptLogoFile/{{receipt_logo_file}}" width="80px" height="80px">
-                                        </div>
                                     </div>
                                 </div>
                                 <input type="hidden" ng-model="stationaryId" name="stationaryId" value="{{stationaryId}}">

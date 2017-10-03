@@ -709,7 +709,7 @@ class CompaniesController extends Controller {
         $validationRules = Companies::validationRules();
         $validationMessages = Companies::validationMessages();
         $input = Input::all();
-
+        
 
         $cnt = Companies::where(['legal_name' => $input['CompanyData']['legal_name']])->where('id', '!=', $input['id'])->get()->count();
         if ($cnt > 0) {
@@ -736,60 +736,57 @@ class CompaniesController extends Controller {
             if (!empty($input['Fevicon']['Fevicon'])) {
                 $s3FolderName = 'Company/fevicon';
                 $imageName = 'company_fevicon_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['FirmLogo']['FirmLogo']->getClientOriginalExtension();
-                S3::s3FileUpload($input['FirmLogo']['FirmLogo']->getPathName(), $imageName, $s3FolderName);
+                S3::s3FileUpload($input['Fevicon']['Fevicon']->getPathName(), $imageName, $s3FolderName);
                 $name = $imageName;
                 $name = trim($name, ",");
                 $fevicon = $name;
+            }
+            if (!empty($input['Fevicon']['Fevicon']->getClientOriginalExtension())) {
                 $post['fevicon'] = $fevicon;
             }
             $post['punch_line'] = $input['CompanyData']['punch_line'];
             $post['legal_name'] = $input['CompanyData']['legal_name'];
             if (!empty($input['CompanyData']['vat_num'])) {
                 $post['vat_number'] = $input['CompanyData']['vat_num'];
-            } else {
-                $post['vat_number'] = '';
-            }
+            } 
             if (!empty($input['CompanyData']['domain_name'])) {
                 $post['domain_name'] = $input['CompanyData']['domain_name'];
-            } else {
-                $post['domain_name'] = '';
-            }
+            } 
             if (!empty($input['CompanyData']['gst_number'])) {
                 $post['gst_number'] = $input['CompanyData']['gst_number'];
-            } else {
-                $post['gst_number'] = '';
-            }
-            if (!empty($input['CompanyData']['pan_num'])) {
-                $post['pan_number'] = $input['CompanyData']['pan_num'];
-            } else {
-                $post['pan_number'] = '';
-            }
-            if (!empty($input['CompanyData']['tan_number'])) {
-                $post['tan_number'] = $input['CompanyData']['tan_number'];
-            } else {
-                $post['tan_number'] = '';
             }
             if (!empty($input['CompanyData']['marketing_name'])) {
                 $post['marketing_name'] = $input['CompanyData']['marketing_name'];
-            } else {
-                $post['marketing_name'] = '';
-            }
+            } 
             if (!empty($input['CompanyData']['type_of_company'])) {
                 $post['type_of_company'] = $input['CompanyData']['type_of_company'];
-            } else {
-                $post['type_of_company'] = '';
-            }
+            } 
             if (!empty($input['CompanyData']['company_register_no'])) {
                 $post['company_register_no'] = $input['CompanyData']['company_register_no'];
-            } else {
-                $post['company_register_no'] = '';
             }
-
-
+            if (!empty($input['CompanyData']['contact_person'])) {
+                $post['contact_person'] = $input['CompanyData']['contact_person'];
+            }
+            if (!empty($input['CompanyData']['pin_code'])) {
+                $post['pin_code'] = $input['CompanyData']['pin_code'];
+            } 
+            if (!empty($input['CompanyData']['country_id'])) {
+                $post['country_id'] = $input['CompanyData']['country_id'];
+            } 
+            if (!empty($input['CompanyData']['state_id'])) {
+                $post['state_id'] = $input['CompanyData']['state_id'];
+            } 
+            if (!empty($input['CompanyData']['pan_num'])) {
+                $post['pan_number'] = $input['CompanyData']['pan_num'];
+            } 
+            if (!empty($input['CompanyData']['tan_number'])) {
+                $post['tan_number'] = $input['CompanyData']['tan_number'];
+            } 
+            
 
             $post['office_address'] = $input['CompanyData']['office_address'];
-            $post['cloud_telephoney_client'] = $input['CompanyData']['cloud_telephoney_client'];
-
+            
+           
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $allCompanyData = array_merge($common, $post);

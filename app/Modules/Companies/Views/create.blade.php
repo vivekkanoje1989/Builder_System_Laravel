@@ -23,7 +23,7 @@
                             <input type="hidden" ng-model="id" name="id"  class="form-control">
                             <div class="row">
                                 <div class="col-sm-3 col-xs-12 ">
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.legal_name.$dirty && companysForm.legal_name.$invalid) }">
+                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.marketing_name.$dirty && companysForm.marketing_name.$invalid) }">
                                         <label>Marketing name<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <input type="text" class="form-control" ng-model="CompanyData.marketing_name" name="marketing_name"   required capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
@@ -52,9 +52,9 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.type_of_company.$dirty && companysForm.type_of_company.$invalid) }">
                                         <label>Company Type<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-model="CompanyData.type_of_company" required name="type_of_company" class="form-control">
+                                            <select ng-model="CompanyData.type_of_company" ng-change="" name="type_of_company" class="form-control">
                                                 <option value="">Select company type</option>
-                                                <option ng-repeat="list in companyType"  ng-selected="{{type_of_company = list.id}}"  value="{{list.id}}">{{list.type_of_company}}</option>
+                                                <option ng-repeat="list in companyType"  ng-selected="{{type_of_company == list.id}}"  value="{{list.id}}">{{list.type_of_company}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.type_of_company.$error">
@@ -67,10 +67,10 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.company_register_no.$dirty && companysForm.company_register_no.$invalid) }">
                                         <label>CIN/FCRN/LLPIN/FLLPIN</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="CompanyData.company_register_no" name="company_register_no"    capitalizeFirst >
+                                            <input type="text" class="form-control" ng-model="CompanyData.company_register_no" name="company_register_no"   maxlength="25" >
 <!--                                            <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.company_register_no.$error">
                                                 <div ng-message="required">Company type is required</div>
-                                            </div>-->
+                                            </div> -->
                                         </span>
                                     </div> 
                                 </div>
@@ -106,7 +106,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.country_id.$dirty && companysForm.country_id.$invalid) }">
                                         <label>Country<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select id="country_id" name="country_id" class="form-control"  required  ng-model="CompanyData.country_id"  ng-change="manageStates(companysForm.country_id)" >
+                                            <select id="country_id" name="country_id" class="form-control"  required  ng-model="CompanyData.country_id"  ng-change="manageStates(CompanyData.country_id)" >
                                                 <option value="">Select country</option>
                                                 <option ng-repeat="item in countryRow" value="{{item.id}}">{{item.name}}</option>
                                             </select>
@@ -121,7 +121,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.state_id.$dirty && companysForm.state_id.$invalid) }">
                                         <label>State<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select class="form-control" ng-model="CompanyData.state_id" required name="state_id" ng-change="manageStateCode(companysForm.state_id)" required>
+                                            <select class="form-control" ng-model="CompanyData.state_id" required name="state_id" ng-change="manageStateCode(CompanyData.state_id)" required>
                                                 <option value="">Select state</option>
                                                 <option  ng-repeat="itemone in statesRow" ng-selected="{{ state_id == itemone.id}}" value="{{itemone.id}}">{{itemone.name}}</option>
                                             </select>
@@ -173,7 +173,7 @@
                                     <div class="form-group">
                                         <label>VAT Number</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="CompanyData.vat_number" name="vat_number" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                            <input type="text" class="form-control"  maxlength="25" ng-model="CompanyData.vat_number" name="vat_number" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                             <br/>
                                         </span>
                                     </div>     
@@ -184,7 +184,7 @@
                                     <div class="form-group">
                                         <label>TAN Number</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="CompanyData.tan_number" name="tan_number" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                                            <input type="text" class="form-control"  maxlength="25" ng-model="CompanyData.tan_number" name="tan_number" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
                                         </span>
                                     </div>  
                                 </div>

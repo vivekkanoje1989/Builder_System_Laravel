@@ -9,7 +9,10 @@ Route::group(array('module' => 'Projects', 'middleware' => ['auth:admin'], 'name
         return View::make('Projects::uploads');
     }]);
     Route::get('/projects/inventory',['middleware'=>'permission:050101', function () {
-        return View::make('Projects::inventory');
+        return View::make('Projects::inventoryIndex');
+    }]);
+    Route::get('/projects/inventoryForm',['middleware'=>'permission:050101', function () {
+        return View::make('Projects::inventoryForm');
     }]);
     Route::get('/projects/uploads/images',['middleware'=>'permission:050101', function () {
         return View::make('Projects::uploads.images');

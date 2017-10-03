@@ -69,9 +69,9 @@ class CcPresalesFollowup extends Eloquent
 	];
 
 	protected $dates = [
-		'followup_date_time',
+		//'followup_date_time',
 		'next_followup_date',
-		'next_followup_time',
+		//'next_followup_time',
 		'actual_followup_date_time',
 		'created_date',
 		'updated_date',

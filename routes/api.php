@@ -19,6 +19,7 @@ Route::get('/user', function (Request $request) {
 
 Route::group(['middleware' => 'api'], function () {
     Route::get('/getMasterData', 'backend\AdminController@getMasterData'); 
+    Route::get('/getEnquiryLocation', 'backend\AdminController@getEnquiryLocation'); 
     Route::post('/authenticate', 'backend\Auth\LoginController@authenticate');
     Route::post('/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials'); 
     Route::post('/getCities','backend\AdminController@getCities');

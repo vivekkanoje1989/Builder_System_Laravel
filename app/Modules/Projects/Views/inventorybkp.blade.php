@@ -30,7 +30,7 @@
                                             <input type="text" class="form-control" ng-model="inventoryData.block_sub_type" name="block_sub_type" required>
                                             <i class="fa fa-crosshairs"></i>
                                             <div ng-show="sbtBtn" ng-messages="inventoryInfoForm.block_sub_type.$error" class="help-block">
-                                                <div ng-message="required">Please enter sub block name</div>
+                                                <div ng-message="required">Please enter sub block type</div>
                                             </div>
                                         </span>
                                     </div>
@@ -66,8 +66,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12  col-sm-12 col-xs-12"><hr></div>
-<!--                        <div class="row">
+                        <div class="row">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-sm-3 col-sx-6">
                                     <div class="form-group">
@@ -106,8 +105,8 @@
                                     </div>
                                 </div>
                             </div> 
-                        </div>-->
-<!--                        <div class="row">
+                        </div>
+                        <div class="row">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-sm-3 col-sx-6">
                                     <div class="form-group">
@@ -146,7 +145,7 @@
                                     </div>
                                 </div>
                             </div> 
-                        </div>-->
+                        </div>
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-sm-3 col-sx-6">
@@ -155,7 +154,7 @@
                                         <span class="input-icon icon-right">
                                             <input type="text" class="form-control" ng-model="inventoryData.sellable_area_in_sqft" name="sellable_area_in_sqft" required>
                                             <i class="fa fa-crosshairs"></i>
-                                            <div ng-show="sbtBtn" ng-messages="inventoryInfoForm.block_sub_type.$error" class="help-block">
+                                            <div ng-show="sbtBtn" ng-messages="inventoryInfoForm.sellable_area_in_sqft.$error" class="help-block">
                                                 <div ng-message="required">Please enter first name</div>
                                             </div>
                                         </span>
@@ -167,7 +166,7 @@
                                         <span class="input-icon icon-right">
                                             <input type="text" class="form-control" ng-model="inventoryData.sellable_area_in_sqmtr" name="sellable_area_in_sqmtr" required>
                                             <i class="fa fa-crosshairs"></i>
-                                            <div ng-show="sbtBtn" ng-messages="inventoryInfoForm.block_sub_type.$error" class="help-block">
+                                            <div ng-show="sbtBtn" ng-messages="inventoryInfoForm.sellable_area_in_sqft.$error" class="help-block">
                                                 <div ng-message="required">Please enter first name</div>
                                             </div>
                                         </span>
@@ -175,9 +174,8 @@
                                 </div>
                             </div> 
                         </div>
-                        <div class="col-lg-12  col-sm-12 col-xs-12"><hr></div>
                         <div class="row">
-                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-xs-12">                                
                                 <div class="col-sm-3 col-sx-6">
                                     <div class="form-group">
                                         <label for="">Other1 label</label>
@@ -269,6 +267,7 @@
                                 </div>
                             </div> 
                         </div>
+
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-lg-12  col-sm-12 col-xs-12"><hr></div>

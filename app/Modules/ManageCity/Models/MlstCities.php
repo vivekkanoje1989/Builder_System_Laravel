@@ -40,4 +40,7 @@ class MlstCities extends Eloquent
                 'created_mac_id',
                 
 	];
+          public function locationName() {
+        return $this->belongsTo('App\Models\LstEnquiryLocation','state_id')->select('id','country_id','state_id','city_id','location');
+    }
 }

@@ -17,25 +17,21 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.searchData = {};
         $scope.lmodalForm = {};
         $scope.wingList = $scope.floorList = [];
+        $scope.otherData = {};
 
+        /*******************Add Multiple Block Specification For Web********************/
+        $scope.otherDataMultiple = [{id: 1}];
+  
+        $scope.addNewData = function() {
+            var newItemNo = $scope.otherDataMultiple.length+1;
+            $scope.otherDataMultiple.push({'id':newItemNo});
+        };
 
-        /***************************************
-        $scope.mainPanel = true;
-        $scope.content_website_settings = false;
-        $scope.content_uploads = false;
+        $scope.removeRow = function(inx) {
+            $scope.otherDataMultiple.splice(inx,1);
+        };
+        /*******************Add Multiple Block Specification For Web********************/
         
-        
-        $scope.content = function(){
-            $('#fade-in1').toggleClass('show'); 
-            $scope.content_website_settings = false;
-            $scope.mainPanel = true;
-        }
-        $scope.content1 = function(){
-            $('#fade-in2').toggleClass('show'); 
-            $scope.content_uploads = false;
-            $scope.mainPanel = true;
-        }
-        /**************************************/
         $scope.cancel_basic_info = function(){
             $('#fade-in').toggleClass('show');
             $('.mainPanel').show();
@@ -219,17 +215,23 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                 });
             }
         }
-
-        $scope.getInventoryDetails = function (prid, wingId, inventoryData) {
+        $scope.inventoryList = [];
+        $scope.getInventoryDetails = function (prid, wingId, inventoryData, otherData) {
+            
             Data.post('projects/getInventoryDetails', {
-                data: {getDataByPrid: prid, wingId: wingId, inventoryData: inventoryData}
+                data: {getDataByPrid: prid, wingId:wingId, inventoryData: inventoryData, otherData:otherData}
             }).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
                     if (inventoryData === '') {
-                        $scope.inventoryData = angular.copy(response.records[0]);
+                        $scope.inventoryList = angular.copy(response.records);
+                        if(wingId == 0)
+                            $scope.inventoryData.wing_id = response.records[0].wing_id;
+                        else
+                            $scope.inventoryData.wing_id = wingId;
                     } else {
+                        $scope.inventoryList[$scope.inventoryList+1] = inventoryData;
                         toaster.pop('success', 'Project', response.message);
                     }
                 }
@@ -245,6 +247,39 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             });
         }
+        $scope.getWingData = function(inventoryList,idataId, wingId, wingName){
+            $scope.wingId = $scope.inventoryData.wing_id;
+            $scope.idata = [];
+            $scope.otherDataMultiple = [{id: 1}];
+            $scope.inventoryData = {};
+            $scope.inventoryData.wing_id = $scope.wingId;
+            if(typeof inventoryList == 'undefined'){
+                $scope.modalHeading = 'Add Project Inventory';
+            }else{
+                $scope.modalHeading = 'Edit Project Inventory';
+                $scope.wingName = wingName;               
+                $scope.inventoryData = $scope.inventoryList[0];
+                
+                Object.keys(inventoryList).forEach(function (key) {
+                    if(inventoryList[key].id == idataId){
+                        $scope.idata.push({block_id: inventoryList[key].id,
+                        other_block_id: inventoryList[key].other_block_id,other_label: inventoryList[key].other_label,
+                        area_in_sqft:inventoryList[key].area_in_sqft,area_in_sqmtr:inventoryList[key].area_in_sqmtr,
+                        other_block_show_on_website:inventoryList[key].other_block_show_on_website});
+                    }
+                });
+                $scope.otherDataMultiple = $scope.idata;
+                console.log($scope.inventoryData);
+                console.log($scope.otherDataMultiple);
+            }           
+        }
+        /*$scope.sqFeetToSqMeter = function(sqft){alert(sqft);
+            $scope.otherData.area_in_sqmtr = Math.round(sqft*0.092903);
+        }
+        $scope.sqMeterToSqFeet = function(sqft, sqm){
+            if(sqft === '' || sqft === null)
+                $scope.otherData.area_in_sqft = Math.round(sqm/0.092903);
+        }*/
         $scope.saveStatusInfo = function (prid, statusImages, statusData) {
             if (typeof statusImages === 'undefined') {
                 statusImages = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});

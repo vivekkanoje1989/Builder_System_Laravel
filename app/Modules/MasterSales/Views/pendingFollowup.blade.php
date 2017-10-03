@@ -49,11 +49,13 @@
                         <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Action</a>
                         <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li ng-if="enquiriesLength != 0">
-                                <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
-                                   Export
-                                </a> 
-                            </li>
+                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
+                                <li ng-if="enquiriesLength != 0">
+                                    <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
+                                       Export
+                                    </a> 
+                                </li>
+                            @endif
                             <li>
                                 <a href ng-model="BulkReasign"  id="BulkReasign"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >
                                     Reassign                                    
@@ -122,8 +124,8 @@
                 <table class="table table-hover table-striped table-bordered tableHeader">
                     <thead>                        
                         <tr>
-                            <th class="enq-table-th">SR / 
-                                <label>
+                            <th class="enq-table-th">SR
+                                <label ng-if="enquiriesLength">  /
 
                                     <input type="checkbox"  ng-click='checkAll(all_chk_reassign[pageNumber])' ng-model="all_chk_reassign[pageNumber]" name="all_chk_reassign_enq" id="all_chk_reassign_enq">
                                     <span class="text"></span>
@@ -228,29 +230,39 @@
                         </div>        
                         <div> 
                             <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory == null" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">
-                                <b>Category : </b>  
-                                {{ enquiry.enquiry_category | limitTo : 45 }}
-                                <span ng-if="enquiry.enquiry_category > 45" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">...</span>
-                                <hr class="enq-hr-line">
+                                <span class="ng-binding">
+                                <b style="float: left;margin-right: 5px;">Category : </b>
+                                <i id="catNew" ng-if="enquiry.sales_category_id == 1 "></i>
+                                <i id="catHot" ng-if="enquiry.sales_category_id == 2 "></i>
+                                <i id="catWarm" ng-if="enquiry.sales_category_id == 3 "></i>
+                                <i id="catCold" ng-if="enquiry.sales_category_id == 4 "></i>
+
+                                    {{ enquiry.enquiry_category | limitTo : 45 }}</span>
+                                <span ng-if="enquiry.enquiry_category > 45" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">...</span>                                
                             </span>
                             <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory != null" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}" ng-init="enquiry_sales_subcategory_length = enquiry.enquiry_sales_subcategory.length + enquiry.enquiry_sales_subcategory.length; enquiry_sales_subcategory = enquiry.enquiry_category + ' / ' + enquiry.enquiry_sales_subcategory">
-                                <b>Category : </b>  
-                                {{ enquiry_sales_subcategory | limitTo : 45 }}
+                               <span class="ng-binding">
+                                <b style="float: left;margin-right: 5px;">Category : </b>
+                                <i id="catNew" ng-if="enquiry.sales_category_id == 1 "></i>
+                                <i id="catHot" ng-if="enquiry.sales_category_id == 2 "></i>
+                                <i id="catWarm" ng-if="enquiry.sales_category_id == 3 "></i>
+                                <i id="catCold" ng-if="enquiry.sales_category_id == 4 "></i>                                
+                                {{ enquiry_sales_subcategory | limitTo : 45 }}</span>
                                 <span ng-if="enquiry_sales_subcategory_length > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
-                                <hr class="enq-hr-line">
-                            </span>                                    
+                            </span>
                         </div>
                         <div>                                   
                             <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != ''" data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
                                 <b>Project :</b>
                                 {{enquiry.project_block_name| limitTo : 45 }}
                                 <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                        
-                                <div ng-if="enquiry.parking_required != null">
-                                    <span ng-if="enquiry.parking_required == 0"><b>Parking Required :</b> No</span>
-                                    <span ng-if="enquiry.parking_required == 1"><b>Parking Required :</b> Yes</span>                                    
-                                </div>
-                                <hr class="enq-hr-line">
                             </span>
+                            <div ng-if="enquiry.location_name != null && enquiry.location_name != ''" data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
+                                <b>Location :</b>
+                                {{enquiry.location_name| limitTo : 45 }}
+                                <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                                                                 
+                            <hr class="enq-hr-line">
+                            </div>                            
                         </div>
                         <div>
                             <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}/eid/{{ enquiry.id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
@@ -269,7 +281,7 @@
                             </span></div>
                         <hr class="enq-hr-line">
                         <div>
-                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
                         </div>
 
                     </td>
