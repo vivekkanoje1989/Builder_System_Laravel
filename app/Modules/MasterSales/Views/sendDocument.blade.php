@@ -93,11 +93,11 @@
                                     </div>
                                     <div class="col-sm-12 col-xs-12 col-md-12">
                                         <div class="col-sm-12 col-xs-12"  ng-show="(documentListData |    json) !=    '{}'">
-                                            <label> Select Documents</label>
-                                            <!--                                                    <label> 
-                                                                                                    <input type="checkbox" name="chkLocation" value="location_map_images">
-                                                                                                    <span class="text">Select All</span>
-                                                                                                </label>-->
+                                            <label> Select Documents</label><br>
+                                            <label> 
+                                                &nbsp;&nbsp;&nbsp;<input type="checkbox" name="allselect" id="allselect" ng-click="chkallDocuments()">
+                                                <span class="text">Select All</span>
+                                            </label>
                                             <div class="form-group">                                                  
                                                 <div class="col-sm-3" ng-repeat="(key,value) in documentListData" ng-if="value != '' && value != null && value != 'null'">
                                                     <label> 

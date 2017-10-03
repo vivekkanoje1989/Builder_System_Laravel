@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Modules\CustomerCare\Controllers;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -44,7 +42,6 @@ class CustomerCareController extends Controller {
          * pageNumber
          * itemPerPage
          */
-
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $date = date('y-m-d');
@@ -81,7 +78,6 @@ class CustomerCareController extends Controller {
                 }
             }
         }
-
 
         $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
         $enquiries = DB::select('CALL proc_cc_presales_total("' . $loggedInUserId . '",' . $startFrom . ',' . $request['itemPerPage'] . ',"","","","","0","0","","","","","","","","","")');
