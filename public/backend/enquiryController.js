@@ -1045,6 +1045,7 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
         $scope.hideIcon = function (id) {
             if (id == 3 || id == 4) {
                 $(".checkLost").hide();
+                if(id != 4)
                 $("#footerContent").hide();
                 $scope.divEmail = false;
                 $scope.divSms = false;

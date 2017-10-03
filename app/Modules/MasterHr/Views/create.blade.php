@@ -431,7 +431,6 @@
                             </div>
                             <div class="col-sm-6 col-xs-12" ng-controller="permanentCountryListCtrl">
                                 <div class="form-title">
-
                                     Permanent Address  &nbsp;&nbsp;&nbsp;&nbsp;
                                     <span class="checkbox" style="display:inline-block;margin: 0;">
                                         <label>

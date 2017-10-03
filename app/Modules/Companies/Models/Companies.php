@@ -10,16 +10,27 @@ class Companies extends Model {
     public $incrementing = false;
     public $timestamps = false;
     protected $casts = [
-        'id' => 'int'
+        'id' => 'int',
+         'client_id'=>'int',
     ];
     protected $fillable = [
         'id',
+        'client_id',
         'punch_line',
         'legal_name',
         'receipt_number_alias',
         'firm_logo',
         'pan_number',
-        'service_tax_number',
+        'tan_number',
+        'type_of_company',
+        'company_register_no',
+        'marketing_name',
+        'pin_code',
+        'country_id',
+        'state_id',
+        'state_code',
+        'fevicon',
+        'contact_person',
         'vat_number',
         'office_address',
         'gst_number',
@@ -42,7 +53,7 @@ class Companies extends Model {
         $messages = array(
             'legal_name.required' => 'Please enter legal name.',
             'punch_line.required' => 'Please enter punch line.',
-            'cloud_telephoney_client.required' => 'Please select status.',
+           
             'office_address' => 'Please enter address.'
         );
         return $messages;
@@ -52,7 +63,7 @@ class Companies extends Model {
         $rules = array(
             'legal_name' => 'required',
             'punch_line' => 'required',
-            'cloud_telephoney_client' => 'required',
+           
             'office_address' => 'required'
         );
         return $rules;

@@ -96,14 +96,14 @@
                                                                         <th>New</th>
                                                                         <th>Hot</th>
                                                                         <th>Warm</th>
-                                                                        <th>Cold</th>
+                                                                        <th>Cold{{employee_id}}</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     <tr ng-repeat="subcategory in subteam_category_report">
                                                                         <td ng-if="subcategory.is_parent == 1 && subcategory.employee_id != employee_id"><a href="" ng-click="teamProjectCategoryReport(subcategory); teamEmployees(subcategory);">{{subcategory.name}}<i class="icon" style="float: right" ng-class="isSubEmployeeShown ? 'ion-chevron-up' : 'ion-chevron-down'"></i></a></div>
                                                                         <td ng-if="subcategory.is_parent == 0 || subcategory.employee_id == employee_id">{{subcategory.name}}</div>
-                                                                        <td><b>{{subcategory.Total}}</b></td>
+                                                                        <td><b>{{subcategory.Total}}{{subcategory.employee_id}}</b></td>
                                                                         <td ng-if="subcategory.employee_id == employee_id"><span  ng-if="subcategory.New > 0">{{subcategory.New}} <a href="" style="padding-left:30px;" ng-click="subProjectCategoryReport(subcategory, 1, 0)">Show sub-category wise report</a></span><span ng-if="subcategory.New == 0">{{subcategory.New}}</span></td>
                                                                         <td ng-if="subcategory.employee_id != employee_id"><span  ng-if="subcategory.New > 0">{{subcategory.New}} <a style="padding-left:30px;" href=""  ng-click="subProjectCategoryReport(subcategory, 1, 1)">Show sub-category wise report</a></span><span ng-if="subcategory.New == 0">{{subcategory.New}}</span></td>
                                                                         <td ng-if="subcategory.employee_id == employee_id"><span  ng-if="subcategory.Hot > 0">{{subcategory.Hot}} <a style="padding-left:30px;" href=""  ng-click="subProjectCategoryReport(subcategory, 2, 0)">Show sub-category wise report</a></span><span ng-if="subcategory.Hot == 0">{{subcategory.Hot}}</span></td>

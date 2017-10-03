@@ -350,7 +350,7 @@ class ProjectsController extends Controller {
         $input = json_decode($postdata, true);
         $projectId = $input['data']['getDataByPrid'];
         $msg = "";
-        print_r($input);
+//        print_r($input);
         if(!empty($input['data']["getDataByPrid"])){            
             if ($input['data']['wingId'] == 0) {
                 $projectWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $projectId)->orderBy('id', 'ASC')->first();
@@ -371,43 +371,48 @@ class ProjectsController extends Controller {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
                 $input['data']['inventoryData']['project_id'] = $projectId;
                 $input['data']['inventoryData']['wing_id'] = $input['data']['wingId'];
-                $isBlockExist = ProjectBlock::where(['id' => $input['data']['inventoryData']['id'],'project_id' => $projectId, 'wing_id' => $input['data']['wingId']])->first();
+                //$isBlockExist = ProjectBlock::where(['id' => $input['data']['inventoryData']['id'],'project_id' => $projectId, 'wing_id' => $input['data']['wingId']])->first();
                 $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                if (empty($isBlockExist)) {
-                    echo "if";exit;
-                    
+                /*if (empty($input['data']['inventoryData']['id'])) {
+                    $input['data']['inventoryData']['client_id'] = config('global.client_id');
                     $input['inventoryData'] = array_merge($input['data']['inventoryData'], $create);
                     $actionProject = ProjectBlock::create($input['data']['inventoryData']);  
                     if(!empty($input['data']['otherData'])){
                         foreach($input['data']['otherData'] as $record){
-                            $otherData = ProjectOtherBlock::create($record);
+                            if(!empty($record['other_label'])){
+                                $record['block_id'] = $actionProject->id;
+                                $otherData = ProjectOtherBlock::create($record);
+                            }
                         }
                     }                   
                     $msg = "Record added successfully";
                 } else {
-                    echo "else";exit;
+                    
                     $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                     $input['data']['inventoryData'] = array_merge($input['data']['inventoryData'], $update);
                     unset($input['data']['inventoryData']['other_block_id'],$input['data']['inventoryData']['other_label'],
                             $input['data']['inventoryData']['area_in_sqft'],$input['data']['inventoryData']['area_in_sqmtr'],$input['data']['inventoryData']['other_block_show_on_website']);
-                    $actionProject = ProjectBlock::where(['id' => $input['data']['inventoryData']['id'], 'project_id' => $projectId, 'wing_id' => $input['data']['wingId']])->update($input['data']['inventoryData']);
+                    $actionProject = ProjectBlock::where(['id' => $input['data']['inventoryData']['id'], 'project_id' => $projectId, 'wing_id' => $input['data']['wingId']])
+                            ->update($input['data']['inventoryData']);
                     
                     if(!empty($input['data']['otherData'])){
                         foreach($input['data']['otherData'] as $record){
-                            $checkId = ProjectOtherBlock::select('id')->where('id', '=', $record['other_block_id'])->get();
-                            if(!empty($record['other_block_id'])){
-                                
-                                $record = array_merge($record, $update);
-                                $otherData = ProjectOtherBlock::where(['id' => $record['other_block_id']])->update($record);
-                            }else{
-                                $record["block_id"] = $input['data']['inventoryData']['id'];
-                                $record = array_merge($record, $create);
-                                $otherData = ProjectOtherBlock::create($record);
+                            if(!empty($record['other_label'])){
+                                if(!empty($record['other_block_id'])){     
+                                    $pkid = $record['other_block_id'];
+                                    unset($record['other_block_id']);
+                                    $record = array_merge($record, $update);
+                                    $otherData = ProjectOtherBlock::where(['id' => $pkid])->update($record);
+                                }else{
+                                    $record["block_id"] = $input['data']['inventoryData']['id'];
+                                    $record = array_merge($record, $create);
+                                    $otherData = ProjectOtherBlock::create($record);
+                                }
                             }
                         }
                     }
                     $msg = "Record updated successfully";
-                }
+                }*/
             }
         } 
         if (!empty($projectData)) {
@@ -508,7 +513,9 @@ class ProjectsController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $projectId = $request['data']['projectId'];
-        $getBlockList = ProjectBlock::with('getBlockType')->where("project_id", $projectId)->get();
+//        $getBlockList = ProjectBlock::with('getBlockType')->where("project_id", $projectId)->get();
+        $getBlockList = MlstBmsbBlockType::select('id','project_type_id','block_name')->get();
+        //print_r($getBlockList);exit;
         if (!empty($getBlockList)) {
             $result = ['success' => true, 'records' => $getBlockList];
         } else {
