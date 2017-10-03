@@ -98,8 +98,8 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
             Data.post('contact-us/manageCountry').then(function (response) {
                 $scope.countryRow = response.records;
             });
-
         };
+        
         $scope.manageCity = function ($id, state_id) {
 
             if ($id == 1)

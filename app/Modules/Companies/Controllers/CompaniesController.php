@@ -8,6 +8,10 @@ use App\Modules\Companies\Models\Companies;
 use App\Modules\Companies\Models\CompanyStationaries;
 use App\Modules\Companies\Models\CompanyDocuments;
 use App\Modules\BankAccounts\Models\CompaniesBankaccounts;
+use App\Modules\ManageCountry\Models\MlstCountries;
+use App\Modules\ManageStates\Models\MlstStates;
+use App\Models\MlstCompanyTypes;
+use App\Models\MlstState;
 use Illuminate\Http\Request;
 use Auth;
 use App\Classes\CommonFunctions;
@@ -45,14 +49,26 @@ class CompaniesController extends Controller {
             $deleteBtn = '';
         }
         if (!empty($result)) {
-            return json_encode(['result' => $result, 'exportData' => $export,'delete'=>$deleteBtn, 'status' => true]);
+            return json_encode(['result' => $result, 'exportData' => $export, 'delete' => $deleteBtn, 'status' => true]);
         } else {
             return json_encode(['errorMsg' => "No record found", 'status' => true]);
         }
     }
-    
+
+    public function manageCompanies() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+
+        $result = MlstCompanyTypes::get();
+        if (!empty($result)) {
+            return json_encode(['result' => $result, 'status' => true]);
+        } else {
+            return json_encode(['errorMsg' => "No record found", 'status' => false]);
+        }
+    }
+
     public function deleteCompany() {
-         $postdata = file_get_contents('php://input');
+        $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
@@ -60,8 +76,36 @@ class CompaniesController extends Controller {
         $companyData = companies::where('id', $request['id'])->update($input['companiesData']);
         $result = ['success' => true, 'result' => $companyData];
         return json_encode($result);
-        
     }
+
+    public function manageStates() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+
+        $getStates = MlstStates::where('country_id', $request['country_id'])
+                ->select('id', 'name', 'state_code')
+                ->get();
+        if (!empty($getStates)) {
+            $result = ['success' => true, 'records' => $getStates];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function manageCountry() {
+        $getCountry = MlstCountries::select('id', 'name')->get();
+
+        if (!empty($getCountry)) {
+            $result = ['success' => true, 'records' => $getCountry];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
     public function companiesExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
@@ -102,6 +146,7 @@ class CompaniesController extends Controller {
         $validationRules = Companies::validationRules();
         $validationMessages = Companies::validationMessages();
         $input = Input::all();
+
         $cnt = 0;
         if ($cnt > 0) {
             $result = ['status' => false, 'errormsg' => 'Company name already exists'];
@@ -124,11 +169,20 @@ class CompaniesController extends Controller {
                 $firm_logo = $name;
                 $post['firm_logo'] = $firm_logo;
             }
+            if (!empty($input['Fevicon']['Fevicon'])) {
+                $s3FolderName = 'Company/fevicon';
+                $imageName = 'company_fevicon_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['FirmLogo']['FirmLogo']->getClientOriginalExtension();
+                S3::s3FileUpload($input['FirmLogo']['FirmLogo']->getPathName(), $imageName, $s3FolderName);
+                $name = $imageName;
+                $name = trim($name, ",");
+                $fevicon = $name;
+                $post['fevicon'] = $fevicon;
+            }
             $post['punch_line'] = $input['CompanyData']['punch_line'];
             $post['legal_name'] = $input['CompanyData']['legal_name'];
 
-            if (!empty($input['CompanyData']['vat_num'])) {
-                $post['vat_number'] = $input['CompanyData']['vat_num'];
+            if (!empty($input['CompanyData']['vat_number'])) {
+                $post['vat_number'] = $input['CompanyData']['vat_number'];
             }
             if (!empty($input['CompanyData']['domain_name'])) {
                 $post['domain_name'] = $input['CompanyData']['domain_name'];
@@ -140,15 +194,51 @@ class CompaniesController extends Controller {
             } else {
                 $post['gst_number'] = '';
             }
-
+            if (!empty($input['CompanyData']['marketing_name'])) {
+                $post['marketing_name'] = $input['CompanyData']['marketing_name'];
+            } else {
+                $post['marketing_name'] = '';
+            }
+            if (!empty($input['CompanyData']['type_of_company'])) {
+                $post['type_of_company'] = $input['CompanyData']['type_of_company'];
+            } else {
+                $post['type_of_company'] = '';
+            }
+            if (!empty($input['CompanyData']['company_register_no'])) {
+                $post['company_register_no'] = $input['CompanyData']['company_register_no'];
+            } else {
+                $post['company_register_no'] = '';
+            }
+            if (!empty($input['CompanyData']['contact_person'])) {
+                $post['contact_person'] = $input['CompanyData']['contact_person'];
+            } else {
+                $post['contact_person'] = '';
+            }
+            if (!empty($input['CompanyData']['pin_code'])) {
+                $post['pin_code'] = $input['CompanyData']['pin_code'];
+            } else {
+                $post['pin_code'] = '';
+            }
+            if (!empty($input['CompanyData']['country_id'])) {
+                $post['country_id'] = $input['CompanyData']['country_id'];
+            } else {
+                $post['country_id'] = '';
+            }
+            if (!empty($input['CompanyData']['state_id'])) {
+                $post['state_id'] = $input['CompanyData']['state_id'];
+            } else {
+                $post['state_id'] = '';
+            }
+            $post['client_id'] = config('global.client_id');
+            
             if (!empty($input['CompanyData']['pan_num'])) {
                 $post['pan_number'] = $input['CompanyData']['pan_num'];
             }
-            if (!empty($input['CompanyData']['service_tax_number'])) {
-                $post['service_tax_number'] = $input['CompanyData']['service_tax_number'];
+            if (!empty($input['CompanyData']['tan_number'])) {
+                $post['tan_number'] = $input['CompanyData']['tan_number'];
             }
             $post['office_address'] = $input['CompanyData']['office_address'];
-            $post['cloud_telephoney_client'] = $input['CompanyData']['cloud_telephoney_client'];
+//            $post['cloud_telephoney_client'] = $input['CompanyData']['cloud_telephoney_client'];
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $allData = array_merge($common, $post);
@@ -243,14 +333,15 @@ class CompaniesController extends Controller {
             $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $allData = array_merge($common, $post);
             $create = CompanyStationaries::create($allData);
-            $lastId =  CompanyStationaries::latest('id')->first();
+            $lastId = CompanyStationaries::latest('id')->first();
 //                }
-            return json_encode(['records' => $create, 'status' => true,'lastInsertedId'=>$lastId]);
+            return json_encode(['records' => $create, 'status' => true, 'lastInsertedId' => $lastId]);
         }
     }
 
     public function addDocument() {
         $input = Input::all();
+
         if (!empty($input['documents']['document_file']) || !empty($input['documents']['document_name'])) {
 
             if (!empty($input['documents']['document_file'])) {
@@ -273,10 +364,10 @@ class CompaniesController extends Controller {
             $allData = array_merge($common, $post);
             $allData["company_id"] = $input['companyid'];
             $create = CompanyDocuments::create($allData);
-            
-           $lastId =  CompanyDocuments::latest('id')->first();
-                      
-            return json_encode(['records' => $create, 'status' => true,'lastinsertid'=>$lastId->id]);
+
+            $lastId = CompanyDocuments::latest('id')->first();
+
+            return json_encode(['records' => $create, 'status' => true, 'lastinsertid' => $lastId->id]);
         }
     }
 
@@ -284,6 +375,13 @@ class CompaniesController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $result = Companies::where('id', $request['id'])->first();
+
+        if (!empty($result->state_id)) {
+            $state = MlstState::where('id', '=', $result->state_id)->first();
+            $result['state_code'] = $state->state_code;
+        }
+
+
         $document = CompanyDocuments::where('company_id', $request['id'])->get();
         $stationary = CompanyStationaries::where('company_id', $request['id'])->get();
 
@@ -332,7 +430,7 @@ class CompaniesController extends Controller {
                     $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary']['estimate_letterhead_file']->getClientOriginalExtension();
                     S3::s3FileUpload($input['stationary']['estimate_letterhead_file']->getPathName(), $imageName, $s3FolderName);
                     $letterhead = $imageName;
-                    $post["estimate_letterhead_file" ]= $letterhead;
+                    $post["estimate_letterhead_file"] = $letterhead;
                 } else {
                     $post["estimate_letterhead_file"] = $input['stationary']['estimate_letterhead_file'];
                 }
@@ -460,7 +558,7 @@ class CompaniesController extends Controller {
             $create = CompanyStationaries::where('id', '=', $input['stationary']['stationaryId'])->update($allData);
             return json_encode(['records' => $allData, 'status' => true]);
         } else {
-           
+
             $post = [];
             if (!empty($input['stationary']['estimate_letterhead_file'])) {
 
@@ -611,6 +709,8 @@ class CompaniesController extends Controller {
         $validationRules = Companies::validationRules();
         $validationMessages = Companies::validationMessages();
         $input = Input::all();
+
+
         $cnt = Companies::where(['legal_name' => $input['CompanyData']['legal_name']])->where('id', '!=', $input['id'])->get()->count();
         if ($cnt > 0) {
             $result = ['status' => false, 'errormsg' => 'Company name already exists'];
@@ -632,6 +732,15 @@ class CompaniesController extends Controller {
             $firm_logo = $name;
             if (!empty($input['FirmLogo']['FirmLogo']->getClientOriginalExtension())) {
                 $post['firm_logo'] = $firm_logo;
+            }
+            if (!empty($input['Fevicon']['Fevicon'])) {
+                $s3FolderName = 'Company/fevicon';
+                $imageName = 'company_fevicon_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['FirmLogo']['FirmLogo']->getClientOriginalExtension();
+                S3::s3FileUpload($input['FirmLogo']['FirmLogo']->getPathName(), $imageName, $s3FolderName);
+                $name = $imageName;
+                $name = trim($name, ",");
+                $fevicon = $name;
+                $post['fevicon'] = $fevicon;
             }
             $post['punch_line'] = $input['CompanyData']['punch_line'];
             $post['legal_name'] = $input['CompanyData']['legal_name'];
@@ -655,11 +764,27 @@ class CompaniesController extends Controller {
             } else {
                 $post['pan_number'] = '';
             }
-            if (!empty($input['CompanyData']['service_tax_number'])) {
-                $post['service_tax_number'] = $input['CompanyData']['service_tax_number'];
+            if (!empty($input['CompanyData']['tan_number'])) {
+                $post['tan_number'] = $input['CompanyData']['tan_number'];
             } else {
-                $post['service_tax_number'] = '';
+                $post['tan_number'] = '';
             }
+            if (!empty($input['CompanyData']['marketing_name'])) {
+                $post['marketing_name'] = $input['CompanyData']['marketing_name'];
+            } else {
+                $post['marketing_name'] = '';
+            }
+            if (!empty($input['CompanyData']['type_of_company'])) {
+                $post['type_of_company'] = $input['CompanyData']['type_of_company'];
+            } else {
+                $post['type_of_company'] = '';
+            }
+            if (!empty($input['CompanyData']['company_register_no'])) {
+                $post['company_register_no'] = $input['CompanyData']['company_register_no'];
+            } else {
+                $post['company_register_no'] = '';
+            }
+
 
 
             $post['office_address'] = $input['CompanyData']['office_address'];
@@ -675,9 +800,10 @@ class CompaniesController extends Controller {
 
     public function updateDocuments() {
         $input = Input::all();
-       $allData = [];
+
+        $allData = [];
         if (!empty($input['documents']['documentId'])) {
-           
+
             if (!empty($input['documents']['document_file'])) {
                 $docFile = is_object($input['documents']['document_file']) ? "1" : "0";
 
@@ -692,18 +818,20 @@ class CompaniesController extends Controller {
                     $allData["document_file"] = $input['documents']['documentFile'];
                 }
             } else {
-                $input['documents']['documentFile'] = $input['documents']['documentFile'];
+                $allData["document_file"] = $input['documents']['documentFile'];
             }
+
             $allData['document_name'] = $input['documents']['document_name'];
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $allData = array_merge($common, $allData);
+
             $allData['company_id'] = $input['id'];
             $allData['status'] = $input['id'];
-            
+
             $create = CompanyDocuments::where('id', '=', $input['documents']['documentId'])->update($allData);
             return json_encode(['records' => $allData, 'status' => true]);
-        } 
+        }
 //        else {
 //            $post2 = [];
 //            if (!empty($input['documents']['document_file'])) {

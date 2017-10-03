@@ -13,6 +13,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.firmBtn = false;
         $scope.stationaryBtn = false;
         $scope.companyDocTab = true;
+   
         $scope.manageCompany = function () {
             Data.get('manage-companies/manageCompany').then(function (response) {
                 $scope.CompanyRow = response.result;
@@ -29,6 +30,36 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.searchDetails = {};
         $scope.searchData = {};
 
+        $scope.manageCountry = function () {
+            Data.post('manage-companies/manageCountry').then(function (response) {
+                $scope.countryRow = response.records;
+            });
+        };
+        $scope.manageStates = function (country_id) {
+
+            Data.post('manage-companies/manageStates', {country_id: country_id}).then(function (response) {
+                $scope.statesRow = response.records;
+            });
+        };
+        
+        $scope.manageCompanies = function () {
+            Data.get('manage-companies/manageCompanies').then(function (response) {
+                $scope.companyType = response.result;
+                console.log($scope.companyType)
+            });
+        };
+
+        $scope.manageStateCode = function (state_id) {
+          
+            for (var i = 0; i < $scope.statesRow.length; i++) {
+                if ($scope.statesRow[i]['id'] == state_id) {
+                    $scope.CompanyData.state_code = $scope.statesRow[i]['state_code'];
+                }else{
+                    $scope.CompanyData.state_code = '0';
+                }
+            }
+            
+        }
         $scope.filterDetails = function (search) {
 //            $scope.searchDetails = {};
             $scope.searchData = search;
@@ -116,7 +147,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                         $scope.stationaryDetails.splice(0, 1);
                         $scope.stationaryDetails.splice(0, $scope.index, {'stationary_set_name': response.data.records.stationary_set_name, 'stationaryId': $scope.id, 'estimate_letterhead_file': response.data.records.estimate_letterhead_file, 'receipt_letterhead_file': response.data.records.receipt_letterhead_file, 'rubber_stamp_file': response.data.records.rubber_stamp_file, 'estimate_logo_file': response.data.records.estimate_logo_file, 'demandletter_letterhead_file': response.data.records.demandletter_letterhead_file, 'demandletter_logo_file': response.data.records.demandletter_logo_file, 'receipt_logo_file': response.data.records.receipt_logo_file});
 
-                        $state.reload();
+//                        $state.reload();
                         $timeout(function () {
                             $('.modal-backdrop').hide();
                             $('#stationaryTab a').trigger("click");
@@ -139,7 +170,6 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         $scope.documentDetails = function (documentData, documentFile, companyid)
         {
-
             if ($scope.docid == 0) {
                 var url = '/manage-companies/addDocument';
                 var data = {
@@ -161,6 +191,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 data: data
             });
             documentFile.upload.then(function (response) {
+                console.log($scope.documents);
                 $scope.firmBtn = false;
                 if (response.data.status) {
                     if ($scope.docid == 0) {
@@ -169,10 +200,11 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                         $scope.documents.push({'document_name': response.data.records.document_name, 'documentId': response.data.lastinsertid, 'documentFile': response.data.records.document_file});
 
                     } else {
+                        console.log(response);
                         toaster.pop('success', 'Manage Documents', 'Record successfully Updated');
-                        $scope.documents.splice(0, 1);
-                        $scope.documents.splice(0, $scope.index, {'documentId': $scope.docid, 'document_name': response.data.records.document_name, 'id': $scope.docid, 'documentFile': response.data.records.document_file});
-                        $state.reload();
+                        $scope.documents.splice($scope.index, 1);
+                        $scope.documents.splice($scope.index, 0, {'documentId': $scope.docid, 'document_name': response.data.records.document_name, 'id': $scope.docid, 'documentFile': response.data.records.document_file});
+//                        $state.reload();
                         $timeout(function () {
                             $('.modal-backdrop').hide();
                             $('#documentTab a').trigger("click");
@@ -198,7 +230,8 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         {
             $scope.CompanyData = [];
             Data.post('manage-companies/loadCompanyData', {'id': companyId}).then(function (response) {
-
+                console.log("Manoj");
+                console.log(response);
                 $scope.companyData = response.result;
                 $scope.id = response.result.id;
                 $scope.CompanyData.legal_name = response.result.legal_name;
@@ -211,7 +244,21 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 $scope.CompanyData.firm_url = response.result.firm_url;
                 $scope.CompanyData.domain_name = response.result.domain_name;
                 $scope.CompanyData.office_address = response.result.office_address;
-                $scope.CompanyData.cloud_telephoney_client = response.result.cloud_telephoney_client;
+                $scope.CompanyData.tan_number = response.result.tan_number;
+                $scope.CompanyData.marketing_name = response.result.marketing_name;
+                $scope.CompanyData.company_register_no = response.result.company_register_no;
+                $scope.CompanyData.pin_code = response.result.pin_code;
+                $scope.company_type = response.result.company_type;
+                $scope.CompanyData.country = response.result.country_id;
+                $scope.CompanyData.state_code = response.result.state_code;
+                alert(response.result.state_code);
+                $scope.manageStates($scope.CompanyData.country);
+                $timeout(function(){
+                    $scope.state = response.result.state_id;
+                },1000)
+                
+                $scope.CompanyData.pin_code = response.result.pin_code;
+                $scope.CompanyData.contact_person = response.result.contact_person;
                 $scope.firm_logo = response.result.firm_logo;
                 $scope.documents = [];
                 angular.forEach(response.documents, function (value, key) {
@@ -232,19 +279,21 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         }
 
         $scope.editdocument = function (docid, list, index, isexitsDocument) {
+            $scope.documentData = [];
             $scope.documentData = list;
             $scope.index = index;
             $scope.documentId = list.documentId;
             $scope.docid = docid;
+            $scope.document_file_preview = [];
             if (list.documentFile != '') {
                 $scope.documentFile = list.documentFile;
             }
-            if(isexitsDocument == 1){
+            if (isexitsDocument == 1) {
                 $scope.modalHeading = 'Add Document'
                 $scope.modalBtn = 'Add'
-            }else{
+            } else {
                 $scope.modalHeading = 'Edit Document'
-                 $scope.modalBtn = 'Update'
+                $scope.modalBtn = 'Update'
             }
         }
 
@@ -254,13 +303,17 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             $scope.stationary = list;
             $scope.stationaryId = list.stationaryId;
             $scope.stationaryid = stationaryid;
+
+            $scope.estimate_letterhead_file = [];
+            $scope.receipt_letterhead_file = [];
+            $scope.rubber_stamp_file = [];
             $scope.index = index;
-            if(isexitsStationary == 1){
+            if (isexitsStationary == 1) {
                 $scope.modalHeading = 'Add Stationary'
                 $scope.modalBtn = 'Add'
-            }else{
+            } else {
                 $scope.modalHeading = 'Edit Stationary'
-                 $scope.modalBtn = 'Update'
+                $scope.modalBtn = 'Update'
             }
             if (list.estimate_letterhead_file != '') {
                 $scope.estimate_letterhead_file = list.estimate_letterhead_file;
@@ -286,10 +339,10 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             $scope.subId = list.id;
             $scope.index = index;
         }
+      
 
-        $scope.docompanyscreateAction = function (FirmLogo, CompanyData)
+        $scope.docompanyscreateAction = function (FirmLogo,Fevicon, CompanyData)
         {
-
             $scope.firmBtn = true;
             $scope.errorMsg = '';
             $scope.allimages = '';
@@ -297,17 +350,25 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 if (typeof FirmLogo === 'undefined') {
                     FirmLogo = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
                 }
+                if (typeof Fevicon === 'undefined') {
+                    Fevicon = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
+                }
                 var url = '/manage-companies/';
                 var data = {
                     'CompanyData': CompanyData,
-                    'FirmLogo': {'FirmLogo': FirmLogo}}
+                    'Fevicon':{'Fevicon':Fevicon},
+                    'FirmLogo': {'FirmLogo': FirmLogo} }
             } else {
                 if (typeof FirmLogo === 'undefined') {
                     FirmLogo = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
                 }
+                 if (typeof Fevicon === 'undefined') {
+                    Fevicon = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
+                }
                 var url = '/manage-companies/updateCompany';
                 var data = {'id': $scope.id,
                     'CompanyData': CompanyData,
+                    'Fevicon':{'Fevicon':Fevicon},
                     'FirmLogo': {'FirmLogo': FirmLogo}}
             }
 
@@ -317,7 +378,6 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 data: data
             });
             FirmLogo.upload.then(function (response) {
-//                $scope.firmBtn = true;
                 $scope.companyId = response.data.id;
                 if (response.data.status) {
                     $scope.companyDocTab = false;
@@ -328,6 +388,9 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                             toaster.pop('success', 'Manage Companies', 'Record Updated created');
                         }
                     }, 1500);
+                    $timeout(function () {
+                        $('#documentTab a').trigger("click");
+                    }, 1000);
 
                 } else {
                     var obj = response.data.message;
@@ -336,7 +399,6 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                         var model = $parse(key);// Get the model
                         model.assign($scope, obj[key][0]);// Assigns a value to it
                         selector.push(key);
-
                     }
                     $scope.firmBtn = false;
                     $scope.errorMsg = response.data.errormsg;
