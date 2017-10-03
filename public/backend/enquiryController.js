@@ -12,6 +12,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.noOfRows = 1;
         $scope.historyList = {};
         $scope.initmoduelswisehisory = [1,2];
+        $scope.history_enquiryId;
         $scope.divText = true;
         $scope.btnExport = true;
         $scope.dnExcelSheet = false;
@@ -87,17 +88,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }, 200);
         }
 
-// $scope.initHistoryDataModal = function (enquiry_id) {
-//            var modules = [1, 2];
-//            var htype = 1;
-//            $(':checkbox.chk_followup_history_all').prop('checked', true);
-//            $(':checkbox#chk_enquiry_history').prop('checked', true);
-//            $scope.gethisotryDataModal(enquiry_id, modules, htype)
-//            $timeout(function () {
-//                angular.element('li#tab_enq_history_lst a').triggerHandler('click');
-//            }, 100);
-//        }
-
 $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init) 
     {
         if(init == 1 )
@@ -106,8 +96,6 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
             $(':checkbox.chk_followup_history_all').prop('checked', true);
             $(':checkbox#chk_enquiry_history').prop('checked', true);
         }
-        
-        
         Data.post('customer-care/presales/getenquiryHistory', {
             enquiryId: enquiry_id,moduelswisehisory:moduelswisehisory
         }).then(function (response) {
@@ -227,38 +215,36 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
 //            });
 //        }
 
-        $scope.getModulesWiseHistory = function(enquiry_id,opt)
-    {
-        var moduelswisehisory = new Array();
-        if(opt == 1)
+    $scope.getModulesWiseHist = function(enquiry_id,opt)
+    {  
+        if (opt == 1)
         {
-            if($('#chk_enquiry_history').is(":checked"))
+            if ($('#chk_enquiry_history').is(":checked"))
             {
-                $(':checkbox.chk_followup_history_all').prop('checked', true);
-            }
+               $(':checkbox.chk_followup_history_all').prop('checked', true);
+            } 
             else
             {
-                $(':checkbox.chk_followup_history_all').prop('checked', false);
-            } 
+                $(':checkbox.chk_followup_history_all').prop('checked', false);                
+            }
         }
-        
-        $(".chk_followup_history_all").each(function(){            
-            if($(this).is(":checked"))
-            {
-                moduelswisehisory.push($(this).data("id"))    
-            }   
-        });
-        
-        if( moduelswisehisory.length == 2)
+        var mhistory =new Array();
+        if ($('#chk_presales').is(":checked"))
+        {
+             mhistory.push($('#chk_presales').data("id"))  
+        }
+        if ($('#chk_Customer_Care').is(":checked"))
+        {
+             mhistory.push($('#chk_Customer_Care').data("id"))  
+        }
+        if (mhistory.length == 2)
         {
             $(':checkbox#chk_enquiry_history').prop('checked', true);
-        }    
-        else
+        } else
         {
-           $(':checkbox#chk_enquiry_history').prop('checked', false);
-        }    
-                
-        $scope.initHistoryDataModal(enquiry_id,moduelswisehisory,0)            
+            $(':checkbox#chk_enquiry_history').prop('checked', false);
+        }
+        $scope.initHistoryDataModal(enquiry_id, mhistory, 0)        
     }
 
 
@@ -827,6 +813,18 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
         $scope.openImage = function (foldername, imagename)
         {
             window.open('https://storage.googleapis.com/bkt_bms_laravel/project/' + foldername + '/' + imagename + '');
+        }
+        
+        $scope.chkallDocuments = function()
+        {
+            if($("#allselect").is(':checked'))
+            {
+                $(':checkbox.chkDocList').prop('checked', true);
+            }
+            else
+            {
+                $(':checkbox.chkDocList').prop('checked', false);
+            }
         }
         /* ********************* uma End ******************************** */
         /*********************TODAY REMARK (GEETA)*********************/

@@ -514,9 +514,6 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                         } else {
                             $scope.source = true;
                         }
-
-
-
                     }
                 });
                 $timeout(function () {

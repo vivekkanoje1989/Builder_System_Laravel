@@ -1,93 +1,21 @@
-<!-- Enquiry History Modal 
-<div class="modal-body">
-    <table class="table table-hover table-striped table-bordered" at-config="config">
-        <thead class="bord-bot">
-            <tr>
-                <th class="enq-table-th" style="width:3%">SR</th>
-                <th class="enq-table-th" style="width: 13%;">
-                    Follow-up By 
-                </th>
-                <th class="enq-table-th" style="width: 13%">
-                    Last  
-                </th>
-                <th class="enq-table-th" style="width: 13%">
-                    Next
-                </th>
-                <th class="enq-table-th" style="width: 20%">
-                    Status
-                </th>
-                <th class="enq-table-th" style="width: 38%">
-                    Remarks
-                </th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="history in historyList track by $index | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-            <tr role="row" >
-                <td style="width:4%" rowspan="2">
-                    {{ $index + 1}}
-                </td>
-                <td style="width: 10%;">
-                    {{ history.first_name}}  {{ history.last_name}}
-                </td>
-                <td style="width: 10%">
-                    {{ history.last_followup_date | split:'@':0}}<br/> @ {{ history.last_followup_date | split:'@':1 }}
-                </td>
-
-                <td style="width: 10%">
-                    {{ history.next_followup_date}} <br/>@ {{ history.next_followup_time}}
-                </td>
-                <td style="width: 8%">
-                    {{history.sales_status}} <span>/</span><br/>
-                    {{history.enquiry_sales_substatus}}
-                </td>
-                <td style="width: 16%">
-                    <span data-toggle="tooltip" title="{{history.remarks| removeHTMLTags}}">{{history.remarks| removeHTMLTags | limitTo : 150 }} </span>  
-                    <span ng-if="history.remarks.length > 150" data-toggle="tooltip" title="{{history.remarks| removeHTMLTags}}">...</span>
-                </td>
-            </tr>
-            <tr ng-if="history.call_recording_url != '' && history.call_recording_url != 'None' && history.call_recording_url != None">
-                <td colspan="7">
-                    <audio id="recording_{{ history.id}}" controls></audio>
-                </td>
-            </tr>
-            <tr ng-if="!historyList.length" align="center"><td colspan="6"> Records Not Found</td>
-
-            </tr>
-        </tbody>
-    </table>
-</div>-->
-
 <div class="modal-body"> 
     <div>
             <label>
-                <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHistory(history_enquiryId,1)"  id="chk_enquiry_history">
+                <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHist(history_enquiryId,1)"  id="chk_enquiry_history">
                 <span class="text">All</span>
             </label>
             &nbsp;&nbsp;
-
             <label>
-                <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="1" class="chk_followup_history_all" id="chk_presales">
+                <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHist(history_enquiryId,0)" data-id="1" class="chk_followup_history_all" id="chk_presales">
                 <span class="text">Pre Sales</span>
             </label>
-            
-            <!--label>&nbsp;&nbsp;
-                <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="3" class="chk_followup_history_all" id="chk_finance">
-                <span class="text">Finance</span>
-            </label>
-             &nbsp;&nbsp;
-             <label>
-                 <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="4" class="chk_followup_history_all" id="chk_Exchange">
-                <span class="text">Exchange</span>
-            </label-->
-             &nbsp;&nbsp;
+            &nbsp;&nbsp;
             <label>
-                <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="2"  class="chk_followup_history_all" id="chk_Customer_Care">
+                <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHist(history_enquiryId,0)" data-id="2"  class="chk_followup_history_all" id="chk_Customer_Care">
                 <span class="text">Customer Care</span>
             </label>
-            <hr class="enq-hr-line">
-           
-                1) <span>PS = Pre Sales</span> &nbsp;&nbsp;2) <span>CC = Customer Care</span>
-            
+            <hr class="enq-hr-line">           
+                1) <span>PS = Pre Sales</span> &nbsp;&nbsp;2) <span>CC = Customer Care</span>            
             <hr class="enq-hr-line">    
     </div>
     <div style="height: auto;max-height: 605px;margin-top: 0px;    overflow-x: hidden;overflow-y: scroll;">
