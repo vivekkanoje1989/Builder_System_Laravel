@@ -2,41 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 6c5e815ec6cbabe903499ca53df4998bb991550e
-        <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/config/global.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryHistory.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/sendDocument.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/history.blade.php</file>
-<<<<<<< HEAD
-        </group>
-=======
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Controllers/CustomerCareController.php</file>
-        </group>
-=======
-<<<<<<< HEAD
         <group/>
-=======
->>>>>>> 4f8682794df78fa21598346c470d207b29729868
-        <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/inventoryIndex.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/inventoryForm.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Controllers/ProjectsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/projectController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/webpagedetails.blade.php</file>
-        </group>
-<<<<<<< HEAD
-=======
->>>>>>> 8e3354ae241329b59d7d18a057db8ef88ef39393
->>>>>>> 6d25ce8bdb7fc24b77b78d9c1dc0ab61d6971f72
->>>>>>> 4f8682794df78fa21598346c470d207b29729868
->>>>>>> 6c5e815ec6cbabe903499ca53df4998bb991550e
     </open-files>
 </project-private>

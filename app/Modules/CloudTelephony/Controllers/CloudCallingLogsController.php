@@ -2080,6 +2080,7 @@ class CloudCallingLogsController extends Controller {
 
             //.....................Getting virtual number......................................
             $virtual_number = CtSetting::where(['client_id' => $validate->client_id, 'default_number' => 1])->first();
+            
             if (!empty($validate->office_mobile_no)) {
                 $agent_number = $validate->office_mobile_no;
             } else {
