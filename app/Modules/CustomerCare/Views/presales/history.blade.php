@@ -93,7 +93,6 @@
                     <div ng-show="history.cc_presales_status == null && history.sales_status == null">
                         N/A
                     </div>
-                    
                 </td>               
                 <td style="width: 16%">
                     <span data-toggle="tooltip" title="{{history.remarks| removeHTMLTags}}">{{history.remarks| removeHTMLTags | limitTo : 150 }} </span>  

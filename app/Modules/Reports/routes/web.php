@@ -11,6 +11,7 @@ Route::group(array('module' => 'Reports', 'middleware' => ['auth:admin'], 'names
     //Pre sales follow up report
     Route::get('/reports/followupReport', 'ReportsController@followupReport'); //show followup report page
     Route::post('/reports/followupReports', 'ReportsController@followupReports'); //show followup report details
+    
     //project wise report
     Route::get('/reports/projectwiseReport', 'ReportsController@projectwiseReport');
     Route::post('/reports/getProjectWiseCategoryReport', 'ReportsController@getProjectWiseCategoryReport');

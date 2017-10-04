@@ -15,11 +15,11 @@
 <?php $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true); ?>
 <div class="row" ng-controller="enquiryController" ng-init="reassignEnquiries('', [[ $type ]], 1, [[config('global.recordsPerPage')]], 6,'', ''); getEnquirySheredWith()" >
     <div class="mainDiv col-xs-12 col-md-12">
-        <div class="widget">
-            <div class="widget-header ">
-                <span class="widget-caption">{{pagetitle}}</span>          
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">{{pagetitle}}</span>                
             </div>
-            <div class="widget-body table-responsive">
+            <div class="widget-body table-responsive">                
                 <div class="row table-toolbar">
                     <div class="row col-sm-2">
                         <div class="btn-group">
@@ -36,28 +36,27 @@
                         </div>
                     </div>                                      
                     <div class="col-sm-4">
-
+                        
                     </div>                    
                     <div class="col-sm-4">
-
+                        
                     </div>                    
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_booked_enquiries', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_total_enquiries', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
                         <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Action</a>
                         <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                        <ul class="dropdown-menu" ng-if="enquiriesLength != 0">
+                        <ul class="dropdown-menu">
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
                                 <li ng-if="enquiriesLength != 0">
                                     <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
                                        Export
                                     </a> 
                                 </li>
-                            @endif
-                          
+                            @endif                            
                             <li>
                                 <a href ng-model="BulkReasign"  id="BulkReasign"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >
                                     Reassign                                    
@@ -69,24 +68,38 @@
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
-                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
+                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="getTotalEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 4, sharedemployee, presalesemployee)" ><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
                     </div>
                     <!-- filter data--> 
-                     <div class="row col-sm-12" style="border:2px;" id="filter-show">
-                        <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate' ">
-                    <div class="col-sm-2 alert alert-info fade in">
-                       <button class="toggleForm close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
-                       <strong ng-if="key === 'category_id' || key === 'source_id' || key === 'status_id'">{{  value.substring(value.indexOf("_")+1) }}</strong>
-                       <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'>{{ $index +1 }}) {{   emp.first_name  }}  {{ emp.last_name }} </strong>
-                       <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'>{{ $index +1 }}) {{   subcat.enquiry_sales_subcategory  }}  </strong>
-                       <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'> {{ $index +1 }}){{ substatus.enquiry_sales_substatus }} </strong>
-                       <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'>{{ $index +1 }}) {{ subsource.enquiry_subsource }} </strong>
-                       <strong ng-if="key === 'verifiedEmailId' && value == 1 "> <strong>Verified Email ID:</strong>Yes</strong>
-                       <strong ng-if="key === 'verifiedMobNo' && value == 1  " data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile No:</strong>Yes</strong>
-                       <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
-                       <strong ng-if="key != 'status_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'model_id' && key != 'test_drive_given' && key != 'employee_id' " data-toggle="tooltip" title="{{ key }}"> {{ value}}</strong>
-                   </div>   
-                   </b>
+                    <div class="row col-sm-12" style="border:2px;" id="filter-show">
+                        <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate'">                         
+                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}" ng-if="value != ''">
+                                <div class="alert alert-info fade in">
+                                    <button class="close toggleForm" ng-click=" removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
+                                    <strong ng-if="key === 'channel_id' || key === 'city_id' || key === 'category_id' || key === 'source_id' || key == 'status_id'"><strong>{{  key.substring(0, key.indexOf('_'))}} :</strong>{{  value.substring(value.indexOf("_") + 1)}}</strong>
+                                    <strong ng-if="key === 'employee_id'" ng-repeat='emp in value track by $index'> {{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}} </strong>
+                                    <strong ng-if="key === 'subcategory_id'" ng-repeat='subcat in value track by $index'> {{ $index + 1}}){{   subcat.enquiry_sales_subcategory}}</strong>
+                                    <strong ng-if="key === 'subsource_id'" ng-repeat='subsource in value track by $index'> {{ $index + 1}}){{ subsource.sub_source}} </strong>
+                                    <strong ng-if="key === 'substatus_id'" ng-repeat='substatus in value track by $index'>{{ $index + 1}}) {{ substatus.enquiry_sales_substatus}} </strong>
+                                    <strong ng-if="key === 'enquiry_locations'" ng-repeat='loc in value track by $index'>{{ $index + 1}}) {{ loc.location}} </strong>
+                                    <strong ng-if="key === 'project_id'" ng-repeat='project in value track by $index'>{{ $index + 1}}) {{ project.project_name}}</strong>
+                                    <strong ng-if="key === 'verifiedEmailId'"> <strong>Verified Email ID:</strong>Yes</strong>
+                                    <strong ng-if="key === 'verifiedMobNo'" data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile:</strong>Yes</strong>
+                                    <strong ng-if="key === 'site_visited'" data-toggle="tooltip" title="Site Visited"> <strong ng-if="value == 1">Site Visit:Yes</strong>
+                                        <strong ng-if="value == 0">Site Visit:No</strong>
+                                    </strong>
+                                    <strong ng-if="key === 'loan_required'" data-toggle="tooltip" title="Loan Required"> <strong ng-if="value == 1">Loan Required:Yes</strong>
+                                        <strong ng-if="value == 0">Loan Required:No</strong>
+                                    </strong>
+                                    <strong ng-if="key === 'parking_required'" data-toggle="tooltip" title="Parking Required"> <strong ng-if="value == 1">Parking Required:Yes</strong>
+                                        <strong ng-if="value == 0">Parking Required:No</strong>
+                                    </strong>
+                                    <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
+                                    <!--<strong ng-if="key != 'channel_id' && key != 'city_id' && key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>-->
+                                    <strong ng-if="key == 'max_budget' || key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key}}">{{ value}}</strong>
+                                </div>
+                            </div>
+                        </b>   
                     </div> 
                     <!-- filter data-->
                     <div>
@@ -108,61 +121,9 @@
                                 <option value="999">999</option>
                             </select>
                         </label>
-                    </div><br>
-<!--                <div class="row">
-                    <div class="col-sm-8 col-xs-12" style="float:left">                        
-                        <div class="col-sm-3 center">
-                            <input type="text" minlength="1" maxlength="3" placeholder="Records per page" ng-model="itemsPerPage"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control">
-                        </div> 
-                        <?php if (in_array('01604', $array)) { ?>
-                            <div class="col-sm-3"  ng-if="BulkReasign">
-                                <button type="button"  class="btn btn-primary"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">Bulk Reassign</button>
-                            </div>
-                        <?php } ?>
-                        <div class="col-sm-2 center">
-                            <button type="button" class="btn btn-primary toggleForm"  data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_reassign_enquiries', '', sharedemployee, presalesemployee)">
-                                <i class="btn-label fa fa-filter"></i>Show Filter</button>
-                        </div>
-                        <div class="col-sm-4 col-xs-6" >
-                            <label style="margin-top: 25px;"> 
-                                <label><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="reassignEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>    
-                            </label>
-                        </div>
-                        <?php if (in_array('01603', $array)) { ?>
-                            <div ng-if="enquiriesLength != 0" class="col-sm-3 center">
-                                <a href class="btn btn-primary" id="downloadExcel" download="{{fileUrl}}"  ng-show="dnExcelSheet">
-                                    <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                                <a href id="exportExcel" uploadfile class="btn btn-primary" ng-click="exportReport(enquiries)" ng-show="btnExport">
-                                    <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
-                                </a> 
-                            </div>  
-                        <?php } ?>
-                    </div>                       
-                    <div class="col-sm-4 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginat">                         
-                        <span ng-if="enquiriesLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
-                        <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'reassignEnquiries','',[[ $type ]],newPageNumber,listType, sharedemployee, presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
                     </div>
-                </div> 
-                <hr>
-                <div class="row col-sm-12 col-xs-12" style="border:2px;" id="filter-show">
-                    <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate' ">
-                    <div class="col-sm-2 alert alert-info fade in">
-                       <button class="toggleForm close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
-                       <strong ng-if="key === 'category_id' || key === 'source_id' || key === 'status_id'">{{  value.substring(value.indexOf("_")+1) }}</strong>
-                       <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'>{{ $index +1 }}) {{   emp.first_name  }}  {{ emp.last_name }} </strong>
-                       <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'>{{ $index +1 }}) {{   subcat.enquiry_sales_subcategory  }}  </strong>
-                       <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'> {{ $index +1 }}){{ substatus.enquiry_sales_substatus }} </strong>
-                       <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'>{{ $index +1 }}) {{ subsource.enquiry_subsource }} </strong>
-                       <strong ng-if="key === 'verifiedEmailId' && value == 1 "> <strong>Verified Email ID:</strong>Yes</strong>
-                       <strong ng-if="key === 'verifiedMobNo' && value == 1  " data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile No:</strong>Yes</strong>
-                       <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
-                       <strong ng-if="key != 'status_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'model_id' && key != 'test_drive_given' && key != 'employee_id' " data-toggle="tooltip" title="{{ key }}"> {{ value}}</strong>
-                   </div>   
-                   </b>
-               </div>
-
-                <br>     -->
-                <table class="table table-hover table-striped table-bordered tableHeader" at-config="config" ng-if="enquiriesLength">
+                    <br>     
+                <table class="table table-hover table-striped table-bordered" at-config="config" ng-if="enquiriesLength">
                     <thead>
                         <tr>
                             <th class="enq-table-th">SR <?php if (in_array('01604', $array)) { ?>
@@ -303,19 +264,28 @@
                         </div>        
                         <div> 
                             <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory == null" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">
-                                <b>Category : </b>  
-                                {{ enquiry.enquiry_category | limitTo : 45 }}
+                                <span class="ng-binding">
+                                <b style="float: left;margin-right: 5px;">Category : </b>
+                                <i id="catNew" ng-if="enquiry.sales_category_id == 1 "></i>
+                                <i id="catHot" ng-if="enquiry.sales_category_id == 2 "></i>
+                                <i id="catWarm" ng-if="enquiry.sales_category_id == 3 "></i>
+                                <i id="catCold" ng-if="enquiry.sales_category_id == 4 "></i>
+                               
+                                    {{ enquiry.enquiry_category | limitTo : 45 }}</span>
                                 <span ng-if="enquiry.enquiry_category > 45" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">...</span>
                                 <hr class="enq-hr-line">
                             </span>
                             <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory != null" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}" ng-init="enquiry_sales_subcategory_length = enquiry.enquiry_sales_subcategory.length + enquiry.enquiry_sales_subcategory.length; enquiry_sales_subcategory = enquiry.enquiry_category + ' / ' + enquiry.enquiry_sales_subcategory">
-                                <b>Category : </b>  
-                                {{ enquiry_sales_subcategory | limitTo : 45 }}
+                               <span class="ng-binding">
+                                <b style="float: left;margin-right: 5px;">Category : </b>
+                                <i id="catNew" ng-if="enquiry.sales_category_id == 1 "></i>
+                                <i id="catHot" ng-if="enquiry.sales_category_id == 2 "></i>
+                                <i id="catWarm" ng-if="enquiry.sales_category_id == 3 "></i>
+                                <i id="catCold" ng-if="enquiry.sales_category_id == 4 "></i>
+                                
+                                {{ enquiry_sales_subcategory | limitTo : 45 }}</span>
                                 <span ng-if="enquiry_sales_subcategory_length > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
-                                <hr class="enq-hr-line">
                             </span>
-
-
                         </div>
                         <div>                                   
                             <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != ''" data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
@@ -323,6 +293,11 @@
                                 {{enquiry.project_block_name| limitTo : 45 }}
                                 <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                                                                 
                             </span>
+                            <div ng-if="enquiry.location_name != null && enquiry.location_name != ''" data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
+                                <b>Location :</b>
+                                {{enquiry.location_name| limitTo : 45 }}
+                                <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                                                                 
+                            </div>
                             <div ng-if="enquiry.parking_required != null">
                                 <span ng-if="enquiry.parking_required == 0"><b>Parking Required :</b> No</span>
                                 <span ng-if="enquiry.parking_required == 1"><b>Parking Required :</b> Yes</span>                                    
@@ -337,7 +312,7 @@
                         <div><b>Enquiry Owner :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}</div>
                         <hr class="enq-hr-line">
                         <div>
-                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a><br/>
+                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a><br/>
                             <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
                         </div>
                     </td>
@@ -354,7 +329,6 @@
                         <center><b>No Enquiries Found</b></center>
                     </div>
                 </div>
-            </div>
             </div>
             <!-- Today history model =========================================================================================-->
             <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
@@ -403,6 +377,7 @@
                 </div>
             </div>            
         </div>
+    </div>
     </div>
      <div data-ng-include="'/MasterSales/showFilter'"></div>
 </div>

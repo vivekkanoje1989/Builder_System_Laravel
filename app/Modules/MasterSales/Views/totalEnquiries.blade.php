@@ -11,6 +11,7 @@
         color: black;
         padding: 5px;
     }
+  
 </style>
 <div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4,'',''); getEnquirySheredWith()">
     <div class="mainDiv col-xs-12 col-md-12">
@@ -225,16 +226,27 @@
                         </div>        
                         <div> 
                             <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory == null" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">
-                                <b>Category : </b>  
-                                {{ enquiry.enquiry_category | limitTo : 45 }}
+                                <span class="ng-binding">
+                                <b style="float: left;margin-right: 5px;">Category : </b>
+                                <i id="catNew" ng-if="enquiry.sales_category_id == 1 "></i>
+                                <i id="catHot" ng-if="enquiry.sales_category_id == 2 "></i>
+                                <i id="catWarm" ng-if="enquiry.sales_category_id == 3 "></i>
+                                <i id="catCold" ng-if="enquiry.sales_category_id == 4 "></i>
+                               
+                                    {{ enquiry.enquiry_category | limitTo : 45 }}</span>
                                 <span ng-if="enquiry.enquiry_category > 45" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">...</span>
                                 <hr class="enq-hr-line">
                             </span>
                             <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory != null" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}" ng-init="enquiry_sales_subcategory_length = enquiry.enquiry_sales_subcategory.length + enquiry.enquiry_sales_subcategory.length; enquiry_sales_subcategory = enquiry.enquiry_category + ' / ' + enquiry.enquiry_sales_subcategory">
-                                <b>Category : </b>  
-                                {{ enquiry_sales_subcategory | limitTo : 45 }}
-                                <span ng-if="enquiry_sales_subcategory_length > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
+                               <span class="ng-binding">
+                                <b style="float: left;margin-right: 5px;">Category : </b>
+                                <i id="catNew" ng-if="enquiry.sales_category_id == 1 "></i>
+                                <i id="catHot" ng-if="enquiry.sales_category_id == 2 "></i>
+                                <i id="catWarm" ng-if="enquiry.sales_category_id == 3 "></i>
+                                <i id="catCold" ng-if="enquiry.sales_category_id == 4 "></i>
                                 
+                                {{ enquiry_sales_subcategory | limitTo : 45 }}</span>
+                                <span ng-if="enquiry_sales_subcategory_length > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
                             </span>
                         </div>
                         <div>                                   
@@ -243,6 +255,11 @@
                                 {{enquiry.project_block_name| limitTo : 45 }}
                                 <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                                                                 
                             </span>
+                            <div ng-if="enquiry.location_name != null && enquiry.location_name != ''" data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
+                                <b>Location :</b>
+                                {{enquiry.location_name| limitTo : 45 }}
+                                <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                                                                 
+                            </div>
                             <div ng-if="enquiry.parking_required != null">
                                 <span ng-if="enquiry.parking_required == 0"><b>Parking Required :</b> No</span>
                                 <span ng-if="enquiry.parking_required == 1"><b>Parking Required :</b> Yes</span>                                    
@@ -274,7 +291,7 @@
                         </div>                                
                             <hr class="enq-hr-line">
                             <div>
-                                <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initerrorflag = false;initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                                <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
                             </div>
                     </td>
                     <td width="20%">
@@ -284,6 +301,7 @@
                             <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
                             <a href ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
                             <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
+                            <a href data-toggle="modal" data-target="#siteVisitModal" ng-click="siteVisit({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Site Visit</a><br/>
                         </div>
                     </td>
                     </tr>

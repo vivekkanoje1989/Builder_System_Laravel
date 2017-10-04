@@ -80,6 +80,7 @@
             <div class="col-sm-3 col-xs-6">
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-primary" ng-click="cancel_uploads()">Cancel</button>
                 </div>
             </div>
         </div>

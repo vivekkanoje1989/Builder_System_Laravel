@@ -58,7 +58,7 @@ class PromotionalSMSController extends Controller {
             $result = Gupshup::sendSMS($smsbody, $mobile, $loggedInUserId, $customer, $customerId, $isInternational, $sendingType, $smsType);
 
             $decodeResult = json_decode($result, true);
-            // return $decodeResult["success"];
+            
             if ($decodeResult["success"] == true) {
                 $result = ['success' => true, 'message' => "SMS Send Successfully"];
                 echo json_encode($result);
@@ -573,6 +573,24 @@ class PromotionalSMSController extends Controller {
             $result = ['success' => false, 'message' => 'something went wrong'];
         }
         return json_encode($result);
+    }
+    
+    public function fileUpload() {
+           
+        $folderName = 'bulk_sms_file';
+        $bulkfileName = S3::s3FileUplodForApp($_FILES['file'], $folderName, 1);
+        $target_file = base_path() . "/common/bulksmsmobile/". $bulkfileName;
+        move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
+        if (!empty($bulkfileName)) {
+            if ($bulkfileName) {
+                $awsurl = config('global.s3Path') . $folderName . $bulkfileName;
+                $result = ['success' => true, 'message' => 'Image uploaded', 'awsfileUrl' => $awsurl, 'fileName' => $bulkfileName];
+                return json_encode($result);
+                }
+        } else {
+            $result = ['success' => false, 'message' => 'Image not uploaded'];
+            return json_encode($result);
+	}
     }
 
 }

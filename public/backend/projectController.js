@@ -17,7 +17,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.searchData = {};
         $scope.lmodalForm = {};
         $scope.wingList = $scope.floorList = [];
-
+        $scope.otherData = {};
 
         /*******************Add Multiple Block Specification For Web********************/
         $scope.otherDataMultiple = [{id: 1}];
@@ -33,16 +33,19 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         /*******************Add Multiple Block Specification For Web********************/
         
         $scope.cancel_basic_info = function(){
+            $scope.moduleName = "";
             $('#fade-in').toggleClass('show');
             $('.mainPanel').show();
             $('.content_website_settings').hide();
         }
         $scope.cancel_uploads = function(){
+            $scope.moduleName = "";
             $('#fade-in-uploads').toggleClass('show');
             $('.mainPanel').show();
             $('.content_uploads').hide();
         }
         $scope.cancel_inventory = function(){
+            $scope.moduleName = "";
             $('#fade-in-inventory').toggleClass('show');
             $('.mainPanel').show();
             $('.content_inventory').hide();
@@ -79,7 +82,6 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
 //            $('#fade-in1').toggleClass('show'); 
 //            $scope.mainPanel = false;
 //            $scope.content_website_settings = true;
-            
             if (settingData === '') { //for data
                 Data.post('projects/webpageSettings', {
                     getDataByPrid: prid,
@@ -119,6 +121,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                             }
                         });
                         $scope.projectName = response.settingData.project_name;
+                        
                         $scope.showAllTabs = false;
                     } else {
                         $scope.projectData.project_id = prid;
@@ -143,7 +146,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
 //            $('#fade-in2').toggleClass('show'); 
 //            $scope.mainPanel = false;
 //            $scope.content_uploads = true;
-            
+            $scope.moduleName = ": Upload Documents And Images";
             if (uploadData === "" && otherData === "") { //for display data
                 $scope.getWings();
                 $scope.getBlocks();
@@ -215,19 +218,23 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                 });
             }
         }
-        $scope.otherData = {};
-        $scope.getInventoryDetails = function (prid, wingId, inventoryData) {
-            $scope.inventoryList = [];
+        $scope.inventoryList = [];
+        $scope.getInventoryDetails = function (prid, wingId, inventoryData, otherData) {
+            $scope.moduleName = ": Define Wing Wise Availability of Blocks";
             Data.post('projects/getInventoryDetails', {
-                data: {getDataByPrid: prid, wingId: wingId, inventoryData: inventoryData}
+                data: {getDataByPrid: prid, wingId:wingId, inventoryData: inventoryData, otherData:otherData}
             }).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
                     if (inventoryData === '') {
                         $scope.inventoryList = angular.copy(response.records);
-                        console.log($scope.inventoryList);
+                        if(wingId == 0)
+                            $scope.inventoryData.wing_id = response.records[0].wing_id;
+                        else
+                            $scope.inventoryData.wing_id = wingId;
                     } else {
+                        $scope.inventoryList[$scope.inventoryList+1] = inventoryData;
                         toaster.pop('success', 'Project', response.message);
                     }
                 }
@@ -243,14 +250,31 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             });
         }
-        $scope.getInventoryData = function(idata,wingId,wingName){
-            if(typeof idata == 'undefined'){
+        $scope.getWingData = function(inventoryList,idataId, wingId, wingName){
+            $scope.wingId = $scope.inventoryData.wing_id;
+            $scope.idata = [];
+            $scope.otherDataMultiple = [{id: 1}];
+            $scope.inventoryData = {};
+            $scope.inventoryData.wing_id = $scope.wingId;
+            if(typeof inventoryList == 'undefined'){
                 $scope.modalHeading = 'Add Project Inventory';
             }else{
                 $scope.modalHeading = 'Edit Project Inventory';
-                $scope.inventoryData = idata;
-            }
-            console.log(idata);            
+                $scope.wingName = wingName;               
+                $scope.inventoryData = $scope.inventoryList[0];
+                
+                Object.keys(inventoryList).forEach(function (key) {
+                    if(inventoryList[key].id == idataId){
+                        $scope.idata.push({block_id: inventoryList[key].id,
+                        other_block_id: inventoryList[key].other_block_id,other_label: inventoryList[key].other_label,
+                        area_in_sqft:inventoryList[key].area_in_sqft,area_in_sqmtr:inventoryList[key].area_in_sqmtr,
+                        other_block_show_on_website:inventoryList[key].other_block_show_on_website});
+                    }
+                });
+                $scope.otherDataMultiple = $scope.idata;
+                console.log($scope.inventoryData);
+                console.log($scope.otherDataMultiple);
+            }           
         }
         /*$scope.sqFeetToSqMeter = function(sqft){alert(sqft);
             $scope.otherData.area_in_sqmtr = Math.round(sqft*0.092903);

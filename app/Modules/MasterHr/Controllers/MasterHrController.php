@@ -1762,7 +1762,6 @@ class MasterHrController extends Controller {
         else {
             $result = ['success' => false, 'message' => "Login expired,please login again.."];
         }
-
         return json_encode($result);
     }
 

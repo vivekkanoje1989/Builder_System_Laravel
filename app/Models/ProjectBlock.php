@@ -10,6 +10,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class ProjectBlock
  * 
  * @property int $id
+ * @property int $client_id
  * @property int $project_id
  * @property int $block_type_id
  * @property int $wing_id
@@ -59,6 +60,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class ProjectBlock extends Eloquent
 {
 	protected $casts = [
+		'client_id' => 'int',
 		'project_id' => 'int',
 		'block_type_id' => 'int',
 		'wing_id' => 'int',
@@ -80,6 +82,7 @@ class ProjectBlock extends Eloquent
 	];
 
 	protected $fillable = [
+		'client_id',
 		'project_id',
 		'block_type_id',
 		'wing_id',

@@ -300,15 +300,15 @@ class MenuItems {
                         'submenu_ids' => '090101,090102', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '090101', 'name' => 'My Reports', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                                 'submenu_ids' => '09010101,09010102,09010103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                                    1 => array('id' => '09010101', 'name' => 'Enquiry Report', 'icon' => '', 'url' => '/reports/enquiryReport', 'slug' => 'enquiryReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                    2 => array('id' => '09010102', 'name' => 'Followup Report', 'icon' => '', 'url' => '/reports/followupReport', 'slug' => 'followupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                    3 => array('id' => '09010103', 'name' => 'Project Wise Report', 'icon' => '', 'url' => '/reports/projectwiseReport', 'slug' => 'projectwiseReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    1 => array('id' => '09010101', 'name' => 'Enquiry Report', 'icon' => '','micon' => 'img/enquiryReport.png', 'url' => '/reports/enquiryReport', 'slug' => 'enquiryReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '09010102', 'name' => 'Followup Report', 'icon' => '', 'micon' => 'img/followupReport.png','url' => '/reports/followupReport', 'slug' => 'followupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    3 => array('id' => '09010103', 'name' => 'Project Wise Report', 'icon' => '','micon' => 'img/projectWiseReport.png', 'url' => '/reports/projectwiseReport', 'slug' => 'projectwiseReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
                             2 => array('id' => '090102', 'name' => 'Team`s Report', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                                 'submenu_ids' => '09010201,09010202,09010203', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                                    1 => array('id' => '09010201', 'name' => 'Enquiry Report', 'icon' => '', 'url' => '/reports/teamEnquiryReport', 'slug' => 'teamenquiryReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                    2 => array('id' => '09010202', 'name' => 'Followup Report', 'icon' => '', 'url' => '/reports/teamFollowupReport', 'slug' => 'teamfollowupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                    3 => array('id' => '09010203', 'name' => 'Project Wise Report', 'icon' => '', 'url' => '/reports/projectwiseTeamReport', 'slug' => 'projectwiseTeamreport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    1 => array('id' => '09010201', 'name' => 'Enquiry Report', 'icon' => '', 'micon' => 'img/enquiryReport.png', 'url' => '/reports/teamEnquiryReport', 'slug' => 'teamenquiryReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '09010202', 'name' => 'Followup Report', 'icon' => '', 'micon' => 'img/followupReport.png', 'url' => '/reports/teamFollowupReport', 'slug' => 'teamfollowupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    3 => array('id' => '09010203', 'name' => 'Project Wise Report', 'icon' => '', 'micon' => 'img/projectWiseReport.png','url' => '/reports/projectwiseTeamReport', 'slug' => 'projectwiseTeamreport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
                         )),
                     2 => array('id' => '0903', 'name' => 'Post Sales', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,

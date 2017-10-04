@@ -12,20 +12,23 @@
     }
 </style>
   <!-- listType
-    1   --- todays folloups
-    2  ---pending followups
-    3 ---previous followups                                        
-    4 ------- total enquiry
-    5 ----- booked enquiry                                        
-    6 ----- reassign enquiry 
-    7 ----- lost enquiries
-    -->    
+        1   --- todays folloups
+        2  ---pending followups
+        3 ---previous followups                                        
+        4 ------- total enquiry
+        5 ----- booked enquiry                                        
+        6 ----- reassign enquiry 
+        7 ----- lost enquiries
+        -->    
 <script src="/js/filterSlider.js"></script>
 <div class="wrap-filter-form show-widget" id="slideout">
     <strong align="center">Filters</strong>
     <button type="button" class="close toggleForm" aria-label="Close">
         <span aria-hidden="true">&times;</span>
-    </button><hr style="margin-bottom: 0px !important;">
+        <!--<span aria-hidden="true"  ng-if="!filterData">&times;</span>-->
+        <!--<span ng-if="filterData" aria-hidden="true" ng-click="getFilteredData(filterData,1, 30);">&times;</span>-->
+    </button>
+    <hr style="margin-bottom: 0px !important;">
     <div class="row" ng-controller="AccordionDemoCtrl">        
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <accordion close-others="oneAtATime">
@@ -342,7 +345,7 @@
                     </div>
                 </form>            
             </accordion-group>
-            <accordion-group is-open="status.close">
+            <accordion-group is-open="status.close" class="collapsed">
                 <accordion-heading>
                     <span>Customer</span>
                 </accordion-heading>

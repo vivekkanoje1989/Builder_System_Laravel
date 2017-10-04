@@ -35,10 +35,8 @@ use App\Modules\Projects\Models\ProjectWebPage;
 use App\Models\SendDocumentHistory;
 
 class MasterSalesController extends Controller {
-
     public static $procname;
     public $allusers;
-
     /**
      * Display a listing of the resource.
      *
@@ -439,135 +437,133 @@ class MasterSalesController extends Controller {
 
     // insert new enquiry 
     public function saveEnquiry() {
-        //try {
-        $validationRules = Enquiry::validationRules();
-        $validationMessages = Enquiry::validationMessages();
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
-
-        if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
-            $validator = Validator::make($request['enquiryData'], $validationRules, $validationMessages);
-            if ($validator->fails()) {
-                $result = ['success' => false, 'message' => $validator->messages()];
-                return json_encode($result, true);
-            }
-        }
-        unset($request['$$hashKey']);
-        if (empty($request['enquiryData']['loggedInUserId'])) {
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-        } else {
-            $loggedInUserId = $request['enquiryData']['loggedInUserId'];
-        }
-        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-        $request['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
-        if ($request['customer_id'] <> '') {
-            $customer_id = $request['customer_id'];
-            $customerInfo = Customer::select('source_id', 'subsource_id', 'source_description')->where('id', $request['customer_id'])->get();
-            $request['enquiryData']['sales_source_id'] = $customerInfo[0]['source_id'];
-            $request['enquiryData']['sales_subsource_id'] = $customerInfo[0]['subsource_id'];
-            $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];
-        } else {
-            /*  fill customer detail if Quick Enquiry */
-
-            $request['customerDetails']['first_name'] = !empty($request['enquiryData']['first_name']) ? $request['enquiryData']['first_name'] : '';
-            $request['customerDetails']['last_name'] = !empty($request['enquiryData']['last_name']) ? $request['enquiryData']['last_name'] : '';
-            $request['customerDetails']['title_id'] = !empty($request['enquiryData']['title_id']) ? $request['enquiryData']['title_id'] : '';
-            $request['customerDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
-
-            $request['customerDetails'] = array_merge($request['customerDetails'], $create);
-            $insertCustomer = Customer::create($request['customerDetails']);
-            $customer_id = $insertCustomer->id;
-            //print_r($request);exit;
-            if ($insertCustomer) {
-                //insert customer contacts
-                $request['customer_id'] = $insertCustomer->id;
-                $request['customerContactDetails']['mobile_number'] = !empty($request['MobileNo']) ? $request['MobileNo'] : '';
-                $request['customerContactDetails']['email_id'] = !empty($request['EmailId']) ? $request['EmailId'] : '';
-                $request['customerContactDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
-                $request['customerContactDetails']['customer_id'] = $insertCustomer->id;
-                $request['customerContactDetails'] = array_merge($request['customerContactDetails'], $create);
-                $insertCustomerContact = CustomersContact::create($request['customerContactDetails']);
-            }
-        }
-        /*  insert enquiry  */
-        $request['enquiryData'] = array_merge($request['enquiryData'], $create);
-        $request['enquiryData']['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
-        $request['enquiryData']['client_id'] = config('global.client_id');
-        $request['enquiryData']['sales_employee_id'] = $loggedInUserId;
-
-        $request['enquiryData']['sales_channel_id'] = !empty($request['enquiryData']['sales_channel_id']) ? $request['enquiryData']['sales_channel_id'] : 3;
-        $request['enquiryData']['property_possession_date'] = !empty($request['enquiryData']['property_possession_date']) ? $request['enquiryData']['property_possession_date'] : '0000-00-00';
-        $request['enquiryData']['sales_enquiry_date'] = date('Y-m-d', strtotime($request['enquiryData']['sales_enquiry_date']));
-        //print_r($request['enquiryData']['enquiry_locations']);exit;
-        if (!empty($request['enquiryData']['enquiry_locations'])) {
-            $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
-                        return $el['id'];
-                    }, $request['enquiryData']['enquiry_locations']));
-        }
-        $next_followup_date = $request['enquiryData']['next_followup_date'];
-        $next_followup_time = date('H:i:s', strtotime($request['enquiryData']['next_followup_time']));
-        unset($request['enquiryData']['project_id'], $request['enquiryData']['block_id'], $request['enquiryData']['sub_block_id'], $request['enquiryData']['enquiry_category_id'], $request['enquiryData']['city_id'], $request['enquiryData']['csrfToken'], $request['enquiryData']['next_followup_date'], $request['enquiryData']['next_followup_time']);
-        $insertEnquiry = Enquiry::create($request['enquiryData']);
-        if ($insertEnquiry) {
-            /* insert enquiry details */
-            if (!empty($request['projectEnquiryDetails'])) {
-                foreach ($request['projectEnquiryDetails'] as $projectDetail) {
-                    $projectDetail['client_id'] = config('global.client_id');
-                    $projectDetail = array_merge($projectDetail, $create);
-                    $projectDetail['enquiry_id'] = $insertEnquiry->id;
-                    EnquiryDetail::create($projectDetail);
+        try {
+            $validationRules = Enquiry::validationRules();
+            $validationMessages = Enquiry::validationMessages();
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
+                $validator = Validator::make($request['enquiryData'], $validationRules, $validationMessages);
+                if ($validator->fails()) {
+                    $result = ['success' => false, 'message' => $validator->messages()];
+                    return json_encode($result, true);
                 }
             }
-            /* fill  follow up details */
-            $request['followupDetails']['enquiry_id'] = $insertEnquiry->id;
-            $request['followupDetails']['followup_date_time'] = date('Y-m-d H:i:s');
-            $request['followupDetails']['followup_by_employee_id'] = $request['enquiryData']['followup_by_employee_id'];
-            $request['followupDetails']['followup_entered_through'] = "0";
-            $request['followupDetails']['remarks'] = $request['enquiryData']['remarks'];
-            $request['followupDetails']['call_recording_log_type'] = $request['followupDetails']['call_recording_id'] = $request['followupDetails']['finance_category_id'] = $request['followupDetails']['finance_subcategory_id'] = $request['followupDetails']['finance_status_id'] = $request['followupDetails']['finance_substatus_id'] = 0;
-            $request['followupDetails']['next_followup_date'] = $next_followup_date;
-            $request['followupDetails']['client_id'] = config('global.client_id');
-
-            if (isset($next_followup_time)) {
-                $request['followupDetails']['next_followup_time'] = $next_followup_time;
+            unset($request['$$hashKey']);
+            if (empty($request['enquiryData']['loggedInUserId'])) {
+                $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
-                $request['followupDetails']['next_followup_time'] = date('H:i:s');
+                $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
-            $checkEnquiryExist = Enquiry::selectRaw('max(id) as maxenqid')->where('customer_id', $request['customer_id'])->get();
-            if (!empty($checkEnquiryExist[0]['maxenqid'])) {
-                EnquiryFollowup::where('id', $checkEnquiryExist[0]['maxenqid'])->update(['actual_followup_date_time' => date('Y-m-d H:m:s')]);
-            }
-            $request['followupDetails']['actual_followup_date_time'] = "0000-00-00 00:00:00";
-            $request['followupDetails']['sales_category_id'] = $request['enquiryData']['sales_category_id'];
-            $request['followupDetails']['sales_subcategory_id'] = $request['followupDetails']['sales_status_id'] = $request['followupDetails']['sales_substatus_id'] = 1;
-
-            $request['followupDetails'] = array_merge($request['followupDetails'], $create);
-            $Enq = EnquiryFollowup ::create($request['followupDetails']);
-
-            // ************* template for new enquiry..
-            if (!empty($reassign_emp_id)) {
-                $templatedata['employee_id'] = $reassign_emp_id;
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+            $request['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
+            if ($request['customer_id'] <> '') {
+                $customer_id = $request['customer_id'];
+                $customerInfo = Customer::select('source_id', 'subsource_id', 'source_description')->where('id', $request['customer_id'])->get();
+                $request['enquiryData']['sales_source_id'] = $customerInfo[0]['source_id'];
+                $request['enquiryData']['sales_subsource_id'] = $customerInfo[0]['subsource_id'];
+                $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];
             } else {
-                $templatedata['employee_id'] = $loggedInUserId;
+                /*  fill customer detail if Quick Enquiry */
+                
+                $request['customerDetails']['first_name'] = !empty($request['enquiryData']['first_name']) ? $request['enquiryData']['first_name'] : '';
+                $request['customerDetails']['last_name'] = !empty($request['enquiryData']['last_name']) ? $request['enquiryData']['last_name'] : '';
+                $request['customerDetails']['title_id'] = !empty($request['enquiryData']['title_id']) ? $request['enquiryData']['title_id'] : '';
+                $request['customerDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
+                
+                $request['customerDetails'] = array_merge($request['customerDetails'], $create);
+                $insertCustomer = Customer::create($request['customerDetails']);
+                $customer_id = $insertCustomer->id;
+                if ($insertCustomer) {
+                    //insert customer contacts
+                    $request['customer_id'] = $insertCustomer->id;
+                    $request['customerContactDetails']['mobile_number'] = !empty($request['MobileNo']) ? $request['MobileNo'] : '';
+                    $request['customerContactDetails']['email_id'] = !empty($request['EmailId']) ? $request['EmailId'] : '';
+                    $request['customerContactDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
+                    $request['customerContactDetails']['customer_id'] = $insertCustomer->id;
+                    $request['customerContactDetails'] = array_merge($request['customerContactDetails'], $create);
+                    $insertCustomerContact = CustomersContact::create($request['customerContactDetails']);
+                }
             }
-            $templatedata['client_id'] = config('global.client_id');
-            $templatedata['template_setting_customer'] = 2;
-            $templatedata['template_setting_employee'] = 0;
-            $templatedata['customer_id'] = $customer_id;
-            $templatedata['enquiry_id'] = $insertEnquiry->id;
-            $templatedata['project_id'] = $request['projectEnquiryDetails'][0]['project_id'];
-            $templatedata['arrExtra'][0] = array();
-            $templatedata['arrExtra'][1] = array();
-            //$result = CommonFunctions::templateData($templatedata);
-            // ************* End template for new enquiry..
-            $result = ['success' => true, 'message' => 'Record Inserted Successfully.'];
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
+            /*  insert enquiry  */
+            $request['enquiryData'] = array_merge($request['enquiryData'], $create);
+            $request['enquiryData']['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
+            $request['enquiryData']['client_id'] = config('global.client_id');
+            $request['enquiryData']['sales_employee_id'] = $loggedInUserId;
+
+            $request['enquiryData']['sales_channel_id'] = !empty($request['enquiryData']['sales_channel_id']) ? $request['enquiryData']['sales_channel_id'] : 3;
+            $request['enquiryData']['property_possession_date'] = !empty($request['enquiryData']['property_possession_date']) ? $request['enquiryData']['property_possession_date'] : '0000-00-00';
+            $request['enquiryData']['sales_enquiry_date'] = date('Y-m-d', strtotime($request['enquiryData']['sales_enquiry_date']));
+
+            if (!empty($request['enquiryData']['enquiry_locations'])) {
+                $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
+                            return $el['id'];
+                        }, $request['enquiryData']['enquiry_locations']));
+            }
+            $next_followup_date = $request['enquiryData']['next_followup_date'];
+            $next_followup_time = date('H:i:s', strtotime($request['enquiryData']['next_followup_time']));
+            unset($request['enquiryData']['project_id'], $request['enquiryData']['block_id'], $request['enquiryData']['sub_block_id'], $request['enquiryData']['enquiry_category_id'], $request['enquiryData']['city_id'], $request['enquiryData']['csrfToken'], $request['enquiryData']['next_followup_date'], $request['enquiryData']['next_followup_time']);
+            $insertEnquiry = Enquiry::create($request['enquiryData']);
+            if ($insertEnquiry) {
+                /* insert enquiry details */
+                if (!empty($request['projectEnquiryDetails'])) {
+                    foreach ($request['projectEnquiryDetails'] as $projectDetail) {
+                        $projectDetail['client_id'] = config('global.client_id');
+                        $projectDetail = array_merge($projectDetail, $create);
+                        $projectDetail['enquiry_id'] = $insertEnquiry->id;
+                        EnquiryDetail::create($projectDetail);
+                    }
+                }
+                /* fill  follow up details */
+                $request['followupDetails']['enquiry_id'] = $insertEnquiry->id;
+                $request['followupDetails']['followup_date_time'] = date('Y-m-d H:i:s');
+                $request['followupDetails']['followup_by_employee_id'] = $request['enquiryData']['followup_by_employee_id'];
+                $request['followupDetails']['followup_entered_through'] = "0";
+                $request['followupDetails']['remarks'] = $request['enquiryData']['remarks'];
+                $request['followupDetails']['call_recording_log_type'] = $request['followupDetails']['call_recording_id'] = $request['followupDetails']['finance_category_id'] = $request['followupDetails']['finance_subcategory_id'] = $request['followupDetails']['finance_status_id'] = $request['followupDetails']['finance_substatus_id'] = 0;
+                $request['followupDetails']['next_followup_date'] = $next_followup_date;
+                $request['followupDetails']['client_id'] = config('global.client_id');
+
+                if (isset($next_followup_time)) {
+                    $request['followupDetails']['next_followup_time'] = $next_followup_time;
+                } else {
+                    $request['followupDetails']['next_followup_time'] = date('H:i:s');
+                }
+                $checkEnquiryExist = Enquiry::selectRaw('max(id) as maxenqid')->where('customer_id', $request['customer_id'])->get();
+                if (!empty($checkEnquiryExist[0]['maxenqid'])) {
+                    EnquiryFollowup::where('id', $checkEnquiryExist[0]['maxenqid'])->update(['actual_followup_date_time' => date('Y-m-d H:m:s')]);
+                }
+                $request['followupDetails']['actual_followup_date_time'] = "0000-00-00 00:00:00";
+                $request['followupDetails']['sales_category_id'] = $request['enquiryData']['sales_category_id'];
+                $request['followupDetails']['sales_subcategory_id'] = $request['followupDetails']['sales_status_id'] = $request['followupDetails']['sales_substatus_id'] = 1;
+
+                $request['followupDetails'] = array_merge($request['followupDetails'], $create);
+                $Enq = EnquiryFollowup ::create($request['followupDetails']);
+
+                // ************* template for new enquiry..
+                if (!empty($reassign_emp_id)) {
+                    $templatedata['employee_id'] = $reassign_emp_id;
+                } else {
+                    $templatedata['employee_id'] = $loggedInUserId;
+                }
+                $templatedata['client_id'] = config('global.client_id');
+                $templatedata['template_setting_customer'] = 2;
+                $templatedata['template_setting_employee'] = 0;
+                $templatedata['customer_id'] = $customer_id;
+                $templatedata['enquiry_id'] = $insertEnquiry->id;
+                $templatedata['project_id'] = $request['projectEnquiryDetails'][0]['project_id'];
+                $templatedata['arrExtra'][0] = array();
+                $templatedata['arrExtra'][1] = array();
+                //$result = CommonFunctions::templateData($templatedata);
+                // ************* End template for new enquiry..
+                $result = ['success' => true, 'message' => 'Record Inserted Successfully.'];
+            } else {
+                $result = ['success' => false, 'message' => 'Something went wrong'];
+            }
+        } catch (\Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-//        } catch (\Exception $ex) {
-//            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-//        }
         return response()->json($result);
     }
 
@@ -1114,11 +1110,12 @@ Regards,<br>
 
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $editExistingFollowup = $input['editExistingFollowup'];
-                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'], $input['followup_by']);
+                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], 
+                        $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'],$input['followup_by']);
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
-                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo']);
+                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'],$input['userData'],$input['custInfo']);
 
                 EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDateTime]);
                 if ($editExistingFollowup == true) {
@@ -1278,8 +1275,8 @@ Regards,<br>
             } else {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             }
-
-
+            
+            
             if ($request['teamType'] == 1) {
                 $this->getTeamIds($loggedInUserId);
                 $alluser = $this->allusers;
@@ -1365,7 +1362,7 @@ Regards,<br>
                             $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
                             $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
         } else {
-
+            
             $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
                             $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
                             $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["status_id"] . '","' . $filterData["substatus_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
@@ -1417,7 +1414,7 @@ Regards,<br>
             $getTotalEnquiryDetails = DB::select('CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
-
+            
             if (count($getTotalEnquiryDetails) > 0) {
                 $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
             } else {
@@ -1432,7 +1429,6 @@ Regards,<br>
     public function totalEnquiry($type) {
         return view("MasterSales::totalEnquiries")->with("type", $type);
     }
-
     public function teamTotalEnquiry($type) {
         return view("MasterSales::totalEnquiries")->with("type", $type);
     }
@@ -1480,20 +1476,18 @@ Regards,<br>
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
 
-            $userAgent = $_SERVER['HTTP_USER_AGENT'];
-            if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
-                $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
-                if (in_array('01403', $array)) {
-                    $outBoundCall = 1;
-                } else {
-                    $outBoundCall = '';
-                }
-                if (in_array('01406', $array)) {
-                    $displayMobile = 1;
-                } else {
-                    $displayMobile = '';
-                }
+            $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+            if (in_array('01403', $array)) {
+                $outBoundCall = 1;
+            } else {
+                $outBoundCall = '';
             }
+            if (in_array('01406', $array)) {
+                $displayMobile = 1;
+            } else {
+                $displayMobile = '';
+            }
+
             if (count($getTotalEnquiryDetails) != 0) {
                 $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'callBtnPermission' => $outBoundCall, 'displayMobilePermission' => $displayMobile, 'totalCount' => $cnt[0]->totalCount];
             } else {
@@ -1525,7 +1519,6 @@ Regards,<br>
     public function showTodaysFollowups($type) {
         return view("MasterSales::todaysfollowups")->with("type", $type);
     }
-
     public function showTeamTodaysFollowups($type) {
         return view("MasterSales::todaysfollowups")->with("type", $type);
     }
@@ -1601,7 +1594,6 @@ Regards,<br>
     public function lostEnquiries($type) {
         return view("MasterSales::lostenquiries")->with("type", $type);
     }
-
     public function teamLostEnquiries($type) {
         return view("MasterSales::lostenquiries")->with("type", $type);
     }
@@ -1673,7 +1665,6 @@ Regards,<br>
     public function bookedEnquiries($type) {
         return view("MasterSales::bookedenquiry")->with("type", $type);
     }
-
     public function teamBookedEnquiries($type) {
         return view("MasterSales::bookedenquiry")->with("type", $type);
     }
@@ -1746,7 +1737,6 @@ Regards,<br>
     public function showPreviousFollowups($type) {
         return view("MasterSales::previousFollowup")->with("type", $type);
     }
-
     public function showTeamPreviousFollowups($type) {
         return view("MasterSales::previousFollowup")->with("type", $type);
     }
@@ -1819,7 +1809,6 @@ Regards,<br>
     public function showPendingFollowups($type) {
         return view("MasterSales::pendingFollowup")->with("type", $type);
     }
-
     public function showTeamPendingFollowups($type) {
         return view("MasterSales::pendingFollowup")->with("type", $type);
     }
@@ -2975,7 +2964,7 @@ Regards,<br>
                 $arr = explode('@', $val);
                 $doc[$arr[0]] = $arr[1];
             }
-
+            
             if (!empty($doc['floor_plan_images'])) {
                 $doc['floor_plan_images'] = json_decode($doc['floor_plan_images'], true);
             }
@@ -3050,8 +3039,7 @@ Regards,<br>
                 $videoLink,
             );
             //print_r($templatedata);exit;
-            $Templateresult = CommonFunctions::templateData($templatedata);
-            exit;
+            $Templateresult = CommonFunctions::templateData($templatedata);exit;
             //
             // insert into send document history
             $insertDocument['send_documents'] = json_encode($doc);
