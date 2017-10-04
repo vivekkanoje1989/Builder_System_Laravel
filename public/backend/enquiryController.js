@@ -33,7 +33,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.remarkData = {};
         $scope.remarkData.sms_privacy_status = 1;
         $scope.remarkData.email_privacy_status = 1;
-
+        $rootScope.newEnqFlag1 = 0;
         $scope.todayremarkTimeChange = function(selectedDate)
         {
             var currentDate = new Date();
@@ -248,8 +248,7 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
     }
 
 
-        $scope.exportReport = function (result) {
-            
+        $scope.exportReport = function (result) {            
             Data.post('master-sales/exportToExcel', {result: result, reportName: $scope.report_name.replace(/ /g, "_")}).then(function (response) {
                 $("#downloadExcel").attr("href", response.fileUrl);
 
@@ -527,7 +526,7 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
 
         $scope.getEnquirySheredWith = function () {
  
-            Data.get('master-sales/sharedEnquiriesEmployee').then(function (response) {
+            Data.post('master-sales/sharedEnquiriesEmployee').then(function (response) {
                 $scope.presalesemployee = response.presales;
                 $scope.postsalesemployee = response.postsales;
             });
@@ -831,9 +830,14 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
         {
             $state.go("salesUpdateCustomer",{'customerId':custId});
         }
+        $scope.updateEnq = function(custId,enqId)
+        {
+           $rootScope.newEnqFlag = 1;
+           $rootScope.newEnqFlag1 = 1;
+           $state.go("salesUpdateEnquiry",{'customerId':custId , 'enquiryId':enqId});
+        }
         /* ********************* uma End ******************************** */
         /*********************TODAY REMARK (GEETA)*********************/
-
         $scope.projectList = [];
         $scope.blockTypeList = [];
         $scope.mobileList = [];

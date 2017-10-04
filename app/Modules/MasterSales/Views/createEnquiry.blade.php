@@ -149,6 +149,37 @@
                             <timepicker ng-model="enquiryData.next_followup_time" ng-change="changed()" hour-step="hstep" format="HH:mm" minute-step="mstep" show-meridian="ismeridian" value="{{ enquiryData.next_followup_time | date:'HH:mm:ss' }}" style="margin: -1.5% 0 0 -5%;" id="timepicker"></timepicker>
                         </div>
                     </div>
+
+<!--<div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="">Next Followup Date & Time<span class="sp-err">*</span></label>                                    
+                                    <div ng-controller="DatepickerDemoCtrl" class="form-group">
+                                        <p class="input-group">
+                                            <input type="text" ng-model="enquiryData.next_followup_date" name="next_followup_date" class="form-control" ng-change="todayremarkTimeChange(enquiryData.next_followup_date)" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required />
+                                            <span class="input-group-btn" >
+                                                <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                        <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_date.$error" class="help-block">
+                                            <div ng-message="required">Please select followup date</div>
+                                        </div>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2" >
+                                <label for="">&nbsp;</label>
+                                    <select ng-model="enquiryData.next_followup_time" name="next_followup_time" class="form-control" required>
+                                        <option value="">--  Time  --</option>
+                                        <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="{{time.value == enquiryData.next_followup_time}}">{{time.label}}</option>
+                                    </select>
+                                    <div  ng-show="sbtBtn" ng-messages="remarkForm.next_followup_time.$error" class="help-block">
+                                        <div ng-message="required" >This field is required</div>
+                                    </div>
+                            </div>
+                        </div>-->
+
                 </div>
             </div>
             <div class="row" ng-if="enqType !=  1">
@@ -434,7 +465,7 @@
             <div class="row">
                 <div class="col-md-12 col-xs-12" align="center">
                     <button type="submit" class="btn btn-primary btn-nxt3" ng-click="enqFormBtn = true && !(projectsDetails.length)" ng-disabled="disableFinishButton">{{btnLabelE}}</button>
-                    <button type="submit" class="btn btn-primary" ng-show="backBtn" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')"><< Back To List</button>
+                    <button type="submit" class="btn btn-primary" ng-show="backBtn" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')">Cancel</button>
                 </div>
             </div>
         </div>

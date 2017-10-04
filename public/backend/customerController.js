@@ -220,7 +220,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
-
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");
@@ -280,11 +279,17 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             $window.sessionStorage.setItem("sessionContactData", "");
                             $scope.disableCreateButton = true;
                         }
-                        if($rootScope.newEnqFlag !== 0){
+                        if($rootScope.newEnqFlag !== 0 && $rootScope.newEnqFlag1 !== 0){
                             document.getElementById("enquiryDiv").style.display = 'block';
                             $("li#enquiryDiv a.ng-binding").trigger("click");
-                        }else{
-                            
+                        }else if($rootScope.newEnqFlag !== 0 || $rootScope.newEnqFlag1 !== 0)
+                        {
+                           document.getElementById("enquiryDiv").style.display = 'block';
+                            $("li#enquiryDiv a.ng-binding").trigger("click");
+                        }
+                        else
+                        {
+                             $window.history.back();
                         }
                         $scope.customer_id = response.data.customerId;
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
@@ -301,8 +306,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             }, function (evt, response) {});
         };
         $scope.backToListing = function (mobileNo, emailId) {
-            $state.go("salesCreate");
-            $timeout(function () {
+            if($rootScope.newEnqFlag !== 0)
+            {
+                $state.go("salesCreate");
+                $timeout(function () {
                 if (mobileNo !== '') {
                     $("input[name='searchWithMobile']").val(mobileNo);
                     $("input[name='searchWithMobile']").trigger("change");
@@ -310,7 +317,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     $("input[name='searchWithEmail']").val(emailId);
                     $("input[name='searchWithEmail']").trigger("change");
                 }
-            }, 500);
+            }, 500);    
+            }
+            else
+            {                
+              $window.history.back();
+            }
         }
 
         $scope.resetForm = function () {
@@ -540,6 +552,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                     }
                                 }
                             });
+                            $rootScope.newEnqFlag = 1;
                         }, 1000);
                     }
                 });
@@ -632,6 +645,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 });
                                 $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
                                 $scope.searchData.customerId = response.customerPersonalDetails[0].id;
+                                
+                                $rootScope.newEnqFlag = 1;
 //                $scope.disableText = true; //disable mobile and email text box 
                             });
                         } else {
@@ -676,13 +691,13 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     }
                 });
             } else {
-                console.log($scope.projectsDetails);
                 Data.put('master-sales/updateEnquiry/' + $scope.enquiryData.id, {
                     enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
                 }).then(function (response) {
                     if (response.success)
                     {
                         toaster.pop('success', 'Enquiry', response.message);
+                        $window.history.back();
                     } else
                     {
                         var obj = response.message;

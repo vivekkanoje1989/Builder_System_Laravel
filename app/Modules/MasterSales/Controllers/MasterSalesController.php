@@ -169,12 +169,12 @@ class MasterSalesController extends Controller {
      * @return Response
      */
     public function update($id) { //customer update
-        try {
+        //try {
             $originalValues = Customer::where('id', $id)->get();
             $originalContactValues = CustomersContact::where('customer_id', $id)->get();
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
-
+            
             if (empty($input)) {
                 $input = Input::all();
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -201,6 +201,7 @@ class MasterSalesController extends Controller {
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "";
             $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
+            //print_r($input);exit;
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
 
@@ -268,10 +269,10 @@ class MasterSalesController extends Controller {
                     }
                 }
             }
-        } catch (\Exception $ex) {
-            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-            return response()->json($result);
-        }
+//        } catch (\Exception $ex) {
+//            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+//            return response()->json($result);
+//        }
         $result = ["success" => true, "customerId" => $id];
         return response()->json($result);
     }
@@ -1500,7 +1501,15 @@ Regards,<br>
     }
 
     public function sharedEnquiriesEmployee() {
-        $employee_id = Auth::guard('admin')->user()->id;
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        if (!empty($request['loggedInUserId'])) { 
+            $employee_id = $request['loggedInUserId'];
+        }
+        else
+        {
+            $employee_id = Auth::guard('admin')->user()->id;
+        }        
         $result = Employee::where('id', '=', $employee_id)->select('presale_shared_employee', 'postsale_shared_employee')->first();
         if (!empty($result->presale_shared_employee)) {
             $presale_shared_employee = $result->presale_shared_employee;
@@ -1512,7 +1521,7 @@ Regards,<br>
         } else {
             $postsale_shared_employee = '';
         }
-        $result = ['success' => false, 'presales' => $presale_shared_employee, 'postsales' => $postsale_shared_employee];
+        $result = ['success' => true, 'presales' => $presale_shared_employee, 'postsales' => $postsale_shared_employee];
         return json_encode($result);
     }
 

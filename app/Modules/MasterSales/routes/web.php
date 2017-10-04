@@ -53,6 +53,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/create', 'MasterSalesController@create')->middleware("permission:040102");
     Route::get('/master-sales/', 'MasterSalesController@index')->middleware("permission:040102");
     Route::put('/master-sales/update/{id}', 'MasterSalesController@update');
+    Route::post('/master-sales', 'MasterSalesController@store');
 
     Route::post('/master-sales/getCustomerDetails', 'MasterSalesController@getCustomerDetails'); //get customer details
     Route::post('/master-sales/getEnquiryDetails', 'MasterSalesController@getEnquiryDetails'); //get enquiry details
@@ -114,7 +115,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::post('/master-sales/insertReceipt', 'MasterSalesController@insertReceipt');
     /*********************TODAY REMARK*********************/
     
-     Route::get('/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee');
+     Route::post('/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee');
     
 });
 

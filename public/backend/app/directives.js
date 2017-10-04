@@ -102,7 +102,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
             if (model.$isEmpty(customerMobileNo) && model.$isEmpty(customerEmailId))
                 return $q.when();
             else{
-                $scope.showloader();
+                //$scope.showloader();
                 return Data.post('master-sales/getCustomerDetails', {
                     data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId},
                 }).then(function (response) {
@@ -211,10 +211,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 
                             },200);                            
                             $scope.hideloader();
-alert("1");
                         } 
                         else{ //enquiry list of customer 
-                            $rootScope.newEnqFlag = 0;
+                            
                             var url = $location.path();
                             if(url === "/sales/enquiry" || url === "/sales/quickEnquiry" ){
                                 $scope.showDiv = true;
@@ -222,6 +221,7 @@ alert("1");
                                 $scope.backBtn = false;
                                 $scope.listsIndex = response; 
                             }else{
+                                $rootScope.newEnqFlag = 0; //update existing data
                                 $scope.disableText = true;
                                 $scope.resetBtn = true;
                                 $scope.backBtn = true;

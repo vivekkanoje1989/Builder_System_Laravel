@@ -182,7 +182,7 @@
                         </div>                               
                         <hr class="enq-hr-line">
                         <div>
-                            <a  ng-click="updateCustInfo({{ enquiry.customer_id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
+                            <a  ng-click="updateCustInfo({{ enquiry.customer_id}})" style="cursor:pointer;"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
                         </div>                    
                         <hr class="enq-hr-line">
                         <div>
@@ -267,7 +267,7 @@
                             <hr class="enq-hr-line">
                         </div>                                                              
                         <div>
-                            <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}/eid/{{ enquiry.id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
+                            <span style="text-align: center;cursor:pointer;"><a ng-click="updateEnq({{ enquiry.customer_id}},{{ enquiry.id}});"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
                         </div>                                                              
                     </td>
                     <td width="30%">
