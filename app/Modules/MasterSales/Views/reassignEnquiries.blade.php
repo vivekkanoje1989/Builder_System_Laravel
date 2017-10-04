@@ -20,7 +20,96 @@
                 <span class="widget-caption">{{pagetitle}}</span>          
             </div>
             <div class="widget-body table-responsive">
-                <div class="row">
+                <div class="row table-toolbar">
+                    <div class="row col-sm-2">
+                        <div class="btn-group">
+                            <a class="btn btn-default shiny "  data-toggle="dropdown" href="javascript:void(0);">Add Enquiry</a>
+                            <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="[[ config('global.backendUrl') ]]#/sales/enquiry">Detailed Enquiry</a>
+                                </li>                                
+                                <li>
+                                    <a href="[[ config('global.backendUrl') ]]#/sales/quickEnquiry">Quick Enquiry</a>
+                                </li>                                
+                            </ul>
+                        </div>
+                    </div>                                      
+                    <div class="col-sm-4">
+
+                    </div>                    
+                    <div class="col-sm-4">
+
+                    </div>                    
+                    <div class="btn-group pull-right filterBtn">
+                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_booked_enquiries', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                    </div>
+                </div>
+                <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                    <div class="DTTT btn-group">
+                        <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Action</a>
+                        <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                        <ul class="dropdown-menu" ng-if="enquiriesLength != 0">
+                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
+                                <li ng-if="enquiriesLength != 0">
+                                    <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
+                                       Export
+                                    </a> 
+                                </li>
+                            @endif
+                          
+                            <li>
+                                <a href ng-model="BulkReasign"  id="BulkReasign"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >
+                                    Reassign                                    
+                                </a>
+                            </li>
+                        </ul>
+                    </div>                    
+                    <div  class="dataTables_filter">                        
+                        <label>
+                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                        </label>
+                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
+                    </div>
+                    <!-- filter data--> 
+                     <div class="row col-sm-12" style="border:2px;" id="filter-show">
+                        <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate' ">
+                    <div class="col-sm-2 alert alert-info fade in">
+                       <button class="toggleForm close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
+                       <strong ng-if="key === 'category_id' || key === 'source_id' || key === 'status_id'">{{  value.substring(value.indexOf("_")+1) }}</strong>
+                       <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'>{{ $index +1 }}) {{   emp.first_name  }}  {{ emp.last_name }} </strong>
+                       <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'>{{ $index +1 }}) {{   subcat.enquiry_sales_subcategory  }}  </strong>
+                       <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'> {{ $index +1 }}){{ substatus.enquiry_sales_substatus }} </strong>
+                       <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'>{{ $index +1 }}) {{ subsource.enquiry_subsource }} </strong>
+                       <strong ng-if="key === 'verifiedEmailId' && value == 1 "> <strong>Verified Email ID:</strong>Yes</strong>
+                       <strong ng-if="key === 'verifiedMobNo' && value == 1  " data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile No:</strong>Yes</strong>
+                       <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
+                       <strong ng-if="key != 'status_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'model_id' && key != 'test_drive_given' && key != 'employee_id' " data-toggle="tooltip" title="{{ key }}"> {{ value}}</strong>
+                   </div>   
+                   </b>
+                    </div> 
+                    <!-- filter data-->
+                    <div>
+                        <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
+                    </div>
+                    <div class="dataTables_length" >
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                                <option value="30">30</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
+                            </select>
+                        </label>
+                    </div><br>
+<!--                <div class="row">
                     <div class="col-sm-8 col-xs-12" style="float:left">                        
                         <div class="col-sm-3 center">
                             <input type="text" minlength="1" maxlength="3" placeholder="Records per page" ng-model="itemsPerPage"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control">
@@ -72,8 +161,8 @@
                    </b>
                </div>
 
-                <br>     
-                <table class="table table-hover table-striped table-bordered" at-config="config" ng-if="enquiriesLength">
+                <br>     -->
+                <table class="table table-hover table-striped table-bordered tableHeader" at-config="config" ng-if="enquiriesLength">
                     <thead>
                         <tr>
                             <th class="enq-table-th">SR <?php if (in_array('01604', $array)) { ?>
@@ -265,6 +354,7 @@
                         <center><b>No Enquiries Found</b></center>
                     </div>
                 </div>
+            </div>
             </div>
             <!-- Today history model =========================================================================================-->
             <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>

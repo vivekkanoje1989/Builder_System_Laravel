@@ -413,7 +413,7 @@ class AdminController extends Controller {
         $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id', 'reason')->where([["lost_reason_status", "=", "1"], ['deleted_status', '<>', 1]])->orderBy('id')->get();
         $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id', 'enquiry_lost_reason_id', 'sub_reason')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
         $projectWingList = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->get();
-        $getEnquiryLocation = lstEnquiryLocations::select('*')->with('getCityName')->groupBy('city_id')->get();
+        $getEnquiryLocation = lstEnquiryLocations::select('id','country_id','city_id','location')->with('getCityName')->groupBy('city_id')->get();
         $getcttunetype = CtTuneType::all();
         $getctforwardingtype = CtForwardingType::all();
         if (!empty($getTitle)) {

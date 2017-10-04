@@ -46,8 +46,15 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-
-//            $scope.searchDetails = {};
+            if (search.in_date != undefined) {
+                var today = new Date(search.in_date);
+                var day = today.getDate().toString();
+                if (day.length > 1) {
+                    search.in_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+                } else {
+                    search.in_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-0' + today.getDate());
+                }
+            }
             if (search.from_date != undefined) {
                 var today = new Date(search.from_date);
                 var day = today.getDate().toString();
