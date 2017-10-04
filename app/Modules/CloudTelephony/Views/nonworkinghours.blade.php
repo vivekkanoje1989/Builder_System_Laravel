@@ -1,24 +1,25 @@
 <div class="row">
     <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="cloudtelephonyController" ng-init="managenonworkingLists([[ !empty($id) ?  $id : '0' ]], 'editnonworking')">
-        <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}} {{virtualno}}</h5>
-         <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps" >
-             
-           
+        <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}} {{virtualno}}</h5>-->
+        <div class="widget-header bordered-themeprimary bordered-bottom ">
+            <span class="widget-caption">{{ pageHeading}} {{virtualno}}</span>
+        </div>
+        <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps" >
             <ul class="steps" >
                 <li  class="wiredstep4 active" ng-click="newcustomerstep([[ !empty($id) ?  $id : '0' ]])"><span class="step">1</span><span class="title">New Customer Settings</span><span class="chevron"></span></li>
-                <li  class="wiredstep2 {{cls}}" ng-click="extesionstep(registrationData.menu_status,[[ !empty($id) ?  $id : '0' ]])"><span class="step">2</span><span class="title">Extension Settings</span> <span class="chevron"></span></li>
+                <li  class="wiredstep2 {{cls}}" ng-click="extesionstep(registrationData.menu_status, [[ !empty($id) ?  $id : '0' ]])"><span class="step">2</span><span class="title">Extension Settings</span> <span class="chevron"></span></li>
                 <li  class="wiredstep3 active" ng-click="existingcustomerstep([[ !empty($id) ?  $id : '0' ]])"><span class="step">3</span><span class="title">Existing Customer Settings</span> <span class="chevron"></span></li>
                 <li  class="wiredstep4 active"><span class="step">4</span><span class="title">Non Working Hours Settings</span> <span class="chevron"></span></li>
             </ul>
         </div>
         <div class="step-content" id="WiredWizardsteps">
             <div class="step-pane active" id="wiredstep4">
-                <form name="updatevnoForm" novalidate ng-submit="updatevnoForm.$valid && updateNonWorkingSetting(registrationData,registrationData.nwh_welcome_tune_audio)" >
+                <form name="updatevnoForm" novalidate ng-submit="updatevnoForm.$valid && updateNonWorkingSetting(registrationData, registrationData.nwh_welcome_tune_audio)" >
                     <input type="hidden" ng-model="updatevnoForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="updatevnoForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                     <input type="hidden" name="id" id="id" ng-model="registrationData.id" ng-value="[[ $id ]]">
                     <!--            <div class="widget-body">-->
                     <div id="registration-form">
-                     <div class="row">
+                        <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12"> 
                                 <h3 class="form-devider">Define Non Working Hours Call Settings</h3>   
                             </div>    
@@ -34,13 +35,13 @@
                                                     <input type="radio" ng-model="registrationData.nwh_status" name="nwh_status" class="form-control" value="1">
                                                     <span class="text">Yes</span>
                                                 </label>
-                                            
+
                                                 <label>
                                                     <input type="radio" ng-model="registrationData.nwh_status" name="nwh_status" class="form-control" value="0">
                                                     <span class="text">No</span>
                                                 </label>
-                                                </div>
-                                            
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
@@ -84,7 +85,7 @@
                                                 </div>
                                                 <span class="error" style="color:#e46f61" ng-show="errorMsg"> {{ errorMsg.nwh_welcome_tune_type_id}} </span>
                                             </span>
-                                             <div class="checkbox" ng-show="registrationData.nwh_welcome_tune_type_id != '1'">
+                                            <div class="checkbox" ng-show="registrationData.nwh_welcome_tune_type_id != '1'">
                                                 <label>
                                                     <input type="checkbox" ng-model="registrationData.set_to_all_nwh_welcome_tone" name="set_to_all_nwh_welcome_tone" class="form-control" value="{{ registrationData.set_to_all_nwh_welcome_tone}}">
                                                     <span class="text">Set to all other numbers</span>
@@ -119,10 +120,10 @@
                                     </div>
                                 </div>
                             </div>
-                        
-                             <div class="col-md-6 col-sm-6 col-xs-12 bord-r8">
+
+                            <div class="col-md-6 col-sm-6 col-xs-12 bord-r8">
                                 <div class="row">
-                                     <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div  class="form-group" ng-class="{ 'has-error' : step4 && (!updatevnoForm.nwh_end_time.$dirty && updatevnoForm.nwh_end_time.$invalid)}">
                                             <label for="">Select Non Working Hours Ends On {{registrationData.nwh_end_time}}<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
@@ -141,11 +142,11 @@
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-show="step4" ng-messages="updatevnoForm.nwh_end_time.$error" class="help-block step4">
                                                     <div ng-message="required" class="sp-err">This field is required.</div>
-                        </div>
+                                                </div>
                                                 <span class="error" style="color:#e46f61" ng-show="errorMsg"> {{ errorMsg.nwh_end_time}} </span>
                                             </span>
                                         </div>
-                                     </div>
+                                    </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div class="form-group" ng-class="{ 'has-error' : step4 && (!updatevnoForm.nwh_call_insert_enquiry.$dirty && updatevnoForm.nwh_call_insert_enquiry.$invalid)}">
                                             <label for="">Insert Enquiry In Non Working Hours <span class="sp-err">*</span></label>
@@ -164,14 +165,17 @@
                                         </div>
                                     </div>
                                 </div>
-                             </div>
+                            </div>
                         </div>
 
-                        <div class="row"><br>
-                            <center><button type="submit" class="btn btn-primary" ng-click="step4 = true">Submit</button></center>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12" align="right">
+                                <button type="submit" class="btn btn-primary" ng-click="step4 = true">update</button>
+                                 <a href="[[ config('global.backendUrl') ]]#/virtualnumber/index" class="btn btn-primary">Cancel</a>
+                            </div>
                         </div>
-                        </div>
-                    
+                    </div>
+
                     <!--  </div>-->
                 </form>
             </div>
@@ -180,30 +184,27 @@
     </div>
 </div>
 <style>
-li span { cursor: pointer; cursor: hand; }
+    li span { cursor: pointer; cursor: hand; }
 </style>
 
 <script>
-     $(document).ready(function(){
-          $("#nwh_welcome_tune_type_id").change(function(){
-            $("#nwh_welcome_tune_audio").attr("ng-required","registrationData.nwh_welcome_tune_type_id==3");
-        }); 
-        var blob = window.URL || window.webkitURL;
-        if (!blob) {
-            console.log('Your browser does not support Blob URLs :(');
-            return;           
-        }
-        
-     document.getElementById('nwh_welcome_tune_audio').addEventListener('change', function(event){
-
-            //consolePrint('change on input#holffile triggered');
-            var file = this.files[0],
-             fileURL = blob.createObjectURL(file);
-            console.log(file);
-            document.getElementById('nwhaudio').src = fileURL;
-            document.getElementById('nwhaudio').autoplay = false;
-
-        });
+    $(document).ready(function(){
+    $("#nwh_welcome_tune_type_id").change(function(){
+    $("#nwh_welcome_tune_audio").attr("ng-required", "registrationData.nwh_welcome_tune_type_id==3");
     });
+    var blob = window.URL || window.webkitURL;
+    if (!blob) {
+    console.log('Your browser does not support Blob URLs :(');
+    return;
+    }
 
-</script>
+    document.getElementById('nwh_welcome_tune_audio').addEventListener('change', function(event){
+
+    //consolePrint('change on input#holffile triggered');
+    var file = this.files[0],
+            fileURL = blob.createObjectURL(file);
+    console.log(file);
+    document.getElementById('nwhaudio').src = fileURL;
+    document.getElementById('nwhaudio').autoplay = false;
+    });
+    });</script>
