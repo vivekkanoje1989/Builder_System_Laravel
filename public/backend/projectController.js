@@ -235,6 +235,8 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                             $scope.inventoryData.wing_id = wingId;
                     } else {
                         $scope.inventoryList[$scope.inventoryList+1] = inventoryData;
+                        $('#inventoryDataModal').modal('toggle');
+                        $(".modal-backdrop").hide();
                         toaster.pop('success', 'Project', response.message);
                     }
                 }
@@ -260,11 +262,10 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.modalHeading = 'Add Project Inventory';
             }else{
                 $scope.modalHeading = 'Edit Project Inventory';
-                $scope.wingName = wingName;               
-                $scope.inventoryData = $scope.inventoryList[0];
-                
+                $scope.wingName = wingName;     
                 Object.keys(inventoryList).forEach(function (key) {
                     if(inventoryList[key].id == idataId){
+                        $scope.inventoryData = inventoryList[key];                        
                         $scope.idata.push({block_id: inventoryList[key].id,
                         other_block_id: inventoryList[key].other_block_id,other_label: inventoryList[key].other_label,
                         area_in_sqft:inventoryList[key].area_in_sqft,area_in_sqmtr:inventoryList[key].area_in_sqmtr,

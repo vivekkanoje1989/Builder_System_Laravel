@@ -11460,7 +11460,7 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
     height: 40px;
     line-height: 34px;
     font-size: 15px;
-    z-index: 2;
+    /*z-index: 2;*/
     background-color: #fff
 }
 
@@ -11488,7 +11488,7 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
     background-color: #e5e5e5;
     position: relative !important;
     top: 25px;
-    z-index: 1 !important
+    /*z-index: 1 !important*/
 }
 
 .wizard.wizard-wired ul li:first-child:before {
@@ -11543,7 +11543,7 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
     font-size: 13px;
     border-radius: 100%;
     position: relative;
-    z-index: 2;
+    /*z-index: 2;*/
     display: inline-block;
     width: 24px;
     height: 24px;
@@ -11654,7 +11654,7 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
     max-height: 2px;
     overflow: hidden;
     background-color: #2dc3e8;
-    z-index: 10000
+    /*z-index: 10000*/
 }
 
 .wizard ul li.active .chevron:before {

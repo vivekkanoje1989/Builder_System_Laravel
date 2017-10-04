@@ -2,7 +2,7 @@
     .fa-times{cursor: pointer;}
 </style>
 <div class="modal-body">
-    <form role="form" name="inventoryInfoForm" ng-submit="getInventoryDetails(projectData.prid, inventoryData.wing_id, inventoryData, otherDataMultiple)" novalidate>
+    <form role="form" name="inventoryInfoForm" ng-submit="inventoryInfoForm.$valid && getInventoryDetails(projectData.prid, inventoryData.wing_id, inventoryData, otherDataMultiple)" novalidate>
         <input type="hidden" ng-model="inventoryInfoForm.csrfToken" name="csrftoken" ng-init="inventoryInfoForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
         <div class="row">
             <div class="col-lg-12 col-sm-12 col-xs-12">

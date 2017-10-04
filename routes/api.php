@@ -29,5 +29,6 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('/getsalesEmployees', 'backend\AdminController@getsalesEmployees'); //uma
 
     Route::get('/getProjects', 'backend\AdminController@getProjects'); // manoj
+    Route::post('/getsalesEmployees', 'backend\AdminController@getsalesEmployees'); //uma
 });
 
