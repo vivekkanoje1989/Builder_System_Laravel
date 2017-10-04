@@ -3,7 +3,7 @@ Route::group(array('module' => 'CareerManagement', 'middleware' => ['auth:admin'
 
     Route::get('/manage-job/jobPostingExportToxls', 'CareerManagementController@jobPostingExportToxls')->middleware("permission:01001");
     Route::get('/manage-job/jobPostingApplicationExportToxls/{id}', 'CareerManagementController@jobPostingApplicationExportToxls')->middleware("permission:01001");
-    Route::get('/manage-job/manageCareers', 'CareerManagementController@manageCareers')->middleware("permission:01001");
+    Route::post('/manage-job/manageCareers', 'CareerManagementController@manageCareers')->middleware("permission:01001");
     Route::get('/download/{file}', 'CareerManagementController@download')->middleware("permission:01001");
     
     Route::get('/manage-job', 'CareerManagementController@index')->middleware("permission:01001");

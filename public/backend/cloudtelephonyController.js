@@ -367,8 +367,10 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     } else if (action === 'edit') {
                         if (id === 0){
                             $scope.pageHeading = 'New Registration';
+                            $scope.pageBtn = 'Add';
                         }else if (id !== '0') {
                             $scope.pageHeading = 'Edit Registration';
+                            $scope.pageBtn = 'Update';
                             $timeout(function () {
                                 if (response.records.data[0]['default_number'] == 1) {
                                     response.records.data[0]['default_number'] = true;

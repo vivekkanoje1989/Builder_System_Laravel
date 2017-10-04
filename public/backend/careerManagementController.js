@@ -8,7 +8,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
         $scope.noOfRows = 1;
         $scope.career = {};
         $scope.manageCareers = function () {
-            Data.get('manage-job/manageCareers').then(function (response) {
+            Data.post('manage-job/manageCareers').then(function (response) {
                 $scope.careerRow = response.records;
                 $scope.exportData = response.exportData;
                 $scope.deleteBtn = response.delete;

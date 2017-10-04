@@ -826,6 +826,11 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
                 $(':checkbox.chkDocList').prop('checked', false);
             }
         }
+         
+        $scope.updateCustInfo = function(custId)
+        {
+            $state.go("salesUpdateCustomer",{'customerId':custId});
+        }
         /* ********************* uma End ******************************** */
         /*********************TODAY REMARK (GEETA)*********************/
 

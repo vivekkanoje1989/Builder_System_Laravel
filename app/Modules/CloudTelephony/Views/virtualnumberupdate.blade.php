@@ -1,7 +1,10 @@
 <div class="row">
     <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="cloudtelephonyController" ng-init="managevLists([[ !empty($id) ?  $id : '0' ]], 'edit')"> 
-        <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading }} {{virtualno}}</h5>
-         <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
+        <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading }} {{virtualno}}</h5>-->
+        <div class="widget-header bordered-themeprimary bordered-bottom ">
+                <span class="widget-caption">{{ pageHeading }} {{virtualno}}</span>
+            </div>
+        <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
             <ul class="steps">
                 <li  class="wiredstep1 active"><span class="step">1</span><span class="title">New Customer Settings</span><span class="chevron"></span></li>
                 <li  class="wiredstep2 {{cls}}" ng-click="extesionstep(registrationData.menu_status,[[ !empty($id) ?  $id : '0' ]])"><span class="step">2</span><span class="title">Extension Settings</span> <span class="chevron"></span></li>
@@ -321,11 +324,9 @@
 
                        
                         <div class="row"><br>
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <center><button type="submit" class="btn btn-primary" ng-click="step1 = true">Save and Continue</button>
-                                    <!--                                &nbsp;&nbsp;&nbsp;<a ng-if="registrationData.menu_status == '1'" class="btn btn-primary" href="#/[[config('global.getUrl')]]/extensionmenu/view/{{registrationData.id}}">Next</a>
-                                <a ng-if="registrationData.menu_status != '1'" class="btn btn-primary" href="#/virtualnumber/existingupdate/{{ registrationData.id }}">Next</a>-->
-                                </center>
+                            <div class="col-md-12 col-sm-12 col-xs-12" align="right">
+                             <button type="submit" class="btn btn-primary" ng-click="step1 = true">update and Continue</button>
+                              <a href="[[ config('global.backendUrl') ]]#/virtualnumber/index" class="btn btn-primary">Cancel</a>
                             </div>
                         </div>
 

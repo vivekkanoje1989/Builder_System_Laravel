@@ -785,6 +785,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.locations = response.records;
             });
         }
+       
 
     }]);
 
