@@ -198,8 +198,8 @@ class MenuItems {
                         )),
                     5 => array('id' => '0405', 'name' => 'Customer\'s Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
                         'submenu_ids' => '040501,040502', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '040501', 'name' => 'Manage Customer\'s', 'icon' => '', 'url' => '/customers/index', 'slug' => 'customersIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '040502', 'name' => 'Import Enquiries', 'icon' => '', 'url' => '/sales/importEnquiry', 'slug' => 'importEnquiryIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            1 => array('id' => '040501', 'name' => 'Manage Customer\'s', 'icon' => '', 'micon' => 'img/manageCustomer.png','url' => '/customers/index', 'slug' => 'customersIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '040502', 'name' => 'Import Enquiries', 'icon' => '', 'micon' => 'img/importEnquiries.png','url' => '/sales/importEnquiry', 'slug' => 'importEnquiryIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                 )),
             5 => array('name' => 'Projects', 'icon' => 'proj-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'projects', 'has_submenu' => true, 'total_submenu' => 4,
@@ -294,11 +294,11 @@ class MenuItems {
                             1 => array('id' => '080401', 'name' => 'Manage', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                 )),
-            9 => array('name' => 'Reports', 'icon' => 'repo-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'reports', 'has_submenu' => true, 'total_submenu' => 2,
+            9 => array('name' => 'Reports', 'icon' => 'repo-img menu-icon-sz', 'ui-sref-active' => '', 'micon' => 'img/report.png','url' => '', 'slug' => 'reports', 'has_submenu' => true, 'total_submenu' => 2,
                 'submenu_ids' => '0901,0902,0903', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '0901', 'name' => 'Pre Sales', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
                         'submenu_ids' => '090101,090102', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '090101', 'name' => 'My Reports', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
+                            1 => array('id' => '090101', 'name' => 'My Reports', 'icon' => '', 'micon' => 'img/myReports.png','ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                                 'submenu_ids' => '09010101,09010102,09010103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '09010101', 'name' => 'Enquiry Report', 'icon' => '','micon' => 'img/enquiryReport.png', 'url' => '/reports/enquiryReport', 'slug' => 'enquiryReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                     2 => array('id' => '09010102', 'name' => 'Followup Report', 'icon' => '', 'micon' => 'img/followupReport.png','url' => '/reports/followupReport', 'slug' => 'followupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -341,9 +341,9 @@ class MenuItems {
                             3 => array('id' => '0110203', 'name' => 'Team`s Incoming Call Logs', 'micon' => 'img/Teamincomingcalls.png', 'icon' => '', 'url' => '/cloudcallinglogs/teamIncomingLogs', 'slug' => 'teaminboundLogs', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             4 => array('id' => '0110204', 'name' => 'Team`s Outgoing Call Logs', 'micon' => 'img/Teamoutgoingcalls.png', 'icon' => '', 'url' => '/cloudcallinglogs/teamOutgoingLogs', 'slug' => 'teamoutboundLogs', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
-                    3 => array('id' => '01103', 'name' => 'Telephony Registration', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
+                    3 => array('id' => '01103', 'name' => 'Telephony Registration', 'icon' => '', 'micon' => 'img/telephonyRegistration.png','ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                         'submenu_ids' => '0110301', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '0110301', 'name' => 'Manage', 'icon' => '', 'url' => '/cloudtelephony/index', 'slug' => 'numbersIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            1 => array('id' => '0110301', 'name' => 'Manage', 'icon' => '','micon' => 'img/manageTelephony.png', 'url' => '/cloudtelephony/index', 'slug' => 'numbersIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                 )),
             12 => array('name' => 'My Storage', 'icon' => 'stor-img menu-icon-sz', 'uiSrefActive' => '', 'url' => '', 'slug' => 'my-storage', 'has_submenu' => true, 'total_submenu' => 3,
@@ -383,7 +383,7 @@ class MenuItems {
                                     4 => array('id' => '013020104', 'name' => 'My Total Followups', 'icon' => '', 'micon' => 'img/totalEnq.png', 'url' => '/customer-care/post-sales/mytotal', 'slug' => 'customer-care-post-sales-my-total', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                     5 => array('id' => '013020105', 'name' => 'My Completed Followups', 'icon' => '', 'micon' => 'img/bookedEnq.png', 'url' => '/customer-care/post-sales/mycompleted', 'slug' => 'customer-care-post-sales-my-completed', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
-                            2 => array('id' => '0130102', 'name' => 'Team`s  Followups', 'icon' => '', 'micon' => '', 'ui-sref-active' => '', 'slug' => 'Team', 'has_submenu' => true, 'total_submenu' => 5,
+                            2 => array('id' => '0130102', 'name' => 'Team`s  Followups', 'icon' => '', 'micon' => 'img/Team_follow_ups.png', 'ui-sref-active' => '', 'slug' => 'Team', 'has_submenu' => true, 'total_submenu' => 5,
                                 'submenu_ids' => '013020201,013020202,013020203,013020204,013020205', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '013020201', 'name' => 'Today\'s Followups', 'icon' => '', 'micon' => 'img/Team_todays_follow_ups.png', 'url' => '/customer-care/post-sales/teamtoday', 'slug' => 'customer-care-post-sales-team-today', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                     2 => array('id' => '013020202', 'name' => 'Pending Followups', 'icon' => '', 'micon' => 'img/Team_pending_follow_ups.png', 'url' => '/customer-care/post-sales/teampending', 'slug' => 'customer-care-post-sales-team-pending', 'uiSrefActive' => 'active', 'total_submenu' => 1),
