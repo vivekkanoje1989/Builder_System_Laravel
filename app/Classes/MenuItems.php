@@ -306,9 +306,9 @@ class MenuItems {
                                 )),
                             2 => array('id' => '090102', 'name' => 'Team`s Report', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                                 'submenu_ids' => '09010201,09010202,09010203', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                                    1 => array('id' => '09010201', 'name' => 'Enquiry Report', 'icon' => '', 'micon' => 'img/enquiryReport.png', 'url' => '/reports/teamEnquiryReport', 'slug' => 'teamenquiryReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                    2 => array('id' => '09010202', 'name' => 'Followup Report', 'icon' => '', 'micon' => 'img/followupReport.png', 'url' => '/reports/teamFollowupReport', 'slug' => 'teamfollowupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                    3 => array('id' => '09010203', 'name' => 'Project Wise Report', 'icon' => '', 'micon' => 'img/projectWiseReport.png','url' => '/reports/projectwiseTeamReport', 'slug' => 'projectwiseTeamreport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    1 => array('id' => '09010201', 'name' => 'Enquiry Report', 'icon' => '', 'micon' => 'img/teamenquiryReport.png', 'url' => '/reports/teamEnquiryReport', 'slug' => 'teamenquiryReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '09010202', 'name' => 'Followup Report', 'icon' => '', 'micon' => 'img/teamfollowupReport.png', 'url' => '/reports/teamFollowupReport', 'slug' => 'teamfollowupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    3 => array('id' => '09010203', 'name' => 'Project Wise Report', 'icon' => '', 'micon' => 'img/teamprojectwiseTeamReport.png','url' => '/reports/projectwiseTeamReport', 'slug' => 'projectwiseTeamreport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
                         )),
                     2 => array('id' => '0903', 'name' => 'Post Sales', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
@@ -322,9 +322,9 @@ class MenuItems {
                             2 => array('id' => '090302', 'name' => 'All Projects ( Overview Report )', 'icon' => '', 'url' => '/reports/projectOverviewReport', 'slug' => 'projectOverviewReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                 )),
-            10 => array('name' => 'Careers', 'icon' => 'care-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'careers', 'has_submenu' => true, 'total_submenu' => 1,
+            10 => array('name' => 'Careers', 'icon' => 'care-img menu-icon-sz', 'micon' => 'img/career.png','ui-sref-active' => '', 'url' => '', 'slug' => 'careers', 'has_submenu' => true, 'total_submenu' => 1,
                 'submenu_ids' => '01001', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '01001', 'name' => 'Manage', 'icon' => '', 'url' => '/manageCareer/index', 'slug' => 'manageJobIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    1 => array('id' => '01001', 'name' => 'Manage', 'icon' => '', 'micon' => 'img/manageCareer.png', 'url' => '/manageCareer/index', 'slug' => 'manageJobIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),
             11 => array('name' => 'Cloud Telephony', 'icon' => 'cloud-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'cloud-telephony', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '01101,01102,01103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(

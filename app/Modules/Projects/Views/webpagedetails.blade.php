@@ -66,7 +66,7 @@
                             <div class="col-md-2 col-sm-2">
                                 <div id="button1">
                                     <a class="btn btn-sq-lg bordered-themeprimary btn_uploads" ng-disabled="showAllTabs" ng-click="!showAllTabs && uploadsData([[ $projectId ]],'', '')">
-                                        <img src="images/Uploads.png" class="btn-primary cstimg" />
+                                        <img src="{{showAllTabs ? 'images/Ban-icon.png' : 'images/Uploads.png'}}" class="btn-primary cstimg"/>
                                         <hr style="width: 100%;">
                                         <b style="font-size: 15px;">Uploads</b>
                                     </a>
@@ -75,7 +75,7 @@
                             <div class="col-md-2 col-sm-2">
                                 <div id="button1">
                                     <a class="btn btn-sq-lg bordered-themeprimary btn_inventory" ng-disabled="showAllTabs" ng-click="!showAllTabs && getInventoryDetails([[ $projectId ]],0, '')">
-                                        <img src="images/Project-Inventory.png" class="btn-primary cstimg" />
+                                        <img src="{{showAllTabs ? 'images/Ban-icon.png' : 'images/Project-Inventory.png'}}" class="btn-primary cstimg" />
                                         <hr style="width: 100%;">
                                         <b style="font-size: 15px;">Project Inventory</b>
                                     </a>
@@ -84,7 +84,7 @@
                             <div class="col-md-2 col-sm-2">
                                 <div id="button1">
                                     <a class="btn btn-sq-lg bordered-themeprimary"  ng-disabled="showAllTabs">
-                                        <img src="images/Floor-Inventory.png" class="btn-primary cstimg" />
+                                        <img src="{{showAllTabs ? 'images/Ban-icon.png' : 'images/Floor-Inventory.png'}}" class="btn-primary cstimg" />
                                         <hr style="width: 100%;">
                                         <b style="font-size: 15px;">Floor Inventory</b>
                                     </a>
@@ -93,7 +93,7 @@
                             <div class="col-md-2 col-sm-2">
                                 <div id="button1">
                                     <a class="btn btn-sq-lg bordered-themeprimary"  ng-disabled="showAllTabs">
-                                        <img src="images/Parking-Inventory.png" class="btn-primary cstimg" />
+                                        <img src="{{showAllTabs ? 'images/Ban-icon.png' : 'images/Parking-Inventory.png'}}" class="btn-primary cstimg" />
                                         <hr style="width: 100%;">
                                         <b style="font-size: 15px;">Parking Inventory</b>
                                     </a>
@@ -102,7 +102,7 @@
                             <div class="col-md-2 col-sm-2">
                                 <div id="button1">
                                     <a class="btn btn-sq-lg bordered-themeprimary"  ng-disabled="showAllTabs">
-                                        <img src="images/Project-Stage.png" class="btn-primary cstimg" />
+                                        <img src="{{showAllTabs ? 'images/Ban-icon.png' : 'images/Project-Stage.png'}}" class="btn-primary cstimg" />
                                         <hr style="width: 100%;">
                                         <b style="font-size: 15px;">Project Stage</b>
                                     </a>
@@ -111,7 +111,7 @@
                             <div class="col-md-2 col-sm-2">
                                 <div id="button1">
                                     <a class="btn btn-sq-lg bordered-themeprimary"  ng-disabled="showAllTabs">
-                                        <img src="images/Discount-Mangement.png" class="btn-primary cstimg" />
+                                        <img src="{{showAllTabs ? 'images/Ban-icon.png' : 'images/Discount-Mangement.png'}}" class="btn-primary cstimg" />
                                         <hr style="width: 100%;">
                                         <b style="font-size: 15px;">Discount Management</b>
                                     </a>
@@ -120,7 +120,7 @@
                             <div class="col-md-2 col-sm-2">
                                 <div id="button1">
                                     <a class="btn btn-sq-lg bordered-themeprimary"  ng-disabled="showAllTabs">
-                                        <img src="images/Agreement-cost.png" class="btn-primary cstimg" />
+                                        <img src="{{showAllTabs ? 'images/Ban-icon.png' : 'images/Agreement-cost.png'}}" class="btn-primary cstimg" />
                                         <hr style="width: 100%;">
                                         <b style="font-size: 15px;">Agreement Cost</b>
                                     </a>
@@ -129,7 +129,7 @@
                             <div class="col-md-2 col-sm-2">
                                 <div id="button1">
                                     <a class="btn btn-sq-lg bordered-themeprimary"  ng-disabled="showAllTabs">
-                                        <img src="images/Collection-Calculations.png" class="btn-primary cstimg" />
+                                        <img src="{{showAllTabs ? 'images/Ban-icon.png' : 'images/Collection-Calculations.png'}}" class="btn-primary cstimg" />
                                         <hr style="width: 100%;">
                                         <b style="font-size: 15px;">Collection Calculations</b>
                                     </a>
@@ -138,7 +138,7 @@
                             <div class="col-md-2 col-sm-2">
                                 <div id="button1">
                                     <a class="btn btn-sq-lg bordered-themeprimary"  ng-disabled="showAllTabs">
-                                        <img src="images/Documents.png" class="btn-primary cstimg" />
+                                        <img src="{{showAllTabs ? 'images/Ban-icon.png' : 'images/Documents.png'}}" class="btn-primary cstimg" />
                                         <hr style="width: 100%;">
                                         <b style="font-size: 15px;">Documents</b>
                                     </a>
@@ -147,7 +147,7 @@
                             <div class="col-md-2 col-sm-2">
                                 <div id="button1">
                                     <a class="btn btn-sq-lg bordered-themeprimary"  ng-disabled="showAllTabs">
-                                        <img src="images/SMS-Email-Templates.png" class="btn-primary cstimg" />
+                                        <img src="{{showAllTabs ? 'images/Ban-icon.png' : 'images/SMS-Email-Templates.png'}}" class="btn-primary cstimg" />
                                         <hr style="width: 100%;">
                                         <b style="font-size: 15px;">SMS & Email Templates</b>
                                     </a>
@@ -156,7 +156,7 @@
                             <div class="col-md-2 col-sm-2">
                                 <div id="button1">
                                     <a class="btn btn-sq-lg bordered-themeprimary"  ng-disabled="showAllTabs">
-                                        <img src="images/Project-Authority.png" class="btn-primary cstimg" />
+                                        <img src="{{showAllTabs ? 'images/Ban-icon.png' : 'images/Project-Authority.png'}}" class="btn-primary cstimg" />
                                         <hr style="width: 100%;">
                                         <b style="font-size: 15px;">Project Authority</b>
                                     </a>

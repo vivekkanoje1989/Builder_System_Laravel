@@ -22,14 +22,14 @@
                                 <tr ng-if="inventoryList" ng-repeat="idata in inventoryList | unique: 'block_type_id'">
                                     <td>{{$index+1}}</td>
                                     <td>{{wlist.wing_name}}</td>
-                                    <td>{{idata.block_type_id}}</td>
+                                    <td>{{idata.block_name}}</td>
                                     <td>{{idata.block_sub_type}}</td>
                                     <td>{{idata.block_description}}</td>
                                     <td>{{idata.block_quantity}}</td>
                                     <td>{{idata.block_availablity == 1 ? "Yes" : "No"}}</td>
                                     <td>{{idata.show_on_website == 1 ? "Yes" : "No"}}</td>
                                     <td>
-                                        <button type="button" ng-click="getWingData({{inventoryList}}, '{{idata.id}}','{{wlist.id}}','{{wlist.wing_name}}')" data-toggle="modal" data-target="#inventoryDataModal" class="btn btn-primary btn-xs">
+                                        <button type="button" ng-click="getWingData({{inventoryList}}, '{{idata.id}}','{{wlist.id}}','{{wlist.wing_name}}',{{$index}})" data-toggle="modal" data-target="#inventoryDataModal" class="btn btn-primary btn-xs">
                                             <i class="fa fa-pencil"></i>Edit
                                         </button>
                                     </td>

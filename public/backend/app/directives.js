@@ -211,7 +211,6 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 
                             },200);                            
                             $scope.hideloader();
-alert("1");
                         } 
                         else{ //enquiry list of customer 
                             $rootScope.newEnqFlag = 0;

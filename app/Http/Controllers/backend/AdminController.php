@@ -415,7 +415,7 @@ class AdminController extends Controller {
         $projectWingList = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->get();
         $getEnquiryLocation = lstEnquiryLocations::select('id','country_id','city_id','location')->with('getCityName')->groupBy('city_id')->get();
         $getcttunetype = CtTuneType::all();
-        $getctforwardingtype = CtForwardingType::all();
+        $getctforwardingtype = CtForwardingType::all();        
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource,
