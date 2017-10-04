@@ -239,7 +239,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 var url = '/master-sales';
                 var data = {customerData: enteredData, image_file: customerPhoto, customerContacts: sessionContactData};
             } else {
-                var url = '/master-sales/' + $scope.searchData.customerId;
+                var url = '/master-sales/update/' + $scope.searchData.customerId;
                 var data = {_method: "PUT", customerData: enteredData, image_file: customerPhoto, customerContacts: sessionContactData};
             }
 

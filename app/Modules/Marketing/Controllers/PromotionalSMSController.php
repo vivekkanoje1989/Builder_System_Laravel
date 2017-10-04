@@ -19,7 +19,7 @@ class PromotionalSMSController extends Controller {
     public static $procname;
 
     public function __construct() {
-        $this->middleware('web');
+//        $this->middleware('web');
     }
 
     public function index() {

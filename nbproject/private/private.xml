@@ -3,6 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
 <<<<<<< HEAD
+        <group/>
+=======
+<<<<<<< HEAD
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/AdminController.php</file>
@@ -76,5 +79,6 @@
 >>>>>>> f8cbb85eed6396452e160cb4885db603a4c116df
 >>>>>>> f39131be5fb92930b768188e00aa5761cae8c7cc
 >>>>>>> 6da18f8c509c1ab3f3d77fd1124a6be1c77645e7
+>>>>>>> 4972068ed039c212459bae3627b97c317ead92bc
     </open-files>
 </project-private>
