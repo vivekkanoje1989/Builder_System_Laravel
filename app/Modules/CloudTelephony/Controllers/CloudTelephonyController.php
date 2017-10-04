@@ -277,6 +277,7 @@ class CloudTelephonyController extends Controller {
      * @return Response
      */
     public function store() {
+        
         $validationMessages = CtBillingSetting::validationMessages();
         $validationRules = CtBillingSetting::validationRules();
         $postdata = file_get_contents("php://input");
@@ -293,7 +294,7 @@ class CloudTelephonyController extends Controller {
             $result = ['success' => false, 'message' => $validator->messages()];
             return json_encode($result);
         }
-        if ($request['data']['registrationData']['id'] > 0 || !empty($request['data']['registrationData']['id'])) {
+        if ($request['data']['registrationData']['id'] > 0 || !empty($request['data']['registrationData']['id'])) {            
             $number = CtBillingSetting::updateNumber($request['data']['registrationData']);
             $message = "Record Updated Successfully";
         } else {

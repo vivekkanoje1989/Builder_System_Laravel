@@ -92,7 +92,7 @@ app.directive('checkLoginCredentials', function ($timeout, $q, Data, $http) {
     }
 });
 
-app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $window, $location, $timeout) {
+app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $window, $location, $timeout, $rootScope) {
     function link($scope, element, attributes, model) {
         model.$asyncValidators.customerInputs = function () {
             var customerMobileNo = '';
@@ -211,8 +211,10 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 
                             },200);                            
                             $scope.hideloader();
-
-                        } else{ //enquiry list of customer 
+alert("1");
+                        } 
+                        else{ //enquiry list of customer 
+                            $rootScope.newEnqFlag = 0;
                             var url = $location.path();
                             if(url === "/sales/enquiry" || url === "/sales/quickEnquiry" ){
                                 $scope.showDiv = true;
@@ -232,6 +234,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                         $scope.locations = [];                    
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
+                        $rootScope.newEnqFlag = 1;
                         if ($scope.searchData.searchWithMobile === undefined) {
                             $scope.searchData.searchWithMobile = '';
                         }
