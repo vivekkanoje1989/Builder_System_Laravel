@@ -125,7 +125,7 @@
                         <tbody>
                             <tr role="row" dir-paginate="list in myRequest| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
-                                <td>{{list.in_date}}</td> 
+                                <td>{{list.in_date | date:'yyyy-MM-dd'}}</td> 
                                 <td>{{list.request_type}}</td>
                                 <td>{{list.application_from}}</td>
                                 <td>{{list.from_date}}</td> 
@@ -183,7 +183,7 @@
                     <h4 class="modal-title" align="center">Status Description</h4>
                 </div>
                 <table class="table table-stripped table-bordered" style="margin:20px 20px 20px 20px; width:90%;">
-                    <tr><td>Date</td><td>{{in_date}}</td></tr>
+                    <tr><td>Date</td><td>{{in_date }}</td></tr>
                     <tr><td>Request Type</td><td>{{request_type}}</td></tr>
                     <tr><td>To</td><td>{{to_name}}</td></tr>
                     <tr><td>CC</td><td>{{cc_name}}</td></tr>
@@ -290,18 +290,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="">Status</label>
-                        <span class="input-icon icon-right">
-                            <select class="form-control" ng-model="searchDetails.status" name="status">
-                                <option value="">Select Status</option>
-                                <option value="1">Leave</option>
-                                <option value="2">Approved</option>
-                            </select>
-                        </span>
-                    </div>
-                </div>
+                
             </div>
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12" >

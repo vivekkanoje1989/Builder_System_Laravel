@@ -285,7 +285,7 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
             $scope.listType = listType;
             if (type == 0) {
                 $scope.report_name = "Reassign Enquiries";
-                $scope.pagetitle = "My Reassign Enquiries";
+                $scope.pagetitle = "My Reassigned Enquiries";
             } else {
                 $scope.report_name = "Teams Reassign Enquiries";
                 $scope.pagetitle = "Team`s Reassign Enquiries ";
