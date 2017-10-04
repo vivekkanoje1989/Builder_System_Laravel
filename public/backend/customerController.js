@@ -1,5 +1,5 @@
 'use strict';
-app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', '$location', 'SweetAlert', function ($scope, $state, Data, Upload, $timeout, $parse, $window, toaster, $location, SweetAlert) {
+app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', '$location', 'SweetAlert', '$rootScope', function ($scope, $state, Data, Upload, $timeout, $parse, $window, toaster, $location, SweetAlert, $rootScope) {
         $scope.pageHeading = 'Detailed Enquiry';
         $scope.customerData = [];
         $scope.contactData = {};
@@ -239,7 +239,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 var url = '/master-sales';
                 var data = {customerData: enteredData, image_file: customerPhoto, customerContacts: sessionContactData};
             } else {
-                var url = '/master-sales/' + $scope.searchData.customerId;
+                var url = '/master-sales/update/' + $scope.searchData.customerId;
                 var data = {_method: "PUT", customerData: enteredData, image_file: customerPhoto, customerContacts: sessionContactData};
             }
 
@@ -280,8 +280,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             $window.sessionStorage.setItem("sessionContactData", "");
                             $scope.disableCreateButton = true;
                         }
-                        document.getElementById("enquiryDiv").style.display = 'block';
-                        $("li#enquiryDiv a.ng-binding").trigger("click");
+                        if($rootScope.newEnqFlag !== 0){
+                            document.getElementById("enquiryDiv").style.display = 'block';
+                            $("li#enquiryDiv a.ng-binding").trigger("click");
+                        }else{
+                            
+                        }
                         $scope.customer_id = response.data.customerId;
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
                             toaster.pop('success', 'Customer', 'Record successfully created');
@@ -650,6 +654,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         {
             var date = new Date($scope.enquiryData.next_followup_date);
             $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+            
             if (typeof $scope.enquiryData.id === 'undefined') {
                 var enqData = enquiryData;
                 Data.post('master-sales/saveEnquiry', {
@@ -780,6 +785,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.locations = response.records;
             });
         }
+       
 
     }]);
 
