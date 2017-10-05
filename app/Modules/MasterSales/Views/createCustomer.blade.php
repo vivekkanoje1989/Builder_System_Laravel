@@ -242,7 +242,7 @@
             <div class="widget">                                
                 <div class="widget-header">
                     <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Contact List <span id="errContactDetails" class="errMsg"></span></span>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contactDataModal" ng-click="initContactModal()">Add new contact</button> 
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contactDataModal" ng-click="initContactModal()" style="margin: 10px;border-radius: 11px;">Add new contact</button> 
                 </div>
                 <div class="widget-body table-responsive">
                     <table class="table table-hover table-striped table-bordered" at-config="config">

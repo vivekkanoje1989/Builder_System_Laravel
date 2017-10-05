@@ -24,7 +24,6 @@
     }
     .demo-tab .nav-tabs{
         display: inline-flex;
-        margin: 0 30px;
     }
     .custAdress{
         font-size:20px;

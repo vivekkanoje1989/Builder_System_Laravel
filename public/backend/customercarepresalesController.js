@@ -31,7 +31,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
             }
 
 
-            Data.post('customer-care/presales/getEnquiryHistory', {
+            Data.post('customer-care/presales/getenquiryHistory', {
                 enquiryId: enquiry_id, moduelswisehisory: moduelswisehisory
             }).then(function (response) {
                 $scope.history_enquiryId = enquiry_id;
@@ -94,7 +94,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                 $(':checkbox.chk_today_remark_history_all').prop('checked', true);
                 $(':checkbox#chk_today_remark_history').prop('checked', true);
             }
-            Data.post('customer-care/presales/getEnquiryHistory', {
+            Data.post('customer-care/presales/getenquiryHistory', {
                 enquiryId: enquiry_id, moduelswisehisory: moduelswisehisory
             }).then(function (response) {
                 $scope.history_enquiryId = enquiry_id;
