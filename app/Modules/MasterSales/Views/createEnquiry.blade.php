@@ -420,7 +420,7 @@
                 <div class="col-sm-3 col-xs-6">
                     <div class="form-group"><label for=""></label>
                         <span class="input-icon icon-right">
-                            <button type="button" class="btn btn-primary" ng-click="addProjectRow({{enquiryData.project_id}})">Add Project</button>
+                            <button type="button" class="btn btn-primary" ng-click="addProjectRow({{enquiryData.project_id}})" style="padding: 7px 5px;">Add Project</button>
                         </span> 
                     </div>
                 </div>                   

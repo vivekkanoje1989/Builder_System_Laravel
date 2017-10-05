@@ -170,7 +170,7 @@ div.help-block{
     max-height: 2px;
     overflow: hidden;
     background-color: #a0d468;
-    z-index: 10000;
+    /*z-index: 10000;*/
 }
 .wizard ul li.active .step {
     border-color: #ac193d;
@@ -3179,10 +3179,15 @@ a:active {
     width: 224px;
     display: block
 }*/
-::-webkit-scrollbar {
-    width: 0px;
-    background: transparent; /* make scrollbar transparent */
-}
+/*::-webkit-scrollbar {
+    width: 10px;
+    background: transparent; 
+}*/
+
+
+
+
+
 .page-sidebar {
     position: fixed;
     top: 44px;
@@ -5746,7 +5751,7 @@ a:active {
     margin-right: -1px;
     line-height: 12px;
     position: relative;
-    z-index: 11
+    /*z-index: 11*/
 }
 
 .nav-tabs>li>a>.badge {
@@ -5778,7 +5783,7 @@ a:active {
     border-top: 2px solid #2dc3e8;
     border-bottom-color: transparent;
     background-color: #fbfbfb;
-    z-index: 12;
+    /*z-index: 12;*/
     line-height: 12px;
     margin-top: -2px;
     box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, .15)
@@ -11594,7 +11599,7 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
     max-height: 2px;
     overflow: hidden;
     background-color: #a0d468;
-    z-index: 10000
+    /*z-index: 10000*/
 }
 
 .wizard ul li.complete:hover {
@@ -11627,7 +11632,7 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
     border-radius: 100%;
     content: "";
     background-color: #fff;
-    z-index: 3;
+    /*z-index: 3;*/
     font-family: FontAwesome;
     font-size: 12px;
     color: #a0d468
