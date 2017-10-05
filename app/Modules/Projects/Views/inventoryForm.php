@@ -190,8 +190,8 @@
                                 <div class="form-group">
                                     <label for=""></label>
                                     <span class="input-icon icon-right">
-                                        <button type="button" class="btn btn-primary btn-xs" ng-if="$last" ng-click="addNewData()">Add</button>
-                                        <button type="button" class="btn btn-primary btn-xs" ng-show="!$first" ng-click="removeRow($index)">Remove</button>                                        
+                                        <button type="button" class="btn-primary btn-xs" ng-if="$last" ng-click="addNewData()">Add</button>
+                                        <button type="button" class="btn-primary btn-xs" ng-show="!$first" ng-click="removeRow($index)">Remove</button>                                        
                                     </span>
                                 </div>
                             </div>

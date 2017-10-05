@@ -4552,6 +4552,7 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Profile',
+                                        title: 'Profile',
                                         description: ''
                                     },
                                     resolve: {
