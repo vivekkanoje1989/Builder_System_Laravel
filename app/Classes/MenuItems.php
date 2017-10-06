@@ -129,6 +129,7 @@ class MenuItems {
 //                            1 => array('id' => '030301', 'name' => 'Create Role', 'micon' => 'img/createRole.png', 'url' => '/user/createrole', 'slug' => 'createrole', 'uiSrefActive' => 'active', 'total_submenu' => 1),
 //                            2 => array('id' => '030302', 'name' => 'Manage Role', 'micon' => 'img/manageRole.png', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
 //                        )),
+                    
                     3 => array('id' => '0303', 'name' => 'Manage Role', 'icon' => '', 'url' => '/user/manageroles', 'micon' => 'img/manageRole.png','slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),
             4 => array('name' => 'Sales', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'sales', 'has_submenu' => true, 'total_submenu' => 5,
