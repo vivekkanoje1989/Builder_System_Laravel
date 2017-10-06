@@ -13,11 +13,13 @@
     }
 
 </style>
-<div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4, '', ''); getAllEmployeeData();">
+
+<div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4, ''); getAllEmployeeData();">
+
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">{{pagetitle}}</span>                
+                <span class="widget-caption">{{pagetitle}}</span> {{ sharedemployee}}               
             </div>
             <div class="widget-body table-responsive">                
                 <div class="row table-toolbar">
@@ -43,8 +45,9 @@
                     <div class="col-sm-4">
 
                     </div>                    
+
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_total_enquiries', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_total_enquiries', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter{{sharedemployee}}</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -183,12 +186,45 @@
                                             /
                                         </span>
 
+
                                     </span>                                        
                                 </p>
                             </div>                               
                             <hr class="enq-hr-line">
                             <div>
                                 <a  ng-click="updateCustInfo({{ enquiry.customer_id}})" style="cursor:pointer;"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
+
+                                    </span>                                        
+                                </p>
+                            </div>                               
+                                </span>                                        
+                            </p>
+                        </div>                               
+                        <hr class="enq-hr-line">
+                        <div>
+                            <a  ng-click="updateCustInfo({{ enquiry.customer_id}})" style="cursor:pointer;"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
+                        </div>                    
+                        <hr class="enq-hr-line">
+                        <div>
+                            <br>
+                            <span ng-if="enquiry.sales_source_name != '' && enquiry.enquiry_sub_source != null"
+                                  ng-init="sourceleng = enquiry.sales_source_name.length + enquiry.enquiry_sub_source.length; source = enquiry.sales_source_name + ' / ' + enquiry.enquiry_sub_source">
+                                <strong>Source : </strong>
+                                <span data-toggle="tooltip" title="{{source}}">{{source| limitTo : 45}} </span>
+                                <span ng-if="source.length > 45" data-toggle="tooltip" title="{{source}}">...</span>
+                            </span>
+                            <span ng-if="enquiry.sales_source_name != '' && enquiry.enquiry_sub_source == null">
+                                <strong>Source : </strong>
+                                <span data-toggle="tooltip" title="{{enquiry.sales_source_name}}">    {{enquiry.sales_source_name| limitTo : 45}} </span>
+                                <span ng-if="enquiry.sales_source_name.length > 45" data-toggle="tooltip" title="{{enquiry.sales_source_name}}">...</span>
+                            </span>
+                        </div>
+                        <div ng-if="enquiry.area != '' && enquiry.area != null" >
+
+                            <hr class="enq-hr-line">
+                            <div>
+                                <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
+
                             </div>                    
                             <hr class="enq-hr-line">
                             <div>
@@ -222,6 +258,16 @@
                                     <hr class="enq-hr-line">
                                 </span>
 
+
+                                <span ng-if="enquiry.sales_status != '' && enquiry.enquiry_sales_substatus != null" ng-init="enquiry_status_length = enquiry.sales_status.length + enquiry.enquiry_sales_substatus.length; enquiry_status = enquiry.sales_status + ' / ' + enquiry.enquiry_sales_substatus"> 
+                                    <b>Status : </b>  
+                                    <span data-toggle="tooltip" title="{{enquiry_status}}">{{ enquiry_status | limitTo : 45 }}</span>
+                                    <span ng-if="enquiry_status_length > 45" data-toggle="tooltip" title="{{enquiry_status}}">...</span>
+                                    <hr class="enq-hr-line">
+                                </span>
+
+
+
                                 <span ng-if="enquiry.sales_status != '' && enquiry.enquiry_sales_substatus != null" ng-init="enquiry_status_length = enquiry.sales_status.length + enquiry.enquiry_sales_substatus.length; enquiry_status = enquiry.sales_status + ' / ' + enquiry.enquiry_sales_substatus"> 
                                     <b>Status : </b>  
                                     <span data-toggle="tooltip" title="{{enquiry_status}}">{{ enquiry_status | limitTo : 45 }}</span>
@@ -254,6 +300,7 @@
                                         {{ enquiry_sales_subcategory | limitTo : 45 }}</span>
                                     <span ng-if="enquiry_sales_subcategory_length > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
                                 </span>
+
                             </div>
                             <div>                                   
                                 <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != ''" data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
@@ -295,6 +342,102 @@
                                      <hr class="enq-hr-line">
                                 </span>-->
                             </div>                                
+
+                            </div>
+                            <div>                                   
+                                <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != ''" data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
+                                    <b>Project :</b>
+                                    {{enquiry.project_block_name| limitTo : 45 }}
+                                    <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                                                                 
+                                </span>
+                                <div ng-if="enquiry.location_name != null && enquiry.location_name != ''" data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
+                                    <b>Location :</b>
+                                    {{enquiry.location_name| limitTo : 45 }}
+                                    <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                                                                 
+                                </div>
+                                <div ng-if="enquiry.parking_required != null">
+                                    <span ng-if="enquiry.parking_required == 0"><b>Parking Required :</b> No</span>
+                                    <span ng-if="enquiry.parking_required == 1"><b>Parking Required :</b> Yes</span>                                    
+                                </div> 
+                                <hr class="enq-hr-line">
+                            </div>                                                              
+                            <div>
+                                <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}/eid/{{ enquiry.id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
+                            </div>                                                              
+                        </td>
+                        <td width="30%">
+                            <div><b>Enquiry Owner :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}</div>
+                            <hr class="enq-hr-line">
+                            <div >
+                                <b>Last followup : </b>{{ enquiry.last_followup_date}}
+                            </div>
+                            <div><b>By {{enquiry.followupby_fname}} {{enquiry.followupby_lname}} : </b>
+                                <span data-toggle="tooltip" title="{{enquiry.remarks| removeHTMLTags}}">{{enquiry.remarks| limitTo : 100 | removeHTMLTags }}
+                                    <span ng-if="enquiry.remarks.length > 100" data-toggle="tooltip" title="{{enquiry.remarks| removeHTMLTags}}">...</span>
+                                </span>
+                            </div>
+                            <div>
+    <!--                                     <span ng-if="enquiry.location_name != null && enquiry.location_name != '' " data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
+                                    <b>Preferred Location :</b>
+                                     {{enquiry.location_name | limitTo : 45 }}
+                                    <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                        
+                                     <hr class="enq-hr-line">
+                                </span>-->
+                            </div>                                
+                            <hr class="enq-hr-line">
+                            <div>
+                                <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initerrorflag = false; initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                            </div>
+                        </td>
+                        <td width="20%">
+                            <div><b>Followup due : </b>{{ enquiry.next_followup_date}} @ {{ enquiry.next_followup_time}}</div>                            
+                            <hr class="enq-hr-line">
+                            <div>
+                                <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
+                                <a href ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
+                                <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
+                                <a href data-toggle="modal" data-target="#siteVisitModal" ng-click="siteVisit({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Site Visit</a><br/>
+                            </div>
+                        </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"  ng-if="enquiriesLength == 0 ||(enquiries|filter:search).length == 0 " align="center">No Enquiries Found</td>   
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
+                    <!--                <div ng-if="enquiriesLength == 0">
+                                        <div>
+                                            <center><b>No Enquiries Found</b></center>
+                                        </div>
+                                    </div>-->
+                </div>
+
+                        </div>                                                              
+                        <div>
+                            <span style="text-align: center;cursor:pointer;"><a ng-click="updateEnq({{ enquiry.customer_id}},{{ enquiry.id}});"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
+                        </div>                                                              
+                    </td>
+                    <td width="30%">
+                        <div><b>Enquiry Owner :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}</div>
+                        <hr class="enq-hr-line">
+                        <div >
+                            <b>Last followup : </b>{{ enquiry.last_followup_date}}
+                        </div>
+                        <div><b>By {{enquiry.followupby_fname}} {{enquiry.followupby_lname}} : </b>
+                            <span data-toggle="tooltip" title="{{enquiry.remarks| removeHTMLTags}}">{{enquiry.remarks| limitTo : 100 | removeHTMLTags }}
+                                <span ng-if="enquiry.remarks.length > 100" data-toggle="tooltip" title="{{enquiry.remarks| removeHTMLTags}}">...</span>
+                            </span>
+                        </div>
+                        <div>
+<!--                                     <span ng-if="enquiry.location_name != null && enquiry.location_name != '' " data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
+                                <b>Preferred Location :</b>
+                                 {{enquiry.location_name | limitTo : 45 }}
+                                <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                        
+                                 <hr class="enq-hr-line">
+                            </span>-->
+                        </div>                    
                             <hr class="enq-hr-line">
                             <div>
                                 <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
@@ -389,6 +532,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>  
 
 
