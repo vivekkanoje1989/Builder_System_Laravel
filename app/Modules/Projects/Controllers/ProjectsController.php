@@ -350,7 +350,7 @@ class ProjectsController extends Controller {
         $input = json_decode($postdata, true);
         $projectId = $input['data']['getDataByPrid'];
         $msg = "";
-//        print_r($input);
+
         if(!empty($input['data']["getDataByPrid"])){            
             if ($input['data']['wingId'] == 0) {
                 $projectWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $projectId)->orderBy('id', 'ASC')->first();
@@ -415,8 +415,25 @@ class ProjectsController extends Controller {
                     }
                     $msg = "Record updated successfully";
                 }
+                if ($input['data']['wingId'] == 0) {
+                    $projectWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $projectId)->orderBy('id', 'ASC')->first();
+                    $projectData = ProjectBlock::select('project_blocks.id', 'project_id','block_type_id','wing_id','block_sub_type','block_sub_type_label','block_availablity',
+                            'sellable_area_in_sqft','sellable_area_in_sqmtr','block_quantity','block_description','project_blocks.show_on_website',
+                            'ob.id as other_block_id', 'ob.other_label', 'ob.area_in_sqft', 'ob.area_in_sqmtr', 'ob.other_block_show_on_website','bt.block_name')
+                            ->leftJoin('project_other_blocks as ob', 'ob.block_id','=','project_blocks.id')
+                            ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_block_types as bt', 'bt.id','=','project_blocks.block_type_id')
+                            ->where([['wing_id', '=', $projectWing->id], ['project_id', '=', $projectId]])->orderBy('wing_id', 'ASC')
+                            ->get();
+                } else {
+                    $projectData = ProjectBlock::select('project_blocks.id', 'project_id','block_type_id','wing_id','block_sub_type','block_sub_type_label','block_availablity',
+                            'sellable_area_in_sqft','sellable_area_in_sqmtr','block_quantity','block_description','project_blocks.show_on_website',
+                            'ob.id as other_block_id', 'ob.other_label', 'ob.area_in_sqft', 'ob.area_in_sqmtr', 'ob.other_block_show_on_website','bt.block_name')
+                            ->leftJoin('project_other_blocks as ob', 'ob.block_id','=','project_blocks.id')
+                            ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_block_types as bt', 'bt.id','=','project_blocks.block_type_id')
+                            ->where([['wing_id', '=', $input['data']['wingId']], ['project_id', '=', $projectId]])->get();
+                }
             }
-        } 
+        }
         if (!empty($projectData)) {
             $result = ['success' => true, 'records' => $projectData, 'message' => $msg];
         } else {
