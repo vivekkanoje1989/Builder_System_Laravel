@@ -35,4 +35,6 @@ Route::group(array('module' => 'MyStorage', 'middleware' => ['auth:admin'],'name
     Route::post('/storage-list/subDirectoryAdd', 'MyStorageController@subDirectoryAdd')->middleware("permission:01201");
     Route::post('/storage-list/syncSubFolderCreate', 'MyStorageController@syncSubFolderCreate')->middleware("permission:01201");
     Route::get('/storage-list', 'MyStorageController@index')->middleware("permission:01201");
+    
+    Route::resource('/storage-list', 'MyStorageController');
 });

@@ -35,8 +35,10 @@ use App\Modules\Projects\Models\ProjectWebPage;
 use App\Models\SendDocumentHistory;
 
 class MasterSalesController extends Controller {
+
     public static $procname;
     public $allusers;
+
     /**
      * Display a listing of the resource.
      *
@@ -466,12 +468,12 @@ class MasterSalesController extends Controller {
                 $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];
             } else {
                 /*  fill customer detail if Quick Enquiry */
-                
+
                 $request['customerDetails']['first_name'] = !empty($request['enquiryData']['first_name']) ? $request['enquiryData']['first_name'] : '';
                 $request['customerDetails']['last_name'] = !empty($request['enquiryData']['last_name']) ? $request['enquiryData']['last_name'] : '';
                 $request['customerDetails']['title_id'] = !empty($request['enquiryData']['title_id']) ? $request['enquiryData']['title_id'] : '';
                 $request['customerDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
-                
+
                 $request['customerDetails'] = array_merge($request['customerDetails'], $create);
                 $insertCustomer = Customer::create($request['customerDetails']);
                 $customer_id = $insertCustomer->id;
@@ -1110,12 +1112,11 @@ Regards,<br>
 
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $editExistingFollowup = $input['editExistingFollowup'];
-                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], 
-                        $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'],$input['followup_by']);
+                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'], $input['followup_by']);
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
-                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'],$input['userData'],$input['custInfo']);
+                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo']);
 
                 EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDateTime]);
                 if ($editExistingFollowup == true) {
@@ -1269,14 +1270,20 @@ Regards,<br>
         $request = json_decode($postdata, true);
         $filterData = $request['filterData'];
         //print_r($filterData);exit;
+        $MyClass = new MasterSalesController();
+        $employees = json_decode($MyClass->sharedEnquiriesEmployee());
+
         if (empty($request['empId'])) { // For Web
-            if (!empty($request['sharedEmployees'])) {
-                $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+            $login_id = Auth::guard('admin')->user()->id;
+            if (!empty($employees->presales) && $request['shared'] == '1') {
+                $loggedInUserId = $employees->presales;
+            } else if (empty($employees->presales) && $request['shared'] == '1') {
+                $loggedInUserId = '';
             } else {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             }
-            
-            
+
+
             if ($request['teamType'] == 1) {
                 $this->getTeamIds($loggedInUserId);
                 $alluser = $this->allusers;
@@ -1354,20 +1361,20 @@ Regards,<br>
                             $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' . $filterData["bookingFromDate"] . '","' . $filterData["bookingToDate"] . '","' .
                             $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
                             $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
-                            $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
+                            $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ',"' . $login_id . '","' . $request['shared'] . '")');
         } else if ($request["getProcName"] == 'proc_get_lost_enquiries') {
             $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
                             $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
                             $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["lostReason_id"] . '","' . $filterData["subreason_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
                             $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
-                            $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
+                            $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ',"' . $login_id . '","' . $request['shared'] . '")');
         } else {
-            
+
             $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
                             $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
                             $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["status_id"] . '","' . $filterData["substatus_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
                             $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
-                            $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
+                            $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ',"' . $login_id . '","' . $request['shared'] . '")');
             //print_r($getEnquiryDetails);exit;
         }
         $cnt = DB::select('select FOUND_ROWS() totalCount');
@@ -1414,7 +1421,7 @@ Regards,<br>
             $getTotalEnquiryDetails = DB::select('CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
-            
+
             if (count($getTotalEnquiryDetails) > 0) {
                 $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
             } else {
@@ -1429,18 +1436,84 @@ Regards,<br>
     public function totalEnquiry($type) {
         return view("MasterSales::totalEnquiries")->with("type", $type);
     }
+
     public function teamTotalEnquiry($type) {
         return view("MasterSales::totalEnquiries")->with("type", $type);
     }
 
+    public function getEmployeeData() {
+
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+
+        $getpresalesEmployees = Employee::join('lmsauto_master_final.mlst_lmsa_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
+                ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
+                ->where("employees.employee_status", 1)
+                ->where('employees.id', '<>', Auth::guard('admin')->user()->id)
+                ->get();
+        if (!empty($getpresalesEmployees)) {
+            $result = ['success' => true, 'presalesemprecords' => $getpresalesEmployees];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
+    public function preSalesShareEnquiry() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+//       
+//        $empl_id = Auth::guard('admin')->user()->id;
+        $empId = [];
+        $enquiryId = [];
+        foreach ($request['employees'] as $employee) {
+            array_push($empId, $employee['id']);
+        }
+        foreach ($request['enquiry_id'] as $enquiry) {
+            array_push($enquiryId, $enquiry);
+        }
+
+        $employee_id = implode(',', $empId);
+
+        for ($i = 0; $i < count($enquiryId); $i++) {
+            $employees = '';
+
+            $select = Enquiry::select('presales_shared_with_employees')->where('id', $enquiryId[$i])->first();
+
+            if (!empty($select->presales_shared_with_employees) && !empty($employee_id)) {
+                $employees = $select->presales_shared_with_employees . "," . $employee_id;
+            } else if (empty($select->presales_shared_with_employees) && !empty($employee_id)) {
+                $employees = $employee_id;
+            } else {
+                $employees = '';
+            }
+
+            $employees = implode(',', array_unique(explode(',', $employees)));
+//           echo $employees = array_unique(explode(',', $employees));
+//           exit; 
+
+            $post = ['presales_shared_with_employees' => $employees];
+            $update = Enquiry::where('id', $enquiryId[$i])->update($post);
+            $result = ['success' => true, 'records' => $update];
+            return json_encode($result);
+        }
+    }
+
     public function getTotalEnquiries() { // get all enquiries
         try {
+
+            $MyClass = new MasterSalesController();
+            $employees = json_decode($MyClass->sharedEnquiriesEmployee());
+
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
-                    if (!empty($request['sharedEmployees'])) {
-                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    if (!empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->presales;
+                    } else if (empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
                     } else {
                         $loggedInUserId = Auth::guard('admin')->user()->id;
                     }
@@ -1471,6 +1544,7 @@ Regards,<br>
                     }
                 }
             }
+
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
@@ -1499,7 +1573,7 @@ Regards,<br>
         return response()->json($result);
     }
 
-    public function sharedEnquiriesEmployee() {
+    static public function sharedEnquiriesEmployee() {
         $employee_id = Auth::guard('admin')->user()->id;
         $result = Employee::where('id', '=', $employee_id)->select('presale_shared_employee', 'postsale_shared_employee')->first();
         if (!empty($result->presale_shared_employee)) {
@@ -1519,6 +1593,7 @@ Regards,<br>
     public function showTodaysFollowups($type) {
         return view("MasterSales::todaysfollowups")->with("type", $type);
     }
+
     public function showTeamTodaysFollowups($type) {
         return view("MasterSales::todaysfollowups")->with("type", $type);
     }
@@ -1594,6 +1669,7 @@ Regards,<br>
     public function lostEnquiries($type) {
         return view("MasterSales::lostenquiries")->with("type", $type);
     }
+
     public function teamLostEnquiries($type) {
         return view("MasterSales::lostenquiries")->with("type", $type);
     }
@@ -1665,6 +1741,7 @@ Regards,<br>
     public function bookedEnquiries($type) {
         return view("MasterSales::bookedenquiry")->with("type", $type);
     }
+
     public function teamBookedEnquiries($type) {
         return view("MasterSales::bookedenquiry")->with("type", $type);
     }
@@ -1737,6 +1814,7 @@ Regards,<br>
     public function showPreviousFollowups($type) {
         return view("MasterSales::previousFollowup")->with("type", $type);
     }
+
     public function showTeamPreviousFollowups($type) {
         return view("MasterSales::previousFollowup")->with("type", $type);
     }
@@ -1809,6 +1887,7 @@ Regards,<br>
     public function showPendingFollowups($type) {
         return view("MasterSales::pendingFollowup")->with("type", $type);
     }
+
     public function showTeamPendingFollowups($type) {
         return view("MasterSales::pendingFollowup")->with("type", $type);
     }
@@ -2964,7 +3043,7 @@ Regards,<br>
                 $arr = explode('@', $val);
                 $doc[$arr[0]] = $arr[1];
             }
-            
+
             if (!empty($doc['floor_plan_images'])) {
                 $doc['floor_plan_images'] = json_decode($doc['floor_plan_images'], true);
             }
@@ -3039,7 +3118,8 @@ Regards,<br>
                 $videoLink,
             );
             //print_r($templatedata);exit;
-            $Templateresult = CommonFunctions::templateData($templatedata);exit;
+            $Templateresult = CommonFunctions::templateData($templatedata);
+            exit;
             //
             // insert into send document history
             $insertDocument['send_documents'] = json_encode($doc);
