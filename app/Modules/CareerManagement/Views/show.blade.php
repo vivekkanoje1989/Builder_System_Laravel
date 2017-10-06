@@ -120,7 +120,7 @@
                                 <td>{{list.last_name}}</td> 
                                 <td>{{list.mobile_number}}</td> 
                                 <td>{{list.email_id}}</td> 
-                                <td><span ng-if="list.resume_file_name"><a href="/download/{{list.resume_file_name}}" target="_blank" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a></span></td>
+                                <td><span ng-if="list.resume_file_name"><a href="/download/{{list.resume_file_name}}" target="_blank" class="btn-primary btn-xs"><i class="fa fa-download"></i>Download</a></span></td>
 
                             </tr>
                               <tr>

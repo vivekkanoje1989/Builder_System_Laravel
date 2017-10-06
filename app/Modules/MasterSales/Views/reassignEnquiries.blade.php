@@ -215,8 +215,8 @@
                         <hr class="enq-hr-line">
                         <?php if (in_array('01602', $array)) { ?>
                             <div class="floatLeft">
-                                <a target="_blank" href="#/customer/update/{{ enquiry.customer_id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
-                            </div>                    
+                                <a  ng-click="updateCustInfo({{ enquiry.customer_id}})" style="cursor:pointer;"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
+                            </div>                  
                             <hr class="enq-hr-line">
                         <?php } ?>
                         <div>
@@ -304,15 +304,15 @@
                             </div> 
                             <hr class="enq-hr-line">
                         </div> 
-                        <div>
-                            <span style="text-align: center;"><strong>&nbsp;Enquiry Id ({{ enquiry.id}})</strong></span>
+                       <div>
+                            <span style="text-align: center;cursor:pointer;"><a ng-click="updateEnq({{ enquiry.customer_id}},{{ enquiry.id}});"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
                         </div>
                     </td>
                     <td width="30%">
                         <div><b>Enquiry Owner :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}</div>
                         <hr class="enq-hr-line">
                         <div>
-                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a><br/>
+                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a><br/>
                             <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
                         </div>
                     </td>
@@ -322,13 +322,16 @@
                     </tr>
                     </tbody>
                 </table>
-                
-                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'reassignEnquiries','',[[ $type ]], newPageNumber,listType, sharedemployee, presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
-                <div ng-if="enquiriesLength == 0">
-                    <div>
-                        <center><b>No Enquiries Found</b></center>
+                <div class="DTTTFooter">
+                    <div class="col-sm-6">
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{pageNumber}}</div>
                     </div>
-                </div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                            <dir-pagination-controls class="pagination" on-page-change="pageChanged(newPageNumber,'reassignEnquiries','',[[ $type ]], newPageNumber,listType, sharedemployee, presalesemployee)" max-size="5" direction-links="true" boundary-links="true" ng-if="enquiriesLength"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>                
             </div>
             <!-- Today history model =========================================================================================-->
             <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>

@@ -18,4 +18,7 @@ Route::group(array('module' => 'CloudTelephony', 'middleware' => ['api'], 'names
     Route::post('api/extensionmenu/menufileUpload', 'ExtensionMenuController@menufileUpload');
     Route::post('api/cloudcallinglogs/myOutboundLogs', 'CloudCallingLogsController@myOutboundLogs');
     Route::post('api/cloudcallinglogs/teamOutboundLogs', 'CloudCallingLogsController@teamOutboundLogs');
+    
+    Route::resource('api/cloudtelephony', 'CloudTelephonyController');
+    Route::post('api/cloudtelephony/manageLists', 'CloudTelephonyController@manageLists'); 
 });	

@@ -92,7 +92,7 @@ app.directive('checkLoginCredentials', function ($timeout, $q, Data, $http) {
     }
 });
 
-app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $window, $location, $timeout) {
+app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $window, $location, $timeout, $rootScope) {
     function link($scope, element, attributes, model) {
         model.$asyncValidators.customerInputs = function () {
             var customerMobileNo = '';
@@ -102,7 +102,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
             if (model.$isEmpty(customerMobileNo) && model.$isEmpty(customerEmailId))
                 return $q.when();
             else{
-                $scope.showloader();
+                //$scope.showloader();
                 return Data.post('master-sales/getCustomerDetails', {
                     data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId},
                 }).then(function (response) {
@@ -211,8 +211,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 
                             },200);                            
                             $scope.hideloader();
-
-                        } else{ //enquiry list of customer 
+                        } 
+                        else{ //enquiry list of customer 
+                            
                             var url = $location.path();
                             if(url === "/sales/enquiry" || url === "/sales/quickEnquiry" ){
                                 $scope.showDiv = true;
@@ -220,6 +221,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 $scope.backBtn = false;
                                 $scope.listsIndex = response; 
                             }else{
+                                $rootScope.newEnqFlag = 0; //update existing data
                                 $scope.disableText = true;
                                 $scope.resetBtn = true;
                                 $scope.backBtn = true;
@@ -232,6 +234,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                         $scope.locations = [];                    
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
+                        $rootScope.newEnqFlag = 1;
                         if ($scope.searchData.searchWithMobile === undefined) {
                             $scope.searchData.searchWithMobile = '';
                         }

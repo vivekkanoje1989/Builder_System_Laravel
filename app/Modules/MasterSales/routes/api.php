@@ -32,6 +32,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['api'], 'namespac
     Route::post('api/master-sales/getDocumentsList', 'MasterSalesController@getDocumentsList');// get documents  //uma 
     Route::post('api/master-sales/insertSendDocument', 'MasterSalesController@insertSendDocument');// get documents  //uma 
     Route::post('api/master-sales/sendDocList', 'MasterSalesController@sendDocList');// get documents  //uma 
+    Route::post('api/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee'); // uma
     /****************************FOLLOWUPS****************************/
     
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/

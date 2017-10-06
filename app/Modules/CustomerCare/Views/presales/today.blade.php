@@ -74,60 +74,8 @@
                                 <option value="999">999</option>
                             </select>
                         </label>
-                    </div>
-                    <!--                <div class="row">
-                                        <div class="col-sm-5 col-xs-12" style="float:left">
-                                            <div class="col-sm-3 center">
-                                                <input type="text" minlength="1" maxlength="3" placeholder="Records per page" ng-model="itemsPerPage" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control">
-                                            </div>  
-                                            <div class="col-sm-4 center">
-                                                <button type="button" class="btn btn-primary toggleForm" style="float: right;margin-left: 10px;" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_cc_presales_today',1)">
-                                                    <i class="btn-label fa fa-filter"></i>Show Filter</button>
-                                            
-                                            </div>
-                                            
-                                        </div>
-                                       
-                                        <div class="col-sm-7 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginat">                         
-                                            <span ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
-                                            <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'today','', [[$type]], newPageNumber, itemsPerPage)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row" style="border:2px;" id="filter-show">
-                                        
-                                       <div class="col-sm-12 col-xs-12">
-                                                                 
-                                           
-                                           <b ng-repeat="(key, value) in showfilterData" ng-if="value != 0 && key != 'toDate' ">
-                                               <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}"> 
-                                                    <div class="alert alert-info fade in" style="padding: 6px;">
-                                                       <button class="toggleForm close" ng-click=" removefilter('{{ key }}');" data-dismiss="alert"> ×</button>
-                                                       <strong ng-if="key === 'employee_id'"> Owners Name :- <span ng-repeat='emp in value track by $index'>{{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}}&nbsp;</span> </strong>
-                                                       <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showfilterData.fromDate | date:'dd-MMM-yyyy' }} <span ng-if="showfilterData.toDate!='' && showfilterData.toDate!= null ">To {{ showfilterData.toDate |date:'dd-MMM-yyyy' }}</span></strong>
-                                                       <strong ng-if="key == 'cc_presales_status_id'">Followup Status :- {{  value.substring(value.indexOf("_")+1) }}</strong>
-                                                       <strong ng-if="key == 'cc_presales_category_id'">Followup Category :- {{  value.substring(value.indexOf("_")+1) }}</strong>
-                                                       <strong ng-if="key === 'cc_presales_substatus_id'"> Followup Sub Status :- <span ng-repeat='subst in value track by $index'> {{ $index + 1}}){{   subst.cc_presales_substatus}}</span></strong>
-                                                       <strong ng-if="key === 'cc_presales_subcategory_id'"> Followup Sub Category :- <span ng-repeat='subcat in value track by $index'> {{ $index + 1}}){{   subcat.cc_presales_subcategory}}</span></strong>
-                                                       <strong ng-if="key == 'source_id'">Source :- {{  value.substring(value.indexOf("_")+1) }}</strong>
-                                                       <strong ng-if="key === 'subsource_id'"> Sub Source :- <span ng-repeat='subsouc in value track by $index'> {{ $index + 1}}){{   subsouc.enquiry_subsource}}</span></strong>
-                                                       <strong ng-if="key == 'project_id'">Project :- <span ng-repeat='proj in value track by $index'> {{ $index + 1}}){{   proj.project_name}}</span></strong>
-                                                       <strong ng-if="key == 'site_visit'">Site Visit :- Yes</strong>
-                                                       <strong ng-if="key == 'fname'">First Name :- {{  value }}</strong>
-                                                       <strong ng-if="key == 'lname'">Last Name :- {{  value }}</strong>
-                                                       <strong ng-if="key == 'mobileNumber'">Mobile Number :- {{  value }}</strong>
-                                                       <strong ng-if="key == 'emailId'">Email Id :- {{  value }}</strong>
-                                                       <strong ng-if="key == 'verifiedMobNo'">Verified Mobile Number :- {{  value === true ? " Yes " : "No" }}</strong>
-                                                       <strong ng-if="key == 'verifiedEmailId'">Verified Email Id :- {{  value === true ? " Yes " : "No" }}</strong>
-                                                       
-                                                   </div>
-                                               </div>
-                                           </b>      
-                                            
-                                       </div>
-                                   </div>                -->
+                    </div>                    
                     <br>
-
                     <table class="table table-hover table-striped table-bordered tableHeader">
                         <thead>
                             <tr>
@@ -287,7 +235,7 @@
                             </div>
                             <hr class="enq-hr-line">
                             <div>
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initerrorflag = false; initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1);"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                                <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initerrorflag = false; initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1);"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
                             </div>
 
                         </td>
@@ -309,16 +257,16 @@
                             </tr>
                         </tbody>
                     </table>
-<!--                    <div ng-if="enquiriesLength == 0">
-                        <div>
-                            <center><b>Followups Not Found</b></center>
+                    <div class="DTTTFooter">
+                        <div class="col-sm-6">
+                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{pageNumber}}</div>
                         </div>
-                    </div>-->
-
-                    <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'today','', [[$type]], newPageNumber, itemsPerPage)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
-
-
-
+                        <div class="col-sm-6">
+                            <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                                <dir-pagination-controls class="pagination" on-page-change="pageChanged(newPageNumber,'today','', [[$type]], newPageNumber, itemsPerPage)" max-size="5" direction-links="true" boundary-links="true" ng-if="enquiriesLength"></dir-pagination-controls>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>     
 

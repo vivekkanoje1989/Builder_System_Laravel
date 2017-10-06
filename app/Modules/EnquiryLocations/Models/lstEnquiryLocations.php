@@ -28,6 +28,6 @@ class lstEnquiryLocations extends Model {
 
     public function getCityName()
     {
-        return $this->belongsTo('App\Modules\ManageCity\Models\MlstCities','city_id');
+        return $this->belongsTo('App\Modules\ManageCity\Models\MlstCities','city_id')->select('id','name','state_id');
     }
 }

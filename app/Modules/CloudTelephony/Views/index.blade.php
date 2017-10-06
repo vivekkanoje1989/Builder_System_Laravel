@@ -142,7 +142,7 @@
                                 <td ng-if="listNumber.outbound_call_status == 1">Yes</td>
                                 <td ng-if="listNumber.outbound_call_status == 0">No</td>
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit"><a href="[[ config('global.backendUrl') ]]#/cloudtelephony/update/{{ listNumber.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
+                                    <span class="" tooltip-html-unsafe="Edit"><a href="[[ config('global.backendUrl') ]]#/cloudtelephony/update/{{ listNumber.id}}" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
                                 </td>
                             </tr>
                             <tr>

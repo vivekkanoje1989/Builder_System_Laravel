@@ -657,7 +657,7 @@ app.controller('verticalCtrl', function ($scope, Data) {
 });
 app.controller('salesemployeesCtrl', function ($scope, Data) {
     $scope.salesemployeeList = [];
-    Data.get('getsalesEmployees').then(function (response) {
+    Data.post('getsalesEmployees').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;
         } else {

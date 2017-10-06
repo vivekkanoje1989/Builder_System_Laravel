@@ -106,7 +106,7 @@
                                 <td>{{ list.discount_name}}</td>                           
                                 <td>{{list.status == 1? "Active" : "In active"}}</td> 
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit discount heading"  data-toggle="modal" data-target="#discountheadingModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.discount_name}}',{{ list.status}},{{itemsPerPage}},{{$index}})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit discount heading"  data-toggle="modal" data-target="#discountheadingModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.discount_name}}',{{ list.status}},{{itemsPerPage}},{{$index}})" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span  ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>

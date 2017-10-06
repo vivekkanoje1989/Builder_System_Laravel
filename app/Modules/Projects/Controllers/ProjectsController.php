@@ -356,15 +356,17 @@ class ProjectsController extends Controller {
                 $projectWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $projectId)->orderBy('id', 'ASC')->first();
                 $projectData = ProjectBlock::select('project_blocks.id', 'project_id','block_type_id','wing_id','block_sub_type','block_sub_type_label','block_availablity',
                         'sellable_area_in_sqft','sellable_area_in_sqmtr','block_quantity','block_description','project_blocks.show_on_website',
-                        'ob.id as other_block_id', 'ob.other_label', 'ob.area_in_sqft', 'ob.area_in_sqmtr', 'ob.other_block_show_on_website')
+                        'ob.id as other_block_id', 'ob.other_label', 'ob.area_in_sqft', 'ob.area_in_sqmtr', 'ob.other_block_show_on_website','bt.block_name')
                         ->leftJoin('project_other_blocks as ob', 'ob.block_id','=','project_blocks.id')
+                        ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_block_types as bt', 'bt.id','=','project_blocks.block_type_id')
                         ->where([['wing_id', '=', $projectWing->id], ['project_id', '=', $projectId]])->orderBy('wing_id', 'ASC')
                         ->get();
             } else {
                 $projectData = ProjectBlock::select('project_blocks.id', 'project_id','block_type_id','wing_id','block_sub_type','block_sub_type_label','block_availablity',
                         'sellable_area_in_sqft','sellable_area_in_sqmtr','block_quantity','block_description','project_blocks.show_on_website',
-                        'ob.id as other_block_id', 'ob.other_label', 'ob.area_in_sqft', 'ob.area_in_sqmtr', 'ob.other_block_show_on_website')
+                        'ob.id as other_block_id', 'ob.other_label', 'ob.area_in_sqft', 'ob.area_in_sqmtr', 'ob.other_block_show_on_website','bt.block_name')
                         ->leftJoin('project_other_blocks as ob', 'ob.block_id','=','project_blocks.id')
+                        ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_block_types as bt', 'bt.id','=','project_blocks.block_type_id')
                         ->where([['wing_id', '=', $input['data']['wingId']], ['project_id', '=', $projectId]])->get();
             }
             if(!empty($input['data']['inventoryData'])){
@@ -373,7 +375,7 @@ class ProjectsController extends Controller {
                 $input['data']['inventoryData']['wing_id'] = $input['data']['wingId'];
                 //$isBlockExist = ProjectBlock::where(['id' => $input['data']['inventoryData']['id'],'project_id' => $projectId, 'wing_id' => $input['data']['wingId']])->first();
                 $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                /*if (empty($input['data']['inventoryData']['id'])) {
+                if (empty($input['data']['inventoryData']['id'])) {
                     $input['data']['inventoryData']['client_id'] = config('global.client_id');
                     $input['inventoryData'] = array_merge($input['data']['inventoryData'], $create);
                     $actionProject = ProjectBlock::create($input['data']['inventoryData']);  
@@ -390,7 +392,7 @@ class ProjectsController extends Controller {
                     
                     $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                     $input['data']['inventoryData'] = array_merge($input['data']['inventoryData'], $update);
-                    unset($input['data']['inventoryData']['other_block_id'],$input['data']['inventoryData']['other_label'],
+                    unset($input['data']['inventoryData']['block_name'],$input['data']['inventoryData']['other_block_id'],$input['data']['inventoryData']['other_label'],
                             $input['data']['inventoryData']['area_in_sqft'],$input['data']['inventoryData']['area_in_sqmtr'],$input['data']['inventoryData']['other_block_show_on_website']);
                     $actionProject = ProjectBlock::where(['id' => $input['data']['inventoryData']['id'], 'project_id' => $projectId, 'wing_id' => $input['data']['wingId']])
                             ->update($input['data']['inventoryData']);
@@ -412,7 +414,7 @@ class ProjectsController extends Controller {
                         }
                     }
                     $msg = "Record updated successfully";
-                }*/
+                }
             }
         } 
         if (!empty($projectData)) {

@@ -1295,7 +1295,7 @@
                         </div>  
                     </form>
                 </tab>
-                <tab heading="Enquiry History" ng-click="initHistoryDataModal(remarkData.enquiryId)" id="historyTab">
+                <tab heading="Enquiry History" ng-click="initHistoryDataModal(remarkData.enquiryId,{{initmoduelswisehisory}},1)" id="historyTab">
                     <div class="model-body">
                         <div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
                     </div>

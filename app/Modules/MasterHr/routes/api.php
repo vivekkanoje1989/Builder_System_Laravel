@@ -2,7 +2,7 @@
 
 Route::group(array('module' => 'MasterHr', 'middleware' => ['api'], 'namespace' => 'App\Modules\MasterHr\Controllers'), function() {
 
-    Route::get('api/master-hr/getRoles', 'MasterHrController@getRoles');
+    Route::post('api/master-hr/getRoles', 'MasterHrController@getRoles');
     Route::get('api/master-hr/getChartData', 'MasterHrController@getChartData'); //show chart
     Route::post('api/master-hr/manageUsers', 'MasterHrController@manageUsers');
     Route::post('api/master-hr/', 'MasterHrController@store');

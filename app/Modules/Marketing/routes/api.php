@@ -1,8 +1,6 @@
 <?php
+Route::group(array('module' => 'Marketing', 'middleware' => ['api'], 'namespace' => 'App\Modules\Marketing\Controllers'), function() {
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+    Route::post('api/promotionalsms', 'PromotionalSMSController@store');
+    Route::post('api/promotionalsms/fileUpload', 'PromotionalSMSController@fileUpload');
+});

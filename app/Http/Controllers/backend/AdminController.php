@@ -413,9 +413,10 @@ class AdminController extends Controller {
         $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id', 'reason')->where([["lost_reason_status", "=", "1"], ['deleted_status', '<>', 1]])->orderBy('id')->get();
         $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id', 'enquiry_lost_reason_id', 'sub_reason')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
         $projectWingList = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->get();
-        $getEnquiryLocation = lstEnquiryLocations::select('*')->with('getCityName')->groupBy('city_id')->get();
+        $getEnquiryLocation = lstEnquiryLocations::select('id','country_id','city_id','location')->with('getCityName')->groupBy('city_id')->get();
         $getcttunetype = CtTuneType::all();
         $getctforwardingtype = CtForwardingType::all();
+        $getclient = ClientInfo::all();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource,
@@ -424,7 +425,7 @@ class AdminController extends Controller {
                  'salesEnqCategoryList' => $salesEnqCategoryList, 'salesEnqSubCategoryList' => $salesEnqSubCategoryList,
                 'salesEnqStatusList' => $salesEnqStatusList, 'salesEnqSubStatusList' => $salesEnqSubStatusList, 'channelList' => $channelList, "getCompanyList" => $getCompanyList,
                 "getLostReasons" => $getSalesLostReason, "getLostSubReasons" => $getSalesLostSubReason, "projectWingList" => $projectWingList, 'getcttunetype' => $getcttunetype,
-                "getctforwardingtype" => $getctforwardingtype,"getEnquiryLocation"=>$getEnquiryLocation];
+                "getctforwardingtype" => $getctforwardingtype,"getEnquiryLocation"=>$getEnquiryLocation,'getclient'=>$getclient];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -578,8 +579,16 @@ class AdminController extends Controller {
     }
 
     public function getsalesEmployees() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        
         $client_id = config('global.client_id');
-        $loggedInUserId = Auth::guard('admin')->user()->id;
+        
+        if (!empty($request['loggedInUserID']))
+            $loggedInUserId = $request['loggedInUserID'];
+        else
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        
         $getEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name', 'designation_id', 'employee_submenus')
                         ->where("client_id", $client_id)->where(["employee_status" => 1])->whereNotIn('id', [$loggedInUserId])->get();
         $i = 0;

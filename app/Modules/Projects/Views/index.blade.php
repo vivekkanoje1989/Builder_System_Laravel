@@ -131,7 +131,7 @@
                                 <td>{{list.projectType}}</td>
                                 <td>{{list.projectStatus}}</td>
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit"><a href="[[ config('global.backendUrl') ]]#/projects/webpageDetails/{{ list.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit"><a href="[[ config('global.backendUrl') ]]#/projects/webpageDetails/{{ list.id}}" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                 </td>
                             </tr>
                             <tr>

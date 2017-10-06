@@ -24,7 +24,6 @@
     }
     .demo-tab .nav-tabs{
         display: inline-flex;
-        margin: 0 30px;
     }
     .custAdress{
         font-size:20px;
@@ -95,14 +94,7 @@
                                         </span>
                                     </div>
                                     <input type="hidden" ng-model="customer_id" name="customer_id">
-                                </div>
-                                <div class="col-sm-3 col-md-3 col-xs-12" ng-show="resetBtn">
-                                    <div class="form-group"><label></label>
-                                        <span class="input-icon icon-right">
-                                            <button type="button" class="btn btn-primary" ng-click="resetForm()">Reset</button>
-                                        </span>
-                                    </div>
-                                </div>
+                                </div>                                
                             </div>
                         </div>
                         <br><br>
