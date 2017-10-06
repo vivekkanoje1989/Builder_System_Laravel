@@ -1273,13 +1273,11 @@ Regards,<br>
         //print_r($filterData);exit;
         $MyClass = new MasterSalesController();
         $employees = json_decode($MyClass->sharedEnquiriesEmployee());
-<<<<<<< HEAD
-        if (empty($request['empId'])) { // For Web
-=======
+
 
         if (empty($request['empId'])) { // For Web
             $login_id = Auth::guard('admin')->user()->id;
->>>>>>> 5257a5aee5ea84496399feaf5d3f7a3c6e12820f
+
             if (!empty($employees->presales) && $request['shared'] == '1') {
                 $loggedInUserId = $employees->presales;
             } else if (empty($employees->presales) && $request['shared'] == '1') {
@@ -1288,10 +1286,6 @@ Regards,<br>
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5257a5aee5ea84496399feaf5d3f7a3c6e12820f
             if ($request['teamType'] == 1) {
                 $this->getTeamIds($loggedInUserId);
                 $alluser = $this->allusers;
@@ -1581,26 +1575,18 @@ Regards,<br>
         return response()->json($result);
     }
 
-<<<<<<< HEAD
-    static public function sharedEnquiriesEmployee() {
-=======
 
     static public function sharedEnquiriesEmployee() {
         $employee_id = Auth::guard('admin')->user()->id;
 
->>>>>>> 5257a5aee5ea84496399feaf5d3f7a3c6e12820f
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         if (!empty($request['loggedInUserId'])) {
             $employee_id = $request['loggedInUserId'];
         } else {
             $employee_id = Auth::guard('admin')->user()->id;
-<<<<<<< HEAD
-        }
-=======
-        }        
 
->>>>>>> 5257a5aee5ea84496399feaf5d3f7a3c6e12820f
+        }
         $result = Employee::where('id', '=', $employee_id)->select('presale_shared_employee', 'postsale_shared_employee')->first();
         if (!empty($result->presale_shared_employee)) {
             $presale_shared_employee = $result->presale_shared_employee;
@@ -1624,64 +1610,9 @@ Regards,<br>
         return view("MasterSales::todaysfollowups")->with("type", $type);
     }
 
-    public function getEmployeeData() {
+  
 
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-
-
-        $getpresalesEmployees = Employee::join('lmsauto_master_final.mlst_lmsa_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
-                ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
-                ->where("employees.employee_status", 1)
-                ->where('employees.id', '<>', Auth::guard('admin')->user()->id)
-                ->get();
-        if (!empty($getpresalesEmployees)) {
-            $result = ['success' => true, 'presalesemprecords' => $getpresalesEmployees];
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-        }
-        return json_encode($result);
-    }
-
-    public function preSalesShareEnquiry() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-//       
-//        $empl_id = Auth::guard('admin')->user()->id;
-        $empId = [];
-        $enquiryId = [];
-        foreach ($request['employees'] as $employee) {
-            array_push($empId, $employee['id']);
-        }
-        foreach ($request['enquiry_id'] as $enquiry) {
-            array_push($enquiryId, $enquiry);
-        }
-
-        $employee_id = implode(',', $empId);
-
-        for ($i = 0; $i < count($enquiryId); $i++) {
-            $employees = '';
-
-            $select = Enquiry::select('presales_shared_with_employees')->where('id', $enquiryId[$i])->first();
-
-            if (!empty($select->presales_shared_with_employees) && !empty($employee_id)) {
-                $employees = $select->presales_shared_with_employees . "," . $employee_id;
-            } else if (empty($select->presales_shared_with_employees) && !empty($employee_id)) {
-                $employees = $employee_id;
-            } else {
-                $employees = '';
-            }
-
-            $employees = implode(',', array_unique(explode(',', $employees)));
-//           echo $employees = array_unique(explode(',', $employees));
-//           exit; 
-
-            $post = ['presales_shared_with_employees' => $employees];
-            $update = Enquiry::where('id', $enquiryId[$i])->update($post);
-            $result = ['success' => true, 'records' => $update];
-            return json_encode($result);
-        }
-    }
+  
 
     public function getTodaysFollowups() {// Todays Followups 
         try {
