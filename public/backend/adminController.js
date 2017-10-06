@@ -24,7 +24,6 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         $scope.extNumber = [];
         Data.get('getEmployeeData').then(function (response) {
             $scope.ct_employee = response.records;
-
         });
     }
 
