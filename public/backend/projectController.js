@@ -234,10 +234,13 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                         else
                             $scope.inventoryData.wing_id = wingId;
                     } else {
-                        $scope.inventoryList[$scope.inventoryList+1] = inventoryData;
-                        $('#inventoryDataModal').modal('toggle');
-                        $(".modal-backdrop").hide();
-                        toaster.pop('success', 'Project', response.message);
+                        $timeout(function(){
+                            toaster.pop('success', 'Project', response.message);
+                            console.log(response.records);
+                            $scope.inventoryList = angular.copy(response.records);
+                            $('#inventoryDataModal').modal('toggle');
+                            $(".modal-backdrop").hide();
+                        },300);
                     }
                 }
             });

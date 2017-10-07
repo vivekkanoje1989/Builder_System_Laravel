@@ -23,7 +23,7 @@ class MenuItems {
                         'submenu_ids' => '020101,020102,020103,020104,020105,020106,020107', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '020101', 'name' => 'Content Management', 'icon' => '','micon' => 'img/contentManagement.png', 'url' => '/website_settings/contentpages', 'slug' => 'webPagesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             2 => array('id' => '020102', 'name' => 'Contact Us', 'icon' => '','micon' => 'img/contactUs.png', 'url' => '/contactUs/index', 'slug' => 'contactusIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '020103', 'name' => 'Website Changing Module', 'icon' => '','micon' => 'img/websiteChangingModule.png', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            3 => array('id' => '020103', 'name' => 'Website Changing Module', 'icon' => '','micon' => 'img/websiteChangingModule.png', 'url' => '/website/change-module', 'slug' => 'webChangeModuleIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             4 => array('id' => '020104', 'name' => 'Webpage Management', 'icon' => '', 'micon' => 'img/webpageMgnt.png','url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             5 => array('id' => '020105', 'name' => 'Social Websites Management', 'icon' => '','micon' => 'img/socialWebsitesMgnt.png', 'url' => '/bms_lists/social', 'slug' => 'socialwebIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             6 => array('id' => '020106', 'name' => 'Blogs Management', 'icon' => '', 'micon' => 'img/dashboard.png','url' => '/manageblog/index', 'slug' => 'manageblogIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -129,6 +129,7 @@ class MenuItems {
 //                            1 => array('id' => '030301', 'name' => 'Create Role', 'micon' => 'img/createRole.png', 'url' => '/user/createrole', 'slug' => 'createrole', 'uiSrefActive' => 'active', 'total_submenu' => 1),
 //                            2 => array('id' => '030302', 'name' => 'Manage Role', 'micon' => 'img/manageRole.png', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
 //                        )),
+                    
                     3 => array('id' => '0303', 'name' => 'Manage Role', 'icon' => '', 'url' => '/user/manageroles', 'micon' => 'img/manageRole.png','slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),
             4 => array('name' => 'Sales', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'sales', 'has_submenu' => true, 'total_submenu' => 5,

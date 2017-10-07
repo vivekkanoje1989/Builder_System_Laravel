@@ -309,7 +309,6 @@ class DashBoardController extends Controller {
             $report = "select request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, GROUP_CONCAT(distinct employees.first_name,' ', employees.last_name) as empName, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = ".$loggedInUserId." GROUP BY request.id ";
             $employees = DB::select($report);
             $cnt = '';
-//            print_r($employees);exit;
         }
         $i = 0;
         foreach ($employees as $employee) {

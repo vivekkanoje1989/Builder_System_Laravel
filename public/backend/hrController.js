@@ -760,6 +760,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             }).then(function (response) {
                 if (response.success) {
                     $scope.menuItems = response.getMenu;
+                    console.log(response.getMenu);
                     var array = $.map(response.menuId, function (value, index) {
                         return [value];
                     });
@@ -830,7 +831,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             var isChecked = $("#" + checkboxid).prop("checked");
             var obj = $("#" + checkboxid);
             var level = $("#" + checkboxid).attr("data-level");
-//            console.log(submenuId);
+            
+            $scope.parentId = [];
             if (isChecked)
             {
                 if (level === "first") {
@@ -910,6 +912,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
 
                 } else if (level === "second") {
+                    console.log("sec"+parentId);
                     var flag = [];
                     $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="second"]'))).each(function () {
                         if ($(this).is(':checked'))
@@ -932,11 +935,13 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     if ($.inArray(true, flag) === -1) {
                         $scope.parentId = parentId;
                     } else {
+                        console.log("1=="+$scope.parentId);
                         $scope.parentId[0] = parentId[1];
                     }
 
 
                 } else if (level === "third") {
+                    
                     var flag = [];
                     $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="third"]'))).each(function () {
                         if ($(this).is(':checked'))
@@ -946,12 +951,13 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     });
                     if ($.inArray(true, flag) === -1)
                         $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', false);
-
+console.log("third"+parentId+"===="+flag);
 
                     if ($.inArray(true, flag) === -1) {
                         $scope.parentId[0] = parentId[1];
                     } else {
-                        $scope.parentId[0] = '';
+                        console.log("2=="+$scope.parentId);
+                        $scope.parentId[1] = parentId[1];
                     }
 
                 }
@@ -1656,7 +1662,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 empId = $rootScope.employeeId;
             }
             var createStatus = $("#employeeId").val();
-            alert(createStatus)
             userStatus = angular.fromJson(angular.toJson(userStatus));
             Data.post('master-hr/manageStatusForm', {
                 userStatus: userStatus, employeeId: empId, createStatus: createStatus
@@ -1742,8 +1747,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     if ($scope.position == 6) {
                         $scope.position = 5;
                     }
-//                alert(".wiredstep" + $scope.position);
-//                classs = ".wiredstep" + $scope.position;
+//               
                     $("#wiredstep" + $scope.position).removeClass('ng-hide');
                     $("#wiredstep" + $scope.position).css('display', 'block');
 //                $(classs).addClass('active');

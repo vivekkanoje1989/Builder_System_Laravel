@@ -4,7 +4,6 @@
     }
     .alert.alert-info {
         border-color: 1px solid #d9d9d9;
-        /* background: rgba(173, 181, 185, 0.81); */
         background-color: #f5f5f5;
         border: 1px solid #d9d9d9;
         color: black;
@@ -78,7 +77,7 @@
                         <thead class="bord-bot">
                             <tr>
                                 <th style="width:5%">Sr No.</th>
-                                <th style="width: 10%">
+                                <th style="width: 70%">
                                     <a href="javascript:void(0);" ng-click="orderByField('role_name')">Role
                                         <span ><img ng-hide="(sortKey == 'role_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'role_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
@@ -93,7 +92,8 @@
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{list.role_name}}</td>
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/role/permissions/{{ list.id}}" class="btn-primary btn-xs"><i class="fa fa-user-plus"></i>Permissions</a> &nbsp;&nbsp;</div>
+                                    <a href="[[ config('global.backendUrl') ]]#/role/permissions/{{ list.id}}" tooltip-html-unsafe="User Permissions" tooltip-placement="top" class="btn-primary btn-xs">
+                                    <i class="fa fa-user-plus"></i>Permissions</a> 
                                 </td>
                             </tr>
                         </tbody>

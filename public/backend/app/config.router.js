@@ -4129,7 +4129,8 @@ angular.module('app')
                                     templateUrl: '/website/change-module',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Website Change Module',
+                                        label: 'BMS / Website Settings / Website Change Module',
+                                        title:' Website Change Module',
                                         description: ''
                                     },
                                     resolve: {

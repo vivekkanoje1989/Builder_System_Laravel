@@ -829,9 +829,9 @@
                         <div class="">
                             <span><strong>Total Enquires found : {{totsalesEnquiries}}</strong></span>
                         </div>
-                        <div class="">
+<!--                        <div class="">
                             <span><strong>Total Deals : </strong></span>
-                        </div>
+                        </div>-->
                     </div>
                     <br>
                     <div class="row" ng-if="totpresalesEnquiries > 0">

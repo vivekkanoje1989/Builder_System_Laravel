@@ -48,7 +48,6 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             });
         }
         $scope.initialModal = function (id, theme_name, image, index, index1) {
-
             if (id == 0)
             {
                 $scope.heading = 'Add Theme';
@@ -63,7 +62,6 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 $scope.id = id;
                 $scope.theme.theme_name = theme_name;
                 $scope.image = image;
-
                 $scope.action = 'Update';
             }
 

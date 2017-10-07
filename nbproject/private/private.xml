@@ -3,15 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/assets/css/beyond.min.css</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Controllers/CareerManagementController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Models/WebCareersApplications.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Views/show.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/smsLogDetails.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Controllers/DashBoardController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Controllers/CareerManagementController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Views/show.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/assets/css/beyond.min.css</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/routes/api.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Models/WebCareersApplications.php</file>
         </group>
     </open-files>
 </project-private>
