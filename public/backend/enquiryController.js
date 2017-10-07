@@ -184,37 +184,6 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
         }
 
 
-
-//        $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init)
-//        {
-//            if (init == 1)
-//            {
-//                /*using the enquiry history modal*/
-//                $(':checkbox.chk_followup_history_all').prop('checked', true);
-//                $(':checkbox#chk_enquiry_history').prop('checked', true);
-//            }
-//            Data.post('customer-care/presales/getenquiryHistory', {
-//                enquiryId: enquiry_id, moduelswisehisory: moduelswisehisory
-//            }).then(function (response) {
-//                $scope.history_enquiryId = enquiry_id;
-//                $scope.chk_followup_history_all = true;
-//                if (response.success) {
-//                    $scope.historyList = angular.copy(response.records);
-//                    $timeout(function () {
-//                        for (i = 0; i < $scope.historyList.length; i++) {
-//                            if ($scope.historyList[i].call_recording_url != "" && $scope.historyList[i].call_recording_url != "None") {
-//                                document.getElementById("recording_" + $scope.historyList[i].id).src = $scope.historyList[i].call_recording_url;
-//                            }
-//                        }
-//                    }, 1000);
-//                } else
-//                {
-//                    $scope.historyList = angular.copy(response.records);
-//
-//                }
-//            });
-//        }
-
     $scope.getModulesWiseHist = function(enquiry_id,opt)
     {  
         if (opt == 1)
