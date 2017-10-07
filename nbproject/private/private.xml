@@ -2,6 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
@@ -10,5 +11,35 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/bookedenquiry.blade.php</file>
         </group>
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <group/>
+=======
+        <group/>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+        <group/>
+=======
+>>>>>>> 253e879a2d10da6bd82246c0938a71cfb478173e
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryHistory.blade.php</file>
+        </group>
+<<<<<<< HEAD
+=======
+>>>>>>> 0ab9d26bcd2304ef4cd8cc6c0582f9cb0cd08441
+>>>>>>> ed8e02996b4e87a224ef05ad9cfe2d424b387070
+>>>>>>> 8e0081093b9dfda4ae07f865ac49530bdb11c89a
+>>>>>>> 5257a5aee5ea84496399feaf5d3f7a3c6e12820f
+>>>>>>> c54702136941d9e70f9ddc777047bc189fde415e
+>>>>>>> 253e879a2d10da6bd82246c0938a71cfb478173e
+>>>>>>> f3f2a42521533c0bb0df2b30f3ab5c02ce6ea37e
     </open-files>
 </project-private>
