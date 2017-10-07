@@ -170,7 +170,7 @@ class MasterSalesController extends Controller {
      * @return Response
      */
     public function update($id) { //customer update
-        //try {
+        try {
             $originalValues = Customer::where('id', $id)->get();
             $originalContactValues = CustomersContact::where('customer_id', $id)->get();
             $postdata = file_get_contents("php://input");
@@ -270,10 +270,10 @@ class MasterSalesController extends Controller {
                     }
                 }
             }
-//        } catch (\Exception $ex) {
-//            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-//            return response()->json($result);
-//        }
+        } catch (\Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+            return response()->json($result);
+        }
         $result = ["success" => true, "customerId" => $id];
         return response()->json($result);
     }

@@ -379,6 +379,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 return false;
             }
         }
+    
         $scope.getTotalEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared)
         {
             $scope.itemsPerPage = itemPerPage;
