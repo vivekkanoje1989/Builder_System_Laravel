@@ -9,4 +9,5 @@ Route::group(array('module' => 'CareerManagement', 'middleware' => ['api'], 'nam
     Route::resource('careerManagement', 'CareerManagementController');
     Route::post('api/manage-job/viewapplicants', 'CareerManagementController@viewapplicants');
     Route::post('api/manage-job/deleteJob', 'CareerManagementController@deleteJob');
+     Route::post('api/manage-job/viewapplicants', 'CareerManagementController@viewapplicants');
 });

@@ -11,7 +11,7 @@
         padding: 5px;
     }
 </style>
-<div class="row" ng-controller="enquiryController" ng-init="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5,'','');  getEnquirySheredWith()" >
+<div class="row" ng-controller="enquiryController" ng-init="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, '', ''); getAllEmployeeData();" >
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -34,13 +34,13 @@
                         </div>
                     </div>                                      
                     <div class="col-sm-4">
-
+                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)">
+                            <span  class="text">&nbsp;&nbsp;Shared Enquiries</span></label>                    
                     </div>                    
                     <div class="col-sm-4">
-
                     </div>                    
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_booked_enquiries', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_booked_enquiries', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -49,15 +49,20 @@
                         <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu" ng-if="enquiriesLength != 0">
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
-                                <li ng-if="enquiriesLength != 0">
-                                    <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
-                                       Export
-                                    </a> 
-                                </li>
+                            <li ng-if="enquiriesLength != 0">
+                                <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
+                                    Export
+                                </a> 
+                            </li>
                             @endif
                             <li>
                                 <a href ng-model="BulkReasign"  id="BulkReasign"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >
                                     Reassign                                    
+                                </a>
+                            </li>
+                            <li>
+                                <a href ng-model="shareWith"  data-toggle="modal" data-target="#shareWith" ng-click="initBulkModal();" ng-if="shareWith" >
+                                    Share Enquiry                               
                                 </a>
                             </li>
                         </ul>
@@ -66,10 +71,9 @@
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
-                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
                     </div>
                     <!-- filter data--> 
-                     <div class="row col-sm-12" style="border:2px;" id="filter-show">
+                    <div class="row col-sm-12" style="border:2px;" id="filter-show">
                         <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate' && key != 'bookingToDate'">                         
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}" ng-if="value != ''">
                                 <div class="alert alert-info fade in">
@@ -149,22 +153,22 @@
                         </td>
                         <td width="20%">
                             <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
-                            <div ng-if="[[Auth::guard('admin')->user()-> customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
+                            <div ng-if="[[Auth::guard('admin') -> user() -> customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
                                 <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                     <a ng-if="callBtnPermission == '1'" style="cursor: pointer;" class="Linkhref"
-                                       ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin')->user()->id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
+                                       ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') -> user() -> id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                         <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                     </a>
                                     <span  ng-if="displayMobileN != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                    <span  ng-show="displayMobileN =='1'" class="text">{{mobile_obj}}</span>
+                                    <span  ng-show="displayMobileN == '1'" class="text">{{mobile_obj}}</span>
 
                                 </span>
                             </div>
                             <div ng-init="mobile_list = enquiry.mobile.split(',')">
-                                <p ng-if="[[ Auth::guard('admin')->user()->customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
+                                <p ng-if="[[ Auth::guard('admin') -> user() -> customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
                                     <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
-                                         <span  ng-if="displayMobileN != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                    <span  ng-show="displayMobileN =='1'" class="text">{{mobile_obj}}</span>
+                                        <span  ng-if="displayMobileN != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                        <span  ng-show="displayMobileN == '1'" class="text">{{mobile_obj}}</span>
                                     </span>
                                 </p>
                                 <p ng-if="displayEmailID" ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
@@ -225,23 +229,23 @@
                             <div> 
                                 <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory == null" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">
                                     <span class="ng-binding">
-                                    <b style="float: left;margin-right: 5px;">Category : </b>
-                                    <i id="catNew" ng-if="enquiry.sales_category_id == 1 "></i>
-                                    <i id="catHot" ng-if="enquiry.sales_category_id == 2 "></i>
-                                    <i id="catWarm" ng-if="enquiry.sales_category_id == 3 "></i>
-                                    <i id="catCold" ng-if="enquiry.sales_category_id == 4 "></i>
+                                        <b style="float: left;margin-right: 5px;">Category : </b>
+                                        <i id="catNew" ng-if="enquiry.sales_category_id == 1"></i>
+                                        <i id="catHot" ng-if="enquiry.sales_category_id == 2"></i>
+                                        <i id="catWarm" ng-if="enquiry.sales_category_id == 3"></i>
+                                        <i id="catCold" ng-if="enquiry.sales_category_id == 4"></i>
 
                                         {{ enquiry.enquiry_category | limitTo : 45 }}</span>
                                     <span ng-if="enquiry.enquiry_category > 45" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">...</span>                                
                                 </span>
                                 <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory != null" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}" ng-init="enquiry_sales_subcategory_length = enquiry.enquiry_sales_subcategory.length + enquiry.enquiry_sales_subcategory.length; enquiry_sales_subcategory = enquiry.enquiry_category + ' / ' + enquiry.enquiry_sales_subcategory">
-                                   <span class="ng-binding">
-                                    <b style="float: left;margin-right: 5px;">Category : </b>
-                                    <i id="catNew" ng-if="enquiry.sales_category_id == 1 "></i>
-                                    <i id="catHot" ng-if="enquiry.sales_category_id == 2 "></i>
-                                    <i id="catWarm" ng-if="enquiry.sales_category_id == 3 "></i>
-                                    <i id="catCold" ng-if="enquiry.sales_category_id == 4 "></i>                                
-                                    {{ enquiry_sales_subcategory | limitTo : 45 }}</span>
+                                    <span class="ng-binding">
+                                        <b style="float: left;margin-right: 5px;">Category : </b>
+                                        <i id="catNew" ng-if="enquiry.sales_category_id == 1"></i>
+                                        <i id="catHot" ng-if="enquiry.sales_category_id == 2"></i>
+                                        <i id="catWarm" ng-if="enquiry.sales_category_id == 3"></i>
+                                        <i id="catCold" ng-if="enquiry.sales_category_id == 4"></i>                                
+                                        {{ enquiry_sales_subcategory | limitTo : 45 }}</span>
                                     <span ng-if="enquiry_sales_subcategory_length > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
                                 </span>
                             </div>
@@ -255,10 +259,10 @@
                                     <b>Location :</b>
                                     {{enquiry.location_name| limitTo : 45 }}
                                     <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                                                                 
-                                <hr class="enq-hr-line">
+                                    <hr class="enq-hr-line">
                                 </div>                            
                             </div>
-                           <div>
+                            <div>
                                 <span style="text-align: center;cursor:pointer;"><a ng-click="updateEnq({{ enquiry.customer_id}},{{ enquiry.id}});"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
                             </div>                             
 
@@ -285,7 +289,7 @@
                             <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
                         </td>
                         </tr>
-                         <tr ng-if="enquiriesLength == 0 ||(enquiries|filter:search).length == 0">
+                        <tr ng-if="enquiriesLength == 0 ||(enquiries|filter:search).length == 0">
                             <td colspan="5" align="center">No Enquiries Found</td>   
                         </tr>
                         </tbody>              
@@ -299,57 +303,88 @@
                                 <dir-pagination-controls class="pagination" on-page-change="pageChanged(newPageNumber,'bookedEnquiries','', [[$type]], newPageNumber, listType,sharedemployee,presalesemployee)" max-size="5" direction-links="true" boundary-links="true" ng-if="enquiriesLength"></dir-pagination-controls>
                             </div>
                         </div>
-                     </div> 
+                    </div> 
                 </div>
-            <!-- send Document Data Modal ===================================================================================== -->
-            <div class="modal fade modal-primary" id="sendDocumentDataModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
-                <div class="modal-dialog modal-lg">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header navbar-inner">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title" align="center">Send Documents</h4>
-                        </div>                        
-                        <div data-ng-include=" '/MasterSales/sendDocument'"></div>
-                        <div class="modal-footer" align="center">
+                <!-- send Document Data Modal ===================================================================================== -->
+                <div class="modal fade modal-primary" id="sendDocumentDataModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog modal-lg">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header navbar-inner">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" align="center">Send Documents</h4>
+                            </div>                        
+                            <div data-ng-include=" '/MasterSales/sendDocument'"></div>
+                            <div class="modal-footer" align="center">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Today history model =============================================================================-->
-            <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
-                <div class="modal-dialog modal-lg">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header navbar-inner">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title" align="center">Enquiry History</h4>
-                        </div>
-                        <div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
-                        <div class="modal-footer" align="center">
-                        </div>
-                    </div>
-                </div>
-            </div> 
-            <!-- reassign ===============================================================================================   -->
-            <div class="modal fade modal-primary" id="BulkModal" role="dialog" tabindex='-1'>
-                <div class="modal-dialog modal-md" >
-                    <div class="modal-content">
-                        <div class="modal-header navbar-inner">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title" align="center">Reassign</h4>
-                        </div>
-                        <div data-ng-include="'/MasterSales/bulkreassign'"></div> 
-                        <div class="modal-footer" align="center">
+                <!-- Today history model =============================================================================-->
+                <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
+                    <div class="modal-dialog modal-lg">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header navbar-inner">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" align="center">Enquiry History</h4>
+                            </div>
+                            <div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
+                            <div class="modal-footer" align="center">
+                            </div>
                         </div>
                     </div>
+                </div> 
+                <!-- reassign ===============================================================================================   -->
+                <div class="modal fade modal-primary" id="BulkModal" role="dialog" tabindex='-1'>
+                    <div class="modal-dialog modal-md" >
+                        <div class="modal-content">
+                            <div class="modal-header navbar-inner">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" align="center">Reassign</h4>
+                            </div>
+                            <div data-ng-include="'/MasterSales/bulkreassign'"></div> 
+                            <div class="modal-footer" align="center">
+                            </div>
+                        </div>
 
+                    </div>
+                </div>  
+                <div class="modal fade modal-primary" id="shareWith" role="dialog" tabindex='-1'>
+                    <div class="modal-dialog modal-md" >
+                        <div class="modal-content" style="width: 80%;" >
+                            <div class="modal-header navbar-inner">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" align="center">Enquiry Sharing</h4>
+                            </div>
+                            <form novalidate style="margin-left: 5%;" role="form" name="presa" id="presales" ng-submit="preSalesShareEnquiry(predata.presalesemployee_id, all_chk_reassign)">
+                                <div class="row" >
+                                    <div class="col-sm-6 col-sx-12">
+                                        <div class="form-group" >
+                                            <label for="">Select Employee </label>   
+                                            <ui-select multiple ng-model="predata.presalesemployee_id" name="category_id" theme="select2" ng-disabled="disabled" style="width: 100%;">
+                                                <ui-select-match placeholder='Select  Employee'>{{$item.first_name}}</ui-select-match>
+                                                <ui-select-choices repeat="list in ct_presalesemployee  | filter:$select.search">
+                                                    {{list.first_name + " " + list.last_name + " (" + list.designation + ")"}} 
+                                                </ui-select-choices>
+                                            </ui-select>
+                                            <div ng-show="sbtBtn" ng-messages="bulkForm.employee_id.$error" class="help-block errMsg">
+                                                <div style="sp-err" ng-message="required">Please Select Employee</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3" style="margin-top:22px;">
+                                        <button type="submit" name="sbtbtn" value="Share" id="presalesbtn" class="btn btn-primary">Share</button>
+                                    </div>   
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>            
-            <!--<div data-ng-include="'/MasterSales/bulkreassign'"></div>--> 
-            <!--<div data-ng-include="'/MasterSales/collectionDetails'"></div>--> 
+                <!--<div data-ng-include="'/MasterSales/bulkreassign'"></div>--> 
+                <!--<div data-ng-include="'/MasterSales/collectionDetails'"></div>--> 
+            </div>
         </div>
-    </div>
     </div>
     <div data-ng-include="'/MasterSales/showFilter'"></div>
 </div>
