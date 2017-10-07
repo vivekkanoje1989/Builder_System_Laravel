@@ -40,7 +40,7 @@
                     <div class="col-sm-4">
                     </div>                    
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_booked_enquiries', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_booked_enquiries', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -153,10 +153,10 @@
                         </td>
                         <td width="20%">
                             <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
-                            <div ng-if="[[Auth::guard('admin') - > user() - > customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
+                            <div ng-if="[[Auth::guard('admin') -> user() -> customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
                                 <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                     <a ng-if="callBtnPermission == '1'" style="cursor: pointer;" class="Linkhref"
-                                       ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') - > user() - > id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
+                                       ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') -> user() -> id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                         <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                     </a>
                                     <span  ng-if="displayMobileN != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
@@ -165,7 +165,7 @@
                                 </span>
                             </div>
                             <div ng-init="mobile_list = enquiry.mobile.split(',')">
-                                <p ng-if="[[ Auth::guard('admin') - > user() - > customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
+                                <p ng-if="[[ Auth::guard('admin') -> user() -> customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
                                     <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                         <span  ng-if="displayMobileN != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
                                         <span  ng-show="displayMobileN == '1'" class="text">{{mobile_obj}}</span>
@@ -263,7 +263,7 @@
                                 </div>                            
                             </div>
                             <div>
-                                <span style="text-align: center;cursor:pointer;"><a ng-click="updateEnq({{ enquiry.customer_id}},{{ enquiry.id}});"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
+                                <span style="text-align: center;cursor:pointer;"><a ng-click="updateEnq('{{ enquiry.customer_id}}','{{ enquiry.id}}');"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
                             </div>                             
 
                         </td>
@@ -279,7 +279,7 @@
                                 </span></div>
                             <hr class="enq-hr-line">
                             <div>
-                                <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                                <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal('{{ enquiry.id}}','{{initmoduelswisehisory}}',1)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
                             </div>
 
                         </td>
@@ -352,35 +352,15 @@
                 </div>  
                 <div class="modal fade modal-primary" id="shareWith" role="dialog" tabindex='-1'>
                     <div class="modal-dialog modal-md" >
-                        <div class="modal-content" style="width: 80%;" >
+                        <div class="modal-content">
                             <div class="modal-header navbar-inner">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title" align="center">Enquiry Sharing</h4>
                             </div>
-                            <form novalidate style="margin-left: 5%;" role="form" name="presa" id="presales" ng-submit="preSalesShareEnquiry(predata.presalesemployee_id, all_chk_reassign)">
-                                <div class="row" >
-                                    <div class="col-sm-6 col-sx-12">
-                                        <div class="form-group" >
-                                            <label for="">Select Employee </label>   
-                                            <ui-select multiple ng-model="predata.presalesemployee_id" name="category_id" theme="select2" ng-disabled="disabled" style="width: 100%;">
-                                                <ui-select-match placeholder='Select  Employee'>{{$item.first_name}}</ui-select-match>
-                                                <ui-select-choices repeat="list in ct_presalesemployee  | filter:$select.search">
-                                                    {{list.first_name + " " + list.last_name + " (" + list.designation + ")"}} 
-                                                </ui-select-choices>
-                                            </ui-select>
-                                            <div ng-show="sbtBtn" ng-messages="bulkForm.employee_id.$error" class="help-block errMsg">
-                                                <div style="sp-err" ng-message="required">Please Select Employee</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3" style="margin-top:22px;">
-                                        <button type="submit" name="sbtbtn" value="Share" id="presalesbtn" class="btn btn-primary">Share</button>
-                                    </div>   
-                                </div>
-                            </form>
+                            <div data-ng-include="'/MasterSales/enquirySheredWith'"></div> 
                         </div>
                     </div>
-                </div>
+                </div> 
                 <!--<div data-ng-include="'/MasterSales/bulkreassign'"></div>--> 
                 <!--<div data-ng-include="'/MasterSales/collectionDetails'"></div>--> 
             </div>

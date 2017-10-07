@@ -16,6 +16,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/MasterSales/enquiryHistory', function () {
         return View::make('MasterSales::enquiryHistory');
     });
+    Route::get('/MasterSales/enquirySheredWith', function () {
+        return View::make('MasterSales::enquirySheredWith');
+    });
     Route::get('/MasterSales/bulkreassign', function () {
         return View::make('MasterSales::bulkreassign');
     });
@@ -115,10 +118,10 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::post('/master-sales/insertReceipt', 'MasterSalesController@insertReceipt');
 
     
-     Route::post('/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee');
+     Route::get('/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee');
      
-      Route::get('/master-sales/getEmployeeData', 'MasterSalesController@getEmployeeData');
-     Route::post('/master-sales/preSalesShareEnquiry', 'MasterSalesController@preSalesShareEnquiry');
+    Route::get('/master-sales/getEmployeeData', 'MasterSalesController@getEmployeeData');
+    Route::post('/master-sales/preSalesShareEnquiry', 'MasterSalesController@preSalesShareEnquiry');
 
 });
 
