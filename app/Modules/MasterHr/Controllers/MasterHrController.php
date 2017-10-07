@@ -1589,6 +1589,7 @@ class MasterHrController extends Controller {
                     if (count($arrdiff2) == 0) {
                         $removeId[] = $parentId[0];
                     }
+                    print_r($submenuId);
                 }
                 if (!empty($input['data']['allChild3Id'])) { //[01401,0140102],[014010205], [0140101,0140102], [014010201,014010202,014010203,014010204,014010205]
                     $allChild3Id = array_map(function($el) {

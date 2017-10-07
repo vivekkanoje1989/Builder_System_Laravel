@@ -13,7 +13,7 @@
     }
   
 </style>
-<div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4,'',''); getEnquirySheredWith()">
+<div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4,'',''); ">
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -310,18 +310,13 @@
                     </tr>
                     </tbody>
                 </table>
-                    <div class="DTTTFooter">
-                        <div class="col-sm-6">
-                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{pageNumber}}</div>
-                         </div>
-                        <div class="col-sm-6">
-                           <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                                <dir-pagination-controls class="pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" max-size="5" direction-links="true" boundary-links="true" ng-if="enquiriesLength"></dir-pagination-controls>
-                            </div>  
-                        </div>
+
+                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
+<!--                <div ng-if="enquiriesLength == 0">
+                    <div>
+                        <center><b>No Enquiries Found</b></center>
                     </div>
-                                  
-                <!--<dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" template-url="" ng-if="enquiriesLength"></dir-pagination-controls>-->                        
+                </div>-->
             </div>
             </div> 
 
@@ -388,5 +383,3 @@
     </div>
     <div data-ng-include="'/MasterSales/showFilter'"></div>
 </div>
-
-
