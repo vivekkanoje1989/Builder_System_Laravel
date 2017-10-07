@@ -612,10 +612,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.getEnquirySheredWith = function () {
-
-
             Data.get('master-sales/sharedEnquiriesEmployee').then(function (response) {
-
                 $scope.presalesemployee = response.presales;
                 $scope.postsalesemployee = response.postsales;
             });
