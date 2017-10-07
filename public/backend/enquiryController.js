@@ -12,7 +12,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.noOfRows = 1;
         $scope.historyList = {};
 
-
         $scope.initmoduelswisehisory = [1, 2];
         $scope.history_enquiryId;
 
@@ -119,6 +118,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     }, 1000);
                 } else
                 {
+
+                    $scope.historyList = angular.copy(response.records);
+
                     /*using the enquiry history modal*/
                     $(':checkbox.chk_followup_history_all').prop('checked', true);
                     $(':checkbox#chk_enquiry_history').prop('checked', true);
@@ -144,6 +146,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
                     }
                 });
+
             });
         }
 
@@ -243,9 +246,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 //        }
 
 
+
         $scope.getModulesWiseHistory = function (enquiry_id, opt)
         {
             var moduelswisehisory = new Array();
+
             if (opt == 1)
             {
                 if ($('#chk_enquiry_history').is(":checked"))
@@ -256,6 +261,29 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $(':checkbox.chk_followup_history_all').prop('checked', false);
                 }
             }
+
+            var mhistory = new Array();
+            if ($('#chk_presales').is(":checked"))
+            {
+                mhistory.push($('#chk_presales').data("id"))
+            }
+            if ($('#chk_Customer_Care').is(":checked"))
+            {
+                mhistory.push($('#chk_Customer_Care').data("id"))
+            }
+            if (mhistory.length == 2)
+            {
+                $(':checkbox#chk_enquiry_history').prop('checked', true);
+            } else
+            {
+                $(':checkbox#chk_enquiry_history').prop('checked', false);
+            }
+            $scope.initHistoryDataModal(enquiry_id, mhistory, 0)
+        }
+
+
+        $scope.exportReport = function (result) {
+
 
             $(".chk_followup_history_all").each(function () {
                 if ($(this).is(":checked"))
@@ -386,7 +414,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.type = type;
             $scope.showloader();
             $scope.listType = listType;
-            $scope.sharedemployee = shared;
+             $scope.sharedemployee = shared;
+
             if (type == 0) {
                 $scope.report_name = "Total Enquiries";
                 $scope.pagetitle = "My Total Enquiries";
@@ -543,7 +572,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 return false;
             }
         }
-        $scope.lostEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
+        $scope.lostEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -555,14 +584,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Team`s Lost Enquiries";
                 $scope.pagetitle = "Team`s Lost Enquiries";
             }
+            $scope.sharedemployee = shared;
             $scope.showloader();
-            if (shared) {
-                $scope.sharedEmployees = sharedEmployees;
-            } else {
-                $scope.sharedEmployees = '';
-            }
+           
             Data.post('master-sales/getLostEnquiries', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, shared: $scope.sharedemployee
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -647,7 +673,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.getProcName = angular.copy(procedureName);
             $scope.getFunctionName = angular.copy(functionName);
             $scope.shared = shared;
-            alert(shared)
+
+
         }
 
         $scope.getFilteredData = function (filterData, page, recordsperpage) {
@@ -749,7 +776,22 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.BulkReasign = false;
                 $scope.shareWith = false;
             }
+        }
 
+
+        $scope.ct_presalesemployee = [];
+        $scope.getAllEmployeeData = function (employee_id) {
+            Data.get('master-sales/getEmployeeData').then(function (response) {
+                $scope.ct_presalesemployee = response.presalesemprecords;
+            });
+        };
+
+        $scope.predata = [];
+        $scope.preSalesShareEnquiry = function (employees) {
+            Data.post('master-sales/preSalesShareEnquiry', {employees: employees, enquiry_id: $scope.Bulkflag}).then(function (response) {
+                $('#shareWith').modal('toggle');
+                toaster.pop('success', 'Enquiries Sharing', "Enquiry shared successfully");
+            });
         }
 
         $scope.ct_presalesemployee = [];

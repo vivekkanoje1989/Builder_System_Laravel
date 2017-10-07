@@ -147,6 +147,7 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
+
     public function delEnquiryDetailRow() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -175,7 +176,7 @@ class MasterSalesController extends Controller {
             $originalContactValues = CustomersContact::where('customer_id', $id)->get();
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
-            
+
             if (empty($input)) {
                 $input = Input::all();
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -202,7 +203,7 @@ class MasterSalesController extends Controller {
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "";
             $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
-            //print_r($input);exit;
+
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
 
@@ -216,7 +217,6 @@ class MasterSalesController extends Controller {
                 $input['customerData']['record_type'] = 2;
                 $input['customerData']['column_names'] = $implodeArr;
                 $input['customerData']['record_restore_status'] = 1;
-
                 CustomersLog::create($input['customerData']);
             }
             if (!empty($input['customerContacts'])) {
@@ -274,6 +274,7 @@ class MasterSalesController extends Controller {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
             return response()->json($result);
         }
+
         $result = ["success" => true, "customerId" => $id];
         return response()->json($result);
     }
@@ -1273,8 +1274,10 @@ Regards,<br>
         $MyClass = new MasterSalesController();
         $employees = json_decode($MyClass->sharedEnquiriesEmployee());
 
+
         if (empty($request['empId'])) { // For Web
             $login_id = Auth::guard('admin')->user()->id;
+
             if (!empty($employees->presales) && $request['shared'] == '1') {
                 $loggedInUserId = $employees->presales;
             } else if (empty($employees->presales) && $request['shared'] == '1') {
@@ -1282,7 +1285,6 @@ Regards,<br>
             } else {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             }
-
 
             if ($request['teamType'] == 1) {
                 $this->getTeamIds($loggedInUserId);
@@ -1573,20 +1575,16 @@ Regards,<br>
         return response()->json($result);
     }
 
-
     static public function sharedEnquiriesEmployee() {
         $employee_id = Auth::guard('admin')->user()->id;
 
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        if (!empty($request['loggedInUserId'])) { 
+        if (!empty($request['loggedInUserId'])) {
             $employee_id = $request['loggedInUserId'];
-        }
-        else
-        {
+        } else {
             $employee_id = Auth::guard('admin')->user()->id;
-        }        
-
+        }
         $result = Employee::where('id', '=', $employee_id)->select('presale_shared_employee', 'postsale_shared_employee')->first();
         if (!empty($result->presale_shared_employee)) {
             $presale_shared_employee = $result->presale_shared_employee;
@@ -1688,12 +1686,18 @@ Regards,<br>
 
     public function getLostEnquiries() {// get lost enquiries
         try {
+
+            $MyClass = new MasterSalesController();
+            $employees = json_decode($MyClass->sharedEnquiriesEmployee());
+
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
-                    if (!empty($request['sharedEmployees'])) {
-                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    if (!empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->presales;
+                    } else if (empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
                     } else {
                         $loggedInUserId = Auth::guard('admin')->user()->id;
                     }

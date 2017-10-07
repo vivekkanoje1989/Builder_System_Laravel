@@ -114,14 +114,11 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::post('/master-sales/insertCollection', 'MasterSalesController@insertCollection');
     Route::post('/master-sales/insertReceipt', 'MasterSalesController@insertReceipt');
 
-    /*     * *******************TODAY REMARK******************** */
-
-    Route::get('/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee');
-
-    Route::get('/master-sales/getEmployeeData', 'MasterSalesController@getEmployeeData');
-    Route::post('/master-sales/preSalesShareEnquiry', 'MasterSalesController@preSalesShareEnquiry');
-
     
+     Route::post('/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee');
+     
+      Route::get('/master-sales/getEmployeeData', 'MasterSalesController@getEmployeeData');
+     Route::post('/master-sales/preSalesShareEnquiry', 'MasterSalesController@preSalesShareEnquiry');
 
 });
 
