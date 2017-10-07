@@ -13,7 +13,7 @@
     }
 </style>
 <?php $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true); ?>
-<div class="row" ng-controller="enquiryController" ng-init="reassignEnquiries('', [[ $type ]], 1, [[config('global.recordsPerPage')]], 6,'', ''); getEnquirySheredWith()" >
+<div class="row" ng-controller="enquiryController" ng-init="reassignEnquiries('', [[ $type ]], 1, [[config('global.recordsPerPage')]], 6,''); getEnquirySheredWith()" >
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -68,7 +68,7 @@
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
-                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="getTotalEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 4, sharedemployee, presalesemployee)" ><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
+                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="reassignEnquiries('', [[ $type ]], 1, [[config('global.recordsPerPage')]], 6, sharedemployee)" ><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
                     </div>
                     <!-- filter data--> 
                     <div class="row col-sm-12" style="border:2px;" id="filter-show">
