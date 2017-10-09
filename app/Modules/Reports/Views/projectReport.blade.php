@@ -34,14 +34,14 @@
                                         </thead>
                                         <tbody>
                                             <tr  ng-repeat="category in category_report">
-                                                <td>{{category}}</td>
-                                                <td><div style="width:60px; float:left;"  ng-if="value > 0">{{value}}</div><div style="float:left;" ng-if="value > 0"> <a href="" style="padding-left:30px;" ng-click="teamcategoryEnquiryReport(category); teamEmployees(category); subProjectCategoryReport(category, 1, 1)">Show sub-category wise report</a></div><span ng-if="value == 0">{{value}}</span></td>
-                                                <td>{{((value / Total) * 100).toFixed(2) == 'NaN' ? '0':((value / Total) * 100).toFixed(2)}}</td>
+                                                <td>{{category.category}}</td>
+                                                <td><div style="width:60px; float:left;"  ng-if="category.count > 0">{{category.count}}</div><div style="float:left;" ng-if="category.count > 0"> <a href="" style="padding-left:30px;" ng-click="teamcategoryEnquiryReport(category); teamEmployees(category); subProjectCategoryReport(category, 1, 1)">Show sub-category wise report</a></div><span ng-if="category.count == 0">0</span></td>
+                                                <td>{{((category.count / TotalCnt) * 100).toFixed(2) == 'NaN' ? '0':((category.count / TotalCnt) * 100).toFixed(2)}}</td>
                                             </tr> 
                                             <tr>
                                                 <td align="center"><b>Total</b></td>
-                                                <td><b>{{Total}}</b></td>
-                                                <td><b>{{((Total / Total) * 100).toFixed(2) == 'NaN' ? '0':((Total / Total) * 100).toFixed(2)}}</b></td>
+                                                <td><b>{{TotalCnt}}</b></td>
+                                                <td><b>{{((TotalCnt / TotalCnt) * 100).toFixed(2) == 'NaN' ? '0':((TotalCnt / TotalCnt) * 100).toFixed(2)}}</b></td>
                                             </tr>
                                         </tbody>
                                     </table>

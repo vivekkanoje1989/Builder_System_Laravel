@@ -351,7 +351,7 @@ app.directive("ngfSelect", [function () {
                             $scope[ngModel.name + "_preview"].push(e.target.result);
                         }
                         reader.readAsDataURL(file[0]);
-                    } else {console.log(imgName + errmsg);
+                    } else {
                         $scope[ngModel.name + "_err"] = imgName + errmsg;
                         $scope[ngModel.name + "_preview"] = "";
                         $("#"+ngModel.name).val("");
@@ -369,7 +369,6 @@ app.directive('checkOldPassword', function ($timeout, $q, Data) {
         require: 'ngModel',
         link: function ($scope, element, attributes, model) {
             model.$asyncValidators.checkOldPassword = function () {
-                console.log($scope);
                 var old_password = $scope.profileData.oldPassword;
                 return Data.post('checkOldPassword', {
                     data: {old_password: old_password},
@@ -446,7 +445,6 @@ app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
                 return Data.post('checkUniqueMobile1', {
                     data: {mobileData: personal_mobile1, id: employeeId},
                 }).then(function (response) {
-                    console.log(response);
                     $timeout(function () {
                         model.$setValidity('uniqueMobile', !!response.success);
                     }, 1000);
