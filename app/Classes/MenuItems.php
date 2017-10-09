@@ -406,7 +406,7 @@ class MenuItems {
                     5 => array('id' => '01405', 'name' => 'Track Employee Location', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     6 => array('id' => '01406', 'name' => 'Hide Customer Details', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),
-            15 => array('name' => 'Enquiry Shared', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'presales', 'has_submenu' => true, 'total_submenu' => 1,
+            15 => array('name' => 'Enquiry Shared', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'enquiryShared', 'has_submenu' => true, 'total_submenu' => 1,
                 'submenu_ids' => '01501,01502', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '01501', 'name' => 'Pre Sales Shared', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     2 => array('id' => '01502', 'name' => 'Post Sales Shared', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
