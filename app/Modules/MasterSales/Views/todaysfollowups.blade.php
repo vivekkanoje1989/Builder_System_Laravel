@@ -11,7 +11,7 @@
         padding: 5px;
     }
 </style>
-<div class="row" ng-controller="enquiryController" ng-init="todaysFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 1,'',''); getEnquirySheredWith()" >
+<div class="row" ng-controller="enquiryController" ng-init="todaysFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 1,''); getAllEmployeeData();" >
     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '[[ csrf_token() ]]'">
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
@@ -41,7 +41,7 @@
                         
                     </div>                    
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_today_followups', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_today_followups', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -68,7 +68,7 @@
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
-                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="todaysFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 1, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
+                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="todaysFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 1, sharedemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
                     </div>
                     <!-- filter data--> 
                      <div class="row col-sm-12" style="border:2px;" id="filter-show">
@@ -304,7 +304,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                            <dir-pagination-controls class="pagination" on-page-change="pageChanged(newPageNumber,'todaysFollowups','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" max-size="5" direction-links="true" boundary-links="true" ng-if="enquiriesLength"></dir-pagination-controls>
+                            <dir-pagination-controls class="pagination" on-page-change="pageChanged(newPageNumber,'todaysFollowups','', [[$type]],newPageNumber,listType,sharedemployee)" max-size="5" direction-links="true" boundary-links="true" ng-if="enquiriesLength"></dir-pagination-controls>
                         </div>
                     </div>
                 </div>            

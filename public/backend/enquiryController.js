@@ -11,6 +11,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.itemsPerPage = 3;
         $scope.noOfRows = 1;
         $scope.historyList = {};
+        $scope.ct_presalesemployee = [];
 
         $scope.initmoduelswisehisory = [1, 2];
         $scope.history_enquiryId;
@@ -331,7 +332,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }
             $scope.pageNumber = pageNo;
         }
-        $scope.reassignEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
+        $scope.reassignEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -344,13 +345,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Teams Reassign Enquiries";
                 $scope.pagetitle = "Team`s Reassign Enquiries ";
             }
-            if (shared) {
-                $scope.sharedEmployees = sharedEmployees;
-            } else {
-                $scope.sharedEmployees = '';
-            }
+            
+             $scope.sharedemployee = shared;
+            
             Data.post('master-sales/getReassignEnquiry', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, shared: $scope.sharedemployee
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -386,8 +385,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Teams Total Enquiries";
                 $scope.pagetitle = "Team`s Total Enquiries ";
             }
+            $scope.sharedemployee = shared;
             Data.post('master-sales/getTotalEnquiries', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, shared: shared
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, shared: $scope.sharedemployee
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -412,7 +412,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
 
 
-        $scope.todaysFollowups = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
+        $scope.todaysFollowups = function (id, type, pageNumber, itemPerPage, listType, shared)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -425,14 +425,10 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.pagetitle = "Team`s Today's Followups";
             }
 
-            if (shared) {
-                $scope.sharedEmployees = sharedEmployees;
-            } else {
-                $scope.sharedEmployees = '';
-            }
+            $scope.sharedEmployees = shared
 
             Data.post('master-sales/getTodaysFollowups', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, shared: $scope.sharedEmployees
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -454,7 +450,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 return false;
             }
         }
-        $scope.pendingsFollowups = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
+        $scope.pendingsFollowups = function (id, type, pageNumber, itemPerPage, listType, shared)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -466,13 +462,10 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Team`s Pending Followups";
                 $scope.pagetitle = "Team`s Pending Followups";
             }
-            if (shared) {
-                $scope.sharedEmployees = sharedEmployees;
-            } else {
-                $scope.sharedEmployees = '';
-            }
+            $scope.sharedemployee = shared;
+
             Data.post('master-sales/getPendingFollowups', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, shared: $scope.sharedemployee
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -496,7 +489,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 return false;
             }
         }
-        $scope.previousFollowups = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
+        $scope.previousFollowups = function (id, type, pageNumber, itemPerPage, listType, shared)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -508,13 +501,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Team`s Previous Followups";
                 $scope.pagetitle = "Team`s Previous Followups";
             }
-            if (shared) {
-                $scope.sharedEmployees = sharedEmployees;
-            } else {
-                $scope.sharedEmployees = '';
-            }
+
+            $scope.sharedemployee = shared;
+
             Data.post('master-sales/previousFollowups', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, shared: $scope.sharedemployee
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -581,7 +572,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
 
-        $scope.bookedEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
+        $scope.bookedEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -593,14 +584,10 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Team`s Booked Enquiries";
                 $scope.pagetitle = "Team`s Booked Enquiries";
             }
-            if (shared) {
-                $scope.sharedEmployees = sharedEmployees;
-            } else {
-                $scope.sharedEmployees = '';
-            }
+            $scope.sharedemployee = shared;
             $scope.showloader();
             Data.post('master-sales/getBookedEnquiries', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, shared: $scope.sharedemployee
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -629,16 +616,13 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         /****************************FILTER (UMA)***************************************/
 
         $scope.procName = function (procedureName, functionName, shared) {
-
             $scope.getProcName = angular.copy(procedureName);
             $scope.getFunctionName = angular.copy(functionName);
             $scope.shared = shared;
-
-
         }
 
         $scope.getFilteredData = function (filterData, page, recordsperpage) {
-            alert($scope.shared)
+
             Object.keys($scope.filterData).forEach(function (key) {
                 if ($scope.filterData[key] == '')
                 {
@@ -737,8 +721,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.shareWith = false;
             }
         }
-
-
         $scope.ct_presalesemployee = [];
         $scope.getAllEmployeeData = function (employee_id) {
             Data.get('master-sales/getEmployeeData').then(function (response) {
@@ -748,21 +730,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.predata = [];
         $scope.preSalesShareEnquiry = function (employees) {
-            Data.post('master-sales/preSalesShareEnquiry', {employees: employees, enquiry_id: $scope.Bulkflag}).then(function (response) {
-                $('#shareWith').modal('toggle');
-                toaster.pop('success', 'Enquiries Sharing', "Enquiry shared successfully");
-            });
-        }
 
-        $scope.ct_presalesemployee = [];
-        $scope.getAllEmployeeData = function (employee_id) {
-            Data.get('master-sales/getEmployeeData').then(function (response) {
-                $scope.ct_presalesemployee = response.presalesemprecords;
-            });
-        }
-
-        $scope.predata = [];
-        $scope.preSalesShareEnquiry = function (employees) {
             Data.post('master-sales/preSalesShareEnquiry', {employees: employees, enquiry_id: $scope.Bulkflag}).then(function (response) {
                 $('#shareWith').modal('toggle');
                 toaster.pop('success', 'Enquiries Sharing', "Enquiry shared successfully");

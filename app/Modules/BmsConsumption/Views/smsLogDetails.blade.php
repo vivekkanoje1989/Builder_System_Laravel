@@ -161,7 +161,7 @@
                                 <td>{{ smsLogDetails.mobile_number}}</td>
                                 <td>{{ smsLogDetails.sms_body}}</td>
                                 <td ng-show="{{smsLogDetails.bulk_file_id.length}}!== 0">
-                                    <a href="[[config('global.s3Path')]]bulk_sms_file/{{smsLogDetails.bulk_file_id}}" class="btn-primary btn-xs"><i class="fa fa-download" aria-hidden="true"></i>Download</a>
+                                    <a href="[[config('global.s3Path')]]/bulk_sms_file/{{smsLogDetails.bulk_file_id}}" class="btn-primary btn-xs"><i class="fa fa-download" aria-hidden="true"></i>Download</a>
                                 </td>
                                 <td ng-show="{{smsLogDetails.bulk_file_id.length}} == 0">--</td>
                                 <td>{{ employee_name}}</td>

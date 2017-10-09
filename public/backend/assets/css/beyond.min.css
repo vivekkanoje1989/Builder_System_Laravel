@@ -3848,7 +3848,7 @@ a:active {
     line-height: 39px;
     padding: 0;
     display: block;
-    z-index: 1;
+       z-index: 99;
     width:100%;
     -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
     -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);

@@ -1402,8 +1402,11 @@ Regards,<br>
             $request = json_decode($postdata, true);
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
-                    if (!empty($request['sharedEmployees'])) {
-                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    $login_id = $loggedInUserId = Auth::guard('admin')->user()->id;
+                    if (!empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->presales;
+                    } else if (empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
                     } else {
                         $loggedInUserId = Auth::guard('admin')->user()->id;
                     }
@@ -1421,7 +1424,10 @@ Regards,<br>
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getTotalEnquiryDetails = DB::select('CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            print_r($getTotalEnquiryDetails);
+            exit;
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
+//            ,' . $login_id . ',"' . $request['shared'] . '"
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
 
             if (count($getTotalEnquiryDetails) > 0) {
@@ -1444,11 +1450,6 @@ Regards,<br>
     }
 
     public function getEmployeeData() {
-
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-
-
         $getpresalesEmployees = Employee::join('lmsauto_master_final.mlst_lmsa_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                 ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
                 ->where("employees.employee_status", 1)
@@ -1512,6 +1513,7 @@ Regards,<br>
             $request = json_decode($postdata, true);
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
+                    $login_id = Auth::guard('admin')->user()->id;
                     if (!empty($employees->presales) && $request['shared'] == '1') {
                         $loggedInUserId = $employees->presales;
                     } else if (empty($employees->presales) && $request['shared'] == '1') {
@@ -1548,10 +1550,10 @@ Regards,<br>
             }
 
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
+
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
-
             $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
             if (in_array('01403', $array)) {
                 $outBoundCall = 1;
@@ -1616,8 +1618,11 @@ Regards,<br>
 
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
-                    if (!empty($request['sharedEmployees'])) {
-                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    $login_id = $loggedInUserId = Auth::guard('admin')->user()->id;
+                    if (!empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->presales;
+                    } else if (empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
                     } else {
                         $loggedInUserId = Auth::guard('admin')->user()->id;
                     }
@@ -1648,7 +1653,7 @@ Regards,<br>
                 }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getTodaysFollowups = DB::select('CALL proc_get_today_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getTodaysFollowups = DB::select('CALL proc_get_today_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTodaysFollowups = json_decode(json_encode($getTodaysFollowups), true);
 
@@ -1694,6 +1699,7 @@ Regards,<br>
             $request = json_decode($postdata, true);
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
+                    $login_id = Auth::guard('admin')->user()->id;
                     if (!empty($employees->presales) && $request['shared'] == '1') {
                         $loggedInUserId = $employees->presales;
                     } else if (empty($employees->presales) && $request['shared'] == '1') {
@@ -1728,7 +1734,7 @@ Regards,<br>
                 }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getlostEnquiryDetails = DB::select('CALL proc_get_lost_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getlostEnquiryDetails = DB::select('CALL proc_get_lost_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getlostEnquiryDetails = json_decode(json_encode($getlostEnquiryDetails), true);
 
@@ -1764,13 +1770,21 @@ Regards,<br>
 
     public function getBookedEnquiries() {// get booked enquiries
         try {
+
+            $MyClass = new MasterSalesController();
+            $employees = json_decode($MyClass->sharedEnquiriesEmployee());
+
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             if ($request['teamType'] == 0) {
 
                 if (empty($request['empId'])) {
-                    if (!empty($request['sharedEmployees'])) {
-                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+
+                    $login_id = $loggedInUserId = Auth::guard('admin')->user()->id;
+                    if (!empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->presales;
+                    } else if (empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
                     } else {
                         $loggedInUserId = Auth::guard('admin')->user()->id;
                     }
@@ -1801,10 +1815,10 @@ Regards,<br>
                 }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getbookedEnquiryDetails = DB::select('CALL proc_get_booked_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getbookedEnquiryDetails = DB::select('CALL proc_get_booked_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
+
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getbookedEnquiryDetails = json_decode(json_encode($getbookedEnquiryDetails), true);
-
             $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
             if (in_array('01403', $array)) {
                 $outBoundCall = 1;
@@ -1842,12 +1856,16 @@ Regards,<br>
             $request = json_decode($postdata, true);
 
             if ($request['teamType'] == 0) { // total
-                if (empty($request['empId']))
-                    if (!empty($request['sharedEmployees'])) {
-                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                if (empty($request['empId'])) {
+                    $login_id = Auth::guard('admin')->user()->id;
+                    if (!empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->presales;
+                    } else if (empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
                     } else {
                         $loggedInUserId = Auth::guard('admin')->user()->id;
-                    } else {
+                    }
+                } else {
                     $loggedInUserId = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_previous_followups";
@@ -1875,7 +1893,7 @@ Regards,<br>
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
 
-            $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
             $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
@@ -1910,13 +1928,19 @@ Regards,<br>
 
     public function getPendingFollowups() {// Pending Followups 
         try {
+
+            $MyClass = new MasterSalesController();
+            $employees = json_decode($MyClass->sharedEnquiriesEmployee());
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
 
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
-                    if (!empty($request['sharedEmployees'])) {
-                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    $login_id = $loggedInUserId = Auth::guard('admin')->user()->id;
+                    if (!empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->presales;
+                    } else if (empty($employees->presales) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
                     } else {
                         $loggedInUserId = Auth::guard('admin')->user()->id;
                     }
@@ -1947,7 +1971,7 @@ Regards,<br>
                 }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getpendingfollowups = DB::select('CALL proc_get_pending_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getpendingfollowups = DB::select('CALL proc_get_pending_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getpendingfollowups = json_decode(json_encode($getpendingfollowups), true);
 

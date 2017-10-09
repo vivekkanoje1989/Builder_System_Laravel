@@ -13,7 +13,7 @@
     }
   
 </style>
-<div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4,'',''); ">
+<div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4,'',''); getAllEmployeeData()">
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -42,7 +42,7 @@
                         
                     </div>                    
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_total_enquiries', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_total_enquiries', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -62,13 +62,18 @@
                                     Reassign                                    
                                 </a>
                             </li>
+                            <li>
+                                <a href ng-model="shareWith"  data-toggle="modal" data-target="#shareWith" ng-click="initBulkModal();" ng-if="shareWith" >
+                                    Share Enquiry                               
+                                </a>
+                            </li>
                         </ul>
                     </div>                    
                     <div  class="dataTables_filter">                        
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
-                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="getTotalEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 4, sharedemployee, presalesemployee)" ><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
+                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="getTotalEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 4, sharedemployee)" ><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
                     </div>
                     <!-- filter data--> 
                     <div class="row col-sm-12" style="border:2px;" id="filter-show">
@@ -310,13 +315,18 @@
                     </tr>
                     </tbody>
                 </table>
-
-                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
-<!--                <div ng-if="enquiriesLength == 0">
-                    <div>
-                        <center><b>No Enquiries Found</b></center>
+                    <div class="DTTTFooter">
+                        <div class="col-sm-6">
+                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{pageNumber}}</div>
+                         </div>
+                        <div class="col-sm-6">
+                           <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                                <dir-pagination-controls class="pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee)" max-size="5" direction-links="true" boundary-links="true" ng-if="enquiriesLength"></dir-pagination-controls>
+                            </div>  
+                        </div>
                     </div>
-                </div>-->
+                                  
+                <!--<dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" template-url="" ng-if="enquiriesLength"></dir-pagination-controls>-->                        
             </div>
             </div> 
 
@@ -376,6 +386,18 @@
                         <div data-ng-include="'/MasterSales/bulkreassign'"></div> 
                         <div class="modal-footer" align="center">
                         </div>
+                    </div>
+                </div>
+            </div>            
+            <!-- Enquiry Shared With ====================================================================   -->
+            <div class="modal fade modal-primary" id="shareWith" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-md" >
+                    <div class="modal-content">
+                        <div class="modal-header navbar-inner">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" align="center">Enquiry Sharing</h4>
+                        </div>
+                        <div data-ng-include="'/MasterSales/enquirySheredWith'"></div> 
                     </div>
                 </div>
             </div>            

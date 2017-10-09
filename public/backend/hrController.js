@@ -1662,7 +1662,6 @@ console.log("third"+parentId+"===="+flag);
                 empId = $rootScope.employeeId;
             }
             var createStatus = $("#employeeId").val();
-            alert(createStatus)
             userStatus = angular.fromJson(angular.toJson(userStatus));
             Data.post('master-hr/manageStatusForm', {
                 userStatus: userStatus, employeeId: empId, createStatus: createStatus
@@ -1748,8 +1747,7 @@ console.log("third"+parentId+"===="+flag);
                     if ($scope.position == 6) {
                         $scope.position = 5;
                     }
-//                alert(".wiredstep" + $scope.position);
-//                classs = ".wiredstep" + $scope.position;
+//               
                     $("#wiredstep" + $scope.position).removeClass('ng-hide');
                     $("#wiredstep" + $scope.position).css('display', 'block');
 //                $(classs).addClass('active');

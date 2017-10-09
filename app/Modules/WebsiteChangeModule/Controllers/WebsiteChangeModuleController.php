@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Modules\Themes\Models\WebThemes;
 use Illuminate\Http\Request;
 
 class WebsiteChangeModuleController extends Controller {
@@ -80,5 +80,24 @@ class WebsiteChangeModuleController extends Controller {
 	{
 		//
 	}
+        
+         public function getThemes() {
+        $theme = WebThemes::where('deleted_status', '!=', 1)->get();
+        $themePages = array();
+        for ($i = 0; $i < count($theme); $i++) {
+           
+            $themeData['id'] = $theme[$i]['id'];
+            $themeData['theme_name'] = $theme[$i]['theme_name'];
+            $themeData['image_url'] = $theme[$i]['image_url'];
+            $themeData['status'] = $theme[$i]['status'];
+            $themePages[] = $themeData;
+        }
+        
+        if (!empty($themePages)) {
+            return json_encode(['records' => $themePages, 'status' => true]);
+        } else {
+            return json_encode(['errorMsg' => 'No record', 'status' => false]);
+        }
+    }
 
 }

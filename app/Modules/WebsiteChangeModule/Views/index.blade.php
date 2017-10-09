@@ -46,59 +46,106 @@
         font-size: 16px;
         padding: 16px 32px;
     }
+    .ovr-btn {
+        position: relative;
+        top: -75px;
+        right: 20px;
+        float: right;
+        color: #fff;
+        font-size: 25px;
+        text-transform: uppercase;
+        background: rgba(0, 0, 0, 0.44);
+        padding: 15px;
+    }
 </style> 
 <div class="row">
-    <div class="col-lg-12 col-sm-12 col-xs-12">
-        <div class="tabbable">
-            <ul class="nav nav-tabs nav-justified" id="myTab5">
-                <li class="active">
-                    <a data-toggle="tab" href="#home5">
-                        BMS Themes
-                    </a>
-                </li>
-                <li class="tab-red">
-                    <a data-toggle="tab" href="#profile5">
-                        Special Themes
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div id="home5" class="tab-pane in active">
+    <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="websiteChangeController">
+        <div class="tabbable" ng-init="manageThemes()">
+            <tabset>
+                <tab heading="BMS Themes" id="BMSThemeTab" style="width:50%; text-align: center">
+                    <div class="row">
+                        <div class="col-md-3 imagediv" ng-repeat="list in themesRow">
+                            <a href="/office.php/theme/preview/id/1" ng-if="list.status == '0'"  target="_blank" title="Preview [ {{list.theme_name}}]">
+                                <img src="[[ Config('global.s3Path') ]]/Themes/{{list.image_url}}" alt="Avatar" class="image" style=" height:200px;">
+                                <i  ng-if="list.status == '0'" class="fa fa-eye ovr-btn"></i>
+                                <div class="middle">
+                                    <div class="text">{{list.theme_name}}</div>
+                                </div>
+                                <div class="below">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                </div>
+                            </a>
+                            <a href="/office.php/theme/preview/id/1" ng-if="list.status == '1'" title="Active [ {{list.theme_name}}]">
+                                <img src="[[ Config('global.s3Path') ]]/Themes/{{list.image_url}}" alt="Avatar" class="image" style=" height:200px;">
+                                <i ng-if="list.status == '1'" class="fa fa-check ovr-btn" style="background: #ad4747;"></i>
+                                <div class="middle">
+                                    <div class="text">{{list.theme_name}}</div>
+                                </div>
+                                <div class="below">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                </div>
+                            </a>
+                        </div>
+                        <!--                        <div class="col-md-3 imagediv">
+                                                    <img src="../images/img2.png" alt="Avatar" class="image" style=" height:200px;">
+                                                    <i class="fa fa-eye ovr-btn"></i>
+                                                    <div class="middle">
+                                                        <div class="text">THEME 2</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 imagediv">
+                                                    <img src="../images/img3.png" alt="Avatar" class="image" style=" height:200px;">
+                                                    <i class="fa fa-eye ovr-btn"></i>
+                                                    <div class="middle">
+                                                        <div class="text">THEME 3</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 imagediv">
+                                                    <img src="../images/img4.png" alt="Avatar" class="image" style=" height:200px;">
+                                                    <i class="fa fa-eye ovr-btn"></i>
+                                                    <div class="middle">
+                                                        <div class="text">THEME 4</div>
+                                                    </div>
+                                                </div>-->
+                    </div>
+                </tab>
+                <tab heading="Special Themes" id="specialThemeTab" style="width:50%;  text-align: center">
                     <div class="row">
                         <div class="col-md-3 imagediv">
-                            <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Company/firmlogo/company_firm_1048.jpg" alt="Avatar" class="image" style=" height:200px;">
+                            <!--<img src="[[ Config('global.s3Path') ]]/Company/firmlogo/company_firm_1048.jpg" alt="Avatar" class="image" style=" height:200px;">-->
+                            <img src="../images/img1.png" alt="Avatar" class="image" style=" height:200px;">
+                            <i class="fa fa-check ovr-btn" style="background: #ad4747;"></i>
                             <div class="middle">
-                                <div class="text">John Doe</div>
+                                <div class="text">THEME 1</div>
                             </div>
                             <div class="below">
-                               <i class="glyphicon glyphicon-eye-open"></i>
+                                <i class="glyphicon glyphicon-eye-open"></i>
                             </div>
                         </div>
-                         <div class="col-md-3 imagediv">
-                            <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Company/firmlogo/company_firm_1048.jpg" alt="Avatar" class="image" style=" height:200px;">
+                        <div class="col-md-3 imagediv">
+                            <img src="../images/img2.png" alt="Avatar" class="image" style=" height:200px;">
+                            <i class="fa fa-eye ovr-btn"></i>
                             <div class="middle">
-                                <div class="text">John Doe</div>
+                                <div class="text">THEME 2</div>
                             </div>
                         </div>
-                         <div class="col-md-3 imagediv">
-                            <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Company/firmlogo/company_firm_1048.jpg" alt="Avatar" class="image" style=" height:200px;">
+                        <div class="col-md-3 imagediv">
+                            <img src="../images/img3.png" alt="Avatar" class="image" style=" height:200px;">
+                            <i class="fa fa-eye ovr-btn"></i>
                             <div class="middle">
-                                <div class="text">John Doe</div>
+                                <div class="text">THEME 3</div>
                             </div>
                         </div>
-                         <div class="col-md-3 imagediv">
-                            <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Company/firmlogo/company_firm_1048.jpg" alt="Avatar" class="image" style=" height:200px;">
+                        <div class="col-md-3 imagediv">
+                            <img src="../images/img4.png" alt="Avatar" class="image" style=" height:200px;">
+                            <i class="fa fa-eye ovr-btn"></i>
                             <div class="middle">
-                                <div class="text">John Doe</div>
+                                <div class="text">THEME 4</div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div id="profile5" class="tab-pane">
-                    <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
-                </div>
-            </div>
+                </tab>
+            </tabset>
         </div>
     </div>
 </div>
