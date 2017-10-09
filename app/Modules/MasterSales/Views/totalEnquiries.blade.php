@@ -1,7 +1,6 @@
-<style>   
+<style>
     .close {
         color:black;
-
     }
     .alert.alert-info {
         border-color: 1px solid #d9d9d9;
@@ -10,8 +9,7 @@
         border: 1px solid #d9d9d9;
         color: black;
         padding: 5px;
-    }
-  
+    }  
 </style>
 <div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4,'',''); getAllEmployeeData()">
     <div class="mainDiv col-xs-12 col-md-12">
@@ -19,7 +17,7 @@
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">{{pagetitle}}</span>                
             </div>
-            <div class="widget-body table-responsive">                
+            <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
                     <div class="row col-sm-2">
                         <div class="btn-group">
@@ -28,19 +26,19 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="[[ config('global.backendUrl') ]]#/sales/enquiry">Detailed Enquiry</a>
-                                </li>                                
+                                </li>
                                 <li>
                                     <a href="[[ config('global.backendUrl') ]]#/sales/quickEnquiry">Quick Enquiry</a>
-                                </li>                                
+                                </li>
                             </ul>
                         </div>
-                    </div>                                      
+                    </div>
                     <div class="col-sm-4">
                         
                     </div>                    
                     <div class="col-sm-4">
                         
-                    </div>                    
+                    </div>
                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" ng-click="procName('proc_get_total_enquiries', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
