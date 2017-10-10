@@ -96,7 +96,7 @@
                                                                         <th>New</th>
                                                                         <th>Hot</th>
                                                                         <th>Warm</th>
-                                                                        <th>Cold{{employee_id}}</th>
+                                                                        <th>Cold</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -141,7 +141,7 @@
                                                         <div class="row"  align="center" >
                                                             <div class="col-md-12 col-xs-12"  align="center" >
                                                                 <div style="margin:0 auto;padding: 40px; width: 30%">
-                                                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="teamcategorydata" chart-options="teamcategoryoptions" chart-labels="teamcategorylabels" chart-colors="teamcategorycolors"></canvas>
+                                                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="subteamcategorydata" chart-options="teamcategoryoptions" chart-labels="subteamcategorylabels" chart-colors="subcategorycolors"></canvas>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -332,7 +332,7 @@
                                                         <div class="row"  align="center" ng-if="subteam_source_report.length > 0">
                                                             <div class="col-md-12 col-xs-12"  align="center" >
                                                                 <div style="margin:0 auto;padding: 40px; width: 30%">
-                                                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="subsourcedata" chart-options="team_sourceoptions" chart-labels="sourcelabels" chart-colors="subsourcecolors"></canvas>
+                                                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="subsourcedata" chart-options="team_sourceoptions" chart-labels="sourcelabelData" chart-colors="subsourcecolors"></canvas>
                                                                 </div>
                                                             </div>
                                                         </div>
