@@ -328,7 +328,6 @@ class CustomerCareController extends Controller {
     public function getEnquiryHistory() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-        //print_r($input);exit;
         $enquiryId = $input['enquiryId'];
         $modules = $input['moduelswisehisory'];
         $cc_followup_history = array();
@@ -337,7 +336,6 @@ class CustomerCareController extends Controller {
          * 2 = Customer Care Follouwp
          * 
          */
-       
         if (in_array(2, $modules)) {
             $cc_followup_history = DB::table('cc_presales_followups as ccf')
                     ->leftjoin('employees as e', 'e.id', '=', 'ccf.followup_by')

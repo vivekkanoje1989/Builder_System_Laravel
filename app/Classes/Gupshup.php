@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Classes;
-
 use Auth;
 use App\Models\VasCredit;
 use App\Models\EmailPassword;
