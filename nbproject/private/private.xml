@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/config/app.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Models/MlstCountries.php</file>
@@ -17,6 +18,19 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Models/backend/Employee.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/Auth/LoginController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+=======
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Views/enquiryReport.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/reportsController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Controllers/ReportsController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Views/projectReport.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Views/projectTeamReport.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/routes/web.php</file>
+>>>>>>> c9b9f74f84ead45c09eb33a019fa3bfbe1be98aa
+>>>>>>> 173161a5ef8718b98586db78599f03691b7998dd
         </group>
     </open-files>
 </project-private>

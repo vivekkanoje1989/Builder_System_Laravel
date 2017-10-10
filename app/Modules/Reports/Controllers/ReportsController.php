@@ -137,23 +137,26 @@ class ReportsController extends Controller {
         //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id AND $condition GROUP BY e.sales_category_id";
         $category_wise_report = "SELECT enquiry.enquiry_category,enquiry.id FROM laravel_developement_master_edynamics.mlst_enquiry_sales_categories as enquiry";
         $category_wise_report = DB::select($category_wise_report);
-
         $temp_array = array();
         $Total = 0;
+        $i = 0;
         foreach ($category_wise_report as $sources) {
             $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_category_id = $sources->id AND enquiry_details.project_id =" . $request['project_id'] . "";
             $category = DB::select($report);
-
-
+            $category_wise_report[$i]->count = $category['0']->cnt;
+            $category_wise_report[$i]->category = str_replace(' ', '_', $sources->enquiry_category);
+            $category_wise_report[$i]->employee_id = $employee_id;
+            $category_wise_report[$i]->project_id = $request['project_id'];
             $enquiry_category = str_replace(' ', '_', $sources->enquiry_category);
-            //$sales_source_name = $sources->sales_source_name;
-
             $post = array($enquiry_category => $category['0']->cnt);
-            $temp_array = array_merge($post, $temp_array);
+
+
+//            $temp_array = array_merge($post, $temp_array);
             $Total = $Total + $category['0']->cnt;
+            $i++;
         }
-        if (!empty($temp_array)) {
-            $result = ['success' => true, 'records' => $temp_array, 'Total' => $Total];
+        if (!empty($category_wise_report)) {
+            $result = ['success' => true, 'records' => $category_wise_report, 'Total' => $Total];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -174,20 +177,30 @@ class ReportsController extends Controller {
 
         $temp_array = array();
         $Total = 0;
-        foreach ($status_wise_report as $status) {
-            $salesStatus = $status->sales_status;
-            $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_status_id = $status->id AND enquiry_details.project_id = $request[project_id]";
+        $i = 0;
+//        foreach ($status_wise_report as $status) {
+//            $salesStatus = $status->sales_status;
+            $report = "SELECT mess.sales_status, mess.id,  count(*) as cnt from enquiries INNER JOIN enquiry_details INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as mess ON enquiry_details.enquiry_id = enquiries.id  where sales_status_id = mess.id AND enquiry_details.project_id = $request[project_id] GROUP BY enquiries.sales_status_id";
             $status = DB::select($report);
-            $enquiry_status = str_replace(' ', '_', $salesStatus);
-            //$sales_source_name = $sources->sales_source_name;
+            
+            foreach ($status as $source) {
+            $status[$i]->employee_id = $employee_id;
+            $status[$i]->project_id = $request['project_id'];
+            $Total = $Total + $source->cnt;
 
-            $post = array($enquiry_status => $status['0']->cnt);
-            $temp_array = array_merge($post, $temp_array);
-            $Total = $Total + $status['0']->cnt;
+            $i++;
         }
-        $response['0'] = $temp_array;
-        if (!empty($response)) {
-            $result = ['success' => true, 'records' => $response, 'Total' => $Total];
+        $sourceLength = count($status);
+//            $enquiry_status = str_replace(' ', '_', $salesStatus);
+//            //$sales_source_name = $sources->sales_source_name;
+//
+//            $post = array($enquiry_status => $status['0']->cnt);
+//            $temp_array = array_merge($post, $temp_array);
+//            $Total = $Total + $status['0']->cnt;
+//        }
+//        $response['0'] = $temp_array;
+        if (!empty($status)) {
+            $result = ['success' => true, 'records' => $status, 'Total' => $Total,'statusLength'=>$sourceLength];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -201,27 +214,24 @@ class ReportsController extends Controller {
         $response = array();
         $condition = '';
         $employee_id = $request["employee_id"];
-        //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id AND $condition GROUP BY e.sales_category_id";
+        $project_id = $request["project_id"];
         $source_wise_report = "SELECT enquiry.sales_source_name,enquiry.id FROM laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as enquiry";
         $source_wise_report = DB::select($source_wise_report);
-
-        $temp_array = array();
+        $abc_array = array();
         $Total = 0;
-        foreach ($source_wise_report as $source) {
-            $salesSource = $source->sales_source_name;
-            $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_source_id = $source->id AND enquiry_details.project_id = $request[project_id]";
-            $status = DB::select($report);
-            $enquiry_source = str_replace(' ', '_', $salesSource);
-            //$sales_source_name = $sources->sales_source_name;
-            if ($status['0']->cnt > 0) {
-                $post = array($enquiry_source => $status['0']->cnt);
-                $temp_array = array_merge($post, $temp_array);
-                $Total = $Total + $status['0']->cnt;
-            }
+        $i = 0;
+        $report = "SELECT mbess.sales_source_name, mbess.id, count(*) as cnt from enquiries INNER JOIN enquiry_details INNER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as mbess ON enquiry_details.enquiry_id = enquiries.id where enquiries.sales_source_id = mbess.id AND enquiry_details.project_id = $request[project_id] GROUP BY enquiries.sales_source_id";
+        $status = DB::select($report);
+        foreach ($status as $source) {
+            $status[$i]->employee_id = $employee_id;
+            $status[$i]->project_id = $request['project_id'];
+            $Total = $Total + $source->cnt;
+
+            $i++;
         }
-        $response['0'] = $temp_array;
-        if (!empty($response)) {
-            $result = ['success' => true, 'records' => $response, 'Total' => $Total];
+        $sourceLength = count($status);
+        if (!empty($status)) {
+            $result = ['success' => true, 'records' => $status, 'Total' => $Total, 'sourceLength' => $sourceLength];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -277,7 +287,6 @@ class ReportsController extends Controller {
             }
         }
 
-
         if (!empty($sourceReport)) {
             $result = ['success' => true, 'records' => $sourceReport];
             return json_encode($result);
@@ -285,64 +294,6 @@ class ReportsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-//        $postdata = file_get_contents("php://input");
-//        $request = json_decode($postdata, true);
-//        $response = array();
-//        $condition = '';
-//        $employee_id = $request["employee_id"];
-//        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
-//            $from_date = date('Y-m-d', strtotime($request['from_date']));
-//            $to_date = date('Y-m-d', strtotime($request['to_date']));
-//            $condition .= "(laravel_developement_builder_client.enquiries.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
-//        }
-//
-//        if (!empty($request['flag'])) {
-//            $flag = $request['flag'];
-//        } else {
-//            $flag = 0;
-//        }
-//        //$source_wise_report = "SELECT  count(*) as cnt,laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources.sales_source_name 
-//        //FROM laravel_developement_builder_client.enquiries RIGHT OUTER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources
-//        // ON laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources.id = laravel_developement_builder_client.enquiries.sales_source_id 
-//        // where laravel_developement_builder_client.enquiries.sales_employee_id = $employee_id AND $condition  
-//        // GROUP BY laravel_developement_builder_client.enquiries.sales_source_id";
-//        $source_wise_report = "SELECT enquiry.sales_source_name,enquiry.id FROM laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as enquiry";
-//        $source_wise_report = DB::select($source_wise_report);
-//
-//        $temp_array = array();
-//        $Total = 0;
-//        foreach ($source_wise_report as $sources) {
-//            $report = "SELECT  count(*) as cnt from enquiries where sales_source_id = $sources->id";
-//            $source = DB::select($report);
-//
-//
-//            $sales_source_name = str_replace(' ', '_', $sources->sales_source_name);
-//            //$sales_source_name = $sources->sales_source_name;
-//
-//            $post = array($sales_source_name => $source['0']->cnt);
-//            $temp_array = array_merge($post, $temp_array);
-//            $Total = $Total + $source['0']->cnt;
-//        }
-//        $response['0'] = $temp_array;
-//        if (!empty($response)) {
-//            $result = ['success' => true, 'records' => $response, 'Total' => $Total];
-//            return json_encode($result);
-//        } else {
-//            $result = ['success' => false, 'message' => 'Something went wrong'];
-//            return json_encode($result);
-//        }
     }
 
     public function getMysalesreport() {
@@ -942,7 +893,6 @@ class ReportsController extends Controller {
             $alluser[$selfmember->id] = $selfmember->id;
             ksort($alluser);
             $temp = @implode(',', $alluser);
-            //print_r($temp);exit;
             if (!empty($temp)) {
                 $results_category_wise = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . " AND e.sales_employee_id IN($temp) GROUP BY e.sales_category_id";
             }
@@ -1546,12 +1496,12 @@ class ReportsController extends Controller {
     public function subProjectCategoryReport() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
         if ($request['is_emp_group'] == 0) {
             $results_enquiry_type = "select eqty.enquiry_sales_subcategory, eqty.id, count(*) as cnt from "
                     . "enquiries as e  inner join enquiry_details as detail on detail.enquiry_id = e.id inner join enquiry_sales_subcategories as eqty on e.sales_subcategory_id = eqty.id"
                     . " where e.sales_category_id = " . $request['category_id'] . " and detail.project_id = " . $request['project_id'] . " and e.sales_employee_id IN(" . $request['category']['employee_id'] . ")"
                     . " and e.sales_status_id in (1,2,5) group by eqty.enquiry_sales_subcategory";
+
             $result = DB::select($results_enquiry_type);
         } else {
             $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['category']['employee_id'])->get();
@@ -1566,6 +1516,7 @@ class ReportsController extends Controller {
                     array_push($emp_id, $user);
                 }
             }
+
             $temp = @implode(',', $emp_id);
             if (!empty($temp)) {
                 $employee_id = $request['category']['employee_id'] . "," . $temp;
@@ -1585,7 +1536,6 @@ class ReportsController extends Controller {
     public function subProjectStatusReport() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
         if ($request['is_emp_group'] == 0) {
             $results_enquiry_type = "select eqty.enquiry_sales_substatus, eqty.id, count(*) as cnt from "
                     . "enquiries as e  inner join enquiry_details as detail on detail.enquiry_id = e.id inner join enquiry_sales_substatuses as eqty on e.sales_status_id = eqty.id"

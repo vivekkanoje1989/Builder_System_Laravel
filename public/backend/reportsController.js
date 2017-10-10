@@ -27,6 +27,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
+
                     $scope.category_report = angular.copy(response.records);
 
                     $scope.categorylabels = ["New Enquiry", "Hot", "Warm", "Cold"];
@@ -43,12 +44,11 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             Data.post('reports/getSourceReport', {
                 employee_id: employee_id
             }).then(function (response) {
-
-                  console.log(response);
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.source_report = angular.copy(response.records);
+
                     for (var i = 0; i < $scope.source_report.length; i++) {
                         $scope.source_total += $scope.source_report[i].cnt;
                         $scope.sourcelabels.push($scope.source_report[i].sales_source_name);
@@ -74,8 +74,8 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                 } else {
                     $scope.status_report = angular.copy(response.records);
 
-                    $scope.statuslabels = ["New Enquiry", "Open", "Booked", "Lost","Hold"];
-                    $scope.statusdata = [$scope.status_report[0].new, $scope.status_report[0].open, $scope.status_report[0].booked, $scope.status_report[0].lost,$scope.status_report[0].hold];
+                    $scope.statuslabels = ["New Enquiry", "Open", "Booked", "Lost", "Hold"];
+                    $scope.statusdata = [$scope.status_report[0].new, $scope.status_report[0].open, $scope.status_report[0].booked, $scope.status_report[0].lost, $scope.status_report[0].hold];
                     $scope.statuscolors = ['#ff7a81', '#FFFF00', '#00d4c3', '#b3a0fa'];
                     $scope.statusoptions = {
                         cutoutPercentage: 60,
@@ -90,6 +90,9 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
 
         $scope.projectWiseReport = function (project_id, employee_id)
         {
+            $scope.TotalCnt = 0;
+            $scope.employee_id = employee_id;
+            $scope.project_id = project_id;
             $scope.fromDate = "0000-00-00";
             $scope.toDate = new Date();
             $scope.reportFlag = '0';
@@ -99,20 +102,19 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             Data.post('reports/getProjectWiseCategoryReport', {
                 project_id: project_id, employee_id: employee_id
             }).then(function (response) {
-                
+
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
-                    $scope.Total = response.Total;
+                    $scope.TotalCnt = response.Total;
+
                     $scope.category_report = angular.copy(response.records);
-                    console.log($scope.category_report);
                     $scope.categorylabels = [];
                     $scope.categorydata = [];
-                    angular.forEach(response.records, function (value, key) {
-                        $scope.categorylabels.push(key);
-                        $scope.categorydata.push(value);
-                    });
-                    $scope.categorycolors = ['#DCDCDC', '#FF0000', '#FFA500', '#FFA400', '#00ADF9', ];
+                    $scope.categorylabels = ["New Enquiry", "Hot", "Warm", "Cold"];
+                    $scope.categorydata = [$scope.category_report[0].count, $scope.category_report[1].count, $scope.category_report[2].count, $scope.category_report[3].count];
+
+                    $scope.categorycolors = ['#DCDCDC', '#FF0000', '#FFA500', '#00ADF9', ];
                     $scope.categoryoptions = {
                         cutoutPercentage: 60,
                         animation: {
@@ -129,16 +131,24 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
-                    $scope.Total = response.Total;
+                    $scope.statusTotal = response.Total;
+                     $scope.statusLength = response.statusLength;
                     $scope.status_report = angular.copy(response.records);
                     $scope.statuslabels = [];
                     $scope.statusdata = [];
-                    angular.forEach(response.records['0'], function (value, key) {
+//                    angular.forEach(response.records['0'], function (value, key) {
+//
+//                        $scope.statuslabels.push(key);
+//                        $scope.statusdata.push(value);
+//                    });
 
-                        $scope.statuslabels.push(key);
-                        $scope.statusdata.push(value);
-                    });
-                    $scope.statuscolors = ['#DCDCDC', '#FF0000', '#FFA500', '#FFA400', '#00ADF9', ];
+                    var i;
+                    for (i = 0; i < $scope.statusLength; i++) {
+                        $scope.statuslabels.push($scope.status_report[i].sales_status);
+                        $scope.statusdata.push($scope.status_report[i].cnt);
+                    }
+
+                    $scope.statuscolors = ['#DCDCDC', '#FF0000', '#FFA500', '#ff7a81', '#00ADF9', ];
                     $scope.statusoptions = {
                         cutoutPercentage: 60,
                         animation: {
@@ -156,15 +166,19 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.Total = response.Total;
+                    $scope.sourceLength = response.sourceLength;
                     $scope.source_report = angular.copy(response.records);
                     $scope.sourcelabels = [];
                     $scope.sourcedata = [];
-                    angular.forEach(response.records['0'], function (value, key) {
+                    var i;
+                    for (i = 0; i < $scope.sourceLength; i++) {
+                        $scope.sourcelabels.push($scope.source_report[i].sales_source_name);
+                        $scope.sourcedata.push($scope.source_report[i].cnt);
+                    }
+//                    $scope.sourcelabels = ["New Enquiry", "Hot", "Warm", "Cold"];
+//                    $scope.sourcedata = [$scope.category_report[0].count, $scope.category_report[1].count, $scope.category_report[2].count, $scope.category_report[3].count];
 
-                        $scope.sourcelabels.push(key);
-                        $scope.sourcedata.push(value);
-                    });
-                    $scope.sourcecolors = ['#DCDCDC', '#FF0000', '#FFA500', '#FFA400', '#00ADF9', ];
+                    $scope.sourcecolors = ['#DCDCDC', '#FF0000', '#FFA500', '#00ADF9', '#ff7a81' ];
                     $scope.sourceoptions = {
                         cutoutPercentage: 60,
                         animation: {
@@ -259,8 +273,6 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             Data.post('reports/getEmpStatusreports', {
                 employee_id: employee_id
             }).then(function (response) {
-                console.log(response)
-
                 $scope.team_status_report = angular.copy(response.status_wise_report);
                 for (var i = 0; i < $scope.team_status_report.length; i++) {
                     $scope.stotalNew += $scope.team_status_report[i].new;
@@ -399,7 +411,6 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
         }
 
         $scope.teamcategoryEnquiryReport = function (category) {
-            console.log(category);
             $scope.fromDate = "0000-00-00";
             $scope.toDate = new Date();
             $scope.reportFlag = '0';
@@ -410,6 +421,8 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.subtotalCold = 0;
             $scope.subemployee_id = category.employee_id;
             $scope.emp_name = category.name;
+            $scope.subteamcategorylabels = [];
+            $scope.subteamcategorydata = [];
 
             $("#catReport").css('display', 'none');
             Data.post('reports/getTeamcategoryreports', {
@@ -425,6 +438,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                 }
                 $scope.subteamcategorylabels = ["New Enquiry", "Hot", "Warm", "Cold"];
                 $scope.subteamcategorydata = [$scope.subtotalNew, $scope.subtotalHot, $scope.subtotalWarm, $scope.subtotalCold];
+                console.log($scope.subteamcategorydata);
                 $scope.subcategorycolors = ['#ff7a81', '#FFFF00', '#00d4c3', '#b3a0fa'];
                 $scope.subcategoryoptions = {
                     cutoutPercentage: 60,
@@ -497,7 +511,6 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             Data.post('reports/getTeamstatusreports', {
                 employee_id: $scope.employee_id
             }).then(function (response) {
-                console.log(response);
                 $scope.sub_team_status_report = response.status_wise_report;
                 for (var i = 0; i < $scope.sub_team_status_report.length; i++) {
                     $scope.stotalNew += $scope.sub_team_status_report[i].new;
@@ -528,10 +541,8 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
 
         }
 
-       $scope.getSubStatus = function (status, sType, team_lead, u_id) {
-           console.log(status);
-           
-           if (sType == 1) {
+        $scope.getSubStatus = function (status, sType, team_lead, u_id) {
+            if (sType == 1) {
                 $scope.subStatus = "new";
                 var statusCount = status.new;
             }
@@ -565,14 +576,13 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             Data.post('reports/subStatusReport', {
                 status_id: sType, status: status, team_lead: team_lead
             }).then(function (response) {
-                console.log(response)
                 $scope.sub_status = response.sub_status;
                 angular.forEach(response.sub_status, function (sub_status) {
                     $scope.substatuslabels.push(sub_status.enquiry_sales_substatus);
                     $scope.substatusdata.push(sub_status.cnt);
                     $scope.subStatusTotal = parseInt($scope.subStatusTotal) + parseInt(sub_status.cnt);
                 });
-               $scope.unspecifiedStatus = parseInt(statusCount) - parseInt($scope.subStatusTotal);
+                $scope.unspecifiedStatus = parseInt(statusCount) - parseInt($scope.subStatusTotal);
 
                 if ($scope.unspecifiedStatus >= 1) {
                     $scope.subStatusTotal += $scope.unspecifiedStatus;
@@ -608,7 +618,6 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
 
                 $scope.subsource_wise_report = angular.copy(response.source_wise_report);
                 angular.forEach($scope.subsource_wise_report, function (data) {
-                    console.log(data);
                     $scope.SubsourceTotal = $scope.SubsourceTotal + data.count;
                 });
                 for (var i = 0; i < $scope.subsource_wise_report.length; i++)
@@ -712,7 +721,6 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             Data.post('reports/TeamLeadProjectStatusReport', {
                 project_id: $scope.project_id, employee_id: $scope.employee_id
             }).then(function (response) {
-                console.log(response)
                 $scope.status_wise_report = angular.copy(response.status_wise_report);
 
                 for (var i = 0; i < $scope.status_wise_report.length; i++) {
@@ -746,15 +754,14 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.sourceApp = {};
             $scope.teamsourcedata = [];
             $scope.teamSourcelabels = [];
-             $scope.SourceTotal = 0;
+            $scope.SourceTotal = 0;
 //             TeamProjectSourceReport
             Data.post('reports/TeamLeadProjectSourceReport', {
                 project_id: $scope.project_id, employee_id: $scope.employee_id
             }).then(function (response) {
-                console.log(response)
                 $scope.source_wise_report = angular.copy(response.source_wise_report);
                 angular.forEach($scope.source_wise_report, function (data) {
-              
+
                     $scope.SourceTotal = parseInt($scope.SourceTotal) + parseInt(data.count);
                 });
                 for (var i = 0; i < $scope.source_wise_report.length; i++)
@@ -1024,7 +1031,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
 
         $scope.subCategoryReport = function (category, category_id, is_category_group, u_id) {
 
-             if (category_id == 1) {
+            if (category_id == 1) {
                 var totalCount = category.New;
                 $scope.cat = "new";
             } else if (category_id == 2) {
@@ -1075,7 +1082,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
 
         $scope.projectSourceReport = function (source) {
 
-            $scope.sourcelabels = [];
+            $scope.sourcelabelData = [];
             $scope.subsourcedata = [];
             $scope.sourceEmp = true;
             $scope.sourceEmployee = source.name;
@@ -1087,7 +1094,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             }).then(function (response) {
                 $scope.subteam_source_report = response.source_wise_report;
                 angular.forEach(response.source_wise_report, function (object) {
-                    $scope.sourcelabels.push(object.sales_source_name);
+                    $scope.sourcelabelData.push(object.sales_source_name);
                     $scope.subsourcedata.push(object.cnt);
                     $scope.sourceTotal = object.cnt + parseInt($scope.sourceTotal);
                 });
@@ -1095,7 +1102,6 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                     $scope.unknownSource = (parseInt(source.count) - parseInt($scope.sourceTotal));
                     $scope.sourceTotal += parseInt($scope.unknownSource);
                 }
-
                 $scope.subsourcecolors = ['#ff7a81', '#FFFF00', '#00d4c3', '#b3a0fa'];
                 $scope.subsourceoptions = {
                     cutoutPercentage: 60,
@@ -1118,11 +1124,14 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                 angular.forEach(response.sub_source_wise_report, function (object) {
                     $scope.sub_sourcelabels.push(object.sub_source);
                     $scope.sub_sourcedata.push(object.cnt);
-                    $scope.subsourceTotal = object.cnt + parseInt($scope.subsourceTotal);
+                    $scope.subsourceTotal = parseInt(object.cnt) + parseInt($scope.subsourceTotal);
+
                 });
                 $scope.unSpecifiedSource = source.cnt - $scope.subsourceTotal;
-                $scope.subsourceTotal += $scope.unSpecifiedSource;
-                $scope.sub_sourcelabels.push("Unspecified sub-source");
+                if ($scope.unSpecifiedSource > 0) {
+                    $scope.subsourceTotal += $scope.unSpecifiedSource;
+                    $scope.sub_sourcelabels.push("Unspecified sub-source");
+                }
                 $scope.sub_sourcedata.push($scope.unSpecifiedSource);
 
                 $scope.sub_sourcecolors = ['#ff7a81', '#FFFF00', '#00d4c3', '#b3a0fa'];
@@ -1138,17 +1147,34 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
 
         $scope.subProjectCategoryReport = function (category, category_id, is_category_group) {
             if (category_id == 1) {
-                var totalCount = category.New;
+                if (category.New != undefined) {
+                    var totalCount = category.New;
+                } else {
+                    var totalCount = category.count;
+                }
+
                 $scope.cat = "new";
             } else if (category_id == 2) {
-                var totalCount = category.Hot;
                 $scope.cat = "hot";
+                if (category.Hot != undefined) {
+                    var totalCount = category.Hot;
+                } else {
+                    var totalCount = category.count;
+                }
             } else if (category_id == 3) {
-                var totalCount = category.Warm;
                 $scope.cat = "warm";
+                if (category.Warm != undefined) {
+                    var totalCount = category.Warm;
+                } else {
+                    var totalCount = category.count;
+                }
             } else if (category_id == 4) {
-                var totalCount = category.Cold;
                 $scope.cat = "cold";
+                if (category.Cold != undefined) {
+                    var totalCount = category.Cold;
+                } else {
+                    var totalCount = category.count;
+                }
             }
             $scope.catEmployee = category.name;
             $scope.subcategorylabels = [];
@@ -1165,6 +1191,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                     $scope.subcategorylabels.push(object.enquiry_sales_subcategory);
                     $scope.subcategorydata.push(object.cnt);
                 });
+
                 if (totalCount > 0) {
                     $scope.unKnownCategory = totalCount - $scope.subCatTotal;
                     $scope.subCatTotal += $scope.unKnownCategory;
@@ -1197,6 +1224,13 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                     $scope.substatus_labels.push(object.enquiry_sales_substatus);
                     $scope.substatus_data.push(object.cnt);
                 });
+                $scope.unspecifiedStatus = status.cnt - $scope.subStatus_Total;
+                if ($scope.unspecifiedStatus > 0) {
+                    $scope.subStatus_Total += $scope.unspecifiedStatus;
+                    $scope.substatus_labels.push("Unspecified Status");
+                }
+                $scope.substatus_data.push($scope.unspecifiedStatus);
+                
                 $scope.substatus_colors = ['#ff7a81', '#FFFF00', '#00d4c3', '#b3a0fa'];
                 $scope.substatus_options = {
                     cutoutPercentage: 60,
@@ -1253,6 +1287,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             }).then(function (response) {
 
                 $scope.subteam_source_report = response.source_report;
+
                 angular.forEach(response.source_report, function (source) {
                     $scope.team_sourcelabels.push(source.sales_source_name);
                     $scope.team_sourcedata.push(source.cnt);
@@ -1273,13 +1308,12 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
         };
 
         $scope.subSourceReport = function (subSource, u_id, is_source_group) {
-            console.log(subSource.sales_source_name);
             $scope.sales_source_name = subSource.sales_source_name;
             $scope.source_id = subSource.id;
             $scope.subSourceTotal = 0;
             $scope.team_subsourcelabels = [];
             $scope.team_subsourcedata = [];
-             if (u_id > 0) {
+            if (u_id > 0) {
                 $scope.employee_id = u_id;
                 $scope.is_source_group = is_source_group;
             }

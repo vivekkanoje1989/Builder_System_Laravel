@@ -65,7 +65,7 @@
                 <tab heading="BMS Themes" id="BMSThemeTab" style="width:50%; text-align: center">
                     <div class="row">
                         <div class="col-md-3 imagediv" ng-repeat="list in themesRow">
-                            <a href="/office.php/theme/preview/id/1" ng-if="list.status == '0'"  target="_blank" title="Preview [ {{list.theme_name}}]">
+                            <a href="/office.php/theme/preview/id/{{list.id}}" ng-if="list.status == '0'"  target="_blank" title="Preview [ {{list.theme_name}}]">
                                 <img src="[[ Config('global.s3Path') ]]/Themes/{{list.image_url}}" alt="Avatar" class="image" style=" height:200px;">
                                 <i  ng-if="list.status == '0'" class="fa fa-eye ovr-btn"></i>
                                 <div class="middle">
@@ -75,7 +75,7 @@
                                     <i class="glyphicon glyphicon-eye-open"></i>
                                 </div>
                             </a>
-                            <a href="/office.php/theme/preview/id/1" ng-if="list.status == '1'" title="Active [ {{list.theme_name}}]">
+                            <a href="" ng-if="list.status == '1'" title="Active [ {{list.theme_name}}]">
                                 <img src="[[ Config('global.s3Path') ]]/Themes/{{list.image_url}}" alt="Avatar" class="image" style=" height:200px;">
                                 <i ng-if="list.status == '1'" class="fa fa-check ovr-btn" style="background: #ad4747;"></i>
                                 <div class="middle">
@@ -86,27 +86,6 @@
                                 </div>
                             </a>
                         </div>
-                        <!--                        <div class="col-md-3 imagediv">
-                                                    <img src="../images/img2.png" alt="Avatar" class="image" style=" height:200px;">
-                                                    <i class="fa fa-eye ovr-btn"></i>
-                                                    <div class="middle">
-                                                        <div class="text">THEME 2</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 imagediv">
-                                                    <img src="../images/img3.png" alt="Avatar" class="image" style=" height:200px;">
-                                                    <i class="fa fa-eye ovr-btn"></i>
-                                                    <div class="middle">
-                                                        <div class="text">THEME 3</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 imagediv">
-                                                    <img src="../images/img4.png" alt="Avatar" class="image" style=" height:200px;">
-                                                    <i class="fa fa-eye ovr-btn"></i>
-                                                    <div class="middle">
-                                                        <div class="text">THEME 4</div>
-                                                    </div>
-                                                </div>-->
                     </div>
                 </tab>
                 <tab heading="Special Themes" id="specialThemeTab" style="width:50%;  text-align: center">

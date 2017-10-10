@@ -148,6 +148,10 @@
 
     .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;}
     .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;}
+    
+    .followupdate + ul.dropdown-menu{
+       top: -254px !important;
+    }
 </style>
 
 <div class="modal-body"> 
@@ -418,7 +422,7 @@
                                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
 
                                                 <p class="input-group">
-                                                    <input type="text" ng-model="remarkData.next_followup_date" name="next_followup_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" ng-change="todayremarkTimeChange(remarkData.next_followup_date)" readonly required/>
+                                                    <input type="text" ng-model="remarkData.next_followup_date" name="next_followup_date" class="form-control followupdate" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" ng-change="todayremarkTimeChange(remarkData.next_followup_date)" readonly required/>
                                                     <span class="input-group-btn" >
                                                         <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
@@ -1147,7 +1151,7 @@
                                 <div class="form-group">
                                     <label for="">PAN Number</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control">
+                                        <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control" maxlength="10" ng-pattern="/[a-zA-z]{5}\d{4}[a-zA-Z]{1}$/">
                                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     </span>
                                 </div>
@@ -1156,7 +1160,7 @@
                                 <div class="form-group">
                                     <label for="">Aadhar Number</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                        <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" class="form-control" maxlength="12" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     </span>
                                 </div>
@@ -1313,4 +1317,5 @@
     $("li#customerTab a").trigger('click');
     });
     $(".modal-footer").hide();
-    });</script>
+    });
+</script>

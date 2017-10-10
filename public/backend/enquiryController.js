@@ -40,7 +40,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $rootScope.newEnqFlag1 = 0;
         $scope.todayremarkTimeChange = function (selectedDate)
-
         {
             var currentDate = new Date();
             $scope.currentDate = (currentDate.getFullYear() + '-' + ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + currentDate.getDate());
@@ -55,7 +54,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.timeList = response.records;
                 }
             });
-
         }
 
         $scope.cloudCallingLog = function (modules, employee_id, enquire_id, customer_id, sequence) {
@@ -69,10 +67,29 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.changeSmsPrivacyStatus = function (val) {
             $scope.remarkData.sms_privacy_status = val;
+            alert($scope.remarkData.customerId);
+            Data.post('master-sales/privacyStatus', {
+                data: {statusVal: val, customerId: $scope.remarkData.customerId, dbField:'SMS'},
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.timeList = response.records;
+                }
+            });
         }
 
         $scope.changeEmailPrivacyStatus = function (val) {
             $scope.remarkData.email_privacy_status = val;
+            Data.post('master-sales/privacyStatus', {
+                data: {statusVal: val, customerId: $scope.remarkData.customerId, dbField:'EMAIL'},
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.timeList = response.records;
+                }
+            });
         }
 
         $scope.items = function (num) {
