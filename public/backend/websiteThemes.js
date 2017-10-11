@@ -36,10 +36,24 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             });
         };
 
+        $scope.applyTheme = function (id) {
+            Data.post('website/applyTheme', {
+                'id': id}).then(function (response) {
+//                alert('apply')
+            });
+        }
+//        $scope.themeName = function (name) {
+//            alert(name)
+//            $scope.themeName = name;
+//        }
+        $scope.closeWindow = function () {
+            window.close();
+        }
+
         $scope.$on("deleteRecords", function (event, args) {
             $scope.deleteTheme(args['id'], args['index']);
         });
-        
+
         $scope.deleteTheme = function (id, index) {
             Data.post('website/deleteTheme', {
                 'id': id}).then(function (response) {

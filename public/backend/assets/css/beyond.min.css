@@ -14086,13 +14086,16 @@ slider span.bubble.limit {
     margin: 0;
     padding: 0;
     position: relative;
-    border: 1px solid #ccc;
+    border: 1px solid #797979;
     cursor: text;
     overflow: hidden;
     background-color: #fff;
     min-height: 26px
 }
 
+.input-group-btn >.btn-default{
+     border: 1px solid #797979;
+}
 .select2-locked {
     padding: 3px 5px !important
 }
