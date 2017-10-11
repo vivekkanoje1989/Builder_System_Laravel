@@ -156,15 +156,17 @@ class DashBoardController extends Controller {
     public function getEmployeesCC() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
+        $empId = implode(',', $request['id']);
         $loggedInUserId = Auth::guard('admin')->user()->id;
-        $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
-                ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
-                ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
-                ->where([
-                    ['db2.id', '<>', $loggedInUserId],
-                    ['db2.id', '<>', $request['id'][0]['id']]])
-                ->get();
+        $report = "select db2.first_name, db2.last_name, db2.id, db1.designation from `laravel_developement_master_edynamics`.`mlst_bmsb_designations` as `db1` inner join `laravel_developement_builder_client`.`employees` as `db2` on db1.id = db2.designation_id where db2.id <> ". $loggedInUserId." AND not find_in_set(db2.id, '".$empId."' )";
+        $employees = DB::select($report);
+//           $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
+//                ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
+//                ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
+//                ->where([
+//                    ['db2.id', '<>', $loggedInUserId],
+//                    ['db2.id', '<>', $request['id'][0]['id']]])
+//                ->get();
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
         } else {
@@ -283,30 +285,30 @@ class DashBoardController extends Controller {
                 $request['filterData']['to_date'] = !empty($request['filterData'][0]['to_date']) ? date('Y-m-d', strtotime($request['filterData'][0]['to_date'])) : '';
 
                 if (!empty($request['filterData']['request_type'])) {
-                    $query .= " AND req.request_type = '".$request['filterData']['request_type']."'";
+                    $query .= " AND req.request_type = '" . $request['filterData']['request_type'] . "'";
                 }
                 if (!empty($request['filterData']['uid'])) {
-                    $query .= " AND FIND_IN_SET (".$request['filterData']['uid'].",req.uid)";
+                    $query .= " AND FIND_IN_SET (" . $request['filterData']['uid'] . ",req.uid)";
                 }
                 if (!empty($request['filterData']['from_date'])) {
-                    $query .= " AND req.from_date  = '" . $request['filterData']['from_date']."'";
+                    $query .= " AND req.from_date  = '" . $request['filterData']['from_date'] . "'";
                 }
                 if (!empty($request['filterData']['to_date'])) {
-                    $query .= " AND req.to_date  = '" . $request['filterData']['to_date']."'";
+                    $query .= " AND req.to_date  = '" . $request['filterData']['to_date'] . "'";
                 }
 
                 $report = "SELECT req.in_date, req.created_at, req.request_type, req.from_date, req.req_desc, req.to_date, req.status,GROUP_CONCAT(distinct emp.first_name,' ', emp.last_name) as empName "
-                        . "FROM `request` as req LEFT JOIN employees as emp ON emp.id =" .$request['filterData']['uid'] ." " 
-                        . "WHERE req.created_by = ".$loggedInUserId.$query. " GROUP BY req.id  limit " . $startFrom . "," . $request['itemPerPage'];
+                        . "FROM `request` as req LEFT JOIN employees as emp ON emp.id =" . $request['filterData']['uid'] . " "
+                        . "WHERE req.created_by = " . $loggedInUserId . $query . " GROUP BY req.id  limit " . $startFrom . "," . $request['itemPerPage'];
                 $employees = DB::select($report);
             } else {
-                $report = "select SQL_CALC_FOUND_ROWS request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, GROUP_CONCAT(distinct employees.first_name,' ', employees.last_name) as empName, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = ".$loggedInUserId." GROUP BY request.id limit " . $startFrom . "," . $request['itemPerPage'];
+                $report = "select SQL_CALC_FOUND_ROWS request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, GROUP_CONCAT(distinct employees.first_name,' ', employees.last_name) as empName, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = " . $loggedInUserId . " GROUP BY request.id limit " . $startFrom . "," . $request['itemPerPage'];
                 $employees = DB::select($report);
             }
             $rows = DB::select("select FOUND_ROWS() as totalCount");
             $cnt = $rows[0]->totalCount;
         } else {
-            $report = "select request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, GROUP_CONCAT(distinct employees.first_name,' ', employees.last_name) as empName, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = ".$loggedInUserId." GROUP BY request.id ";
+            $report = "select request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, GROUP_CONCAT(distinct employees.first_name,' ', employees.last_name) as empName, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = " . $loggedInUserId . " GROUP BY request.id ";
             $employees = DB::select($report);
             $cnt = '';
         }
