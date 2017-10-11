@@ -24,7 +24,6 @@ class ThemesController extends Controller {
 
     public function themePreview($id) {
         return view("Themes::themePreview")->with('id', $id);
-//        print_r($id);
     }
 
     public function getThemes() {
@@ -59,10 +58,10 @@ class ThemesController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $result = WebThemes::select('id')->where('status','1')->first();
-        $resultDetails = WebThemes::where('id', '=', $result['id'])->update(['status' =>'0']);
+        $result = WebThemes::select('id')->where('status', '1')->first();
+        $resultDetails = WebThemes::where('id', '=', $result['id'])->update(['status' => '0']);
         $apply = WebThemes::where('id', '=', $request['id'])->update(['status' => '1']);
-        return json_encode(['records' => $apply,'success' => true]);
+        return json_encode(['records' => $apply, 'success' => true]);
     }
 
     public function deleteTheme() {
@@ -99,13 +98,6 @@ class ThemesController extends Controller {
             if (!empty($input['imageUrl'])) {
                 $imageName = 'theme_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['imageUrl']->getClientOriginalExtension();
 
-
-
-//                $disk = \Storage::disk('gcs');
-//                \Storage::disk('gcs')->put('myfolder/', $input['imageUrl']);
-////                $url = $disk->url('myfolder/'.$imageName);
-//
-//                exit;
                 $originalName = $input['imageUrl']->getClientOriginalName();
                 if ($originalName !== 'fileNotSelected') {
 

@@ -42,10 +42,6 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
 //                alert('apply')
             });
         }
-//        $scope.themeName = function (name) {
-//            alert(name)
-//            $scope.themeName = name;
-//        }
         $scope.closeWindow = function () {
             window.close();
         }

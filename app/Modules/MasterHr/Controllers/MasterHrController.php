@@ -790,12 +790,10 @@ class MasterHrController extends Controller {
 
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['userData'] = array_merge($request['userData'], $create);
-            print_r($input['userData']);
-            print_r('=============');
+           
             if ($request['userData']['date_of_birth'] == 'NaN-aN-NaN') {
                 unset($request['userData']['date_of_birth']);
             }
-            print_r($request['userData']);
             $employee = Employee::create($request['userData']);
             $input['userData']['main_record_id'] = $loggedInUserId;
             $input['userData']['record_type'] = 1;
@@ -1589,7 +1587,7 @@ class MasterHrController extends Controller {
                     if (count($arrdiff2) == 0) {
                         $removeId[] = $parentId[0];
                     }
-                    print_r($submenuId);
+                   
                 }
                 if (!empty($input['data']['allChild3Id'])) { //[01401,0140102],[014010205], [0140101,0140102], [014010201,014010202,014010203,014010204,014010205]
                     $allChild3Id = array_map(function($el) {
