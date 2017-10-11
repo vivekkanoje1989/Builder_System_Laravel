@@ -40,7 +40,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $rootScope.newEnqFlag1 = 0;
         $scope.todayremarkTimeChange = function (selectedDate)
-
         {
             var currentDate = new Date();
             $scope.currentDate = (currentDate.getFullYear() + '-' + ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + currentDate.getDate());
@@ -55,7 +54,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.timeList = response.records;
                 }
             });
-
         }
 
         $scope.cloudCallingLog = function (modules, employee_id, enquire_id, customer_id, sequence) {
@@ -69,10 +67,29 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.changeSmsPrivacyStatus = function (val) {
             $scope.remarkData.sms_privacy_status = val;
+            alert($scope.remarkData.customerId);
+            Data.post('master-sales/privacyStatus', {
+                data: {statusVal: val, customerId: $scope.remarkData.customerId, dbField:'SMS'},
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.timeList = response.records;
+                }
+            });
         }
 
         $scope.changeEmailPrivacyStatus = function (val) {
             $scope.remarkData.email_privacy_status = val;
+            Data.post('master-sales/privacyStatus', {
+                data: {statusVal: val, customerId: $scope.remarkData.customerId, dbField:'EMAIL'},
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.timeList = response.records;
+                }
+            });
         }
 
         $scope.items = function (num) {
@@ -119,35 +136,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     }, 1000);
                 } else
                 {
-
                     $scope.historyList = angular.copy(response.records);
 
-                    /*using the enquiry history modal*/
-                    $(':checkbox.chk_followup_history_all').prop('checked', true);
-                    $(':checkbox#chk_enquiry_history').prop('checked', true);
                 }
-
-                Data.post('customer-care/presales/getenquiryHistory', {
-                    enquiryId: enquiry_id, moduelswisehisory: moduelswisehisory
-                }).then(function (response) {
-                    $scope.history_enquiryId = enquiry_id;
-                    $scope.chk_followup_history_all = true;
-                    if (response.success) {
-                        $scope.historyList = angular.copy(response.records);
-                        $timeout(function () {
-                            for (i = 0; i < $scope.historyList.length; i++) {
-                                if ($scope.historyList[i].call_recording_url != "" && $scope.historyList[i].call_recording_url != "None") {
-                                    document.getElementById("recording_" + $scope.historyList[i].id).src = $scope.historyList[i].call_recording_url;
-                                }
-                            }
-                        }, 1000);
-                    } else
-                    {
-                        $scope.historyList = angular.copy(response.records);
-
-                    }
-                });
-
             });
         }
 
@@ -244,6 +235,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }
             $scope.initHistoryDataModal(enquiry_id, mhistory, 0)
         }
+
 
 
         $scope.exportReport = function (result) {
@@ -345,9 +337,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Teams Reassign Enquiries";
                 $scope.pagetitle = "Team`s Reassign Enquiries ";
             }
-            
-             $scope.sharedemployee = shared;
-            
+
+            $scope.sharedemployee = shared;
+
             Data.post('master-sales/getReassignEnquiry', {
                 empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, shared: $scope.sharedemployee
             }).then(function (response) {
@@ -614,8 +606,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         /****************************FOLLOWUPS****************************/
         /****************************FILTER (UMA)***************************************/
-
+        
         $scope.procName = function (procedureName, functionName, shared) {
+            if( $("#customerfilter div").hasClass("panel-collapse collapse"))
+            {
+                $("#customerfilter div").removeClass("panel-collapse collapse").addClass(".panel-collapse collapse in");
+                $("#customerfilter div").removeClass("accordion-toggle collapsed").addClass("accordion-toggle");
+                $(".accordion.panel-group .panel .collapse").css("background-color", "#eee");
+            }
+            
             $scope.getProcName = angular.copy(procedureName);
             $scope.getFunctionName = angular.copy(functionName);
             $scope.shared = shared;
@@ -1620,6 +1619,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 //
 //            $scope.gethisotryDataModal(enquiry_id, modules, htype)
 //        }
+
+
 
     }]);
 

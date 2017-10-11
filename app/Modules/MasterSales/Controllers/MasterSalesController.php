@@ -1554,7 +1554,7 @@ Regards,<br>
                     }
                 }
             }
-            //   print_r($loggedInUserId);exit;
+            //print_r($loggedInUserId);exit;
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
             $displayMobile = $outBoundCall = '';
@@ -3200,5 +3200,33 @@ Regards,<br>
         }
         return response()->json($result);
     }
-
+    public function privacyStatus(){
+        try {
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $customerId = $request['data']['customerId'];
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+//            echo "<pre>";print_r($request);
+            if($request['data']['dbField'] === 'SMS'){
+                $request['data']['sms_privacy_status'] = $request['data']['statusVal'];
+                
+                unset($request['data']['statusVal'],$request['data']['dbField'],$request['data']['customerId']);
+                $input['customerData'] = array_merge($request['data'], $update);
+                
+                $updateCustomer = Customer::where('id', $customerId)->update($input['customerData']); 
+            }else{
+                $request['data']['email_privacy_status'] = $request['data']['statusVal'];
+                unset($request['data']['statusVal'],$request['data']['dbField'],$request['data']['customerId']);
+                $input['customerData'] = array_merge($request['data'], $update);
+                $updateCustomer = Customer::where('id', $customerId)->update($input['customerData']); 
+            }
+            //echo "<pre>";print_r($input['customerData']);exit;
+            $result = ["success" => true, 'message' => 'Status updated successfully'];
+        } catch (Exception $ex) {
+             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+        }
+        return response()->json($result);
+    }
 }

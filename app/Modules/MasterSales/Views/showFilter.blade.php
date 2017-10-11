@@ -24,15 +24,13 @@
 <div class="wrap-filter-form show-widget" id="slideout">
     <strong align="center">Filters</strong>
     <button type="button" class="close toggleForm" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        <!--<span aria-hidden="true"  ng-if="!filterData">&times;</span>-->
-        <!--<span ng-if="filterData" aria-hidden="true" ng-click="getFilteredData(filterData,1, 30);">&times;</span>-->
+        <span aria-hidden="true">&times;</span>        
     </button>
     <hr style="margin-bottom: 0px !important;">
     <div class="row" ng-controller="AccordionDemoCtrl">        
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <accordion close-others="oneAtATime">
-            <accordion-group is-open="status.open" >
+                <accordion-group is-open="status.open"  id="enqfilter">
                 <accordion-heading>
                     <span>Enquiry</span>
                 </accordion-heading>
@@ -345,7 +343,7 @@
                     </div>
                 </form>            
             </accordion-group>
-            <accordion-group is-open="status.close" class="collapsed">
+            <accordion-group is-open="status.close" id="customerfilter">
                 <accordion-heading>
                     <span>Customer</span>
                 </accordion-heading>
