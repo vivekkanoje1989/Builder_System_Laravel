@@ -990,11 +990,11 @@ class MasterSalesController extends Controller {
 
             $getFollowupId = Enquiry::select('sales_employee_id')->where('id', $enquiryId)->get();
             $reassignEnq = "";
-            if ($getFollowupId[0]['sales_employee_id'] != $input['followup_by']['id']) {
+            if ($getFollowupId[0]['sales_employee_id'] != $input['followup_by_employee_id']['id']) {
                 $oldSalesEmployee = Employee::select("first_name", "last_name")->where('id', $getFollowupId[0]['sales_employee_id'])->get();
-                $newSalesEmployee = Employee::select("first_name", "last_name")->where('id', $input['followup_by']['id'])->get();
+                $newSalesEmployee = Employee::select("first_name", "last_name")->where('id', $input['followup_by_employee_id']['id'])->get();
                 $reassignEnq = "(Enquiry reassigned by " . $oldSalesEmployee[0]["first_name"] . " " . $oldSalesEmployee[0]["last_name"] . " to " . $newSalesEmployee[0]["first_name"] . " " . $newSalesEmployee[0]["last_name"] . ")";
-                $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_employee_id" => $input['followup_by']['id']]);
+                $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_employee_id" => $input['followup_by_employee_id']['id']]);
             }
 
             $input['followup_by_employee_id'] = $loggedInUserId;
@@ -1205,7 +1205,6 @@ Regards,<br>
                         return $el['id'];
                     }, $filterData['employee_id']));
         }
-
         $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
         $filterData["fname"] = !empty($filterData['fname']) ? $filterData['fname'] : "";
         $filterData["lname"] = !empty($filterData['lname']) ? $filterData['lname'] : "";
@@ -1230,6 +1229,8 @@ Regards,<br>
         $filterData["verifiedEmailId"] = !empty($filterData['verifiedEmailId']) ? $filterData['verifiedEmailId'] : "";
         $filterData["bookingFromDate"] = !empty($filterData['bookingFromDate']) ? date('Y-m-d', strtotime($filterData['bookingFromDate'])) : "";
         $filterData["bookingToDate"] = !empty($filterData['bookingToDate']) ? date('Y-m-d', strtotime($filterData['bookingToDate'])) : "";
+  
+  
   
         if ($request["getProcName"] == 'proc_get_booked_enquiries') {
             $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .

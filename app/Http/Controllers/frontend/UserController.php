@@ -79,10 +79,6 @@ class UserController extends Controller {
         return view('frontend.' . $this->themeName . '.index')->with(["testimonials" => $testimonials, 'employee' => $employees, 'background' => $images, 'current' => $currentResult]);
     }
 
-    public function geeta() {
-        return view('frontend.Theme32.geeta');
-    }
-
     public function career() {
         $result = WebCareers::all();
         return view('frontend.' . $this->themeName . '.careers')->with("carrier", $result);
@@ -111,7 +107,7 @@ class UserController extends Controller {
         if (!empty($name[1])) {
             $input['contactData']['last_name'] = $name[1];
         }
-       
+
         $result = Contactus::create($input['contactData']);
         return json_encode(['result' => $result, 'status' => true]);
     }
@@ -144,7 +140,7 @@ class UserController extends Controller {
         return view('frontend.' . $this->themeName . '.contact');
     }
 
-    public function about() {
+    public function about() {echo session('previewTheme');
         $about = WebPage::where('page_name', 'about')->select('page_content', 'banner_images')->first();
         return view('frontend.' . $this->themeName . '.about')->with("about", $about);
     }

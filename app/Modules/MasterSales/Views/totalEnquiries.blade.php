@@ -301,7 +301,7 @@
                         <div><b>Followup due : </b>{{ enquiry.next_followup_date}} @ {{ enquiry.next_followup_time}}</div>                            
                         <hr class="enq-hr-line">
                         <div>
-                            <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
+                            <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'',sharedemployee)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
                             <a href ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
                             <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
                             <a href data-toggle="modal" data-target="#siteVisitDataModal" ng-click="siteVisit({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Site Visit</a><br/>

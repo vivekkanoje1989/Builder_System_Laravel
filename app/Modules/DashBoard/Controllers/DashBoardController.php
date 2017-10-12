@@ -203,9 +203,8 @@ class DashBoardController extends Controller {
         }
         $request['uid'] = $uid;
         $emailBody = $request['req_desc'];
-
-        if (!empty($request['cc'])) {
-            $userCC = array();
+        $userCC = array();
+        if (!empty($request['cc'])) {            
             $userCC1 = array();
             $userCC = explode(',', $request['cc']);
             $employee = \App\Models\backend\Employee::select('personal_email1')->whereIn('id', $userCC)->get();
@@ -213,8 +212,6 @@ class DashBoardController extends Controller {
                 $userCC1[] = $employee[$j]['personal_email1'];
             }
             $empCC = implode(',', $userCC1);
-        } else {
-            $userCC = '';
         }
 
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
@@ -233,7 +230,7 @@ class DashBoardController extends Controller {
             $loginlastName = Auth::guard('admin')->user()->last_name;
         }
         $loginEmployeeName = $loginFirstName . ' ' . $loginlastName;
-        $userId = array();
+  
         $userId = explode(',', $uid);
         for ($i = 0; $i < count($userId); $i++) {
             $templatedata['employee_id'] = $userId[$i];
