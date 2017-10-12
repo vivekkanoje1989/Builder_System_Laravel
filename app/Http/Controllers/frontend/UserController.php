@@ -35,7 +35,7 @@ class UserController extends Controller {
 
     public function __construct() {
         try {
-            $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
+            $result = WebThemes::where('status', '2')->select(['id', 'theme_name'])->first();
             Config::set('global.themeName', $result['theme_name']);
             $this->themeName = Config::get('global.themeName');
             $getWebsiteUrl = config('global.getWebsiteUrl');
