@@ -1423,7 +1423,7 @@ Regards,<br>
                     }
                 }
             }
-            //   print_r($loggedInUserId);exit;
+            //print_r($loggedInUserId);exit;
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
             $displayMobile = $outBoundCall = '';

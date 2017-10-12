@@ -50,7 +50,7 @@
                         <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
-                            <li ng-if="enquiriesLength != 0">presalesemployee
+                            <li ng-if="enquiriesLength != 0">
                                 <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
                                     Export
                                 </a> 
