@@ -12,10 +12,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.noOfRows = 1;
         $scope.historyList = {};
         $scope.ct_presalesemployee = [];
-
         $scope.initmoduelswisehisory = [1, 2];
         $scope.history_enquiryId;
-
         $scope.divText = true;
         $scope.btnExport = true;
         $scope.dnExcelSheet = false;
@@ -66,8 +64,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.changeSmsPrivacyStatus = function (val) {
-            $scope.remarkData.sms_privacy_status = val;
-            alert($scope.remarkData.customerId);
+            $scope.remarkData.sms_privacy_status = val;            
             Data.post('master-sales/privacyStatus', {
                 data: {statusVal: val, customerId: $scope.remarkData.customerId, dbField:'SMS'},
             }).then(function (response) {

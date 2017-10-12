@@ -1113,7 +1113,7 @@ Regards,<br>
 
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $editExistingFollowup = $input['editExistingFollowup'];
-                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'], $input['followup_by']);
+                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'], $input['followup_by_employee_id']);
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
@@ -1424,7 +1424,6 @@ Regards,<br>
                     }
                 }
             }
-            //print_r($loggedInUserId);exit;
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
             $displayMobile = $outBoundCall = '';
