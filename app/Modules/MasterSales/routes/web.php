@@ -31,6 +31,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/MasterSales/showFilter', function () {
         return View::make('MasterSales::showFilter');
     });
+    Route::get('/MasterSales/siteVisit', function () {
+        return View::make('MasterSales::sitevisit');
+    });
     Route::get('/MasterSales/sendDocument', function () {
         return View::make('MasterSales::sendDocument');
     });

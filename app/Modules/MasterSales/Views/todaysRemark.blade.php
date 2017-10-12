@@ -160,7 +160,7 @@
             <tabset>
                 <tab heading="Today Remarks" id="remarkTab">
                     <div class="row">
-                        <div class="col-lg-21 col-sm-12 col-xs-12">                            
+                        <div class="col-lg-12 col-sm-12 col-xs-12">                            
                             <form name="remarkForm" novalidate ng-submit="remarkForm.$valid && insertTodayRemark(remarkData)" class="main-container1">
                                 <input type="hidden" ng-model="remarkData.enquiryId" name="enquiryId" id="enquiryId" value="{{remarkData.enquiryId}}">
                                 <input type="hidden" ng-model="remarkData.customerId" name="customerId" id="custId" value="{{remarkData.customerId}}">
@@ -426,6 +426,7 @@
                                                     <span class="input-group-btn" >
                                                         <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
+                                                </p>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_date.$error" class="help-block enqFormBtn">
                                                     <div ng-message="required">Please select followup date</div>
                                                 </div>

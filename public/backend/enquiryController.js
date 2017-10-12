@@ -396,9 +396,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.sharedemployee = shared;
 
             if (type == 0) {
+                $rootScope.parentBreadcrumbFlag = "enquiries";
                 $scope.report_name = "Total Enquiries";
                 $scope.pagetitle = "My Total Enquiries";
             } else {
+                $rootScope.parentBreadcrumbFlag = "teamtotalenquiries";
                 $scope.report_name = "Teams Total Enquiries";
                 $scope.pagetitle = "Team`s Total Enquiries ";
             }
@@ -435,9 +437,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.type = type;
             $scope.listType = listType;
             if (type == 0) {
+                $rootScope.parentBreadcrumbFlag = "todaysfollowups";
                 $scope.report_name = "Today's Followups";
                 $scope.pagetitle = "My Today's Followups";
             } else {
+                $rootScope.parentBreadcrumbFlag = "teamtodaysfollowups";
                 $scope.report_name = "Team`s Today's Followups";
                 $scope.pagetitle = "Team`s Today's Followups";
             }
@@ -473,9 +477,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.type = type;
             $scope.listType = listType;
             if (type == 0) {
+                $rootScope.parentBreadcrumbFlag = "pendingfollowups";
                 $scope.report_name = "Pending Followups";
                 $scope.pagetitle = "My Pending Followups";
             } else {
+                $rootScope.parentBreadcrumbFlag = "teampendingfollowups";
                 $scope.report_name = "Team`s Pending Followups";
                 $scope.pagetitle = "Team`s Pending Followups";
             }
@@ -512,9 +518,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.type = type;
             $scope.listType = listType;
             if (type == 0) {
+                $rootScope.parentBreadcrumbFlag = "previousfollowups";
                 $scope.report_name = "Previous Followups";
                 $scope.pagetitle = "My Previous Followups";
             } else {
+                $rootScope.parentBreadcrumbFlag = "teampreviousfollowups";
                 $scope.report_name = "Team`s Previous Followups";
                 $scope.pagetitle = "Team`s Previous Followups";
             }
@@ -545,13 +553,16 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         $scope.lostEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared)
         {
+            
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
             $scope.listType = listType;
             if (type == 0) {
+                $rootScope.parentBreadcrumbFlag = "lostenquiries";
                 $scope.report_name = "Lost Enquiries";
                 $scope.pagetitle = "My Lost Enquiries";
             } else {
+                $rootScope.parentBreadcrumbFlag = "teamlostenquiries";
                 $scope.report_name = "Team`s Lost Enquiries";
                 $scope.pagetitle = "Team`s Lost Enquiries";
             }
@@ -591,13 +602,16 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.bookedEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared)
         {
+            
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
             $scope.listType = listType;
             if (type == 0) {
+                $rootScope.parentBreadcrumbFlag = "bookedenquiries";
                 $scope.report_name = "Booked Enquiries";
                 $scope.pagetitle = "My Booked Enquiries";
             } else {
+                $rootScope.parentBreadcrumbFlag = "teambookedenquiries";
                 $scope.report_name = "Team`s Booked Enquiries";
                 $scope.pagetitle = "Team`s Booked Enquiries";
             }
