@@ -95,8 +95,14 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         }
         $scope.employeeRowCC = [];
         $scope.getEmployeesCC = function ()
-        {
-            Data.post('getEmployeesCC', {'id': $scope.request.application_to}).then(function (response) {
+        { 
+            $scope.empID = [];
+            var i;
+            for(i=0; i < $scope.request.application_to.length; i++){
+                 $scope.empID.push($scope.request.application_to[i].id);
+            }
+           
+            Data.post('getEmployeesCC', {'id': $scope.empID}).then(function (response) {
                 $scope.employeeRowCC = response.records;
             });
 

@@ -312,7 +312,7 @@
                             <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
                             <a href ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
                             <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
-                            <a href data-toggle="modal" data-target="#siteVisitModal" ng-click="siteVisit({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Site Visit</a><br/>
+                            <a href data-toggle="modal" data-target="#siteVisitDataModal" ng-click="siteVisit({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Site Visit</a><br/>
                         </div>
                     </td>
                     </tr>
@@ -361,7 +361,20 @@
                             <h4 class="modal-title" align="center">Today's Remarks</h4>
                         </div>
                         <div data-ng-include=" '/MasterSales/todaysRemark'"></div>
-                        <div class="modal-footer" align="center">
+                    </div>
+                </div>
+            </div>   
+            <!-- Today remark model =============================================================================-->
+            <div class="modal fade modal-primary" id="siteVisitDataModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header navbar-inner">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" align="center">Site Visit</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div data-ng-include="'/MasterSales/siteVisit'"></div>
                         </div>
                     </div>
                 </div>
@@ -376,8 +389,6 @@
                             <h4 class="modal-title" align="center">Send Documents</h4>
                         </div>                        
                         <div data-ng-include=" '/MasterSales/sendDocument'"></div>
-                        <div class="modal-footer" align="center">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -390,8 +401,6 @@
                             <h4 class="modal-title" align="center">Reassign</h4>
                         </div>
                         <div data-ng-include="'/MasterSales/bulkreassign'"></div> 
-                        <div class="modal-footer" align="center">
-                        </div>
                     </div>
                 </div>
             </div>            
@@ -409,5 +418,5 @@
             </div>            
         </div>
     </div>
-    <div data-ng-include="'/MasterSales/showFilter'"></div>
+    <div data-ng-include="'/MasterSales/showFilter'"></div>    
 </div>
