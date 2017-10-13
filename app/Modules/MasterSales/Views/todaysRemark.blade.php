@@ -458,9 +458,9 @@
                                         <div class="form-group">
                                             <label ng-if="remarkData.sales_status_id != 3">Reassign to</label>
                                             <label ng-if="remarkData.sales_status_id == 3">Reassign this booking to</label>
-                                            <ui-select ng-controller="salesemployeesCtrl" ng-model="remarkData.followup_by_employee_id" name="followup_by_employee_id" theme="bootstrap">
+                                            <ui-select ng-controller="employeesCtrl" ng-model="remarkData.followup_by_employee_id" name="followup_by_employee_id" theme="bootstrap">
                                                 <ui-select-match placeholder="Select Employee">{{remarkData.followup_by_employee_id.first_name}}</ui-select-match>
-                                                <ui-select-choices repeat="item in salesemployeeList | filter: $select.search">
+                                                <ui-select-choices repeat="item in employeeList | filter: $select.search">
                                                     <div ng-bind-html="item.first_name | highlight: $select.search"></div>
                                                 </ui-select-choices>
                                             </ui-select>

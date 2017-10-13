@@ -1670,17 +1670,20 @@ class MasterHrController extends Controller {
     }
 
     public function getChartData() {
-        $input = Employee::whereIn('employee_status', [1, 2])
-                ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
+        $input = Employee::leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                 ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
+                ->where('employees.team_lead_id', '<>', NULL)
+                ->whereIn('employees.employee_status', [1, 2])
                 ->orderBy('team_lead_id')
                 ->get();
+
         $data = array();
-        foreach ($input as $key => $team) {
-            $obj = Employee::where('employees.id', $team['id'])
-                    ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
-                    ->whereIn('employee_status', [1, 2])
+        foreach ($input as $key => $team) {            
+            $obj = Employee::leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                     ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
+                    ->where('employees.id', $team['id'])
+                    ->where('employees.team_lead_id', '<>', NULL)
+                    ->whereIn('employees.employee_status', [1, 2])                  
                     ->get();
             if (!empty($obj)) {
                 $data[$key]['v'] = $obj[0]->id;
@@ -1691,15 +1694,14 @@ class MasterHrController extends Controller {
                 }
                 if ($team['employee_status'] == 2) {
                     $data[$key]['f'] = '<img src="' . $team['employee_photo_file_name'] . '" class="imgdata" style="border: 4px double #fd4949;"><div class="myblock" style="background-color: rgba(253, 42, 42, 0.85);">' . $team['first_name'] . ' ' . $team['last_name'] . '<br>' . $team['designation'] . '</div></div>';
-                } else {
+                } if ($team['employee_status'] == 1) {
                     $data[$key]['f'] = '<img src="' . $team['employee_photo_file_name'] . '" class="imgdata" style="border: 4px double #2dc3e8;"><div class="myblock" style="background-color: rgb(45, 195, 232);">' . $team['first_name'] . ' ' . $team['last_name'] . '<br>' . $team['designation'] . '</div></div>';
-                }
-                if ($team['team_lead_id'] == '0') {
+                } 
+                if ($team['team_lead_id'] == '0' || $team['team_lead_id'] == null) {
                     $data[$key]['teamId'] = $team['id'];
                 } else {
                     $data[$key]['teamId'] = $team['team_lead_id'];
                 }
-                //$data[$key]['teamId'] = $team['team_lead_id'];
                 $data[$key]['designation'] = $team['designation'];
             }
         }

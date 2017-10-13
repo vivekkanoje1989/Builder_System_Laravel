@@ -33,12 +33,8 @@
                             </ul>
                         </div>
                     </div>                                      
-                    <div class="col-sm-4">
-                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)">
-                            <span  class="text">&nbsp;&nbsp;Shared Enquiries</span></label>                    
-                    </div>                    
-                    <div class="col-sm-4">
-                    </div>                    
+                    <div class="col-sm-4"></div>                    
+                    <div class="col-sm-4"></div>                    
                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" ng-click="procName('proc_get_booked_enquiries', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
@@ -47,30 +43,37 @@
                     <div class="DTTT btn-group">
                         <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Action</a>
                         <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                        <ul class="dropdown-menu" ng-if="enquiriesLength != 0">
+                        <ul class="dropdown-menu">
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
-                            <li ng-if="enquiriesLength != 0">
-                                <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
-                                    Export
-                                </a> 
-                            </li>
+                                <li ng-if="enquiriesLength != 0">
+                                    <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
+                                       Export
+                                    </a> 
+                                </li>
                             @endif
+                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01407"'))                            
                             <li>
                                 <a href ng-model="BulkReasign"  id="BulkReasign"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >
                                     Reassign                                    
                                 </a>
                             </li>
+                            @endif 
+                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
                             <li>
                                 <a href ng-model="shareWith"  data-toggle="modal" data-target="#shareWith" ng-click="initBulkModal();" ng-if="shareWith" >
                                     Share Enquiry                               
                                 </a>
                             </li>
+                            @endif 
                         </ul>
                     </div>                    
                     <div  class="dataTables_filter">                        
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
+                        @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
+                            <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries</span></label>
+                        @endif 
                     </div>
                     <!-- filter data--> 
                     <div class="row col-sm-12" style="border:2px;" id="filter-show">

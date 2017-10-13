@@ -90,12 +90,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
 
         $scope.checkValue = function () {
-            if ($scope.searchData.searchWithMobile === '' || $scope.searchData.searchWithEmail === '') {
+            console.log($scope.searchData.searchWithMobile );
+            if (typeof $scope.searchData.searchWithMobile === 'undefined' || $scope.searchData.searchWithMobile === '' || $scope.searchData.searchWithEmail === '') {
                 $scope.showDiv = false;
                 $scope.errMobile = false;
                 $scope.showDivCustomer = false;
-            } else
-            {
+            } else {
                 var regMobile = /^[789]/;
                 if (!regMobile.test($scope.searchData.searchWithMobile)) {
                     $scope.errMobile = true;
