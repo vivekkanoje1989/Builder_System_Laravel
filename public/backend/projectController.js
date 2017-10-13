@@ -123,10 +123,12 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.projectName = response.settingData.project_name;
                         
                         $scope.showAllTabs = false;
+                        $scope.btnLabel = "Update";
                     } else {
                         $scope.projectData.project_id = prid;
                         $scope.projectData.prid = prid;
                         $scope.showAllTabs = true;
+                        $scope.btnLabel = "Add";
                     }
                     $scope.getWings();
                     $scope.getBlocks();
@@ -193,7 +195,9 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                         }
                     });
                 });
+                $scope.btnLabel = "Update";
             } else { //for insert or update
+                $scope.btnLabel = "Add";
                 $scope.sbtbtnFiles = true;
                 if (typeof uploadData === 'undefined') {
                     uploadData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
@@ -229,14 +233,14 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                 } else {
                     if (inventoryData === '') {
                         $scope.inventoryList = angular.copy(response.records);
-                        if(wingId == 0)
+                        if(wingId == 0){
                             $scope.inventoryData.wing_id = response.records[0].wing_id;
-                        else
+                        }else{
                             $scope.inventoryData.wing_id = wingId;
+                        }
                     } else {
                         $timeout(function(){
                             toaster.pop('success', 'Project', response.message);
-                            console.log(response.records);
                             $scope.inventoryList = angular.copy(response.records);
                             $('#inventoryDataModal').modal('toggle');
                             $(".modal-backdrop").hide();

@@ -55,9 +55,6 @@
     </li>
 </ul>
 <!-- /Sidebar Menu -->
-
-<toaster-container toaster-options="{'time-out': 2000,'position-class': 'toast-center', 'close-button':true}"></toaster-container>
-
 <script>
 $(document).ready(function(){
     setTimeout(function(t){  

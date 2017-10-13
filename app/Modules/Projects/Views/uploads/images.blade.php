@@ -140,7 +140,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br>
         <div class=""><hr></div>
         <div class="form-group" align="center">
-            <button type="submit" class="btn btn-primary" ng-disabled="sbtbtnFiles">Save</button>
+            <button type="submit" class="btn btn-primary" ng-disabled="sbtbtnFiles">{{btnLabel}}</button>
             <button type="button" class="btn btn-primary" ng-click="cancel_uploads()">Cancel</button>
         </div> 
     </div>  

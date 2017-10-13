@@ -72,7 +72,7 @@
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">{{btnLabel}}</button>
                             <button type="button" class="btn btn-primary" ng-click="cancel_basic_info()">Cancel</button>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">{{btnLabel}}</button>
                             <button type="button" class="btn btn-primary" ng-click="cancel_basic_info()">Cancel</button>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Save</button>  
+                            <button type="submit" class="btn btn-primary">{{btnLabel}}</button>  
                             <button type="button" class="btn btn-primary" ng-click="cancel_basic_info()">Cancel</button>
                         </div>
                     </div>
