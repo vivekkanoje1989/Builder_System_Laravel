@@ -1274,6 +1274,7 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
+            
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
                     $login_id = $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -1298,7 +1299,7 @@ Regards,<br>
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getTotalEnquiryDetails = DB::select('CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
-            
+
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
 
