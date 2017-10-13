@@ -161,7 +161,7 @@ class UserController extends Controller {
         return view('frontend.' . $this->themeName . '.contact');
     }
 
-    public function about() {
+    public function about() {echo session('previewTheme');
         $about = WebPage::where('page_name', 'about')->select('page_content', 'banner_images')->first();
         return view('frontend.' . $this->themeName . '.about')->with("about", $about);
     }

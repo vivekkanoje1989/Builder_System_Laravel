@@ -6,7 +6,7 @@
         filter: drop-shadow(0 0 0 2px #00415d);
     }
     .ta-editor.form-control.myform1-height, .ta-scroll-window.form-control.myform1-height  {
-        min-height: 100px;
+        min-height: 85px;
         height: auto;
         overflow: auto;
         font-family: inherit;
@@ -15,10 +15,12 @@
 
     .form-control.myform1-height > .ta-bind {
         height: auto;
-        min-height: 100px;
+        min-height: 85px;
         padding: 6px 12px;
     }
-
+    .editor-text p {
+        height: 60px !important;
+    }
     .timeline-unit:before, .timeline-unit:after {
         top: 0;
         border: solid transparent;
@@ -132,8 +134,8 @@
     .main-container1 > .content2 {
         width: 100%;
         position: absolute;
-        height: 490px;
-        bottom: -432px;
+        height: 445px;
+        bottom: -390px;
         left: 0;
         right: 0;
         z-index: 101;
@@ -160,8 +162,8 @@
             <tabset>
                 <tab heading="Today Remarks" id="remarkTab">
                     <div class="row">
-                        <div class="col-lg-21 col-sm-12 col-xs-12">                            
-                            <form name="remarkForm" novalidate ng-submit="remarkForm.$valid && insertTodayRemark(remarkData)" class="main-container1">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">                            
+                            <form name="remarkForm" novalidate ng-submit="remarkForm.$valid && insertTodayRemark(remarkData, sharedemployee)" class="main-container1">
                                 <input type="hidden" ng-model="remarkData.enquiryId" name="enquiryId" id="enquiryId" value="{{remarkData.enquiryId}}">
                                 <input type="hidden" ng-model="remarkData.customerId" name="customerId" id="custId" value="{{remarkData.customerId}}">
                                 <input type="hidden" ng-model="remarkData.bookingId" name="bookingId" id="bookingId">
@@ -426,6 +428,7 @@
                                                     <span class="input-group-btn" >
                                                         <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
+                                                </p>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_date.$error" class="help-block enqFormBtn">
                                                     <div ng-message="required">Please select followup date</div>
                                                 </div>

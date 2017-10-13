@@ -495,9 +495,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                                 $("#sales_subcategory_id").val($scope.remarkData.sales_subcategory_id);
 
                             }
-                        });
-
-                        alert($scope.remarkData.customer_fname);
+                        });                      
 
                         if ($scope.remarkData.customer_fname !== '') {
                             $scope.custInfo = true;

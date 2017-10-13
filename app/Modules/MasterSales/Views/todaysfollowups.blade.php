@@ -56,19 +56,29 @@
                                     </a> 
                                 </li>
                             @endif
-                            
+                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01407"'))                            
                             <li>
                                 <a href ng-model="BulkReasign"  id="BulkReasign"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >
                                     Reassign                                    
                                 </a>
                             </li>
+                            @endif 
+                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
+                            <li>
+                                <a href ng-model="shareWith"  data-toggle="modal" data-target="#shareWith" ng-click="initBulkModal();" ng-if="shareWith" >
+                                    Share Enquiry                               
+                                </a>
+                            </li>
+                            @endif 
                         </ul>
                     </div>                    
                     <div  class="dataTables_filter">                        
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
-                        <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="todaysFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 1, sharedemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
+                         @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
+                            <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="todaysFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 1, sharedemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
+                        @endif 
                     </div>
                     <!-- filter data--> 
                      <div class="row col-sm-12" style="border:2px;" id="filter-show">

@@ -30,7 +30,7 @@
 <div class="row" ng-controller="themesController" ng-init="themeName()">
     <div class="app-btn">
         <div class="left-div">{{themeName}}</div>
-        <div class="right-div">
+        <div class="right-div">     
             <button class="btn btn-lg btn-success" id="sbtbtn1" ng-click="applyTheme([[ $id ]])">Apply Now</button>
             <span>
                 <button  class="btn btn-lg btn-danger" ng-click="closeWindow()">Close<i class="fa fa-times close-app" aria-hidden="true"></i></button>  

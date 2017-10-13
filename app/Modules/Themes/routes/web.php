@@ -1,3 +1,4 @@
+
 <?php
 
 Route::group(array('module' => 'Themes', 'middleware' => ['auth:admin'], 'namespace' => 'App\Modules\Themes\Controllers'), function() {
