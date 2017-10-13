@@ -624,7 +624,7 @@ class MasterSalesController extends Controller {
 //                    $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks'],$request['enquiryData']['enqdetails_id'],$request['enquiryData']['loggedInUserId']);
 
             $update = Enquiry::where('id', $request['enquiryData']['id'])->update($request['enquiryData']);
-            //print_r($update);exit;
+            
             if (!empty($request['projectEnquiryDetails'])) {
                 foreach ($request['projectEnquiryDetails'] as $projectDetail) {
                     $getProjectId = EnquiryDetail::select("id")->where(['enquiry_id' => $request['enquiryData']['id'], 'project_id' => $projectDetail['project_id'], 'block_id' => $projectDetail['block_id'], 'sub_block_id' => $projectDetail['sub_block_id']])->get();
@@ -997,7 +997,6 @@ class MasterSalesController extends Controller {
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_employee_id" => $input['followup_by_employee_id']['id']]);
             }
 
-            $input['followup_by_employee_id'] = $loggedInUserId;
             if (!empty($input)) {
                 $lostReason = $lostSubReason = 0;
                 if ($input['sales_status_id'] == 3) {//booked
@@ -1113,12 +1112,13 @@ Regards,<br>
 
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $editExistingFollowup = $input['editExistingFollowup'];
-                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'], $input['followup_by_employee_id']);
+                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'],$input['followup_by_employee_id']);
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
                 unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo']);
-
+                $input['followup_by_employee_id'] = $loggedInUserId;
+                
                 EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDateTime]);
                 if ($editExistingFollowup == true) {
                     $input = array_merge($input, $update);
@@ -1274,6 +1274,7 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
+            
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
                     $login_id = $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -1298,10 +1299,8 @@ Regards,<br>
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getTotalEnquiryDetails = DB::select('CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
-            print_r($getTotalEnquiryDetails);
-            exit;
+
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
-//            ,' . $login_id . ',"' . $request['shared'] . '"
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
 
             if (count($getTotalEnquiryDetails) > 0) {
@@ -1582,7 +1581,6 @@ Regards,<br>
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_lost_enquiries";
                         return $this->filteredData();
-                        exit;
                     }
                 }
             } else { // team total
@@ -1599,7 +1597,6 @@ Regards,<br>
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_lost_enquiries";
                         return $this->filteredData();
-                        exit;
                     }
                 }
             }
@@ -1664,7 +1661,6 @@ Regards,<br>
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_booked_enquiries";
                         return $this->filteredData();
-                        exit;
                     }
                 }
             } else { // team total
@@ -1681,7 +1677,6 @@ Regards,<br>
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_booked_enquiries";
                         return $this->filteredData();
-                        exit;
                     }
                 }
             }
@@ -1742,7 +1737,6 @@ Regards,<br>
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_previous_followups";
                         return $this->filteredData();
-                        exit;
                     }
                 }
             } else { // team total
@@ -1759,7 +1753,6 @@ Regards,<br>
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_previous_followups";
                         return $this->filteredData();
-                        exit;
                     }
                 }
             }
@@ -1822,7 +1815,6 @@ Regards,<br>
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_pending_followups";
                         return $this->filteredData();
-                        exit;
                     }
                 }
             } else { // team total
@@ -1839,7 +1831,6 @@ Regards,<br>
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_pending_followups";
                         return $this->filteredData();
-                        exit;
                     }
                 }
             }
@@ -2597,15 +2588,10 @@ Regards,<br>
                             }
                         } //end of flag                        
                     }  // end of foreach
-//                    echo "interested=".$inserted."<br>";
-//                    echo "alreadyExist=".$alreadyExist."<br>";
-//                    exit;
                 } else {
                     $result = ['success' => false, 'message' => 'You can upload enquiries in  excel sheet upto 2000 enquiries in one attempt.'];
                     return json_encode($result);
                 }
-                //echo '<pre>';print_r($enquiries);exit;
-                //            echo '<pre>';print_r($employeeInvalidEnquires);exit;
 
                 /* Generate Invalid Excel */
 
@@ -2816,7 +2802,6 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            //print_r($request['enquiry_id']);exit;
             $ressigndate = date('d-m-Y');
             $ressigntime = date('H:i:s');
 
@@ -2920,7 +2905,6 @@ Regards,<br>
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $list = ProjectWebPage::where('id', $request['projectId'])->select('location_map_images', 'floor_plan_images', 'layout_plan_images', 'floor_plan_images', 'project_brochure', 'specification_images', 'amenities_images', 'video_link')->get();
-            //echo"<pre>";print_r($list[0]->floor_plan_images);exit;
             $list[0]->floor_plan_images = json_decode($list[0]->floor_plan_images, true);
             $list[0]->layout_plan_images = json_decode($list[0]->layout_plan_images, true);
             $list[0]->specification_images = json_decode($list[0]->specification_images, true);
@@ -3031,10 +3015,7 @@ Regards,<br>
                 $amenities,
                 $videoLink,
             );
-            //print_r($templatedata);exit;
             $Templateresult = CommonFunctions::templateData($templatedata);
-            exit;
-            //
             // insert into send document history
             $insertDocument['send_documents'] = json_encode($doc);
             $insertDocument['send_by'] = $loggedInUserId;
@@ -3079,7 +3060,6 @@ Regards,<br>
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $customerId = $request['data']['customerId'];
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
-//            echo "<pre>";print_r($request);
             if($request['data']['dbField'] === 'SMS'){
                 $request['data']['sms_privacy_status'] = $request['data']['statusVal'];
                 
@@ -3093,7 +3073,6 @@ Regards,<br>
                 $input['customerData'] = array_merge($request['data'], $update);
                 $updateCustomer = Customer::where('id', $customerId)->update($input['customerData']); 
             }
-            //echo "<pre>";print_r($input['customerData']);exit;
             $result = ["success" => true, 'message' => 'Status updated successfully'];
         } catch (Exception $ex) {
              $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];

@@ -199,14 +199,18 @@ $(document).ready(function() {
         $('.content_website_settings').show();        
     });
     $('.btn_uploads').on('click', function(){
-        $('#fade-in-uploads').toggleClass('show');
-        $('.mainPanel').hide();
-        $('.content_uploads').show();        
+        if(angular.element(".btn_uploads").scope().showAllTabs == false){
+            $('#fade-in-uploads').toggleClass('show');
+            $('.mainPanel').hide();
+            $('.content_uploads').show();        
+        }
     }); 
-    $('.btn_inventory').on('click', function(){
-        $('#fade-in-inventory').toggleClass('show');
-        $('.mainPanel').hide();
-        $('.content_inventory').show();        
+    $('.btn_inventory').on('click', function(){        
+        if(angular.element(".btn_inventory").scope().showAllTabs == false){
+            $('#fade-in-inventory').toggleClass('show');
+            $('.mainPanel').hide();
+            $('.content_inventory').show();        
+        }
     }); 
 });
 </script>

@@ -205,6 +205,7 @@ class MasterHrController extends Controller {
     public function getSharedEmployees() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
 
         $result = Employee::where('id', '=', $request['data']['employee_id'])->select('presale_shared_employee', 'postsale_shared_employee')->first();
         $arr = explode(",", $result->presale_shared_employee);
@@ -212,6 +213,7 @@ class MasterHrController extends Controller {
             $getEmp = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                             ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
                             ->whereIn('employees.id', $arr)
+                            ->where('employees.id', '<>', $loggedInUserId)
                             ->where("employees.employee_status", 1)->get();
             if (!empty($getEmp)) {
                 $preSalesResult = ['success' => true, 'records' => $getEmp];
@@ -224,6 +226,7 @@ class MasterHrController extends Controller {
             $getEmp = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                             ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
                             ->whereIn('employees.id', $arr1)
+                            ->where('employees.id', '<>', $loggedInUserId)
                             ->where("employees.employee_status", 1)->get();
             if (!empty($getEmp)) {
                 $postSalesResult = ['success' => true, 'records' => $getEmp];
@@ -456,27 +459,24 @@ class MasterHrController extends Controller {
     public function getRoles() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-         
-        if (isset($request['pageNumber'])) {          
-             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-               $request['filterData']['role_name'] = !empty($request['filterData']) ? $request['filterData'][0]['role_name'] : '';
-               if($request['filterData']['role_name'] !== '')
-                {
-                     $roles = EmployeeRole::orderBy('role_name', 'ASC')
+
+        if (isset($request['pageNumber'])) {
+            $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+            $request['filterData']['role_name'] = !empty($request['filterData']) ? $request['filterData'][0]['role_name'] : '';
+            if ($request['filterData']['role_name'] !== '') {
+                $roles = EmployeeRole::orderBy('role_name', 'ASC')
                         ->select([DB::raw('SQL_CALC_FOUND_ROWS role_name, id')])
-                        ->where('role_name',  'like', '%'.$request['filterData']['role_name'].'%')
+                        ->where('role_name', 'like', '%' . $request['filterData']['role_name'] . '%')
                         ->take($request['itemPerPage'])->offset($startFrom)
                         ->get();
-                }               
-                else
-                {
-                    $roles = EmployeeRole::orderBy('role_name', 'ASC')
+            } else {
+                $roles = EmployeeRole::orderBy('role_name', 'ASC')
                         ->select([DB::raw('SQL_CALC_FOUND_ROWS role_name, id')])
                         ->take($request['itemPerPage'])->offset($startFrom)
-                        ->get();   
-                }    
-                $rows = DB::select("select FOUND_ROWS() as totalCount");
-                $cnt = $rows[0]->totalCount;
+                        ->get();
+            }
+            $rows = DB::select("select FOUND_ROWS() as totalCount");
+            $cnt = $rows[0]->totalCount;
         } else {
             $roles = EmployeeRole::orderBy('role_name', 'ASC')->get();
             $cnt = '';
@@ -1670,17 +1670,20 @@ class MasterHrController extends Controller {
     }
 
     public function getChartData() {
-        $input = Employee::whereIn('employee_status', [1, 2])
-                ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
+        $input = Employee::leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                 ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
+                ->where('employees.team_lead_id', '<>', NULL)
+                ->whereIn('employees.employee_status', [1, 2])
                 ->orderBy('team_lead_id')
                 ->get();
+
         $data = array();
-        foreach ($input as $key => $team) {
-            $obj = Employee::where('employees.id', $team['id'])
-                    ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
-                    ->whereIn('employee_status', [1, 2])
+        foreach ($input as $key => $team) {            
+            $obj = Employee::leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                     ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
+                    ->where('employees.id', $team['id'])
+                    ->where('employees.team_lead_id', '<>', NULL)
+                    ->whereIn('employees.employee_status', [1, 2])                  
                     ->get();
             if (!empty($obj)) {
                 $data[$key]['v'] = $obj[0]->id;
@@ -1691,15 +1694,14 @@ class MasterHrController extends Controller {
                 }
                 if ($team['employee_status'] == 2) {
                     $data[$key]['f'] = '<img src="' . $team['employee_photo_file_name'] . '" class="imgdata" style="border: 4px double #fd4949;"><div class="myblock" style="background-color: rgba(253, 42, 42, 0.85);">' . $team['first_name'] . ' ' . $team['last_name'] . '<br>' . $team['designation'] . '</div></div>';
-                } else {
+                } if ($team['employee_status'] == 1) {
                     $data[$key]['f'] = '<img src="' . $team['employee_photo_file_name'] . '" class="imgdata" style="border: 4px double #2dc3e8;"><div class="myblock" style="background-color: rgb(45, 195, 232);">' . $team['first_name'] . ' ' . $team['last_name'] . '<br>' . $team['designation'] . '</div></div>';
-                }
-                if ($team['team_lead_id'] == '0') {
+                } 
+                if ($team['team_lead_id'] == '0' || $team['team_lead_id'] == null) {
                     $data[$key]['teamId'] = $team['id'];
                 } else {
                     $data[$key]['teamId'] = $team['team_lead_id'];
                 }
-                //$data[$key]['teamId'] = $team['team_lead_id'];
                 $data[$key]['designation'] = $team['designation'];
             }
         }
@@ -1717,7 +1719,7 @@ class MasterHrController extends Controller {
         if (!empty($empModel)) {
             $teams = array();
             $validate = Employee::where('client_id', $empModel->client_id)->get();
-            
+
             $client = \App\Models\ClientInfo::where(['id' => $empModel->client_id])->first();
             foreach ($validate as $value) {
                 $title = DB::connection('masterdb')->table('mlst_titles')->where('id', '=', $value->title_id)->select('title')->first();
@@ -1732,7 +1734,7 @@ class MasterHrController extends Controller {
                 if (!empty($value->department_id))
                     $value->department_id = explode(',', $value->department_id);
                 $designations = DB::connection('masterdb')->table('mlst_bmsb_designations')->where('id', '=', $value->designation_id)->select('designation')->first();
-                $designations = json_decode(json_encode($designations),true);
+                $designations = json_decode(json_encode($designations), true);
                 $value->designation = $designations['designation'];
                 $value->employee_menus = json_decode($value->employee_submenus);
                 $teams[] = $value->getAttributes();

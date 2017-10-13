@@ -74,7 +74,7 @@ class ProjectsController extends Controller {
                     ->where("project_web_pages.project_id", "=", $input["getDataByPrid"])
                     ->get();
 
-            unset($input["settingData"]["prid"], $input["settingData"]["csrfToken"]);
+            unset($input["settingData"]["prid"], $input["settingData"]["csrfToken"],$input["settingData"]["project_name"]);
             if (!empty($input["settingData"]) && empty($getProjectDetails[0])) { //insert
                 $input['settingData']['client_id'] = config('global.client_id');
                 $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
