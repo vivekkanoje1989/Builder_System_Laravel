@@ -158,7 +158,7 @@ class DashBoardController extends Controller {
         $request = json_decode($postdata, true);
         $empId = implode(',', $request['id']);
         $loggedInUserId = Auth::guard('admin')->user()->id;
-        $report = "select db2.first_name, db2.last_name, db2.id, db1.designation from `laravel_developement_master_edynamics`.`mlst_bmsb_designations` as `db1` inner join `laravel_developement_builder_client`.`employees` as `db2` on db1.id = db2.designation_id where db2.id <> ". $loggedInUserId." AND not find_in_set(db2.id, '".$empId."' )";
+        $report = "select db2.first_name, db2.last_name, db2.id, db1.designation from `laravel_developement_master_edynamics`.`mlst_bmsb_designations` as `db1` inner join `laravel_developement_builder_client`.`employees` as `db2` on db1.id = db2.designation_id where db2.id <> " . $loggedInUserId . " AND not find_in_set(db2.id, '" . $empId . "' )";
         $employees = DB::select($report);
 //           $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
 //                ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
@@ -332,15 +332,33 @@ class DashBoardController extends Controller {
     public function description() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $employees = EmployeeRequest::join('employees', 'request.cc', '=', 'employees.id')
-                ->select('employees.first_name', 'employees.last_name')
-                ->where('request.id', $request['id'])
-                ->first();
-        if (!empty($employees)) {
-            $result = ['status' => true, 'records' => $employees];
-        } else {
-            $result = ['status' => false, 'message' => "No record"];
+        $data = EmployeeRequest::where('request.id', $request['id'])->get();
+        $i = 0;
+        $j = 0;
+        $empCC = [];
+        $employees = "select employees.first_name,employees.last_name from request left join employees on find_in_set(employees.id, request.cc) where request.id =" . $request['id'];
+        $employees = DB::select($employees);
+        foreach ($employees as $ccEmp) {
+            $employees[$i]->EmpName = $ccEmp->first_name . ' ' . $ccEmp->last_name;
+            array_push($empCC, $employees[$i]->EmpName);
+            unset($employees[$i]->first_name);
+            unset($employees[$i]->last_name);
+            $i++;
         }
+        $ccEmp = implode(',', $empCC);
+        $emp = [];
+        $employee = "select employees.first_name,employees.last_name from request left join employees on find_in_set(employees.id, request.uid) where request.id =" . $request['id'];
+        $employee = DB::select($employee);
+        foreach ($employee as $toEmp) {
+            $employee[$j]->EmpName = $toEmp->first_name . ' ' . $toEmp->last_name;
+            array_push($emp, $employee[$j]->EmpName);
+            unset($employee[$j]->first_name);
+            unset($employee[$j]->last_name);
+            $j++;
+        }
+        $toEmp = implode(',', $emp);
+
+        $result = ['status' => true, 'ccEmp' => $ccEmp, 'toEmp' => $toEmp];
         return json_encode($result);
     }
 
