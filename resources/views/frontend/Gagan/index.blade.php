@@ -2,7 +2,7 @@
 @section('content')
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<main class="main-content"  ng-init="getProjects(); getPostsDropdown(); getTestimonials();">
+  <main class="main-content" ng-init="getProjects(); getPostsDropdown(); getTestimonials();">
   
     
     <div id="myCarousel" class="carousel slide" data-ride="carousel" style="padding-top:50px;" >
@@ -14,19 +14,19 @@
     </ol>
     <div class="carousel-inner" role="listbox">
         <div class="item active">
-            <img src="frontend/Gagan/img/banner/banner1.jpg" alt="Image">  
+            <img src="/frontend/Gagan/img/banner/banner1.jpg" alt="Image">  
         </div>
         <div class="item">
-            <img src="frontend/Gagan/img/banner/banner2kapitl.jpg" alt="Image">     
+            <img src="/frontend/Gagan/img/banner/banner2kapitl.jpg" alt="Image">     
         </div>
         <div class="item">
-            <img src="frontend/Gagan/img/banner/Gaganunnathibanner-corp-site-28-11-2016.jpg" alt="Image">    
+            <img src="/frontend/Gagan/img/banner/Gaganunnathibanner-corp-site-28-11-2016.jpg" alt="Image">    
         </div>
 <!--        <div class="item">
-            <img src="frontend/SkyMotoTheme/images/homeImages/wallpaper_2.jpg" alt="Image">    
+            <img src="/frontend/SkyMotoTheme/images/homeImages/wallpaper_2.jpg" alt="Image">    
         </div>-->
         <div class="item">
-            <img src="frontend/Gagan/img/banner/banner4nul.jpg" alt="Image">    
+            <img src="/frontend/Gagan/img/banner/banner4nul.jpg" alt="Image">    
         </div>
     </div>
     <a class="left carousel-control" id="left"  ng-non-bindable  role="button" data-slide="prev" >
