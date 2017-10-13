@@ -28,6 +28,8 @@ class ThemesController extends Controller {
         for ($i = 0; $i < count($theme); $i++) {
             $themeData['id'] = $theme[$i]['id'];
             $themeData['theme_name'] = $theme[$i]['theme_name'];
+            $themeData['image_url'] = $theme[$i]['image_url'];
+            $themeData['status'] = $theme[$i]['status'];
             $themePages[] = $themeData;
         }
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);

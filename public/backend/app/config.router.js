@@ -818,7 +818,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent:'smslogs',
                                         label: 'Sms logs details',
+                                        title: 'Sms logs details',
                                         description: ''
                                     },
                                     resolve: {
@@ -940,7 +942,8 @@ angular.module('app')
                                     templateUrl: '/bmsConsumption/smsLogs',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'BMS / BMS Consumption / Sms Consumption',
+                                        parent:'smsConsumption',
+                                        label: 'SMS Logs',
                                         title: 'Sms Logs',
                                     },
                                     resolve: {
@@ -4126,7 +4129,8 @@ angular.module('app')
                                     templateUrl: '/website/change-module',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Website Change Module',
+                                        label: 'BMS / Website Settings / Website Change Module',
+                                        title:' Website Change Module',
                                         description: ''
                                     },
                                     resolve: {

@@ -205,6 +205,7 @@ class MasterHrController extends Controller {
     public function getSharedEmployees() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
 
         $result = Employee::where('id', '=', $request['data']['employee_id'])->select('presale_shared_employee', 'postsale_shared_employee')->first();
         $arr = explode(",", $result->presale_shared_employee);
@@ -212,6 +213,7 @@ class MasterHrController extends Controller {
             $getEmp = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                             ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
                             ->whereIn('employees.id', $arr)
+                            ->where('employees.id', '<>', $loggedInUserId)
                             ->where("employees.employee_status", 1)->get();
             if (!empty($getEmp)) {
                 $preSalesResult = ['success' => true, 'records' => $getEmp];
@@ -224,6 +226,7 @@ class MasterHrController extends Controller {
             $getEmp = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                             ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
                             ->whereIn('employees.id', $arr1)
+                            ->where('employees.id', '<>', $loggedInUserId)
                             ->where("employees.employee_status", 1)->get();
             if (!empty($getEmp)) {
                 $postSalesResult = ['success' => true, 'records' => $getEmp];
@@ -456,27 +459,24 @@ class MasterHrController extends Controller {
     public function getRoles() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-         
-        if (isset($request['pageNumber'])) {          
-             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-               $request['filterData']['role_name'] = !empty($request['filterData']) ? $request['filterData'][0]['role_name'] : '';
-               if($request['filterData']['role_name'] !== '')
-                {
-                     $roles = EmployeeRole::orderBy('role_name', 'ASC')
+
+        if (isset($request['pageNumber'])) {
+            $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+            $request['filterData']['role_name'] = !empty($request['filterData']) ? $request['filterData'][0]['role_name'] : '';
+            if ($request['filterData']['role_name'] !== '') {
+                $roles = EmployeeRole::orderBy('role_name', 'ASC')
                         ->select([DB::raw('SQL_CALC_FOUND_ROWS role_name, id')])
-                        ->where('role_name',  'like', '%'.$request['filterData']['role_name'].'%')
+                        ->where('role_name', 'like', '%' . $request['filterData']['role_name'] . '%')
                         ->take($request['itemPerPage'])->offset($startFrom)
                         ->get();
-                }               
-                else
-                {
-                    $roles = EmployeeRole::orderBy('role_name', 'ASC')
+            } else {
+                $roles = EmployeeRole::orderBy('role_name', 'ASC')
                         ->select([DB::raw('SQL_CALC_FOUND_ROWS role_name, id')])
                         ->take($request['itemPerPage'])->offset($startFrom)
-                        ->get();   
-                }    
-                $rows = DB::select("select FOUND_ROWS() as totalCount");
-                $cnt = $rows[0]->totalCount;
+                        ->get();
+            }
+            $rows = DB::select("select FOUND_ROWS() as totalCount");
+            $cnt = $rows[0]->totalCount;
         } else {
             $roles = EmployeeRole::orderBy('role_name', 'ASC')->get();
             $cnt = '';
@@ -1719,7 +1719,7 @@ class MasterHrController extends Controller {
         if (!empty($empModel)) {
             $teams = array();
             $validate = Employee::where('client_id', $empModel->client_id)->get();
-            
+
             $client = \App\Models\ClientInfo::where(['id' => $empModel->client_id])->first();
             foreach ($validate as $value) {
                 $title = DB::connection('masterdb')->table('mlst_titles')->where('id', '=', $value->title_id)->select('title')->first();
@@ -1734,7 +1734,7 @@ class MasterHrController extends Controller {
                 if (!empty($value->department_id))
                     $value->department_id = explode(',', $value->department_id);
                 $designations = DB::connection('masterdb')->table('mlst_bmsb_designations')->where('id', '=', $value->designation_id)->select('designation')->first();
-                $designations = json_decode(json_encode($designations),true);
+                $designations = json_decode(json_encode($designations), true);
                 $value->designation = $designations['designation'];
                 $value->employee_menus = json_decode($value->employee_submenus);
                 $teams[] = $value->getAttributes();

@@ -721,9 +721,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.shareWith = false;
             }
         }
-
-
-
+        $scope.ct_presalesemployee = [];
         $scope.getAllEmployeeData = function (employee_id) {
             Data.get('master-sales/getEmployeeData').then(function (response) {
                 $scope.ct_presalesemployee = response.presalesemprecords;

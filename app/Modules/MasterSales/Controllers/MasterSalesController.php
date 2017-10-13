@@ -1400,6 +1400,7 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
+            
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
                     $login_id = $loggedInUserId = Auth::guard('admin')->user()->id;

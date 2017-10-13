@@ -369,5 +369,3 @@
     </div>
     <div data-ng-include="'/MasterSales/showFilter'"></div>
 </div>
-
-
