@@ -37,5 +37,5 @@
             </span>
         </div>
     </div>
-    <iframe width="100%" height="600px" src="#/about/[[ $id ]]"></iframe>
+    <iframe width="100%" height="600px" src="#/index/[[ $id ]]"></iframe>
 </div>
