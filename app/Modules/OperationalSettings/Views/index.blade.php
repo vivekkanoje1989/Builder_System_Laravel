@@ -26,7 +26,7 @@
 <div class="row" ng-controller="operationalCtrl" ng-init="manageCountry(); getOperationalSettings()">  
     <div class="col-xs-12 col-md-12">
         <div class="widget">
-            <div class="widget-header bordered-bottom bordered-blue">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption"> Manage operational settings</span>
             </div>
             <div class="widget-body no-padding">

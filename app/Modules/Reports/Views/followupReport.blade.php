@@ -22,27 +22,27 @@
                                     <tr>
                                         <td><b>Same Day</b></td>
                                         <td>{{followup.same_day}}</td>
-                                        <td>{{((followup.same_day / followup.total) * 100).toFixed(2)}}</td>
+                                        <td><div ng-if="followup.same_day > 0">{{((followup.same_day / followup.total) * 100).toFixed(2)}}</div><div ng-if="followup.same_day == 0">0</div></td>
                                     </tr>   
                                     <tr>
                                         <td><b>Second Day</b></td>
                                         <td>{{followup.second_day}}</td>
-                                        <td>{{((followup.second_day / followup.total) * 100).toFixed(2)}}</td>
+                                        <td><div ng-if="followup.second_day > 0">{{((followup.second_day / followup.total) * 100).toFixed(2)}}</div><div ng-if="followup.second_day == 0">0</div></td>
                                     </tr>   
                                     <tr>
                                         <td><b>Third Day</b></td>
                                         <td>{{followup.third_day}}</td>
-                                        <td>{{((followup.third_day / followup.total) * 100).toFixed(2)}}</td>
-                                    </tr>
+                                        <td><div ng-if="followup.third_day > 0">{{((followup.third_day / followup.total) * 100).toFixed(2)}}</div><div ng-if="followup.third_day == 0">0</div></td>
+                                    </tr> 
                                     <tr>
                                         <td><b>After Third Day</b></td>
                                         <td>{{followup.after_third_day}}</td>
-                                        <td>{{((followup.after_third_day / followup.total) * 100).toFixed(2)}}</td>
-                                    </tr>
+                                        <td><div ng-if="followup.after_third_day">{{((followup.after_third_day / followup.total) * 100).toFixed(2)}}</div><div ng-if="followup.after_third_day == 0">0</div></td>
+                                    </tr> 
                                     <tr>
                                         <td align="center"><b>Total</b></td>
                                         <td><b>{{followup.total}}</b></td>
-                                        <td><b>{{((followup.total / followup.total) * 100).toFixed(2)}}</b></td>
+                                        <td><b ng-if="followup.total > 0">{{((followup.total / followup.total) * 100).toFixed(2)}}</b><b ng-if="followup.total == 0">0</b></td>
                                     </tr>
                                 </tbody>
                             </table>

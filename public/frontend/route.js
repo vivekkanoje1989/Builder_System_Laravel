@@ -18,12 +18,12 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
                                     },
                     controller: 'AppCtrl'
                 })
-                .when('/about/:id', {
-                    templateUrl:  function (stateParams) {
-                                        return '/about/' + stateParams.id ;
-                                    },
-                    controller: 'AppCtrl'
-                })
+//                .when('/about/:id', {
+//                    templateUrl:  function (stateParams) {
+//                                        return '/about/' + stateParams.id ;
+//                                    },
+//                    controller: 'AppCtrl'
+//                })
                 .when('/about', {
                     templateUrl: 'website/about',
                     controller: 'AppCtrl'

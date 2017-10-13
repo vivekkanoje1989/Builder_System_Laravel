@@ -46,7 +46,6 @@ class ManageLocationController extends Controller {
     }
 
     public function deleteLocation() {
-        print_r('fh');
          $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;

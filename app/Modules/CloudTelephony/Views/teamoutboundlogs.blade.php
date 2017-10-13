@@ -26,9 +26,6 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="teamOutboundExportToxls()" ng-show="teamOutboundExport == '1'">
-                            <span>Export</span>
-                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
@@ -142,7 +139,7 @@
                             </tr>
                             <tr>
                                 <td colspan="8"  ng-show="(teamoutboundList|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
-                                <td colspan="8"  ng-if="teamoutboundLength.length == 0" align="center">Records Not Found</td>   
+                                <td colspan="8"  ng-if="teamoutboundLength == 0" align="center">Records Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
