@@ -65,12 +65,11 @@
                                                 <ul class="acc-bord" style="list-style-type: none;" >
                                                     <li ng-if='parent.total_submenu == 1' ng-repeat="child1 in parent.submenu">
                                                         <label>
-                                                            <!--ng-if="child1.name != 'Pre Sales Shared' || child1.name!= 'Post Sales Shared"-->
-                                                            <input class="checkbox-slider slider-icon"  ng-if="child1.name != 'Pre Sales Shared' && child1.name != 'Post Sales Shared'"  type="checkbox" data-level="first" id="child1_{{child1.id}}" ng-checked="{{child1.checked}}" ng-click="accessControl('employee', [[ $empId ]], 'child1_{{child1.id}}', [],[{{child1.id}}],[{{ child1.submenu_ids}}], [])">
+                                                            <!-- ng-if="child1.name != 'Pre Sales Shared' && child1.name != 'Post Sales Shared'" -->
+                                                            <input class="checkbox-slider slider-icon" type="checkbox" data-level="first" id="child1_{{child1.id}}" ng-checked="{{child1.checked}}" ng-click="accessControl('employee', [[ $empId ]], 'child1_{{child1.id}}', [],[{{child1.id}}],[{{ child1.submenu_ids}}], [])">
                                                             <span class="text"> &nbsp;&nbsp;&nbsp; {{ child1.name}}</span>
                                                         </label>
-                                                        <form name="presa" id="presales" ng-submit="preSalesEnquiry(predata.presalesemployee_id,[[$empId]])"> 
-                                                     
+                                                        <form name="presa" id="presales" ng-submit="preSalesEnquiry(predata.presalesemployee_id,[[$empId]])">                                                      
                                                             <ui-select  multiple ng-model="predata.presalesemployee_id"  name="presalesemployee_id" theme="select2"  style="width: 300px;" ng-if="child1.name == 'Pre Sales Shared'" >
                                                                 <ui-select-match>{{$item.first_name}}</ui-select-match>
                                                                 <ui-select-choices repeat="list in ct_presalesemployee | filter:$select.search">

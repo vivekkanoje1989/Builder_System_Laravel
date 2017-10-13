@@ -172,7 +172,6 @@ class CommonFunctions {
         } else {
             $obj_inbound = "";
         }
-        //echo "<pre>";print_r($obj_inbound);exit;
         $arrExtra = $alertdata['arrExtra'];
         $template_setting_customer = $alertdata['template_setting_customer'];
         $template_setting_employee = $alertdata['template_setting_employee'];
@@ -320,8 +319,6 @@ class CommonFunctions {
         $replace = array($sourceName, $subsourceName, $sourceDesc, '', '');
 
         //end for source and subsource
-
-
         if (!empty($template_employee)) {
             $emp_email_subject = str_replace($search, $replace, $emp_email_subject);
             $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate);
@@ -337,7 +334,6 @@ class CommonFunctions {
 
             $employee = \App\Models\backend\Employee::where('id', $employee_id)->first();
 
-
             if (!empty($employee->office_mobile_no)) {
                 $employeeMobile = $employee->office_mobile_no;
             } else if (!empty($employee->personal_mobile1)) {
@@ -347,7 +343,7 @@ class CommonFunctions {
             if (!empty($employee->first_name))
                 $employeeName = ucwords($employee->first_name . ' ' . $employee->last_name);
 
-
+            $emp_email = '';
             if (!empty($employee->office_email_id)) {
                 $emp_email = $employee->office_email_id;
             } else if (!empty($employee->personal_email1)) {

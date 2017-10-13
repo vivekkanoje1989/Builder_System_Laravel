@@ -8,7 +8,7 @@
 <!-- Sidebar Menu -->
 
 <ul class="nav sidebar-menu" ng-controller="adminController" id="cstmenu">
-    <li ng-repeat="parent in getMenu.mainMenu" ui-sref-active="{{ parent.uiSrefActive }}" class="{{ parent.liclass }}" ng-if="parent.name !== 'BMS Other Permission'">
+    <li ng-repeat="parent in getMenu.mainMenu" ui-sref-active="{{ parent.uiSrefActive }}" class="{{ parent.liclass }}" ng-if="parent.name !== 'BMS Other Permission' && parent.name !== 'Share Enquiries'">
         <a ng-if='!parent.has_submenu' ui-sref="{{ parent.slug }}" class="{{ parent.anchorClass }}" ng-Click="checkPermission('{{ parent.slug }}')">
             <p class="{{ parent.icon }}"></p>
             <span class="menu-text"> {{ parent.name }} </span>

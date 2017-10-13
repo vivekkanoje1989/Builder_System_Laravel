@@ -397,16 +397,17 @@ class MenuItems {
                     3 => array('id' => '01303', 'name' => 'Pre-Services', 'icon' => '', 'micon' => 'img/ccPreServices.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     4 => array('id' => '01304', 'name' => 'Post-Services', 'icon' => '', 'micon' => 'img/ccPostServies.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1)
                 )),
-            14 => array('name' => 'BMS Other Permission', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'other', 'has_submenu' => true, 'total_submenu' => 6,
-                'submenu_ids' => '01401,01402,01403,01404,01405,01406', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+            14 => array('name' => 'BMS Other Permission', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'other', 'has_submenu' => true, 'total_submenu' => 7,
+                'submenu_ids' => '01401,01402,01403,01404,01405,01406,01407', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '01401', 'name' => 'Allow To Export', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     2 => array('id' => '01402', 'name' => 'Allow To Delete', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     3 => array('id' => '01403', 'name' => 'Allow To Call Outbound', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     4 => array('id' => '01404', 'name' => 'Allow to use Mobile App', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     5 => array('id' => '01405', 'name' => 'Track Employee Location', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     6 => array('id' => '01406', 'name' => 'Hide Customer Details', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    7 => array('id' => '01407', 'name' => 'Reassign Enquiries', 'icon' => '', 'micon' => 'img/reassignEnquiries.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),
-            15 => array('name' => 'Enquiry Shared', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'enquiryShared', 'has_submenu' => true, 'total_submenu' => 1,
+            15 => array('name' => 'Share Enquiries', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'enquiryShared', 'has_submenu' => true, 'total_submenu' => 2,
                 'submenu_ids' => '01501,01502', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '01501', 'name' => 'Pre Sales Shared', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     2 => array('id' => '01502', 'name' => 'Post Sales Shared', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),

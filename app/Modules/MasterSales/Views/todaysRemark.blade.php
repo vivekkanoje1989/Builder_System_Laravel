@@ -6,7 +6,7 @@
         filter: drop-shadow(0 0 0 2px #00415d);
     }
     .ta-editor.form-control.myform1-height, .ta-scroll-window.form-control.myform1-height  {
-        min-height: 100px;
+        min-height: 85px;
         height: auto;
         overflow: auto;
         font-family: inherit;
@@ -15,10 +15,12 @@
 
     .form-control.myform1-height > .ta-bind {
         height: auto;
-        min-height: 100px;
+        min-height: 85px;
         padding: 6px 12px;
     }
-
+    .editor-text p {
+        height: 60px !important;
+    }
     .timeline-unit:before, .timeline-unit:after {
         top: 0;
         border: solid transparent;
@@ -132,8 +134,8 @@
     .main-container1 > .content2 {
         width: 100%;
         position: absolute;
-        height: 490px;
-        bottom: -432px;
+        height: 445px;
+        bottom: -390px;
         left: 0;
         right: 0;
         z-index: 101;
@@ -148,6 +150,10 @@
 
     .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;}
     .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;}
+    
+    .followupdate + ul.dropdown-menu{
+       top: -254px !important;
+    }
 </style>
 
 <div class="modal-body"> 
@@ -156,8 +162,8 @@
             <tabset>
                 <tab heading="Today Remarks" id="remarkTab">
                     <div class="row">
-                        <div class="col-lg-21 col-sm-12 col-xs-12">                            
-                            <form name="remarkForm" novalidate ng-submit="remarkForm.$valid && insertTodayRemark(remarkData)" class="main-container1">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">                            
+                            <form name="remarkForm" novalidate ng-submit="remarkForm.$valid && insertTodayRemark(remarkData, sharedemployee)" class="main-container1">
                                 <input type="hidden" ng-model="remarkData.enquiryId" name="enquiryId" id="enquiryId" value="{{remarkData.enquiryId}}">
                                 <input type="hidden" ng-model="remarkData.customerId" name="customerId" id="custId" value="{{remarkData.customerId}}">
                                 <input type="hidden" ng-model="remarkData.bookingId" name="bookingId" id="bookingId">
@@ -418,10 +424,11 @@
                                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
 
                                                 <p class="input-group">
-                                                    <input type="text" ng-model="remarkData.next_followup_date" name="next_followup_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" ng-change="todayremarkTimeChange(remarkData.next_followup_date)" readonly required/>
+                                                    <input type="text" ng-model="remarkData.next_followup_date" name="next_followup_date" class="form-control followupdate" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" ng-change="todayremarkTimeChange(remarkData.next_followup_date)" readonly required/>
                                                     <span class="input-group-btn" >
                                                         <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
+                                                </p>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_date.$error" class="help-block enqFormBtn">
                                                     <div ng-message="required">Please select followup date</div>
                                                 </div>
@@ -451,9 +458,9 @@
                                         <div class="form-group">
                                             <label ng-if="remarkData.sales_status_id != 3">Reassign to</label>
                                             <label ng-if="remarkData.sales_status_id == 3">Reassign this booking to</label>
-                                            <ui-select ng-controller="salesemployeesCtrl" ng-model="remarkData.followup_by_employee_id" name="followup_by_employee_id" theme="bootstrap">
+                                            <ui-select ng-controller="employeesCtrl" ng-model="remarkData.followup_by_employee_id" name="followup_by_employee_id" theme="bootstrap">
                                                 <ui-select-match placeholder="Select Employee">{{remarkData.followup_by_employee_id.first_name}}</ui-select-match>
-                                                <ui-select-choices repeat="item in salesemployeeList | filter: $select.search">
+                                                <ui-select-choices repeat="item in employeeList | filter: $select.search">
                                                     <div ng-bind-html="item.first_name | highlight: $select.search"></div>
                                                 </ui-select-choices>
                                             </ui-select>
@@ -1147,7 +1154,7 @@
                                 <div class="form-group">
                                     <label for="">PAN Number</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control">
+                                        <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control" maxlength="10" ng-pattern="/[a-zA-z]{5}\d{4}[a-zA-Z]{1}$/">
                                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     </span>
                                 </div>
@@ -1156,7 +1163,7 @@
                                 <div class="form-group">
                                     <label for="">Aadhar Number</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                        <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" class="form-control" maxlength="12" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     </span>
                                 </div>
@@ -1313,4 +1320,5 @@
     $("li#customerTab a").trigger('click');
     });
     $(".modal-footer").hide();
-    });</script>
+    });
+</script>

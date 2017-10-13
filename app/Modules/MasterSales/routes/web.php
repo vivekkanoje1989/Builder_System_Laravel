@@ -31,6 +31,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/MasterSales/showFilter', function () {
         return View::make('MasterSales::showFilter');
     });
+    Route::get('/MasterSales/siteVisit', function () {
+        return View::make('MasterSales::sitevisit');
+    });
     Route::get('/MasterSales/sendDocument', function () {
         return View::make('MasterSales::sendDocument');
     });
@@ -48,6 +51,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/getFinanceEmployees', 'MasterSalesController@getFinanceEmployees'); // get employees whose deparment is finance
     Route::get('/master-sales/showEnquiry/{id}', 'MasterSalesController@showEnquiry'); //show enquiry page
     Route::post('/master-sales/saveEnquiry', 'MasterSalesController@saveEnquiry'); //save enquiry data
+    Route::post('/master-sales/privacyStatus', 'MasterSalesController@privacyStatus');
 
     Route::get('/master-sales/editCustomer/cid/{cid}', 'MasterSalesController@editCustomer')->middleware("permission:040102|040103|040104|040105|040106|040107|040108|040109|040101004|040101005|040101006|040101001|040101002|040101003"); //updateCustomer
     Route::get('/master-sales/editEnquiry/cid/{cid}/eid/{eid}', 'MasterSalesController@editEnquiry'); //update enquiry data
@@ -82,9 +86,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/totalEnquiry/{type}', 'MasterSalesController@totalEnquiry')->middleware("permission:040106"); // get total enq with type
     Route::get('/master-sales/teamTotalEnquiry/{type}', 'MasterSalesController@teamTotalEnquiry')->middleware("permission:040101004"); // get total enq with type
     Route::post('/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries')->middleware("permission:040106|040101004"); // total enquiries listing
-    Route::get('/master-sales/reassignEnquiry/{type}', 'MasterSalesController@reassignEnquiry')->middleware("permission:040109"); //  reassign enquiries
-    Route::post('/master-sales/getReassignEnquiry', 'MasterSalesController@getReassignEnquiry')->middleware("permission:040109"); // listing for reassign enquiries
-    Route::get('/master-sales/lostEnquiries/{type}', 'MasterSalesController@lostEnquiries')->middleware("permission:040107"); // get all lost enquiries
+    Route::get('/master-sales/reassignEnquiry/{type}', 'MasterSalesController@reassignEnquiry')->middleware("permission:040107|01407"); //  reassign enquiries
+    Route::post('/master-sales/getReassignEnquiry', 'MasterSalesController@getReassignEnquiry')->middleware("permission:040107|01407"); // listing for reassign enquiries
+    Route::get('/master-sales/lostEnquiries/{type}', 'MasterSalesController@lostEnquiries')->middleware("permission:040105"); // get all lost enquiries
     Route::get('/master-sales/teamLostEnquiries/{type}', 'MasterSalesController@lostEnquiries')->middleware("permission:040101005"); // get all lost enquiries
     Route::post('/master-sales/getLostEnquiries', 'MasterSalesController@getLostEnquiries')->middleware("permission:040107|040101005"); // get lost enquiries listing
     Route::get('/master-sales/bookedEnquiries/{type}', 'MasterSalesController@bookedEnquiries')->middleware("permission:040108|040101006"); // get all booked enquiries 
@@ -117,12 +121,10 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::post('/master-sales/insertCollection', 'MasterSalesController@insertCollection');
     Route::post('/master-sales/insertReceipt', 'MasterSalesController@insertReceipt');
 
-    
-     Route::get('/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee');
-     
+
+    Route::get('/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee');
+
     Route::get('/master-sales/getEmployeeData', 'MasterSalesController@getEmployeeData');
     Route::post('/master-sales/preSalesShareEnquiry', 'MasterSalesController@preSalesShareEnquiry');
-
+    
 });
-
-

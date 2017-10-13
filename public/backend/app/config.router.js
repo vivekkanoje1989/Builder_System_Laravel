@@ -430,6 +430,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent: function($rootScope){
+                                            return $rootScope.parentBreadcrumbFlag;
+                                        }, 
                                         label: 'Edit Customer',
                                         title: 'Edit Customer',
                                     },
@@ -464,31 +467,34 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent:function($rootScope){
+                                            return $rootScope.parentBreadcrumbFlag;
+                                        },
                                         label: 'Edit Enquiry',
                                         title: 'Edit Enquiry',
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/customerController.js',
-                                                                            '/backend/enquiryController.js',
-                                                                            '/backend/app/controllers/select.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                            '/backend/app/controllers/timepicker.js',
-                                                                        ]
-                                                                    });
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/customerController.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('userChart', {
@@ -818,7 +824,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        parent:'smslogs',
+                                        parent: 'smslogs',
                                         label: 'Sms logs details',
                                         title: 'Sms logs details',
                                         description: ''
@@ -942,7 +948,7 @@ angular.module('app')
                                     templateUrl: '/bmsConsumption/smsLogs',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        parent:'smsConsumption',
+                                        parent: 'smsConsumption',
                                         label: 'SMS Logs',
                                         title: 'Sms Logs',
                                     },
@@ -4130,7 +4136,7 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'BMS / Website Settings / Website Change Module',
-                                        title:' Website Change Module',
+                                        title: ' Website Change Module',
                                         description: ''
                                     },
                                     resolve: {
@@ -4171,6 +4177,68 @@ angular.module('app')
                                         ]
                                     }
                                 })
+
+                                .state('themePreview', {
+                                    url: '/theme/preview/id/:id',
+                                    templateUrl: function (stateParams) {
+                                        return '/theme/preview/id/' + stateParams.id;
+                                    },
+//                                    controller: 'smsController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'BMS / Website Settings /',
+                                        title: 'Theme Preview',
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/websiteThemes.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+//                                .state('themePreview', {
+//                                    url: '/theme/preview/id/:id',
+//                                    templateUrl: function (stateParams) {
+//                                        return '/theme/preview/id/' + stateParams.id;
+//                                    },
+//                                    requiredLogin: true,
+//                                    ncyBreadcrumb: {
+//                                        label: 'Theme Preview',
+//                                        title: 'Theme Preview',
+//                                    },
+//                                    resolve: {
+//                                        deps: [
+//                                            '$ocLazyLoad',
+//                                            function ($ocLazyLoad) {
+//                                                return $ocLazyLoad.load(['toaster']).then(
+//                                                        function () {
+//                                                            return $ocLazyLoad.load(['ui.select', {
+//                                                                    serie: true,
+//                                                                    files: [
+//                                                                        '/backend/smsConsumptionController.js',
+//                                                                        '/backend/app/controllers/select.js',
+//                                                                        '/backend/app/controllers/datepicker.js',
+//                                                                    ]
+//                                                                }]);
+//                                                        }
+//                                                );
+//                                            }
+//                                        ]
+//                                    }
+//                                })
+
 
                                 .state('enquiryReport', {
                                     url: '/reports/enquiryReport',

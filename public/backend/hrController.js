@@ -51,11 +51,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $rootScope.roleMenuList = [];
         $scope.searchDetails = {};
         $scope.searchData = {};
-//        $scope.manageSuspend = function(id){
-//            alert(id);
-//            $scope.suspendId = id;
-//        };
-
+//        
         $scope.filterDetails = function (search) {
 //            angular.forEach(search, function (key, value) {
 //                var data = value.length;
@@ -108,8 +104,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 async: false,
             }).then(function (response) {
                 $scope.predata.presalesemployee_id = angular.copy(response.presales.records);
-                //console.log($scope.presales.presalesemployee_id);
-//              $scope.postsales.postsalesemployee_id = response.postsales;
                 $scope.predata.postsalesemployee_id = angular.copy(response.postsales.records);
             });
         }
@@ -661,7 +655,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     Data.post('getStates', {
                         data: {countryId: $scope.userContact.current_country_id},
                     }).then(function (response) {
-                        //   console.log(response)
                         if (!response.success) {
                             $scope.errorMsg = response.message;
                         } else {
@@ -760,7 +753,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             }).then(function (response) {
                 if (response.success) {
                     $scope.menuItems = response.getMenu;
-                    console.log(response.getMenu);
                     var array = $.map(response.menuId, function (value, index) {
                         return [value];
                     });
@@ -871,9 +863,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 //                        $scope.parentId[0] = parentId[1];
 //                        console.log($scope.parentId);
 //                    }
-//                    
-//                     console.log(parentId);
-//                    console.log(submenuId);
+//                   
                 } else if (level === "third") {
                     var flag = [];
                     $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="third"]'))).each(function () {
@@ -912,7 +902,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
 
                 } else if (level === "second") {
-                    console.log("sec"+parentId);
                     var flag = [];
                     $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="second"]'))).each(function () {
                         if ($(this).is(':checked'))
@@ -935,7 +924,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     if ($.inArray(true, flag) === -1) {
                         $scope.parentId = parentId;
                     } else {
-                        console.log("1=="+$scope.parentId);
                         $scope.parentId[0] = parentId[1];
                     }
 
@@ -951,12 +939,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     });
                     if ($.inArray(true, flag) === -1)
                         $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', false);
-console.log("third"+parentId+"===="+flag);
 
                     if ($.inArray(true, flag) === -1) {
                         $scope.parentId[0] = parentId[1];
                     } else {
-                        console.log("2=="+$scope.parentId);
                         $scope.parentId[1] = parentId[1];
                     }
 
@@ -1483,7 +1469,6 @@ console.log("third"+parentId+"===="+flag);
                 emp_id = $rootScope.employeeId;
             }
 
-            //console.log(userEducation);
             if (typeof employee_photo_file_name == "undefined" || typeof employee_photo_file_name == "string") {
                 employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
@@ -1497,7 +1482,6 @@ console.log("third"+parentId+"===="+flag);
             });
             employee_photo_file_name.upload.then(function (response) {
 
-                // console.log(response);
                 $("#wiredstep4").addClass('active');
                 $("#wiredstep3").addClass('ng-hide');
                 $("#wiredstep3").removeClass('active');
@@ -1537,7 +1521,6 @@ console.log("third"+parentId+"===="+flag);
             Data.post('master-hr/manageContact', {
                 userContact: userContact, employeeId: empId
             }).then(function (response) {
-                //console.log(response);
                 $("#wiredstep3").addClass('active');
                 $("#wiredstep2").addClass('ng-hide');
                 $("#wiredstep2").removeClass('active');
@@ -1761,7 +1744,6 @@ console.log("third"+parentId+"===="+flag);
             Data.post('master-hr/manageOtherPermission', {data: permission, employee_id: employee_id})
                     .then(function (response)
                     {
-                        console.log(response)
                     });
         };
         $scope.getOtherPermission = function (employee_id) {

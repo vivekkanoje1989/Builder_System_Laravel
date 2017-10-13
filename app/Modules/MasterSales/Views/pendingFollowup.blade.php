@@ -50,22 +50,26 @@
                         <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
-                            <li ng-if="enquiriesLength != 0">presalesemployee
-                                <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
-                                    Export
-                                </a> 
-                            </li>
+                                <li ng-if="enquiriesLength != 0">
+                                    <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
+                                       Export
+                                    </a> 
+                                </li>
                             @endif
+                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01407"'))                            
                             <li>
                                 <a href ng-model="BulkReasign"  id="BulkReasign"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >
                                     Reassign                                    
                                 </a>
                             </li>
+                            @endif 
+                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
                             <li>
                                 <a href ng-model="shareWith"  data-toggle="modal" data-target="#shareWith" ng-click="initBulkModal();" ng-if="shareWith" >
                                     Share Enquiry                               
                                 </a>
                             </li>
+                            @endif 
                         </ul>
                     </div>                    
                     <div  class="dataTables_filter">                        
@@ -167,16 +171,16 @@
                                        ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') -> user() -> id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                         <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                     </a>
-                                    <span  ng-if="displayMobileNo != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                    <span  ng-if="displayMobileNo == '1'" class="text">{{mobile_obj}}</span>
+                                    <span  ng-if="displayMobileNo == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                    <span  ng-if="displayMobileNo != '1'" class="text">{{mobile_obj}}</span>
 
                                 </span>
                             </div>
                             <div ng-init="mobile_list = enquiry.mobile.split(',')">
                                 <p ng-if="[[ Auth::guard('admin') -> user() -> customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
                                     <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
-                                        <span  ng-if="displayMobileNo != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                        <span  ng-if="displaymobileNo == '1'" class="text">{{  mobile_obj}}</span>
+                                        <span  ng-if="displayMobileNo == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                        <span  ng-if="displaymobileNo != '1'" class="text">{{  mobile_obj}}</span>
                                     </span>
                                 </p>
                                 <p ng-if="displayEmailId == '1'" ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
