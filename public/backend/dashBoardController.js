@@ -120,7 +120,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
             $scope.status = list.status;
             Data.post('my-request/description', {id: $scope.id}).then(function (response) {
                 if (response.status) {
-                    $scope.cc_name = response.records.first_name + " " + response.records.last_name;
+                    $scope.cc_name = response.ccEmp;
+                    $scope.to_name = response.toEmp;
                 }
             });
         };

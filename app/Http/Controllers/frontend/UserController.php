@@ -28,17 +28,26 @@ use Config;
 use DB;
 use App\Modules\ContactUs\Models\WebContactus;
 use App\Models\Contactus;
+use Illuminate\Support\Facades\Route;
 
 class UserController extends Controller {
 
-    public $themeName;
+    public $themeName = '';
 
     public function __construct() {
         try {
-            $result = WebThemes::where('status', '2')->select(['id', 'theme_name'])->first();
-            Config::set('global.themeName', $result['theme_name']);
-            $this->themeName = Config::get('global.themeName');
-            $getWebsiteUrl = config('global.getWebsiteUrl');
+            $ids = Route::current()->getParameter('id');
+            if (!empty($ids)) {
+
+                $result = WebThemes::where('id', $ids)->select(['id', 'theme_name'])->first();
+                $this->themeName = $result['theme_name'];
+            } else {
+
+                $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
+                Config::set('global.themeName', $result['theme_name']);
+                $this->themeName = Config::get('global.themeName');
+                $getWebsiteUrl = config('global.getWebsiteUrl');
+            }
         } catch (\Exception $ex) {
             return View::make('layouts.backend.error500')->withSuccess('Page not found');
         }
@@ -58,6 +67,18 @@ class UserController extends Controller {
     }
 
     public function index() {
+        $ids = Route::current()->getParameter('id');
+        if (!empty($ids)) {
+            $result = WebThemes::where('id', $ids)->select(['id', 'theme_name'])->first();
+            $this->themeName = $result['theme_name'];
+          
+        } else {
+            $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
+            Config::set('global.themeName', $result['theme_name']);
+            $this->themeName = Config::get('global.themeName');
+            $getWebsiteUrl = config('global.getWebsiteUrl');
+        }
+
         $testimonials = WebTestimonials::where(['web_status' => '1', 'approve_status' => '1'])->get();
         $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
                         ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
@@ -77,10 +98,6 @@ class UserController extends Controller {
             array_push($currentResult, $result);
         }
         return view('frontend.' . $this->themeName . '.index')->with(["testimonials" => $testimonials, 'employee' => $employees, 'background' => $images, 'current' => $currentResult]);
-    }
-
-    public function geeta() {
-        return view('frontend.Theme32.geeta');
     }
 
     public function career() {
@@ -111,7 +128,7 @@ class UserController extends Controller {
         if (!empty($name[1])) {
             $input['contactData']['last_name'] = $name[1];
         }
-       
+
         $result = Contactus::create($input['contactData']);
         return json_encode(['result' => $result, 'status' => true]);
     }
@@ -144,7 +161,7 @@ class UserController extends Controller {
         return view('frontend.' . $this->themeName . '.contact');
     }
 
-    public function about() {
+    public function about() {echo session('previewTheme');
         $about = WebPage::where('page_name', 'about')->select('page_content', 'banner_images')->first();
         return view('frontend.' . $this->themeName . '.about')->with("about", $about);
     }

@@ -116,12 +116,12 @@
                                             <tr  ng-repeat="sources in source_report">
                                                 <td><b>{{ sources.sales_source_name.split("_").join(" ")}}</b></td>
                                                 <td><div style="width:60px; float:left;"  ng-if="sources.cnt > 0">{{sources.cnt}}</div><div ng-if="sources.cnt > 0" style="float:left"><a href="" style="padding-left:30px;"  ng-click="projectSubSourceReport(sources); ">Show source report</a></div><span ng-if="sources.count == 0">0</span></td>
-                                                <td>{{((sources.cnt / Total) * 100).toFixed(2)}}</td>
+                                                <td><div ng-if="sources.cnt >0">{{((sources.cnt / mySourceTotal) * 100).toFixed(2)}}</div><div ng-if="sources.cnt == 0">0</div></td>
                                             </tr>
                                             <tr>
                                                 <td align="center"><b>Total</b></td>
-                                                <td><b>{{Total}}</b></td>
-                                                <td><b>{{((Total / Total) * 100).toFixed(2)}}</b></td>
+                                                <td><b>{{mySourceTotal}}</b></td>
+                                                <td><b ng-if="mySourceTotal > 0">{{((mySourceTotal / mySourceTotal) * 100).toFixed(2)}}</b><b ng-if="mySourceTotal == 0">0</b></td>
                                             </tr>
                                         </tbody>
                                     </table>

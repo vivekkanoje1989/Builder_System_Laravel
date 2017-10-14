@@ -713,7 +713,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 data: adata,
             }).then(function (response) {
                 if (response.success) {
-                     $scope.passwordBtn = false;
+                    $scope.passwordBtn = false;
                     $scope.successMsg = response.message;
                     $scope.wrongpwd = false;
                     $scope.step1 = false;
@@ -1322,29 +1322,36 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.updateProfile = function (profileData)
-        {
-            if (typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
+        {console.log(profileData.employee_photo_file_name);
+            toaster.pop('success', 'Profile', 'Profile updated successfully');
+            if (profileData.employee_photo_file_name === '' || typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
                 profileData.employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
+            }else{
+                var url = '/master-hr/updateProfileInfo';
+                var data = {data: profileData};
+
+                profileData.employee_photo_file_name.upload = Upload.upload({
+                    url: url,
+                    headers: {enctype: 'multipart/form-data'},
+                    data: data
+                })
+                profileData.employee_photo_file_name.upload.then(function (response)
+                {
+                    if (response.success == false) {
+                        toaster.pop('error', 'Profile', 'Please upload profile photo');
+                    } else {
+                        $timeout(function(){
+                            toaster.pop('success', 'Profile', 'Profile updated successfully');
+                        },300);           
+                        $timeout(function(){
+                            $rootScope.imageUrl = response.data.photo;
+                        },500);  
+                        $timeout(function(){
+                            $scope.reload();
+                        },700);  
+                    }
+                });
             }
-            var url = '/master-hr/updateProfileInfo';
-            var data = {data: profileData};
-
-            profileData.employee_photo_file_name.upload = Upload.upload({
-                url: url,
-                headers: {enctype: 'multipart/form-data'},
-                data: data
-            })
-            profileData.employee_photo_file_name.upload.then(function (response)
-            {
-
-                if (response.success == false) {
-                    toaster.pop('error', 'Profile', 'Please upload profile photo');
-                } else {
-                    $rootScope.imageUrl = response.data.photo;
-                    toaster.pop('success', 'Profile', 'Profile updated successfully');
-                }
-            });
-
         }
 
         $scope.updatePassword = function (profileData)

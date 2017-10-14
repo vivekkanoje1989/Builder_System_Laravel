@@ -65,7 +65,8 @@
                 <tab heading="BMS Themes" id="BMSThemeTab" style="width:50%; text-align: center">
                     <div class="row">
                         <div class="col-md-3 imagediv" ng-repeat="list in themesRow">
-                            <a  href="[[ config('global.backendUrl') ]]#/theme/preview/id/{{list.id}}" ng-if="list.status == '0'"  target="_blank" title="Preview [ {{list.theme_name}}]">
+                            <!--<a  href="#/index/{{list.id}}" ng-if="list.status == '0'"  target="_blank" title="Preview [ {{list.theme_name}}]">-->
+                            <a href="[[ config('global.backendUrl') ]]#/theme/preview/id/{{list.id}}" ng-if="list.status == '0'"  target="_blank" title="Preview [ {{list.theme_name}}]">
                                 <img src="[[ Config('global.s3Path') ]]/Themes/{{list.image_url}}" alt="Avatar" class="image" style=" height:200px;">
                                 <i  ng-if="list.status == '0'" class="fa fa-eye ovr-btn"></i>
                                 <div class="middle">

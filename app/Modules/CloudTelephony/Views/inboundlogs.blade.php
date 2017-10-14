@@ -148,7 +148,7 @@
                             </tr>
                             <tr>
                                 <td colspan="9"  ng-show="(inboundList|filter:search | filter:searchData).length == 0" align="center">Records Not Found</td>   
-                                <td colspan="9"  ng-if="teaminboundLength == 0" align="center">Records Not Found</td>   
+                                <td colspan="9"  ng-if="inboundLength == 0" align="center">Records Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

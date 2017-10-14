@@ -430,6 +430,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent: function($rootScope){
+                                            return $rootScope.parentBreadcrumbFlag;
+                                        }, 
                                         label: 'Edit Customer',
                                         title: 'Edit Customer',
                                     },

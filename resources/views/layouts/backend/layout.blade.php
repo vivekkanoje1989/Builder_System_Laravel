@@ -29,7 +29,8 @@
             </div>
             <!-- /Page Header -->
             <!-- Page Body -->
-            <div class="page-body" ui-view ng-show="!loader.loading">
+            <!--<div class="page-body" ui-view ng-show="!loader.loading">-->
+            <div class="page-body" ui-view>
                 <!-- Your Content Goes Here -->
             </div>
             <!-- /Page Body -->

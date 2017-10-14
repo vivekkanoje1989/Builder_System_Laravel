@@ -71,7 +71,6 @@ div.help-block{
     margin-bottom: 20px;
     width: 175px;*/
 }
-
 .ShowingLength{
     position: absolute;
     top: 0;
@@ -2693,7 +2692,8 @@ a:active {
     height: 45px;
     opacity: 1;
     position: relative;
-    cursor: pointer
+    cursor: pointer;
+      width: 300px;
 }
 
 .navbar .navbar-inner .navbar-header .navbar-account .account-area .login-area .avatar {
@@ -2715,7 +2715,7 @@ a:active {
     display: block;
     overflow: hidden;
     line-height: 25px;
-    float: left
+    /*float: left*/
 }
 
 .navbar .navbar-inner .navbar-header .navbar-account .account-area .login-area section h2 {

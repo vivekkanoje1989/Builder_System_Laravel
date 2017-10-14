@@ -4,7 +4,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
     $scope.errorMsg = '';
     $scope.sessiontimeout = function () {
         $scope.logout("logout");
-//        window.history.back();
+        alert("Session expired. Redirected to login");
         window.location.reload();
         return false;
     }
@@ -766,7 +766,7 @@ app.controller('getEmployeeCtrl', function ($scope, Data, $timeout) {
 });
 /****************************MANDAR*********************************/
 app.controller('ccpresalesStatusCtrl', function ($scope, Data) {
-    Data.get('getccPreSalesStates').then(function (response) {
+    Data.get('getccPreSalesStatus').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;
         } else {

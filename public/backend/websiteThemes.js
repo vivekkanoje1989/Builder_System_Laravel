@@ -36,6 +36,13 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             });
         };
 
+//
+// 
+//        $scope.previewClick = function (id) {
+//            $window.localStorage.setItem('previewId', id);
+//        }
+//        
+        
         $scope.applyTheme = function (id) {
             Data.post('website/applyTheme', {
                 'id': id}).then(function (response) {

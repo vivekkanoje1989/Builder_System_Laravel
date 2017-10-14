@@ -158,7 +158,7 @@ class DashBoardController extends Controller {
         $request = json_decode($postdata, true);
         $empId = implode(',', $request['id']);
         $loggedInUserId = Auth::guard('admin')->user()->id;
-        $report = "select db2.first_name, db2.last_name, db2.id, db1.designation from `laravel_developement_master_edynamics`.`mlst_bmsb_designations` as `db1` inner join `laravel_developement_builder_client`.`employees` as `db2` on db1.id = db2.designation_id where db2.id <> ". $loggedInUserId." AND not find_in_set(db2.id, '".$empId."' )";
+        $report = "select db2.first_name, db2.last_name, db2.id, db1.designation from `laravel_developement_master_edynamics`.`mlst_bmsb_designations` as `db1` inner join `laravel_developement_builder_client`.`employees` as `db2` on db1.id = db2.designation_id where db2.id <> " . $loggedInUserId . " AND not find_in_set(db2.id, '" . $empId . "' )";
         $employees = DB::select($report);
 //           $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
 //                ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
@@ -203,9 +203,8 @@ class DashBoardController extends Controller {
         }
         $request['uid'] = $uid;
         $emailBody = $request['req_desc'];
-
-        if (!empty($request['cc'])) {
-            $userCC = array();
+        $userCC = array();
+        if (!empty($request['cc'])) {            
             $userCC1 = array();
             $userCC = explode(',', $request['cc']);
             $employee = \App\Models\backend\Employee::select('personal_email1')->whereIn('id', $userCC)->get();
@@ -213,8 +212,6 @@ class DashBoardController extends Controller {
                 $userCC1[] = $employee[$j]['personal_email1'];
             }
             $empCC = implode(',', $userCC1);
-        } else {
-            $userCC = '';
         }
 
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
@@ -233,7 +230,7 @@ class DashBoardController extends Controller {
             $loginlastName = Auth::guard('admin')->user()->last_name;
         }
         $loginEmployeeName = $loginFirstName . ' ' . $loginlastName;
-        $userId = array();
+  
         $userId = explode(',', $uid);
         for ($i = 0; $i < count($userId); $i++) {
             $templatedata['employee_id'] = $userId[$i];
@@ -335,15 +332,33 @@ class DashBoardController extends Controller {
     public function description() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $employees = EmployeeRequest::join('employees', 'request.cc', '=', 'employees.id')
-                ->select('employees.first_name', 'employees.last_name')
-                ->where('request.id', $request['id'])
-                ->first();
-        if (!empty($employees)) {
-            $result = ['status' => true, 'records' => $employees];
-        } else {
-            $result = ['status' => false, 'message' => "No record"];
+        $data = EmployeeRequest::where('request.id', $request['id'])->get();
+        $i = 0;
+        $j = 0;
+        $empCC = [];
+        $employees = "select employees.first_name,employees.last_name from request left join employees on find_in_set(employees.id, request.cc) where request.id =" . $request['id'];
+        $employees = DB::select($employees);
+        foreach ($employees as $ccEmp) {
+            $employees[$i]->EmpName = $ccEmp->first_name . ' ' . $ccEmp->last_name;
+            array_push($empCC, $employees[$i]->EmpName);
+            unset($employees[$i]->first_name);
+            unset($employees[$i]->last_name);
+            $i++;
         }
+        $ccEmp = implode(',', $empCC);
+        $emp = [];
+        $employee = "select employees.first_name,employees.last_name from request left join employees on find_in_set(employees.id, request.uid) where request.id =" . $request['id'];
+        $employee = DB::select($employee);
+        foreach ($employee as $toEmp) {
+            $employee[$j]->EmpName = $toEmp->first_name . ' ' . $toEmp->last_name;
+            array_push($emp, $employee[$j]->EmpName);
+            unset($employee[$j]->first_name);
+            unset($employee[$j]->last_name);
+            $j++;
+        }
+        $toEmp = implode(',', $emp);
+
+        $result = ['status' => true, 'ccEmp' => $ccEmp, 'toEmp' => $toEmp];
         return json_encode($result);
     }
 
@@ -365,7 +380,7 @@ class DashBoardController extends Controller {
                 $request['filterData']['from_date'] = !empty($request['filterData'][0]['from_date']) ? date('Y-m-d', strtotime($request['filterData'][0]['from_date'])) : '';
                 $request['filterData']['to_date'] = !empty($request['filterData'][0]['to_date']) ? date('Y-m-d', strtotime($request['filterData'][0]['to_date'])) : '';
 
-                $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+                $employees = EmployeeRequest::join('employees', 'request.created_by', '=', 'employees.id')
                         ->select([DB::raw('SQL_CALC_FOUND_ROWS request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status')])
                         ->where('request.uid', '=', $loggedInUserId)
                         ->where('request.request_type', 'like', '%' . $request['filterData']['request_type'] . '%')
@@ -375,7 +390,7 @@ class DashBoardController extends Controller {
                         ->take($request['itemPerPage'])->offset($startFrom)
                         ->get();
             } else {
-                $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+                $employees = EmployeeRequest::join('employees', 'request.created_by', '=', 'employees.id')
                         ->select([DB::raw('SQL_CALC_FOUND_ROWS request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status')])
                         ->where('request.uid', '=', $loggedInUserId)
                         ->take($request['itemPerPage'])->offset($startFrom)
@@ -384,7 +399,7 @@ class DashBoardController extends Controller {
             $rows = DB::select("select FOUND_ROWS() as totalCount");
             $cnt = $rows[0]->totalCount;
         } else {
-            $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+            $employees = EmployeeRequest::join('employees', 'request.created_by', '=', 'employees.id')
                     ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                     ->where('request.uid', '=', $loggedInUserId)
                     ->get();

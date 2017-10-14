@@ -7,7 +7,7 @@
                 </div>
             </div>
         </div>
-        <tabset justified="true">
+        <tabset>
             <tab heading="Add New Details" id="addNewTab">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">                            

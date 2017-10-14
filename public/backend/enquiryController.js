@@ -639,6 +639,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     delete $scope.filterData[key];
                 }
             });
+            
             //$scope.minBudget = $scope.min = minBudget;
             //$scope.maxBudget = $scope.max = maxBudget;
             $scope.showloader();
@@ -1269,7 +1270,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.editExistingFollowup = true;
             $scope.getTodayRemark(enqid, followupId);
         }
-        $scope.getTodayRemark = function (enqid, followupId) {
+        $scope.getTodayRemark = function (enqid, followupId, sharedemployee) {
 
             $scope.minDate = new Date();
             $scope.booked = $scope.collected = true;
@@ -1292,29 +1293,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         if (response.enquiryDetails[0].title_id == 0 || response.enquiryDetails[0].title_id == null) {
                             $scope.remarkData.title_id = '';
                         }
-                        /*if (time.getHours() > 19 || time.getHours() < 9) {
-                         time.setHours(9);
-                         }
-                         var minuteStr = time.getMinutes().toString();
-                         if (minuteStr.length == 1 && minuteStr != '0') {
-                         minuteStr = '0' + minuteStr;
-                         } else {
-                         var minuteStr = time.getMinutes();
-                         }
-                         if (minuteStr == 0) {
-                         time.setHours(time.getHours());
-                         time.setMinutes("00");
-                         } else if (minuteStr > 0 && minuteStr <= 15) {
-                         time.setMinutes(15);
-                         } else if (minuteStr > 15 && minuteStr <= 30) {
-                         time.setMinutes(30);
-                         } else if (minuteStr > 30 && minuteStr <= 45) {
-                         time.setMinutes(45);
-                         } else {
-                         time.setHours(time.getHours() + 1);
-                         time.setMinutes("00");
-                         }
-                         $scope.remarkData.next_followup_time = time;*/
+                    
                         $scope.useremail = angular.copy(response.useremail);
                         $scope.userpermissions = angular.copy(response.userpermissions);
                         $scope.displaymobile = $scope.userpermissions.indexOf("01406");
@@ -1339,7 +1318,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.remarkData.company_name = response.enquiryDetails[0].company_name;
                         $scope.customer_area_name = response.enquiryDetails[0].customer_area_name;
                         $scope.customer_address = (response.enquiryDetails[0].customer_address == '') ? '' : response.enquiryDetails[0].customer_address;
-                        $scope.remarkData.followup_by = {"id": response.enquiryDetails[0].sales_employee_id, "first_name": response.enquiryDetails[0].first_name + " " + response.enquiryDetails[0].last_name};
+                        $scope.remarkData.followup_by_employee_id = {"id": response.enquiryDetails[0].sales_employee_id, "first_name": response.enquiryDetails[0].first_name + " " + response.enquiryDetails[0].last_name};
 
                         if ($scope.editExistingFollowup == true) {
                             $scope.remarkData.textRemark = response.enquiryDetails[0].remarks;
@@ -1414,6 +1393,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         } else {
                             $scope.source = true;
                         }
+                        $scope.shared = sharedemployee;
                     }
                 });
                 $timeout(function () {
@@ -1424,7 +1404,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.bookingId = '';
-        $scope.insertTodayRemark = function (modalData) {
+        $scope.insertTodayRemark = function (modalData, sharedemployee) {
             if ($scope.editableCustInfo == true) {
                 if (modalData.customer_fname == '' && modalData.customer_lname == '') {
                     toaster.pop('error', 'Required', 'Please update customer name');
@@ -1472,6 +1452,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             };
             $scope.sbtbtndis = true;
+            
             Data.post('master-sales/insertTodayRemark', {
                 data: data, custInfo: custInfo
             }).then(function (response) {
@@ -1489,14 +1470,16 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         }, 500);
                         $("li#bookingTab").removeClass('active');
                         $("li#collectedTab").addClass('active');
-                        toaster.pop('success', 'Booking Details', response.message);
-                        if (typeof $scope.filterData !== 'undefined') {
+                        toaster.pop('success', 'Booking Details', response.message);                        
+                        
+                        if (typeof $scope.filterData !== 'undefined' && $scope.filterData !== '') {
                             $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
                         }
                     } else {
                         $('#todayremarkDataModal').modal('toggle');
                         toaster.pop('success', '', response.message);
-                        if (typeof $scope.filterData !== 'undefined') {
+                        
+                        if (!angular.equals($scope.filterData, {}) && typeof $scope.filterData !== 'undefined' && $scope.filterData !== '') {
                             $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
                         } else {
                             $state.transitionTo($state.current, $stateParams, {
@@ -1507,6 +1490,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         }
                         $(".modal-backdrop").hide();
                     }
+                    if(sharedemployee == true){                        
+                        $scope.sharedemployee = angular.copy(sharedemployee);
+                        $('#statuschk1').prop('checked', true);
+                    }
+                    $('#slideout').toggleClass('on');
                 }
                 return false;
             });

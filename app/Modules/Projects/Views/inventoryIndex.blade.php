@@ -44,7 +44,7 @@
                                 <div class="form-group" align="right">
                                     <label for=""></label>
                                     <span class="input-icon icon-right">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inventoryDataModal" ng-click="getWingData()">Add</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inventoryDataModal" ng-click="getWingData()">Add More</button>
                                         <button type="button" class="btn btn-primary" ng-click="cancel_inventory()">Cancel</button>
                                     </span>
                                 </div>

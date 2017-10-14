@@ -206,7 +206,7 @@
                 <div class="form-group" align="right">
                     <label for=""></label>
                     <span class="input-icon icon-right">
-                        <button type="submit" class="btn btn-primary" ng-click="sbtBtn = true">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-click="sbtBtn = true">Add</button>
                     </span>
                 </div>
             </div>
