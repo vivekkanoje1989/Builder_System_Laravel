@@ -36,21 +36,25 @@ class UserController extends Controller {
 
     public function __construct() {
         try {
-            $ids = Route::current()->getParameter('id');
-            if (!empty($ids)) {
-
-                $result = WebThemes::where('id', $ids)->select(['id', 'theme_name'])->first();
-                $this->themeName = $result['theme_name'];
-            } else {
-
+            $id = Route::current()->getParameter('id');
+         
+            if (!empty($id)) {
+                $result = WebThemes::where('id', $id)->select(['id', 'theme_name'])->first();
+                session(['previewTheme' => $result['theme_name']]);
+            } 
+            if (session('previewTheme') != '') {
+                $result = WebThemes::where('id', $id)->select(['id', 'theme_name'])->first();
+                Config::set('global.themeName', $result['theme_name']);
+                $this->themeName = session('previewTheme');      
+            }else{
                 $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
                 Config::set('global.themeName', $result['theme_name']);
-                $this->themeName = Config::get('global.themeName');
-                $getWebsiteUrl = config('global.getWebsiteUrl');
-            }
+                $this->themeName = $result['theme_name'];     
+            }                      
         } catch (\Exception $ex) {
-            return View::make('layouts.backend.error500')->withSuccess('Page not found');
+            return \View::make('layouts.backend.error500')->withSuccess('Page not found');
         }
+
     }
 
     public function load() {
@@ -67,18 +71,6 @@ class UserController extends Controller {
     }
 
     public function index() {
-//        $ids = Route::current()->getParameter('id');
-//        if (!empty($ids)) {
-//            $result = WebThemes::where('id', $ids)->select(['id', 'theme_name'])->first();
-//            $this->themeName = $result['theme_name'];
-//          
-//        } else {
-//            $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
-//            Config::set('global.themeName', $result['theme_name']);
-//            $this->themeName = Config::get('global.themeName');
-//            $getWebsiteUrl = config('global.getWebsiteUrl');
-//        }
-
         $testimonials = WebTestimonials::where(['web_status' => '1', 'approve_status' => '1'])->get();
         $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
                         ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
@@ -161,7 +153,7 @@ class UserController extends Controller {
         return view('frontend.' . $this->themeName . '.contact');
     }
 
-    public function about() {echo session('previewTheme');
+    public function about() {
         $about = WebPage::where('page_name', 'about')->select('page_content', 'banner_images')->first();
         return view('frontend.' . $this->themeName . '.about')->with("about", $about);
     }
