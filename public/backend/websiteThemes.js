@@ -35,9 +35,7 @@ $rootScope.previewFullPage = true
 
             });
         };
-        $scope.showPreview = function(){
-            $rootScope.previewFullPage = true;alert($rootScope.previewFullPage);
-        }
+
         $scope.applyTheme = function (id) {
             Data.post('website/applyTheme', {
                 'id': id}).then(function (response) {

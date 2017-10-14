@@ -84,36 +84,36 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th>                          
                                 <th style="width:15%">
-                                <a href="javascript:void(0);" ng-click="orderByField('in_date')">Date
-                                        <span ><img ng-hide="(sortKey == 'in_date' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('in_date')">Date
+                                        <span ><img ng-hide="(sortKey == 'in_date' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'in_date' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'in_date' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:15%">
-                                 <a href="javascript:void(0);" ng-click="orderByField('job_eligibility')">Request Type
-                                        <span ><img ng-hide="(sortKey == 'job_eligibility' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('job_eligibility')">Request Type
+                                        <span ><img ng-hide="(sortKey == 'job_eligibility' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'job_eligibility' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'job_eligibility' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:15%">
-                                  <a href="javascript:void(0);" ng-click="orderByField('first_name')">Application From
-                                        <span ><img ng-hide="(sortKey == 'first_name' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('first_name')">Application From
+                                        <span ><img ng-hide="(sortKey == 'first_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'first_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'first_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:20%">
-                                <a href="javascript:void(0);" ng-click="orderByField('from_date')">From
-                                        <span ><img ng-hide="(sortKey == 'from_date' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('from_date')">From
+                                        <span ><img ng-hide="(sortKey == 'from_date' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'from_date' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'from_date' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
                                 <th style="width:10%">
-                                 <a href="javascript:void(0);" ng-click="orderByField('to_date')">To
-                                        <span ><img ng-hide="(sortKey == 'to_date' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('to_date')">To
+                                        <span ><img ng-hide="(sortKey == 'to_date' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'to_date' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'to_date' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
@@ -125,8 +125,8 @@
                         <tbody>
                             <tr role="row" dir-paginate="list in myRequest| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
-                                <td>{{list.in_date | date:'yyyy-MM-dd'}}</td> 
-                                <td>{{list.request_type}}</td>
+                                <td>{{list.in_date| date:'yyyy-MM-dd'}}</td> 
+                                <td> {{list.request_type}}</td>
                                 <td>{{list.application_from}}</td>
                                 <td>{{list.from_date}}</td> 
                                 <td>{{list.to_date}}</td>
@@ -134,14 +134,14 @@
                                 <td><a href="" data-toggle="modal" data-target="#newModal" class="btn-primary btn-xs" ng-click="statusChange({{list}},$index); view_description({{list}})" ><i class="fa fa-info-circle" aria-hidden="true"></i>Action</a></td>
                             </tr>
                             <tr>
-                                <td colspan="8"  ng-show="(myRequest|filter:search|filter:searchData).length == 0" align="center">Records Not Found</td>   
+                                <td colspan="8"  ng-show="(myRequest|filter:search | filter:searchData).length == 0" align="center">Records Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
-                          </div>
+                        </div>
                         <div class="col-sm-6">
                             <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
                                 <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
@@ -183,7 +183,7 @@
                     <h4 class="modal-title" align="center">Status Description</h4>
                 </div>
                 <table class="table table-stripped table-bordered" style="margin:20px 20px 20px 20px; width:90%;">
-                    <tr><td>Date</td><td>{{in_date }}</td></tr>
+                    <tr><td>Date</td><td>{{in_date}}</td></tr>
                     <tr><td>Request Type</td><td>{{request_type}}</td></tr>
                     <tr><td>To</td><td>{{to_name}}</td></tr>
                     <tr><td>CC</td><td>{{cc_name}}</td></tr>
@@ -247,7 +247,7 @@
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Application From</label>
-                         <span class="input-icon icon-right" ng-init="getEmployees()"> 
+                        <span class="input-icon icon-right" ng-init="getEmployees()"> 
                             <select class="form-control"  ng-model="searchDetails.application_from" name="application_from" id="application_from" >
                                 <option value="">Select Employee</option>
                                 <option ng-repeat="item in employeeRow" value="{{item.employeeName}}" ng-selected="{{ item.employeeName == searchDetails.application_from}}" >{{item.employeeName}}</option>
@@ -259,7 +259,12 @@
                     <div class="form-group">
                         <label for="">Request Type</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.request_type" name="request_type" class="form-control">
+<!--                            <input type="text" ng-model="searchDetails.request_type" name="request_type" class="form-control">-->
+                            <select class="form-control" ng-model="searchDetails.request_type" name="request_type">
+                                <option value="">Select Status</option>
+                                <option value="Leave">Leave</option>
+                                <option value="Approval">Approval</option>
+                            </select>
                         </span>
                     </div>
                 </div>
@@ -290,7 +295,7 @@
                         </span>
                     </div>
                 </div>
-                
+
             </div>
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12" >

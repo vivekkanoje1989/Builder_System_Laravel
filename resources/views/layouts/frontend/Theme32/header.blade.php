@@ -10,7 +10,7 @@
             <nav class="nav-main" ng-init="getMenus()">
                 <ul>
                     <li ng-repeat="menu in getMenus" class="nav-main-item"  ng-click="select(menu.id)" ng-class="{active: isActive(menu.id)}">
-                        <a class="nav-main-link"     href="#/{{menu.page_name}}">{{menu.page_name}}</a>
+                        <a class="nav-main-link"     href="/{{menu.page_name}}">{{menu.page_name}}</a>
                         <ul>
                             <li    ng-repeat="subMenu in menu.menu_list">
                                 <a  href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/{{subMenu.page_name}}">{{subMenu.page_name}}</a>

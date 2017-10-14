@@ -180,14 +180,12 @@ class ReportsController extends Controller {
         $i = 0;
 //        foreach ($status_wise_report as $status) {
 //            $salesStatus = $status->sales_status;
-            $report = "SELECT mess.sales_status, mess.id,  count(*) as cnt from enquiries INNER JOIN enquiry_details INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as mess ON enquiry_details.enquiry_id = enquiries.id  where sales_status_id = mess.id AND enquiry_details.project_id = $request[project_id] GROUP BY enquiries.sales_status_id";
-            $status = DB::select($report);
-            
-            foreach ($status as $source) {
+        $report = "SELECT mess.sales_status, mess.id,  count(*) as cnt from enquiries INNER JOIN enquiry_details INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as mess ON enquiry_details.enquiry_id = enquiries.id  where sales_status_id = mess.id AND enquiry_details.project_id = $request[project_id] GROUP BY enquiries.sales_status_id";
+        $status = DB::select($report);
+        foreach ($status as $source) {
             $status[$i]->employee_id = $employee_id;
             $status[$i]->project_id = $request['project_id'];
             $Total = $Total + $source->cnt;
-
             $i++;
         }
         $sourceLength = count($status);
@@ -200,10 +198,10 @@ class ReportsController extends Controller {
 //        }
 //        $response['0'] = $temp_array;
         if (!empty($status)) {
-            $result = ['success' => true, 'records' => $status, 'Total' => $Total,'statusLength'=>$sourceLength];
+            $result = ['success' => true, 'records' => $status, 'Total' => $Total, 'statusLength' => $sourceLength];
             return json_encode($result);
         } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
+            $result = ['success' => false, 'message' => 'Something went wrong', 'Total' => 0];
             return json_encode($result);
         }
     }
@@ -234,7 +232,7 @@ class ReportsController extends Controller {
             $result = ['success' => true, 'records' => $status, 'Total' => $Total, 'sourceLength' => $sourceLength];
             return json_encode($result);
         } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
+            $result = ['success' => false, 'message' => 'Something went wrong','Total' => 0];
             return json_encode($result);
         }
     }
@@ -1593,12 +1591,22 @@ class ReportsController extends Controller {
             $category_wise_team_total = array();
             $mtotal = 0;
             $parant_id1 = 0;
-            $parant_id1 = $this->isParant($results_enquiry_type['0']['id']);
-            $emp_ids = $results_enquiry_type['0']['id'];
-            $mtotal = $results_enquiry_type['0']['Cold'] + $results_enquiry_type['0']['Hot'] + $results_enquiry_type['0']['Warm'] + $results_enquiry_type['0']['New'];
-            $counting[] = array('Cold' => $results_enquiry_type['0']['Cold'], 'Hot' => $results_enquiry_type['0']['Hot'], 'Warm' => $results_enquiry_type['0']['Warm'], 'New' => $results_enquiry_type['0']['New'], 'Total' => $mtotal);
+//            print_r($results_enquiry_type);
+//            exit
+            if (!empty($results_enquiry_type)) {
+                $parant_id1 = $this->isParant($results_enquiry_type['0']['id']);
+                $emp_ids = $results_enquiry_type['0']['id'];
+                $mtotal = $results_enquiry_type['0']['Cold'] + $results_enquiry_type['0']['Hot'] + $results_enquiry_type['0']['Warm'] + $results_enquiry_type['0']['New'];
+                $counting[] = array('Cold' => $results_enquiry_type['0']['Cold'], 'Hot' => $results_enquiry_type['0']['Hot'], 'Warm' => $results_enquiry_type['0']['Warm'], 'New' => $results_enquiry_type['0']['New'], 'Total' => $mtotal);
+            } else {
+                $parant_id1 = '';
+                $emp_ids = '';
+                $mtotal = '';
+                $counting[] = '';
+            }
         }
         $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
+        ;
         $i = 0;
         foreach ($selfteam as $selfmember) {
             $this->allusers = array();
@@ -1614,6 +1622,8 @@ class ReportsController extends Controller {
                 } else {
                     $results_category_wise = DB::select('CALL proc_total_enquiry_report("' . $temp . '","0","","",0,"")');
                 }
+
+//            print_r($results_category_wise);exit;
                 foreach ($results_category_wise as $category) {
                     $ttotal = 0;
                     $ttotal = $category->Cold + $category->Hot + $category->Warm + $category->New;
@@ -1627,18 +1637,31 @@ class ReportsController extends Controller {
         $warm = 0;
         $new = 0;
         $total = 0;
+
         foreach ($counting as $count) {
-            $cold = $count['Cold'] + $cold;
-            $hot = $count['Hot'] + $hot;
-            $warm = $count['Warm'] + $warm;
-            $new = $count['New'] + $new;
-            $total = $count['Total'] + $total;
+            if (!empty($count)) {
+                $cold = $count['Cold'] + $cold;
+                $hot = $count['Hot'] + $hot;
+                $warm = $count['Warm'] + $warm;
+                $new = $count['New'] + $new;
+                $total = $count['Total'] + $total;
+            } else {
+                $cold = '0';
+                $hot = '0';
+                $warm = '0';
+                $new = '0';
+                $total = '0';
+            }
         }
 //         'is_parent' => $parant_id,
-        $category_wise_team_total[] = array('name' => $results_enquiry_type['0']['first_name'] . " " . $results_enquiry_type['0']['last_name'], 'employee_id' => $results_enquiry_type['0']['id'], 'Cold' => $cold, 'Hot' => $hot, 'Warm' => $warm, 'New' => $new, 'is_parent' => $parant_id1, 'Total' => $total);
+        if (!empty($results_enquiry_type)) {
+            $category_wise_team_total[] = array('name' => $results_enquiry_type['0']['first_name'] . " " . $results_enquiry_type['0']['last_name'], 'employee_id' => $results_enquiry_type['0']['id'], 'Cold' => $cold, 'Hot' => $hot, 'Warm' => $warm, 'New' => $new, 'is_parent' => $parant_id1, 'Total' => $total);
 
-        $response = array("category_wise_report" => $category_wise_team_total);
-        echo Json_encode($response);
+            $response = ['status' => true, 'category_wise_report' => $category_wise_team_total];
+        } else {
+            $response = ['status' => false, 'message' => "Something went wrong"];
+        }
+        return Json_encode($response);
     }
 
     public function subSourceReport() {
@@ -1857,7 +1880,9 @@ class ReportsController extends Controller {
             $total = 0;
             $parant_id = '';
             $parant_id = $this->isParant($results_enquiry_type['0']['id']);
-            $counting[] = array('open' => $results_enquiry_type['0']['Open'], 'booked' => $results_enquiry_type['0']['Booked'], 'lost' => $results_enquiry_type['0']['Lost'], 'new' => $results_enquiry_type['0']['New'], 'preserved' => $results_enquiry_type['0']['Preserved'], 'total' => $total);
+             $m_total = $results_enquiry_type['0']['Open'] + $results_enquiry_type['0']['Booked'] + $results_enquiry_type['0']['Lost'] + $results_enquiry_type['0']['New']+$results_enquiry_type['0']['Preserved'];
+                   
+            $counting[] = array('open' => $results_enquiry_type['0']['Open'], 'booked' => $results_enquiry_type['0']['Booked'], 'lost' => $results_enquiry_type['0']['Lost'], 'new' => $results_enquiry_type['0']['New'], 'preserved' => $results_enquiry_type['0']['Preserved'], 'total' => $m_total);
         }
         $selfteam = \App\Models\backend\Employee::where(['team_lead_id' => $emp_id])->get();
 
@@ -1874,7 +1899,6 @@ class ReportsController extends Controller {
 
                 $m_total = 0;
                 foreach ($results_status_wise as $status) {
-
                     $parant_id1 = 0;
                     $parant_id1 = $this->isParant($status['id']);
                     $m_total = $status['Open'] + $status['Booked'] + $status['Lost'] + $status['New'] + $status['Preserved'];
@@ -1887,9 +1911,9 @@ class ReportsController extends Controller {
         $booked = 0;
         $lost = 0;
         $new = 0;
-        $preserved = 0;
+        $preserved = 0;                             
         $total = 0;
-        foreach ($counting as $count) {
+        foreach ($counting as $count) { 
             $open += $count['open'];
             $booked += $count['booked'];
             $lost += $count['lost'];

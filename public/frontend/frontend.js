@@ -331,6 +331,8 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 }
             }
         };
+       
+        
     }]);
 
 app.directive('validFile', function () {
