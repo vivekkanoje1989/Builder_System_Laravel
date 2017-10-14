@@ -136,7 +136,7 @@ class UserController extends Controller {
     }
 
     public function getCareers() {
-        $result = WebCareers::all();
+        $result = WebCareers::where('deleted_status',0)->get();
         return json_encode(['result' => $result, 'status' => true]);
     }
 
@@ -335,7 +335,7 @@ class UserController extends Controller {
     }
 
     public function getTestimonials() {
-        $result = WebTestimonials::all();
+        $result = WebTestimonials::where('deleted_status',0)->get();
         return json_encode(['result' => $result, 'status' => true]);
     }
 

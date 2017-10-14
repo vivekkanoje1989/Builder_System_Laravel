@@ -33,7 +33,7 @@ var app = angular.module('app', ['ngFileUpload',
 //}]);
 
 app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', function ($scope, Upload, $timeout, $http, $location, $rootScope) {
-        alert('fg');
+        
         $scope.submitted = false;
         $scope.empl = true;
         $scope.career = true;
@@ -331,6 +331,8 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 }
             }
         };
+       
+        
     }]);
 
 app.directive('validFile', function () {
