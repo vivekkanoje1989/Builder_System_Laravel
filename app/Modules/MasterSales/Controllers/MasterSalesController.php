@@ -80,7 +80,6 @@ class MasterSalesController extends Controller {
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
-
             if (!empty($input['customerData'])) {
                 $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
                 if ($validator->fails()) {
@@ -283,7 +282,6 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-
             $customerMobileNo = !empty($request['data']['customerMobileNo']) ? $request['data']['customerMobileNo'] : "0";
             $customerEmailId = !empty($request['data']['customerEmailId']) ? $request['data']['customerEmailId'] : "0";
             $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '")');
@@ -474,7 +472,8 @@ class MasterSalesController extends Controller {
                 $request['customerDetails']['last_name'] = !empty($request['enquiryData']['last_name']) ? $request['enquiryData']['last_name'] : '';
                 $request['customerDetails']['title_id'] = !empty($request['enquiryData']['title_id']) ? $request['enquiryData']['title_id'] : '';
                 $request['customerDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
-
+                $request['customerDetails']['source_id'] = !empty($request['enquiryData']['source_id']) ? $request['enquiryData']['source_id'] : '';
+ 
                 $request['customerDetails'] = array_merge($request['customerDetails'], $create);
                 $insertCustomer = Customer::create($request['customerDetails']);
                 $customer_id = $insertCustomer->id;
@@ -485,6 +484,7 @@ class MasterSalesController extends Controller {
                     $request['customerContactDetails']['email_id'] = !empty($request['EmailId']) ? $request['EmailId'] : '';
                     $request['customerContactDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
                     $request['customerContactDetails']['customer_id'] = $insertCustomer->id;
+                    
                     $request['customerContactDetails'] = array_merge($request['customerContactDetails'], $create);
                     $insertCustomerContact = CustomersContact::create($request['customerContactDetails']);
                 }

@@ -144,7 +144,7 @@
                         </thead>
                         <tbody>
                             <tr dir-paginate="enquiry in filtered = ( enquiries | filter:search)  | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" total-items="{{ enquiriesLength}}">
-                                <td width="4%">{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td>
+                                <td width="4%">{{ itemsPerPage * (pageNumber - 1) + $index + 1}} </td>
                                 <td width="20%">
                                     <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
                                     <div ng-if="[[Auth::guard('admin') -> user() -> customer_contact_numbers]] == 1" ng-init="mobile_list = enquiry.mobile.split(',')">  
@@ -153,16 +153,15 @@
                                                ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') -> user() -> id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                                 <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                             </a>
-                                            <span  ng-if="displayMobileN != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                            <span  ng-if="displayMobileN == '1'" class="text">{{mobile_obj}}</span>
+                                            <span  ng-if="displayMobileN == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                            <span  ng-if="displayMobileN != '1'" class="text">{{mobile_obj}}</span>
 
                                         </span>
                                     </div>
                                     <div>
-                                        <p ng-if="[[ Auth::guard('admin') -> user() -> customer_contact_numbers]] == 0 && enquiry.mobile_number != ''"> 
-                                            +91-xxxxxx{{  enquiry.mobile_number.substring(enquiry.mobile_number.length - 4, enquiry.mobile_number.length)}}
-                                            <span  ng-if="displayMobileN != '1'" class="text">+91-xxxxxx{{enquiry.mobile_number.substring(enquiry.mobile_number.length - 4, enquiry.mobile_number.length)}}</span>
-                                            <span  ng-show="displayMobileN == '1'" class="text">{{enquiry.mobile_number}}</span>
+                                        <p ng-if="[[ Auth::guard('admin') -> user() -> customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
+                                            <span  ng-if="displayMobileN == '1'" class="text">+91-xxxxxx{{enquiry.mobile.substring(enquiry.mobile.length - 4, enquiry.mobile_number.length)}}</span>
+                                            <span  ng-if="displayMobileN != '1'" class="text">{{enquiry.mobile}}</span>
                                         </p>
                                         <p ng-if="emailPermission == '1'" ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
                                             <i class="fa fa-envelope" aria-hidden="true"></i>

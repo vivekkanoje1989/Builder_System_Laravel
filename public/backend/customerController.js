@@ -54,12 +54,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.showComapnyList = false;
             }
         }
-        
-         $scope.orderByField = function (keyname) {
+
+        $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
         }
-        
+
         $scope.isChecked = function (corporateCust) {
             if (corporateCust == true) {
                 $scope.companyInput = true;
@@ -90,7 +90,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
 
         $scope.checkValue = function () {
-            console.log($scope.searchData.searchWithMobile );
             if (typeof $scope.searchData.searchWithMobile === 'undefined' || $scope.searchData.searchWithMobile === '' || $scope.searchData.searchWithEmail === '') {
                 $scope.showDiv = false;
                 $scope.errMobile = false;
@@ -220,6 +219,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
+
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");
@@ -279,17 +279,16 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             $window.sessionStorage.setItem("sessionContactData", "");
                             $scope.disableCreateButton = true;
                         }
-                        if($rootScope.newEnqFlag !== 0 && $rootScope.newEnqFlag1 !== 0){
+                        if ($rootScope.newEnqFlag !== 0 && $rootScope.newEnqFlag1 !== 0) {
                             document.getElementById("enquiryDiv").style.display = 'block';
                             $("li#enquiryDiv a.ng-binding").trigger("click");
-                        }else if($rootScope.newEnqFlag !== 0 || $rootScope.newEnqFlag1 !== 0)
+                        } else if ($rootScope.newEnqFlag !== 0 || $rootScope.newEnqFlag1 !== 0)
                         {
-                           document.getElementById("enquiryDiv").style.display = 'block';
+                            document.getElementById("enquiryDiv").style.display = 'block';
                             $("li#enquiryDiv a.ng-binding").trigger("click");
-                        }
-                        else
+                        } else
                         {
-                             $window.history.back();
+                            $window.history.back();
                         }
                         $scope.customer_id = response.data.customerId;
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
@@ -306,22 +305,21 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             }, function (evt, response) {});
         };
         $scope.backToListing = function (mobileNo, emailId) {
-            if($rootScope.newEnqFlag !== 0)
+            if ($rootScope.newEnqFlag !== 0)
             {
                 $state.go("salesCreate");
                 $timeout(function () {
-                if (mobileNo !== '') {
-                    $("input[name='searchWithMobile']").val(mobileNo);
-                    $("input[name='searchWithMobile']").trigger("change");
-                } else {
-                    $("input[name='searchWithEmail']").val(emailId);
-                    $("input[name='searchWithEmail']").trigger("change");
-                }
-            }, 500);    
-            }
-            else
-            {                
-              $window.history.back();
+                    if (mobileNo !== '') {
+                        $("input[name='searchWithMobile']").val(mobileNo);
+                        $("input[name='searchWithMobile']").trigger("change");
+                    } else {
+                        $("input[name='searchWithEmail']").val(emailId);
+                        $("input[name='searchWithEmail']").trigger("change");
+                    }
+                }, 500);
+            } else
+            {
+                $window.history.back();
             }
         }
 
@@ -362,7 +360,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             $scope.subSourceList = response.records;
                         }
                     });
-                    $timeout(function () {console.log(response);
+                    $timeout(function () {
                         $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                         var bdate = new Date($scope.customerData.birth_date);
                         $scope.enquiryData.birth_date = (bdate.getFullYear() + '-' + ("0" + (bdate.getMonth() + 1)).slice(-2) + '-' + bdate.getDate());
@@ -374,20 +372,22 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             $scope.customerData.monthly_income = "";
                         else
                             $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
-
-                        if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00") {
-                            $scope.customerData.birth_date = "";
-                        } else {
-                            var bdt = new Date(response.customerPersonalDetails[0].birth_date);
-                            if (bdt.getDate() < 10) {
-                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
-                            } else {
-                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
-                            }
+                        
+                        if (response.customerPersonalDetails[0].birth_date == '0000-00-00') {
+                          
+                            $scope.customerData.birth_date = ''; 
+                        } else { 
+                              $scope.customerData.birth_date =  response.customerPersonalDetails[0].birth_date; 
+//                            var bdt = response.customerPersonalDetails[0].birth_date;
+//                            if (bdt.getDate() < 10) {
+//                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
+//                            } else {
+//                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
+//                            }
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                         }
 
-                        if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00") {
+                        if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === "0000-00-00") {
                             $scope.customerData.marriage_date = "";
                         } else {
                             var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
@@ -397,7 +397,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
                             }
                         }
-
+                      
                         for (var i = 0; i < response.customerPersonalDetails.get_customer_contacts.length; i++) {
                             if (response.customerPersonalDetails.get_customer_contacts[i].mobile_number === '0' || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === '' || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === null || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === "null") {
                                 $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
@@ -420,7 +420,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         }
                         $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerPersonalDetails.get_customer_contacts)));
                         $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-                        
+
                         if (response.customerPersonalDetails[0].corporate_customer === 1) {
                             $scope.customerData.corporate_customer = true;
                             $scope.isChecked(true);
@@ -558,6 +558,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 });
             }
         }
+        
         $scope.createEnquiry = function () {
 
             SweetAlert.swal({
@@ -586,7 +587,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                                 $scope.contacts = angular.copy(response.customerContactDetails);
                                 $scope.contactData = angular.copy(response.customerContactDetails);
-
                                 if (response.customerPersonalDetails[0].monthly_income == "0")
                                     $scope.customerData.monthly_income = "";
                                 else
@@ -594,6 +594,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
                                 if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00") {
                                     $scope.customerData.birth_date = "";
+
                                 } else {
                                     var bdt = new Date(response.customerPersonalDetails[0].birth_date);
                                     if (bdt.getDate() < 10) {
@@ -645,7 +646,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 });
                                 $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
                                 $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-                                
+
                                 $rootScope.newEnqFlag = 1;
 //                $scope.disableText = true; //disable mobile and email text box 
                             });
@@ -669,7 +670,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         {
             var date = new Date($scope.enquiryData.next_followup_date);
             $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
-            
+
             if (typeof $scope.enquiryData.id === 'undefined') {
                 var enqData = enquiryData;
                 Data.post('master-sales/saveEnquiry', {
@@ -800,7 +801,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.locations = response.records;
             });
         }
-       
+
 
     }]);
 
