@@ -37,14 +37,15 @@ class UserController extends Controller {
     public function __construct() {
         try {
             $id = Route::current()->getParameter('id');
-         
+            
             if (!empty($id)) {
                 $result = WebThemes::where('id', $id)->select(['id', 'theme_name'])->first();
+                
                 session(['previewTheme' => $result['theme_name']]);
+                $this->themeName = session('previewTheme'); 
             } 
             if (session('previewTheme') != '') {
-                $result = WebThemes::where('id', $id)->select(['id', 'theme_name'])->first();
-                Config::set('global.themeName', $result['theme_name']);
+                Config::set('global.themeName', session('previewTheme'));
                 $this->themeName = session('previewTheme');      
             }else{
                 $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
@@ -70,7 +71,7 @@ class UserController extends Controller {
         return \Redirect::to("http://" . $_SERVER["HTTP_HOST"] . "/#/" . $param);
     }
 
-    public function index() {
+    public function index() {  
         $testimonials = WebTestimonials::where(['web_status' => '1', 'approve_status' => '1'])->get();
         $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
                         ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')

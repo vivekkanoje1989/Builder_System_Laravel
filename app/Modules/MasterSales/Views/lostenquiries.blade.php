@@ -330,23 +330,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Today remark model =============================================================================-->
-                <div class="modal fade modal-primary" id="todayremarkDataModal" role="dialog" tabindex='-1'>
-                    <div class="modal-dialog modal-lg">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header navbar-inner">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title" align="center">Today Remarks</h4>
-                            </div>
-
-                            <!--<div data-ng-include=" '/MasterSales/todayremarks' "></div>-->
-                            <div class="modal-footer" align="center">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- reassign ===============================================================================================   -->
                 <div class="modal fade modal-primary" id="BulkModal" role="dialog" tabindex='-1'>
                     <div class="modal-dialog modal-md" >

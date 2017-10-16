@@ -1470,6 +1470,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         }, 500);
                         $("li#bookingTab").removeClass('active');
                         $("li#collectedTab").addClass('active');
+                        $('#todayremarkDataModal').modal('toggle');
                         toaster.pop('success', 'Booking Details', response.message);                        
                         
                         if (typeof $scope.filterData !== 'undefined' && $scope.filterData !== '') {
@@ -1496,6 +1497,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     }
                     $('#slideout').toggleClass('on');
                 }
+                
                 return false;
             });
         }
