@@ -31,13 +31,10 @@ use App\Models\Contactus;
 use Illuminate\Support\Facades\Route;
 
 class UserController extends Controller {
-
     public $themeName = '';
-
     public function __construct() {
         try {
             $id = Route::current()->getParameter('id');
-         
             if (!empty($id)) {
                 $result = WebThemes::where('id', $id)->select(['id', 'theme_name'])->first();
                 session(['previewTheme' => $result['theme_name']]);

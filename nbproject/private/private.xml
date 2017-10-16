@@ -7,6 +7,8 @@
 =======
         <group>
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Theme32/header.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/assets/css/beyond.min.css</file>
@@ -34,6 +36,7 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/OperationalSettings/Views/index.blade.php</file>
 =======
 <<<<<<< HEAD
+>>>>>>> e718b986ac130c400ef9934440a034ba45646142
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantra_vastu/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/projects.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/main.blade.php</file>
@@ -44,13 +47,17 @@
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/frontend/route.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/mantra_vastu/js/app.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/testimonials.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/header.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/todayremarks.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/footer.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/frontend/UserController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/mantra_vastu/css/style.css</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantra_vastu/projects.blade.php</file>
+<<<<<<< HEAD
+=======
 =======
 <<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Controllers/DashBoardController.php</file>
@@ -72,6 +79,7 @@
 >>>>>>> 20bdb5a752f511dfd7db0e77f400e2e8cc49c30d
 >>>>>>> e6d6b80563021e27e055fd631db1b6629ff765a4
 >>>>>>> 8f8c6dc83c976784fadf9f34e775ffdb45b26d4c
+>>>>>>> e718b986ac130c400ef9934440a034ba45646142
         </group>
 >>>>>>> c783faa6a0518df60f0f5a9599b0a8f06578fcb9
     </open-files>
