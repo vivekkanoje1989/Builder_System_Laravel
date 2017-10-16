@@ -461,7 +461,7 @@
                                             <ui-select ng-controller="employeesCtrl" ng-model="remarkData.followup_by_employee_id" name="followup_by_employee_id" theme="bootstrap">
                                                 <ui-select-match placeholder="Select Employee">{{remarkData.followup_by_employee_id.first_name}}</ui-select-match>
                                                 <ui-select-choices repeat="item in employeeList | filter: $select.search">
-                                                    <div ng-bind-html="item.first_name | highlight: $select.search"></div>
+                                                    <div ng-bind-html="item.first_name  | highlight: $select.search"></div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>

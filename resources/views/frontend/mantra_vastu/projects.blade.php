@@ -12,7 +12,7 @@
     display: inline-block;
 }
 </style>
-<main class="main-content"  ng-init="getProjectsAllProjects()"  >
+<main class="main-content"  ng-init="getProjectsAllProjects();getTestimonials();getContactDetails();"  >
     <!-- Portfolio section start -->
     <div class="section secondary-section " id="portfolio">
         <div class="triangle"></div>
@@ -389,55 +389,20 @@
                     <h1>What Client Say?</h1>
                 </div>
                 <div class="row">
-                    <div class="span3">
-                        <div class="testimonial">
-                            <p>"I've worked too hard and too long to let anything stand in the way of my goals. I will not let my teammates down and I will not let myself down."</p>
+                    <div class="span3" ng-repeat="list in testimonial|limitTo:4"">
+                        <div class="testimonial">                        
+                            <p>{{ list.description}} </p>
                             <div class="whopic">
                                 <div class="arrow"></div>
-                                <img src="frontend/mantra_vastu/images/client.jpeg" class="img-circle centered" alt="client 1">
-                                <strong>John Doe
-                                    <small>Client</small>
-                                </strong>
+                                <img ng-if="photo_url != null " src="[[config('global.s3Path')]]/Testimonial/{{ photo_url}}" alt="https://furtaev.ru/preview/user_3_small.png" class="img-circle centered" alt="client 1">
+                                <img ng-if="photo_url == null " src="https://furtaev.ru/preview/user_3_small.png" class="img-circle centered" alt="client 1">
+    <!--                            <strong>{{ list.customer_name}}
+                                    <b>{{ list.company_name }}</b>
+                                </strong>-->
                             </div>
                         </div>
+                    </div>                
                     </div>
-                    <div class="span3">
-                        <div class="testimonial">
-                            <p>"I've worked too hard and too long to let anything stand in the way of my goals. I will not let my teammates down and I will not let myself down."</p>
-                            <div class="whopic">
-                                <div class="arrow"></div>
-                                <img src="frontend/mantra_vastu/images/client.jpeg" class="img-circle centered" alt="client 2">
-                                <strong>John Doe
-                                    <small>Client</small>
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="span3">
-                        <div class="testimonial">
-                            <p>"I've worked too hard and too long to let anything stand in the way of my goals. I will not let my teammates down and I will not let myself down."</p>
-                            <div class="whopic">
-                                <div class="arrow"></div>
-                                <img src="frontend/mantra_vastu/images/client.jpeg" class="img-circle centered" alt="client 2">
-                                <strong>John Doe
-                                    <small>Client</small>
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="span3">
-                        <div class="testimonial">
-                            <p>"I've worked too hard and too long to let anything stand in the way of my goals. I will not let my teammates down and I will not let myself down."</p>
-                            <div class="whopic">
-                                <div class="arrow"></div>
-                                <img src="frontend/mantra_vastu/images/client.jpeg" class="img-circle centered" alt="client 3">
-                                <strong>John Doe
-                                    <small>Client</small>
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row centered" style="margin-top:10px;">
                     <a id="experience" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Share Your Experience now</a>
                 </div>
@@ -450,10 +415,10 @@
         <div class="section secondary-section">
             <div class="container">
                 <div class="span9 center contact-info">
-                    <p>123 Fifth Avenue, 12th,Belgrade,SRB 11000</p>
-                    <p class="info-mail">ourstudio@somemail.com</p>
-                    <p>+11 234 567 890</p>
-                    <p>+11 286 543 850</p>
+                    <p>{{ contacts[0].address }}</p>
+                    <p class="info-mail">{{ contacts[0].email}}</p>
+                    <p>{{ contacts[0].contact_number1 }}</p>
+                    <p>{{ contacts[0].contact_number2 }}</p>                
                     <div class="title">
                         <h3>We Are Social</h3>
                     </div>
