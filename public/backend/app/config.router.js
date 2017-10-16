@@ -4183,8 +4183,8 @@ angular.module('app')
                                     templateUrl: function (stateParams) {
                                         return '/theme/preview/id/' + stateParams.id;
                                     },
-//                                    controller: 'smsController',
                                     requiredLogin: true,
+                                    
                                     ncyBreadcrumb: {
                                         label: 'BMS / Website Settings /',
                                         title: 'Theme Preview',
@@ -4193,9 +4193,9 @@ angular.module('app')
                                         deps:
                                                 [
                                                     '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
+                                                    function ($ocLazyLoad,$scope) {
                                                         return $ocLazyLoad.load(['toaster']).then(
-                                                                function () {
+                                                                function () { 
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [

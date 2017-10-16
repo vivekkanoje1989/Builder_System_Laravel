@@ -109,8 +109,7 @@ class Customer extends Model
             'first_name.required' => 'Please enter first name',
             'last_name.required' => 'Please enter last name',
             'gender_id.required' => 'Please enter gender',
-            'monthly_income.numeric' => 'Monthly income must be numbers',
-            'birth_date.required' => 'Please select birth date',            
+            'monthly_income.numeric' => 'Monthly income must be numbers',          
             'source_id.required' => 'Please select source',            
         );
         return $messages;
@@ -123,7 +122,6 @@ class Customer extends Model
             'last_name' => 'required|max:15',
             'gender_id' => 'required',
             'monthly_income' => 'numeric|max:999999',
-            'birth_date' => 'required|date',
             'marriage_date' => 'date',
             'source_id' => 'required|numeric',
             'subsource_id' => 'numeric',

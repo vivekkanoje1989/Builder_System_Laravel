@@ -116,7 +116,7 @@
                         <div class="form-group">
                             <label for="">Monthly Income</label>
                             <span class="input-icon icon-right">
-                                <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" ng-pattern="/^[1-9]\d*$/" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" ng-pattern="/^[1-9]\d*$/" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6">
                                 <i class="fa fa-rupee"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.monthly_income.$error" class="help-block errMsg">
                                     <div ng-message="required">Please enter monthly income</div>

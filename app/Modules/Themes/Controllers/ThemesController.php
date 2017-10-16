@@ -30,6 +30,7 @@ class ThemesController extends UserController {
 
     public function themePreview($id) {
         return view("Themes::themePreview")->with('id', $id);
+         return view('backend.themePreview')->with('id', $id);
     }
     
 //     public function previewIndex($id) {
@@ -60,7 +61,10 @@ class ThemesController extends UserController {
 //        }
 //        return view('frontend.' . $results['theme_name'] . '.index')->with(["testimonials" => $testimonials, 'employee' => $employees, 'background' => $images, 'current' => $currentResult]);
 //    }
-
+    public function themePrevSession(){
+        \Session::forget('previewTheme');
+        print_r(session()->all());
+    }
     public function getThemes() {
         $theme = WebThemes::where('deleted_status', '!=', 1)->get();
         $themePages = array();
@@ -94,7 +98,7 @@ class ThemesController extends UserController {
         $request = json_decode($postdata, true);
 
         $result = WebThemes::select('id')->where('status', '1')->first();
-        $resultDetails = WebThemes::where('id', '=', $result['id'])->update(['status' => '0']);
+        WebThemes::where('id', '=', $result['id'])->update(['status' => '0']);
         $apply = WebThemes::where('id', '=', $request['id'])->update(['status' => '1']);
         return json_encode(['records' => $apply, 'success' => true]);
     }
