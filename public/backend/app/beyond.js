@@ -117,6 +117,7 @@ angular.module('app')
                     }, 1000);
                 }
                 /*******************FOR FULL PAGE LOADER*******************/
+                $rootScope.previewFullPage = false;
                 $scope.loader1 = {
                     loading: false,
                 };

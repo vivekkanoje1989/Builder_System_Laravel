@@ -29,11 +29,11 @@
     <div class="app-btn">
         <div class="left-div">{{themeName}}</div>
         <div class="right-div">     
-            <button class="btn btn-md btn-success" id="sbtbtn1" ng-click="applyTheme([[ $id ]])">Apply Now <i class="fa fa-check" aria-hidden="true"></i></button>
+            <button class="btn btn-md btn-success" id="sbtbtn1" ng-click="applyTheme([[ $id ]])">Apply Now</button>
             <span>
                 <button class="btn btn-md btn-danger" ng-click="closeWindow()">Close<i class="fa fa-times close-app" aria-hidden="true"></i></button>  
             </span>
         </div>
     </div>
-    <iframe width="100%" height="900px" src="#/index"></iframe>
+    <iframe width="100%" height="600px" src="#/index"></iframe>
 </div>

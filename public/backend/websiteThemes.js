@@ -1,5 +1,5 @@
 app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$location', '$rootScope', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $location, $rootScope) {
-
+$rootScope.previewFullPage = true
         $scope.noOfRows = 1;
         $scope.webTheme = false;
         $scope.exportData = '';
@@ -36,21 +36,16 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             });
         };
 
-//
-// 
-//        $scope.previewClick = function (id) {
-//            $window.localStorage.setItem('previewId', id);
-//        }
-//        
-        
         $scope.applyTheme = function (id) {
             Data.post('website/applyTheme', {
                 'id': id}).then(function (response) {
-//                alert('apply')
+                toaster.pop('Website Theme', '', 'Theme applied successfully');
             });
         }
         $scope.closeWindow = function () {
-            window.close();
+            Data.get('theme/themePrevSession').then(function (response) {
+                window.close();
+            });
         }
 
         $scope.$on("deleteRecords", function (event, args) {
