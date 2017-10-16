@@ -108,9 +108,9 @@ class Customer extends Model
             'title_id.required' => 'Please enter title',
             'first_name.required' => 'Please enter first name',
             'last_name.required' => 'Please enter last name',
-            'gender_id.required' => 'Please enter gender',
-            'monthly_income.numeric' => 'Monthly income must be numbers',          
+            'gender_id.required' => 'Please enter gender',          
             'source_id.required' => 'Please select source',            
+            'birth_date.required' => 'Please select birth date',            
         );
         return $messages;
     }
@@ -121,10 +121,8 @@ class Customer extends Model
             'middle_name' => 'max:15',
             'last_name' => 'required|max:15',
             'gender_id' => 'required',
-            'monthly_income' => 'numeric|max:999999',
             'marriage_date' => 'date',
             'source_id' => 'required|numeric',
-            'subsource_id' => 'numeric',
         );
         return $rules;
     }

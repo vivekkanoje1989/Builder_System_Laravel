@@ -16,6 +16,10 @@
     .span9 {
     padding-top: 12%;
 }
+.bx-wrapper #clint-slider  img
+{
+    width:104px !important;
+}
 </style>
 <main class="main-content"  ng-init="getProjects(); getPostsDropdown(); getTestimonials();getAboutPageContent(); getEmployees();getCareers(); getPostsDropdown();getContactDetails();">
 <!-- Start home section -->
@@ -183,7 +187,7 @@
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <input ng-model="contact.phone" class="span12" type="tel" id="phone" name="phone" placeholder="* Your Mobile number..." />
+                                    <input ng-model="contact.phone" class="span12" type="text" id="phone" name="phone" placeholder="* Your Mobile number..." />
                                     <div class="error left-align" id="err-name">Please enter name.</div>
                                 </div>
                             </div>

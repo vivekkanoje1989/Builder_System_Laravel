@@ -163,8 +163,8 @@
                             <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
                             <div ng-if="[[Auth::guard('admin') -> user() -> customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
                                 <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
-                                    <span  ng-if="displayMobile != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                    <span  ng-show="displayMobile == '1'" class="text">{{mobile_obj}}</span>
+                                    <span  ng-if="displayMobile == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                    <span  ng-show="displayMobile != '1'" class="text">{{mobile_obj}}</span>
                                     <span ng-if="$index == 0 && mobile_list.length >= 2">
                                         /
                                     </span>
@@ -173,8 +173,8 @@
                             <div ng-init="mobile_list = enquiry.mobile.split(',')">
                                 <p ng-if="[[ Auth::guard('admin') -> user() -> customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
                                     <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
-                                        <span  ng-if="displayMobile != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                        <span  ng-show="displayMobile == '1'" class="text">{{mobile_obj}}</span>
+                                        <span  ng-if="displayMobile == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                        <span  ng-show="displayMobile != '1'" class="text">{{mobile_obj}}</span>
                                     </span>
                                 </p>
                                 <p ng-if="displayEmail == '1'" ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >

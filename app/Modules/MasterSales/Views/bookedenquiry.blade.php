@@ -163,16 +163,16 @@
                                        ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') -> user() -> id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                         <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                     </a>
-                                    <span  ng-if="displayMobileN != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                    <span  ng-show="displayMobileN == '1'" class="text">{{mobile_obj}}</span>
+                                    <span  ng-if="displayMobileN == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                    <span  ng-show="displayMobileN != '1'" class="text">{{mobile_obj}}</span>
 
                                 </span>
                             </div>
                             <div ng-init="mobile_list = enquiry.mobile.split(',')">
                                 <p ng-if="[[ Auth::guard('admin') -> user() -> customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
                                     <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
-                                        <span  ng-if="displayMobileN != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                        <span  ng-show="displayMobileN == '1'" class="text">{{mobile_obj}}</span>
+                                        <span  ng-if="displayMobileN == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                        <span  ng-show="displayMobileN != '1'" class="text">{{mobile_obj}}</span>
                                     </span>
                                 </p>
                                 <p ng-if="displayEmailID" ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >

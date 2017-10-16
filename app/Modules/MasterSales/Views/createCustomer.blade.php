@@ -3,7 +3,7 @@
         <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDivCustomer">
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="form-title">
-                    Personal Details
+                    Personal Details 
                 </div>
             </div>
             <div class="col-lg-12 col-sm-12 col-xs-12">
@@ -81,10 +81,10 @@
                     </div>
                     <div class="col-sm-3 col-md-3 col-xs-12">
                         <div class="form-group">
-                            <label for="">Birth Date</label>
+                            <label for="">Birth Date<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" readonly/>
+                                    <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="{{format}}" required is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" readonly/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
@@ -259,7 +259,7 @@
                         <tbody>
                             <tr ng-repeat="list in contacts">
                                 <td>{{$index + 1}}</td>
-                                <td>{{list.mobile_calling_code}} {{list.mobile_number}}</td>
+                                <td><span ng-if="list.mobile_calling_code != '+NaN' ">{{list.mobile_calling_code}}</span> {{list.mobile_number}}</td>
                                 <td>{{list.landline_calling_code}} {{list.landline_number}}</td>
                                 <td>{{list.email_id}}</td>
                                 <td>{{list.pin}}</td>
