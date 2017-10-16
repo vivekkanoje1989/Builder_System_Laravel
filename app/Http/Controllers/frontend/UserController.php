@@ -44,7 +44,7 @@ class UserController extends Controller {
                 Config::set('global.themeName', $result['theme_name']);
                 $this->themeName = session('previewTheme');      
             }else{
-                $result = WebThemes::where('status', '2')->select(['id', 'theme_name'])->first();
+                $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
                 Config::set('global.themeName', $result['theme_name']);
                 $this->themeName = $result['theme_name'];     
             }                      
