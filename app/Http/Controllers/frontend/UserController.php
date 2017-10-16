@@ -31,9 +31,7 @@ use App\Models\Contactus;
 use Illuminate\Support\Facades\Route;
 
 class UserController extends Controller {
-
     public $themeName = '';
-
     public function __construct() {
         try {
             $ids = Route::current()->getParameter('id');
@@ -43,7 +41,7 @@ class UserController extends Controller {
                 $this->themeName = $result['theme_name'];
             } else {
 
-                $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
+                $result = WebThemes::where('status', '2')->select(['id', 'theme_name'])->first();
                 Config::set('global.themeName', $result['theme_name']);
                 $this->themeName = Config::get('global.themeName');
                 $getWebsiteUrl = config('global.getWebsiteUrl');
