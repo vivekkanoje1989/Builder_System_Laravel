@@ -355,6 +355,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             Data.post('master-hr/manageUsers', {
                 empId: id
             }).then(function (response) {
+                console.log(response)
 
                 if (response.success) {
                     $scope.flagForChange = 0;
@@ -368,6 +369,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                             $scope.Total = 1;
                             var blood_group_id = response.records.data[0].blood_group_id == '' ? 0 : 1;
                             var first_name = response.records.data[0].first_name == '' ? 0 : 1;
+                            
                             var personal_email1 = response.records.data[0].personal_email1 == '' ? 0 : 1;
                             var highest_education_id = response.records.data[0].highest_education_id == '' ? 0 : 1;
                             var department_id = response.records.data[0].department_id == '' ? 0 : 1;
@@ -376,15 +378,15 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                             } else {
                                 var username = 0;
                             }
-                            if (blood_group_id == 0) {
-                                var first_name = 0;
-                                var personal_email1 = 0;
-                                var highest_education_id = 0;
-                                var department_id = 0;
-                                var username = 0;
-                            }
+//                            if (blood_group_id == 0) {
+//                                var first_name = 0;
+//                                var personal_email1 = 0;
+//                                var highest_education_id = 0;
+//                                var department_id = 0;
+//                                var username = 0;
+//                            }
                             $scope.Total = $scope.Total + first_name + personal_email1 + highest_education_id + department_id + username;
-
+                           
                             if ($scope.Total < 6) {
                                 $("#step" + $scope.Total).addClass('active');
                                 $("#step" + $scope.Total).removeClass('complete');
