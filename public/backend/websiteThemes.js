@@ -1,5 +1,5 @@
-app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$location', '$rootScope', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $location, $rootScope) {
-$rootScope.previewFullPage = true
+app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$rootScope', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $rootScope) {
+        $rootScope.previewFullPage = false;
         $scope.noOfRows = 1;
         $scope.webTheme = false;
         $scope.exportData = '';
@@ -35,7 +35,13 @@ $rootScope.previewFullPage = true
 
             });
         };
-
+        $scope.targetToNewTab = function (listid) {
+            location.reload();    
+            $window.open('office.php#/theme/preview/id/'+listid, '_blank');
+        };
+        $scope.themeName = function(){
+            $rootScope.previewFullPage = true;
+        }
         $scope.applyTheme = function (id) {
             Data.post('website/applyTheme', {
                 'id': id}).then(function (response) {
@@ -76,7 +82,6 @@ $rootScope.previewFullPage = true
                 $scope.image = image;
                 $scope.action = 'Update';
             }
-
             $scope.sbtBtn = false;
             $scope.index = index * ($scope.noOfRows - 1) + (index1);
         }
@@ -127,7 +132,6 @@ $rootScope.previewFullPage = true
                         $scope.image_url_preview = {};
                         $scope.Theme = {};
                         $('#themesModal').modal('toggle');
-//                        $location.path('/website/themes');
                         $window.location.reload();
                     });
 
@@ -152,5 +156,4 @@ $rootScope.previewFullPage = true
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-
     }]);

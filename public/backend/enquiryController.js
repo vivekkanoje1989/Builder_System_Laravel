@@ -1471,9 +1471,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         }, 500);
                         $("li#bookingTab").removeClass('active');
                         $("li#collectedTab").addClass('active');
+                        $('#todayremarkDataModal').modal('toggle');
                         toaster.pop('success', 'Booking Details', response.message);                        
-                        console.log("remark-------");
-                        console.log($scope.filterData);
                         if (!angular.equals($scope.filterData, {}) && typeof $scope.filterData !== 'undefined' && $scope.filterData !== '' && Object.keys($scope.filterData).length > 0) {
                             $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
                             $('#slideout').toggleClass('on');
@@ -1499,8 +1498,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $('#statuschk1').prop('checked', true);
                     }                    
                 }
-                $('#todayremarkDataModal').modal('hide');
-            return false;
+                return false;
             });
         }
 

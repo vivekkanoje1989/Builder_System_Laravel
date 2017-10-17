@@ -10,6 +10,7 @@ Route::group(array('module' => 'Themes', 'middleware' => ['auth:admin'], 'namesp
     Route::get('/theme/preview/id/{id}', 'ThemesController@themePreview');
     Route::get('/theme/themePrevSession', 'ThemesController@themePrevSession');
    
+    Route::get('/website/modules', 'ThemesController@webModules');
     Route::resource('/website-themes', 'ThemesController');
     Route::get('/Themes/showFilter', function () {
         return View::make('Themes::showFilter');
