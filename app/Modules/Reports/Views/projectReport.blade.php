@@ -239,7 +239,7 @@
                                         <td><b>{{subStatus_Total}}</b></td>
                                         <td><b>{{((subStatus_Total / subStatus_Total) * 100).toFixed(2)}}</b></td>
                                     </tr>  
-                                    <tr ng-if="sub_status_report.length == 0">
+                                    <tr ng-if="sub_status_report.length > 0">
                                         <td colspan="3" align="center">
                                             <h4>No Record Found</h4>
                                         </td>
