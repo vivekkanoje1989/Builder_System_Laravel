@@ -536,7 +536,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div id="divMyTags"><br>
-                                                    <label>Booking Remarks</label>
+                                                    <label>Booking Remarks<span class="sp-err" >*</span></label>
                                                     <div class="existingTag bordered-themeprimary">
                                                         <div class="col-sm-12 csspadding">
                                                             <div class="form-group">

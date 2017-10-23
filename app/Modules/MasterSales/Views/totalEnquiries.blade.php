@@ -76,7 +76,10 @@
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
                         @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
-                            <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="getTotalEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 4, sharedemployee)" ><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>
+                            <label ng-if="type == 0" style="left:2%">
+                                <input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="getTotalEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 4, sharedemployee)" >
+                                <span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span>
+                            </label>
                         @endif                          
                     </div>
                     <!-- filter data--> 

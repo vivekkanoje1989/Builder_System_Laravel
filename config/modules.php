@@ -48,7 +48,6 @@ return [
         "BankAccounts",
         "Wings",
         "EnquiryLocations",
-        "WebsiteChangeModule",
         "Themes",
         "Designations",
         "News",

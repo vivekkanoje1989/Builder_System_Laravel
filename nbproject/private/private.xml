@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantra_vastu/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/projects.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/main.blade.php</file>
@@ -27,6 +28,9 @@
             <file>file:/var/www/html/Builder_System_Laravel/public/frontend/Gagan/css/jquery.bxslider.css</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantra_vastu/projects.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/assets/css/loader.css</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Views/enquiryReport.blade.php</file>
+>>>>>>> d0f4dcfb095fb4de93de66a9a1730e9072af4bfa
         </group>
     </open-files>
 </project-private>
