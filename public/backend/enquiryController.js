@@ -34,7 +34,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.remarkData = {};
         $scope.remarkData.sms_privacy_status = 1;
         $scope.remarkData.email_privacy_status = 1;
-
+        $scope.shared = $scope.sharedemployee = 0;
 
         $rootScope.newEnqFlag1 = 0;
         $scope.todayremarkTimeChange = function (selectedDate)
@@ -458,7 +458,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.pagetitle = "Team`s Pending Followups";
             }
             $scope.sharedemployee = shared;
-
             Data.post('master-sales/getPendingFollowups', {
                 empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, shared: $scope.sharedemployee
             }).then(function (response) {
