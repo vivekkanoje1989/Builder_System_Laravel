@@ -380,7 +380,7 @@ class DashBoardController extends Controller {
                 $request['filterData']['from_date'] = !empty($request['filterData'][0]['from_date']) ? date('Y-m-d', strtotime($request['filterData'][0]['from_date'])) : '';
                 $request['filterData']['to_date'] = !empty($request['filterData'][0]['to_date']) ? date('Y-m-d', strtotime($request['filterData'][0]['to_date'])) : '';
 
-                $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+                $employees = EmployeeRequest::join('employees', 'request.created_by', '=', 'employees.id')
                         ->select([DB::raw('SQL_CALC_FOUND_ROWS request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status')])
                         ->where('request.uid', '=', $loggedInUserId)
                         ->where('request.request_type', 'like', '%' . $request['filterData']['request_type'] . '%')
@@ -390,7 +390,7 @@ class DashBoardController extends Controller {
                         ->take($request['itemPerPage'])->offset($startFrom)
                         ->get();
             } else {
-                $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+                $employees = EmployeeRequest::join('employees', 'request.created_by', '=', 'employees.id')
                         ->select([DB::raw('SQL_CALC_FOUND_ROWS request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status')])
                         ->where('request.uid', '=', $loggedInUserId)
                         ->take($request['itemPerPage'])->offset($startFrom)
@@ -399,7 +399,7 @@ class DashBoardController extends Controller {
             $rows = DB::select("select FOUND_ROWS() as totalCount");
             $cnt = $rows[0]->totalCount;
         } else {
-            $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+            $employees = EmployeeRequest::join('employees', 'request.created_by', '=', 'employees.id')
                     ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                     ->where('request.uid', '=', $loggedInUserId)
                     ->get();

@@ -20,7 +20,7 @@
                                 <i class="fa fa-sort-desc"></i>                               
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.title_id.$error" class="help-block enqFormBtn">
-                                <div ng-message="required">Please enter first name</div>
+                                <div ng-message="required">Please enter title</div>
                             </div>
                         </div>                        
                     </div>                    
@@ -47,6 +47,22 @@
                                 <div ng-message="required">Please enter last name</div>
                             </div>
                         </div>                        
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-xs-12"  ng-controller="enquirySourceCtrl">
+                        <div class="form-group">
+                            <label for="">Source<span class="sp-err">*</span></label>
+                            <span class="input-icon icon-right">
+                                <select ng-change="onEnquirySourceChange(enquiryData.source_id)" class="form-control" ng-model="enquiryData.source_id" name="source_id"  id="source_id" required>
+                                    <option value="">Select Source</option>
+                                    <option ng-repeat="source in sourceList" value="{{source.id}}" ng-selected="{{source.id == enquiryData.source_id}}">{{source.sales_source_name}}</option>
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                                <div ng-show="formButton" ng-messages="enquiryForm.source_id.$error" class="help-block errMsg">
+                                    <div ng-message="required">Please select source</div>
+                                </div>
+                                <div ng-if="source_id" class="errMsg source_id">{{source_id}}</div>
+                            </span>
+                        </div>
                     </div>
                 </div>                
             </div>

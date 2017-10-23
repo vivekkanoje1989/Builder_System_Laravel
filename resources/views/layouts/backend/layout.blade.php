@@ -1,13 +1,14 @@
 <div ng-if="authenticated == false" ui-view></div>
+<div ng-if="previewFullPage == true" ui-view></div>
 <!-- Loading Container -->
-<div ng-if="authenticated == true" class="loading-container" data-ng-include=" '/loading'"></div>
+<div ng-if="authenticated == true && previewFullPage == false" class="loading-container" data-ng-include=" '/loading'"></div>
 <!--  /Loading Container -->
 
 <!-- Navbar -->
-<div ng-if="authenticated == true" class="navbar {{settings.fixed.navbar ? 'navbar-fixed-top' : ''}}" data-ng-include=" '/navbar'"></div>
+<div ng-if="authenticated == true && previewFullPage == false" class="navbar {{settings.fixed.navbar ? 'navbar-fixed-top' : ''}}" data-ng-include=" '/navbar'"></div>
 <!-- /Navbar -->
 
-<div ng-if="authenticated == true" class="main-container container-fluid">
+<div ng-if="authenticated == true && previewFullPage == false" class="main-container container-fluid">
     <!-- Page Container -->
     <div class="page-container">
         <!-- Page Sidebar -->
@@ -29,7 +30,8 @@
             </div>
             <!-- /Page Header -->
             <!-- Page Body -->
-            <div class="page-body" ui-view ng-show="!loader.loading">
+            <!--<div class="page-body" ui-view ng-show="!loader.loading">-->
+            <div class="page-body" ui-view>
                 <!-- Your Content Goes Here -->
             </div>
             <!-- /Page Body -->

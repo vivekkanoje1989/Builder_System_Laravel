@@ -710,18 +710,18 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         };
         $scope.wrongpwd = false;
         $scope.changePassword = function (adata) {
-             $scope.passwordBtn = true;
+            $scope.passwordBtn = true;
             Data.post('master-hr/changePassword', {
                 data: adata,
             }).then(function (response) {
                 if (response.success) {
-                     $scope.passwordBtn = false;
+                    $scope.passwordBtn = false;
                     $scope.successMsg = response.message;
                     $scope.wrongpwd = false;
                     $scope.step1 = false;
                     $("#passwordClosebtn").trigger('click');
                     $timeout(function () {
-                       toaster.pop('success', '', 'Your password has been successfully changed. Please check your mail.');
+                        toaster.pop('success', '', 'Your password has been successfully changed. Please check your mail.');
                     }, 500);
                 } else {
                     $scope.errorMsg = response.message;
@@ -825,7 +825,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             var isChecked = $("#" + checkboxid).prop("checked");
             var obj = $("#" + checkboxid);
             var level = $("#" + checkboxid).attr("data-level");
-            
+
             $scope.parentId = [];
             if (isChecked)
             {
@@ -931,7 +931,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
 
                 } else if (level === "third") {
-                    
+
                     var flag = [];
                     $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="third"]'))).each(function () {
                         if ($(this).is(':checked'))
@@ -1026,9 +1026,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                                     Data.post('/master-hr/suspendEmployee', {
                                         empId: emp_id
                                     }).then(function (response) {
-                                        $("tr#"+emp_id+"").remove();
+                                        $("tr#" + emp_id + "").remove();
                                     });
-                                    SweetAlert.swal("Deleted!");                                    
+                                    SweetAlert.swal("Deleted!");
                                 } else {
                                     SweetAlert.swal("Your Employee is safe!");
                                 }
@@ -1307,46 +1307,44 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 //        }
 
         $scope.getProfile = function () {
-
-            Data.post('master-hr/getProfileInfo',
-                    {
-
-                    })
-                    .then(function (response) {
-                        $scope.profileData = response.records;
-                        $scope.profileData.employee_photo_file_name = '';
-                        $scope.password_confirmation;
-                        $scope.flag_profile_photo = response.flag_profile_photo;
-                        $scope.old_profile_photo = response.old_profile_photo;
-                    });
-
-
+            Data.post('master-hr/getProfileInfo', {})
+            .then(function (response) {
+                $scope.profileData = response.records;
+                $scope.profileData.employee_photo_file_name = '';
+                $scope.password_confirmation;
+                $scope.flag_profile_photo = response.flag_profile_photo;
+                $scope.old_profile_photo = response.old_profile_photo;
+            });
         }
 
         $scope.updateProfile = function (profileData)
         {
-            if (typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
+            toaster.pop('success', 'Profile', 'Profile updated successfully');
+            if (profileData.employee_photo_file_name === '' || typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
                 profileData.employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
+            } else {
+                var url = '/master-hr/updateProfileInfo';
+                var data = {data: profileData};
+
+                profileData.employee_photo_file_name.upload = Upload.upload({
+                    url: url,
+                    headers: {enctype: 'multipart/form-data'},
+                    data: data
+                })
+                profileData.employee_photo_file_name.upload.then(function (response)
+                {
+                    if (response.success == false) {
+                        toaster.pop('error', 'Profile', 'Please upload profile photo');
+                    } else {
+                        toaster.pop('success', 'Profile', 'Profile updated successfully');
+                        $timeout(function () {                            
+                            $rootScope.imageUrl = response.data.photo;
+                        }, 300);
+                        $scope.reload();
+                        $scope.reload();
+                    }
+                });
             }
-            var url = '/master-hr/updateProfileInfo';
-            var data = {data: profileData};
-
-            profileData.employee_photo_file_name.upload = Upload.upload({
-                url: url,
-                headers: {enctype: 'multipart/form-data'},
-                data: data
-            })
-            profileData.employee_photo_file_name.upload.then(function (response)
-            {
-
-                if (response.success == false) {
-                    toaster.pop('error', 'Profile', 'Please upload profile photo');
-                } else {
-                    $rootScope.imageUrl = response.data.photo;
-                    toaster.pop('success', 'Profile', 'Profile updated successfully');
-                }
-            });
-
         }
 
         $scope.updatePassword = function (profileData)
@@ -1383,32 +1381,32 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             quickEmp.joining_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             $scope.isDisabled = true;
             Data.post('master-hr/createquickuser',
-                    {
-                        data: quickEmp
-                    })
-                    .then(function (response)
-                    {
+            {
+                data: quickEmp
+            })
+            .then(function (response)
+            {
 
-                        if (!response.success)
-                        {
-                            $scope.isDisabled = false;
-                            var obj = response.message;
-                            var selector = [];
-                            for (var key in obj) {
-                                var model = $parse(key);// Get the model
-                                model.assign($scope, obj[key][0]);// Assigns a value to it
-                                selector.push(key);
-                            }
-                            toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
+                if (!response.success)
+                {
+                    $scope.isDisabled = false;
+                    var obj = response.message;
+                    var selector = [];
+                    for (var key in obj) {
+                        var model = $parse(key);// Get the model
+                        model.assign($scope, obj[key][0]);// Assigns a value to it
+                        selector.push(key);
+                    }
+                    toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
 
-                            $scope.errorMsg = response.errormsg;
-                        } else
-                        {
-                            $scope.isDisabled = true;
-                            toaster.pop('success', 'Manage Users', 'Employee registration successfully');
-                            $state.go('userIndex');
-                        }
-                    });
+                    $scope.errorMsg = response.errormsg;
+                } else
+                {
+                    $scope.isDisabled = true;
+                    toaster.pop('success', 'Manage Users', 'Employee registration successfully');
+                    $state.go('userIndex');
+                }
+            });
         };
 
 

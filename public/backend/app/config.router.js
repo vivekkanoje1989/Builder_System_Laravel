@@ -4131,13 +4131,12 @@ angular.module('app')
                                 })
 
                                 .state('webChangeModuleIndex', {
-                                    url: '/website/change-module',
-                                    templateUrl: '/website/change-module',
+                                    url: '/website/modules',
+                                    templateUrl: '/website/modules',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'BMS / Website Settings / Website Change Module',
                                         title: ' Website Change Module',
-                                        description: ''
                                     },
                                     resolve: {
                                         deps: [
@@ -4146,7 +4145,7 @@ angular.module('app')
                                                 return $ocLazyLoad.load(['ui.select', 'toaster', {
                                                         serie: true,
                                                         files: [
-                                                            '/backend/websiteChangeModule.js',
+                                                            '/backend/websiteThemes.js',
                                                             '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                         ]
                                                     }]);
@@ -4183,8 +4182,8 @@ angular.module('app')
                                     templateUrl: function (stateParams) {
                                         return '/theme/preview/id/' + stateParams.id;
                                     },
-//                                    controller: 'smsController',
                                     requiredLogin: true,
+                                    
                                     ncyBreadcrumb: {
                                         label: 'BMS / Website Settings /',
                                         title: 'Theme Preview',
@@ -4193,9 +4192,9 @@ angular.module('app')
                                         deps:
                                                 [
                                                     '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
+                                                    function ($ocLazyLoad,$scope) {
                                                         return $ocLazyLoad.load(['toaster']).then(
-                                                                function () {
+                                                                function () { 
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
@@ -4207,38 +4206,6 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-
-//                                .state('themePreview', {
-//                                    url: '/theme/preview/id/:id',
-//                                    templateUrl: function (stateParams) {
-//                                        return '/theme/preview/id/' + stateParams.id;
-//                                    },
-//                                    requiredLogin: true,
-//                                    ncyBreadcrumb: {
-//                                        label: 'Theme Preview',
-//                                        title: 'Theme Preview',
-//                                    },
-//                                    resolve: {
-//                                        deps: [
-//                                            '$ocLazyLoad',
-//                                            function ($ocLazyLoad) {
-//                                                return $ocLazyLoad.load(['toaster']).then(
-//                                                        function () {
-//                                                            return $ocLazyLoad.load(['ui.select', {
-//                                                                    serie: true,
-//                                                                    files: [
-//                                                                        '/backend/smsConsumptionController.js',
-//                                                                        '/backend/app/controllers/select.js',
-//                                                                        '/backend/app/controllers/datepicker.js',
-//                                                                    ]
-//                                                                }]);
-//                                                        }
-//                                                );
-//                                            }
-//                                        ]
-//                                    }
-//                                })
-
 
                                 .state('enquiryReport', {
                                     url: '/reports/enquiryReport',

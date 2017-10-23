@@ -31,36 +31,12 @@ class ThemesController extends UserController {
     public function themePreview($id) {
         return view("Themes::themePreview")->with('id', $id);
     }
-    
-//     public function previewIndex($id) {
-//    
-//      $results = WebThemes::where('id', $id)->select(['id', 'theme_name'])->first();
-////       print_r($result['theme_name']);exit;
-////            Config::set('global.themeName', $result['theme_name']);
-////            $this->themeName = Config::get('global.themeName');
-//            $getWebsiteUrl = config('global.getWebsiteUrl');
-//
-//        $testimonials = WebTestimonials::where(['web_status' => '1', 'approve_status' => '1'])->get();
-//        $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
-//                        ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
-//                        ->select(["db2.first_name", "db2.personal_email1", "db2.last_name", "db2.id", "db1.designation"])
-//                        ->orderByRaw("RAND()")->get();
-//        $images = WebPage::where('page_name', 'index')->select('banner_images')->first();
-//        $currentResult = [];
-//        $current = Project::join('laravel_developement_master_edynamics.mlst_bmsb_project_status as mlst_bmsb_project_status', 'mlst_bmsb_project_status.id', '=', 'projects.project_status')
-//                ->join('project_web_pages', 'project_web_pages.project_id', '=', 'projects.id')
-//                ->select('mlst_bmsb_project_status.project_status as status', 'projects.id', 'projects.project_name', 'project_web_pages.project_logo', 'project_web_pages.project_amenities_list', 'project_web_pages.short_description')
-//                ->where('mlst_bmsb_project_status.project_status', '=', 'Current')
-//                ->get();
-//        for ($i = 0; $i < count($current); $i++) {
-//            $aminity = explode(',', $current[$i]['project_amenities_list']);
-//            $aminities = DB::table('laravel_developement_master_edynamics.mlst_bmsb_amenities')->whereIn('id', $aminity)->select('name_of_amenity')->get();
-//            $result = ['id' => $current[$i]['id'], 'project_name' => $current[$i]['project_name'], 'project_logo' => $current[$i]['project_logo'], 'amenities' => $aminities];
-//            array_push($currentResult, $result);
-//        }
-//        return view('frontend.' . $results['theme_name'] . '.index')->with(["testimonials" => $testimonials, 'employee' => $employees, 'background' => $images, 'current' => $currentResult]);
-//    }
-
+    public function webModules() {
+        return view("Themes::webModules");
+    }
+    public function themePrevSession(){
+        \Session::forget('previewTheme');
+    }
     public function getThemes() {
         $theme = WebThemes::where('deleted_status', '!=', 1)->get();
         $themePages = array();
@@ -94,7 +70,7 @@ class ThemesController extends UserController {
         $request = json_decode($postdata, true);
 
         $result = WebThemes::select('id')->where('status', '1')->first();
-        $resultDetails = WebThemes::where('id', '=', $result['id'])->update(['status' => '0']);
+        WebThemes::where('id', '=', $result['id'])->update(['status' => '0']);
         $apply = WebThemes::where('id', '=', $request['id'])->update(['status' => '1']);
         return json_encode(['records' => $apply, 'success' => true]);
     }

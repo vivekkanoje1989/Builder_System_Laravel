@@ -1456,6 +1456,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             Data.post('master-sales/insertTodayRemark', {
                 data: data, custInfo: custInfo
             }).then(function (response) {
+                alert($scope.shared);
                 $scope.sbtbtndis = false;
                 if (!response.success) {
                     $scope.errorMsg = response.errorMsg;
@@ -1470,17 +1471,19 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         }, 500);
                         $("li#bookingTab").removeClass('active');
                         $("li#collectedTab").addClass('active');
+                        $('#todayremarkDataModal').modal('toggle');
                         toaster.pop('success', 'Booking Details', response.message);                        
-                        
-                        if (typeof $scope.filterData !== 'undefined' && $scope.filterData !== '') {
+                        if (!angular.equals($scope.filterData, {}) && typeof $scope.filterData !== 'undefined' && $scope.filterData !== '' && Object.keys($scope.filterData).length > 0) {
                             $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
+                            $('#slideout').toggleClass('on');
                         }
                     } else {
                         $('#todayremarkDataModal').modal('toggle');
                         toaster.pop('success', '', response.message);
                         
-                        if (!angular.equals($scope.filterData, {}) && typeof $scope.filterData !== 'undefined' && $scope.filterData !== '') {
+                        if (!angular.equals($scope.filterData, {}) && typeof $scope.filterData !== 'undefined' && $scope.filterData !== '' && Object.keys($scope.filterData).length > 0) {
                             $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
+                            $('#slideout').toggleClass('on');
                         } else {
                             $state.transitionTo($state.current, $stateParams, {
                                 reload: true, //reload current page
@@ -1493,8 +1496,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     if(sharedemployee == true){                        
                         $scope.sharedemployee = angular.copy(sharedemployee);
                         $('#statuschk1').prop('checked', true);
-                    }
-                    $('#slideout').toggleClass('on');
+                    }                    
                 }
                 return false;
             });

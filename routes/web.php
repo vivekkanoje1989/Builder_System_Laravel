@@ -132,13 +132,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::post($getWebsiteUrl . '/getTestimonialDetails', 'frontend\UserController@getTestimonialDetails');
     Route::get($getWebsiteUrl . '/enquiry/{id}', 'frontend\UserController@enquiry');
     
-    
-//    Route::get($getWebsiteUrl . '/theme/preview/id/{id}', 'ThemesController@themePreview');
-    Route::get($getWebsiteUrl . '/index/{id}', 'frontend\UserController@index');
-    Route::get($getWebsiteUrl . '/about/{id}', 'frontend\UserController@about');
-    
-    
-    
     $result = \DB::table('web_themes')->where('status', '1')->select(['id', 'theme_name'])->first();
     $result = json_decode(json_encode($result), true);
     Config::set('global.themeName', $result['theme_name']);
@@ -222,11 +215,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/widgets', function () {
         return View::make('backend.widgets');
     });
-    Route::get('/index/{id}', 'frontend\UserController@index');
-    
-//     Route::get('/{id}/index', 'frontend\UserController@index');
-     Route::get('/about/{id}', 'frontend\UserController@about');
-    Route::get('/careers/{id}', 'frontend\UserController@career');
+
 });
 
 Route::group(['middleware' => ['user']], function () {

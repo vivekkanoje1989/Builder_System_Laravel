@@ -225,7 +225,7 @@
                                         <tbody>
                                             <tr ng-repeat="sources in team_source_report">
                                                 <td><a href="" ng-click="getsourceReport(sources); teamsourceEmployees(sources);">{{sources.name}}</a></div>
-                                                <td><div style="width:50px; float:left">{{sources.total}}</div><div style="float:left"><a href="" ng-click="getSubSourceReport(sources, 1)">Show source wise report</a></div></td>
+                                                <td><div style="width:50px; float:left">{{sources.total}}</div><div style="float:left" ng-if="sources.total > 0"><a href="" ng-click="getSubSourceReport(sources, 1)">Show source wise report</a></div></td>
                                                 <td ng-if="sources.total > 0"><b>{{ ((sources.total / team_source_total) * 100).toFixed(2)}}</b></td>
                                                 <td ng-if="sources.total == 0"><b>0.00</b></td>
                                             </tr>

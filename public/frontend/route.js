@@ -12,18 +12,6 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
                     templateUrl: 'website/index',
                     controller: 'AppCtrl'
                 })
-                .when('/index/:id', {
-                    templateUrl:  function (stateParams) {
-                                        return '/index/' + stateParams.id ;
-                                    },
-                    controller: 'AppCtrl'
-                })
-                .when('/about/:id', {
-                    templateUrl:  function (stateParams) {
-                                        return '/about/' + stateParams.id ;
-                                    },
-                    controller: 'AppCtrl'
-                })
                 .when('/about', {
                     templateUrl: 'website/about',
                     controller: 'AppCtrl'
@@ -108,8 +96,7 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
         $locationProvider.html5Mode({enabled: true, requireBase: true});
     }]);
 app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', function ($scope, Upload, $timeout, $http, $location, $rootScope) {
-
-        $scope.submitted = false;
+         $scope.submitted = false;
         $scope.empl = true;
         $scope.contact = {};
         $scope.career = {};
@@ -365,7 +352,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
 
         $scope.doContactAction = function (contact) {
             var v = grecaptcha.getResponse();
-//            alert(v)
+            
             if (v.length != '0') {
             $http.post(baseUrl + 'addContact', 
                 {contactData: contact}).then(function (response) {
@@ -445,6 +432,13 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 }
             }
         };
+         // uma
+        $scope.scrollTo = function (id) {
+        $timeout(function() {
+        $location.hash(id);
+        $anchorScroll();
+    });
+    }
     }]);
 
 app.directive('validFile', function () {

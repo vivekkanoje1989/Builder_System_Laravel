@@ -54,7 +54,6 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             alert(state_id)
             for (var i = 0; i < $scope.statesRow.length; i++) {
                 
-                console.log($scope.statesRow);
                 if ($scope.statesRow[i]['id'] == state_id) {
                    
                     $scope.CompanyData.state_code = $scope.statesRow[i]['state_code'];
@@ -141,6 +140,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 $scope.stationaryBtn = false;
                 if (response.data.status) {
                     if ($scope.stationaryid == 0) {
+                        
                         toaster.pop('success', 'Manage Stationary', 'Record successfully created');
                         $scope.stationaryDetails.push({'stationary_set_name': response.data.records.stationary_set_name, 'stationaryId': response.data.lastInsertedId, 'estimate_letterhead_file': response.data.records.estimate_letterhead_file, 'receipt_letterhead_file': response.data.records.receipt_letterhead_file, 'rubber_stamp_file': response.data.records.rubber_stamp_file, 'estimate_logo_file': response.data.records.estimate_logo_file, 'demandletter_letterhead_file': response.data.records.demandletter_letterhead_file, 'demandletter_logo_file': response.data.records.demandletter_logo_file, 'receipt_logo_file': response.data.records.receipt_logo_file});
 

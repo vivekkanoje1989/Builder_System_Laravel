@@ -1,5 +1,5 @@
-app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$location', '$rootScope', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $location, $rootScope) {
-
+app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$rootScope', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $rootScope) {
+        $rootScope.previewFullPage = false;
         $scope.noOfRows = 1;
         $scope.webTheme = false;
         $scope.exportData = '';
@@ -35,15 +35,23 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
 
             });
         };
-
+        $scope.targetToNewTab = function (listid) {
+            location.reload();    
+            $window.open('office.php#/theme/preview/id/'+listid, '_blank');
+        };
+        $scope.themeName = function(){
+            $rootScope.previewFullPage = true;
+        }
         $scope.applyTheme = function (id) {
             Data.post('website/applyTheme', {
                 'id': id}).then(function (response) {
-//                alert('apply')
+                toaster.pop('Website Theme', '', 'Theme applied successfully');
             });
         }
         $scope.closeWindow = function () {
-            window.close();
+            Data.get('theme/themePrevSession').then(function (response) {
+                window.close();
+            });
         }
 
         $scope.$on("deleteRecords", function (event, args) {
@@ -74,7 +82,6 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 $scope.image = image;
                 $scope.action = 'Update';
             }
-
             $scope.sbtBtn = false;
             $scope.index = index * ($scope.noOfRows - 1) + (index1);
         }
@@ -125,7 +132,6 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                         $scope.image_url_preview = {};
                         $scope.Theme = {};
                         $('#themesModal').modal('toggle');
-//                        $location.path('/website/themes');
                         $window.location.reload();
                     });
 
@@ -150,5 +156,4 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-
     }]);
