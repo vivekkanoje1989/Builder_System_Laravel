@@ -2,6 +2,54 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+=======
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/Theme32/assets/css/theme.css</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/Theme32/styles/main.css</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Theme32/header.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Gagan/header.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Gagan/footer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Theme32/footer.blade.php</file>
+=======
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantra_vastu/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/projects.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/main.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/style.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantra_vastu/projectdetails.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontendApp.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/careers.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/vendor/composer/ClassLoader.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/route.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysRemark.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/mantra_vastu/js/app.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/testimonials.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/header.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/todayremarks.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/footer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/frontend/UserController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/mantra_vastu/css/style.css</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/Gagan/css/jquery.bxslider.css</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantra_vastu/projects.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/assets/css/loader.css</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Views/enquiryReport.blade.php</file>
+>>>>>>> d0f4dcfb095fb4de93de66a9a1730e9072af4bfa
+>>>>>>> 8d916a44c5c8e90f4381a28f65db7502a437a2bb
+>>>>>>> 9513a4de19e4bcf6e21f3e8a18068923ce4b2218
+        </group>
+>>>>>>> 6ff01c21b18e5bb58cfca9c23e0fc1546463b125
     </open-files>
 </project-private>

@@ -1,7 +1,6 @@
 <div class="row">
     <div class="widget flat radius-bordered">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="reportsController" ng-init="myEnquiryReport([[$loggedInUserID]])">
-            <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{headingName}}</h5>-->
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">{{headingName}}</span>                
             </div>
@@ -20,36 +19,37 @@
                                 <tbody ng-repeat="category in category_report">
                                     <tr>
                                         <td><b>New</b></td>
-                                        <td><div style="width:50px; float:left">{{category.New}}</div><div style="float:left"><a ng-if="category.New >0" href="" ng-click="subCategoryReport(category, 1, 0,<?php echo Auth::guard('admin')->user()->id; ?>)">Show Sub-category report</a></div></td>
-                                        <td><div  ng-if="category.New >0" >{{((category.New / category.Total) * 100).toFixed(2)}}</div><div ng-if="category.New == 0">0</div></td>
+                                        <td><div style="width:50px; float:left">{{category.New}}</div><div style="float:left"><a ng-if="category.New > 0" href="" ng-click="subCategoryReport(category, 1, 0,<?php echo Auth::guard('admin')->user()->id; ?>)">Show Sub-category report</a></div></td>
+                                        <td><div  ng-if="category.New > 0" >{{((category.New / category.Total) * 100).toFixed(2)}}</div><div ng-if="category.New == 0">0</div></td>
                                     </tr>   
                                     <tr>
                                         <td><b>Hot</b></td>
-                                        <td><div style="width:50px; float:left">{{category.Hot}}</div><div style="float:left"><a ng-if="category.Hot >0" href="" ng-click="subCategoryReport(category, 2, 0,<?php echo Auth::guard('admin')->user()->id; ?>)">Show Sub-category report</a></div></td>                                                
-                                        <td><div  ng-if="category.Hot >0" >{{((category.Hot / category.Total) * 100).toFixed(2)}}</div><div ng-if="category.Hot == 0">0</div></td>
+                                        <td><div style="width:50px; float:left">{{category.Hot}}</div><div style="float:left"><a ng-if="category.Hot > 0" href="" ng-click="subCategoryReport(category, 2, 0,<?php echo Auth::guard('admin')->user()->id; ?>)">Show Sub-category report</a></div></td>                                                
+                                        <td><div  ng-if="category.Hot > 0" >{{((category.Hot / category.Total) * 100).toFixed(2)}}</div><div ng-if="category.Hot == 0">0</div></td>
                                     </tr>   
                                     <tr>
                                         <td><b>Warm</b></td>
-                                        <td><div style="width:50px; float:left">{{category.Warm}}</div><div style="float:left"><a ng-if="category.Warm >0" href="" ng-click="subCategoryReport(category, 3, 0,<?php echo Auth::guard('admin')->user()->id; ?>)">Show Sub-category report</a></div></td>                                       
-                                        <td><div  ng-if="category.Warm >0" >{{((category.Warm / category.Total) * 100).toFixed(2)}}</div><div ng-if="category.Warm == 0">0</div></td>
+                                        <td><div style="width:50px; float:left">{{category.Warm}}</div><div style="float:left"><a ng-if="category.Warm > 0" href="" ng-click="subCategoryReport(category, 3, 0,<?php echo Auth::guard('admin')->user()->id; ?>)">Show Sub-category report</a></div></td>                                       
+                                        <td><div  ng-if="category.Warm > 0" >{{((category.Warm / category.Total) * 100).toFixed(2)}}</div><div ng-if="category.Warm == 0">0</div></td>
                                     </tr>
                                     <tr>
                                         <td><b>Cold</b></td>
-                                        <td><div style="width:50px; float:left">{{category.Cold}}</div><div style="float:left"><a ng-if="category.Cold >0" href="" ng-click="subCategoryReport(category, 4, 0,<?php echo Auth::guard('admin')->user()->id; ?>)">Show Sub-category report</a></div></td>
-                                        <td><div ng-if="category.Cold >0" >{{((category.Cold / category.Total) * 100).toFixed(2)}}</div><div ng-if="category.Cold == 0">0</div></td>
+                                        <td><div style="width:50px; float:left">{{category.Cold}}</div><div style="float:left"><a ng-if="category.Cold > 0" href="" ng-click="subCategoryReport(category, 4, 0,<?php echo Auth::guard('admin')->user()->id; ?>)">Show Sub-category report</a></div></td>
+                                        <td><div ng-if="category.Cold > 0" >{{((category.Cold / category.Total) * 100).toFixed(2)}}</div><div ng-if="category.Cold == 0">0</div></td>
                                     </tr>
                                     <tr>
                                         <td align="center"><b>Total</b></td>
                                         <td><b>{{category.Total}}</b></td>
-                                        <td><b ng-if="category.Total >0">{{((category.Total / category.Total) * 100).toFixed(2)}}</b><b ng-if="category.Total == 0" >0</b></td>
+                                        <td><b ng-if="category.Total > 0">{{((category.Total / category.Total) * 100).toFixed(2)}}</b><b ng-if="category.Total == 0" >0</b></td>
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="row"  align="center" >
-                            <div class="col-md-12 col-xs-12"  align="center" >
-                                <div style="margin:0 auto;padding: 40px; width: 30%">
-                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="categorydata" chart-options="categoryoptions" chart-labels="categorylabels" chart-colors="categorycolors"></canvas>
+
+                            <div class="row"  align="center" >
+                                <div class="col-md-12 col-xs-12"  align="center" >
+                                    <div style="margin:0 auto;padding: 40px; width: 30%">
+                                        <canvas id="doughnut" class="chart chart-doughnut" chart-data="categorydata" chart-options="categoryoptions" chart-labels="categorylabels" chart-colors="categorycolors"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -205,7 +205,7 @@
                                     <tr>
                                         <td align="center"><b>Total</b></td>
                                         <td><b>{{status.Total}}</b></td>
-                                        <td><b ng-if="status.Total >0">{{((status.Total / status.Total) * 100).toFixed(2)}}</b><b ng-if="status.Total == 0">0</b></td>
+                                        <td><b ng-if="status.Total > 0">{{((status.Total / status.Total) * 100).toFixed(2)}}</b><b ng-if="status.Total == 0">0</b></td>
                                     </tr>
                                 </tbody>
 
