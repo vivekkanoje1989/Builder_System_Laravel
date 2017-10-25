@@ -497,9 +497,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Team`s Previous Followups";
                 $scope.pagetitle = "Team`s Previous Followups";
             }
-
+            
             $scope.sharedemployee = shared;
-
+            
             Data.post('master-sales/previousFollowups', {
                 empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, shared: $scope.sharedemployee
             }).then(function (response) {
