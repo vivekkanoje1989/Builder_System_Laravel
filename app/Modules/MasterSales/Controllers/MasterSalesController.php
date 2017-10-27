@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\MasterSales\Controllers;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -39,20 +38,10 @@ class MasterSalesController extends Controller {
     public static $procname;
     public $allusers;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index() {
         return view("MasterSales::index");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
     public function create() {
         return view("MasterSales::index");
     }
@@ -61,10 +50,6 @@ class MasterSalesController extends Controller {
         return view("MasterSales::quickEnquiry");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @return Response
-     */
     public function store() {
         try {
             $postdata = file_get_contents("php://input");
@@ -473,7 +458,7 @@ class MasterSalesController extends Controller {
                 $request['customerDetails']['title_id'] = !empty($request['enquiryData']['title_id']) ? $request['enquiryData']['title_id'] : '';
                 $request['customerDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
                 $request['customerDetails']['source_id'] = !empty($request['enquiryData']['source_id']) ? $request['enquiryData']['source_id'] : '';
- 
+
                 $request['customerDetails'] = array_merge($request['customerDetails'], $create);
                 $insertCustomer = Customer::create($request['customerDetails']);
                 $customer_id = $insertCustomer->id;
@@ -484,7 +469,7 @@ class MasterSalesController extends Controller {
                     $request['customerContactDetails']['email_id'] = !empty($request['EmailId']) ? $request['EmailId'] : '';
                     $request['customerContactDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
                     $request['customerContactDetails']['customer_id'] = $insertCustomer->id;
-                    
+
                     $request['customerContactDetails'] = array_merge($request['customerContactDetails'], $create);
                     $insertCustomerContact = CustomersContact::create($request['customerContactDetails']);
                 }
@@ -624,7 +609,7 @@ class MasterSalesController extends Controller {
 //                    $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks'],$request['enquiryData']['enqdetails_id'],$request['enquiryData']['loggedInUserId']);
 
             $update = Enquiry::where('id', $request['enquiryData']['id'])->update($request['enquiryData']);
-            
+
             if (!empty($request['projectEnquiryDetails'])) {
                 foreach ($request['projectEnquiryDetails'] as $projectDetail) {
                     $getProjectId = EnquiryDetail::select("id")->where(['enquiry_id' => $request['enquiryData']['id'], 'project_id' => $projectDetail['project_id'], 'block_id' => $projectDetail['block_id'], 'sub_block_id' => $projectDetail['sub_block_id']])->get();
@@ -1112,13 +1097,13 @@ Regards,<br>
 
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $editExistingFollowup = $input['editExistingFollowup'];
-                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'],$input['followup_by_employee_id']);
+                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'], $input['followup_by_employee_id']);
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
                 unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo']);
                 $input['followup_by_employee_id'] = $loggedInUserId;
-                
+
                 EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDateTime]);
                 if ($editExistingFollowup == true) {
                     $input = array_merge($input, $update);
@@ -1143,7 +1128,7 @@ Regards,<br>
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $filterData = $request['filterData'];
-       
+
         $MyClass = new MasterSalesController();
         $employees = json_decode($MyClass->sharedEnquiriesEmployee());
 
@@ -1229,9 +1214,9 @@ Regards,<br>
         $filterData["verifiedEmailId"] = !empty($filterData['verifiedEmailId']) ? $filterData['verifiedEmailId'] : "";
         $filterData["bookingFromDate"] = !empty($filterData['bookingFromDate']) ? date('Y-m-d', strtotime($filterData['bookingFromDate'])) : "";
         $filterData["bookingToDate"] = !empty($filterData['bookingToDate']) ? date('Y-m-d', strtotime($filterData['bookingToDate'])) : "";
-  
-  
-  
+
+
+
         if ($request["getProcName"] == 'proc_get_booked_enquiries') {
             $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
                             $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' . $filterData["bookingFromDate"] . '","' . $filterData["bookingToDate"] . '","' .
@@ -1251,7 +1236,6 @@ Regards,<br>
                             $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["status_id"] . '","' . $filterData["substatus_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
                             $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
                             $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ',"' . $login_id . '","' . $request['shared'] . '")');
-           
         }
         $cnt = DB::select('select FOUND_ROWS() totalCount');
         $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails), true);
@@ -1274,7 +1258,7 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            
+
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
                     $login_id = $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -1372,12 +1356,54 @@ Regards,<br>
         }
     }
 
+    public function getTeamSharedEmployee() {
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $this->tuserid($loggedInUserId);
+        $sharedEmployees = '';
+        $alluser = $this->allusers;
+        $allEmpresult = Employee::whereIn('id', $alluser)->select('presale_shared_employee', 'postsale_shared_employee')->get();
+        foreach ($allEmpresult as $emp) {
+            if (!empty($emp['presale_shared_employee'])) {
+                if (!empty($sharedEmployees)) {
+                    $sharedEmployees = $sharedEmployees . "," . $emp['presale_shared_employee'];
+                } else {
+                    $sharedEmployees = $emp['presale_shared_employee'];
+                }
+            }
+        }
+        if (!empty($sharedEmployees)) {
+            $arr = array_unique(explode(',', $sharedEmployees));
+            $teamshared = implode(',', $arr);
+        } else {
+            $teamshared = '';
+        }
+        $alluser = implode(',', $alluser);
+        $result = ['success' => true, 'teamshared' => $teamshared, 'alluser' => $alluser];
+        return json_encode($result);
+    }
+
+    public function tuserid($id) {
+
+        $admin = \App\Models\backend\Employee::where(['team_lead_id' => $id])->get();
+        if (!empty($admin)) {
+
+            foreach ($admin as $item) {
+
+                $this->allusers[$item->id] = $item->id;
+
+                $this->tuserid($item->id);
+            }
+        } else {
+            return;
+        }
+    }
+
     public function getTotalEnquiries() { // get all enquiries
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $MyClass = new MasterSalesController();
-            $employees = json_decode($MyClass->sharedEnquiriesEmployee());     
+            $employees = json_decode($MyClass->sharedEnquiriesEmployee());
 
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
@@ -1391,12 +1417,12 @@ Regards,<br>
                     }
                 } else {
                     $login_id = $request['empId'];
-                     if (!empty($employees->presales) && $request['shared'] == '1') {
+                    if (!empty($employees->presales) && $request['shared'] == '1') {
                         $loggedInUserId = $employees->presales;
                     } else if (empty($employees->presales) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId =  $request['empId'];
+                        $loggedInUserId = $request['empId'];
                     }
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_total_enquiries";
@@ -1405,11 +1431,15 @@ Regards,<br>
                 }
             } else { // team total                
                 if (empty($request['empId'])) {
-                    $login_id = Auth::guard('admin')->user()->id;
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                    $this->allusers = array();
-                    $this->getTeamIds($loggedInUserId);
-                    $loggedInUserId = implode(',', $this->allusers);
+                    $employees = json_decode($this->getTeamSharedEmployee());
+                    if (!empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->teamshared;
+                    } else if (empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                    $login_id = $employees->alluser;
                 } else {
                     $login_id = $request['empId'];
                     $loggedInUserId = $request['empId'];
@@ -1423,21 +1453,21 @@ Regards,<br>
                     }
                 }
             }
+            
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
+            $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',"' . $login_id . '","' . $request['shared'] . '")');
             $displayMobile = $outBoundCall = '';
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
-            if(!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$userAgent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($userAgent,0,4)))
-            { 
+            if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
                 $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
                 if (in_array('01403', $array)) {
                     $outBoundCall = 1;
-                } 
+                }
                 if (in_array('01406', $array)) {
                     $displayMobile = 1;
-                } 
+                }
             }
             if (count($getTotalEnquiryDetails) != 0) {
                 $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'callBtnPermission' => $outBoundCall, 'displayMobilePermission' => $displayMobile, 'totalCount' => $cnt[0]->totalCount];
@@ -1506,11 +1536,20 @@ Regards,<br>
                 }
             } else { // team total
                 if (empty($request['empId'])) {
-                    $login_id = Auth::guard('admin')->user()->id;
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                    $this->allusers = array();
-                    $this->getTeamIds($loggedInUserId);
-                    $loggedInUserId = implode(',', $this->allusers);
+                    $employees = json_decode($this->getTeamSharedEmployee());
+                    if (!empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->teamshared;
+                    } else if (empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                    $login_id = $employees->alluser;
+//                    $login_id = Auth::guard('admin')->user()->id;
+//                    $loggedInUserId = Auth::guard('admin')->user()->id;
+//                    $this->allusers = array();
+//                    $this->getTeamIds($loggedInUserId);
+//                    $loggedInUserId = implode(',', $this->allusers);
                 } else {
                     $login_id = $request['empId'];
                     $loggedInUserId = $request['empId'];
@@ -1524,20 +1563,19 @@ Regards,<br>
                 }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getTodaysFollowups = DB::select('CALL proc_get_today_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
+            $getTodaysFollowups = DB::select('CALL proc_get_today_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',"' . $login_id . '","' . $request['shared'] . '")');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTodaysFollowups = json_decode(json_encode($getTodaysFollowups), true);
             $displayMobile = $outBoundCall = '';
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
-            if(!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$userAgent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($userAgent,0,4)))
-            { 
+            if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
                 $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
                 if (in_array('01403', $array)) {
                     $outBoundCall = 1;
-                } 
+                }
                 if (in_array('01406', $array)) {
                     $displayMobile = 1;
-                } 
+                }
             }
             if (count($getTodaysFollowups) != 0) {
                 $result = ['success' => true, 'records' => $getTodaysFollowups, 'displayCallBtn' => $outBoundCall, 'MobileNopermissions' => $displayMobile, 'totalCount' => $cnt[0]->totalCount];
@@ -1558,12 +1596,10 @@ Regards,<br>
         return view("MasterSales::lostenquiries")->with("type", $type);
     }
 
-    public function getLostEnquiries() {// get lost enquiries
+    public function getLostEnquiries() {    // get lost enquiries
         try {
-
             $MyClass = new MasterSalesController();
             $employees = json_decode($MyClass->sharedEnquiriesEmployee());
-
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             if ($request['teamType'] == 0) { // total
@@ -1585,10 +1621,15 @@ Regards,<br>
                 }
             } else { // team total
                 if (empty($request['empId'])) {
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                    $this->allusers = array();
-                    $this->getTeamIds($loggedInUserId);
-                    $loggedInUserId = implode(',', $this->allusers);
+                    $employees = json_decode($this->getTeamSharedEmployee());
+                    if (!empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->teamshared;
+                    } else if (empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                    $login_id = $employees->alluser;
                 } else {
                     $loggedInUserId = $request['empId'];
                     $this->allusers = array();
@@ -1601,21 +1642,20 @@ Regards,<br>
                 }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getlostEnquiryDetails = DB::select('CALL proc_get_lost_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
+            $getlostEnquiryDetails = DB::select('CALL proc_get_lost_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',"' . $login_id . '","' . $request['shared'] . '")');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getlostEnquiryDetails = json_decode(json_encode($getlostEnquiryDetails), true);
-            
+
             $outBoundCall = $displayMobile = '';
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
-            if(!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$userAgent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($userAgent,0,4)))
-            { 
+            if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
                 $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
                 if (in_array('01403', $array)) {
                     $outBoundCall = 1;
-                } 
+                }
                 if (in_array('01406', $array)) {
                     $displayMobile = 1;
-                } 
+                }
             }
             if (count($getlostEnquiryDetails) != 0) {
                 $result = ['success' => true, 'records' => $getlostEnquiryDetails, 'callBtnPermissions' => $outBoundCall, 'displayMobile' => $displayMobile, 'totalCount' => $cnt[0]->totalCount];
@@ -1641,13 +1681,10 @@ Regards,<br>
 
             $MyClass = new MasterSalesController();
             $employees = json_decode($MyClass->sharedEnquiriesEmployee());
-
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             if ($request['teamType'] == 0) {
-
                 if (empty($request['empId'])) {
-
                     $login_id = $loggedInUserId = Auth::guard('admin')->user()->id;
                     if (!empty($employees->presales) && $request['shared'] == '1') {
                         $loggedInUserId = $employees->presales;
@@ -1665,10 +1702,15 @@ Regards,<br>
                 }
             } else { // team total
                 if (empty($request['empId'])) {
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                    $this->allusers = array();
-                    $this->getTeamIds($loggedInUserId);
-                    $loggedInUserId = implode(',', $this->allusers);
+                    $employees = json_decode($this->getTeamSharedEmployee());
+                    if (!empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->teamshared;
+                    } else if (empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                    $login_id = $employees->alluser;
                 } else {
                     $loggedInUserId = $request['empId'];
                     $this->allusers = array();
@@ -1681,21 +1723,20 @@ Regards,<br>
                 }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getbookedEnquiryDetails = DB::select('CALL proc_get_booked_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
-
+            $getbookedEnquiryDetails = DB::select('CALL proc_get_booked_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',"' . $login_id . '","' . $request['shared'] . '")');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getbookedEnquiryDetails = json_decode(json_encode($getbookedEnquiryDetails), true);
             $outBoundCall = $displayMobile = '';
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
-            if(!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$userAgent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($userAgent,0,4)))
-            { 
+            
+            if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
                 $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
                 if (in_array('01403', $array)) {
                     $outBoundCall = 1;
-                } 
+                }
                 if (in_array('01406', $array)) {
                     $displayMobile = 1;
-                } 
+                }
             }
             if (count($getbookedEnquiryDetails) != 0) {
                 $result = ['success' => true, 'records' => $getbookedEnquiryDetails, 'callBtnPermission' => $outBoundCall, 'displayMobileN' => $displayMobile, 'totalCount' => $cnt[0]->totalCount];
@@ -1716,7 +1757,7 @@ Regards,<br>
         return view("MasterSales::previousFollowup")->with("type", $type);
     }
 
-    public function previousFollowups() {// Previous Followups 
+    public function previousFollowups() { // Previous Followups 
         try {
 
             $postdata = file_get_contents("php://input");
@@ -1740,11 +1781,20 @@ Regards,<br>
                     }
                 }
             } else { // team total
-                if (empty($request['empId'])) {
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                    $this->allusers = array();
-                    $this->getTeamIds($loggedInUserId);
-                    $loggedInUserId = implode(',', $this->allusers);
+                if (empty($request['empId'])) {                    
+//                    $this->allusers = array();
+//                    $loggedInUserId = Auth::guard('admin')->user()->id;
+//                    $this->getTeamIds($loggedInUserId);
+//                    $loggedInUserId = implode(',', $this->allusers);
+                    $employees = json_decode($this->getTeamSharedEmployee());
+                    if (!empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->teamshared;
+                    } else if (empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                    $login_id = $employees->alluser;
                 } else {
                     $loggedInUserId = $request['empId'];
                     $this->allusers = array();
@@ -1758,20 +1808,19 @@ Regards,<br>
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
 
-            $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
+            $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',"' . $login_id . '","' . $request['shared'] . '")');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
             $outBoundCall = $displayMobile = '';
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
-            if(!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$userAgent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($userAgent,0,4)))
-            { 
+            if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
                 $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
                 if (in_array('01403', $array)) {
                     $outBoundCall = 1;
-                } 
+                }
                 if (in_array('01406', $array)) {
                     $displayMobile = 1;
-                } 
+                }
             }
             if (count($getCustomerEnquiryDetails) != 0 && !empty($getCustomerEnquiryDetails[0]['id'])) {
                 $result = ['success' => true, 'records' => $getCustomerEnquiryDetails, 'callBtnPermission' => $outBoundCall, 'displayMobileN' => $displayMobile, 'totalCount' => $cnt[0]->totalCount];
@@ -1819,10 +1868,15 @@ Regards,<br>
                 }
             } else { // team total
                 if (empty($request['empId'])) {
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                    $this->allusers = array();
-                    $this->getTeamIds($loggedInUserId);
-                    $loggedInUserId = implode(',', $this->allusers);
+                    $employees = json_decode($this->getTeamSharedEmployee());
+                    if (!empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = $employees->teamshared;
+                    } else if (empty($employees->teamshared) && $request['shared'] == '1') {
+                        $loggedInUserId = '';
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                    $login_id = $employees->alluser;
                 } else {
                     $loggedInUserId = $request['empId'];
                     $this->allusers = array();
@@ -1835,21 +1889,20 @@ Regards,<br>
                 }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getpendingfollowups = DB::select('CALL proc_get_pending_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',' . $login_id . ',"' . $request['shared'] . '")');
+            $getpendingfollowups = DB::select('CALL proc_get_pending_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ',"' . $login_id . '","' . $request['shared'] . '")');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getpendingfollowups = json_decode(json_encode($getpendingfollowups), true);
 
             $outBoundCall = $displayMobile = '';
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
-            if(!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$userAgent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($userAgent,0,4)))
-            { 
+            if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
                 $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
                 if (in_array('01403', $array)) {
                     $outBoundCall = 1;
-                } 
+                }
                 if (in_array('01406', $array)) {
                     $displayMobile = 1;
-                } 
+                }
             }
             if (count($getpendingfollowups) != 0) {
                 $result = ['success' => true, 'records' => $getpendingfollowups, 'displayMobile' => $displayMobile, 'outBoundCall' => $outBoundCall, 'totalCount' => $cnt[0]->totalCount];
@@ -3052,31 +3105,33 @@ Regards,<br>
         }
         return response()->json($result);
     }
-    public function privacyStatus(){
+
+    public function privacyStatus() {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            
+
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $customerId = $request['data']['customerId'];
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
-            if($request['data']['dbField'] === 'SMS'){
+            if ($request['data']['dbField'] === 'SMS') {
                 $request['data']['sms_privacy_status'] = $request['data']['statusVal'];
-                
-                unset($request['data']['statusVal'],$request['data']['dbField'],$request['data']['customerId']);
+
+                unset($request['data']['statusVal'], $request['data']['dbField'], $request['data']['customerId']);
                 $input['customerData'] = array_merge($request['data'], $update);
-                
-                $updateCustomer = Customer::where('id', $customerId)->update($input['customerData']); 
-            }else{
+
+                $updateCustomer = Customer::where('id', $customerId)->update($input['customerData']);
+            } else {
                 $request['data']['email_privacy_status'] = $request['data']['statusVal'];
-                unset($request['data']['statusVal'],$request['data']['dbField'],$request['data']['customerId']);
+                unset($request['data']['statusVal'], $request['data']['dbField'], $request['data']['customerId']);
                 $input['customerData'] = array_merge($request['data'], $update);
-                $updateCustomer = Customer::where('id', $customerId)->update($input['customerData']); 
+                $updateCustomer = Customer::where('id', $customerId)->update($input['customerData']);
             }
             $result = ["success" => true, 'message' => 'Status updated successfully'];
         } catch (Exception $ex) {
-             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
         return response()->json($result);
     }
+
 }

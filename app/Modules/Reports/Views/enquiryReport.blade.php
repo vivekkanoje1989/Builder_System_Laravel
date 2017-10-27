@@ -44,11 +44,12 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="row"  align="center" >
-                            <div class="col-md-12 col-xs-12"  align="center" >
-                                <div style="margin:0 auto;padding: 40px; width: 30%">
-                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="categorydata" chart-options="categoryoptions" chart-labels="categorylabels" chart-colors="categorycolors"></canvas>
+
+                            <div class="row"  align="center" >
+                                <div class="col-md-12 col-xs-12"  align="center" >
+                                    <div style="margin:0 auto;padding: 40px; width: 30%">
+                                        <canvas id="doughnut" class="chart chart-doughnut" chart-data="categorydata" chart-options="categoryoptions" chart-labels="categorylabels" chart-colors="categorycolors"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
