@@ -10,8 +10,11 @@
     .container{
         /*padding : 0px 0px!important;*/
     }
-    .span5 input{
+    .span5 input {
             width: 100%;
+    }
+    .span5 textarea{
+            width: 95%;
     }
     .span9 {
     padding-top: 12%;
@@ -21,6 +24,7 @@
     width:104px !important;
 }
 </style>
+
 <main class="main-content"  ng-init="getProjects(); getPostsDropdown(); getTestimonials();getAboutPageContent(); getEmployees();getCareers(); getPostsDropdown();getContactDetails();">
 <!-- Start home section -->
 <div id="home" class="centered">
@@ -172,16 +176,16 @@
                             <strong>Well done!</strong>Your message has been sent.
                         </div>
                         <div id="errorSend" class="alert alert-error invisible">There was an error.</div>
-                        <form id="contact-form" ng-submit="doContactAction(contact)">
+                        <form id="contact-form" novalidate name="contactFormdata" ng-submit="doContactAction(contact)">
                             <div class="control-group">
                                 <div class="controls">
-                                    <input ng-model="contact.name" class="span12" type="text" id="name" name="name" placeholder="* Your name..." />
+                                    <input ng-model="contact.name" class="" type="text" id="fname" name="fname" placeholder="* Your name..." />
                                     <div class="error left-align" id="err-name">Please enter name.</div>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <input ng-model="contact.email" class="span12" type="email" name="id" id="email" placeholder="* Your email..." />
+                                    <input ng-model="contact.email" class="" type="text" name="email" id="email" placeholder="* Your email..." />
                                     <div class="error left-align" id="err-email">Please enter valid email adress.</div>
                                 </div>
                             </div>
@@ -193,15 +197,11 @@
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <textarea ng-model="contact.message" class="span12" name="Message" id="comment" placeholder="* Message..."></textarea>
+                                    <textarea ng-model="contact.message"  type="text" class="span12" cols="10" rows="20" name="Message" id="comment" placeholder="* Message..."></textarea>
                                     <div class="error left-align" id="err-comment">Please enter your Message here.</div>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <div class="controls">
-                                    <input type="submit" id="send-mail" class="message-btn btn-default" value="Submit">
-                                </div>
-                            </div>
+                            <input type="submit" id="send-mail" class="message-btn btn-default" value="Submit" style="width:25%;">                            
                         </form>
                     </div>
 <!--                </div>-->
@@ -404,7 +404,6 @@
             </p>
         </fieldset>
     </form>
-
 </div>
 
 <!-- Apply for Job Pop up ends here-->
@@ -419,78 +418,5 @@
     <a href="#">
         <i class="icon-up-open"></i>
     </a>
-</div>
-@endsection()		
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="frontend/mantra_vastu/js/jquery.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.bxslider').bxSlider({
-            mode: 'fade',
-            captions: true,
-            auto: true,
-//  autoControls: true,
-        });
-    });
-</script>
-
-<script>
-    window.onload = function () {
-        document.getElementById("enquiry").onclick = function () {
-            var e = document.getElementById("enquiry-popup");
-            var f = document.getElementById("enquiry-popup-form");
-            e.style.display = "block";
-            f.style.display = "block";
-        };
-        document.getElementById("experience").onclick = function () {
-            var a = document.getElementById("experience-popup");
-            var b = document.getElementById("experience-popup-form");
-            a.style.display = "block";
-            b.style.display = "block";
-        };
-        document.getElementById("job-apply").onclick = function () {
-            var g = document.getElementById("job-apply-popup");
-            var h = document.getElementById("job-apply-popup-form");
-            g.style.display = "block";
-            h.style.display = "block";
-        };
-        document.getElementById("job-apply-2").onclick = function () {
-            var g = document.getElementById("job-apply-popup");
-            var h = document.getElementById("job-apply-popup-form");
-            g.style.display = "block";
-            h.style.display = "block";
-        };
-        document.getElementById("clos").onclick = function () {
-            var e = document.getElementById("enquiry-popup");
-            var f = document.getElementById("enquiry-popup-form");
-            var g = document.getElementById("job-apply-popup");
-            var h = document.getElementById("job-apply-popup-form");
-            var a = document.getElementById("experience-popup");
-            var b = document.getElementById("experience-popup-form");
-            e.style.display = "none";
-            f.style.display = "none";
-            g.style.display = "none";
-            h.style.display = "none";
-            a.style.display = "none";
-            b.style.display = "none";
-        };
-    }
-</script>
-<!-- jQuery library (served from Google) -->
-<!-- bxSlider Javascript file -->
-<script src="frontend/mantra_vastu/js/jquery.bxslider.min.js"></script>
-<script type="text/javascript" src="frontend/mantra_vastu/js/jquery.mixitup.js"></script>
-<script type="text/javascript" src="frontend/mantra_vastu/js/bootstrap.js"></script>
-<script type="text/javascript" src="frontend/mantra_vastu/js/modernizr.custom.js"></script>
-<script type="text/javascript" src="frontend/mantra_vastu/js/jquery.cslider.js"></script>
-<script type="text/javascript" src="frontend/mantra_vastu/js/jquery.placeholder.js"></script>
-<script type="text/javascript" src="frontend/mantra_vastu/js/jquery.inview.js"></script>
-<!-- Load google maps api and call initializeMap function defined in app.js -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;callback=initializeMap"></script>
-<!-- css3-mediaqueries.js for IE8 or older -->
-<!--[if lt IE 9]-->
-<script src="frontend/mantra_vastu/js/respond.min.js"></script>
-<!--[endif]-->
-<script type="text/javascript" src="frontend/mantra_vastu/js/app.js"></script>
-</body>
-</html>
+</div></main>
+@endsection()

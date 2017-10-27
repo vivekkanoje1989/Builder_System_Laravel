@@ -1134,15 +1134,13 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                     $scope.sub_sourcelabels.push(object.sub_source);
                     $scope.sub_sourcedata.push(object.cnt);
                     $scope.subsourceTotal = parseInt(object.cnt) + parseInt($scope.subsourceTotal);
-
                 });
                 $scope.unSpecifiedSource = source.cnt - $scope.subsourceTotal;
                 if ($scope.unSpecifiedSource > 0) {
                     $scope.subsourceTotal += $scope.unSpecifiedSource;
                     $scope.sub_sourcelabels.push("Unspecified sub-source");
+                    $scope.sub_sourcedata.push($scope.unSpecifiedSource);
                 }
-                $scope.sub_sourcedata.push($scope.unSpecifiedSource);
-
                 $scope.sub_sourcecolors = ['#ff7a81', '#FFFF00', '#00d4c3', '#b3a0fa'];
                 $scope.sub_sourceoptions = {
                     cutoutPercentage: 60,
@@ -1152,8 +1150,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                 };
             });
         }
-
-
+        
         $scope.subProjectCategoryReport = function (category, category_id, is_category_group) {
             if (category_id == 1) {
                 if (category.New != undefined) {

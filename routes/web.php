@@ -94,6 +94,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get($getWebsiteUrl . '/careers', 'frontend\UserController@career');
     Route::post($getWebsiteUrl . '/register_applicant', 'frontend\UserController@register_applicant');
     Route::post($getWebsiteUrl . '/addContact', 'frontend\UserController@addContact');
+    //Route::post($getWebsiteUrl . '/saveContact', 'frontend\UserController@saveContact');
     Route::get($getWebsiteUrl . '/jobPost', 'frontend\UserController@jobPost');
     Route::get($getWebsiteUrl . '/background', 'frontend\UserController@getBackGroundImages');
     Route::get($getWebsiteUrl . '/contact', 'frontend\UserController@contact');

@@ -1339,12 +1339,10 @@ class ReportsController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $emp_id = $request["employee_id"];
-
         $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
         if ($emp_id) {
             $results_enquiry_type = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id  AND e.sales_employee_id = $emp_id AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_status_id";
             $results_enquiry_type = DB::select($results_enquiry_type);
-
             $status_wise_team_total = array();
             $m_new_count = 0;
             $m_open_count = 0;
@@ -1373,8 +1371,8 @@ class ReportsController extends Controller {
             $parant_id = $this->isParant($first_admin_model->id);
             $status_wise_team_total[] = array('name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id, 'new' => $m_new_count, 'open' => $m_open_count, 'booked' => $m_booked_count, 'lost' => $m_lost_count, 'preserved' => $m_preserved_count, 'Total' => $mtotal);
         }
+        
         $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
-
         foreach ($selfteam as $selfmember) {
             $this->allusers = array();
             $this->tuserid($selfmember->id);
@@ -1382,7 +1380,6 @@ class ReportsController extends Controller {
             $alluser[$selfmember->id] = $selfmember->id;
             ksort($alluser);
             $temp = @implode(',', $alluser);
-
             if (!empty($temp)) {
                 $results_status_wise = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE  details.project_id= " . $request['project_id'] . "  AND e.sales_employee_id IN($temp) GROUP BY e.sales_status_id";
                 $results_status_wise = DB::select($results_status_wise);
@@ -1392,7 +1389,6 @@ class ReportsController extends Controller {
                 $Lost_count = 0;
                 $preserved_count = 0;
                 $ttotal = 0;
-
                 if (!empty($results_status_wise)) {
                     foreach ($results_status_wise as $results_status_wise) {
                         $enqtype = $results_status_wise->sales_status;
@@ -1415,7 +1411,6 @@ class ReportsController extends Controller {
                 $status_wise_team_total[] = array('name' => $selfmember->first_name . ' ' . $selfmember->last_name, 'employee_id' => $selfmember->id, 'is_parent' => $parant_id1, 'new' => $new_count, 'open' => $open_count, 'booked' => $booked_count, 'lost' => $Lost_count, 'preserved' => $m_preserved_count, 'Total' => $ttotal);
             }
         }
-
         $response = array("status_wise_report" => $status_wise_team_total);
         echo Json_encode($response);
     }
@@ -1451,7 +1446,6 @@ class ReportsController extends Controller {
     public function projectSubSourceReport() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
         $result = DB::select("select eqty.sub_source, eqty.id, count(*) as cnt from enquiries as e inner join enquiry_details as detail on detail.enquiry_id = e.id inner join projects as p on p.id = detail.project_id inner join enquiry_sales_sub_sources as eqty on e.sales_subsource_id = eqty.id where e.sales_source_id = " . $request['source']['id'] . " and detail.project_id = " . $request['project_id'] . "  and e.sales_employee_id IN(" . $request['employee_id'] . ") and e.sales_status_id in (1,2,5) group by eqty.sub_source");
         $result1 = json_decode(json_encode($result), true);
         $response = array("sub_source_wise_report" => $result1);
