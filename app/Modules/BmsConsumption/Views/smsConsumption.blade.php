@@ -91,6 +91,9 @@
                             </label>
                         </div>
                         <br>
+                         <div>
+                             <p style="    font-weight: 600; font-size: 20px;margin-left: 20px;"><span>Report for {{firstDateofThisMonth}}<span><span ng-if="currentDate"> To {{currentDate}}</span></p>
+                            </div>
                         <div class="col-md-6"> 
                             <div class=" table-responsive">
                                 <table class="table table-hover table-striped table-bordered" at-config="config">
