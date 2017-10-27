@@ -140,8 +140,7 @@
                             <script src="/backend/app/directives/widget.js"></script>
                             <script src="/backend/lib/SweetAlert.min.js"></script>
                             <script src="/backend/lib/sweet-alert.min.js"></script>
-                            <script>
-                            </script>
+                            
                         <?php } else { ?>
                             <div ng-view></div>
 <?php } ?>
