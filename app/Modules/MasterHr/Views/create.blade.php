@@ -10,6 +10,9 @@
     textarea {
         resize: none;
     }
+    .hrMargin{
+        margin-left: 185px;
+    }
 </style>
 <input type="hidden" ng-model="userForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="userForm.csrfToken = '<?php echo csrf_token(); ?>'"  class="form-control">
 <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-init="userForm.id = '[[ $empId ]]'" value="[[ $empId ]]" class="form-control">
@@ -91,7 +94,7 @@
                                 <label>Birth Date </label>
                                 <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                     <p class="input-group">
-                                        <input type="text" ng-model="userData.birth_date" name="date_of_birth" id="date_of_birth" max-date="maxDates" class="form-control" datepicker-popup="{{format}}" is-open="opened"  datepicker-options="dateOptions" close-text="Close" readonly />
+                                        <input type="text" ng-model="userData.birth_date"  show-button-bar="false"  name="date_of_birth" id="date_of_birth" max-date="maxDates" class="form-control" datepicker-popup="{{format}}" is-open="opened"  datepicker-options="dateOptions" close-text="Close" readonly />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="open($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </span>
@@ -213,7 +216,7 @@
                                             <label for="">Personal Mobile Number<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right1"> 
                                                 <input type="text" ng-model="userContact.personal_mobile1" ng-minlength="10" style="margin-left: -24px;" maxlength="10"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile1" check-unique-mobiles id="personal_mobile1" class="form-control"  ng-model-options="{ allowInvalid: true, debounce: 300 }" ng-change="copyToUsername(userContact.personal_mobile1); validateMobile(userContact.personal_mobile1); uniqueMobile" required>
-                                                <i class="fa fa-phone"></i>
+                                                <i class="fa fa-phone hrMargin"></i>
                                                 <div ng-show="step2 || errPersonalMobile" ng-messages="userContactForm.personal_mobile1.$error" class="help-block step2 {{ applyClassPMobile}}">
                                                     <div ng-message="required">This field is required.</div>
                                                     <div ng-message="minlength">Personal mobile no. must be 10 digits</div>
@@ -238,7 +241,7 @@
                                             <label for="">Office Mobile Number</label>
                                             <span class="input-icon icon-right1">
                                                 <input type="text" ng-model="userContact.office_mobile_no" maxlength="10" style="margin-left: -25px; " ng-minlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  name="office_mobile_no" id="office_mobile_no" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateOfficeMobileNumber(userContact.office_mobile_no, 'errOfficeNOMobile')">
-                                                <i class="fa fa-phone"></i>
+                                                <i class="fa fa-phone hrMargin"></i>
                                                 <div ng-show="step2 || errOfficeMobile || errOfficeNOMobile" ng-messages="userContactForm.office_mobile_no.$error" class="help-block step2 {{ applyOfficeClassMobile}}">
                                                     <div ng-message="minlength">Office Mobile Number must be 10 digits</div>
                                                     <div>{{ errOfficeMobile}}</div>
@@ -262,7 +265,7 @@
                                             <label for="">Family Member Mobile Number</label>
                                             <span class="input-icon icon-right1">
                                                 <input type="text" ng-model="userContact.personal_mobile2" maxlength="10" style="margin-left: -24px;" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile2" id="personal_mobile2" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateMobileNumber(userContact.personal_mobile2, 'errFamilyMobile')">
-                                                <i class="fa fa-phone"></i>
+                                                <i class="fa fa-phone hrMargin"></i>
                                                 <div ng-show="step2 || errMobile || errFamilyMobile" ng-messages="userContactForm.personal_mobile2.$error" class="help-block step2 {{ applyClassMobile}}">
                                                     <div ng-message="minlength">Personal Mobile Number must be 10 digits</div>
                                                     <div>{{ errMobile}}</div>
@@ -285,7 +288,7 @@
                                             <label for="">Landline Number</label>
                                             <span class="input-icon icon-right1">
                                                 <input type="text" ng-model="userContact.personal_landline_no" ng-minlength="10" style="margin: 0px 0 0 -25px;" maxlength="10" ng-minlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_landline_no" id="personal_landline_no" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(userContact.personal_landline_no)">
-                                                <i class="fa fa-phone"></i>
+                                                <i class="fa fa-phone hrMargin"></i>
                                                 <div ng-show="step2 || errLandline" ng-messages="userContactForm.personal_landline_no.$error" class="help-block step2 {{applyClass}}">
                                                     <div ng-message="minlength">Personal Mobile Number must be 10 digits</div>
                                                     <div ng-message="minlength">Landline No. must be 10 digits</div>

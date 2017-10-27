@@ -47,8 +47,14 @@
                     <?php } else {
                         $getThemeName = config('global.themeName'); ?>
                         <title page-title>BMS Builder</title>  
-                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                        
+                        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->  
+                        
+                        <script src="/backend/lib/jquery/jquery.min.js"></script>
+                        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
                         <script src="/frontend/angular.min.js"></script>
+                        
+
                         <script src="/frontend/angular-route.min.js"></script>
                         <script src="/frontend/angular-animate.min.js"></script>
                         <script src="/backend/app/ng-file-upload.js"></script>

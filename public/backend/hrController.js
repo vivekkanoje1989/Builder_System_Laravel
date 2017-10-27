@@ -369,7 +369,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                             $scope.Total = 1;
                             var blood_group_id = response.records.data[0].blood_group_id == '' ? 0 : 1;
                             var first_name = response.records.data[0].first_name == '' ? 0 : 1;
-                            
+
                             var personal_email1 = response.records.data[0].personal_email1 == '' ? 0 : 1;
                             var highest_education_id = response.records.data[0].highest_education_id == '' ? 0 : 1;
                             var department_id = response.records.data[0].department_id == '' ? 0 : 1;
@@ -386,7 +386,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 //                                var username = 0;
 //                            }
                             $scope.Total = $scope.Total + first_name + personal_email1 + highest_education_id + department_id + username;
-                           
+
                             if ($scope.Total < 6) {
                                 $("#step" + $scope.Total).addClass('active');
                                 $("#step" + $scope.Total).removeClass('complete');
@@ -1308,13 +1308,13 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.getProfile = function () {
             Data.post('master-hr/getProfileInfo', {})
-            .then(function (response) {
-                $scope.profileData = response.records;
-                $scope.profileData.employee_photo_file_name = '';
-                $scope.password_confirmation;
-                $scope.flag_profile_photo = response.flag_profile_photo;
-                $scope.old_profile_photo = response.old_profile_photo;
-            });
+                    .then(function (response) {
+                        $scope.profileData = response.records;
+                        $scope.profileData.employee_photo_file_name = '';
+                        $scope.password_confirmation;
+                        $scope.flag_profile_photo = response.flag_profile_photo;
+                        $scope.old_profile_photo = response.old_profile_photo;
+                    });
         }
 
         $scope.updateProfile = function (profileData)
@@ -1337,7 +1337,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         toaster.pop('error', 'Profile', 'Please upload profile photo');
                     } else {
                         toaster.pop('success', 'Profile', 'Profile updated successfully');
-                        $timeout(function () {                            
+                        $timeout(function () {
                             $rootScope.imageUrl = response.data.photo;
                         }, 300);
                         $scope.reload();
@@ -1381,32 +1381,32 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             quickEmp.joining_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             $scope.isDisabled = true;
             Data.post('master-hr/createquickuser',
-            {
-                data: quickEmp
-            })
-            .then(function (response)
-            {
+                    {
+                        data: quickEmp
+                    })
+                    .then(function (response)
+                    {
 
-                if (!response.success)
-                {
-                    $scope.isDisabled = false;
-                    var obj = response.message;
-                    var selector = [];
-                    for (var key in obj) {
-                        var model = $parse(key);// Get the model
-                        model.assign($scope, obj[key][0]);// Assigns a value to it
-                        selector.push(key);
-                    }
-                    toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
+                        if (!response.success)
+                        {
+                            $scope.isDisabled = false;
+                            var obj = response.message;
+                            var selector = [];
+                            for (var key in obj) {
+                                var model = $parse(key);// Get the model
+                                model.assign($scope, obj[key][0]);// Assigns a value to it
+                                selector.push(key);
+                            }
+                            toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
 
-                    $scope.errorMsg = response.errormsg;
-                } else
-                {
-                    $scope.isDisabled = true;
-                    toaster.pop('success', 'Manage Users', 'Employee registration successfully');
-                    $state.go('userIndex');
-                }
-            });
+                            $scope.errorMsg = response.errormsg;
+                        } else
+                        {
+                            $scope.isDisabled = true;
+                            toaster.pop('success', 'Manage Users', 'Employee registration successfully');
+                            $state.go('userIndex');
+                        }
+                    });
         };
 
 
@@ -1715,13 +1715,16 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     if (steps.show_on_homepage == 1) {
                         $(".wiredstep5").addClass('complete');
                     }
-
                     $(".wiredstep" + stepId).addClass('active');
-                    $(".wiredstep" + stepId).removeClass('complete');
+                    if (stepId != 5) {
+                        $(".wiredstep" + stepId).removeClass('complete');
+                    }
+//                    if (stepId == 5) {
+//                        $(".wiredstep" + stepId).removeClass('complete');
+//                        $(".wiredstep" + stepId).addClass('active');
+//                    }
                     $("#wiredstep" + stepId).css('display', 'block');
                     $("#wiredstep" + stepId).removeClass('ng-hide');
-
-
                 } else {
                     $scope.position = 1;
                     angular.forEach(steps, function (key, value) {
@@ -1730,7 +1733,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     if ($scope.position == 6) {
                         $scope.position = 5;
                     }
-//               
                     $("#wiredstep" + $scope.position).removeClass('ng-hide');
                     $("#wiredstep" + $scope.position).css('display', 'block');
 //                $(classs).addClass('active');

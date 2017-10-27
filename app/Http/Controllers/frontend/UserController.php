@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\frontend;
+
 use App\Models\frontend\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,29 +31,30 @@ use App\Models\Contactus;
 use Illuminate\Support\Facades\Route;
 
 class UserController extends Controller {
+
     public $themeName = '';
+
     public function __construct() {
         try {
             $id = Route::current()->getParameter('id');
 
             if (!empty($id)) {
                 $result = WebThemes::where('id', $id)->select(['id', 'theme_name'])->first();
-                
+
                 session(['previewTheme' => $result['theme_name']]);
-                $this->themeName = session('previewTheme'); 
-            } 
+                $this->themeName = session('previewTheme');
+            }
             if (session('previewTheme') != '') {
                 Config::set('global.themeName', session('previewTheme'));
-                $this->themeName = session('previewTheme');      
-            }else{
+                $this->themeName = session('previewTheme');
+            } else {
                 $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
                 Config::set('global.themeName', $result['theme_name']);
-                $this->themeName = $result['theme_name'];     
-            }                      
+                $this->themeName = $result['theme_name'];
+            }
         } catch (\Exception $ex) {
             return \View::make('layouts.backend.error500')->withSuccess('Page not found');
         }
-
     }
 
     public function load() {
@@ -67,7 +70,7 @@ class UserController extends Controller {
         return \Redirect::to("http://" . $_SERVER["HTTP_HOST"] . "/#/" . $param);
     }
 
-    public function index() {  
+    public function index() {
         $testimonials = WebTestimonials::where(['web_status' => '1', 'approve_status' => '1'])->get();
         $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
                         ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
@@ -110,16 +113,19 @@ class UserController extends Controller {
     }
 
     public function addContact() {
+        header('Access-Control-Allow-Origin: *');
         $input = Input::all();
-
         $name = explode(' ', $input['contactData']['name']);
         $input['contactData']['first_name'] = $name[0];
         if (!empty($name[1])) {
             $input['contactData']['last_name'] = $name[1];
         }
-
         $result = Contactus::create($input['contactData']);
-        return json_encode(['result' => $result, 'status' => true]);
+        if ($result) {
+            return json_encode(['result' => $result, 'status' => true]);
+        } else {
+            return json_encode(['result' => '']);
+        }
     }
 
     public function create_testimonials() {
@@ -142,7 +148,7 @@ class UserController extends Controller {
     }
 
     public function getCareers() {
-        $result = WebCareers::where('deleted_status',0)->get();
+        $result = WebCareers::where('deleted_status', 0)->get();
         return json_encode(['result' => $result, 'status' => true]);
     }
 
@@ -341,7 +347,7 @@ class UserController extends Controller {
     }
 
     public function getTestimonials() {
-        $result = WebTestimonials::where('deleted_status',0)->get();
+        $result = WebTestimonials::where('deleted_status', 0)->get();
         return json_encode(['result' => $result, 'status' => true]);
     }
 
