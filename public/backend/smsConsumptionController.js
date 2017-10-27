@@ -31,7 +31,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
+
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
@@ -56,24 +56,24 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
 
 
         $scope.smsLogsExportToxls = function () {
-             $scope.getexcel = window.location = "/bmsConsumption/smsLogsExportToxls";
-                if ($scope.getexcel) {
-                    toaster.pop('info', '', 'Exporting....');
-                } else {
-                    toaster.pop('error', '', 'Exporting fails....');
-                }
+            $scope.getexcel = window.location = "/bmsConsumption/smsLogsExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
         }
-        
+
         $scope.smsLogDetailsExportToxls = function (transId) {
-             $scope.getexcel = window.location = "/bmsConsumption/smsLogDetailsExportToxls/"+ transId;
-                if ($scope.getexcel) {
-                    toaster.pop('info', '', 'Exporting....');
-                } else {
-                    toaster.pop('error', '', 'Exporting fails....');
-                }
+            $scope.getexcel = window.location = "/bmsConsumption/smsLogDetailsExportToxls/" + transId;
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
         }
-        
-        
+
+
         $scope.smsLogsDetails = function (transactionId, pageNumber) {
             $scope.TransId = transactionId;
             Data.post('bmsConsumption/smsLogData', {
@@ -143,6 +143,8 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     $scope.totalSms = response.records;
                     $scope.smsPercentage = response.logsInPercentage;
                     $scope.smsReportLength = response.totalCount;
+                    $scope.firstDateofThisMonth = response.firstDate;
+                    $scope.currentDate = response.curentDate;
                     for (var j = 0; j < $scope.totalSms.length; j++) {
                         $scope.fail = response.records[j].fail;
                     }
@@ -186,7 +188,8 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
             }).then(function (response) {
                 $scope.smsPercentage = response.logInPercentage;
                 $scope.totalSms = response.records;
-
+                $scope.firstDateofThisMonth = response.firstDate;
+                $scope.currentDate = response.currentDate;
 
                 $scope.fail = response.records[0].fail;
                 if ($scope.fail == 0) {
