@@ -706,6 +706,7 @@ class MasterHrController extends Controller {
             $username = $input['userData']['username'];
             $input['userData']['password'] = \Hash::make($input['userData']['password']);
             $input['userData']['remember_token'] = str_random(10);
+            $input['userData']['employee_status'] = 1;
 
             if (!empty($input['userData']['loggedInUserId'])) {
                 $loggedInUserId = $input['userData']['loggedInUserId'];

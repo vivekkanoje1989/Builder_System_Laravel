@@ -117,7 +117,7 @@
 
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody> 
                             <tr role="row" dir-paginate="listSms in teamsmslogslist | filter:search |filter:searchData| itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort " >
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ listSms.call_date}} @ {{listSms.call_time}}</td>
@@ -139,9 +139,10 @@
                             </tr>
                              <tr>
                                 <td colspan="8"  ng-show="(teamsmslogslist|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="8"  ng-if="teamsmslogslength == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
-                    </table><br>
+                    </table>
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>

@@ -117,21 +117,20 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
             photo_url.upload.then(function (response) {
 
                 if (response.data.success) {
-
                     $scope.testimonialsBtn = false;
                     if ($scope.testimonial_id == 0) {
                         toaster.pop('success', 'Testimonials', 'Record successfully created');
                         if (response.data.records.approve_status == '1') {
-                            $state.go('testimonialsManage');
-                        } else {
                             $state.go('testimonialsIndex');
+                        } else {
+                            $state.go('testimonialsManage');
                         }
                     } else {
                         toaster.pop('success', 'Testimonials', 'Record successfully updated');
                         if (response.data.records.approve_status == '1') {
-                            $state.go('testimonialsManage');
-                        } else {
                             $state.go('testimonialsIndex');
+                        } else {
+                            $state.go('testimonialsManage');
                         }
                     }
                 }

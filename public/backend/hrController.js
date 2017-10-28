@@ -1017,7 +1017,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         type: "warning", //type -- adds appropiriate icon
                         showCancelButton: true, // displays cancel btton
                         confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Yes, delete it!",
+                        confirmButtonText: "Yes, suspend it!",
                         closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
                         closeOnCancel: false
                     },
