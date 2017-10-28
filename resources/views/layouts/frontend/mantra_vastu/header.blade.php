@@ -35,6 +35,7 @@
     <link rel="apple-touch-icon-precomposed" href="frontend/mantra_vastu/images/ico/apple-touch-icon-57.png"/>
     <link rel="shortcut icon" href="frontend/mantra_vastu/images/ico/favicon.ico"/>
 </head>
+<body ng-app="app">
 <div class="navbar">
     <div class="navbar-inner">
         <div class="container" style="padding: 0px 0px!important">
@@ -51,17 +52,17 @@
                 <span>Homes for Life</span>
             </div>                    
             <!-- Main navigation -->
-            <div class="navbar-collapse collapse pull-right">
+<!--            <div class="navbar-collapse collapse pull-right">
                 <ul class="nav" id="top-navigation">
                     <li class="active"><a href="#home" target="_self">Home</a></li>
                     <li><a href="/projects">Projects</a></li>
-                    <li><a href="" ng-click="scrollTo('about')">About</a></li>
+                    <li><a href="#about">About</a></li>
                     <li><a href="#clients" target="_self">Testimonials</a></li>
                     <li><a href="#careers" target="_self">Careers</a></li>
                     <li><a href="#contact" target="_self">Contact</a></li>
                 </ul>
-            </div>
-<!--                    <div class="navbar-collapse collapse" ng-init="getMenus()"> 
+            </div>-->
+                    <div class="navbar-collapse collapse" ng-init="getMenus()"> 
                 <ul class="jt-menu  nav navbar-nav">
                     <li ng-repeat="menu in getMenus" class="item-114"  ng-click="select(menu.id)" ng-class="{active: isActive(menu.id)}">
                         <a class="nav-main-link"  href="/{{menu.page_name}}">{{menu.page_name}}</a>
@@ -73,7 +74,7 @@
                     </li>
                 </ul>
                 <div style="clear: both;"></div>
-            </div>-->
+            </div>
             <!-- End main navigation -->
         </div>
     </div>

@@ -168,7 +168,7 @@
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="EnqLocation.city_id" name="city_id"  required>
                                     <option value="">Select city</option>
-                                    <option  ng-repeat="itemone in cityRow" ng-selected="{{ city == itemone.id}}" value="{{itemone.id}}">{{itemone.name}}</option>
+                                    <option  ng-repeat="itemone in cityRow" ng-selected="{{ city_id == itemone.city_id}}" value="{{itemone.city_id}}">{{itemone.name}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="EnqLocationForm.city_id.$error">

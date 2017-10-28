@@ -160,6 +160,11 @@ $(document).ready(function(){
 });
   
 </script> 
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+<script src="/backend/app/ng-file-upload.js"></script>
+<script src="/frontend/frontend.js"></script>
+<!--<script src="/frontend/mantra_vastu/assets/js/Data.js"></script>-->
+
 <script src="frontend/mantra_vastu/js/jquery.bxslider.min.js" type="text/javascript"></script>
 <script src="frontend/mantra_vastu/js/jquery.mixitup.js" type="text/javascript"></script>
 <script src="frontend/mantra_vastu/js/bootstrap.js" type="text/javascript"></script>

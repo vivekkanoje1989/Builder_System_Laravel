@@ -48,7 +48,7 @@
 
                             <div class="form-item">
                                 <label class="form-item-label">Name<span class="err">*</span></label>
-                                <input type="text" name="name" ng-model="contact.name" class="form-control" required>
+                                <input type="text" name="name" ng-model="contact.name" class="form-control" oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,' ')" required>
                                 <div ng-show="sbtBtn" ng-messages="contactForm.name.$error">
                                     <div ng-message="required" class="err">Name is required</div>
                                 </div>
@@ -63,7 +63,7 @@
                             </div>
                             <div class="form-item">
                                 <label class="form-item-label">Mobile Number<span class="err">*</span></label>
-                                <input type="tel" name="mobile_number" ng-model="contact.mobile_number"  ng-maxlength="10" ng-minlength="10" class="form-control" required>
+                                <input type="tel" name="mobile_number" ng-model="contact.mobile_number"  ng-maxlength="10" ng-minlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="contactForm.mobile_number.$error" class="err">
                                     <div ng-message="required" class="err">Mobile number is required</div>
                                     <div ng-message="maxlength" class="err">Mobile number is must be 10 digit</div>
@@ -89,10 +89,10 @@
                         </form>
 
 
-                        <script type="text/javascript">rsfp_addEvent(window, 'load', function () {
+<!--                        <script type="text/javascript">rsfp_addEvent(window, 'load', function () {
                                         var form = rsfp_getForm(3);
                                         form.onsubmit = ajaxValidation;
-                                    });</script>
+                                    });</script>-->
                     </div>
                 </div> 
             </div>

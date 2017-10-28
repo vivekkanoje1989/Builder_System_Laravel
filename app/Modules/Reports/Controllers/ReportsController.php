@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Modules\Reports\Controllers;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Modules\Projects\Models\Project;
 use App\Models\MlstBmscEnquirySalesSources;
 use DB;
 use Auth;
-
 class ReportsController extends Controller {
 
     public function __construct() {
@@ -40,7 +38,10 @@ class ReportsController extends Controller {
         } else {
             $flag = 0;
         }
-      $category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id $condition GROUP BY e.sales_category_id";
+
+        //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM lmsauto_client_final.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.`sales_category_id` = eqty.id WHERE e.`sales_status_id`IN(1,2) AND e.`sales_employee_id` = $employee_id AND $condition GROUP BY e.`sales_category_id`";
+        $category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id $condition GROUP BY e.sales_category_id";
+
         $category_wise_report = DB::select($category_wise_report);
         $category_wise_total = array();
         $cold_count = 0;
@@ -292,8 +293,6 @@ class ReportsController extends Controller {
             return json_encode($result);
         }
     }
-
-   
 
     public function getTeamcategoryreports() {
         $response = array();
@@ -1386,6 +1385,7 @@ class ReportsController extends Controller {
         $request = json_decode($postdata, true);
 
         $results_enquiry_type = DB::select('select ess.id,ess.sales_source_name,COUNT(*) as cnt FROM  enquiries as e INNER JOIN laravel_developement_builder_client.enquiry_details as detail ON e.id = detail.enquiry_id INNER JOIN laravel_developement_builder_client.projects as p ON detail.project_id = p.id INNER JOIN  laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as ess WHERE e.sales_source_id = ess.id AND detail.project_id = "' . $request['project_id'] . '" AND e.sales_employee_id  IN("' . $request['source']['employee_id'] . '")  AND e.sales_status_id IN(1,2,5) group by ess.id');
+
         $result = json_decode(json_encode($results_enquiry_type), true);
 
         $sourceReport = [];

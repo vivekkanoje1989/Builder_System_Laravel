@@ -157,15 +157,16 @@
 
                             </tr>
                             <tr>
-                                <td colspan="8"  ng-show="(myRequest|filter:search | filter:searchData).length == 0" align="center">Records Not Found</td>   
-                            </tr>
+                                <td colspan="8"  ng-show="(myRequest | filter:search | filter:searchData).length == 0" align="center">Records Not Found</td>   
+                            <td colspan="8"  ng-if="myRequestCount == 0" align="center">Records Not Found</td>   
+                                </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                          </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" ng-if="myRequest.length >=0">
                             <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
                                 <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
                             </div>

@@ -33,7 +33,7 @@ var app = angular.module('app', ['ngFileUpload',
 //}]);
 
 app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', function ($scope, Upload, $timeout, $http, $location, $rootScope) {
-        
+        alert("gg");
         $scope.submitted = false;
         $scope.empl = true;
         $scope.career = true;
@@ -130,7 +130,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 $scope.getMenus = response.data.result;
             });
         }
-        $scope.getProjects = function () {
+        $scope.getProjects = function () {alert("hh");
             $http.get(baseUrl + 'getCurrentProjectDetails').then(function (response) {
                 $scope.current = response.data.current;
             });
@@ -278,17 +278,17 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
 
 
 
-        $scope.doContactAction = function (contact) {
-
-            var v = grecaptcha.getResponse();
-            if (v.length != '0') {
-                $scope.recaptcha = '';
-                $scope.sbtBtn = false;
-                $scope.submitted = true;
-            } else {
-                $scope.recaptcha = "Please revalidate captcha";
-            }
-        }
+//        $scope.doContactAction = function (contact) {
+//            alert("hi");
+            //var v = grecaptcha.getResponse();
+//            if (v.length != '0') {
+//                $scope.recaptcha = '';
+//                $scope.sbtBtn = false;
+//                $scope.submitted = true;
+//            } else {
+//                $scope.recaptcha = "Please revalidate captcha";
+//            }
+//        }
         $scope.doApplicantAction = function (career, resumeFileName, photoUrl)
         {
             var v = grecaptcha.getResponse();

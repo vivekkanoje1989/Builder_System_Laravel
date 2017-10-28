@@ -23,11 +23,7 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
                 .when('/testimonials', {
                     templateUrl: 'website/testimonials',
                     controller: 'AppCtrl'
-                })
-                .when('/testimonial', {
-                    templateUrl: 'website/testimonial',
-                    controller: 'AppCtrl'
-                })
+                })                
                 .when('/contact', {
                     templateUrl: 'website/contact',
                     controller: 'AppCtrl'
@@ -96,7 +92,7 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
         $locationProvider.html5Mode({enabled: true, requireBase: true});
     }]);
 app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', function ($scope, Upload, $timeout, $http, $location, $rootScope) {
-         $scope.submitted = false;
+        $scope.submitted = false;
         $scope.empl = true;
         $scope.contact = {};
         $scope.career = {};
@@ -349,11 +345,12 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         }
 
 
-
         $scope.doContactAction = function (contact) {
-            var v = grecaptcha.getResponse();
-            
-            if (v.length != '0') {
+            //alert("uma");
+
+//            var v = grecaptcha.getResponse();
+//            
+//            if (v.length != '0') {
             $http.post(baseUrl + 'addContact', 
                 {contactData: contact}).then(function (response) {
                     if (response.data.status == true) {
@@ -365,9 +362,9 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                         $timeout(function () {
                             $scope.contact = {};
                             $scope.contactForm.$setPristine();
-                            grecaptcha.reset();
+//                            grecaptcha.reset();
                             $scope.sbtBtn = false;
-                            $scope.recaptcha = '';
+                            //$scope.recaptcha = '';
 //                        $scope.loginAlertMessage = true;
                         });
                     }
@@ -376,9 +373,9 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                         $scope.err_msg = "Please Select image for upload";
                     }
                 });
-            } else {
-                $scope.recaptcha = "Please revalidate captcha";
-            }
+//            } else {
+//                $scope.recaptcha = "Please revalidate captcha";
+//            }
         }
         $scope.doApplicantAction = function (career, resumeFileName, photoUrl)
         {

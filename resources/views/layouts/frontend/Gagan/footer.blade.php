@@ -47,18 +47,13 @@
 <!-- JavaScript file links --> 
 <title page-title>BMS Builder</title>  
 
-<script type='text/javascript' src='/frontend/Gagan/js/jquery.js'></script><script src="/frontend/angular.min.js"></script>
+<script src='/frontend/Gagan/js/jquery.js'></script>
 <script src="/frontend/angular-route.min.js"></script>
 <script src="/frontend/angular-animate.min.js"></script>
 <script src="/backend/app/ng-file-upload.js"></script>
 <script src="/frontend/route.js"></script>
-
-<script type='text/javascript' src='/frontend/Gagan/js/angular.min.js'></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
-
-<script  type='text/javascript' src="/frontend/Gagan/js/recaptcha.js"></script> <!-- Jquery --> 
-<script  type='text/javascript' src="/frontend/Gagan/js/bootstrap.min.js"></script> <!-- bootstrap 3.0 --> 
+<script  src="/frontend/Gagan/js/recaptcha.js"></script> <!-- Jquery --> 
+<script  src="/frontend/Gagan/js/bootstrap.min.js"></script> <!-- bootstrap 3.0 --> 
 <script  type='text/javascript' src="/frontend/Gagan/js/respond.js"></script> 
 <script  type='text/javascript' src="/frontend/Gagan/js/jquery.bxslider.min.js"></script> <!-- bxslider --> 
 <script  type='text/javascript' src="/frontend/Gagan/js/tabs.js"></script> <!-- tabs --> 
@@ -67,3 +62,11 @@
 <!-- light box -->
 <script type="text/javascript" src="/frontend/Gagan/img_slide/jquery.fancybox.js"></script>
 <script type="text/javascript" src="/frontend/Gagan/img_slide/slide.js"></script>
+
+<!--<script src="frontend/Gagan/js/jquery.js"></script>  Jquery  
+<script src="frontend/Gagan/js/recaptcha.js"></script>  Jquery  
+<script src="frontend/Gagan/js/bootstrap.min.js"></script>  bootstrap 3.0  
+<script src="frontend/Gagan/js/respond.js"></script> 
+<script src="frontend/Gagan/js/jquery.bxslider.min.js"></script>  bxslider  
+<script src="frontend/Gagan/js/tabs.js"></script>  tabs  
+<script src="frontend/Gagan/js/jquery.nouislider.min.js"></script>  price slider  -->
