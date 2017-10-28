@@ -1716,6 +1716,7 @@ class MasterHrController extends Controller {
         $authkey = trim($request["authkey"]);
         //checking for user related to authkey.
         $empModel = Employee::where('mobile_remember_token', $authkey)->first();
+        
         if (!empty($empModel)) {
             $teams = array();
             $validate = Employee::where('client_id', $empModel->client_id)->get();
@@ -1723,14 +1724,16 @@ class MasterHrController extends Controller {
             $client = \App\Models\ClientInfo::where(['id' => $empModel->client_id])->first();
             foreach ($validate as $value) {
                 $title = DB::connection('masterdb')->table('mlst_titles')->where('id', '=', $value->title_id)->select('title')->first();
+               if(!empty($title->title)){
                 $value->title = $title->title;
+               }
 
                 if (!empty($value->employee_photo_file_name)) {
                     $value->employee_photo_file_name = config('global.s3Path') . '/employee-photos/' . $value->employee_photo_file_name;
                 } else {
                     $value->employee_photo_file_name = '';
                 }
-
+                
                 if (!empty($value->department_id))
                     $value->department_id = explode(',', $value->department_id);
                 $designations = DB::connection('masterdb')->table('mlst_bmsb_designations')->where('id', '=', $value->designation_id)->select('designation')->first();
@@ -1739,6 +1742,7 @@ class MasterHrController extends Controller {
                 $value->employee_menus = json_decode($value->employee_submenus);
                 $teams[] = $value->getAttributes();
             }
+          
             $this->allusers = array();
             $this->getTeamIds($empModel->id);
             $alluser = $this->allusers;

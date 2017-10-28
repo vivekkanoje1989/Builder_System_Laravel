@@ -1614,6 +1614,7 @@ Regards,<br>
                     }
                 } else {
                     $loggedInUserId = $request['empId'];
+                    $login_id = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_lost_enquiries";
                         return $this->filteredData();
@@ -1632,6 +1633,7 @@ Regards,<br>
                     $login_id = $employees->alluser;
                 } else {
                     $loggedInUserId = $request['empId'];
+                    $login_id = $request['empId'];
                     $this->allusers = array();
                     $this->getTeamIds($loggedInUserId);
                     $loggedInUserId = implode(',', $this->allusers);
@@ -1695,6 +1697,7 @@ Regards,<br>
                     }
                 } else {
                     $loggedInUserId = $request['empId'];
+                    $login_id = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_booked_enquiries";
                         return $this->filteredData();
@@ -1713,6 +1716,7 @@ Regards,<br>
                     $login_id = $employees->alluser;
                 } else {
                     $loggedInUserId = $request['empId'];
+                    $login_id = $request['empId'];
                     $this->allusers = array();
                     $this->getTeamIds($loggedInUserId);
                     $loggedInUserId = implode(',', $this->allusers);
@@ -1775,6 +1779,7 @@ Regards,<br>
                     }
                 } else {
                     $loggedInUserId = $request['empId'];
+                    $login_id = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_previous_followups";
                         return $this->filteredData();
@@ -1797,6 +1802,7 @@ Regards,<br>
                     $login_id = $employees->alluser;
                 } else {
                     $loggedInUserId = $request['empId'];
+                    $login_id = $request['empId'];
                     $this->allusers = array();
                     $this->getTeamIds($loggedInUserId);
                     $loggedInUserId = implode(',', $this->allusers);
@@ -1843,12 +1849,10 @@ Regards,<br>
 
     public function getPendingFollowups() {// Pending Followups 
         try {
-
             $MyClass = new MasterSalesController();
             $employees = json_decode($MyClass->sharedEnquiriesEmployee());
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
                     $login_id = $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -1861,6 +1865,7 @@ Regards,<br>
                     }
                 } else {
                     $loggedInUserId = $request['empId'];
+                     $login_id = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_pending_followups";
                         return $this->filteredData();
@@ -1879,6 +1884,7 @@ Regards,<br>
                     $login_id = $employees->alluser;
                 } else {
                     $loggedInUserId = $request['empId'];
+                    $login_id = $request['empId'];
                     $this->allusers = array();
                     $this->getTeamIds($loggedInUserId);
                     $loggedInUserId = implode(',', $this->allusers);
@@ -1886,6 +1892,7 @@ Regards,<br>
                         MasterSalesController::$procname = "proc_get_pending_followups";
                         return $this->filteredData();
                     }
+                    
                 }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
