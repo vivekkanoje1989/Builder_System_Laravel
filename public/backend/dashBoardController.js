@@ -162,7 +162,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                 $scope.hideloader();
                 $scope.myRequest = response.records;
                 $scope.exportMyRequest = response.exportData;
-                $scope.totalCount = $scope.myRequest.length;
+                $scope.myRequestCount = response.totalCount;
             });
         };
         $scope.getRequestForMe = function ()

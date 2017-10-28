@@ -560,7 +560,8 @@ angular.module('app')
                                     templateUrl: '/projects/webpageIndex',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Project Configurations'
+                                        title: 'Project Configurations',
+                                        label: 'Project Configurations',
                                     },
                                     resolve: {
                                         deps:
@@ -645,7 +646,8 @@ angular.module('app')
                                     templateUrl: '/wings/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Wings'
+                                        title: 'Manage Wings',
+                                        label: 'Manage Wings',
                                     },
                                     resolve: {
                                         deps:
@@ -671,7 +673,9 @@ angular.module('app')
                                     templateUrl: '/wings/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create Wings'
+                                        parent: 'wingsIndex',
+                                        title: 'Create Wings',
+                                        label: 'Create Wings',
                                     },
                                     resolve: {
                                         deps:
@@ -701,6 +705,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent: 'wingsIndex',
+                                        title: 'Update Wings',
                                         label: 'Update Wings'
                                     },
                                     resolve: {
@@ -827,7 +833,6 @@ angular.module('app')
                                         parent: 'smslogs',
                                         label: 'Sms logs details',
                                         title: 'Sms logs details',
-                                        description: ''
                                     },
                                     resolve: {
                                         deps: [
@@ -3524,6 +3529,7 @@ angular.module('app')
                                     templateUrl: '/enquiry-location/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        title: 'Manage Enquiry Location',
                                         label: 'Manage Enquiry Location',
                                         description: ''
                                     },
@@ -3554,6 +3560,7 @@ angular.module('app')
                                     templateUrl: '/manage-designations/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        title: 'Manage Designations',
                                         label: 'Manage Designations',
                                         description: ''
                                     },
@@ -3582,6 +3589,7 @@ angular.module('app')
                                     templateUrl: '/storage-list/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        title: 'My Storage / Storage List',
                                         label: 'My Storage / Storage List',
                                         title: 'Storage List',
                                     },
@@ -3610,6 +3618,7 @@ angular.module('app')
                                     templateUrl: '/sharedwith-me/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        title: 'My Storage / Shared With Me',
                                         label: 'My Storage / Shared With Me',
                                         title: 'Shared With Me',
                                     },
@@ -3638,6 +3647,7 @@ angular.module('app')
                                     templateUrl: '/recycle-bin/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        title: 'My Storage / Recycle Bin',
                                         label: 'My Storage / Recycle Bin',
                                         title: 'Recycle Bin',
                                     },
@@ -4056,6 +4066,7 @@ angular.module('app')
                                     templateUrl: '/projects/availability',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        title: 'Project Availability',
                                         label: 'Project Availability',
                                         description: ''
                                     },
@@ -4111,6 +4122,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent: 'projectAvailability',
+                                        title: 'Project Availability',
                                         label: 'Project Availability',
                                         description: ''
                                     },
@@ -4390,7 +4403,8 @@ angular.module('app')
                                     templateUrl: '/reports/projectOverviewReport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Project wise Reports'
+                                        title: 'Project wise Reports',
+                                        label: 'Project wise Reports',
                                     },
                                     resolve: {
                                         deps:

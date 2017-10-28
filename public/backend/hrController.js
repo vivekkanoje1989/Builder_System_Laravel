@@ -1340,8 +1340,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         $timeout(function () {
                             $rootScope.imageUrl = response.data.photo;
                         }, 300);
-                        $scope.reload();
-                        $scope.reload();
+                        window.reload();
                     }
                 });
             }

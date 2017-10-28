@@ -24,11 +24,11 @@
             </div>
             <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
                 <ul class="steps">
-                    <li  class="wiredstep1 active"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
-                    <li  class="wiredstep2"><span class="step btn-nxt1">2</span><span class="title">Contact Information</span> <span class="chevron"></span></li>
-                    <li  class="wiredstep3"><span class="step btn-nxt2">3</span><span class="title">Educational & Other Details</span> <span class="chevron"></span></li>
-                    <li  class="wiredstep4"><span class="step btn-nxt3">4</span><span class="title">Job Offer Details</span> <span class="chevron"></span></li>
-                    <li  class="wiredstep5"><span class="step btn-nxt4">5</span><span class="title">User status</span> <span class="chevron"></span></li>
+                    <li class="wiredstep1 active"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
+                    <li class="wiredstep2"><span class="step btn-nxt1">2</span><span class="title">Contact Information</span> <span class="chevron"></span></li>
+                    <li class="wiredstep3"><span class="step btn-nxt2">3</span><span class="title">Educational & Other Details</span> <span class="chevron"></span></li>
+                    <li class="wiredstep4"><span class="step btn-nxt3">4</span><span class="title">Job Offer Details</span> <span class="chevron"></span></li>
+                    <li class="wiredstep5"><span class="step btn-nxt4">5</span><span class="title">User status</span> <span class="chevron"></span></li>
                 </ul>
             </div>
             <div class="step-content" id="WiredWizardsteps"  >

@@ -10,6 +10,9 @@
         padding: 5px;
         width: 110%;
     }
+     .displayDetails td{
+        border:none !important;
+    }
 </style>
 <div class="row" ng-controller="dashboardCtrl" ng-init="getRequestForMe()">  
     <div class="mainDiv col-xs-12 col-md-12">
@@ -162,13 +165,18 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">Request Description</h4>
                 </div>
-                <table class="table table-stripped table-bordered" style="margin:20px 20px 20px 20px; width:90%;">
-                    <tr><td>Date</td><td>{{in_date}}</td></tr>
+                <table class="table table-stripped table-hover displayDetails" style="margin:20px 20px 20px 20px; width:90%;">
+                     <tr><td style="font-weight: 600;">DATE</td><td class="text-center"><b>:</b></td><td>{{in_date}}</td></tr>
+                     <tr><td style="font-weight: 600;">REQUEST TYPE</td><td class="text-center"><b>:</b></td><td>{{request_type}}</td></tr>
+                    <tr><td style="font-weight: 600;">TO</td><td class="text-center"><b>:</b></td><td>{{to_name}}</td></tr>
+                    <tr><td style="font-weight: 600;">CC</td><td class="text-center"><b>:</b></td><td>{{cc_name}}</td></tr>
+                    <tr><td style="font-weight: 600;">DESCRIPTION</td><td class="text-center"><b>:</b></td><td>{{req_desc}}</td></tr>
+<!--                    <tr><td>Date</td><td>{{in_date}}</td></tr>
                     <tr><td>Request Type</td><td>{{request_type}}</td></tr>
                     <tr><td>To</td><td>{{to_name}}</td></tr>
                     <tr><td>CC</td><td>{{cc_name}}</td></tr>
-                    <tr><td>Description</td><td>{{req_desc}}</td></tr>
-                    <tr><td>Status</td><td>{{status == 1 ? "Requested" : status == 2 ? "Rejected" :"Accepted" }}</td></tr>
+                    <tr><td>Description</td><td>{{req_desc}}</td></tr>-->
+                    <tr><td style="font-weight: 600;">STATUS</td><td class="text-center"><b>:</b></td><td>{{status == 1 ? "Requested" : status == 2 ? "Rejected" :"Accepted" }}</td></tr>
                 </table>
                 <br/>
             </div>
@@ -182,13 +190,13 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">Status Description</h4>
                 </div>
-                <table class="table table-stripped table-bordered" style="margin:20px 20px 20px 20px; width:90%;">
-                    <tr><td>Date</td><td>{{in_date}}</td></tr>
-                    <tr><td>Request Type</td><td>{{request_type}}</td></tr>
-                    <tr><td>To</td><td>{{to_name}}</td></tr>
-                    <tr><td>CC</td><td>{{cc_name}}</td></tr>
-                    <tr><td>Description</td><td>{{req_desc}}</td></tr>
-                    <tr><td>Status</td><td>{{status == 1 ? "Requested" : status == 2 ? "Rejected" :"Accepted" }}</td></tr>
+                <table class="table table-stripped displayDetails" style="margin:20px 20px 20px 20px; width:90%;">
+                    <tr><td style="font-weight: 600;">DATE</td><td class="text-center"><b>:</b></td><td>{{in_date}}</td></tr>
+                     <tr><td style="font-weight: 600;">REQUEST TYPE</td><td class="text-center"><b>:</b></td><td>{{request_type}}</td></tr>
+                    <tr><td style="font-weight: 600;">TO</td><td class="text-center"><b>:</b></td><td>{{to_name}}</td></tr>
+                    <tr><td style="font-weight: 600;">CC</td><td class="text-center"><b>:</b></td><td>{{cc_name}}</td></tr>
+                    <tr><td style="font-weight: 600;">DESCRIPTION</td><td class="text-center"><b>:</b></td><td>{{req_desc}}</td></tr>
+                    <tr><td style="font-weight: 600;">STATUS</td><td class="text-center"><b>:</b></td><td>{{status == 1 ? "Requested" : status == 2 ? "Rejected" :"Accepted" }}</td></tr>
                 </table>
                 <form novalidate ng-submit="requestForForm.$valid && changeStatus()" name="requestForForm">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">

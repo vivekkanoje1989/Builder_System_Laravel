@@ -1307,7 +1307,7 @@ Regards,<br>
     }
 
     public function getEmployeeData() {
-        $getpresalesEmployees = Employee::join('lmsauto_master_final.mlst_lmsa_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
+        $getpresalesEmployees = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                 ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
                 ->where("employees.employee_status", 1)
                 ->where('employees.id', '<>', Auth::guard('admin')->user()->id)

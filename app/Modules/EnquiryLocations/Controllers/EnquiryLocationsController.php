@@ -24,7 +24,7 @@ class EnquiryLocationsController extends Controller {
         $getLocations = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
                 ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
                 ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
-                ->select('lst_enquiry_locations.location', 'lst_enquiry_locations.id', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                ->select('lst_enquiry_locations.location', 'lst_enquiry_locations.id', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.id as city_id','mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
                 ->where('lst_enquiry_locations.deleted_status', '!=', 1)
                 ->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);

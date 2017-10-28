@@ -40,7 +40,7 @@ class ReportsController extends Controller {
         } else {
             $flag = 0;
         }
-        //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM lmsauto_client_final.enquiries e INNER JOIN lmsauto_master_final.mlst_enquiry_sales_categories as eqty ON e.`sales_category_id` = eqty.id WHERE e.`sales_status_id`IN(1,2) AND e.`sales_employee_id` = $employee_id AND $condition GROUP BY e.`sales_category_id`";
+        //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM lmsauto_client_final.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.`sales_category_id` = eqty.id WHERE e.`sales_status_id`IN(1,2) AND e.`sales_employee_id` = $employee_id AND $condition GROUP BY e.`sales_category_id`";
         $category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id $condition GROUP BY e.sales_category_id";
         $category_wise_report = DB::select($category_wise_report);
         $category_wise_total = array();
@@ -308,9 +308,9 @@ class ReportsController extends Controller {
         if (!empty($request['model_id'])) {
             $model_ids = $request['model_id'];
             if (!empty($condition))
-                $condition .= "AND lmsauto_master_final.mlst_lmsa_models.`id` IN($model_ids)";
+                $condition .= "AND laravel_developement_master_edynamics.mlst_lmsa_models.`id` IN($model_ids)";
             else
-                $condition .= "lmsauto_master_final.mlst_lmsa_models.`id` IN($model_ids)";
+                $condition .= "laravel_developement_master_edynamics.mlst_lmsa_models.`id` IN($model_ids)";
         }
         if (!empty($request['flag'])) {
             $flag = $request['flag'];
@@ -318,9 +318,9 @@ class ReportsController extends Controller {
             $flag = 0;
         }
         if ($flag == 0) {
-            $top_query = "SELECT count(*)as cnt,lmsauto_master_final.mlst_lmsa_models.model_name from lmsauto_client_final.enquiry_followups enqf INNER JOIN lmsauto_client_final.enquiry_details ON enqf.booked_vehicle_id=lmsauto_client_final.enquiry_details.id INNER JOIN lmsauto_client_final.enquiries enq ON enq.id=enqf.enquiry_id INNER JOIN lmsauto_master_final.mlst_lmsa_models ON lmsauto_master_final.mlst_lmsa_models.id= lmsauto_client_final.enquiry_details.model_id WHERE enq.sales_employee_id = $emp_id AND enqf.sales_status_id=3 GROUP BY lmsauto_master_final.mlst_lmsa_models.id";
+            $top_query = "SELECT count(*)as cnt,laravel_developement_master_edynamics.mlst_lmsa_models.model_name from lmsauto_client_final.enquiry_followups enqf INNER JOIN lmsauto_client_final.enquiry_details ON enqf.booked_vehicle_id=lmsauto_client_final.enquiry_details.id INNER JOIN lmsauto_client_final.enquiries enq ON enq.id=enqf.enquiry_id INNER JOIN laravel_developement_master_edynamics.mlst_lmsa_models ON laravel_developement_master_edynamics.mlst_lmsa_models.id= lmsauto_client_final.enquiry_details.model_id WHERE enq.sales_employee_id = $emp_id AND enqf.sales_status_id=3 GROUP BY laravel_developement_master_edynamics.mlst_lmsa_models.id";
         } else {
-            $top_query = "SELECT count(*)as cnt,lmsauto_master_final.mlst_lmsa_models.model_name from lmsauto_client_final.enquiry_followups enqf INNER JOIN lmsauto_client_final.enquiry_details ON enqf.booked_vehicle_id=lmsauto_client_final.enquiry_details.id INNER JOIN lmsauto_client_final.enquiries enq ON enq.id=enqf.enquiry_id INNER JOIN lmsauto_master_final.mlst_lmsa_models ON lmsauto_master_final.mlst_lmsa_models.id= lmsauto_client_final.enquiry_details.model_id WHERE enq.sales_employee_id = $emp_id AND enqf.sales_status_id=3 AND $condition GROUP BY lmsauto_master_final.mlst_lmsa_models.id";
+            $top_query = "SELECT count(*)as cnt,laravel_developement_master_edynamics.mlst_lmsa_models.model_name from lmsauto_client_final.enquiry_followups enqf INNER JOIN lmsauto_client_final.enquiry_details ON enqf.booked_vehicle_id=lmsauto_client_final.enquiry_details.id INNER JOIN lmsauto_client_final.enquiries enq ON enq.id=enqf.enquiry_id INNER JOIN laravel_developement_master_edynamics.mlst_lmsa_models ON laravel_developement_master_edynamics.mlst_lmsa_models.id= lmsauto_client_final.enquiry_details.model_id WHERE enq.sales_employee_id = $emp_id AND enqf.sales_status_id=3 AND $condition GROUP BY laravel_developement_master_edynamics.mlst_lmsa_models.id";
         }
         $sales_report = DB::select($top_query);
         $salesreportlist['model_report'] = $sales_report;
@@ -1423,7 +1423,7 @@ class ReportsController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
 
-        $results_enquiry_type = DB::select('select ess.id,ess.sales_source_name,COUNT(*) as cnt FROM  enquiries as e INNER JOIN laravel_developement_builder_client.enquiry_details as detail ON e.id = detail.enquiry_id INNER JOIN laravel_developement_builder_client.projects as p ON detail.project_id = p.id INNER JOIN  lmsauto_master_final.mlst_lmsa_enquiry_sales_sources as ess WHERE e.sales_source_id = ess.id AND detail.project_id = "' . $request['project_id'] . '" AND e.sales_employee_id  IN("' . $request['source']['employee_id'] . '")  AND e.sales_status_id IN(1,2,5) group by ess.id');
+        $results_enquiry_type = DB::select('select ess.id,ess.sales_source_name,COUNT(*) as cnt FROM  enquiries as e INNER JOIN laravel_developement_builder_client.enquiry_details as detail ON e.id = detail.enquiry_id INNER JOIN laravel_developement_builder_client.projects as p ON detail.project_id = p.id INNER JOIN  laravel_developement_master_edynamics.mlst_lmsa_enquiry_sales_sources as ess WHERE e.sales_source_id = ess.id AND detail.project_id = "' . $request['project_id'] . '" AND e.sales_employee_id  IN("' . $request['source']['employee_id'] . '")  AND e.sales_status_id IN(1,2,5) group by ess.id');
         $result = json_decode(json_encode($results_enquiry_type), true);
 
         $sourceReport = [];

@@ -86,8 +86,10 @@ class BmsConsumptionController extends Controller {
             $smsPercentage[] = $reportDataP;
         }
 
+        $firstDateofThisMonth = date('01-m-Y');
+        $currentDate = date('d-m-Y');
         if (!empty($reportData)) {
-            $result = ['success' => true, 'records' => $smsReport, 'logInPercentage' => $smsPercentage];
+            $result = ['success' => true, 'records' => $smsReport, 'logInPercentage' => $smsPercentage, 'firstDate' => $firstDateofThisMonth, 'currentDate' => $currentDate];
         } else {
             $result = ['success' => false, 'records' => $smsReport, 'logInPercentage' => $smsPercentage];
         }
@@ -481,8 +483,11 @@ class BmsConsumptionController extends Controller {
         $enqCnt = DB::select("select FOUND_ROWS() totalCount");
         $enqCnt = $enqCnt[0]->totalCount;
         $i = 0;
+        $firstDateofThisMonth =!empty($filterData['fromDate']) ? date('Y-m-d', strtotime($filterData['fromDate'])) : "";
+        $currentDate =  !empty($filterData['toDate']) ? date('Y-m-d', strtotime($filterData['toDate'])) : "";
+        
         if ($totalRecords != 0) {
-            $result = ['success' => true, 'records' => $reportFilterData, 'logsInPercentage' => $smsPercentage, 'totalCount' => $enqCnt];
+            $result = ['success' => true, 'records' => $reportFilterData, 'logsInPercentage' => $smsPercentage, 'totalCount' => $enqCnt,'firstDate' =>$firstDateofThisMonth, 'curentDate'=>$currentDate];
         } else {
             $result = ['success' => false, 'records' => $reportFilterData, 'logsInPercentage' => $smsPercentage, 'totalCount' => $enqCnt];
         }
