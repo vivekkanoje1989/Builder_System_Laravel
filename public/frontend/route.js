@@ -346,7 +346,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
 
 
         $scope.doContactAction = function (contact) {
-            alert("uma");
+            //alert("uma");
 
 //            var v = grecaptcha.getResponse();
 //            
