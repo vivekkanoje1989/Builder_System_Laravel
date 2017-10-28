@@ -37,7 +37,7 @@ class ExtensionEmployeeController extends Controller {
     public function getCtEmployeeExtension() {
         $ctEmployeesExtension = CtEmployeesExtension::select('ct_employees_extensions.extension_no', 'ct_employees_extensions.id', 'emp.id as employee_id', 'emp.first_name', 'emp.first_name', 'emp.last_name', 'mld.designation')
                 ->leftjoin('employees as emp', 'emp.id', '=', 'ct_employees_extensions.employee_id')
-                ->leftjoin('lmsauto_master_final.mlst_lmsa_designations as mld', 'mld.id', '=', 'emp.designation_id')
+                ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_designations as mld', 'mld.id', '=', 'emp.designation_id')
                 ->orderBy('ct_employees_extensions.id', 'ASC')
                 ->where('ct_employees_extensions.deleted_status', '!=', 1)->get();
         $i = 0;
@@ -83,12 +83,12 @@ class ExtensionEmployeeController extends Controller {
         if (in_array('01401', $array)) {
             $ctEmployeesExtension = CtEmployeesExtension::select('ct_employees_extensions.extension_no', 'ct_employees_extensions.id', 'emp.id as employee_id', 'emp.first_name', 'emp.first_name', 'emp.last_name', 'mld.designation')
                     ->leftjoin('employees as emp', 'emp.id', '=', 'ct_employees_extensions.employee_id')
-                    ->leftjoin('lmsauto_master_final.mlst_lmsa_designations as mld', 'mld.id', '=', 'emp.designation_id')
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_designations as mld', 'mld.id', '=', 'emp.designation_id')
                     ->orderBy('ct_employees_extensions.id', 'ASC')
                     ->get();
             $getCount = CtEmployeesExtension::select('ct_employees_extensions.extension_no', 'ct_employees_extensions.id', 'emp.id as employee_id', 'emp.first_name', 'emp.first_name', 'emp.last_name', 'mld.designation')
                     ->leftjoin('employees as emp', 'emp.id', '=', 'ct_employees_extensions.employee_id')
-                    ->leftjoin('lmsauto_master_final.mlst_lmsa_designations as mld', 'mld.id', '=', 'emp.designation_id')
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_designations as mld', 'mld.id', '=', 'emp.designation_id')
                     ->orderBy('ct_employees_extensions.id', 'ASC')
                     ->get()
                     ->count();
@@ -128,10 +128,10 @@ class ExtensionEmployeeController extends Controller {
         }
         if (!empty($emp_ids)) {
             $emp = @implode(',', $emp_ids);
-            $ExtensionEmployees = Employee::select('employees.id as id', 'employees.first_name', 'employees.last_name', 'mld.designation')->leftjoin('lmsauto_master_final.mlst_lmsa_designations as mld', 'mld.id', '=', 'employees.designation_id')->whereRaw("employees.id NOT IN($emp)")->get();
+            $ExtensionEmployees = Employee::select('employees.id as id', 'employees.first_name', 'employees.last_name', 'mld.designation')->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_designations as mld', 'mld.id', '=', 'employees.designation_id')->whereRaw("employees.id NOT IN($emp)")->get();
         } else {
 
-            $ExtensionEmployees = Employee::select('employees.id as id', 'employees.first_name', 'employees.last_name', 'mld.designation')->leftjoin('lmsauto_master_final.mlst_lmsa_designations as mld', 'mld.id', '=', 'employees.designation_id')->get();
+            $ExtensionEmployees = Employee::select('employees.id as id', 'employees.first_name', 'employees.last_name', 'mld.designation')->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_designations as mld', 'mld.id', '=', 'employees.designation_id')->get();
         }
 
         $numbers = range(0, 99);

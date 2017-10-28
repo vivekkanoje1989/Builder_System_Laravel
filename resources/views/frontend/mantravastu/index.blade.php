@@ -499,6 +499,9 @@
     </div>
 </main>
 @endsection()
+
+
+
 <script>
     $(document).ready(function(){
     $("html, body").animate({
@@ -556,7 +559,6 @@
             url: "http://192.168.0.111:8000/website/addContact",              
             data:{contactData:{name:name,mobile_number:mobile,email_id:email,message:message}},
             success: function(result){
-                alert(result);
                 if(result == '')
                 {
                     
@@ -576,6 +578,7 @@
     }
     
     $("a#home").click(function (e) {
+    //location.href ="http://127.0.0.1:8000";
     e.preventDefault();
     $('html, body').animate({
     scrollTop: $("#homepage").offset().top

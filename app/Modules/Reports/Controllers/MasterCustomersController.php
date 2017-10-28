@@ -49,8 +49,8 @@ class MasterCustomersController extends Controller {
         if (!empty($manageCustomers)) {
             foreach ($manageCustomers as $index => $customer) {
                 $contact_info = DB::table('customers_contacts')
-                        ->leftjoin('lmsauto_master_final.mlst_states as state', 'customers_contacts.state_id', '=', 'state.id')
-                        ->leftjoin('lmsauto_master_final.mlst_cities as city', 'customers_contacts.city_id', '=', 'city.id')
+                        ->leftjoin('laravel_developement_master_edynamics.mlst_states as state', 'customers_contacts.state_id', '=', 'state.id')
+                        ->leftjoin('laravel_developement_master_edynamics.mlst_cities as city', 'customers_contacts.city_id', '=', 'city.id')
                         ->select('customers_contacts.*', 'state.name as state_name', 'city.name as city_name')
                         ->where('customer_id', $customer->id)
                         ->get();

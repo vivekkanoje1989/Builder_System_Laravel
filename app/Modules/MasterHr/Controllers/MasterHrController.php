@@ -2326,5 +2326,8 @@ class MasterHrController extends Controller {
         }
         return \Response()->json($result);
     }
+    
+    
+    
 
 }

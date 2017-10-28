@@ -1,4 +1,4 @@
-@extends('layouts/frontend/mantra_vastu/main')
+@extends('layouts/frontend/mantravastu/main')
 @section('content')    
 <style>
     .nav .current> a{
@@ -11,6 +11,9 @@
     opacity: 1;
     display: inline-block;
 }
+.toggleDiv{
+    display: none;
+}
 </style>
 <main class="main-content"  ng-init="getProjectsAllProjects();getTestimonials();getContactDetails();"  >
     <!-- Portfolio section start -->
@@ -22,16 +25,16 @@
             </div>
             <ul class="nav nav-pills">
                 <li class="filter" data-filter="all">
-                    <a href="#noAction">All</a>
+                    <a href="" class="currentProjects">All</a>
                 </li>
                 <li class="filter" data-filter="current">
-                    <a href="#noAction">Current Projects</a>
+                    <a href="" class="currentProjects">Current Projects</a>
                 </li>
                 <li class="filter" data-filter="completed">
-                    <a href="#noAction">Completed Projects</a>
+                    <a href="" class="currentProjects">Completed Projects</a>
                 </li>
                 <li class="filter" data-filter="upcoming">
-                    <a href="#noAction">Upcoming Projects</a>
+                    <a href="" class="currentProjects">Upcoming Projects</a>
                 </li>
             </ul>
             <!-- Start details for portfolio project 1 -->
@@ -63,14 +66,15 @@
                 </div>
                 <!-- End details for portfolio project 1 -->
                 <!-- Start details for portfolio project 2 -->
-                <div id="slidingDiv1" class="toggleDiv row-fluid single-project">
+                <div ng-repeat="list in current">
+                <div id="slidingDivcurrent{{$index+1}}" class="toggleDiv row-fluid single-project">
                     <div class="span6">
-                        <img src="frontend/mantra_vastu/images/project.jpg" alt="project 1" />
+                        <img src="[[config('global.s3Path')]]/project/project_logo/{{list.project_logo}}" alt="project 1" />
                     </div>
                     <div class="span6">
                         <div class="project-description">
                             <div class="project-title clearfix">
-                                <h3>Project Name</h3>
+                                <h3>{{list.project_name}}</h3>
                                 <span class="show_hide close">
                                     <i class="icon-cancel"></i>
                                 </span>
@@ -82,15 +86,15 @@
                                     <span>Speciafication</span>Sample data</div>
 
                             </div>
-                            <p>Short Description</p>
-                            <a id="enquiry" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">I am Interested</a>
-                            <a href="project-details.html" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
+                            <p>{{list.short_description|htmlToPlaintext | limitTo : 15}}{{list.short_description.length > 15? '': '...'}}</p>                            
+                            <a href="/project-details{{list.id}}" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
                         </div>
                     </div>
                 </div>
+                </div>
                 <!-- End details for portfolio project 2 -->
                 <!-- Start details for portfolio project 3 -->
-                <div id="slidingDiv2" class="toggleDiv row-fluid single-project">
+                <div ng-repeat="list in current" id="slidingDivcompleted{{$index+1}}" class="toggleDiv row-fluid single-project">
                     <div class="span6">
                         <img src="frontend/mantra_vastu/images/project.jpg" alt="project 1" />
                     </div>
@@ -255,7 +259,7 @@
                     <li ng-repeat="list in current"  class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix current" ng-if="current">
                         <div class="thumbnail">
                             <img src="[[config('global.s3Path')]]/project/project_logo/{{list.project_logo}}" alt="project 1">
-                            <a href="#single-project" class="more show_hide" rel="#slidingDivcurrent{{$index+1}}">
+                            <a class="show_hide more" rel="slidingDivcurrent{{$index+1}}">
                                 <i class="icon-plus"></i>
                             </a>
                             <h3>{{list.project_name}}</h3>
@@ -267,7 +271,7 @@
                         <div class="thumbnail">
                             <img src="[[config('global.s3Path')]]/project/project_logo/{{list.project_logo}}" alt="project 1" ng-if="list.project_logo !=''">
                             <img ng-if="list.project_logo == null " src="https://xcski.org/site/wp-content/uploads/2017/05/project.png" style="margin-top: -7%;">
-                            <a href="#single-project" class="more show_hide" rel="#slidingDivcompleted{{$index+1}}">
+                            <a id="slidingDivcompleted{{$index+1}}" class="show_hide more" rel="slidingDivcompleted{{$index+1}}">
                                 <i class="icon-plus"></i>
                             </a>
                             <h3>{{list.project_name}}</h3>
@@ -278,38 +282,17 @@
                     <li ng-repeat="list in upcoming"  class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix upcoming" ng-if="upcoming">
                         <div class="thumbnail">
                             <img src="[[config('global.s3Path')]]/project/project_logo/{{list.project_logo}}" alt="project 1">
-                            <a href="#single-project" class="more show_hide" rel="#slidingDivupcoming{{$index+1}}">
+                            <a class="show_hide more" rel="slidingDivupcoming{{$index+1}}">
                                 <i class="icon-plus"></i>
                             </a>
                             <h3>{{list.project_name}}</h3>
                             <p>{{list.short_description|htmlToPlaintext | limitTo : 15}}{{list.short_description.length > 15? '': '...'}}</p>
                             <div class="mask"></div>
                         </div>
-                    </li>                    
-                    
-<!--                    <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix current" >
-                        <div class="thumbnail">
-                            <img src="frontend/mantra_vastu/images/project.jpg" alt="project 1">
-                            <a href="#single-project" class="more show_hide" rel="#slidingDiv">
-                                <i class="icon-plus"></i>
-                            </a>
-                            <h3>Project Name</h3>
-                            <p>Project Information</p>
-                            <div class="mask"></div>
-                        </div>
                     </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix completed">
-                        <div class="thumbnail">
-                            <img src="frontend/mantra_vastu/images/project.jpg" alt="project 2">
-                            <a href="#single-project" class="show_hide more" rel="#slidingDiv1">
-                                <i class="icon-plus"></i>
-                            </a>
-                            <h3>Project Name</h3>
-                            <p>Project Information</p>
-                            <div class="mask"></div>
-                        </div>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix upcoming">
+                  
+                
+   <!--                 <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix upcoming">
                         <div class="thumbnail">
                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 3">
                             <a href="#single-project" class="more show_hide" rel="#slidingDiv2">
@@ -578,12 +561,32 @@
     <script src="frontend/mantra_vastu/js/jquery.js"></script>
     
     <script>
-                $(document).ready(function () {
+            $(document).ready(function () {
             $('.bxslider').bxSlider({
                 mode: 'fade',
                 captions: true
             });
+                     
+            $(".currentProjects").click(function (e) {
+                $(".nav-pills li").addClass('filter').removeClass('filter active')
+                $(this).parent('li').addClass('filter active').removeClass('filter');
+                 //mix current
+                 //$("thumbnails li").css("display", "none");
+                 $('.thumbnails li').not('.li mix current').css("display", "none");               
+                e.preventDefault();               
+            });
+            $(".show_hide").live("click",function (e) {
+                var id = $(this).attr('rel');
+               $('html, body').animate({
+                    scrollTop: //$('.single-project').not('.single-project '+id).css("display", "none")
+                            $("#"+id).show()
+                    },1500);
+                 $(this).parent('li').addClass('filter active').removeClass('filter');
+                 e.preventDefault();
+                
+            });
         });
+        
                 window.onload = function () {
                     document.getElementById("enquiry").onclick = function () {
                         var e = document.getElementById("enquiry-popup");
@@ -608,6 +611,9 @@
                         h.style.display = "none";
                     };
                 }
+                
+                
+                
     </script>
 </body>
 </html>
