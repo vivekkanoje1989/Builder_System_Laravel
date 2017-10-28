@@ -1,8 +1,7 @@
 <div class="row">
     <div class="widget flat radius-bordered">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="reportsController" ng-init="teamEnquiryReport([[$loggedInUserID]])">
-            <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Team Enquiry Report</h5>-->
-            <div class="widget-header bordered-bottom bordered-themeprimary">
+           <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Team Enquiry Report</span>                
             </div>
             <div class="widget-body col-lg-12 col-sm-12 col-xs-12">
@@ -70,7 +69,7 @@
                                     <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12" style="margin-left:-1%; width: 102%;">
                                         <tabset class="col-md-12">
                                             <tab ng-repeat="emp in empListTab" ng-click="teamcategoryEnquiryReport(emp);"  id="{{'tab' + emp.employee_id}}" heading="{{emp.name}}">
-                                                <div id="category-report">
+                                                <div id="category-report">{{empId}}
                                                     <div class="widget" ng-if="subteam_category_report.length > 0">  
                                                         <p style="margin-left: 90%;" ng-if="empId != '1'" ng-click="closeTab(empId)">
                                                             <button type="button" class="btn btn-default btn-sm">

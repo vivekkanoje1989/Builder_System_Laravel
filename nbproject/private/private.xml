@@ -2,15 +2,8 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/create.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/reportsController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Controllers/ReportsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/updatehr.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Views/teamEnquiryReport.blade.php</file>
         </group>
->>>>>>> 6ff01c21b18e5bb58cfca9c23e0fc1546463b125
     </open-files>
 </project-private>
