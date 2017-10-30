@@ -96,6 +96,8 @@ app.controller('promotionalsmsController', ['$scope', 'Data', 'Upload', '$timeou
                     $scope.smslogslength = response.totalCount;
                     $scope.exportSmsLogs = response.exportSmsLogs;
                 }
+            }else{
+                 $scope.teamsmslogslength = response.totalCount;
             }
             $scope.flagForChange = 0;
             $scope.hideloader();
