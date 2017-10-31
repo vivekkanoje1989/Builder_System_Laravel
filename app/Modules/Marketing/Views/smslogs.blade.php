@@ -18,6 +18,7 @@
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary ">
                 <span class="widget-caption">Sms Logs</span>
+                <span class="helpDescription" ng-mouseover="showHelpSmsLogs()">Help?</span>  
             </div>
             <div class="widget-body table-responsive">
                 

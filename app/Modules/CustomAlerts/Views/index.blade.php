@@ -21,6 +21,7 @@
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Custom Templates</span>
+                <span class="helpDescription" ng-mouseover="showHelpCustomTemplate()">Help?</span>
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">

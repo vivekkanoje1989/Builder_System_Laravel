@@ -1,40 +1,40 @@
 /* category div blocks css */
 #catHot{
-  width: 16px;
-  height: 16px;
-  background-color: red;
-  display: block;
-  border-radius: 8px;
-  float: left;
-  margin-right: 5px;
-  }
-  #catWarm{
-  width: 16px;
-  height: 16px;
-  background-color: orange;
-  display: block;
-  border-radius: 8px;
-  float: left;
-  margin-right: 5px;
-  }
-  #catCold{
-  width: 16px;
-  height: 16px;
-  background-color: #3caffb;
-  display: block;
-  border-radius: 8px;
-  float: left;
-  margin-right: 5px;
-  }
-  #catNew{
-  width: 16px;
-  height: 16px;
-  background-color: green;
-  display: block;
-  border-radius: 8px;
-  float: left;
-  margin-right: 5px;
-  }
+    width: 16px;
+    height: 16px;
+    background-color: red;
+    display: block;
+    border-radius: 8px;
+    float: left;
+    margin-right: 5px;
+}
+#catWarm{
+    width: 16px;
+    height: 16px;
+    background-color: orange;
+    display: block;
+    border-radius: 8px;
+    float: left;
+    margin-right: 5px;
+}
+#catCold{
+    width: 16px;
+    height: 16px;
+    background-color: #3caffb;
+    display: block;
+    border-radius: 8px;
+    float: left;
+    margin-right: 5px;
+}
+#catNew{
+    width: 16px;
+    height: 16px;
+    background-color: green;
+    display: block;
+    border-radius: 8px;
+    float: left;
+    margin-right: 5px;
+}
 
 div.help-block{
     color: red !important; 
@@ -77,6 +77,12 @@ div.help-block{
     right: 13%;
 }
 
+.helpDescription{
+    margin-right: 13px;
+    /* padding-top: 13px; */
+    line-height: 34px;
+    font-weight: bold;
+}
 .capitalize{
     text-transform: capitalize;
 }
@@ -2693,7 +2699,7 @@ a:active {
     opacity: 1;
     position: relative;
     cursor: pointer;
-      width: 300px;
+    width: 300px;
 }
 
 .navbar .navbar-inner .navbar-header .navbar-account .account-area .login-area .avatar {
@@ -3848,7 +3854,7 @@ a:active {
     line-height: 39px;
     padding: 0;
     display: block;
-       z-index: 99;
+    z-index: 99;
     width:100%;
     -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
     -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
@@ -14094,7 +14100,7 @@ slider span.bubble.limit {
 }
 
 .input-group-btn >.btn-default{
-     border: 1px solid #797979;
+    border: 1px solid #797979;
 }
 .select2-locked {
     padding: 3px 5px !important

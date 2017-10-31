@@ -17,6 +17,7 @@
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">My Incoming Call Logs</span>
+                <span class="helpDescription" ng-mouseover="showHelpInboundCall()">Help?</span> 
             </div>
             <div class="widget-body table-responsive">
                 

@@ -17,6 +17,7 @@
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">My Outgoing Call Logs</span>
+                <span class="helpDescription" ng-mouseover="showHelpOutboundCall()">Help?</span>
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">

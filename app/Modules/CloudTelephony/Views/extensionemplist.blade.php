@@ -17,6 +17,7 @@
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Extensions</span>
+                <span class="helpDescription" ng-mouseover="showHelpManageExtension()">Help?</span> 
             </div>
             <div class="widget-body table-responsive">
                

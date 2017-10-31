@@ -25,6 +25,7 @@
             <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>User Documents</h5>-->
             <div class="widget-header bordered-bottom bordered-themeprimary ">
                 <span class="widget-caption">User Documents</span>
+                 <span class="helpDescription" ng-mouseover="showHelpUserDocument()">Help?</span> 
             </div>
             <div class="widget-body col-lg-12 col-sm-12 col-xs-12">
                 <div id="user-form">

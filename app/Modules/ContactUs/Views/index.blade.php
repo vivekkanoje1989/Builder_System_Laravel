@@ -16,7 +16,8 @@
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Contact Us</span>                
+                <span class="widget-caption">Contact Us</span>  
+                <span class="helpDescription" ng-mouseover="showHelpContactUs()">Help?</span>
             </div>
 
             <div class="widget-body table-responsive">

@@ -16,7 +16,8 @@
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Content Management</span>                
+                <span class="widget-caption">Content Management</span>   
+                <span class="helpDescription" ng-mouseover="showHelpContent()" >Help?</span>
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
@@ -81,21 +82,21 @@
                                 <th style="width:10%">Sr. No.</th>
                                 <th style="width: 30%">
                                     <a href="javascript:void(0);" ng-click="orderByField('page_name')">Page Name
-                                        <span ><img ng-hide="(sortKey == 'page_name' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ><img ng-hide="(sortKey == 'page_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'page_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'page_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 30%">
                                     <a href="javascript:void(0);" ng-click="orderByField('page_title')">Page Title
-                                        <span ><img ng-hide="(sortKey == 'page_title' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ><img ng-hide="(sortKey == 'page_title' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'page_title' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'page_title' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>                            
                                 <th style="width: 20%">
                                     <a href="javascript:void(0);" ng-click="orderByField('status')">Status
-                                        <span ><img ng-hide="(sortKey == 'status' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ><img ng-hide="(sortKey == 'status' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
@@ -116,7 +117,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="5"  ng-show="(listPages|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="5"  ng-show="(listPages|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

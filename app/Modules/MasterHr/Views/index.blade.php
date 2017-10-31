@@ -26,6 +26,7 @@
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary ">
                 <span class="widget-caption">Manage Users</span>
+                 <span class="helpDescription" ng-mouseover="showHelpHr()">Help?</span>      
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
@@ -174,6 +175,7 @@
                                 <td>{{ listUser.team_lead_name == null? '-': listUser.team_lead_name }}</td>
                                 <td>{{ listUser.departmentName.split(',').join(', ') == null?'-':listUser.departmentName.split(',').join(', ')}}</td>
                                 <td>{{ listUser.joining_date == '0000-00-00' ? '-' : listUser.joining_date | date : "dd-MM-yyyy"  }}</td>
+                                <td ng-if="listUser.employee_status == 0">-</td>
                                 <td ng-if="listUser.employee_status == 1">Active</td>
                                 <td ng-if="listUser.employee_status == 2">Temporary Suspended</td>
                                 <td ng-if="listUser.employee_status == 3">Permanent Suspended</td>

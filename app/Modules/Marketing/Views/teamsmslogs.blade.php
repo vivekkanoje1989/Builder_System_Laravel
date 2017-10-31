@@ -4,20 +4,17 @@
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary ">
                 <span class="widget-caption">Teams Sms Logs</span>
+                <span class="helpDescription" ng-mouseover="showHelpTeamSmsLogs()">Help?</span>
             </div>
             <div class="widget-body table-responsive">
             
                 <div class="row table-toolbar">
-                    <!--<a href="[[ config('global.backendUrl') ]]#/user/showpermissions" class="btn btn-default">Permission Wise Users</a>-->
-                    <div class="btn-group pull-right filterBtn">
+                   <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="teamSmsLogsExpotToxls()" ng-show="teamSmsExport== '1'">
-                            <span>Export</span>
-                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>

@@ -1,5 +1,5 @@
 'use strict';
-app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload', '$window', '$timeout', '$state', '$rootScope', 'toaster','$stateParams', function ($scope, Data, $filter, Upload, $window, $timeout, $state, $rootScope, toaster,$stateParams) {
+app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload', '$window', '$timeout', '$state', '$rootScope', 'toaster', '$stateParams', '$modal', function ($scope, Data, $filter, Upload, $window, $timeout, $state, $rootScope, toaster, $stateParams, $modal) {
         $scope.pageHeading = 'Virtual Number';
         $scope.registrationData = {};
         $scope.registrationData.client = "";
@@ -35,6 +35,78 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             $scope.pageNumber = pageNo;
         }
 
+        $scope.showHelpVirtualNumbers = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Virtual Numbers</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        $scope.showHelpInboundCall = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">My incoming call logs</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        $scope.showHelpOutboundCall = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">My Outbound call logs</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        $scope.showHelpTeamInboundCall = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Team Incoming call logs</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        $scope.showHelpTeamOutboundCall = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Team Outgoing call logs</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        $scope.showHelpTelephonyRegistration = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Telephony Registration</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
@@ -60,16 +132,16 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
-        $scope.filterVNumbers = function(empId){
-            Data.post('cloudtelephony/getVirtualNumList',{
-                empId:empId,
+
+        $scope.filterVNumbers = function (empId) {
+            Data.post('cloudtelephony/getVirtualNumList', {
+                empId: empId,
             }).then(function (response, evt) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
-                    $scope.virtualnumList = response.data;                   
-                    $scope.empId = response.empId;                   
+                    $scope.virtualnumList = response.data;
+                    $scope.empId = response.empId;
                 }
             });
         }
@@ -79,38 +151,38 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.virtualnumList = response.data;
-                    $scope.empId = response.empId; 
+                    $scope.empId = response.empId;
                 }
             });
         }
-        $scope.removeEmpID = function(pmKey,empId,extid,removeType){
-            Data.post('cloudtelephony/removeEmpID',{data:{pmKey:pmKey,empId:empId,extid:extid,removeType:removeType}}).then(function (response, evt) {
-                if (!response.success) {
-                    toaster.pop('error', '', response.message);
-                } else {
-                    toaster.pop('success', '', 'Employee removed successfully');
-                }               
-                $timeout(function(){     
-                    $("#emp_id").val(empId);
-                    $scope.registrationData.emp_id = angular.copy(empId);
-                    $scope.filterVNumbers(empId);
-                    angular.element("a.accordion-toggle."+response.data).trigger("click");
-                },500);
-            });
-        }
-        /*$scope.removeEmpID = function (pmKey, empId, extid, removeType) {
+        $scope.removeEmpID = function (pmKey, empId, extid, removeType) {
             Data.post('cloudtelephony/removeEmpID', {data: {pmKey: pmKey, empId: empId, extid: extid, removeType: removeType}}).then(function (response, evt) {
                 if (!response.success) {
                     toaster.pop('error', '', response.message);
                 } else {
                     toaster.pop('success', '', 'Employee removed successfully');
                 }
-                $state.reload();
                 $timeout(function () {
+                    $("#emp_id").val(empId);
+                    $scope.registrationData.emp_id = angular.copy(empId);
+                    $scope.filterVNumbers(empId);
                     angular.element("a.accordion-toggle." + response.data).trigger("click");
                 }, 500);
             });
-        }*/
+        }
+        /*$scope.removeEmpID = function (pmKey, empId, extid, removeType) {
+         Data.post('cloudtelephony/removeEmpID', {data: {pmKey: pmKey, empId: empId, extid: extid, removeType: removeType}}).then(function (response, evt) {
+         if (!response.success) {
+         toaster.pop('error', '', response.message);
+         } else {
+         toaster.pop('success', '', 'Employee removed successfully');
+         }
+         $state.reload();
+         $timeout(function () {
+         angular.element("a.accordion-toggle." + response.data).trigger("click");
+         }, 500);
+         });
+         }*/
 
         $scope.registrationNumber = function (registrationData) {
             var date = new Date($scope.registrationData.activation_date);
@@ -365,10 +437,10 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = 30;
                     } else if (action === 'edit') {
-                        if (id === 0){
+                        if (id === 0) {
                             $scope.pageHeading = 'New Registration';
                             $scope.pageBtn = 'Add';
-                        }else if (id !== '0') {
+                        } else if (id !== '0') {
                             $scope.pageHeading = 'Edit Registration';
                             $scope.pageBtn = 'Update';
                             $timeout(function () {
@@ -384,7 +456,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                                     $scope.cls = '';
                             }, 500);
                         }
-                    } else {                        
+                    } else {
                         $scope.registrationData.id = id;
                     }
                 } else {
@@ -531,7 +603,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     }
                 } else {
                     $scope.errorMsg = response.message;
-                     $scope.searchLength = response.records.total;
+                    $scope.searchLength = response.records.total;
                 }
             });
         };
@@ -757,12 +829,12 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             Data.post('cloudcallinglogs/teamInboundLogs', {
                 id: empId, pageNumber: pageNumber, itemPerPage: itemPerPage,
             }).then(function (response) {
-                
+
                 if (response.success) {
                     $scope.teaminboundList = response.records;
                     $scope.teaminboundLength = response.totalCount;
                     $scope.teaminboundExport = response.teaminboundExport;
-                    
+
                     $timeout(function () {
                         for (i = 0; i < $scope.teaminboundList.length; i++) {
                             if ($scope.teaminboundList[i].customer_call_status == "Connected") {
@@ -773,7 +845,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
 
                 } else {
                     $scope.errorMsg = response.message;
-                     $scope.teaminboundLength = response.totalCount;
+                    $scope.teaminboundLength = response.totalCount;
                 }
             });
         };
@@ -830,7 +902,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     }, 1000);
                 } else {
                     $scope.errorMsg = response.message;
-                     $scope.outboundLength = response.totalCount;
+                    $scope.outboundLength = response.totalCount;
                 }
             });
         };
@@ -854,7 +926,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
 
                 } else {
                     $scope.errorMsg = response.message;
-                     $scope.teamoutboundLength = response.totalCount;
+                    $scope.teamoutboundLength = response.totalCount;
                 }
             });
         };

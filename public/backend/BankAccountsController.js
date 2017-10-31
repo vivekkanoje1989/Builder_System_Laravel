@@ -1,5 +1,5 @@
 'use strict';
-app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', '$filter', function ($scope, Data, $rootScope, $timeout, toaster, $filter) {
+app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', '$filter','$modal', function ($scope, Data, $rootScope, $timeout, toaster, $filter, $modal) {
 
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
@@ -22,6 +22,19 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
             } else {
                 toaster.pop('error', '', 'Exporting fails....');
             }
+        }
+
+        $scope.showHelpBankAccounts = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Bank Accounts</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
         }
 
         $scope.searchDetails = {};
@@ -47,7 +60,7 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
                 $scope.bankAccountRow.splice(index, 1);
             });
         }
-        
+
         $scope.$on("deleteRecords", function (event, args) {
             $scope.deleteBankAccount(args['id'], args['index']);
         });
@@ -126,8 +139,9 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
             $scope.index = (itemsPerPage * ($scope.noOfRows - 1) + (index + 1)) - 1;
             $scope.sbtBtn = false;
             if ($scope.id !== '0')
-            { $scope.heading = "Edit Bank Account";
-             $scope.btn = "Update";
+            {
+                $scope.heading = "Edit Bank Account";
+                $scope.btn = "Update";
                 $scope.paymentHeadingEdit(item.preffered_payment_headings_ids);
                 $scope.paymentHeadingFiltered(item.preffered_payment_headings_ids);
             }

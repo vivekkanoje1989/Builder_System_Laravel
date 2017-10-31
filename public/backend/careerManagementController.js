@@ -1,4 +1,4 @@
-app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$state', 'toaster', '$parse', function ($scope, Data, $rootScope, $timeout, $state, toaster, $parse) {
+app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$state', 'toaster', '$parse','$modal', function ($scope, Data, $rootScope, $timeout, $state, toaster, $parse, $modal) {
 
         $scope.display_portal = 1;
         $scope.id = 0;
@@ -49,6 +49,18 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
             }
         }
 
+        $scope.showHelpManageCareer = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Manage Careers</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
         $scope.jobPostingApplicationExportToxls = function () {
 //            alert($scope.careerId);
             $scope.getexcel = window.location = "/manage-job/jobPostingApplicationExportToxls/" + $scope.careerId;

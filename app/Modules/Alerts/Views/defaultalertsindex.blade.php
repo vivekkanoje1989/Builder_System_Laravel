@@ -22,6 +22,7 @@
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Default Templates</span>
+                <span class="helpDescription" ng-mouseover="showHelpDefaultTemplate()">Help?</span>
 
             </div>
             <div class="widget-body table-responsive">

@@ -1,5 +1,5 @@
 'use strict';
-app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$parse', function ($scope, $state, Data, toaster, $parse) {
+app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$parse','$modal', function ($scope, $state, Data, toaster, $parse, $modal) {
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
 
@@ -25,6 +25,19 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
+        }
+
+        $scope.showHelpEmployeeDevice = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Employee Devices</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
         }
 
         $scope.employeeDeviceExportToxls = function () {

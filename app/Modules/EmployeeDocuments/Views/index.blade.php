@@ -16,7 +16,8 @@
     <div class="col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Documents</span>                
+                <span class="widget-caption">Manage Documents</span> 
+                 <span class="helpDescription" ng-mouseover="showHelpEmpDocument()">Help?</span>               
             </div>
             <div class="widget-body table-responsive">
                

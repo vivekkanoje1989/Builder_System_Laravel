@@ -2,7 +2,8 @@
     <div class="col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Property Portals</span>                
+                <span class="widget-caption">Property Portals</span> 
+                <span class="helpDescription" ng-mouseover="showHelpPropertyPortal()">Help?</span>                
             </div>
             <div class="widget-body table-responsive">
                 <table class="table table-hover table-striped table-bordered" at-config="config">

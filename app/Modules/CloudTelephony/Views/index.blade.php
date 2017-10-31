@@ -19,6 +19,7 @@
 
             <div class="widget-header bordered-themeprimary bordered-bottom ">
                 <span class="widget-caption">Manage</span>
+                <span class="helpDescription" ng-mouseover="showHelpTelephonyRegistration()">Help?</span>
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">

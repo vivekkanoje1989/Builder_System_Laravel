@@ -19,7 +19,8 @@
     <div class=" mainDiv col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">My Requests</span>          
+                <span class="widget-caption">My Requests</span>    
+                <span class="helpDescription" ng-mouseover="showHelpMyRequest()" >Help?</span>
             </div>
             <div class="widget-body table-responsive">
 
@@ -94,7 +95,7 @@
                             </select>
                         </label>
                     </div>
-                     <table class="table table-hover table-striped table-bordered dataTable no-footer tableHeader" at-config="config">
+                    <table class="table table-hover table-striped table-bordered dataTable no-footer tableHeader" at-config="config">
                         <thead class="bord-bot">
                             <tr>
                             <tr>
@@ -158,15 +159,15 @@
                             </tr>
                             <tr>
                                 <td colspan="8"  ng-show="(myRequest | filter:search | filter:searchData).length == 0" align="center">Records Not Found</td>   
-                            <td colspan="8"  ng-if="myRequestCount == 0" align="center">Records Not Found</td>   
-                                </tr>
+                                <td colspan="8"  ng-if="myRequestCount == 0" align="center">Records Not Found</td>   
+                            </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
-                         </div>
-                        <div class="col-sm-6" ng-if="myRequest.length >=0">
+                        </div>
+                        <div class="col-sm-6" ng-if="myRequest.length >= 0">
                             <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
                                 <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
                             </div>
@@ -211,7 +212,7 @@
                                 <option value="">Select Employee</option>
                                 <option ng-repeat="item in employeeRow" value="{{item.employeeName}}" ng-selected="{{ item.employeeName == searchDetails.application_to}}" >{{item.employeeName}}</option>
                             </select>
-                             <i class="fa fa-sort-desc"></i>
+                            <i class="fa fa-sort-desc"></i>
                         </span>
                     </div>
                 </div>
@@ -224,7 +225,7 @@
                                 <option value="Leave">Leave</option>
                                 <option value="Approval">Approval</option>
                             </select>
-                             <i class="fa fa-sort-desc"></i>
+                            <i class="fa fa-sort-desc"></i>
                         </span>
                     </div>
                 </div>

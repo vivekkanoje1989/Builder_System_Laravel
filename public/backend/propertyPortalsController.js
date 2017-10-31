@@ -1,5 +1,5 @@
 'use strict';
-app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeout','$parse', function ($scope, $state, Data, $timeout, $parse) {
+app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeout','$parse','$modal', function ($scope, $state, Data, $timeout, $parse, $modal) {
         $scope.lstAllEmployees = [];
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
@@ -28,6 +28,20 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
                 //flash messages
             });
         }
+        
+        $scope.showHelpPropertyPortal= function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Property Portals</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        
         $scope.changeAccountStatus = function (status, id)
         {
             var ischk = document.getElementById('accountStatuschk' + id).checked;

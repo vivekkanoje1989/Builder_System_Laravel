@@ -1,4 +1,4 @@
-app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$location', function ($scope, Data, toaster, $state, $location) {
+app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$location', '$modal', function ($scope, Data, toaster, $state, $location, $modal) {
 
         $scope.itemsPerPage = 30;
         $scope.reqLeave = false;
@@ -28,8 +28,34 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
+
+
+        $scope.showHelpRequestForMe = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Requests For Me</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
         
-        
+        $scope.showHelpMyRequest = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">My Requests</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+
         $scope.requestForMeExportToxls = function () {
             $scope.get_excel = window.location = "/request-for-me/requestForMeExportToxls";
             if ($scope.get_excel) {
@@ -95,13 +121,13 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         }
         $scope.employeeRowCC = [];
         $scope.getEmployeesCC = function ()
-        { 
+        {
             $scope.empID = [];
             var i;
-            for(i=0; i < $scope.request.application_to.length; i++){
-                 $scope.empID.push($scope.request.application_to[i].id);
+            for (i = 0; i < $scope.request.application_to.length; i++) {
+                $scope.empID.push($scope.request.application_to[i].id);
             }
-           
+
             Data.post('getEmployeesCC', {'id': $scope.empID}).then(function (response) {
                 $scope.employeeRowCC = response.records;
             });
