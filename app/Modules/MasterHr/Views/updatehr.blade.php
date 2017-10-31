@@ -614,8 +614,6 @@
                                     This field is required.
                                 </div>
                             </div>
-
-
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step4 && (!userJobForm.designation_id.$dirty && userJobForm.designation_id.$invalid)}">

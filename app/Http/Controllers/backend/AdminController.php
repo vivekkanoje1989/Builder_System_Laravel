@@ -920,6 +920,17 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+    
+        public function getSalesStatus() {
+        $getSalesStatus = \App\Models\MlstEnquirySalesStatus::all();
+        if (!empty($getSalesStatus)) {
+            $result = ['success' => true, 'records' => $getSalesStatus];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
 
     public function getccpresalesSubtatus() {
         $postdata = file_get_contents('php://input');
@@ -953,7 +964,7 @@ class AdminController extends Controller {
     /*     * *************************MANDAR******************************** */
 
     public function getEmployeesDetails() {
-        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id')->where("employee_status", 1)->get();
+        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id','personal_email1')->where("employee_status", 1)->get();
 
         $i = 0;
         foreach ($getEmployees as $ctEmployeesExt) {

@@ -56,5 +56,6 @@ return [
         "Reports",
         "BmsConsumption",
         "CustomerCare",
+        "Api",
     ),
 ];

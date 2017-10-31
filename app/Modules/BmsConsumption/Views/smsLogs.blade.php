@@ -134,7 +134,7 @@
                                 <td colspan="9"  ng-show="(smsLogsList|filter:search | filter:searchData ).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
-                    </table><br>
+                    </table>
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>

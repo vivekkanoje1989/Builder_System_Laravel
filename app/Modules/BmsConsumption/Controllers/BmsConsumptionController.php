@@ -70,6 +70,7 @@ class BmsConsumptionController extends Controller {
                 ->whereMonth('created_at', '=', $currentMonth)
                 ->where('employee_id', '=', $emp_id)
                 ->get();
+
         $successSms = SmsLog::whereYear('created_at', '=', $currentYear)
                 ->whereMonth('created_at', '=', $currentMonth)
                 ->where('employee_id', '=', $emp_id)
@@ -148,9 +149,10 @@ class BmsConsumptionController extends Controller {
             $data['totalSms'] = count($getSmslist);
             $getDetails[] = $data;
         }
-
-        for ($m = 0; $m < count($getDetails); $m++) {
-            $getSmsLogs[$m]['smsDetails'] = $getDetails[$m];
+        if (!empty($getDetails)) {
+            for ($m = 0; $m < count($getDetails); $m++) {
+                $getSmsLogs[$m]['smsDetails'] = $getDetails[$m];
+            }
         }
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
@@ -440,9 +442,9 @@ class BmsConsumptionController extends Controller {
         $currentMonth = date('m');
         $currentYear = date('Y');
         $filterData["fromDate"] = !empty($filterData['fromDate']) ? date('Y-m-d', strtotime($filterData['fromDate'])) : "";
-        $filterData["toDate"] = !empty($filterData['toDate']) ? date('Y-m-d', strtotime($filterData['toDate'])) : "";
+        $toDate = !empty($filterData['toDate']) ? date('Y-m-d', strtotime($filterData['toDate'])) : "";
         $filterData["sms_type"] = !empty($filterData['sms_type']) ? ($filterData['sms_type']) : "";
-
+        $filterData["toDate"] = $toDate;
         $getSmsReportLogs = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fromDate"] . '","' .
                         $filterData["toDate"] . '","' . $filterData["sms_type"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
 
@@ -483,11 +485,11 @@ class BmsConsumptionController extends Controller {
         $enqCnt = DB::select("select FOUND_ROWS() totalCount");
         $enqCnt = $enqCnt[0]->totalCount;
         $i = 0;
-        $firstDateofThisMonth =!empty($filterData['fromDate']) ? date('Y-m-d', strtotime($filterData['fromDate'])) : "";
-        $currentDate =  !empty($filterData['toDate']) ? date('Y-m-d', strtotime($filterData['toDate'])) : "";
-        
+        $firstDateofThisMonth = !empty($filterData['fromDate']) ? date('d-m-Y', strtotime($filterData['fromDate'])) : "";
+        $currentDate = !empty($filterData['toDate']) ? date('d-m-Y', strtotime($filterData['toDate'])) : "";
+
         if ($totalRecords != 0) {
-            $result = ['success' => true, 'records' => $reportFilterData, 'logsInPercentage' => $smsPercentage, 'totalCount' => $enqCnt,'firstDate' =>$firstDateofThisMonth, 'curentDate'=>$currentDate];
+            $result = ['success' => true, 'records' => $reportFilterData, 'logsInPercentage' => $smsPercentage, 'totalCount' => $enqCnt, 'firstDate' => $firstDateofThisMonth, 'curentDate' => $currentDate];
         } else {
             $result = ['success' => false, 'records' => $reportFilterData, 'logsInPercentage' => $smsPercentage, 'totalCount' => $enqCnt];
         }
