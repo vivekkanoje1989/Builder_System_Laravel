@@ -794,6 +794,17 @@ app.controller('ccpresalesStatusCtrl', function ($scope, Data) {
     };
 }); 
 
+
+app.controller('salesStatusCtrl', function ($scope, Data) {
+    Data.get('getSalesStatus').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.salesstatus = response.records;
+        }
+    });
+}); 
+
 app.controller('ccpresalesCategoryCtrl', function ($scope, Data) {
     Data.get('getccPreSalesCategory').then(function (response) {
         if (!response.success) {

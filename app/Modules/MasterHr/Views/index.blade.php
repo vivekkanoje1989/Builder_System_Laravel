@@ -21,15 +21,13 @@
         margin-bottom:4px !important;
     }
 </style>
-
-<div class="row" ng-controller="hrController" ng-init="manageUsers('', 'index')">
+<div class="row" ng-controller="hrController" ng-init="manageUsers('', 'index');">
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary ">
                 <span class="widget-caption">Manage Users</span>
             </div>
             <div class="widget-body table-responsive">
-
                 <div class="row table-toolbar">
                     <div class="btn-group">
                         <a class="btn btn-default shiny " href="javascript:void(0);">Add Employee</a>
@@ -41,11 +39,8 @@
                             <li>
                                 <a href="[[ config('global.backendUrl') ]]#/user/quickuser">Quick User</a>
                             </li>
-
-
                         </ul>
                     </div>
-                    <!---->
                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
@@ -70,7 +65,6 @@
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
                     </div>
-                    <!-- filter data--> 
                     <div class="row" style="border:2px;" id="filter-show">
                         <div class="col-sm-12 col-xs-12">
                             <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
@@ -171,7 +165,7 @@
                                 <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>{
+                        <tbody>
                             <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort " id="{{listUser.id}}" >
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ listUser.firstName}}</td>
@@ -194,7 +188,6 @@
                             <tr>
                                 <td colspan="10"  ng-show="(listUsers|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
-
                         </tbody>
                     </table>
                     <div class="DTTTFooter">
