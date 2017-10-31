@@ -77,10 +77,10 @@ class MenuItems {
                                 'submenu_ids' => '02020601', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '02020601', 'name' => 'Manage', 'icon' => '', 'url' => '/emailConfig/index', 'slug' => 'emailConfigIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
-                            7 => array('id' => '020207', 'name' => 'API Management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
+                           7 => array('id' => '020207', 'name' => 'API Management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'micon' => 'img/api1.png', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
                                 'submenu_ids' => '02020701,02020702', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                                    1 => array('id' => '02020701', 'name' => 'New API', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                    2 => array('id' => '02020702', 'name' => 'Manage API', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    1 => array('id' => '02020701', 'name' => 'New API', 'icon' => '', 'micon' => 'img/api1.png', 'url' => '/pushapi/create', 'slug' => 'api', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '02020702', 'name' => 'Manage API', 'icon' => '', 'micon' => 'img/api1.png', 'url' => '/pushapi/manage', 'slug' => 'apilist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
                             8 => array('id' => '020208', 'name' => 'Property Portals', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                                 'submenu_ids' => '02020801', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(

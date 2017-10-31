@@ -631,7 +631,7 @@
                                     <span class="input-icon icon-right">
                                         <select ng-model="userJobData.reporting_to_id" name="reporting_to_id" ng-controller="teamLeadCtrl" class="form-control" required>
                                             <option value="">Please Select Reporting To</option>
-                                            <option ng-repeat="reporting in teamLeads track by $index" value="{{reporting.id}}" ng-selected="{{ userData.reporting_to_id == reporting.id}}">{{reporting.first_name}} {{ reporting.last_name}} ({{ reporting.designation_name.designation}})</option>
+                                            <option ng-repeat="reporting in teamLeads track by $index" value="{{reporting.id}}" ng-selected="{{ userData.reporting_to_id == reporting.id}}">{{reporting.first_name}} {{ reporting.last_name}} <span ng-if="reporting.designation_name.designation">({{ reporting.designation_name.designation}})</span><span ng-if="reporting.designation_name.designation != ''">({{ reporting.designation_name.designation}})</span></option>
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div ng-show="step4" ng-messages="userJobForm.reporting_to_id.$error" class="help-block step4">
