@@ -1,3 +1,12 @@
+<style>
+    .span9 {
+    padding-top: 8%;
+}
+.bx-wrapper #clint-slider  img
+{
+    width:104px !important;
+}
+</style>
 @extends('layouts/frontend/mantravastu/main')
 @section('content')
 <main class="main-content"  ng-init="getProjects(); getPostsDropdown(); getTestimonials(); getAboutPageContent(); getEmployees(); getCareers(); getPostsDropdown(); getContactDetails();" ng-controller="AppCtrl">
@@ -45,10 +54,12 @@
                 <div class="title">
                     <h1>About Us</h1>
                 </div>
-                <p>ABC Builders was set up in 1999, under the Chairmanship of Babasaheb Atkire with property development as its main focus. Growing swiftly to become the leading property developers in Pune, ABC Builders successfully created a niche as preferred building partners for some of the global corporate clients and has been the Benchmark builder and is growing in all facets of industry. </p>
+                <p>{{aboutUs.page_content| htmlToPlaintext}}</p>
             </div>
             <div class="row-fluid centered" id="abt">
-                <img src="frontend/mantravastu/images/sample.jpg" class="img-responsive" alt="" />
+                <figure>
+                <img src="frontend/mantra_vastu/images/sample.jpg" class="img-responsive" alt="" />
+                </figure>
             </div>
             <div class="about-text">
                 <p>Today, ABC Builders is one of the leading and reputed property developers headquartered in Pune, primarily focused on residential and contractual projects. </p>
@@ -71,48 +82,13 @@
                             <li id="client-next"></li>
                         </ul>
                     </div>
-                    <ul class="row client-slider" id="clint-slider">
-                        <li>
+                    <ul class="row client-slider" id="clint-slider">                    
+                        <li style="float: left; list-style: none; position: relative; width: 210px; margin-right: 25px;" class="bx-clone" aria-hidden="true" ng-repeat="emp in employee | limitTo:8">
                             <a href="">
-                                <img src="frontend/mantravastu/images/team2.jpeg" class="img-responsive img-circle" alt="client logo 1">
+                                <img src="https://storage.googleapis.com/bkt_bms_laravel/employee-photos/{{ emp.employee_photo_file_name}}" class="img-responsive img-circle" alt="" style="display:block;">
                             </a>
-                            <h3>Akash Jain</h3>
-                            <p>Web Designer</p>
-                        </li>
-                        <li>
-                            <a href="">
-                                <img src="frontend/mantravastu/images/team2.jpeg" class="img-responsive img-circle" alt="client logo 1">
-                            </a>
-                            <h3>Akash Jain</h3>
-                            <p>Web Designer</p>
-                        </li>
-                        <li>
-                            <a href="">
-                                <img src="frontend/mantravastu/images/team2.jpeg" class="img-responsive img-circle" alt="client logo 1">
-                            </a>
-                            <h3>Akash Jain</h3>
-                            <p>Web Designer</p>
-                        </li>
-                        <li>
-                            <a href="">
-                                <img src="frontend/mantravastu/images/team2.jpeg" class="img-responsive img-circle" alt="client logo 1">
-                            </a>
-                            <h3>Akash Jain</h3>
-                            <p>Web Designer</p>
-                        </li>
-                        <li>
-                            <a href="">
-                                <img src="frontend/mantravastu/images/team2.jpeg" class="img-responsive img-circle" alt="client logo 1">
-                            </a>
-                            <h3>Akash Jain</h3>
-                            <p>Web Designer</p>
-                        </li>
-                        <li>
-                            <a href="">
-                                <img src="frontend/mantravastu/images/team2.jpeg" class="img-responsive img-circle" alt="client logo 1">
-                            </a>
-                            <h3>Akash Jain</h3>
-                            <p>Web Designer</p>
+                            <h3>{{ emp.first_name }} {{ emp.last_name }}</h3>
+                            <p>{{ emp.designation }}</p>
                         </li>
                     </ul>
                 </div>
@@ -129,54 +105,19 @@
                     <h1>What Client Say?</h1>
                 </div>
                 <div class="row">
-                    <div class="span3">
-                        <div class="testimonial">
-                            <p>"I've worked too hard and too long to let anything stand in the way of my goals. I will not let my teammates down and I will not let myself down."</p>
+                    <div class="span3" ng-repeat="list in testimonial|limitTo:4"">
+                        <div class="testimonial">                        
+                            <p>{{ list.description}} </p>
                             <div class="whopic">
                                 <div class="arrow"></div>
-                                <img src="frontend/mantravastu/images/client.jpeg" class="img-circle centered" alt="client 1">
-                                <strong>John Doe
-                                    <small>Client</small>
-                                </strong>
+                                <img ng-if="photo_url != null " src="[[config('global.s3Path')]]/Testimonial/{{ photo_url}}" alt="https://furtaev.ru/preview/user_3_small.png" class="img-circle centered" alt="client 1">
+                                <img ng-if="photo_url == null " src="https://furtaev.ru/preview/user_3_small.png" class="img-circle centered" alt="client 1">
+    <!--                            <strong>{{ list.customer_name}}
+                                    <b>{{ list.company_name }}</b>
+                                </strong>-->
                             </div>
                         </div>
-                    </div>
-                    <div class="span3">
-                        <div class="testimonial">
-                            <p>"I've worked too hard and too long to let anything stand in the way of my goals. I will not let my teammates down and I will not let myself down."</p>
-                            <div class="whopic">
-                                <div class="arrow"></div>
-                                <img src="frontend/mantravastu/images/client.jpeg" class="img-circle centered" alt="client 2">
-                                <strong>John Doe
-                                    <small>Client</small>
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="span3">
-                        <div class="testimonial">
-                            <p>"I've worked too hard and too long to let anything stand in the way of my goals. I will not let my teammates down and I will not let myself down."</p>
-                            <div class="whopic">
-                                <div class="arrow"></div>
-                                <img src="frontend/mantravastu/images/client.jpeg" class="img-circle centered" alt="client 2">
-                                <strong>John Doe
-                                    <small>Client</small>
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="span3">
-                        <div class="testimonial">
-                            <p>"I've worked too hard and too long to let anything stand in the way of my goals. I will not let my teammates down and I will not let myself down."</p>
-                            <div class="whopic">
-                                <div class="arrow"></div>
-                                <img src="frontend/mantravastu/images/client.jpeg" class="img-circle centered" alt="client 3">
-                                <strong>John Doe
-                                    <small>Client</small>
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
+                    </div>                     
                 </div>
                 <div class="row centered" style="margin-top:10px;">
                     <a id="experience" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Share Your Experience now</a>
@@ -285,43 +226,43 @@
             </div>
             <div class="container">
                 <div class="span9 center contact-info">
-                    <p>123 Fifth Avenue, 12th,Belgrade,SRB 11000</p>
-                    <p class="info-mail">ourstudio@somemail.com</p>
-                    <p>+11 234 567 890</p>
-                    <p>+11 286 543 850</p>
-                    <div class="title">
-                        <h3>We Are Social</h3>
-                    </div>
+                <p>{{ contacts[0].address }}</p>
+                <p class="info-mail">{{ contacts[0].email}}</p>
+                <p>{{ contacts[0].contact_number1 }}</p>
+                <p>{{ contacts[0].contact_number2 }}</p>                
+                <div class="title">
+                    <h3>We Are Social</h3>
                 </div>
+            </div>
                 <div class="row-fluid centered">
                     <ul class="social">
                         <li>
-                            <a href="">
+                            <a href="https://www.facebook.com/mantravpl" target="_blank">
                                 <span class="icon-facebook-circled"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="https://twitter.com/JahagirdarD" target="_blank">
                                 <span class="icon-twitter-circled"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="https://in.linkedin.com/in/dineshjahagirdar" target="_blank">
                                 <span class="icon-linkedin-circled"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="https://www.pinterest.com/Mantra_vastu/" target="_blank">
                                 <span class="icon-pinterest-circled"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="" target="_blank">
                                 <span class="icon-dribbble-circled"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="https://plus.google.com/111989364413040119355" target="_blank">
                                 <span class="icon-gplus-circled"></span>
                             </a>
                         </li>
@@ -481,9 +422,7 @@
                 </p>
             </fieldset>
         </form>
-
     </div>
-
     <!-- Apply for Job Pop up ends here-->
 
     <!-- Footer section start -->
@@ -499,115 +438,4 @@
     </div>
 </main>
 @endsection()
-<script>
-    $(document).ready(function(){
-    $("html, body").animate({
-        scrollTop: 0
-    }, 600);    
-    status1 = status1 = status1 =  status1 = false;
 
-    contactUs = function(){
-    var name = $("#fname").val();
-    var mobile = $("#mobile").val();
-    var email = $("#emailid").val();
-    var message = $("#message").val();
-    if(name== '')
-    {
-        $("#err-name").show();
-    }
-    else{
-        $("#err-name").hide();
-    }
-    if(email== '')
-    {
-        $("#err-email").show();
-    }
-    else{
-        $("#err-email").hide();
-    }
-    if(mobile== '')
-    {
-         $("#err-mobile").show();
-    }
-    else{        
-        var pat = /^[0,9]$/;
-        if(mobile.match(pat))
-        {
-            alert("if");
-            $("#err-mobile").hide();
-        }else{
-            alert("else");
-        $("#err-mobile").show();
-    }
-       
-    }
-    if(message== '')
-    {
-        $("#err-message").show();
-    }
-    else{
-        $("#err-message").hide();
-    }
-    if(name!== '' && mobile !== '' && email!=='' && message!=='')
-    {
-        $.ajax({
-            async: false,
-            method:'POST',
-            url: "http://192.168.0.111:8000/website/addContact",              
-            data:{contactData:{name:name,mobile_number:mobile,email_id:email,message:message}},
-            success: function(result){
-                alert(result);
-                if(result == '')
-                {
-                    
-                }
-                else
-                {
-                    $("#fname").val('');
-                    $("#mobile").val('');
-                    $("#emailid").val('');
-                    $("#message").val('');
-                }
-    }});
-    }
-    else{
-        $("#err-all").show();
-    }
-    }
-    
-    $("a#home").click(function (e) {
-    e.preventDefault();
-    $('html, body').animate({
-    scrollTop: $("#homepage").offset().top
-    },1500);
-    });
-    
-    $("a#about").click(function (e) {
-    e.preventDefault();
-    $('html, body').animate({
-    scrollTop: $("#aboutus").offset().top
-    },1500);
-    });
-    
-    $("a#contactus").click(function (e) {
-    e.preventDefault();
-    $('html, body').animate({
-    scrollTop: $("#contact").offset().top
-    },1500);
-    });
-    
-    $("a#careers").click(function (e) {
-    e.preventDefault();
-    $('html, body').animate({
-    scrollTop: $("#careersdata").offset().top
-    },1500);
-    });
-    
-    $("a#clients").click(function (e) {
-    e.preventDefault();
-    $('html, body').animate({
-    scrollTop: $("#testmonials").offset().top
-    },1500);
-    });
-    
-    });</script>

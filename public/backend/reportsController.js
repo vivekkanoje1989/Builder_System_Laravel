@@ -132,7 +132,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                     $scope.statusTotal = response.Total;
-                    
+
                 } else {
                     $scope.statusTotal = response.Total;
                     $scope.statusLength = response.statusLength;
@@ -167,7 +167,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
 
                 if (!response.success) {
                     $scope.errorMsg = response.message;
-                     $scope.mySourceTotal = response.Total;
+                    $scope.mySourceTotal = response.Total;
                 } else {
                     $scope.mySourceTotal = response.Total;
                     $scope.sourceLength = response.sourceLength;
@@ -433,7 +433,8 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.emp_name = category.name;
             $scope.subteamcategorylabels = [];
             $scope.subteamcategorydata = [];
-
+            $scope.catReport = false;
+            
             $("#catReport").css('display', 'none');
             Data.post('reports/getTeamcategoryreports', {
                 employee_id: category.employee_id
@@ -1150,7 +1151,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                 };
             });
         }
-        
+
         $scope.subProjectCategoryReport = function (category, category_id, is_category_group) {
             if (category_id == 1) {
                 if (category.New != undefined) {
@@ -1215,6 +1216,28 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
         }
 
         $scope.subProjectStatusReport = function (status, status_id, is_status_group) {
+            console.log(status);
+            if (status.id == 1) {
+                $scope.subStatus = "new";
+                var statusCount = status.new;
+            }
+            if (status.id == 2) {
+                $scope.subStatus = "Open";
+                var statusCount = status.open;
+            }
+            if (status.id == 3) {
+                $scope.subStatus = "Booked";
+                var statusCount = status.booked;
+            }
+            if (status.id == 4) {
+                $scope.subStatus = "Lost";
+                var statusCount = status.lost;
+            }
+            if (status.id == 5) {
+                $scope.subStatus = "Hold";
+                var statusCount = status.preserved;
+            }
+            
             $scope.statusEmployee = status.name;
             $scope.substatus_labels = [];
             $scope.substatus_data = [];

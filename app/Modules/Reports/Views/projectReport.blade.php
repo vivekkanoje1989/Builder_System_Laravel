@@ -34,7 +34,7 @@
                                         </thead>
                                         <tbody>
                                             <tr  ng-repeat="category in category_report">
-                                                <td>{{category.category}}</td>
+                                                <td>{{category.category.split("_").join(" ")}}</td>
                                                 <td><div style="width:60px; float:left;"  ng-if="category.count > 0">{{category.count}}</div><div style="float:left;" ng-if="category.count > 0"> <a href="" style="padding-left:30px;" ng-click="teamcategoryEnquiryReport(category); teamEmployees(category); subProjectCategoryReport(category, category.id, 1)">Show sub-category wise report</a></div><span ng-if="category.count == 0">0</span></td>
                                                 <td>{{((category.count / TotalCnt) * 100).toFixed(2) == 'NaN' ? '0':((category.count / TotalCnt) * 100).toFixed(2)}}</td>
                                             </tr> 
@@ -56,7 +56,6 @@
                             </div>
                         </div>
                         <div class=" table-responsive" ng-if="catReport">
-                            <h4>Sub-category Report</h4>
                             <table class="table table-hover table-striped table-bordered" at-config="config" >
                                 <thead class="bord-bot">
                                     <tr>
@@ -191,7 +190,7 @@
                                         <tbody >
                                             <tr  ng-repeat="status in status_report">
                                                 <td><b>{{ status.sales_status.split("_").join(" ")}}</b></td>
-                                                <td><div style="width:60px; float:left;"  ng-if="status.cnt > 0">{{status.cnt}}</div><a  href="" ng-click="subProjectStatusReport(status, 2, 0)">Show Sub-Status wise report</a></td>
+                                                <td><div style="width:60px; float:left;"  ng-if="status.cnt > 0">{{status.cnt}}</div><a  href="" ng-click="subProjectStatusReport(status, 2, 0)">Show Sub-status wise report</a></td>
                                                 <td>{{((status.cnt / statusTotal) * 100).toFixed(2) == 'NaN' ? '0':((status.cnt / statusTotal) * 100).toFixed(2)}}</td>
 <!--                                               <td>{{((value / Total) * 100).toFixed(2)}}</td>-->
                                             </tr> 
@@ -214,7 +213,6 @@
                             </div>
                         </div>
                         <div class=" table-responsive" ng-if="statusReport">
-                            <h4>Sub-status Report of {{statusEmployee}}</h4>
                             <table class="table table-hover table-striped table-bordered" at-config="config">
                                 <thead class="bord-bot">
                                     <tr>
@@ -239,7 +237,7 @@
                                         <td><b>{{subStatus_Total}}</b></td>
                                         <td><b>{{((subStatus_Total / subStatus_Total) * 100).toFixed(2)}}</b></td>
                                     </tr>  
-                                    <tr ng-if="sub_status_report.length > 0">
+                                    <tr ng-if="sub_status_report.length > 0 && unspecifiedStatus < 1">
                                         <td colspan="3" align="center">
                                             <h4>No Record Found</h4>
                                         </td>

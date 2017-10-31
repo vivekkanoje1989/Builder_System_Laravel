@@ -4974,6 +4974,107 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+                                
+                                .state('api', {
+                                    url: '/pushapi/create',
+                                    templateUrl: '/pushapi/create',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                      label: 'LMS Auto / LMS Auto Settings / API Management / New  API',
+                                      title: 'New API',  
+                                  
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/apiController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+                                 .state('apiUpdate', {
+                                    url: '/pushapi/edit/:apiId',
+                                    templateUrl: function (stateParams) {
+                                        return '/pushapi/' + stateParams.apiId + '/update';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                    parent: 'apilist',
+                                    label: 'Edit Push API',
+                                    title: 'Edit Push API',
+                                    
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster','textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/apiController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+                                .state('apilist', {
+                                    url: '/pushapi/manage',
+                                    templateUrl: '/pushapi/manage',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                         label: 'LMS Auto / LMS Auto Settings / API Management / Manage  API',
+                                         title: 'Manage API',
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/apiController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
 
 
 

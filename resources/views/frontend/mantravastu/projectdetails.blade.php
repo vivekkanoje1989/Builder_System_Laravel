@@ -1,108 +1,14 @@
-<!DOCTYPE html>
-<!--
- * A Design by GraphBerry
- * Author: GraphBerry
- * Author URL: http://graphberry.com
- * License: http://graphberry.com/pages/license
--->
-<html lang="en">
-    
-    <head>
-        <meta charset=utf-8>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Project Details</title>
-        <!-- Load Roboto font -->
-        <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-        <!-- Load css styles -->
-        <link href="css/bootstrap.css" rel="stylesheet">
-        <link href="css/ekko-lightbox.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" />
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" href="css/pluton.css" />
-        
-        <!--[if IE 7]>
-            <link rel="stylesheet" type="text/css" href="css/pluton-ie7.css" />
-        <![endif]-->
-		
-		<link rel="stylesheet" type="text/css" href="css/jquery.cslider.css" />
-		<!-- bxSlider CSS file -->
-		<link href="css/jquery.bxslider.css" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="css/animate.css" />
-        <!-- Fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/apple-touch-icon-72.png">
-        <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57.png">
-        <link rel="shortcut icon" href="images/ico/favicon.ico">
-        
-        <script src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/bootstrap.js"></script>
-        <script>
-			window.onload = function () {
-    document.getElementById("enquiry").onclick = function () {
-        var e = document.getElementById("enquiry-popup");
-        var f = document.getElementById("enquiry-popup-form");
-        e.style.display = "block";
-		f.style.display = "block";
-    };
-	document.getElementById("enquiry2").onclick = function () {
-        var e = document.getElementById("enquiry-popup");
-        var f = document.getElementById("enquiry-popup-form");
-        e.style.display = "block";
-		f.style.display = "block";
-    };
-	document.getElementById("enquiry3").onclick = function () {
-        var e = document.getElementById("enquiry-popup");
-        var f = document.getElementById("enquiry-popup-form");
-        e.style.display = "block";
-		f.style.display = "block";
-    };
-    document.getElementById("clos").onclick = function () {
-        var e = document.getElementById("enquiry-popup");
-		var f = document.getElementById("enquiry-popup-form");
-        e.style.display = "none";
-		f.style.display = "none";
-    };
-} 
-		</script> 
-    </head>
-    
-    <body>
-        <div class="navbar">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a href="index.html" class="brand">
-                        <img src="images/logo.png" alt="Logo" />
-                        <!-- This is website logo -->
-                    </a>
-                    <!-- Navigation button, visible on small resolution -->
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <i class="icon-menu"></i>
-                    </button>
-                    <!-- Main navigation -->
-                    <div class="nav-collapse collapse pull-right">
-                        <ul class="nav" id="top-navigation">
-                            <li><a href="index.html#home">Home</a></li>
-                            <li><a href="projects.html">Projects</a></li>
-                            <li><a href="index.html#about">About</a></li>
-                            <li><a href="index.html#clients">Testimonials</a></li>
-                            <li><a href="index.html#careers">Careers</a></li>
-                            <li><a href="index.html#contact">Contact</a></li>
-                        </ul>
-                    </div>
-                    <!-- End main navigation -->
-                </div>
-            </div>
-        </div>
-        <!-- Start home section -->
+@extends('layouts/frontend/mantravastu/main')
+@section('content')
+    <!-- Start home section -->
+    <main class="main-content" ng-init="getProjectDetails('[[$projectId]]');">
         <div id="home" class="centered">
             <!-- Start cSlider -->
             <ul class="bxslider">
-				<li><img src="images/banner1.jpg"  title="Funky roots"/></li>
-				<li><img src="images/banner2.jpg"  title="Funky roots"/></li>
-				<li><img src="images/banner3.jpg"  title="Funky roots"/></li>
-			</ul>
-			
+                <li><img src="frontend/mantravastu/images/banner1.jpg"  title="Funky roots"/></li>
+                <li><img src="frontend/mantravastu/images/banner2.jpg"  title="Funky roots"/></li>
+                <li><img src="frontend/mantravastu/images/banner3.jpg"  title="Funky roots"/></li>
+            </ul>			
         </div>
         <!-- End home section -->
          <!-- About us section start -->
@@ -110,11 +16,12 @@
             <div class="triangle"></div>
             <div class="container">
                 <div class="about-text">
-                    <div class="title">
-						<h1>Project Name</h1>
+                    {{description| htmlToPlaintext}}
+                    <div class="title">{{ projectsdata }}
+						<h1>{{ project_name1 }}hi</h1>
 					</div>
                     <div class="span3" id="project-logo">
-                    	<img src="images/logo.png" class="img-responsive"/>
+                    	<img src="frontend/mantravastu/imageslogo.png" class="img-responsive"/>
                     </div>
                     <div class="span9">
                     	<h3>Description</h3>
@@ -205,25 +112,24 @@
 	<div id="location" class="tab-pane fade" style="margin-top:10px;">
 						<div class="row">
                         <div class="span12">
-                        	<div class="row">
-                            		<div id="contact-us-map">
-										<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A&amp;output=embed"></iframe>
-										<br />
-										<small>
-											<a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A"></a>
-										</small>
-										</iframe>
-	        						</div>
+                            <div class="row">
+                                <div id="contact-us-map">
+                                    <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A&amp;output=embed"></iframe>
+                                    <br />
+                                    <small>
+                                            <a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A"></a>
+                                    </small>
+                                </div>
                             </div>
                             <div class="row">
-                                <a href="images/locationMap.jpeg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/locationMap.jpeg" class="img-responsive">
+                                <a href="frontend/mantravastu/imageslocationMap.jpeg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imageslocationMap.jpeg" class="img-responsive">
                                 </a>
-                                <a href="images/locationMap.jpeg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/locationMap.jpeg" class="img-responsive">
+                                <a href="frontend/mantravastu/imageslocationMap.jpeg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imageslocationMap.jpeg" class="img-responsive">
                                 </a>
-                               <a href="images/locationMap.jpeg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/locationMap.jpeg" class="img-responsive">
+                               <a href="frontend/mantravastu/imageslocationMap.jpeg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imageslocationMap.jpeg" class="img-responsive">
                                 </a>
                             </div>
                         </div>
@@ -233,14 +139,14 @@
 		<div class="row">
                         <div class="span12">
                             <div class="row">
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
                             </div>
                         </div>
@@ -250,14 +156,14 @@
 		<div class="row">
                         <div class="span12">
                             <div class="row">
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
                             </div>
                         </div>
@@ -267,14 +173,14 @@
         <div class="row">
                         <div class="span12">
                             <div class="row">
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
                             </div>
                         </div>
@@ -290,14 +196,14 @@
 			<div class="row">
                         <div class="span12">
                             <div class="row">
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
                             </div>
                         </div>
@@ -307,14 +213,14 @@
 			<div class="row">
                         <div class="span12">
                             <div class="row">
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
-                                <a href="images/banner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
-                                    <img src="images/banner1.jpg" class="img-responsive">
+                                <a href="frontend/mantravastu/imagesbanner1.jpg" data-toggle="lightbox" data-gallery="multiimages" class="span4">
+                                    <img src="frontend/mantravastu/imagesbanner1.jpg" class="img-responsive">
                                 </a>
                             </div>
                         </div>
@@ -343,7 +249,7 @@
                     <div class="span4">
                         <div class="centered projects">
                             <div class="zoom-in">
-                                <img class="img-responsive" src="images/project.jpg" alt="projects 1">
+                                <img class="img-responsive" src="frontend/mantravastu/imagesproject.jpg" alt="projects 1">
                             </div>
                             <h3>Project Name</h3>
                             <p>Project Information</p>
@@ -353,7 +259,7 @@
                     <div class="span4">
                         <div class="centered projects">
                             <div class="zoom-in">
-                                <img class="img-responsive" src="images/project.jpg" alt="projects 2" />
+                                <img class="img-responsive" src="frontend/mantravastu/imagesproject.jpg" alt="projects 2" />
                             </div>
                             <h3>Project Name</h3>
                             <p>Project Information</p>
@@ -363,7 +269,7 @@
                     <div class="span4">
                         <div class="centered projects">
                             <div class="zoom-in">
-                                <img class="img-responsive" src="images/project.jpg" alt="projects 3">
+                                <img class="img-responsive" src="frontend/mantravastu/imagesproject.jpg" alt="projects 3">
                             </div>
                             <h3>Project Name</h3>
                             <p>Project Information</p>
@@ -438,7 +344,7 @@
 		<div id="enquiry-popup">
 			<form action="" class="enquiry" id="enquiry-popup-form">
 	<h4> Enquiry for Property</h4>
-	<a href="" class="close" id="clos"><img src="images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+	<a href="" class="close" id="clos"><img src="frontend/mantravastu/imagesclose_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
     <fieldset class="enquiry-inner">
       <p class="enquiry-input">
         <input type="text" name="Fname" placeholder="Your First Name…" autofocus>
@@ -484,7 +390,7 @@
         
         <!-- Footer section start -->
         <div class="footer">
-            <p><img src="images/favicon.jpg" alt="e-dynamics" width="32" height="32" border="0" class="ftr-logo"> &copy; 2015 ABC BUILDER</p>
+            <p><img src="frontend/mantravastu/imagesfavicon.jpg" alt="e-dynamics" width="32" height="32" border="0" class="ftr-logo"> &copy; 2015 ABC BUILDER</p>
         </div>
         <!-- Footer section end -->
         <!-- ScrollUp button start -->
@@ -494,19 +400,19 @@
             </a>
         </div>
         <!-- ScrollUp button end -->
-        <!-- Include javascript -->
+    </main>
+        @endsection()
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		
-		<!-- jQuery library (served from Google) -->
-		<!-- bxSlider Javascript file -->
-        <script src="js/bootstrap.min.js"></script>
-		<script src="js/ekko-lightbox.js"></script>
-		<script src="js/jquery.bxslider.min.js"></script>
-        <script type="text/javascript" src="js/jquery.mixitup.js"></script>
-        <script type="text/javascript" src="js/modernizr.custom.js"></script>
-        <script type="text/javascript" src="js/jquery.placeholder.js"></script>
-        <script type="text/javascript" src="js/jquery.inview.js"></script>
+<!--		 jQuery library (served from Google) 
+		 bxSlider Javascript file -->
+        <script src="frontend/mantravastu/js/bootstrap.min.js"></script>
+		<script src="frontend/mantravastu/js/ekko-lightbox.js"></script>
+		<script src="frontend/mantravastu/js/jquery.bxslider.min.js"></script>
+        <script type="text/javascript" src="frontend/mantravastu/js/jquery.mixitup.js"></script>
+        <script type="text/javascript" src="frontend/mantravastu/js/modernizr.custom.js"></script>
+        <script type="text/javascript" src="frontend/mantravastu/js/jquery.placeholder.js"></script>
+        <script type="text/javascript" src="frontend/mantravastu/js/jquery.inview.js"></script>
         <script type="text/javascript">
             $(document).ready(function ($) {
 				$('.bxslider').bxSlider({ mode: 'fade', captions: true, auto:true, autoControls:true,});
@@ -559,6 +465,6 @@
             <script src="js/respond.min.js"></script>
         <!--[endif]-->
         <script type="text/javascript" src="js/app.js"></script>
-        
+<!--        
     </body>
-</html>
+</html>-->
