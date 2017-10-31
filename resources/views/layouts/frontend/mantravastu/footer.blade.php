@@ -56,9 +56,44 @@ b.style.display = "none";
 };
 } 
 
-
-
 </script> 
+
+
+
+
+
+
+<script>
+    window.onload = function () {
+    document.getElementById("enquiry").onclick = function () {
+        var e = document.getElementById("enquiry-popup");
+        var f = document.getElementById("enquiry-popup-form");
+        e.style.display = "block";
+		f.style.display = "block";
+    };
+	document.getElementById("enquiry2").onclick = function () {
+        var e = document.getElementById("enquiry-popup");
+        var f = document.getElementById("enquiry-popup-form");
+        e.style.display = "block";
+		f.style.display = "block";
+    };
+	document.getElementById("enquiry3").onclick = function () {
+        var e = document.getElementById("enquiry-popup");
+        var f = document.getElementById("enquiry-popup-form");
+        e.style.display = "block";
+		f.style.display = "block";
+    };
+    document.getElementById("clos").onclick = function () {
+        var e = document.getElementById("enquiry-popup");
+		var f = document.getElementById("enquiry-popup-form");
+        e.style.display = "none";
+		f.style.display = "none";
+    };
+} 
+</script> 
+                
+                
+                
 <!-- jQuery library (served from Google) -->
 <!-- bxSlider Javascript file -->
 <script src="frontend/mantravastu/js/jquery.bxslider.min.js"></script>
