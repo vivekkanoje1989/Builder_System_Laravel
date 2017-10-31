@@ -1,6 +1,6 @@
 <style>
-    .span9 {
-    padding-top: 8%;
+.span9 {
+padding-top: 8%;
 }
 .bx-wrapper #clint-slider  img
 {
@@ -9,7 +9,7 @@
 </style>
 @extends('layouts/frontend/mantravastu/main')
 @section('content')
-<main class="main-content"  ng-init="getProjects(); getPostsDropdown(); getTestimonials(); getAboutPageContent(); getEmployees(); getCareers(); getPostsDropdown(); getContactDetails();" ng-controller="AppCtrl">
+<main class="main-content" ng-init="getProjects(); getPostsDropdown(); getTestimonials(); getAboutPageContent(); getEmployees(); getCareers(); getPostsDropdown(); getContactDetails();" ng-controller="AppCtrl">
     <!-- Start home section -->
     <div id="homepage" class="centered">
         <!-- Start cSlider -->
@@ -18,7 +18,6 @@
             <li><img src="frontend/mantravastu/images/banner2.jpg"  title="Funky roots"/></li>
             <li><img src="frontend/mantravastu/images/banner3.jpg"  title="Funky roots"/></li>
         </ul>
-
     </div>
     <!-- End home section -->
     <!-- projects section start -->
@@ -438,4 +437,114 @@
     </div>
 </main>
 @endsection()
-
+<script>
+    $(document).ready(function(){
+    $("html, body").animate({
+        scrollTop: 0
+    }, 600);
+    status1 = status2 = status3 =  status4 = false;
+    contactUs = function(){
+    var name = $("#fname").val();
+    var mobile = $("#mobile").val();
+    var email = $("#emailid").val();
+    var message = $("#message").val();
+    if(name== '')
+    {
+        $("#err-name").show();
+    }
+    else{
+        $("#err-name").hide();
+    }
+    if(email== '')
+    {
+        $("#err-email").show();
+    }
+    else{
+        $("#err-email").hide();
+    }
+    if(mobile== '')
+    {
+         $("#err-mobile").show();
+    }
+    else{        
+        var pat = /^[0,9]$/;
+        if(mobile.match(pat))
+        {
+            alert("if");
+            $("#err-mobile").hide();
+        }else{
+            alert("else");
+        $("#err-mobile").show();
+    }
+       
+    }
+    if(message== '')
+    {
+        $("#err-message").show();
+    }
+    else{
+        $("#err-message").hide();
+    }
+    if(name!== '' && mobile !== '' && email!=='' && message!=='')
+    {
+        $.ajax({
+            async: false,
+            method:'POST',
+            url: "http://192.168.0.111:8000/website/addContact",              
+            data:{contactData:{name:name,mobile_number:mobile,email_id:email,message:message}},
+            success: function(result){
+                alert(result);
+                if(result == '')
+                {
+                    
+                }
+                else
+                {
+                    $("#fname").val('');
+                    $("#mobile").val('');
+                    $("#emailid").val('');
+                    $("#message").val('');
+                }
+    }});
+    }
+    else{
+        $("#err-all").show();
+    }
+    }
+    
+    $("a#home").click(function (e) {
+    e.preventDefault();
+    $('html, body').animate({
+    scrollTop: $("#homepage").offset().top
+    },1500);
+    });
+    
+    $("a#about").click(function (e) {
+    e.preventDefault();
+    $('html, body').animate({
+    scrollTop: $("#aboutus").offset().top
+    },1500);
+    });
+    
+    $("a#contactus").click(function (e) {
+    e.preventDefault();
+    $('html, body').animate({
+    scrollTop: $("#contact").offset().top
+    },1500);
+    });
+    
+    $("a#careers").click(function (e) {
+    e.preventDefault();
+    $('html, body').animate({
+    scrollTop: $("#careersdata").offset().top
+    },1500);
+    });
+    
+    $("a#clients").click(function (e) {
+    e.preventDefault();
+    $('html, body').animate({
+    scrollTop: $("#testmonials").offset().top
+    },1500);
+    });
+    
+    });</script>
