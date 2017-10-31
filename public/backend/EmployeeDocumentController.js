@@ -44,10 +44,14 @@ app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeo
         $scope.deleteEmployeeDocuments = function (id, index) {
             Data.post('employee-document/deleteEmployeeDocuments', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Employee Documents', 'Employee Document deleted successfully');
+//                toaster.pop('success', 'Employee Documents', 'Employee Document deleted successfully');
                 $scope.DocumentsRow.splice(index, 1);
             });
         }
+        
+           $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteEmployeeDocuments(args['id'], args['index']);
+        });
 
         $scope.doDocumentsAction = function ()
         {
