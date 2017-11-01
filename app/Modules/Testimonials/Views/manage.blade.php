@@ -1,4 +1,3 @@
-
 <style>
     .close {
         color:black;
@@ -13,13 +12,13 @@
         width: 110%;
     }
 </style>
-<div class="row" ng-controller="testimonialsCtrl" ng-init="testimonials()">  
+<div class="row" ng-controller="testimonialsCtrl" ng-init="manageTestimonials()">  
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Testimonials</span>        
-                <span class="helpDescription" ng-mouseover="showHelpManageTestimonial()">Help?</span>          
-            </div>
+                <span class="widget-caption">Manage Testimonials</span>
+                 <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
+             </div>
             <div class="widget-body table-responsive">
 
                 <div class="row table-toolbar">
@@ -30,17 +29,16 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="manageTestimonialDisapproveExportToExcel()" ng-show="exportData == '1'">
-                                                    <span>Export</span>
-                                                </a>-->
+<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="manageTestimonialApproveExportToExcel()" ng-shoe="exportDetails== '1'">
+                            <span>Export</span>
+                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Actions</span>
+                            <span>Options</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="" ng-click="manageTestimonialDisapproveExportToExcel()" ng-show="exportData == '1'">Export</a>
+                                    <a href="" ng-click="manageTestimonialApproveExportToExcel()" ng-shoe="exportDetails== '1'">Export</a>
                                 </li>
-
                             </ul>
                         </a>
                     </div>
@@ -52,7 +50,7 @@
                     <!-- filter data--> 
                     <div class="row" style="border:2px;" id="filter-show">
                         <div class="col-sm-12 col-xs-12">
-                            <b ng-repeat="(key, value) in searchData"  ng-if="value != 0">
+                            <b ng-repeat="(key, value) in searchData">
                                 <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                     <div class="alert alert-info fade in">
                                         <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
@@ -86,42 +84,42 @@
                     <table class="table table-hover table-striped table-bordered tableHeader" at-config="config">
                         <thead class="bord-bot">
                             <tr>
-                                <th style="width:5%">Sr. No.</th>                          
-                                <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField('customer_name')">Customer Name
+                                <th style="width:5%">Sr.No.</th>
+                                <th style="width:10%">
+                                    <a href="javascript:void(0);" ng-click="orderByField('customer_name')">Customer name
                                         <span ><img ng-hide="(sortKey == 'customer_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'customer_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'customer_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
-                                <th style="width: 15%">
+                                <th style="width: 20%">
                                     <a href="javascript:void(0);" ng-click="orderByField('mobile_number')">Mobile No
                                         <span ><img ng-hide="(sortKey == 'mobile_number' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'mobile_number' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'mobile_number' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
-                                <th style="width: 20%">
+                                <th style="width: 30%">
                                     <a href="javascript:void(0);" ng-click="orderByField('company_name')">Company Name
                                         <span ><img ng-hide="(sortKey == 'company_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'company_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'company_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
-                                <th style="width: 20%">Approve Status</th> 
+                                <th style="width: 15%">Approve Status</th>  
                                 <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in ApprovedTestimonialsRow|  filter:search |filter:searchData  | itemsPerPage:itemsPerPage |orderBy:sortKey:reverseSort">
-                                <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
+                            <tr role="row" dir-paginate="list in ApprovedTestimonialsRow|  filter:search |filter:searchData | itemsPerPage:itemsPerPage |orderBy:sortKey:reverseSort">
+                                <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ list.customer_name}}</td>  
                                 <td>{{ list.mobile_number}}</td>  
                                 <td>{{ list.company_name}}</td>
-                                <td>{{(list.approve_status == 1) ? "Approved" : "Not Approve"}}</td>
+                                <td>{{ (list.approve_status == 1) ? "Approved" : "Not Approve"}}</td>
                                 <td class="">
-                                   <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/testimonials-manage/update/{{ list.testimonial_id}}" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                     <span ng-show="deleteDisApprove == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirmDelete({{list.testimonial_id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                     <span class="" tooltip-html-unsafe="Edit Information" ><a href="[[ config('global.backendUrl') ]]#/testimonials/update/{{ list.testimonial_id}}" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                   <span ng-show="deleteApprove == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.testimonial_id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>
                             <tr>
@@ -155,7 +153,7 @@
                     <div class="form-group">
                         <label for="">Customer Name</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.customer_name" name="customer_name" capitalizeFirst class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                            <input type="text" ng-model="searchDetails.customer_name" capitalizeFirst name="customer_name" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
                         </span>
                     </div>
                 </div>
@@ -189,6 +187,31 @@
     </div>
     <script src="/js/filterSlider.js"></script>
     <!-- Filter Form End-->
+    <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
+        <div class="modal-dialog">
+           
+            <div class="modal-content helpModal" >
+                <div class="modal-header helpModalHeader bordered-bottom bordered-themeprimary" >
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title" align="center">Task Priority Help Info</h4>
+                </div>                
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="helpContent">- All the testimonial is present in the website are available here to edit and change.  </label>
+                            </div>                            
+                        </div>
+                    </div>  
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+
+
+
+
 
 

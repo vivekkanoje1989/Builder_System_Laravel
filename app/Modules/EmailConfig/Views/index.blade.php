@@ -3,8 +3,8 @@
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Email Account Configuration</span>
-                <span class="helpDescription" ng-mouseover="showHelpEmailConfig()">Help?</span>                 
-            </div>
+                 <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
+             </div>
             <div class="widget-body table-responsive"><br/>  
                 <div class="row table-toolbar">
                    </div>
@@ -97,6 +97,25 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
+        <div class="modal-dialog">
+           
+            <div class="modal-content helpModal" >
+                <div class="modal-header helpModalHeader bordered-bottom bordered-themeprimary" >
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title" align="center">Task Priority Help Info</h4>
+                </div>                
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="helpContent">- All email transaction from BMS system are going from this configure mail. </label>
+                               
+                            </div>                            
+                        </div>
+                    </div>  
             </div>
         </div>
     </div>

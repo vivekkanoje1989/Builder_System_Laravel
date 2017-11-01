@@ -3137,7 +3137,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        parent: 'testimonialsIndex',
+                                        parent: 'testimonialsManage',
                                         label: 'Edit Testimonial',
                                         title: 'Edit Testimonial',
                                     },
@@ -3168,7 +3168,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        parent: 'testimonialsManage',
+                                        parent: 'testimonialsIndex',
                                         label: 'Update Testimonial',
                                         title: 'Update Testimonial',
                                     },

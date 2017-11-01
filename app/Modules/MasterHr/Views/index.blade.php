@@ -26,8 +26,8 @@
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary ">
                 <span class="widget-caption">Manage Users</span>
-                 <span class="helpDescription" ng-mouseover="showHelpHr()">Help?</span>      
-            </div>
+                  <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
+             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
                     <div class="btn-group">
@@ -431,4 +431,31 @@
     </div>
     <script src="/js/filterSlider.js"></script>
     <!-- Filter Form End-->
+    <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
+        <div class="modal-dialog">
+           
+            <div class="modal-content helpModal" >
+                <div class="modal-header helpModalHeader bordered-bottom bordered-themeprimary" >
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title" align="center">Task Priority Help Info</h4>
+                </div>                
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="helpContent">- This list shows all employees information.</label>
+                                <label class="helpContent">- "Add Employee->Add New User" button use to add new employee in the BMS system</label>
+                                <label class="helpContent">- "Add Employee->Quick User" button use to add quick user in the BMS system</label>
+                                <label class="helpContent">- After click on "Edit" button you can update users information.</label>
+                                <label class="helpContent">- After click on "Permissions" button you can change permissions of user.</label>
+                                <label class="helpContent">- After click on "Change Password" button you can change password of user.</label>
+                                <label class="helpContent">- After click on "Suspend" button you can suspend user.</label>
+                                <span class="input-icon icon-right">                                    
+                                    
+                                </span>
+                            </div>                            
+                        </div>
+                    </div>  
+            </div>
+        </div>
+    </div>
 </div>

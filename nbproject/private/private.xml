@@ -2,117 +2,33 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
         <group>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/promotionalsmsController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/Gupshup.php</file>
-=======
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Api/Controllers/ApiController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/index.blade.php</file>
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/showSmsLogFilter.blade.php</file>
-=======
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Views/teamEnquiryReport.blade.php</file>
-=======
-        <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/create.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/backendApp.blade.php</file>
-=======
-<<<<<<< HEAD
-        <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EnquiryLocations/Controllers/EnquiryLocationsController.php</file>
->>>>>>> 190051264a59a6d55da4909fba36fa40fb89bc8c
->>>>>>> b6e6dbb602b84c34f81cb41e06bb4f19dd2bbce2
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/contact.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDocuments/Controllers/EmployeeDocumentsController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/UserDocuments/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDocuments/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/smsConsumption.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/dbcredentials/127.0.0.1:8000.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/smsConsumptionController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/virtualnumberslist.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Marketing/Views/smslogs.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/cloudtelephonyController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Marketing/Views/teamsmslogs.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/requestsforme.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Gagan/footer.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Controllers/BmsConsumptionController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Marketing/Controllers/PromotionalSMSController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/myrequest.blade.php</file>
-<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/manage.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/teamoutboundlogs.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/manageroles.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/userDocumentController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/employeeDeviceController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/projectController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/teaminboundlogs.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDevice/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/testimonialsController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/route.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/UserDocuments/Controllers/UserDocumentsController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/careerManagementController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/inboundlogs.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/outboundlogs.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Controllers/DashBoardController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/dashBoardController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/backendApp.blade.php</file>
-=======
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/backendApp.blade.php</file>
-<<<<<<< HEAD
-=======
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EnquiryLocations/Views/index.blade.php</file>
-=======
-<<<<<<< HEAD
-        <group>
->>>>>>> 0ff77fac730936b0c2e2c705910ac1033d7c3d02
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantra_vastu/index.blade.php</file>
->>>>>>> bc7d3f15f74b44c420a99fe3d8def79e7f8ad8ad
-            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/mantravastu/js/app.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/projectdetails.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantravastu/header.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/style.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/route.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantravastu/main.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantravastu/footer.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/footer.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Gagan/footer.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/projectdetails.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/projects.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantra_vastu/projects.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/backendApp.blade.php</file>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
-<<<<<<< HEAD
-        <group/>
-=======
-        <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/create.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/reportsController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Controllers/ReportsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/updatehr.blade.php</file>
->>>>>>> 9e14a410fad152f1fd5eac36abb29c680373a76b
->>>>>>> d2bb91e4293fa3094792ba4c33f9a8775dcb34c7
->>>>>>> 8e94ff4deb1d0cfd3d68a25533f80d7bf473cd77
->>>>>>> 65873a23932de8037e6334f3641ce7ef1a5ef99b
->>>>>>> d32183e1a7e53c6937b3cca6f844495b9a784e73
->>>>>>> 190051264a59a6d55da4909fba36fa40fb89bc8c
->>>>>>> 0ff77fac730936b0c2e2c705910ac1033d7c3d02
->>>>>>> c23afd620d66dab8a44ee421573fea792f856ee6
->>>>>>> b6e6dbb602b84c34f81cb41e06bb4f19dd2bbce2
->>>>>>> bc7d3f15f74b44c420a99fe3d8def79e7f8ad8ad
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/EmployeeDocumentController.js</file>
         </group>
->>>>>>> bea10a7cf76ce6aee10b30d81e92e0ac251aad42
     </open-files>
 </project-private>
