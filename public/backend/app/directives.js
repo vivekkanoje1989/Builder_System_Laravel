@@ -142,7 +142,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             else
                                 $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
                             
-                            if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00"){
+                            if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN'){
                                 $scope.customerData.birth_date = "";
                             }else{
                                 var bdt = new Date(response.customerPersonalDetails[0].birth_date);

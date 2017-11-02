@@ -293,6 +293,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.customer_id = response.data.customerId;
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
                             toaster.pop('success', 'Customer', 'Record successfully created');
+                            $scope.custSubmitBtn=true;
                         } else {
                             toaster.pop('success', 'Customer', 'Record successfully updated');
                         }
@@ -373,17 +374,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         else
                             $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
                         
-                        if (response.customerPersonalDetails[0].birth_date == '0000-00-00') {
-                          
+                        if (response.customerPersonalDetails[0].birth_date === '0000-00-00' || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
                             $scope.customerData.birth_date = ''; 
                         } else { 
-                              $scope.customerData.birth_date =  response.customerPersonalDetails[0].birth_date; 
-//                            var bdt = response.customerPersonalDetails[0].birth_date;
-//                            if (bdt.getDate() < 10) {
-//                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
-//                            } else {
-//                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
-//                            }
+                            $scope.customerData.birth_date =  response.customerPersonalDetails[0].birth_date; 
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                         }
 
@@ -469,8 +463,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             $scope.customerData.monthly_income = "";
                         else
                             $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
-
-                        if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00") {
+                        
+                        if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
                             $scope.customerData.birth_date = "";
                         } else {
                             var bdt = new Date(response.customerPersonalDetails[0].birth_date);

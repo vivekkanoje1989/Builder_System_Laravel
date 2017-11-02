@@ -1447,7 +1447,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             Data.post('master-sales/insertTodayRemark', {
                 data: data, custInfo: custInfo
             }).then(function (response) {
-                alert($scope.shared);
                 $scope.sbtbtndis = false;
                 if (!response.success) {
                     $scope.errorMsg = response.errorMsg;
