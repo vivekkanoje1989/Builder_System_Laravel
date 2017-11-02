@@ -343,11 +343,14 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
 
             });
         }
+        $scope.interested_inproject = function()
+        {
+            //alert(projectid+"---"+blockid);
+            alert("blockid");
+            $("#enquiry-popup").show();
+        }
 
-
-        $scope.doContactAction = function (contact) {
-            //alert("uma");
-
+        $scope.doContactAction = function (contact) {           
 //            var v = grecaptcha.getResponse();
 //            
 //            if (v.length != '0') {

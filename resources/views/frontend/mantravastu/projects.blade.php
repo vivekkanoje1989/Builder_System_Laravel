@@ -57,7 +57,7 @@
                                     <div><span>Speciafication</span>Sample data</div>
                                 </div>
                                 <p>{{list.short_description|htmlToPlaintext | limitTo : 15}}{{list.short_description.length > 15? '': '...'}}</p>                            
-                                <a href="/#/project-details/{{list.id}}" target="blank" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
+                                <a href="/#/project-details/{{list.id}}" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                                         <span>Speciafication</span>Sample data</div>
                                 </div>
                                 <p>{{list.short_description|htmlToPlaintext | limitTo : 15}}{{list.short_description.length > 15? '': '...'}}</p>                            
-                                <a href="/#/project-details/{{list.id}}" target="blank" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
+                                <a href="/#/project-details/{{list.id}}" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -148,74 +148,6 @@
                             <div class="mask"></div>
                         </div>
                     </li>
-
-
-                    <!--                 <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix upcoming">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 3">
-                                             <a href="#single-project" class="more show_hide" rel="#slidingDiv2">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>
-                                     <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix current">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 4">
-                                             <a href="#single-project" class="show_hide more" rel="#slidingDiv3">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>
-                                     <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix completed">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 5">
-                                             <a href="#single-project" class="show_hide more" rel="#slidingDiv4">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>
-                                     <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix upcoming">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 6">
-                                             <a href="#single-project" class="show_hide more" rel="#slidingDiv5">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>
-                                     <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix current">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 7" />
-                                             <a href="#single-project" class="show_hide more" rel="#slidingDiv6">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>
-                                     <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix upcoming">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 9">
-                                             <a href="#single-project" class="show_hide more" rel="#slidingDiv8">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>-->
                 </ul>
             </div>
         </div>
@@ -550,4 +482,4 @@ $("a#home").click(function (e) {
             };
         }
 
-    </script>
+</script>
