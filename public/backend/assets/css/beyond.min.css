@@ -84,15 +84,14 @@ div.help-block{
     font-weight: bold !important;
 }
 .helpContent{
-    font-size:20px;
-    color: white;
+    font-size:17px;
 }
 
 .helpModal{
     border: 3px solid azure !important;
     border-radius: 30px !important;
     height: 489px !important; 
-    background: rgba(0, 0, 0, 0.33) !important;
+    background: rgba(0, 0, 0, 0.22) !important;
 }
 .helpModalHeader{
     border-radius: 27px;

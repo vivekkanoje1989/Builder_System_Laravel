@@ -124,7 +124,7 @@
                         </label>
                     </div>
                     <br>     
-                <table class="table table-hover table-striped table-bordered" at-config="config" ng-if="enquiriesLength">
+                <table class="table table-hover table-striped table-bordered tableHeader" at-config="config" >
                     <thead>
                         <tr>
                             <th class="enq-table-th">SR <?php if (in_array('01604', $array)) { ?>

@@ -149,7 +149,7 @@
                             <tr role="row" dir-paginate="list in myRequest| filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{list.in_date}}</td> 
-                                <td> {{list.request_type}}</td>
+                                <td>{{list.request_type}}</td>
                                 <td>{{list.application_to}}</td>
                                 <td>{{list.from_date}}</td> 
                                 <td>{{list.to_date}}</td>
@@ -158,8 +158,8 @@
 
                             </tr>
                             <tr>
-                                <td colspan="8"  ng-show="(myRequest | filter:search | filter:searchData).length == 0" align="center">Records Not Found</td>   
-                                <td colspan="8"  ng-if="myRequestCount == 0" align="center">Records Not Found</td>   
+                                <td colspan="8"  ng-show="(myRequest | filter:search | filter:searchData).length == 0 || myRequestCount == 0" align="center">Records Not Found</td>   
+                                <!--<td colspan="8"  ng-if="myRequestCount == 0" align="center">Records Not Found</td>-->   
                             </tr>
                         </tbody>
                     </table>

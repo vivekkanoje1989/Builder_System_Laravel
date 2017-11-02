@@ -731,7 +731,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         $scope.ct_presalesemployee = [];
         $scope.getAllEmployeeData = function (employee_id) {
-            Data.get('master-sales/getEmployeeData').then(function (response) {
+            Data.post('master-sales/getEmployeeData').then(function (response) {
                 $scope.ct_presalesemployee = response.presalesemprecords;
             });
         };

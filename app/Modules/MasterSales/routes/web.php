@@ -124,7 +124,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
 
     Route::get('/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee');
 
-    Route::get('/master-sales/getEmployeeData', 'MasterSalesController@getEmployeeData');
+    Route::post('/master-sales/getEmployeeData', 'MasterSalesController@getEmployeeData');
     Route::post('/master-sales/preSalesShareEnquiry', 'MasterSalesController@preSalesShareEnquiry');
     
 });
