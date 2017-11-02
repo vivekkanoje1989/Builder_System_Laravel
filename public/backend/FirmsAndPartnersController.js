@@ -1,4 +1,4 @@
-app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', '$parse', '$timeout', '$window', 'SweetAlert', function ($scope, Data, Upload, toaster, $state, $parse, $timeout, $window, SweetAlert) {
+app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', '$parse', '$timeout', '$window', 'SweetAlert','$modal', function ($scope, Data, Upload, toaster, $state, $parse, $timeout, $window, SweetAlert,$modal) {
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
@@ -22,6 +22,20 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 $scope.deleteBtn = response.delete;
             });
         };
+        
+            $scope.showHelpFirmandPartners= function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Firm and Partners</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        
 
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;

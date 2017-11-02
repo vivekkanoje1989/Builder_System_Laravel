@@ -1,4 +1,4 @@
-app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', 'toaster', '$timeout', '$stateParams', 'Upload', function ($rootScope, $scope, $state, Data, toaster, $timeout, $stateParams, Upload) {
+app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', 'toaster', '$timeout', '$stateParams', 'Upload','$modal', function ($rootScope, $scope, $state, Data, toaster, $timeout, $stateParams, Upload,$modal) {
         $scope.pageHeading = "Add New Project";
         $scope.showAllTabs = true;
         $scope.projectData = {};
@@ -31,6 +31,21 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.otherDataMultiple.splice(inx,1);
         };
         /*******************Add Multiple Block Specification For Web********************/
+        
+        
+        
+        $scope.showHelpManageProject = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Manage Projects</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
         
         $scope.cancel_basic_info = function(){
             $scope.moduleName = "";

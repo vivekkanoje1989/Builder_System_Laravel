@@ -18,20 +18,6 @@
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Block stages</span>                
             </div>
-            <!--            <div class="widget-header ">
-                            <span class="widget-caption">Manage Block stages</span>
-                            <div class="widget-buttons">
-                                <a href="" data-toggle="maximize">
-                                    <i class="fa fa-expand"></i>
-                                </a>
-                                <a href="#" data-toggle="collapse" class="collapsed">
-                                    <i class="fa fa-minus"></i>
-                                </a>
-                                <a href="" data-toggle="dispose">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>-->
             <div class="widget-body table-responsive">
 
                 <div class="row table-toolbar">

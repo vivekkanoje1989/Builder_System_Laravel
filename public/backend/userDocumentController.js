@@ -1,4 +1,4 @@
-app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster', '$window','$parse', function ($scope, Data, Upload, toaster, $window,$parse) {
+app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster', '$window','$parse','$modal', function ($scope, Data, Upload, toaster, $window,$parse, $modal) {
 
         $scope.action = 'Submit';
         $scope.id = 0;
@@ -20,6 +20,20 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                 });
             }
         };
+        
+        $scope.showHelpUserDocument = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">User Documents</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        
         $scope.updateDocument = function (list, index)
         {
             $scope.action = 'Update';

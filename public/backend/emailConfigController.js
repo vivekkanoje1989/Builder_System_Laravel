@@ -1,4 +1,4 @@
-app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', '$state', function ($scope, Data, $rootScope, $timeout, toaster, $state)
+app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', '$state' ,'$modal', function ($scope, Data, $rootScope, $timeout, toaster, $state, $modal)
 {
     $scope.itemsPerPage = 30
     $scope.noOfRows = 1;
@@ -32,7 +32,20 @@ app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
             $scope.reverseSort = !$scope.reverseSort;
         }
         
-    
+     $scope.showHelpEmailConfig= function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Email Configration</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        
+        
     $scope.configEmailExportToxls = function (){
           $scope.getexcel = window.location = "email-config/configEmailExportToxls";
             if ($scope.getexcel) {

@@ -82,10 +82,7 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
                     templateUrl: 'website/projects',
                     controller: 'AppCtrl'
                 })
-                .when('/projects', {
-                    templateUrl: 'website/projects',
-                    controller: 'AppCtrl'
-                })
+               
                 .otherwise({
                     redirectTo: '/'
                 });
@@ -114,9 +111,9 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         }
         $scope.getProjectDetails = function (id)
         {
-            $http.post(baseUrl + 'getProjectDetails', {'id': id}).then(function (response) {
+                $http.post(baseUrl + 'getProjectDetails', {'id': id}).then(function (response) {
                 $scope.aminities = response.aminities;
-                $scope.availble = response.availble;
+                $scope.availble = response.data.availble;
                 $scope.projects = response.projects;
                 $scope.projectsdata = response.result;
                 if (response.data.result.project_banner_images != null) {
@@ -146,10 +143,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 }
                 $scope.projects = response.data.projects;
                 $scope.googleMap = response.data.result.google_map_iframe;
-                $scope.project_name1 = response.data.result.project_name;
-                 
-                                alert($scope.project_name1);
-
+                $scope.project_name = response.data.result.project_name;                 
             });
         }
 

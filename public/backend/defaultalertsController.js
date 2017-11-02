@@ -1,5 +1,5 @@
 'use strict';
-app.controller('defaultalertsController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', 'toaster', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, toaster) {
+app.controller('defaultalertsController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', 'toaster','$modal', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, toaster, $modal) {
         $scope.pageHeading = 'Create Custome Alert';
         $scope.buttonLabel = 'Create';
         $scope.defaultAlertData = {};
@@ -36,6 +36,19 @@ app.controller('defaultalertsController', ['$rootScope', '$scope', '$state', 'Da
         }
         $scope.closeModal = function () {
             $scope.searchData = {};
+        }
+
+        $scope.showHelpDefaultTemplate = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Default Template Settings</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
         }
 
         $scope.deleteDefaultTemplate = function (id, index) {

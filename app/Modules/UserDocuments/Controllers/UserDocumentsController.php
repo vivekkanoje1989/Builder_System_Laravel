@@ -24,7 +24,7 @@ class UserDocumentsController extends Controller {
 
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
-                ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
+                ->Join('employees as db2', 'db1.id', '=', 'db2.designation_id')
                 ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
                 ->where('db2.id', '!=', $loggedInUserId)
                 ->get();

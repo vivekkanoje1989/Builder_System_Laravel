@@ -91,6 +91,7 @@ return [
             ],
             'driver' => 'mysql',
             'port' => 3306,
+//            'database' => 'laravel_mantravastu',
             'database' => 'laravel_developement_builder_client',
             'username' => 'root',
             'password' => 'root',

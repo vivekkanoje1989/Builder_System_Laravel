@@ -128,7 +128,7 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="testimonialsBtn">Submit</button>
-                            <a href="[[ config('global.backendUrl') ]]#/testimonials/index" class="btn btn-primary">Cancel</a>
+                            <a href="[[ config('global.backendUrl') ]]#/testimonials/manage" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>

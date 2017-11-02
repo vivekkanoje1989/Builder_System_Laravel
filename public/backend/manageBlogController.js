@@ -1,5 +1,5 @@
 
-app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', 'toaster', '$parse', '$rootScope', function ($scope, Data, $timeout, Upload, $state, toaster, $parse, $rootScope) {
+app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', 'toaster', '$parse', '$rootScope','$modal', function ($scope, Data, $timeout, Upload, $state, toaster, $parse, $rootScope,$modal) {
 
         $scope.blogId = 0;
         $scope.itemsPerPage = 30;
@@ -23,6 +23,20 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
             $scope.searchData = {};
         }
 
+        $scope.showHelpBlog = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Blog management</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+
+        
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
@@ -46,7 +60,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 $scope.blogsRow.splice(index, 1);
             });
         }
-        
+
         $scope.$on("deleteRecords", function (event, args) {
             $scope.deleteBlog(args['id'], args['index']);
         });

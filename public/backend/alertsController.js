@@ -1,5 +1,5 @@
 'use strict';
-app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', 'toaster', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, toaster) {
+app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', 'toaster','$modal', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, toaster,$modal) {
         $scope.pageHeading = 'Create User';
         $scope.buttonLabel = 'Create';
         $scope.alertData = {};
@@ -34,7 +34,6 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
         $scope.searchDetails = {};
         $scope.searchData = {};
         $scope.filterDetails = function (search) {
-//             $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }
@@ -45,6 +44,21 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
+
+
+        $scope.showHelpTemplateSettings = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Template Settings</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+  
 
         $scope.checkDepartment = function () {
             if ($scope.alertData.department_id.length === 0) {
@@ -59,8 +73,6 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
         $scope.deleteTemplate = function (id, index) {
             Data.post('alerts/deleteTemplate', {
                 'id': id}).then(function (response) {
-//                toaster.pop('success', 'Manage Template', 'Template deleted successfully');
-//                $scope.listAlerts.splice(index, 1);
                 $("tr#" + id + "").remove();
             });
         }

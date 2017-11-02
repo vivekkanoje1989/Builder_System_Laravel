@@ -1,4 +1,4 @@
-app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', function ($scope, Data, $rootScope, $timeout, toaster) {
+app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster','$modal', function ($scope, Data, $rootScope, $timeout, toaster, $modal) {
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
         $scope.manageEmployeeDocuments = function () {
@@ -33,6 +33,19 @@ app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeo
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
+        
+         $scope.showHelpEmpDocument = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Employee Documents</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
 
         $scope.initialModal = function (id, document_name, index)
         {
@@ -44,10 +57,14 @@ app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeo
         $scope.deleteEmployeeDocuments = function (id, index) {
             Data.post('employee-document/deleteEmployeeDocuments', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Employee Documents', 'Employee Document deleted successfully');
+//                toaster.pop('success', 'Employee Documents', 'Employee Document deleted successfully');
                 $scope.DocumentsRow.splice(index, 1);
             });
         }
+        
+           $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteEmployeeDocuments(args['id'], args['index']);
+        });
 
         $scope.doDocumentsAction = function ()
         {
