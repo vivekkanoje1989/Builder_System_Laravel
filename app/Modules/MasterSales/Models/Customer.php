@@ -105,7 +105,7 @@ class Customer extends Model
         
     public static function validationMessages(){
         $messages = array(
-            'title_id.required' => 'Please enter title',
+            'title_id.required' => 'Please select title',
             'first_name.required' => 'Please enter first name',
             'last_name.required' => 'Please enter last name',
             'gender_id.required' => 'Please enter gender',          

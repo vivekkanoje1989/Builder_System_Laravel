@@ -195,6 +195,14 @@ padding-top: 8%;
                                 </div>
                                 <div class="control-group">
                                     <div class="controls">
+                                        <img id="contact_captcha" style="padding: 0 0 0 5px;" src="http://mantravastu.com/captcha_code_file.php?rand={{randomNumber}}&amp;name=contact_captcha">
+                                        <div style="padding: 0 0 0 5px;">Click <a style="color:blue" ng-click='refreshCaptcha("contact_captcha");'>here</a> to refresh</div> 
+
+                                        <input class="txtsize" type="text" value="" id="imgcaptcha" name="img_captcha" placeholder="Enter Image Text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="controls">
                                         <div class="error left-align" id="err-all">Please enter valid information.</div>
                                         <button id="send-mail" type="button" class="message-btn" onclick="contactUs()">Submit</button>
                                     </div>
@@ -515,6 +523,7 @@ padding-top: 8%;
     });
     
     $("a#careers").click(function (e) {
+        alert("index");
     e.preventDefault();
     $('html, body').animate({
     scrollTop: $("#careersdata").offset().top

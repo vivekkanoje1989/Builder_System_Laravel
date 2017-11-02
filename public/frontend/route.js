@@ -94,7 +94,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.contact = {};
         $scope.career = {};
         $scope.projectsdata = [];
-        //$scope.aminities = $scope.availble = $scope.projects = [];
+        //$scope.aminities = $scope.availble = $scope.projects = [];        
         var baseUrl = 'website/';
         $scope.getPostsDropdown = function () {
             $http.get(baseUrl + 'jobPost').then(function (response) {
@@ -104,7 +104,11 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.random = function () {
             return 0.5 - Math.random();
         }
-
+        $scope.refreshCaptcha = function()
+        {           
+            $scope.randomNumber  = 0.5 - Math.random();
+            alert($scope.randomNumber);
+        }
         $scope.selectedbBlogs = function (blogId)
         {
             $scope.blogId = blogId;
@@ -292,7 +296,6 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.get(baseUrl + 'getpressRelease').then(function (response) {
                 $scope.pressRelease = response.data.result;
-                console.log($scope.pressRelease)
             });
         }
 
@@ -346,7 +349,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.interested_inproject = function()
         {
             //alert(projectid+"---"+blockid);
-            alert("blockid");
+            alert("uma");
             $("#enquiry-popup").show();
         }
 
@@ -354,6 +357,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
 //            var v = grecaptcha.getResponse();
 //            
 //            if (v.length != '0') {
+alert($("#imgcaptcha").val()); return false;
             $http.post(baseUrl + 'addContact', 
                 {contactData: contact}).then(function (response) {
                     if (response.data.status == true) {

@@ -543,7 +543,7 @@ class MasterSalesController extends Controller {
                 $templatedata['project_id'] = $request['projectEnquiryDetails'][0]['project_id'];
                 $templatedata['arrExtra'][0] = array();
                 $templatedata['arrExtra'][1] = array();
-                //$result = CommonFunctions::templateData($templatedata);
+                $result = CommonFunctions::templateData($templatedata);
                 // ************* End template for new enquiry..
                 $result = ['success' => true, 'message' => 'Record Inserted Successfully.'];
             } else {
@@ -2935,7 +2935,7 @@ Regards,<br>
                 $ressigndate,
                 $ressigntime,
             );
-            // $Templateresult = CommonFunctions::templateData($templatedata);
+             $Templateresult = CommonFunctions::templateData($templatedata);
 
             $result = ["success" => true, "message" => 'Enquiries Reassigned Successfully..'];
         } catch (\Exception $ex) {

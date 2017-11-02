@@ -3,54 +3,26 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/public/frontend/mantravastu/js/app.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/projectdetails.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantravastu/header.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/style.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Models/Customer.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/frontend/route.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantravastu/main.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Models/CustomersContact.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantravastu/footer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysfollowups.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantra_vastu/footer.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Gagan/footer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/quickEnquiry.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/projectdetails.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/projects.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantra_vastu/projects.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/backendApp.blade.php</file>
         </group>
-=======
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/promotionalsmsController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/UserDocuments/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDocuments/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/virtualnumberslist.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Marketing/Views/smslogs.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/cloudtelephonyController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Marketing/Views/teamsmslogs.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/manage.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/teamoutboundlogs.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/manageroles.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/userDocumentController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/employeeDeviceController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/projectController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/teaminboundlogs.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDevice/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/testimonialsController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/careerManagementController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/inboundlogs.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/outboundlogs.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/EmployeeDocumentController.js</file>
-        </group>
->>>>>>> 793483107956268a026191855ff9acfe67f452e0
->>>>>>> a468c2dab622866d9c53f2e25bc22dad203cfea8
     </open-files>
 </project-private>

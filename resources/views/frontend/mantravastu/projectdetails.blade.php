@@ -380,37 +380,38 @@
             },1500);
         });
         $("a#clients").click(function (e) {
-            if(window.location.pathname == '/projects')
+            var subStr = window.location.pathname.match("/(.*)/");
+            if(subStr[1] == 'project-details')
             {
                window.location.href = "http://127.0.0.1:8000";         
-            }
+            }else{}
             e.preventDefault();
             $('html, body').animate({
             scrollTop: $("#testmonials").offset().top
             },1500);
         });
         $("a#home").click(function (e) {
-        e.preventDefault();
-        if(window.location.pathname == '/projects')
-         {
-             window.location.href = "http://127.0.0.1:8000";
-         }
+        var subStr = window.location.pathname.match("/(.*)/");
+            if(subStr[1] == 'project-details')
+            {
+               window.location.href = "http://127.0.0.1:8000";         
+            }else{}
+        e.preventDefault();       
         $('html, body').animate({
         scrollTop: $("#homepage").offset().top
         },1500);
         });
 
         $("a#about").click(function (e) {
-        e.preventDefault();
-         if(window.location.pathname == '/projects')
-         {
-            window.location.href = "http://127.0.0.1:8000";         
-         }
-         else{
+        var subStr = window.location.pathname.match("/(.*)/");
+        if(subStr[1] == 'project-details')
+        {
+           window.location.href = "http://127.0.0.1:8000";         
+        }else{}
+        e.preventDefault();         
         $('html, body').animate({
         scrollTop: $("#aboutus").offset().top
         },1500);
-        }
         });
     });
     $(document).ready(function ($) {

@@ -1,7 +1,6 @@
 @extends('layouts/frontend/Gagan/main')
 @section('content')
 <main class="main-content" ng-init="getProjectDetails('[[$projectId]]')"  style="margin-top:165px">
-
     <div class="container">
         <article class="post project offset-bottom">
             <header class="heading page-heading">
