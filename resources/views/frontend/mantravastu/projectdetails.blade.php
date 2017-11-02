@@ -1,3 +1,8 @@
+<style>
+    .span4 {
+    width: 250px!important;
+}
+</style>
 @extends('layouts/frontend/mantravastu/main')
 @section('content')
 <!-- Start home section -->
@@ -55,7 +60,7 @@
                                         2 BHK apartment of 950 Sq Ft , with state of the art design of the apartment.
                                     </li>
                                     <li class="interested">
-                                        <a id="enquiry" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">I am Interested</a>
+                                        <a id="enquiry"  ng-click="interested_inproject()" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">I am Interested</a>
                                     </li>
                                 </ul>
                             </div>
@@ -81,7 +86,7 @@
                                 </a>
                             </div>
                         </div>
-                    </div>	
+                    </div>
                 </div>
                 <div id="amenitiesimg" class="tab-pane fade" style="margin-top:10px;">
                     <div class="row">
@@ -175,7 +180,7 @@
         <div class="title">
             <h1>Other Projects</h1>
         </div>
-        <div class="row-fluid">
+        <div class="">
             <div ng-repeat="list in current" class="span4">
                 <div class="centered projects">
                     <div class="zoom-in">
@@ -189,16 +194,6 @@
         </div>
     </div>
 </div>
-<!-- projects section end -->
-
-<!--        <div class="section primary-section">
-            <div class="triangle"></div>
-            <div class="container centered">
-                <p class="large-text">Enquire About Our Project Here</p>
-                <a id="enquiry" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Enquire now</a>
-            </div>
-        </div> 
--->
 <!-- Contact section start -->
 <div id="contact" class="contact">
     <div class="section secondary-section">
@@ -215,32 +210,32 @@
             <div class="row-fluid centered">
                 <ul class="social">
                     <li>
-                        <a href="">
+                        <a href="https://www.facebook.com/mantravpl" target="_blank">
                             <span class="icon-facebook-circled"></span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="https://twitter.com/JahagirdarD" target="_blank">
                             <span class="icon-twitter-circled"></span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="https://in.linkedin.com/in/dineshjahagirdar" target="_blank">
                             <span class="icon-linkedin-circled"></span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="https://www.pinterest.com/Mantra_vastu/" target="_blank">
                             <span class="icon-pinterest-circled"></span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="" target="_blank">
                             <span class="icon-dribbble-circled"></span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="https://plus.google.com/111989364413040119355" target="_blank">
                             <span class="icon-gplus-circled"></span>
                         </a>
                     </li>
@@ -312,24 +307,6 @@
 <!-- ScrollUp button end -->
 </main>
 @endsection()
-<!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        
-         jQuery library (served from Google) 
-         bxSlider Javascript file 
-<script src="frontend/mantravastu/js/bootstrap.min.js"></script>
-        <script src="frontend/mantravastu/js/ekko-lightbox.js"></script>
-        <script src="frontend/mantravastu/js/jquery.bxslider.min.js"></script>
-<script type="text/javascript" src="frontend/mantravastu/js/jquery.mixitup.js"></script>
-<script type="text/javascript" src="frontend/mantravastu/js/modernizr.custom.js"></script>
-<script type="text/javascript" src="frontend/mantravastu/js/jquery.placeholder.js"></script>
-<script type="text/javascript" src="frontend/mantravastu/js/jquery.inview.js"></script> -->
-
-<!-- Load google maps api and call initializeMap function defined in app.js -->
-<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;callback=initializeMap"></script>-->
-<!-- css3-mediaqueries.js for IE8 or older -->
-<!--[if lt IE 9]-->
-    <!--<script src="frontend/mantravastu/js/respond.min.js"></script>-->
-<!--[endif]-->
 <script type="text/javascript" src="frontend/mantravastu/js/app.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="frontend/mantravastu/js/jquery.js"></script>
@@ -383,7 +360,57 @@
                                         $('#galleryData tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
                                         $("#elevations").addClass('tab-pane fade in active').removeClass('tab-pane fade');                                        
                                     });
+                                    /* header redirection */
+                                    $("a#contactus").click(function (e) {
+                                        e.preventDefault();     
+                                        $('html, body').animate({
+                                        scrollTop: $("#contact").offset().top
+                                        },1500);
+                                    });
                                     
+                                    $("a#careers").click(function (e) {
+                                        if(window.location.pathname == '/projects')
+                                        {
+                                           window.location.href = "http://127.0.0.1:8000";         
+                                        }
+                                        e.preventDefault();
+                                        $('html, body').animate({
+                                        scrollTop: $("#careersdata").offset().top
+                                        },1500);
+                                    });
+                                    $("a#clients").click(function (e) {
+                                        if(window.location.pathname == '/projects')
+                                        {
+                                           window.location.href = "http://127.0.0.1:8000";         
+                                        }
+                                        e.preventDefault();
+                                        $('html, body').animate({
+                                        scrollTop: $("#testmonials").offset().top
+                                        },1500);
+                                    });
+                                    $("a#home").click(function (e) {
+                                    e.preventDefault();
+                                    if(window.location.pathname == '/projects')
+                                     {
+                                         window.location.href = "http://127.0.0.1:8000";
+                                     }
+                                    $('html, body').animate({
+                                    scrollTop: $("#homepage").offset().top
+                                    },1500);
+                                    });
+
+                                    $("a#about").click(function (e) {
+                                    e.preventDefault();
+                                     if(window.location.pathname == '/projects')
+                                     {
+                                        window.location.href = "http://127.0.0.1:8000";         
+                                     }
+                                     else{
+                                    $('html, body').animate({
+                                    scrollTop: $("#aboutus").offset().top
+                                    },1500);
+                                    }
+                                    });
                                 });
                                 $(document).ready(function ($) {
                                     $('.bxslider').bxSlider({mode: 'fade', captions: true, auto: true, autoControls: true, });

@@ -147,25 +147,6 @@ padding-top: 8%;
                     <hr>
                 </div>
             </div>
-<!--            <div class="row-fluid">
-                <div class="span6">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                    <p> Eligibility Criteria: <span>BE / B-Tech</span></p>
-                    <p> Job Posted Date: <span>23 /06 /2015</span></p>
-                    <p> Job Application Closed by: <span>23 /06 /2015</span></p>
-                    <a id="job-apply" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Apply now</a>
-                    <hr>
-                </div>
-
-                <div class="span6">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                    <p> Eligibility Criteria: <span>BE / B-Tech</span></p>
-                    <p> Job Posted Date: <span>23 /06 /2015</span></p>
-                    <p> Job Application Closed by: <span>23 /06 /2015</span></p>
-                    <a id="job-apply-2" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Apply now</a>
-                    <hr>
-                </div>       
-            </div>-->
         </div>
     </div>
     <!-- Newsletter section end -->
