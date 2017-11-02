@@ -2,8 +2,9 @@
     <div class="col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Property Portals</span>                
-            </div>
+                <span class="widget-caption">Property Portals</span> 
+                  <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
+              </div>
             <div class="widget-body table-responsive">
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
@@ -24,6 +25,24 @@
                         </tr>
                     </tbody>
                 </table> 
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
+        <div class="modal-dialog">
+           
+            <div class="modal-content helpModal" >
+                <div class="modal-header helpModalHeader bordered-bottom bordered-themeprimary" >
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title" align="center">Task Priority Help Info</h4>
+                </div>                
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="helpContent">- You can see your added property portals here, you can on or off and view the details. </label>
+                             </div>                            
+                        </div>
+                    </div>  
             </div>
         </div>
     </div>

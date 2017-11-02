@@ -393,7 +393,7 @@ class CloudCallingLogsController extends Controller {
                                 date_default_timezone_set('Asia/Kolkata');
 
                                 $interval_id = $appointment_setting_model->appointment_interval_id;
-                                $interval_data = \App\Models\MlstLmsaAppointmentInterval::where('id', $interval_id)->first();
+                                $interval_data = \App\Models\MlstBmsbAppointmentInterval::where('id', $interval_id)->first();
                                 $interval = $interval_data->interval; //in min
                                 $start_time = $appointment_setting_model->appointment_start_time;
                                 $start_time = date('H:i:s', strtotime($start_time));
@@ -1202,7 +1202,6 @@ class CloudCallingLogsController extends Controller {
                     $msg_body = 'Dear ' . $fullName . ', ';
                     $msg_body .= 'Your conversation held with ' . $empfullname . '(' . $virtual_number . ')';
                     $enquiry_remark = 'Outgoing call done through system remark is awaited by ' . $empfullname;
-                    //Yii::$app->LMS->sendSMST($smsbody = $msg_body, $mobile_no = $model->caller_number, $user_id = $model->admin_user_id, $customer = 'Yes', $customer_id = $enq_model->customerDetail->id);
                 } elseif ($model->customer_call_status == 'Missed') {
                     //$enquiry_remark = 'Out bound call made by '.$enq_model->admin_user_info->fullName.' but '.' customer not picking call OR out of coverage.';
                     $enquiry_remark = 'Outgoing call done through system by ' . $empfullname . ' but customer not picked-up or not reachable.';
@@ -1246,7 +1245,7 @@ class CloudCallingLogsController extends Controller {
 
         $obj_enquiry = new Enquiry();
         $obj_enquiry->client_id = $obj_employee->client_id;
-        $obj_enquiry->created_at = date('Y-m-d H:i:s'); //enquiry created date(in_date in LMS, created)
+        $obj_enquiry->created_at = date('Y-m-d H:i:s'); //enquiry created date(in_date in BMS, created)
         $obj_enquiry->created_date = date('Y-m-d');
         $obj_enquiry->sales_enquiry_date = date('Y-m-d');
         $obj_enquiry->created_by = $obj_employee->id;
@@ -1450,7 +1449,7 @@ class CloudCallingLogsController extends Controller {
         $sourceName = "";
         $subsourceName = "";
         if ($model->source_id > 0) {
-            $getSource = \App\Models\MlstLmsaEnquirySalesSource::where('id', $model->source_id)->first();
+            $getSource = \App\Models\MlstBmsbEnquirySalesSource::where('id', $model->source_id)->first();
             if (!empty($getSource)) {
                 $sourceName = $getSource->sales_source_name;
             }
@@ -2493,7 +2492,7 @@ class CloudCallingLogsController extends Controller {
                 $sheet->mergeCells('A2:L2');
 
                 $title = str_replace('_', ' ', $reportName);
-                $sheet->row(1, array('LMS Auto - ' . $title));
+                $sheet->row(1, array('BMS Builder - ' . $title));
 
                 $sheet->appendRow(["Sr.No", "Call Date & Time", "Virtual Number", "Caller Number", "Title", "Customer Name", "Call Status", "Title", "Call Answered By",
                     "Call Duration", "Source Name", "Sub Source"]);
@@ -2880,7 +2879,7 @@ class CloudCallingLogsController extends Controller {
                 $sheet->mergeCells('A2:I2');
 
                 $title = str_replace('_', ' ', $reportName);
-                $sheet->row(1, array('LMS Auto - ' . $title));
+                $sheet->row(1, array('BMS Builder - ' . $title));
 
                 $sheet->appendRow(["Sr.No", "Call Date & Time", "Customer Number", "Title", "Customer Name", "Call Status", "Title", "Call By",
                     "Call Duration"]);

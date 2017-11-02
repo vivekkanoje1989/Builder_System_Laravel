@@ -1,4 +1,4 @@
-app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$stateParams', 'toaster', 'SweetAlert', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse, $stateParams, toaster, SweetAlert) {
+    app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$stateParams', 'toaster', 'SweetAlert','$modal', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse, $stateParams, toaster, SweetAlert, $modal) {
         $scope.pageHeading = 'Create User';
         $scope.buttonLabel = 'Create';
         $scope.userData = {};
@@ -68,6 +68,32 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
 //                }
 //            });
+        }
+        
+        
+        $scope.showHelpHr = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Manage Users</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        $scope.showHelpManageRole = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Manage Roles</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
         }
 
         $scope.ct_presalesemployee = [];

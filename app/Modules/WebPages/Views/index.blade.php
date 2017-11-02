@@ -16,8 +16,9 @@
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Content Management</span>                
-            </div>
+                <span class="widget-caption">Content Management</span>   
+                 <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
+             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
                     <div class="btn-group pull-right filterBtn">
@@ -81,21 +82,21 @@
                                 <th style="width:10%">Sr. No.</th>
                                 <th style="width: 30%">
                                     <a href="javascript:void(0);" ng-click="orderByField('page_name')">Page Name
-                                        <span ><img ng-hide="(sortKey == 'page_name' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ><img ng-hide="(sortKey == 'page_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'page_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'page_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 30%">
                                     <a href="javascript:void(0);" ng-click="orderByField('page_title')">Page Title
-                                        <span ><img ng-hide="(sortKey == 'page_title' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ><img ng-hide="(sortKey == 'page_title' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'page_title' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'page_title' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>                            
                                 <th style="width: 20%">
                                     <a href="javascript:void(0);" ng-click="orderByField('status')">Status
-                                        <span ><img ng-hide="(sortKey == 'status' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ><img ng-hide="(sortKey == 'status' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
@@ -116,7 +117,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="5"  ng-show="(listPages|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="5"  ng-show="(listPages|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
@@ -190,4 +191,25 @@
     </div>
     <script src="/js/filterSlider.js"></script>
     <!-- Filter Form End-->
+    <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
+        <div class="modal-dialog">
+           
+            <div class="modal-content helpModal" >
+                <div class="modal-header helpModalHeader bordered-bottom bordered-themeprimary" >
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title" align="center">Task Priority Help Info</h4>
+                </div>                
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="helpContent">-  You can see different Web Page name.</label>
+                                <label class="helpContent">-  After click on Edit button you can edit old information and add new information.</label>
+                                <label class="helpContent">-  After click on Delete button you can delete web page.</label>
+                                
+                            </div>                            
+                        </div>
+                    </div>  
+            </div>
+        </div>
+    </div>
 </div>

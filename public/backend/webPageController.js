@@ -1,5 +1,5 @@
 'use strict';
-app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$rootScope', function ($scope, Data, Upload, $timeout, toaster, $parse, $rootScope) {
+app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$rootScope','$modal', function ($scope, Data, Upload, $timeout, toaster, $parse, $rootScope,$modal) {
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.subId = '0';
@@ -23,6 +23,19 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
+        }
+
+        $scope.showHelpContent = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Content Management</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
         }
 
         $scope.searchData = {};
@@ -178,7 +191,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 }
                 if ($scope.subId == 0)
                 {
-                    
+
                     $scope.subPage.push({'page_name': record.page_name, 'page_title': record.page_title, 'seo_url': record.seo_url, 'seo_page_title': record.seo_page_title,
                         'meta_description': record.meta_description, 'meta_keywords': record.meta_keywords, 'canonical_tag': record.canonical_tag, 'child_page_position': record.child_page_position,
                         'status': record.status, 'id': response.data.id, 'banner_images': record.banner_images});

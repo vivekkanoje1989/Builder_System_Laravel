@@ -34,11 +34,26 @@ app.directive('resetOnClick', function () {
     }
 });
 
-app.directive('capitalizeFirst', function () {
+app.directive('capitalization', function (uppercaseFilter, $parse) {
     return {
-        restrict: 'EA', //matches either element or attribute
-        replace: true,
+    require: 'ngModel',
+    link: function ($scope, $element, $attrs, $modelCtrl) {
+
+        var capitalize = function (inputValue) {
+            if (!! inputValue) {
+                 var capitalized = angular.uppercase(inputValue.substring(0, 1)) + inputValue.substring(1);
+                 if (capitalized !== inputValue) {
+                    $modelCtrl.$setViewValue(capitalized);
+                    $modelCtrl.$render();
+                 }
+                 return capitalized;
+            }
+            return inputValue;
+        };
+        $modelCtrl.$parsers.push(capitalize);
+        capitalize($scope[$attrs.ngModel]); // capitalize initial value
     }
+};
 });
 
 var compareTo = function () {
