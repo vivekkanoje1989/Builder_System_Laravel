@@ -731,7 +731,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         $scope.ct_presalesemployee = [];
         $scope.getAllEmployeeData = function (employee_id) {
-            Data.get('master-sales/getEmployeeData').then(function (response) {
+            Data.post('master-sales/getEmployeeData').then(function (response) {
                 $scope.ct_presalesemployee = response.presalesemprecords;
             });
         };
@@ -1447,7 +1447,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             Data.post('master-sales/insertTodayRemark', {
                 data: data, custInfo: custInfo
             }).then(function (response) {
-                alert($scope.shared);
                 $scope.sbtbtndis = false;
                 if (!response.success) {
                     $scope.errorMsg = response.errorMsg;

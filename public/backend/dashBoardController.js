@@ -30,32 +30,6 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         };
 
 
-        $scope.showHelpRequestForMe = function () {
-            $scope.optionModal = $modal.open({
-                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Requests For Me</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
-                controller: [
-                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
-                        $scope.closeModal = function () {
-                            $modalInstance.dismiss();
-                        };
-                    }
-                ]
-            });
-        }
-        
-        $scope.showHelpMyRequest = function () {
-            $scope.optionModal = $modal.open({
-                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">My Requests</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
-                controller: [
-                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
-                        $scope.closeModal = function () {
-                            $modalInstance.dismiss();
-                        };
-                    }
-                ]
-            });
-        }
-
         $scope.requestForMeExportToxls = function () {
             $scope.get_excel = window.location = "/request-for-me/requestForMeExportToxls";
             if ($scope.get_excel) {
@@ -153,6 +127,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         };
         $scope.dorequestLeaveAction = function (request) {
             $scope.reqLeave = true;
+            $('.firstDiv').css('opacity','0.1').css("pointer-events","none");
+            $('.pleaseWait').css("display", "block").css("z-index","9999");
             var date = new Date(request.from_date);
             $scope.from_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             var date = new Date(request.to_date);
@@ -164,11 +140,15 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                     $scope.reqLeave = false;
                     toaster.pop('success', 'Manage request', "Request created successfully");
                     $state.go('myRequestIndex');
+                } else {
+                    $scope.reqLeave = false;
                 }
             });
         };
         $scope.doOtherApprovalAction = function (request)
         {
+             $('.firstDiv').css('opacity','0.1').css("pointer-events","none");
+            $('.pleaseWait').css("display", "block").css("z-index","9999");
             $scope.reqOtherLeave = true;
             Data.post('request-approval/other', {
                 uid: request.application_to, cc: request.application_cc, req_desc: request.req_desc, request_type: "Approval", status: "1"}).then(function (response) {

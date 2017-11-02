@@ -214,10 +214,9 @@
                 <div class="modal-body">
                         <div class="row">
                             <div class="form-group col-sm-12">
-                                <label class="helpContent">Priority </label>
-                                <span class="input-icon icon-right">                                    
-                                    
-                                </span>
+                                <label class="helpContent">-Using this tab we can add new job post.</label>
+                                <label class="helpContent">- After clicking on "View Applications" button displays the list of candidates who applied for job.</label>
+                               
                             </div>                            
                         </div>
                     </div>  

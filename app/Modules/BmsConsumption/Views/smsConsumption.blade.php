@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <!-- filter data-->
-                        <div class="dataTables_length" >
+<!--                        <div class="dataTables_length" >
                             <label>
                                 <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
                                     <option value="30">30</option>
@@ -89,7 +89,7 @@
                                     <option value="999">999</option>
                                 </select>
                             </label>
-                        </div>
+                        </div>-->
                         <br>
                         <div>
                             <p ng-if="smsReportLength != 0" style=" font-weight: 600; font-size: 20px;margin-left: 20px;"><span>Report for {{firstDateofThisMonth}}<span><span ng-if="currentDate"> To {{currentDate}}</span></p>
