@@ -42,11 +42,11 @@
 
                     </div>                    
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_pending_followups', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a ng-if="enquiriesLength != 0" class="btn btn-default toggleForm" ng-click="procName('proc_get_pending_followups', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                    <div class="DTTT btn-group">
+                    <div class="DTTT btn-group" ng-if="enquiriesLength != 0">
                         <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Action</a>
                         <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
@@ -73,7 +73,7 @@
                             @endif 
                         </ul>
                     </div>                    
-                    <div  class="dataTables_filter">                        
+                    <div  class="dataTables_filter" ng-if="enquiriesLength != 0">                        
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
@@ -114,7 +114,7 @@
                     <div>
                         <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
                     </div>
-                    <div class="dataTables_length" >
+                    <div class="dataTables_length" ng-if="enquiriesLength != 0">
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
                                 <option value="30">30</option>

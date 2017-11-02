@@ -311,148 +311,149 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="frontend/mantravastu/js/jquery.js"></script>
 <script type="text/javascript">
-                                $(document).ready(function ($) {
-                                    $("html, body").animate({
-                                        scrollTop: 0
-                                    }, 600);
-                                    
-                                    $("a#availability").click(function (e) {
-                                        $("#availabilitydata").show();
-                                        $('.tab-content').children(':not(#availabilitydata)').hide();
-                                        $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
-                                        $("#availabilitydata").addClass('tab-pane fade in active').removeClass('tab-pane fade');
-                                    });
-                                    $("a#locationid").click(function (e) {
-                                        $("#locationmap").show();
-                                        $('.tab-content').children(':not(#locationmap)').hide();
-                                        $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
-                                        $("#locationmap").addClass('tab-pane fade in active').removeClass('tab-pane fade');
-                                    });
-                                    $("a#layout").click(function (e) {
-                                        $("#layoutimg").show();
-                                        $('.tab-content').children(':not(#layoutimg)').hide();
-                                        $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
-                                        $("#layoutimg").addClass('tab-pane fade in active').removeClass('tab-pane fade');
-                                    });
-                                    
-                                    $("a#amenities").click(function (e) {
-                                        $("#amenitiesimg").show();
-                                        $('.tab-content').children(':not(#amenitiesimg)').hide();
-                                        $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
-                                        $("#amenitiesimg").addClass('tab-pane fade in active').removeClass('tab-pane fade');                                        
-                                    });
-                                    
-                                    $("a#floor").click(function (e) {
-                                        $("#floorimgs").show();
-                                        $('.tab-content').children(':not(#floorimgs)').hide();
-                                        $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
-                                        $("#floorimgs").addClass('tab-pane fade in active').removeClass('tab-pane fade');                                        
-                                    });
-                                    $("a#gallary").click(function (e) {
-                                        $("#gallaryimg").show();
-                                        $('.tab-content').children(':not(#gallaryimg)').hide();
-                                        $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
-                                        $("#gallaryimg").addClass('tab-pane fade in active').removeClass('tab-pane fade');                                        
-                                    });
-                                    $("a#elevationsid").click(function (e) {
-                                        $("#galleryData elevations").show();
-                                        $('#galleryData').children(':not(#elevations)').hide();
-                                        $('#galleryData tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
-                                        $("#elevations").addClass('tab-pane fade in active').removeClass('tab-pane fade');                                        
-                                    });
-                                    /* header redirection */
-                                    $("a#contactus").click(function (e) {
-                                        e.preventDefault();     
-                                        $('html, body').animate({
-                                        scrollTop: $("#contact").offset().top
-                                        },1500);
-                                    });
-                                    
-                                    $("a#careers").click(function (e) {
-                                        if(window.location.pathname == '/projects')
-                                        {
-                                           window.location.href = "http://127.0.0.1:8000";         
-                                        }
-                                        e.preventDefault();
-                                        $('html, body').animate({
-                                        scrollTop: $("#careersdata").offset().top
-                                        },1500);
-                                    });
-                                    $("a#clients").click(function (e) {
-                                        if(window.location.pathname == '/projects')
-                                        {
-                                           window.location.href = "http://127.0.0.1:8000";         
-                                        }
-                                        e.preventDefault();
-                                        $('html, body').animate({
-                                        scrollTop: $("#testmonials").offset().top
-                                        },1500);
-                                    });
-                                    $("a#home").click(function (e) {
-                                    e.preventDefault();
-                                    if(window.location.pathname == '/projects')
-                                     {
-                                         window.location.href = "http://127.0.0.1:8000";
-                                     }
-                                    $('html, body').animate({
-                                    scrollTop: $("#homepage").offset().top
-                                    },1500);
-                                    });
+    $(document).ready(function ($) {
+        $("html, body").animate({
+            scrollTop: 0
+        }, 600);
 
-                                    $("a#about").click(function (e) {
-                                    e.preventDefault();
-                                     if(window.location.pathname == '/projects')
-                                     {
-                                        window.location.href = "http://127.0.0.1:8000";         
-                                     }
-                                     else{
-                                    $('html, body').animate({
-                                    scrollTop: $("#aboutus").offset().top
-                                    },1500);
-                                    }
-                                    });
-                                });
-                                $(document).ready(function ($) {
-                                    $('.bxslider').bxSlider({mode: 'fade', captions: true, auto: true, autoControls: true, });
-                                    // delegate calls to data-toggle="lightbox"
-                                    $(document).delegate('*[data-toggle="lightbox"]:not([data-gallery="navigateTo"])', 'click', function (event) {
-                                        event.preventDefault();
-                                        return $(this).ekkoLightbox({
-                                            onShown: function () {
-                                                if (window.console) {
-                                                    return console.log('Checking our the events huh?');
-                                                }
-                                            },
-                                            onNavigate: function (direction, itemIndex) {
-                                                if (window.console) {
-                                                    return console.log('Navigating ' + direction + '. Current item: ' + itemIndex);
-                                                }
-                                            }
-                                        });
-                                    });
-                                    //Programatically call
-                                    $('#open-image').click(function (e) {
-                                        e.preventDefault();
-                                        $(this).ekkoLightbox();
-                                    });
-                                    $('#open-youtube').click(function (e) {
-                                        e.preventDefault();
-                                        $(this).ekkoLightbox();
-                                    });
-                                    // navigateTo
-                                    $(document).delegate('*[data-gallery="navigateTo"]', 'click', function (event) {
-                                        event.preventDefault();
-                                        return $(this).ekkoLightbox({
-                                            onShown: function () {
-                                                var a = this.modal_content.find('.modal-footer a');
-                                                if (a.length > 0) {
-                                                    a.click(function (e) {
-                                                        e.preventDefault();
-                                                        this.navigateTo(2);
-                                                    }.bind(this));
-                                                }
-                                            }
-                                        });
-                                    });
-                                });
+        $("a#availability").click(function (e) {
+            $("#availabilitydata").show();
+            $('.tab-content').children(':not(#availabilitydata)').hide();
+            $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
+            $("#availabilitydata").addClass('tab-pane fade in active').removeClass('tab-pane fade');
+        });
+        $("a#locationid").click(function (e) {
+            $("#locationmap").show();
+            $('.tab-content').children(':not(#locationmap)').hide();
+            $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
+            $("#locationmap").addClass('tab-pane fade in active').removeClass('tab-pane fade');
+        });
+        $("a#layout").click(function (e) {
+            $("#layoutimg").show();
+            $('.tab-content').children(':not(#layoutimg)').hide();
+            $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
+            $("#layoutimg").addClass('tab-pane fade in active').removeClass('tab-pane fade');
+        });
+
+        $("a#amenities").click(function (e) {
+            $("#amenitiesimg").show();
+            $('.tab-content').children(':not(#amenitiesimg)').hide();
+            $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
+            $("#amenitiesimg").addClass('tab-pane fade in active').removeClass('tab-pane fade');                                        
+        });
+
+        $("a#floor").click(function (e) {
+            $("#floorimgs").show();
+            $('.tab-content').children(':not(#floorimgs)').hide();
+            $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
+            $("#floorimgs").addClass('tab-pane fade in active').removeClass('tab-pane fade');                                        
+        });
+        $("a#gallary").click(function (e) {
+            $("#gallaryimg").show();
+            $('.tab-content').children(':not(#gallaryimg)').hide();
+            $('.tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
+            $("#gallaryimg").addClass('tab-pane fade in active').removeClass('tab-pane fade');                                        
+        });
+        $("a#elevationsid").click(function (e) {
+            $("#galleryData elevations").show();
+            $('#galleryData').children(':not(#elevations)').hide();
+            $('#galleryData tab-content tab-pane fade').addClass('tab-pane fade').removeClass('tab-pane fade in active');
+            $("#elevations").addClass('tab-pane fade in active').removeClass('tab-pane fade');                                        
+        });
+        /* header redirection */
+        $("a#contactus").click(function (e) {
+            e.preventDefault();     
+            $('html, body').animate({
+            scrollTop: $("#contact").offset().top
+            },1500);
+        });
+
+        $("a#careers").click(function (e) {
+            var subStr = window.location.pathname.match("/(.*)/");
+            if(subStr[1] == 'project-details')
+            {
+               window.location.href = "http://127.0.0.1:8000";         
+            }else{}
+            e.preventDefault();
+            $('html, body').animate({
+            scrollTop: $("#careersdata").offset().top
+            },1500);
+        });
+        $("a#clients").click(function (e) {
+            if(window.location.pathname == '/projects')
+            {
+               window.location.href = "http://127.0.0.1:8000";         
+            }
+            e.preventDefault();
+            $('html, body').animate({
+            scrollTop: $("#testmonials").offset().top
+            },1500);
+        });
+        $("a#home").click(function (e) {
+        e.preventDefault();
+        if(window.location.pathname == '/projects')
+         {
+             window.location.href = "http://127.0.0.1:8000";
+         }
+        $('html, body').animate({
+        scrollTop: $("#homepage").offset().top
+        },1500);
+        });
+
+        $("a#about").click(function (e) {
+        e.preventDefault();
+         if(window.location.pathname == '/projects')
+         {
+            window.location.href = "http://127.0.0.1:8000";         
+         }
+         else{
+        $('html, body').animate({
+        scrollTop: $("#aboutus").offset().top
+        },1500);
+        }
+        });
+    });
+    $(document).ready(function ($) {
+        $('.bxslider').bxSlider({mode: 'fade', captions: true, auto: true, autoControls: true, });
+        // delegate calls to data-toggle="lightbox"
+        $(document).delegate('*[data-toggle="lightbox"]:not([data-gallery="navigateTo"])', 'click', function (event) {
+            event.preventDefault();
+            return $(this).ekkoLightbox({
+                onShown: function () {
+                    if (window.console) {
+                        return console.log('Checking our the events huh?');
+                    }
+                },
+                onNavigate: function (direction, itemIndex) {
+                    if (window.console) {
+                        return console.log('Navigating ' + direction + '. Current item: ' + itemIndex);
+                    }
+                }
+            });
+        });
+        //Programatically call
+        $('#open-image').click(function (e) {
+            e.preventDefault();
+            $(this).ekkoLightbox();
+        });
+        $('#open-youtube').click(function (e) {
+            e.preventDefault();
+            $(this).ekkoLightbox();
+        });
+        // navigateTo
+        $(document).delegate('*[data-gallery="navigateTo"]', 'click', function (event) {
+            event.preventDefault();
+            return $(this).ekkoLightbox({
+                onShown: function () {
+                    var a = this.modal_content.find('.modal-footer a');
+                    if (a.length > 0) {
+                        a.click(function (e) {
+                            e.preventDefault();
+                            this.navigateTo(2);
+                        }.bind(this));
+                    }
+                }
+            });
+        });
+    });
 </script>
