@@ -1040,11 +1040,12 @@ angular.module('app')
                                     }
                                 })
                                 .state('importEnquiryIndex', {
-                                    url: '/sales/importEnquiry',
+                                    url: '/sales/importEnquiries',
                                     templateUrl: '/master-sales/import',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Import Enquiry'
+                                        title: 'Import Enquiries',
+                                        label: 'Sales /  Customers Management / Import Enquiries',
                                     },
                                     resolve: {
                                         deps:

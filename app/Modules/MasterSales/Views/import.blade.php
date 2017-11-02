@@ -41,8 +41,7 @@
                             <span>3. Date format must be in "dd-mm-yyyy" format.</span><br>
                             <span>4. In Excel sheet Date format should be in Text format.</span><br>
                             <span>5. Insert existing employee mobile number else enquiry will be insert in login account.</span><br>
-                            <span>6. Vehicle Model name & customer source must be same as in LMS Auto.</span><br>
-                            <span>7. In Excel sheet Enquiry Date,Title,First name or Last name,Mobile no1 or Email 1,Employee Mobile,Enquiry source column's are Mandatory .</span>
+                            <span>6. In Excel sheet Enquiry Date,Title,First name or Last name,Mobile no1 or Email 1,Employee Mobile,Enquiry source column's are Mandatory .</span>
                         </div>
                     </div>
                 </div>

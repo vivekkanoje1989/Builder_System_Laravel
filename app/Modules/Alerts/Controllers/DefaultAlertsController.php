@@ -32,32 +32,20 @@ class DefaultAlertsController extends Controller {
         $master = config('global.masterdatabase');
         if (!empty($request['id']) && $request['id'] !== "0") { // for edit
             $manageAlerts = DB::table('laravel_developement_master_edynamics.mlst_bmsb_templates_defaults as td')
-                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'td.templates_event_id', '=', 'te.id')
-                    ->select('td.*', 'te.event_name', 'te.module_names')
-                    ->where('td.id', '=', $request['id'])
-                    ->where('td.deleted_status', '!=', 1)->get();
+                            ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'td.templates_event_id', '=', 'te.id')
+                            ->select('td.*', 'te.event_name', 'te.module_names')
+                            ->where('td.id', '=', $request['id'])
+                            ->where('td.deleted_status', '!=', 1)->get();
 
             $client_id = config('global.client_id');
             $client = \App\Models\ClientInfo::where('id', $client_id)->first();
             $project = Project::where('id', $client->project_id)->first();
 
-//             $project = \App\Models\MlstBmsbBlockType::where('id', $client->project_id)->first();
-//            $model_data = \App\Models\MlstLmsaModel::where('brand_id', $client->brand_id)->orderBy('id', 'DESC')->first();
-//            if (empty($model_data)) {
-//                $model_name = "";
-//            } else {
-//                $model_name = $model_data->model_name;
-//                $displayImage = config('global.s3Path') . '/model_images/' . $model_data->display_image;
-//            }
-//print_r($client);
-//            $brandlogo = config('global.s3Path') . '/brand_logo/' . $brand->brand_logo;
             $logo = config('global.s3Path') . 'client/' . $client_id . '/' . $client->company_logo;
 
-//            $car_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/car.png";
             $loc_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/loc2.png";
             $search = array('[#companyMarketingName#]', '[#showroomGoogleMap#]', '[#companyAddress#]', '[#companyLogo#]', '[#brandLogo#]', '[#brandColor#]', '[#brandName#]', '[#locimg#]', '[#vehicleimg#]', '[#companyGoogleMap#]');
 
-//               $replace = array(ucwords($client->marketing_name), '', $client->address, $logo, $brandlogo, $displayImage, $brand->brand_color, $brand->brand_name, $loc_image, $car_image, '#');
             $replace = array(ucwords($client->marketing_name), '', $client->address, $logo, $loc_image, '#');
 
             $manageAlerts[0]->email_body = str_replace($search, $replace, $manageAlerts[0]->email_body); //email
@@ -72,8 +60,8 @@ class DefaultAlertsController extends Controller {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
-        }else{
-              $export = '';
+        } else {
+            $export = '';
         }
         if (in_array('01402', $array)) {
             $deleteBtn = 1;
@@ -81,16 +69,13 @@ class DefaultAlertsController extends Controller {
             $deleteBtn = '';
         }
         if ($manageAlerts) {
-            $result = ['success' => true, "records" => ["data" => $manageAlerts, 'exportData' => $export,'delete'=>$deleteBtn, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts)]];
-            echo json_encode($result);
+            $result = ['success' => true, "records" => ["data" => $manageAlerts, 'exportData' => $export, 'delete' => $deleteBtn, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts)]];
+            return json_encode($result);
         }
     }
 
-    
-    
-    
-     public function deleteDefaultTemplate() {
-         $postdata = file_get_contents('php://input');
+    public function deleteDefaultTemplate() {
+        $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
@@ -98,9 +83,8 @@ class DefaultAlertsController extends Controller {
         $bloodGrps = MlstBloodGroups::where('id', $request['id'])->update($input['bloodGrpData']);
         $result = ['success' => true, 'result' => $bloodGrps];
         return json_encode($result);
-        
     }
-    
+
     public function defaultTemplatesExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
@@ -141,5 +125,4 @@ class DefaultAlertsController extends Controller {
             }
         }
     }
-
 }
