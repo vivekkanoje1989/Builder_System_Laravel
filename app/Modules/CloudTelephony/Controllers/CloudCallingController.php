@@ -1112,7 +1112,7 @@ class CloudCallingController extends Controller {
     }
     
     public function sendSMS(){
-        $smsbody = "LMS sms testing usimg laravel";
+        $smsbody = "BMS sms testing usimg laravel";
         $mobile = "9096316143";
         $result = CommonFunctions::sendSMST($smsbody, $mobile);
         echo $result;

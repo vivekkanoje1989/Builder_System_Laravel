@@ -76,14 +76,14 @@
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12" ng-show="promotionalsmsData.send_sms_type == 2"> 
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!promotionalsmsForm.mobilenumbers.$dirty && promotionalsmsForm.mobilenumbers.$invalid)}">
-                                <label for="">Upload .xlsx Format Only </label>
+                                <label for="">Upload .xls Format Only </label>
                                 <input type="file" ngf-select ng-model="promotionalsmsData.mobilenumbers"  id="mobilenumbers" class="form-control" name="mobilenumbers" accept="xls/*" ng-required="promotionalsmsData.send_sms_type == 2">
                                 <span class="input-icon icon-right">
                                     <div ng-show="step1" ng-messages="promotionalsmsForm.mobilenumbers.$error" class="help-block step1">
                                         <div ng-message="required">File is not selected.</div>
                                     </div>
                                 </span>
-                                <span><a class="sample-link" href="https://s3-ap-south-1.amazonaws.com/lms-auto-common/bulk_file/sample_bulk_sms_file.xlsx" target="_blank">Download Sample</a></span>
+                                <span><a class="sample-link" href="http://bmsb.netestgcp.in/common/bulksmsmobile/bulkMobileNumbersSample.xls" target="_blank">Download Sample</a></span>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12" ng-show="promotionalsmsData.send_sms_type == 3"> 

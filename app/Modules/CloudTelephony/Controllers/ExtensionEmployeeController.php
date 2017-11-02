@@ -17,7 +17,7 @@ use App\Models\EnquirySubSource;
 use App\Models\CtSetting;
 use App\Models\backend\Employee;
 use App\Models\CtEmployeesExtension;
-use \App\Models\MlstLmsaDesignation;
+use \App\Models\MlstBmsbDesignation;
 use App\Classes\S3;
 use Auth;
 use Excel;

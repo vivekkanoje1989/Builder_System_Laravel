@@ -884,7 +884,7 @@ class MasterSalesController extends Controller {
             $company_id = $input['company_id'];
 
             if (!empty($corporate_customer) && $company_id == 0) { //checked checkbox and new value in textbox
-                $companyId = MlstLmsaCompany::select('id', 'company_name')->where('company_name', $input['company_name'])->get();
+                $companyId = MlstBmsbCompany::select('id', 'company_name')->where('company_name', $input['company_name'])->get();
 
                 if (!empty($companyId[0])) {
                     $company_id = $companyId[0]['id'];
@@ -893,7 +893,7 @@ class MasterSalesController extends Controller {
                     $createCompany['company_name'] = $input['company_name'];
                     $createC = CommonFunctions::insertMainTableRecords($loggedInUserId);
                     $insertCompany = array_merge($createCompany, $createC);
-                    $insertcompany = MlstLmsaCompany::create($insertCompany);
+                    $insertcompany = MlstBmsbCompany::create($insertCompany);
                     $company_id = $insertcompany->id;
                 }
             } elseif ($company_id == 0) { //uncheck checkbox
@@ -2684,7 +2684,7 @@ Regards,<br>
                         $sheet->mergeCells('A2:AC2');
 
                         $title = str_replace('_', ' ', $reportName);
-                        $sheet->row(1, array('LMS Auto - ' . $title));
+                        $sheet->row(1, array('BMS Builder - ' . $title));
 
                         $sheet->appendRow(["Sr.No",
                             "Enquiry Date (DD-MM-YYYY)",

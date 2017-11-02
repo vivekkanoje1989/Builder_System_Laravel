@@ -84,16 +84,16 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     /*     * **************************ENQUIRIES*************************** */
 
     Route::get('/master-sales/totalEnquiry/{type}', 'MasterSalesController@totalEnquiry')->middleware("permission:040106"); // get total enq with type
-    Route::get('/master-sales/teamTotalEnquiry/{type}', 'MasterSalesController@teamTotalEnquiry')->middleware("permission:040101004"); // get total enq with type
-    Route::post('/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries')->middleware("permission:040106|040101004"); // total enquiries listing
+    Route::get('/master-sales/teamTotalEnquiry/{type}', 'MasterSalesController@teamTotalEnquiry')->middleware("permission:04010804"); // get total enq with type
+    Route::post('/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries')->middleware("permission:040106|04010804"); // total enquiries listing
     Route::get('/master-sales/reassignEnquiry/{type}', 'MasterSalesController@reassignEnquiry')->middleware("permission:040107|01407"); //  reassign enquiries
     Route::post('/master-sales/getReassignEnquiry', 'MasterSalesController@getReassignEnquiry')->middleware("permission:040107|01407"); // listing for reassign enquiries
     Route::get('/master-sales/lostEnquiries/{type}', 'MasterSalesController@lostEnquiries')->middleware("permission:040105"); // get all lost enquiries
     Route::get('/master-sales/teamLostEnquiries/{type}', 'MasterSalesController@lostEnquiries')->middleware("permission:040101005"); // get all lost enquiries
     Route::post('/master-sales/getLostEnquiries', 'MasterSalesController@getLostEnquiries')->middleware("permission:040107|040101005"); // get lost enquiries listing
     Route::get('/master-sales/bookedEnquiries/{type}', 'MasterSalesController@bookedEnquiries')->middleware("permission:040108|040101006"); // get all booked enquiries 
-    Route::get('/master-sales/teamBookedEnquiries/{type}', 'MasterSalesController@bookedEnquiries')->middleware("permission:040108|040101006"); // get all booked enquiries 
-    Route::post('/master-sales/getBookedEnquiries', 'MasterSalesController@getBookedEnquiries')->middleware("permission:040108|040101006"); // get Booked  Enquiries
+    Route::get('/master-sales/teamBookedEnquiries/{type}', 'MasterSalesController@bookedEnquiries')->middleware("permission:040108|04010806"); // get all booked enquiries 
+    Route::post('/master-sales/getBookedEnquiries', 'MasterSalesController@getBookedEnquiries')->middleware("permission:040108|04010806"); // get Booked  Enquiries
     /*     * **************************ENQUIRIES*************************** */
 
     /*     * **************************FOLLOWUPS*************************** */

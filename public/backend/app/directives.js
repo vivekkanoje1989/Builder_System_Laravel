@@ -34,11 +34,26 @@ app.directive('resetOnClick', function () {
     }
 });
 
-app.directive('capitalizeFirst', function () {
+app.directive('capitalization', function (uppercaseFilter, $parse) {
     return {
-        restrict: 'EA', //matches either element or attribute
-        replace: true,
+    require: 'ngModel',
+    link: function ($scope, $element, $attrs, $modelCtrl) {
+
+        var capitalize = function (inputValue) {
+            if (!! inputValue) {
+                 var capitalized = angular.uppercase(inputValue.substring(0, 1)) + inputValue.substring(1);
+                 if (capitalized !== inputValue) {
+                    $modelCtrl.$setViewValue(capitalized);
+                    $modelCtrl.$render();
+                 }
+                 return capitalized;
+            }
+            return inputValue;
+        };
+        $modelCtrl.$parsers.push(capitalize);
+        capitalize($scope[$attrs.ngModel]); // capitalize initial value
     }
+};
 });
 
 var compareTo = function () {
@@ -127,7 +142,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             else
                                 $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
                             
-                            if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00"){
+                            if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN'){
                                 $scope.customerData.birth_date = "";
                             }else{
                                 var bdt = new Date(response.customerPersonalDetails[0].birth_date);

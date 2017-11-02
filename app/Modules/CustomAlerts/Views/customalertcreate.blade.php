@@ -173,10 +173,10 @@
                                             <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                 <label for=""><b>Your SMS / email look like below :</b></label>
                                                 <p>
-                                                    Dear <b>Mandar Hendre</b>,<br>
+                                                    Dear <b>Vivek Gundla</b>,<br>
                                                     Thank you for enquiring with us Our team member <b>Rohit Kedar</b> will get back to you soon.<br>
                                                     regards,<br>
-                                                    <b>LMS Auto</b>
+                                                    <b>BMS Builder</b>
                                                 </p>
                                             </div>
                                         </div>    

@@ -644,7 +644,7 @@ class VirtualNumberController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         //$empid = explode(',', $request['source_id']);
-        $getEnquirysources = \App\Models\MlstLmsaEnquirySalesSource::all();
+        $getEnquirysources = \App\Models\MlstBmsbEnquirySalesSource::all();
         if (!empty($getEnquirysources)) {
             $result = ['success' => true, 'records' => $getEnquirysources];
             return json_encode($result);
