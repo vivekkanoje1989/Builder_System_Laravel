@@ -1291,6 +1291,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.displayemail = $scope.userpermissions.indexOf("01406");
                         $scope.mobileList = response.enquiryDetails.mobileNumber;
                         $scope.emailList = response.enquiryDetails.emailId;
+          
+                        if($scope.emailList=='null'){
+                            $scope.emailList = '';
+                        }
+                        
                         var source = (response.enquiryDetails[0].sales_source_name == null) ? ' ' : response.enquiryDetails[0].sales_source_name;
                         var subsource = (response.enquiryDetails[0].enquiry_subsource == null) ? ' ' : ' / ' + response.enquiryDetails[0].enquiry_subsource;
                         $scope.sourceDetails = source + subsource;

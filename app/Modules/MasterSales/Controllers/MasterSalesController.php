@@ -104,6 +104,9 @@ class MasterSalesController extends Controller {
                     if (!empty($contacts['landline_calling_code'])) {
                         $contacts['landline_calling_code'] = (int) $contacts['landline_calling_code'];
                     }
+                    if ($contacts['email_id']==null) {
+                        $contacts['email_id'] = '';
+                    }
                     $contacts = array_merge($contacts, $create);
                     CustomersContact::create($contacts); //insert data into customer_contacts table
                     CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
@@ -543,7 +546,7 @@ class MasterSalesController extends Controller {
                 $templatedata['project_id'] = $request['projectEnquiryDetails'][0]['project_id'];
                 $templatedata['arrExtra'][0] = array();
                 $templatedata['arrExtra'][1] = array();
-                //$result = CommonFunctions::templateData($templatedata);
+                $result = CommonFunctions::templateData($templatedata);
                 // ************* End template for new enquiry..
                 $result = ['success' => true, 'message' => 'Record Inserted Successfully.'];
             } else {
@@ -1997,8 +2000,49 @@ Regards,<br>
             });
         })->save('XLS', "downloads/");
 
-        $file_url = 'http://localhost/Builder_System_Laravel/public/downloads/' . $fileName . ".xls";
+        $basepath = base_path().'/public/downloads/' . $fileName . ".xls";
 
+        /* save file in aws */
+        $folderName = "/sales/exportReport/";
+
+        $fileName = $fileName . ".xls";
+
+        S3::s3FileUpload($basepath, $fileName, $folderName);
+
+        \File::delete($basepath);
+        /* end aws file */
+
+        $file_url = config('global.s3Path') . $folderName . $fileName;
+        if (!empty($request['loggedInUserId']))
+            $loggedInUserId = $request['loggedInUserId'];
+        else
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+
+
+        $exportdate = date('d-m-Y');
+        $exporttime = date('H:i:s');
+        $ReportName = str_replace('_', ' ', $reportName);
+
+        $templatedata['employee_id'] = $loggedInUserId;
+        $templatedata['client_id'] = config('global.client_id');
+        $templatedata['template_setting_customer'] = 0;
+        $templatedata['template_setting_employee'] = 30;
+        $templatedata['customer_id'] = 0;
+        $templatedata['model_id'] = 0;
+        $templatedata['emp_attached_file'] = $file_url;
+        $templatedata['arrExtra'][0] = array(
+            '[#exportFromSection#]',
+            '[#exportDate#]',
+            '[#exportTime#]',
+        );
+        $templatedata['arrExtra'][1] = array(
+            $ReportName,
+            $exportdate,
+            $exporttime,
+        );
+
+        CommonFunctions::templateData($templatedata);
+        
         $result = ['success' => true, 'sheetName' => $fileName . ".xls", "fileUrl" => $file_url];
         return response()->json($result);
     }
@@ -2935,7 +2979,7 @@ Regards,<br>
                 $ressigndate,
                 $ressigntime,
             );
-            // $Templateresult = CommonFunctions::templateData($templatedata);
+            $Templateresult = CommonFunctions::templateData($templatedata);
 
             $result = ["success" => true, "message" => 'Enquiries Reassigned Successfully..'];
         } catch (\Exception $ex) {
