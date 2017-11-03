@@ -1,4 +1,4 @@
-app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$state', 'toaster', '$parse','$modal', function ($scope, Data, $rootScope, $timeout, $state, toaster, $parse, $modal) {
+app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$state', 'toaster', '$parse', '$modal', function ($scope, Data, $rootScope, $timeout, $state, toaster, $parse, $modal) {
 
         $scope.display_portal = 1;
         $scope.id = 0;
@@ -9,9 +9,15 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
         $scope.career = {};
         $scope.manageCareers = function () {
             Data.post('manage-job/manageCareers').then(function (response) {
-                $scope.careerRow = response.records;
-                $scope.exportData = response.exportData;
-                $scope.deleteBtn = response.delete;
+                if (response.success) {
+                    $scope.careerRow = response.records;
+                    $scope.exportData = response.exportData;
+                    $scope.deleteBtn = response.delete;
+                } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+                }
             });
         };
 

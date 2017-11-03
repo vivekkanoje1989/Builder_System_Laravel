@@ -450,199 +450,7 @@
                 [#companyMarketingName#]
                 <br/> 
             </div>   
-            <div id="customer_email_template" style="display:none">
-                <h3>Dear [#customerName#],</h3>
-                <p>We thank you for your Interest in buying vehicle.</p>
-                <p>kindly click on the link [#website#] to let us know in detail about your requirement.</p>
-                <p>for any further queries  [#employeeName#]  [#employeeMobile#] will be in touch with you. </p>
-                <p> [#companyMarketingName#] . </p>
-                <p>BMS  </p>
-                <p>[#greeting#]</p>
-
-
-
-
-
-
-
-
-                <div style="max-width: 600px; margin: 0 auto; padding: 0;" dir="ltr">
-                    <table dir="ltr" style="background-color: #ffffff; border: 1px solid #e9e9e9; border-bottom: none; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; max-width: 600px; padding: 0; width: 600px;" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
-                        <tbody>
-                            <tr>
-                                <td dir="ltr" style="background-color: #efefef; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 29px;" bgcolor="#f5f5f5" width="100%">
-                                    <table dir="ltr" style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 370px;" align="left" border="0" cellpadding="0" cellspacing="0">
-                                        <tbody>
-                                            <tr>
-                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 10px 0 0; font-size: 25px; color: #666;" align="left" width="100%">[#companyMarketingName#]</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 150px;" dir="ltr" align="left" border="0" cellpadding="0" cellspacing="0">
-                                        <tbody>
-                                            <tr>
-                                                <td style="border-collapse: collapse; color: #656565; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; line-height: 18px; margin: 0; padding: 0;" dir="ltr" align="right" width="100%"><img src="[#companyLogo#]" style="display: block; max-width: 150px; height: auto; max-height: 80px;" border="0" class="CToWUd" /></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table dir="ltr" style="background-color: #ffffff; border: 1px solid #e9e9e9; border-collapse: collapse; border-top: none; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; max-width: 600px; padding: 0; width: 600px;" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
-                        <tbody>
-                            <tr>
-                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 29px;" align="left" bgcolor="#f6f6f6" width="100%">
-                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="left" border="0" cellpadding="0" cellspacing="0">
-                                        <tbody>
-                                            <tr>
-                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: normal; line-height: 28px; margin: 0; padding: 0; text-align: left;" align="left" width="100%">Dear [#customerName#],</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 13px; font-weight: normal; line-height: 18px; margin: 0; padding: 5px 0; text-align: left;" align="left" width="100%">Thanks a lot for expressing interest for below property in [#projectName#]</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 10px 0 0;" align="left" width="100%">
-                                                    <table style="background-color: #ffffff; border: 1px solid #e9e9e9; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bold; line-height: 16px; margin: 0; padding: 8px 10px; text-align: center;" align="center" width="100%"><a href="[#custFormLink#]" target="_blank" style="color: #1155cc; text-decoration: none;">CLICK HERE TO FILL UPYOUR REQUIREMENT</a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0;" align="left" width="100%">
-                                                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="center" border="0" cellpadding="0" cellspacing="0">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 5px;" align="center" width="100%"><img src="[#projectBannerImage#]" style="display: block;" border="0" width="100%" class="CToWUd" /></td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 0 0;" align="left" width="100%">
-                                                    <table style="background-color: #ffffff; border: 1px solid #e9e9e9; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; min-height: 110px; padding: 0; width: 260px;" align="left" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bold; line-height: 16px; margin: 0; padding: 8px 10px; text-align: center;" align="center" width="100%" height="30">CONTACT DETAILS</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 11px; font-weight: normal; line-height: 15px; margin: 0; padding: 18px 5px; text-align: center;" align="center" width="100%" height="40">[#employeeName#]<br /><a style="color: #1155cc; font-size: 13px; font-weight: bold; text-decoration: none; white-space: nowrap;">[#employeeEmail#]</a><br /><b> &nbsp;</b>[#employeeMobile#]</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 16px;" align="left" border="0" cellpadding="0" cellspacing="0">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td style="background-color: #f6f6f6; border: none; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 0;" bgcolor="#f6f6f6" width="16">&nbsp;</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <table style="background-color: #ffffff; border: 1px solid #e9e9e9; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; min-height: 110px; padding: 0; width: 260px;" align="left" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bold; line-height: 16px; margin: 0; padding: 8px 10px; text-align: center; text-transform: uppercase;" align="center" width="100%" height="30">[#projectName#]</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 11px; font-weight: normal; line-height: 15px; margin: 0; padding: 18px 5px; text-align: center;" align="center" width="100%" height="40"><a href="[#projectBroucher#]" target="_blank" style="color: #1155cc; font-size: 13px; font-weight: bold; text-decoration: none; white-space: nowrap;">Download Brochure</a><br />[#projectBlockType#]</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 0 0;" align="left" width="100%">
-                                                    <table style="background-color: #ffffff; border: 1px solid #e9e9e9; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; min-height: 200px; padding: 0px; width: 260px; height: 180px;" align="left" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bold; line-height: 16px; margin: 0; padding: 8px 10px; text-align: center;" align="center" width="100%">PROJECT ADDRESS</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bold; margin: 0; padding: 17px 0 0; text-align: center;" align="center" width="100%">[#projectAddress#]</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 0 15px;" align="left" width="100%">
-                                                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="center" border="0" cellpadding="0" cellspacing="0">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td style="border-collapse: collapse; border-top: 1px solid #e9e9e9; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 0 0;" width="100%"></td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; line-height: 18px; margin: 0; padding: 0 0 15px; text-align: center;" align="center" width="100%">[#projectShortDesc#]</td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; min-height: 200px; padding: 0px; width: 270px; height: 180px;" align="right" border="0" cellpadding="0" cellspacing="0">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-size: 0; font-weight: normal; line-height: 0; margin: 0; padding: 0;" valign="top">
-                                                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 10px;" align="left" border="0" cellpadding="0" cellspacing="0">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-size: 0; font-weight: normal; line-height: 0; margin: 0; padding: 0;" height="78">&nbsp;</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 0;" align="right" width="10"><img src="https://ci5.googleusercontent.com/proxy/nW6xusTqNw1ulXhAkvSFEs3LzjGR29c4HbBWoiHA9oqDOZlbcLAAl8y6_P1mZedmr9EVFYHX7Pn551J0Y4IrWy1aroxGQlJ7nmzzvuwkI8lWVGE=s0-d-e1-ft#https://www.gstatic.com/gmktg/mtv-img/cpr_todo_arrow_left.png" alt="arrow" title="arrow" style="display: block; max-width: 10px;" border="0" width="10" class="CToWUd" /></td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </td>
-                                                                <td style="background-color: #ddd; border-collapse: collapse; color: #ffffff; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; line-height: 18px; margin: 0; min-height: 0; padding: 20px;" align="left" bgcolor="#4385f5" width="255"><img src="[#projectLogo#]" style="width: 100%; max-height: 215px; height: auto;" /></td>
-                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-size: 0; font-weight: normal; line-height: 0; margin: 0; padding: 0;" width="5">&nbsp;</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="background-color: #f6f6f6; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 29px;" align="left" bgcolor="#f6f6f6" width="100%">
-                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="left" border="0" cellpadding="0" cellspacing="0">
-                                        <tbody>
-                                            <tr>
-                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 13px; font-weight: normal; line-height: 18px; margin: 0; padding: 5px 0;" align="left" width="50%"><a href="[#projectLink#]" style="color: #1155cc; text-decoration: none;" target="_blank">More Details : Click Here</a></td>
-                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 13px; font-weight: normal; line-height: 18px; margin: 0; padding: 5px 0;" align="right" width="50%"><a href="[#projectGoogleMap#]" style="color: #1155cc; text-decoration: none;" target="_blank">Google Map : Click Here</a></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="background-color: #ffffff; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 29px;" align="left" bgcolor="#ffffff" width="100%">
-                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="left" border="0" cellpadding="0" cellspacing="0">
-                                        <tbody>
-                                            <tr>
-                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 17px; text-align: center; font-weight: normal; line-height: 28px; margin: 0; padding: 0;" align="left" width="100%">Our Address</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 13px; font-weight: normal; line-height: 18px; margin: 0; padding: 5px 0;" align="left" width="100%">[#companyAddress#]</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div> 
-            <div id="employee_email_template" style="display:none">
-                <h3>Dear  [#employeeName#] ,</h3><br/> 
-                <p>you have just received enquiry from  [#customerName#]  having mobile number  [#customerMob1#]. </p>
-                <p>this enquiry was received through [#enquirySource#].</p>
-                <p>please do the needful.</p>
-                <p> BMS  </p>
-            </div> 
+        
         </div>
     </div>
 </div>
@@ -653,6 +461,7 @@
         border: 0;
         border-top: 1px solid #eee;
     }
+    
     .ta-editor.form-control.myform1-height, .ta-scroll-window.form-control.myform1-height  {
         min-height: 100px;
         height: auto;
@@ -660,6 +469,7 @@
         font-family: inherit;
         font-size: 100%;
     }
+    
     p {
         line-height: 100px;
     }

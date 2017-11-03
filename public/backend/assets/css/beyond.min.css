@@ -35,6 +35,9 @@
     float: left;
     margin-right: 5px;
 }
+.close{
+        opacity: .7 !important;
+}
 
 div.help-block{
     color: red !important; 

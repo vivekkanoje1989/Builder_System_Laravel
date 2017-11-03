@@ -23,28 +23,25 @@
 
                 <div class="row table-toolbar">
                     <a  href="[[ config('global.backendUrl') ]]#/employeeDevice/create" class="btn btn-default">Add Device</a>
-                    <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                    <div class="btn-group pull-right filterBtn"  >
+                        <a class="btn btn-default toggleForm" href="" ng-hide="disableBtn" ><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="employeeDeviceExportToxls()" ng-show="exportData == '1'">
-                            <span>Export</span>
-                        </a>-->
-                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2"  ng-disabled="disableBtn" >
                             <span>Actions</span>
-                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu dropdown-default">
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"  ng-disabled="disableBtn"  href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu dropdown-default" >
                                 <li>
-                                    <a href="" ng-click="employeeDeviceExportToxls()" ng-show="exportData == '1'">Export</a>
+                                    <a  href="" ng-click="employeeDeviceExportToxls()" ng-show="exportData == '1'">Export</a>
                                 </li>
                             </ul>
                         </a>
                     </div>
                     <div  class="dataTables_filter">
                         <label>
-                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                            <input type="search"  ng-disabled="disableBtn"  class="form-control input-sm" ng-model="search" name="search" >
                         </label>
                     </div>
                     <!-- filter data--> 
@@ -67,7 +64,7 @@
                     <!-- filter data-->
                     <div class="dataTables_length" >
                         <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                            <select  ng-disabled="disableBtn"  class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
                                <option value="30">30</option>
                                 <option value="100">100</option>
                                 <option value="200">200</option>
@@ -142,6 +139,7 @@
                             </tr>
                              <tr>
                                 <td colspan="7"  ng-show="(listDevices|filter:search | filter:searchData ).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="7"  ng-show="totalCount== 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
@@ -228,15 +226,6 @@
                         <span class="input-icon icon-right">
                             <input type="text" ng-model="searchDetails.employee_id" name="employee_id" class="form-control">
                         </span>
-<!--                        <span class="input-icon icon-right">
-                            <ui-select multiple ng-model="searchDetails.employee_id" name="employee_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required="true"  ng-change="checkemployee()">
-                                <ui-select-match placeholder="Select Employees">{{$item.first_name}} {{$item.last_name}}</ui-select-match>
-                                <ui-select-choices repeat="list in employeeList | filter:$select.search">
-                                    {{list.first_name}} {{list.last_name}}
-                                </ui-select-choices>
-                            </ui-select>
-                            <i class="fa fa-sort-desc"></i>
-                        </span>-->
                     </div>
                 </div>
                 <div class="col-sm-12 col-xs-12">

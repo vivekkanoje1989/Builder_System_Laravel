@@ -1,4 +1,4 @@
-app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$rootScope','$modal', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $rootScope,$modal) {
+app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$rootScope', '$modal', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $rootScope, $modal) {
         $rootScope.previewFullPage = false;
         $scope.noOfRows = 1;
         $scope.webTheme = false;
@@ -19,8 +19,8 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
-        $scope.showHelpWebThemes= function () {
+
+        $scope.showHelpWebThemes = function () {
             $scope.optionModal = $modal.open({
                 template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Webpage Themes</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
                 controller: [
@@ -32,7 +32,7 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 ]
             });
         }
-        
+
 
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
@@ -42,18 +42,23 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.manageThemes = function () {
             $scope.showloader();
             Data.post('website/getThemes').then(function (response) {
-                $scope.hideloader();
-                $scope.themesRow = response.records;
-                $scope.exportData = response.exportData;
-                $scope.deleteBtn = response.delete;
-
+                if (response.status) {
+                    $scope.hideloader();
+                    $scope.themesRow = response.records;
+                    $scope.exportData = response.exportData;
+                    $scope.deleteBtn = response.delete;
+                } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+                }
             });
         };
         $scope.targetToNewTab = function (listid) {
-            location.reload();    
-            $window.open('office.php#/theme/preview/id/'+listid, '_blank');
+            location.reload();
+            $window.open('office.php#/theme/preview/id/' + listid, '_blank');
         };
-        $scope.themeName = function(){
+        $scope.themeName = function () {
             $rootScope.previewFullPage = true;
         }
         $scope.applyTheme = function (id) {

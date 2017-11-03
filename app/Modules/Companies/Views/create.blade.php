@@ -28,7 +28,7 @@
                                         <span class="input-icon icon-right">
                                             <input type="text" class="form-control" ng-model="CompanyData.marketing_name" name="marketing_name"   required capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.marketing_name.$error">
-                                                <div ng-message="required">Marketing name is required</div>
+                                                <div ng-message="required">This field is required.</div>
                                             </div>
                                             <br/>
                                         </span>
@@ -40,7 +40,7 @@
                                         <span class="input-icon icon-right">
                                             <input type="text" class="form-control" ng-model="CompanyData.legal_name" name="legal_name"  ng-change="errorMsg = null" required capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.legal_name.$error">
-                                                <div ng-message="required">Legal name is required</div>
+                                                <div ng-message="required">This field is required.</div>
                                                 <div ng-if="errorMsg">{{errorMsg}}</div>
                                             </div>
                                             <div ng-if="legal_name" class="sp-err legal_name">{{legal_name}}</div>
@@ -58,7 +58,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.type_of_company.$error">
-                                                <div ng-message="required">Company type is required</div>
+                                                <div ng-message="required">This field is required.</div>
                                             </div>
                                         </span>
                                     </div> 
@@ -83,7 +83,7 @@
                                             <span class="input-icon icon-right">
                                                 <textarea ng-model="CompanyData.office_address" required name="office_address" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched capitalize" required></textarea>
                                                 <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.office_address.$error">
-                                                    <div ng-message="required">Main Office Address is required</div>
+                                                    <div ng-message="required">This field is required.</div>
                                                 </div>  
                                                 <div ng-if="office_address" class="sp-err office_address">{{office_address}}</div>
                                                 <br/>
@@ -97,7 +97,7 @@
                                         <span class="input-icon icon-right">
                                             <input type="text" class="form-control" ng-model="CompanyData.pin_code" name="pin_code" maxlength="6"  required capitalizeFirst oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.pin_code.$error">
-                                                <div ng-message="required">Pin code is required</div>
+                                                <div ng-message="required">This field is required.</div>
                                             </div>
                                         </span>
                                     </div> 
@@ -112,7 +112,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.country_id.$error">
-                                                <div ng-message="required">Country is required</div>
+                                                <div ng-message="required">This field is required.</div>
                                             </div>
                                         </span>
                                     </div>
@@ -127,7 +127,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.state_id.$error">
-                                                <div ng-message="required">State is required</div>
+                                                <div ng-message="required">This field is required.</div>
                                             </div>
                                         </span>
                                     </div>
@@ -150,7 +150,7 @@
                                         <span class="input-icon icon-right">
                                             <input type="text"  class="form-control" ng-model="CompanyData.punch_line" name="punch_line" capitalizeFirst required oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.punch_line.$error">
-                                                <div ng-message="required">Punch Line is required</div>
+                                                <div ng-message="required">This field is required.</div>
                                             </div>
                                             <div ng-if="punch_line" class="sp-err punch_line">{{punch_line}}</div>
                                         </span>
@@ -240,7 +240,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.contact_person.$error">
-                                                <div ng-message="required">Contact Person is required</div>
+                                                <div ng-message="required">This field is required.</div>
                                             </div>
                                         </span>
                                     </div> 
@@ -352,7 +352,7 @@
                                             <input type="text"   ng-model="documentData.document_name" name="document_name" required id="document_name"  class="form-control imageFile" >
                                         </span>
                                         <div class="help-block" ng-show="sbtBtn1" ng-messages="documentForm.document_name.$error">
-                                            <div ng-message="required">Document name is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -361,7 +361,7 @@
                                             <input type="file" ngf-select   ng-model="documentData.document_file" name="document_file" ng-required="docid == 0" id="document_file"  accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                         </span>
                                         <div class="help-block" ng-show="sbtBtn1" ng-messages="documentForm.document_file.$error">
-                                            <div ng-message="required">Document file is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                         <div ng-if="documentFile && document_file_preview.length == 0">
                                             <img ng-src="[[ Config('global.s3Path') ]]/Company/documents/{{documentFile}}" width="80px" height="80px">

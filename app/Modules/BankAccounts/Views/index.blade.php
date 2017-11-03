@@ -35,17 +35,14 @@
                 <div class="row table-toolbar">
                     <a title="Create bank account" class="btn btn-default" data-toggle="modal" ng-click="initialModel('0', '', '', '')" data-target="#bankAccountModal" >Create Bank Account</a>
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" href="" ng-hide="disableBtn"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="bankAccountExportToxls()" ng-show="exportData == '1'">   
-                                                    <span>Export</span>
-                                                </a>-->
-                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2" ng-disabled="disableBtn">
                             <span>Actions</span>
-                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
                                     <a href="" ng-click="bankAccountExportToxls()" ng-show="exportData == '1'">Export</a>
@@ -56,7 +53,7 @@
                     </div>
                     <div  class="dataTables_filter">
                         <label>
-                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                            <input type="search" ng-disabled="disableBtn" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
                     </div>
                     <!-- filter data--> 
@@ -79,7 +76,7 @@
                     <!-- filter data-->
                     <div class="dataTables_length" >
                         <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                            <select ng-disabled="disableBtn" class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
                                 <option value="30">30</option>
                                 <option value="100">100</option>
                                 <option value="200">200</option>
@@ -190,7 +187,7 @@
                                             <option ng-repeat="list in companyRow" ng-selected="company == list.id"  value="{{list.id}}">{{list.legal_name}}</option>
                                         </select>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="bankAccountForm.company_id.$error">
-                                            <div ng-message="required" class="err">Select company</div>
+                                            <div ng-message="required" class="err">This field is required.</div>
                                         </div>                                        
                                     </span>                                    
                                 </div>
@@ -202,7 +199,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="bankAccount.name" name="name" oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="bankAccountForm.name.$error">
-                                            <div ng-message="required" class="err">Bank name is required</div>
+                                            <div ng-message="required" class="err">This field is required.</div>
                                         </div>                                        
                                     </span>                                    
                                 </div>
@@ -215,7 +212,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="bankAccount.branch" name="branch" oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')"  required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="bankAccountForm.branch.$error">
-                                            <div ng-message="required" class="err">Branch name is required</div>
+                                            <div ng-message="required" class="err">This field is required.</div>
                                         </div>                                        
                                     </span>                                    
                                 </div>
@@ -225,7 +222,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="bankAccount.ifsc" name="ifsc"   required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="bankAccountForm.ifsc.$error">
-                                            <div ng-message="required" class="err">IFSC code is required</div>
+                                            <div ng-message="required" class="err">This field is required.</div>
                                         </div>                                        
                                     </span>                                    
                                 </div>
@@ -238,7 +235,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="bankAccount.micr" name="micr"   required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="bankAccountForm.micr.$error">
-                                            <div ng-message="required" class="err">MICR Code is required</div>
+                                            <div ng-message="required" class="err">This field is required.</div>
                                         </div>                                        
                                     </span>                                    
                                 </div>
@@ -249,7 +246,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="bankAccount.account_number" name="account_number"  ng-maxlength="11" ng-minlength="11" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="bankAccountForm.account_number.$error">
-                                            <div ng-message="required" class="err">Account number is required</div>
+                                            <div ng-message="required" class="err">This field is required.</div>
                                             <div ng-message="minlength" class="err">Account number must be 11 digits.</div>
                                             <div ng-message="maxlength" class="err">Account number must be 11 digits.</div>
                                         </div>                                        
@@ -268,7 +265,7 @@
                                             <option value="2">Current account</option>
                                         </select>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="bankAccountForm.account_type.$error">
-                                            <div ng-message="required" class="err">Account type is required</div>
+                                            <div ng-message="required" class="err">This field is required.</div>
                                         </div>                                        
                                     </span>                                    
                                 </div>
@@ -279,7 +276,7 @@
                                     <span class="input-icon icon-right">
                                         <textarea  ng-model="bankAccount.address" name="address" required rows="2" cols="50"></textarea>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="bankAccountForm.address.$error">
-                                            <div ng-message="required" class="err">Address is required</div>
+                                            <div ng-message="required" class="err">This field is required.</div>
                                         </div>                                        
                                     </span>                                      
                                 </div>
@@ -292,7 +289,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="bankAccount.phone" name="phone" ng-maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-minlength="10" required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="bankAccountForm.phone.$error">
-                                            <div ng-message="required" class="err">phone number is required</div>
+                                            <div ng-message="required" class="err">This field is required.</div>
                                             <div ng-message="maxlength" class="err">phone number must be 10 digit</div>
                                             <div ng-message="minlength" class="err">phone number must be 10 digit</div>
                                         </div>                                        
@@ -305,7 +302,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="email" class="form-control" ng-model="bankAccount.email" name="email"  required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="bankAccountForm.email.$error">
-                                            <div ng-message="required" class="err">Email is required</div>
+                                            <div ng-message="required" class="err">This field is required.</div>
                                             <div ng-message="email" class="err">Invalid email id</div>
                                         </div>                                        
                                     </span>                                     
@@ -323,7 +320,7 @@
                                         </ui-select-choices>
                                     </ui-select>
                                     <div ng-show="emptyDepartmentId" class="err {{ applyClassDepartment}}">
-                                        Payment heading is required.
+                                        This field is required.
                                     </div>
                                 </div>
                             </div>                            
