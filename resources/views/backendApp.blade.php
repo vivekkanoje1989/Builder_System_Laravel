@@ -16,8 +16,7 @@
                     <link ng-if="settings.rtl" ng-href="/backend/assets/css/bootstrap-rtl.min.css" rel="stylesheet" />
                     <link href="/backend/assets/css/font-awesome.min.css" rel="stylesheet" />
                     <link href="/backend/assets/css/weather-icons.min.css" rel="stylesheet" />
-                    <link href="/backend/assets/css/samples.css" rel="stylesheet" />
-
+                    <!--<link href="/backend/assets/css/samples.css" rel="stylesheet" />-->
                     <!--Fonts-->
                     <style>
                         @@font-face {
@@ -28,6 +27,7 @@
                         }
                         input[capitalizeFirst]{ text-transform: capitalize; }
                     </style>
+                    
                     <link href="/backend/assets/css/droidarabickufi.css" rel="stylesheet" type="text/css" />
                     <link href="/backend/assets/css/css.css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
                         <!--        <link href="http://fonts.googleapis.com/earlyaccess/droidarabickufi.css" rel="stylesheet" type="text/css" />

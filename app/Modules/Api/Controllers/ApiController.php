@@ -14,6 +14,7 @@ use App\Modules\Projects\Models\Project;
 use App\Models\backend\Employee;
 use DB;
 use mPDF;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Classes\S3;
 use App\Modules\MasterSales\Models\Enquiry;
 use App\Modules\MasterSales\Models\Customer;
@@ -53,6 +54,13 @@ class ApiController extends Controller {
         } else {
             $emp_id = Auth::guard('admin')->user()->id;
         }
+           $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+         if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
+        
         $getApilist = array();
         $this->tuserid($emp_id);
         $alluser = $this->allusers;
@@ -62,8 +70,37 @@ class ApiController extends Controller {
                 ->whereIN('push_api_settings.employee_id', $alluser)
                 ->get();
 
-        $result = ['success' => true, 'records' => $getApilist];
+        $result = ['success' => true, 'records' => $getApilist,'export'=>$export];
         return json_encode($result);
+    }
+    
+    
+    
+       public function apiExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $result = PushApiSetting::select('api_name', 'key', 'id')->get();
+            $getCount = PushApiSetting::select('api_name', 'key', 'id')->get()->count();
+            $api = array();
+            $j = 1;
+            $manageApi = json_decode(json_encode($result), true);
+            for ($i = 0; $i < count($manageApi); $i++) {
+                $apiData['Sr No'] = $j++;
+                $apiData['api_name'] = $manageApi[$i]['api_name'];
+                $apiData['key'] = $manageApi[$i]['key'];
+                $api[] = $apiData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Api Data', function($excel) use($api) {
+                    $excel->sheet('sheet1', function($sheet) use($api) {
+                        $sheet->fromArray($api);
+                    });
+                })->download('csv');
+            }
+        }
     }
 
     public function edit($api_id) {
@@ -88,6 +125,7 @@ class ApiController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $emp_ids = explode(',', $request['data']['employee']);
+  
         $resultEmployee = Employee::whereNOTIN('id', $emp_ids)->select('first_name', 'last_name', 'id')->get();
 
         if (!empty($resultEmployee)) {
