@@ -195,7 +195,7 @@ padding-top: 8%;
                                 </div>
                                 <div class="control-group">
                                     <div class="controls">
-                                        <img id="contact_captcha" style="padding: 0 0 0 5px;" src="http://mantravastu.com/captcha_code_file.php?rand={{randomNumber}}&amp;name=contact_captcha">
+                                        <img id="contact_captcha" style="padding: 0 0 0 5px;" src="[[URL::to('/')]]/captcha_code_file.php?rand=435435&amp;name=contact_captcha">
                                         <div style="padding: 0 0 0 5px;">Click <a style="color:blue" ng-click='refreshCaptcha("contact_captcha");'>here</a> to refresh</div> 
 
                                         <input class="txtsize" type="text" value="" id="imgcaptcha" name="img_captcha" placeholder="Enter Image Text">

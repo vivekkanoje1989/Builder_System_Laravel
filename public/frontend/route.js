@@ -93,9 +93,11 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.empl = true;
         $scope.contact = {};
         $scope.career = {};
+        $scope.randomNumber = '';
         $scope.projectsdata = [];
         //$scope.aminities = $scope.availble = $scope.projects = [];        
         var baseUrl = 'website/';
+        
         $scope.getPostsDropdown = function () {
             $http.get(baseUrl + 'jobPost').then(function (response) {
                 $scope.jobPostRow = response.data.result;
@@ -107,7 +109,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.refreshCaptcha = function()
         {           
             $scope.randomNumber  = 0.5 - Math.random();
-            alert($scope.randomNumber);
+           alert($scope.randomNumber);
         }
         $scope.selectedbBlogs = function (blogId)
         {
