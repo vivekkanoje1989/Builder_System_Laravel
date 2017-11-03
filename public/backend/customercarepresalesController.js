@@ -239,6 +239,9 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                     $scope.enquiriesLength = response.totalCount;
                 } else
                 {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -272,6 +275,9 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                     $scope.enquiriesLength = response.totalCount;
                 } else
                 {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -306,6 +312,9 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                     $scope.enquiriesLength = response.totalCount;
                 } else
                 {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -339,6 +348,10 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                     $scope.enquiriesLength = response.totalCount;
                 } else
                 {
+                    
+                     $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -372,6 +385,9 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                     $scope.enquiriesLength = response.totalCount;
                 } else
                 {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }

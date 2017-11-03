@@ -1,4 +1,4 @@
-app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$parse', '$state','$modal', function ($scope, Data, Upload, toaster, $parse, $state, $modal) {
+app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$parse', '$state', '$modal', function ($scope, Data, Upload, toaster, $parse, $state, $modal) {
 
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
@@ -9,10 +9,16 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
         $scope.testimonials = function () {
             $scope.showloader();
             Data.post('testimonials/getDisapproveList').then(function (response) {
-                $scope.ApprovedTestimonialsRow = response.records;
-                $scope.exportData = response.exportData;
-                $scope.deleteDisApprove = response.deleteDisApprove;
-                $scope.hideloader();
+                if (response.success) {
+                    $scope.ApprovedTestimonialsRow = response.records;
+                    $scope.exportData = response.exportData;
+                    $scope.deleteDisApprove = response.deleteDisApprove;
+                    $scope.hideloader();
+                } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+                }
             });
         };
 
@@ -63,10 +69,17 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
         $scope.manageTestimonials = function () {
             $scope.showloader();
             Data.post('testimonials/getApprovedList').then(function (response) {
-                $scope.ApprovedTestimonialsRow = response.records;
-                $scope.exportDetails = response.exportData;
-                $scope.deleteApprove = response.deleteApprove;
-                $scope.hideloader();
+                if (response.success) {
+                    $scope.ApprovedTestimonialsRow = response.records;
+                    $scope.exportDetails = response.exportData;
+                    $scope.deleteApprove = response.deleteApprove;
+                    $scope.hideloader();
+                } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+                }
+
             });
         }
 

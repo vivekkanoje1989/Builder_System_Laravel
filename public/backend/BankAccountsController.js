@@ -1,13 +1,19 @@
 'use strict';
-app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', '$filter','$modal', function ($scope, Data, $rootScope, $timeout, toaster, $filter, $modal) {
+app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', '$filter', '$modal', function ($scope, Data, $rootScope, $timeout, toaster, $filter, $modal) {
 
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageBankAccounts = function () {
             Data.get('bank-account/manageBankAccount').then(function (response) {
-                $scope.bankAccountRow = response.records;
-                $scope.exportData = response.exportData;
-                $scope.deleteBtn = response.delete;
+                if (response.status) {
+                    $scope.bankAccountRow = response.records;
+                    $scope.exportData = response.exportData;
+                    $scope.deleteBtn = response.delete;
+                } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+                }
             });
         };
         $scope.orderByField = function (keyname) {

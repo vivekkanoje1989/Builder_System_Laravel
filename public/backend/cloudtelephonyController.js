@@ -460,6 +460,9 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                         $scope.registrationData.id = id;
                     }
                 } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                     $scope.errorMsg = response.message;
                 }
             });
@@ -604,6 +607,9 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 } else {
                     $scope.errorMsg = response.message;
                     $scope.searchLength = response.records.total;
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                 }
             });
         };
@@ -801,6 +807,9 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                         }
                     }, 1000);
                 } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                     $scope.errorMsg = response.message;
                     $scope.inboundLength = response.totalCount;
                 }
@@ -844,6 +853,9 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     }, 1000);
 
                 } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                     $scope.errorMsg = response.message;
                     $scope.teaminboundLength = response.totalCount;
                 }
@@ -901,6 +913,9 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                         }
                     }, 1000);
                 } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                     $scope.errorMsg = response.message;
                     $scope.outboundLength = response.totalCount;
                 }
@@ -925,6 +940,9 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     }, 1000);
 
                 } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                     $scope.errorMsg = response.message;
                     $scope.teamoutboundLength = response.totalCount;
                 }

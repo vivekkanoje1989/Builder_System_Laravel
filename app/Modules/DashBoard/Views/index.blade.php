@@ -5,8 +5,6 @@
     .sending{
         margin-top: 17%;
         position: absolute;
-        /* text-align: center; */
-        /* vertical-align: middle; */
         margin-left: 34%;
     }
 

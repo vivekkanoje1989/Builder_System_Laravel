@@ -84,6 +84,10 @@ app.controller('logdetailController', ['$scope', 'Data', '$filter', 'Upload', '$
                     $scope.smslogslength = response.totalCount;
                     $scope.logDetailsExport = response.logDetailsExport;
 
+                }else{
+                     $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                 }
                 $scope.flagForChange = 0;
             });

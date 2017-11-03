@@ -2258,7 +2258,7 @@ class CloudCallingLogsController extends Controller {
                 $export = 1;
             }
         }
-        if (!empty($getOutboundLogs)) {
+        if (!empty($getOutboundLogs[0])) {
             $result = ['success' => true, 'records' => $getOutboundLogs, 'myOutboundExport' => $export, 'totalCount' => $getCountOutboundLogs];
         } else {
             $result = ['success' => false, 'records' => $getOutboundLogs, 'totalCount' => $getCountOutboundLogs];

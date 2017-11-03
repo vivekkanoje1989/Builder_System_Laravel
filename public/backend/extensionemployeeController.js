@@ -9,6 +9,9 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
             Data.get('getCtEmployeeExtension').then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                 } else {
                     $scope.ct_employee_extlist = response.records;
                     $scope.exportEmpExtensionData = response.exportData;
