@@ -169,7 +169,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.country_id.$error">
-                                            <div ng-message="required">Country is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>
                                 </div>
@@ -184,7 +184,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.state_id.$error">
-                                            <div ng-message="required">State is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>
                                 </div>
@@ -201,7 +201,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.city_id.$error">
-                                            <div ng-message="required">City is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>
                                 </div>
@@ -215,7 +215,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.location_id.$error">
-                                            <div ng-message="required">Location is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>
                                 </div>
@@ -228,7 +228,7 @@
                                     <span class="input-icon icon-right">
                                         <textarea col="50" row="2" class="form-control" ng-model="address" name="address" maxlength="250" required></textarea>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.address.$error">
-                                            <div ng-message="required">Address is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>
                                 </div>
@@ -275,7 +275,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="pin_code" name="pin_code"  maxlength="6" minlength="6" required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.pin_code.$error">
-                                            <div ng-message="required">Pin code is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                             <div ng-message="minlength">Pin code must be 6 digits</div>
                                             <div ng-message="maxlength">Pin code must be 6 digits</div>
                                         </div>
@@ -298,7 +298,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="google_map_url" name="google_map_url"  required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.google_map_url.$error">
-                                            <div ng-message="required">Map is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>  
                                 </div>

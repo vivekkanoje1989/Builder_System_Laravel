@@ -138,7 +138,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc" style="margin-top:4%"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="blockStagesForm.project_type_id.$error">
-                                    <div ng-message="required">Project type is required</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                                 <div ng-if="project_type_id" class="sp-err project_type_id">{{project_type_id}}</div>
                             </span>
@@ -150,7 +150,7 @@
                                 <input type="text" class="form-control" ng-model="block.block_stage_name" name="block_stage_name" ng-change="errorMsg = null" required>
 
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="blockStagesForm.block_stage_name.$error">
-                                    <div ng-message="required">Block stage is required</div>
+                                    <div ng-message="required">This field is required.</div>
                                     <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                                 <div ng-if="block_stage_name" class="sp-err block_stages">{{block_stage_name}}</div>

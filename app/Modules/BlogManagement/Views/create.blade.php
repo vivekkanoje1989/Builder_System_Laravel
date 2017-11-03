@@ -31,7 +31,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="blogData.blog_title" capitalizeFirst name="blog_title"  ng-change="errormsg = null" maxlength="255" required >
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_title.$error">
-                                            <div ng-message="required">Title is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                             <div ng-if="errormsg">{{errormsg}}</div>
                                         </div>
                                         <div ng-if="blog_title" class="sp-err blog_title">{{blog_title}}</div>
@@ -96,7 +96,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="blogData.blog_code" name="blog_code" maxlength="50" required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_code.$error">
-                                            <div ng-message="required">Code is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                         <div ng-if="blog_code" class="sp-err blog_code">{{blog_code}}</div>
                                     </span>
@@ -115,7 +115,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_status.$error">
-                                            <div ng-message="required">Please select status</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                         <div ng-if="blog_status" class="sp-err blog_status">{{blog_status}}</div>
                                     </span>
@@ -136,7 +136,7 @@
                                         </div>
                                     </div> 
                                     <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_short_description.$error">
-                                        <div ng-message="required">Short description is required</div>
+                                        <div ng-message="required">This field is required.</div>
                                     </div>
                                     <div ng-if="blog_short_description" class="sp-err blog_short_description">{{blog_short_description}}</div>
                                 </span>
@@ -156,7 +156,7 @@
                                         </div>
                                     </div> 
                                     <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_description.$error">
-                                        <div ng-message="required">Brief description is required</div>
+                                        <div ng-message="required">This field is required.</div>
                                     </div> 
                                     <div ng-if="blog_description" class="sp-err blog_description">{{blog_description}}</div>
                                 </span>
