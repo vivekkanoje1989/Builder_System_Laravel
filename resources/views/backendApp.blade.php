@@ -28,6 +28,7 @@
                         }
                         input[capitalizeFirst]{ text-transform: capitalize; }
                     </style>
+                    
                     <link href="/backend/assets/css/droidarabickufi.css" rel="stylesheet" type="text/css" />
                     <link href="/backend/assets/css/css.css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
                         <!--        <link href="http://fonts.googleapis.com/earlyaccess/droidarabickufi.css" rel="stylesheet" type="text/css" />

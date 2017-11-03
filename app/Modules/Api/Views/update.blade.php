@@ -28,7 +28,7 @@
                                 <label for="">Select employees for assigning new enquiries <span class="sp-err">*</span></label>	
                                 <ui-select multiple ng-model="pushApiData.employee_id" name="employees1"  theme="select2" ui-select-required style="width: 260px;" >
                                     <ui-select-match placeholder="Select Employees">{{$item.first_name}} {{$item.last_name}}</ui-select-match>
-                                    <ui-select-choices repeat="list in employeeList | filter:$select.search">
+                                    <ui-select-choices repeat="list in employeesDatas | filter:$select.search">
                                         {{list.first_name}}  {{list.last_name}}&nbsp;
                                     </ui-select-choices>
                                 </ui-select>
@@ -436,7 +436,6 @@
                     </div>
                 </form>
             </div>
-            <!--Start Customer and employee default sms template -->
             <div id="employee_default_sms_template" style="display:none"> 
                 <h3>Dear  [#employeeName#] ,</h3><br/> 
                 <p>you have just received enquiry from [#customerName#]  having mobile number [#customerMob1#].</p><br/> 
@@ -452,24 +451,7 @@
                 <p> for any further queries [#employeeName#] [#employeeMobile#] will be in touch with you.</p><br/> 
                 <p> LMSAuto</p><br/> 
                 <p> [#greeting#]</p><br/> 
-            </div>   
-            <div id="customer_email_template" style="display:none">
-                <h3>Dear [#customerName#],</h3>
-                <p>We thank you for your Interest in buying vehicle.</p>
-                <p>kindly click on the link [#website#] to let us know in detail about your requirement.</p>
-                <p>for any further queries  [#employeeName#]  [#employeeMobile#] will be in touch with you. </p>
-                <p> [#companyMarketingName#] . </p>
-                <p>LMSAuto  </p>
-                <p>[#greeting#]</p>
-            </div> 
-            <div id="employee_email_template" style="display:none">
-                <h3>Dear  [#employeeName#] ,</h3><br/> 
-                <p>you have just received enquiry from  [#customerName#]  having mobile number  [#customerMob1#]. </p>
-                <p>this enquiry was received through [#enquirySource#].</p>
-                <p>please do the needful.</p>
-                <p> LMSAuto  </p>
-                <p>[#greeting#] </p>
-            </div> 
+            </div>  
         </div>
     </div>
 </div>

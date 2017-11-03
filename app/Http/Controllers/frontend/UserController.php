@@ -15,7 +15,7 @@ use App\Modules\Projects\Models\MlstBmsbProjectType;
 use App\Classes\S3;
 use App\Modules\Projects\Models\Project;
 use App\Modules\Projects\Models\ProjectBlocks;
-use App\Modules\DashBoard\Models\Employees;
+use App\Models\backend\Employee;
 use App\Modules\Testimonials\Models\WebTestimonials;
 use App\Modules\Projects\Models\MlstBmsbAmenities;
 use App\Modules\WebPages\Models\WebPage;
@@ -26,6 +26,11 @@ use App\Modules\PressRelease\Models\WebPressRelease;
 use App\Modules\Events\Models\WebEvents;
 use Config;
 use DB;
+use App\Classes\CommonFunctions;
+use App\Models\MlstState;
+use App\Models\MlstCountry;
+use App\Models\MlstCity;
+use App\Models\MlstTitle;
 use App\Modules\ContactUs\Models\WebContactus;
 use App\Models\Contactus;
 use Illuminate\Support\Facades\Route;
@@ -112,6 +117,78 @@ class UserController extends Controller {
         return view('frontend.' . $this->themeName . '.testimonials')->with(["testimonials" => $testimonials]);
     }
 
+    public function getfCountries() {
+        $getCountires = MlstCountry::all();
+        if (!empty($getCountires)) {
+            $result = ['success' => true, 'records' => $getCountires];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function updateEmployee() {
+
+        $request = Input::all();
+        $id = $request['data']['id'];
+        $userdata = $request['data'];
+
+        if ($userdata['marital_status'] == 2 && !empty($userdata['marriage_date'])) {
+            $userdata['marriage_date'] = date('Y-m-d', strtotime($userdata['marriage_date']));
+        }
+
+        if (!empty($userdata['date_of_birth'])) {
+            $userdata['date_of_birth'] = date('Y-m-d', strtotime($userdata['date_of_birth']));
+        }
+
+        if ($userdata['employee_photo_is_available'] == 1) {
+            $imageName = time() . "_" . rand(10, 10000) . "." . $userdata['employee_photo_file_name']->getClientOriginalExtension();
+            $tempPath = $userdata['employee_photo_file_name']->getPathName();
+            $folderName = 'Employee-Photos';
+            $name = S3::s3FileUpload($tempPath, $imageName, $folderName);
+            $userdata['employee_photo_file_name'] = $name;
+        } else {
+            $userdata['employee_photo_file_name'] = "";
+        }
+        unset($userdata['employee_photo_is_available']);
+        $update = CommonFunctions::updateMainTableRecords(0);
+        $userdata = array_merge($userdata, $update);
+        $employeeupdate = Employee::where('id', $id)->update($userdata);
+        if (!empty($employeeupdate)) {
+            $employee = Employee::where("id", $id)->first();
+            $password = substr($employee->username, 0, 8);
+            $username = $employee->username;
+            $employee->password = \Hash::make($password);
+            $employee->high_security_password_type = 1;
+            $employee->high_security_password = 1234;
+            if ($employee->save()) {
+                $templatedata['employee_id'] = $employee->id;
+                $templatedata['client_id'] = config('global.client_id');
+                $templatedata['template_setting_customer'] = 0;
+                $templatedata['template_setting_employee'] = 26;
+                $templatedata['customer_id'] = 0;
+                $templatedata['model_id'] = 0;
+                $templatedata['arrExtra'][0] = array(
+                    '[#username#]',
+                    '[#password#]'
+                );
+                $templatedata['arrExtra'][1] = array(
+                    $username,
+                    $password
+                );
+                $url = "website/thanking-you";
+                $result = CommonFunctions::templateData($templatedata);
+                $result = ['success' => true, 'url' => $url];
+            } else {
+                $result = ['success' => false];
+            }
+        } else {
+            $result = ['success' => false];
+        }
+        return json_encode($result);
+    }
+
     public function addContact() {
         header('Access-Control-Allow-Origin: *');
         $input = Input::all();
@@ -125,6 +202,51 @@ class UserController extends Controller {
             return json_encode(['result' => $result, 'status' => true]);
         } else {
             return json_encode(['result' => '']);
+        }
+    }
+
+    public function getfCities() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        if (!empty($request['data']['stateId'])) {
+            $stateId = $request['data']['stateId'];
+            $getCities = MlstCity::select('id', 'state_id', 'name')->where("state_id", $stateId)->get();
+            if (!empty($getCities)) {
+                $result = ['success' => true, 'records' => $getCities];
+                return json_encode($result);
+            } else {
+                $result = ['success' => false, 'message' => 'Something went wrong'];
+                return json_encode($result);
+            }
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function getTitle() {
+        $getTitle = MlstTitle::all();
+        if (!empty($getTitle)) {
+            $result = ['success' => true, 'records' => $getTitle];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function registration($id) {
+        $employeeid = base64_decode($id);
+        $employee = Employee::where("id", $employeeid)->first();
+        if (!empty($employee->password)) {
+            return view("frontend.common.linkexpired")->with("empId", $employeeid);
+        } else {
+            $client = json_decode(config('global.client_info'), true);
+            $client_id = $client['master_client_id'];
+            $clientinfo = \App\Models\ClientInfo::where('id', $client_id)->first();
+            $clientdata['logo'] = config('global.s3Path') . '/client/' . $client_id . '/' . $clientinfo->company_logo;
+            $clientdata['empId'] = $employeeid;
+            return view("frontend.common.registration")->with("clientdata", $clientdata);
         }
     }
 
@@ -322,6 +444,34 @@ class UserController extends Controller {
         return json_encode(['result' => $result, 'status' => true]);
     }
 
+    public function getEmployee() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $id = $request['data']['empId'];
+        $employee = Employee::where("id", $id)->select('*')->first();
+        if (!empty($employee)) {
+            $result = ['success' => true, "records" => $employee];
+            echo json_encode($result);
+        } else {
+            $result = ['success' => false];
+        }
+    }
+
+    public function getfStates() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $countryId = $request['data']['countryId'];
+        $getStates = MlstState::where("country_id", $countryId)->get();
+
+        if (!empty($getStates)) {
+            $result = ['success' => true, 'records' => $getStates];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
     public function getBlogs() {
         $blog = WebBlogs::where('blog_status', '=', '1')->get();
         if (!empty($blog)) {
@@ -427,6 +577,10 @@ class UserController extends Controller {
 
     public function enquiry() {
         return view('frontend.' . $this->themeName . '.enquiry');
+    }
+    
+     public function getThankingYou() {
+        return view("frontend.common.thanking-you");
     }
 
 }
