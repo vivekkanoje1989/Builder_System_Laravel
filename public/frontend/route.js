@@ -93,7 +93,6 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.empl = true;
         $scope.contact = {};
         $scope.career = {};
-        $scope.randomNumber = '';
         $scope.projectsdata = [];
         //$scope.aminities = $scope.availble = $scope.projects = [];        
         var baseUrl = 'website/';
@@ -104,19 +103,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
             });
         };
         $scope.random = function () {
-            return 0.5 - Math.random();
-        }
-<<<<<<< HEAD
-        $scope.refreshCaptcha = function()
-        {           
-            $scope.randomNumber  = 0.5 - Math.random();
-           alert($scope.randomNumber);
-=======
-        $scope.refreshCaptcha = function ()
-        {
-            $scope.randomNumber = 0.5 - Math.random();
-            alert($scope.randomNumber);
->>>>>>> 97179711a1f2401098957c40a1fa439f43f95196
+            return 0.5 - Math.random();        
         }
         $scope.selectedbBlogs = function (blogId)
         {
