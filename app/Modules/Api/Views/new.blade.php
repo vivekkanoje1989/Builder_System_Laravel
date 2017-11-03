@@ -112,6 +112,12 @@
                                     <span class="text">Email id is mandatory</span>
                                 </label>
                             </div>
+                            <div class="checkbox" >
+                                <label>
+                                    <input type="checkbox" ng-model="pushApiData.country_code_mandatory" name="country_code_mandatory" class="form-control"  >
+                                    <span class="text">Country code is mandatory</span>
+                                </label>
+                            </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div>
@@ -306,7 +312,7 @@
                                 <div class="widget flat radius-bordered" style="margin: 0 0 -15px 0 !important;">
                                     <div class="widget-body no-padding">   
                                         <div class="form-group">
-                                            <div text-angular name="customer_email_template"  ng-model="pushApiData.customer_email_template" id="customer_email_temp"  ta-text-editor-class="editor-text form-control myform1-height" ta-html-editor-class="editor-text form-control myform1-height"  style="height: 130px;"></div>
+                                            <textarea  name="customer_email_template"  ng-model="pushApiData.customer_email_template" id="customer_email_temp" data-ck-editor  required  style="position: relative;"></textarea>
                                         </div>                                                                        
                                     </div>
                                     <div ng-show="sbtBtn2" ng-messages="remarkForm.customer_email_template.$error" class="help-block">
@@ -363,10 +369,8 @@
                             <label for="">Email body : <span class="sp-err">*</span></label>&nbsp;&nbsp;<input type="button" name="defaultemailemail" id="defaultemailemail" ng-model="defaultemailemail" ng-click="employee_email_template()" value="Default Template">
                             <span class="input-icon icon-right">
                                 <div class="widget flat radius-bordered" style="margin: 0 0 -15px 0 !important;">
-                                    <div class="widget-body no-padding">   
-                                        <div class="form-group">
-                                            <div text-angular name="employee_email_template" ng-model="pushApiData.employee_email_template" ta-text-editor-class="editor-text form-control myform1-height" ta-html-editor-class="editor-text form-control myform1-height"  style="height: 130px;"></div>
-                                        </div>                                                                        
+                                    <div class="widget-body no-padding">    
+                                        <textarea  name="employee_email_template"  ng-model="pushApiData.employee_email_template" id="employee_email_template" data-ck-editor  required  style="position: relative;"></textarea>
                                     </div>
                                     <div ng-show="sbtBtn2" ng-messages="remarkForm.employee_email_template.$error" class="help-block">
                                         <div ng-message="required">Please enter email content</div>
@@ -379,7 +383,7 @@
                     <div class="row">
                         <div><b style="margin-left: 15px;">Guidelines for SMS / Email :</b></div>
                         <hr>
-                        <div class="col-sm-4 col-xs-6">
+                        <div class="col-sm-3 col-xs-6">
                             <b> Customer related tags:</b><br>
                             <label for="">1) Customer Full Name : [#customerName#] </label>
                             <label for="">2) Customer Mobile : [#customerMob1#] </label>
@@ -394,14 +398,14 @@
                             <label for="">2) website : [#website#] </label>
 
                         </div>
-                        <div class="col-sm-4 col-xs-6">
+                        <div class="col-sm-3 col-xs-6">
                             <b>Employee related tags:</b><br>
                             <label for="">1) Employee Full Name : [#employeeName#]</label>
                             <label for="">2) Employee Mobile : [#employeeMobile#]</label>
                             <label for="">3) Employee Email ID : [#employeeEmail#] </label>
                             <label for="">4) Employee Designation: [#employeeDesignation#]</label>
                         </div>
-                        <div class="col-sm-4 col-xs-6">
+                        <div class="col-sm-3 col-xs-6">
                             <b> Company related tags:</b><br>
                             <label for="">1) Company Logo : [#companyLogo#]</label>
                             <label for="">2) Company Name : [#companyMarketingName#]</label>
@@ -409,20 +413,20 @@
                             <!--                            <label for="">4) Company Contact Number : [#companyNumber#]</label>
                                                         <label for="">5) Company Email ID : [#companyEmail#]</label>-->
                         </div>
-                        <!--                        <div class="col-sm-3 col-xs-6">
-                                                    <b> Project related tags:</b><br>
-                                                    <label for="">1) Project Name : [#projectName#]</label>
-                                                    <label for=""> 2) Project logo : [#projectLogo#]</label>
-                                                    <label for="">3) Project Contact Number : [#projectContactNo#]</label>
-                                                    <label for="">4) Project Email ID : [#projectContactEmail#]</label>
-                                                    <label for="">5) Project Address  : [#projectAddress#]</label>
-                                                    <label for=""> 6) Project Brochure  : [#projectBroucher#]</label>
-                                                    <label for="">7) Project Banner Image  : [#projectBannerImage#]</label>
-                                                    <label for="">8) Customer Information Form Link: [#customerFormLink#] </label>
-                                                    Example: <xmp><a href="[#custFormLink#]">Click Here</a></xmp>
-                                                    <label for="">9) Google Map Link (ifram): [#projectGoogleMap#]</label>
-                        
-                                                </div>-->
+                        <div class="col-sm-3 col-xs-6">
+                            <b> Project related tags:</b><br>
+                            <label for="">1) Project Name : [#projectName#]</label> 
+                            <label for=""> 2) Project logo : [#projectLogo#]</label>
+                            <label for="">3) Project Contact Number : [#projectContactNo#]</label>
+                            <label for="">4) Project Email ID : [#projectContactEmail#]</label>
+                            <label for="">5) Project Address  : [#projectAddress#]</label>
+                            <label for=""> 6) Project Brochure  : [#projectBroucher#]</label>
+                            <label for="">7) Project Banner Image  : [#projectBannerImage#]</label>
+<!--                            <label for="">8) Customer Information Form Link: [#customerFormLink#] </label>
+                            Example: <xmp><a href="[#custFormLink#]">Click Here</a></xmp>-->
+                            <label for="">8) Google Map Link (ifram): [#projectGoogleMap#]</label>
+                            <label for="">9) Block type : [#projectBlockType#]</label>
+                        </div>
                     </div>
                     <div class="row">
                         <center><button type="submit" class="btn btn-primary" ng-click="btn = true">{{btnheading}}</button></center>
@@ -430,20 +434,21 @@
                 </form>
             </div>
             <div id="employee_default_sms_template" style="display:none"> 
-                <h3>Dear  [#employeeName#] ,</h3><br/> 
-                <p>you have just received enquiry from [#customerName#]  having mobile number [#customerMob1#].</p><br/> 
-                <p> this enquiry was received through [#enquirySource#].</p><br/> 
-                <p>please do the needful.</p><br/> 
-                <p>LMSAuto</p><br/> 
-                <p>[#greeting#]</p>
+                Dear  [#employeeName#] ,
+                you have just received enquiry from [#custName#]
+                having mobile number [#custMob1#]. 
+                this enquiry was received through [#enquirySource#].
+                please do the needful.
+                BMS
             </div>
             <div id="customer_default_sms_template" style="display:none">
-                <h3>Dear [#customerName#],</h3><br/> 
-                <p>We thank you for your Interest in buying vehicle. </p><br/> 
-                <p> kindly click on the link [#website#] to let us know in detail about your requirement. </p><br/> 
-                <p> for any further queries [#employeeName#] [#employeeMobile#] will be in touch with you.</p><br/> 
-                <p> LMSAuto</p><br/> 
-                <p> [#greeting#]</p><br/> 
+                [#greeting#],
+                Dear [#customerName#], We thank you for your interest in buying property from us. Kindly click on the link [#custFormLink#]
+                to let us know in detail about your property requirement.
+                for further assistance our representative [#employeeName#]
+                [#employeeMobile#] will be in touch with you.
+                [#companyMarketingName#]
+                <br/> 
             </div>   
             <div id="customer_email_template" style="display:none">
                 <h3>Dear [#customerName#],</h3>
@@ -451,16 +456,192 @@
                 <p>kindly click on the link [#website#] to let us know in detail about your requirement.</p>
                 <p>for any further queries  [#employeeName#]  [#employeeMobile#] will be in touch with you. </p>
                 <p> [#companyMarketingName#] . </p>
-                <p>LMSAuto  </p>
+                <p>BMS  </p>
                 <p>[#greeting#]</p>
+
+
+
+
+
+
+
+
+                <div style="max-width: 600px; margin: 0 auto; padding: 0;" dir="ltr">
+                    <table dir="ltr" style="background-color: #ffffff; border: 1px solid #e9e9e9; border-bottom: none; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; max-width: 600px; padding: 0; width: 600px;" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td dir="ltr" style="background-color: #efefef; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 29px;" bgcolor="#f5f5f5" width="100%">
+                                    <table dir="ltr" style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 370px;" align="left" border="0" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 10px 0 0; font-size: 25px; color: #666;" align="left" width="100%">[#companyMarketingName#]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 150px;" dir="ltr" align="left" border="0" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="border-collapse: collapse; color: #656565; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; line-height: 18px; margin: 0; padding: 0;" dir="ltr" align="right" width="100%"><img src="[#companyLogo#]" style="display: block; max-width: 150px; height: auto; max-height: 80px;" border="0" class="CToWUd" /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table dir="ltr" style="background-color: #ffffff; border: 1px solid #e9e9e9; border-collapse: collapse; border-top: none; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; max-width: 600px; padding: 0; width: 600px;" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 29px;" align="left" bgcolor="#f6f6f6" width="100%">
+                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="left" border="0" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: normal; line-height: 28px; margin: 0; padding: 0; text-align: left;" align="left" width="100%">Dear [#customerName#],</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 13px; font-weight: normal; line-height: 18px; margin: 0; padding: 5px 0; text-align: left;" align="left" width="100%">Thanks a lot for expressing interest for below property in [#projectName#]</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 10px 0 0;" align="left" width="100%">
+                                                    <table style="background-color: #ffffff; border: 1px solid #e9e9e9; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bold; line-height: 16px; margin: 0; padding: 8px 10px; text-align: center;" align="center" width="100%"><a href="[#custFormLink#]" target="_blank" style="color: #1155cc; text-decoration: none;">CLICK HERE TO FILL UPYOUR REQUIREMENT</a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0;" align="left" width="100%">
+                                                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="center" border="0" cellpadding="0" cellspacing="0">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 5px;" align="center" width="100%"><img src="[#projectBannerImage#]" style="display: block;" border="0" width="100%" class="CToWUd" /></td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 0 0;" align="left" width="100%">
+                                                    <table style="background-color: #ffffff; border: 1px solid #e9e9e9; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; min-height: 110px; padding: 0; width: 260px;" align="left" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bold; line-height: 16px; margin: 0; padding: 8px 10px; text-align: center;" align="center" width="100%" height="30">CONTACT DETAILS</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 11px; font-weight: normal; line-height: 15px; margin: 0; padding: 18px 5px; text-align: center;" align="center" width="100%" height="40">[#employeeName#]<br /><a style="color: #1155cc; font-size: 13px; font-weight: bold; text-decoration: none; white-space: nowrap;">[#employeeEmail#]</a><br /><b> &nbsp;</b>[#employeeMobile#]</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 16px;" align="left" border="0" cellpadding="0" cellspacing="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="background-color: #f6f6f6; border: none; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 0;" bgcolor="#f6f6f6" width="16">&nbsp;</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table style="background-color: #ffffff; border: 1px solid #e9e9e9; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; min-height: 110px; padding: 0; width: 260px;" align="left" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bold; line-height: 16px; margin: 0; padding: 8px 10px; text-align: center; text-transform: uppercase;" align="center" width="100%" height="30">[#projectName#]</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 11px; font-weight: normal; line-height: 15px; margin: 0; padding: 18px 5px; text-align: center;" align="center" width="100%" height="40"><a href="[#projectBroucher#]" target="_blank" style="color: #1155cc; font-size: 13px; font-weight: bold; text-decoration: none; white-space: nowrap;">Download Brochure</a><br />[#projectBlockType#]</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 0 0;" align="left" width="100%">
+                                                    <table style="background-color: #ffffff; border: 1px solid #e9e9e9; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; min-height: 200px; padding: 0px; width: 260px; height: 180px;" align="left" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="border-bottom: 1px solid #e9e9e9; border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bold; line-height: 16px; margin: 0; padding: 8px 10px; text-align: center;" align="center" width="100%">PROJECT ADDRESS</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bold; margin: 0; padding: 17px 0 0; text-align: center;" align="center" width="100%">[#projectAddress#]</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 0 15px;" align="left" width="100%">
+                                                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="center" border="0" cellpadding="0" cellspacing="0">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="border-collapse: collapse; border-top: 1px solid #e9e9e9; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 0 0;" width="100%"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; line-height: 18px; margin: 0; padding: 0 0 15px; text-align: center;" align="center" width="100%">[#projectShortDesc#]</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; min-height: 200px; padding: 0px; width: 270px; height: 180px;" align="right" border="0" cellpadding="0" cellspacing="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-size: 0; font-weight: normal; line-height: 0; margin: 0; padding: 0;" valign="top">
+                                                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 10px;" align="left" border="0" cellpadding="0" cellspacing="0">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-size: 0; font-weight: normal; line-height: 0; margin: 0; padding: 0;" height="78">&nbsp;</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 0;" align="right" width="10"><img src="https://ci5.googleusercontent.com/proxy/nW6xusTqNw1ulXhAkvSFEs3LzjGR29c4HbBWoiHA9oqDOZlbcLAAl8y6_P1mZedmr9EVFYHX7Pn551J0Y4IrWy1aroxGQlJ7nmzzvuwkI8lWVGE=s0-d-e1-ft#https://www.gstatic.com/gmktg/mtv-img/cpr_todo_arrow_left.png" alt="arrow" title="arrow" style="display: block; max-width: 10px;" border="0" width="10" class="CToWUd" /></td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                                <td style="background-color: #ddd; border-collapse: collapse; color: #ffffff; font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; line-height: 18px; margin: 0; min-height: 0; padding: 20px;" align="left" bgcolor="#4385f5" width="255"><img src="[#projectLogo#]" style="width: 100%; max-height: 215px; height: auto;" /></td>
+                                                                <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-size: 0; font-weight: normal; line-height: 0; margin: 0; padding: 0;" width="5">&nbsp;</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #f6f6f6; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 29px;" align="left" bgcolor="#f6f6f6" width="100%">
+                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="left" border="0" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 13px; font-weight: normal; line-height: 18px; margin: 0; padding: 5px 0;" align="left" width="50%"><a href="[#projectLink#]" style="color: #1155cc; text-decoration: none;" target="_blank">More Details : Click Here</a></td>
+                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 13px; font-weight: normal; line-height: 18px; margin: 0; padding: 5px 0;" align="right" width="50%"><a href="[#projectGoogleMap#]" style="color: #1155cc; text-decoration: none;" target="_blank">Google Map : Click Here</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #ffffff; border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 29px;" align="left" bgcolor="#ffffff" width="100%">
+                                    <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="left" border="0" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 17px; text-align: center; font-weight: normal; line-height: 28px; margin: 0; padding: 0;" align="left" width="100%">Our Address</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 13px; font-weight: normal; line-height: 18px; margin: 0; padding: 5px 0;" align="left" width="100%">[#companyAddress#]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div> 
             <div id="employee_email_template" style="display:none">
                 <h3>Dear  [#employeeName#] ,</h3><br/> 
                 <p>you have just received enquiry from  [#customerName#]  having mobile number  [#customerMob1#]. </p>
                 <p>this enquiry was received through [#enquirySource#].</p>
                 <p>please do the needful.</p>
-                <p> LMSAuto  </p>
-                <p>[#greeting#] </p>
+                <p> BMS  </p>
             </div> 
         </div>
     </div>

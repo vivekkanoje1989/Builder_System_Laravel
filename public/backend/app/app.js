@@ -17,6 +17,7 @@ var app = angular.module('app', [
     'chart.js',
     'rzModule',
     'oitozero.ngSweetAlert',
+    'ngCkeditor',
 ]);
 var getUrl = 'office.php';
 var getWebsiteUrl = 'website';

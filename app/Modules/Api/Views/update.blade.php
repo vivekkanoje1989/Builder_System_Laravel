@@ -44,7 +44,7 @@
                                         <option value="">Select email id</option>
                                         <option ng-repeat="list in employeeList" ng-selected="pushApiData.error_notification_email == list.id" value="{{list.id}}">{{list.personal_email1}}</option>
                                     </select>
-                                     <div ng-show="btn" ng-messages="pushApiForm.error_notification_email.$error" class="help-block step1 error-msg">
+                                    <div ng-show="btn" ng-messages="pushApiForm.error_notification_email.$error" class="help-block step1 error-msg">
                                         <div ng-message="required">This field is required</div>
                                     </div>
                                 </span>
@@ -111,6 +111,12 @@
                                 <label>
                                     <input type="checkbox" ng-model="pushApiData.email_id_mandatory" name="email_id_mandatory" class="form-control" value="{{ pushApiData.email_id_mandatory}}" >
                                     <span class="text">Email id is mandatory</span>
+                                </label>
+                            </div>
+                            <div class="checkbox" >
+                                <label>
+                                    <input type="checkbox" ng-model="pushApiData.country_code_mandatory" name="country_code_mandatory" class="form-control"  >
+                                    <span class="text">Country code is mandatory</span>
                                 </label>
                             </div>
                         </div>
@@ -307,7 +313,7 @@
                                 <div class="widget flat radius-bordered" style="margin: 0 0 -15px 0 !important;">
                                     <div class="widget-body no-padding">   
                                         <div class="form-group">
-                                            <div text-angular name="customer_email_template"  ng-model="pushApiData.customer_email_template" id="customer_email_temp"  ta-text-editor-class="editor-text form-control myform1-height" ta-html-editor-class="editor-text form-control myform1-height"  style="height: 130px;"></div>
+                                            <textarea  name="customer_email_template"  ng-model="pushApiData.customer_email_template" id="customer_email_temp" data-ck-editor  required  style="position: relative;"></textarea>
                                         </div>                                                                        
                                     </div>
                                     <div ng-show="sbtBtn2" ng-messages="remarkForm.customer_email_template.$error" class="help-block">
@@ -365,9 +371,9 @@
                             <span class="input-icon icon-right">
                                 <div class="widget flat radius-bordered" style="margin: 0 0 -15px 0 !important;">
                                     <div class="widget-body no-padding">   
-                                        <div class="form-group">
-                                            <div text-angular name="employee_email_template" ng-model="pushApiData.employee_email_template" ta-text-editor-class="editor-text form-control myform1-height" ta-html-editor-class="editor-text form-control myform1-height"  style="height: 130px;"></div>
-                                        </div>                                                                        
+                                        <div class="widget-body no-padding">    
+                                            <textarea  name="employee_email_template"  ng-model="pushApiData.employee_email_template" id="employee_email_template" data-ck-editor  required  style="position: relative;"></textarea>
+                                        </div>                                                                      
                                     </div>
                                     <div ng-show="sbtBtn2" ng-messages="remarkForm.employee_email_template.$error" class="help-block">
                                         <div ng-message="required">Please enter email content</div>
@@ -380,7 +386,7 @@
                     <div class="row">
                         <div><b style="margin-left: 15px;">Guidelines for SMS / Email :</b></div>
                         <hr>
-                        <div class="col-sm-4 col-xs-6">
+                        <div class="col-sm-3 col-xs-6">
                             <b> Customer related tags:</b><br>
                             <label for="">1) Customer Full Name : [#customerName#] </label>
                             <label for="">2) Customer Mobile : [#customerMob1#] </label>
@@ -395,35 +401,35 @@
                             <label for="">2) website : [#website#] </label>
 
                         </div>
-                        <div class="col-sm-4 col-xs-6">
+                        <div class="col-sm-3 col-xs-6">
                             <b>Employee related tags:</b><br>
                             <label for="">1) Employee Full Name : [#employeeName#]</label>
                             <label for="">2) Employee Mobile : [#employeeMobile#]</label>
                             <label for="">3) Employee Email ID : [#employeeEmail#] </label>
                             <label for="">4) Employee Designation: [#employeeDesignation#]</label>
                         </div>
-                        <div class="col-sm-4 col-xs-6">
+                        <div class="col-sm-3 col-xs-6">
                             <b> Company related tags:</b><br>
                             <label for="">1) Company Logo : [#companyLogo#]</label>
                             <label for="">2) Company Name : [#companyMarketingName#]</label>
                             <label for="">3) Company Address : [#companyAddress#]</label>
-                            <!--                            <label for="">4) Company Contact Number : [#companyNumber#]</label>
-                                                        <label for="">5) Company Email ID : [#companyEmail#]</label>-->
+                            <!--<label for="">4) Company Contact Number : [#companyNumber#]</label>
+                                <label for="">5) Company Email ID : [#companyEmail#]</label>-->
                         </div>
-                        <!--                        <div class="col-sm-3 col-xs-6">
-                                                    <b> Project related tags:</b><br>
-                                                    <label for="">1) Project Name : [#projectName#]</label>
-                                                    <label for=""> 2) Project logo : [#projectLogo#]</label>
-                                                    <label for="">3) Project Contact Number : [#projectContactNo#]</label>
-                                                    <label for="">4) Project Email ID : [#projectContactEmail#]</label>
-                                                    <label for="">5) Project Address  : [#projectAddress#]</label>
-                                                    <label for=""> 6) Project Brochure  : [#projectBroucher#]</label>
-                                                    <label for="">7) Project Banner Image  : [#projectBannerImage#]</label>
-                                                    <label for="">8) Customer Information Form Link: [#customerFormLink#] </label>
-                                                    Example: <xmp><a href="[#custFormLink#]">Click Here</a></xmp>
-                                                    <label for="">9) Google Map Link (ifram): [#projectGoogleMap#]</label>
-                        
-                                                </div>-->
+                         <div class="col-sm-3 col-xs-6">
+                            <b> Project related tags:</b><br>
+                            <label for="">1) Project Name : [#projectName#]</label> 
+                            <label for=""> 2) Project logo : [#projectLogo#]</label>
+                            <label for="">3) Project Contact Number : [#projectContactNo#]</label>
+                            <label for="">4) Project Email ID : [#projectContactEmail#]</label>
+                            <label for="">5) Project Address  : [#projectAddress#]</label>
+                            <label for=""> 6) Project Brochure  : [#projectBroucher#]</label>
+                            <label for="">7) Project Banner Image  : [#projectBannerImage#]</label>
+<!--                            <label for="">8) Customer Information Form Link: [#customerFormLink#] </label>
+                            Example: <xmp><a href="[#custFormLink#]">Click Here</a></xmp>-->
+                            <label for="">8) Google Map Link (ifram): [#projectGoogleMap#]</label>
+                            <label for="">9) Block type : [#projectBlockType#]</label>
+                        </div>
                     </div>
                     <div class="row">
                         <center><button type="submit" class="btn btn-primary" ng-click="btn = true">Update</button></center>
@@ -442,10 +448,10 @@
             <div id="customer_default_sms_template" style="display:none">
                 <h3>Dear [#customerName#],</h3><br/> 
                 <p>We thank you for your Interest in buying vehicle. </p><br/> 
-               <p> kindly click on the link [#website#] to let us know in detail about your requirement. </p><br/> 
-               <p> for any further queries [#employeeName#] [#employeeMobile#] will be in touch with you.</p><br/> 
-               <p> LMSAuto</p><br/> 
-               <p> [#greeting#]</p><br/> 
+                <p> kindly click on the link [#website#] to let us know in detail about your requirement. </p><br/> 
+                <p> for any further queries [#employeeName#] [#employeeMobile#] will be in touch with you.</p><br/> 
+                <p> LMSAuto</p><br/> 
+                <p> [#greeting#]</p><br/> 
             </div>   
             <div id="customer_email_template" style="display:none">
                 <h3>Dear [#customerName#],</h3>
@@ -457,12 +463,12 @@
                 <p>[#greeting#]</p>
             </div> 
             <div id="employee_email_template" style="display:none">
-                 <h3>Dear  [#employeeName#] ,</h3><br/> 
-                    <p>you have just received enquiry from  [#customerName#]  having mobile number  [#customerMob1#]. </p>
-                    <p>this enquiry was received through [#enquirySource#].</p>
-                    <p>please do the needful.</p>
-                   <p> LMSAuto  </p>
-                    <p>[#greeting#] </p>
+                <h3>Dear  [#employeeName#] ,</h3><br/> 
+                <p>you have just received enquiry from  [#customerName#]  having mobile number  [#customerMob1#]. </p>
+                <p>this enquiry was received through [#enquirySource#].</p>
+                <p>please do the needful.</p>
+                <p> LMSAuto  </p>
+                <p>[#greeting#] </p>
             </div> 
         </div>
     </div>

@@ -1,18 +1,26 @@
-<?php namespace App\Modules\Api\Controllers;
+<?php
+
+namespace App\Modules\Api\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 use App\Modules\Api\Models\PushApiSetting;
 use App\Modules\Api\Models\PushApiErrorNotificationLogs;
 use App\Modules\Api\Models\PushApiSettingsLog;
 use App\Classes\CommonFunctions;
 use Auth;
+use App\Modules\Projects\Models\Project;
 use App\Models\backend\Employee;
 use DB;
 use mPDF;
 use App\Classes\S3;
+use App\Modules\MasterSales\Models\Enquiry;
+use App\Modules\MasterSales\Models\Customer;
+use App\Modules\MasterSales\Models\CustomersContact;
+use App\Modules\MasterSales\Models\EnquiryFollowup;
+use App\Modules\MasterSales\Models\EnquiryDetail;
+
 class ApiController extends Controller {
 
     public function index() {
@@ -113,12 +121,6 @@ class ApiController extends Controller {
         $employee = Employee::where('id', '=', $loggedInUserId)->first();
 
         $emplEmail = Employee::where('id', '=', $request['pushApiData']['error_notification_email'])->first();
-//        $modelResult = DB::connection('masterdb')->table('mlst_lmsa_models')->get();
-        if (!empty($modelResult['0']->model_name)) {
-            $model_name = $modelResult['0']->model_name;
-        } else {
-            $model_name = '';
-        }
 
         if (!empty($employee->personal_landline_no)) {
             if ($employee->personal_landline_no != '0') {
@@ -165,6 +167,11 @@ class ApiController extends Controller {
         } else {
             $email_id_mandatory = 'Not Mandatory';
         }
+        if ($request['pushApiData']['country_code_mandatory'] == 1) {
+            $country_code_mandatory = 'Mandatory';
+        } else {
+            $country_code_mandatory = 'Not Mandatory';
+        }
         if ($request['pushApiData']['email_verification'] == 1) {
             $email_verification = 'Mandatory';
         } else {
@@ -184,10 +191,9 @@ class ApiController extends Controller {
         if (!empty($sourcer)) {
             foreach ($sourcer as $EnquirySource_row) {
                 $sourceSubSource .= "<tr width='98%'><td style='border:1px solid #555;font-size: 16px;border-top:none;'><b>" . $EnquirySource_row['source'] . "</b><span style='color:blue'>(Source)</span></td></tr>";
-                
+
                 if (count($EnquirySource_row['subsource']) > 0) {
                     foreach ($EnquirySource_row['subsource'] as $subsources) {
-
                         $sourceSubSource .= "<tr width='98%'><td   style='border:1px solid #555;font-size: 16px;border-top:none;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $subsources . " <span style='color:blue'>(Sub Source)</span></td></tr>";
                     }
                 }
@@ -195,10 +201,9 @@ class ApiController extends Controller {
         } else {
             $sourceSubSource .= '';
         }
-        $modelName = '';
-        foreach ($modelResult as $model) {
-            $modelName .= "<tr><td style='border:1px solid #555;font-size: 16px;border-top:none;'><b>" . $model->model_name . "</b></td></tr>";
-        }
+
+
+
         $api_records = DB::table('push_api_settings')->latest('id')->first();
         $api_record = $api_records->id + 1;
         $source = DB::connection('masterdb')->table('mlst_bmsb_enquiry_sales_sources')->select('sales_source_name', 'id')->first();
@@ -209,6 +214,45 @@ class ApiController extends Controller {
         } else {
             $subsourceName = '';
         }
+
+
+        $projects = Project::get();
+        $project = '';
+        for ($i = 0; $i < count($projects); $i++) {
+
+            $project .= "<tr width='98%'><td style='border:1px solid #555;font-size: 16px;border-top:none;'><b>" . $projects[$i]['project_name'] . "</b><span style='color:blue'>(Project)</span></td></tr>";
+
+            $blocks = DB::table("project_blocks as p")
+                    ->join('laravel_developement_master_edynamics.mlst_bmsb_block_types as block', 'block.id', '=', 'p.block_type_id')
+                    ->select('block.block_name')
+                    ->where('p.project_id', '=', $projects[$i]['id'])
+                    ->get();
+
+            if (count($blocks) > 0) {
+                foreach ($blocks as $block) {
+
+                    $project .= "<tr width='98%'><td   style='border:1px solid #555;font-size: 16px;border-top:none;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $block->block_name . " <span style='color:blue'>(Sub Source)</span></td></tr>";
+                }
+            }
+        }
+        $projectName = '';
+        $projectResult = DB::table('projects')->get();
+        if (!empty($projectResult['0']->project_name)) {
+            $projectName = $projectResult['0']->project_name;
+            $blocksTypes = DB::table("project_blocks as p")
+                    ->join('laravel_developement_master_edynamics.mlst_bmsb_block_types as block', 'block.id', '=', 'p.block_type_id')
+                    ->select('block.block_name')
+                    ->where('p.project_id', '=', $projectResult['0']->id)
+                    ->get();
+            if (!empty($blocksTypes)) {
+                $block_type = $blocksTypes['0']->block_name;
+            } else {
+                $block_type = '';
+            }
+        } else {
+            $projectName = '';
+        }
+
         $emplEmail = Employee::where('id', '=', $request['pushApiData']['error_notification_email'])->first();
         $client = \App\Models\ClientInfo::where('id', $GLOBALS['client_id'])->first();
         $companyLogo = config('global.s3Path') . '/client/' . $GLOBALS['client_id'] . '/' . $client->company_logo;
@@ -238,7 +282,7 @@ class ApiController extends Controller {
                                                                     &nbsp;
                                                                 </td>                                                              
                                                                 <td width="500" align="right">
-                                                                    <p style="text-align: right"><b>LMS API</b></p>
+                                                                    <p style="text-align: right"><b>BMS API</b></p>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -331,7 +375,7 @@ class ApiController extends Controller {
                                                                                                    <p><b>Example Url</b>: http://' . $_SERVER['SERVER_NAME'] . ':8000/api/pushapi/BmsPushApi?<b>api_record=' . $api_record . '</b>&<b>secret_key=' . trim($input['key']) . '</b>&<b>first_name=' . $employee->first_name . '</b>&</p>
                                                                                                    <p><b>last_name=' . $employee->last_name . '</b>&<b>country_code=</b>91&<b>mobile_no=</b>' . $employee->personal_mobile1 . '&<b>mobile_no_verification_status=</b>0&<b>landline=</b>' . $landline . '&<b>email_id=</b></p> 
                                                                                                        <p>' . $employee->personal_email1 . '&<b>email_id_verification_status=</b>0&<b>source=' . $sourceName . '</b>&<b>sub_source=</b>' . $subsourceName . '&<b>source_description=</b>testing enquiry by ' . $employee->first_name . ' ' . $employee->last_name . '&<b>referrer_mobile_number=</b>' . $employee->personal_mobile1 . '&<b>campaign_country=</b></p>
-                                                                                                      <p>india&<b>campaign_state</b>=Maharashtra&<b>campaign_city=</b>Mumbai&<b>campaign_id=</b>campaing1234&<b>campaign_keyword= ' . $keywords_name . '</b>&<b>campaign_device=' . $device_name . '</b>&<b>campaign_placement=</b>' . $placement_name . '&<b>model_name=</b>' . $model_name . '&<b>remarks=</b>test&</p>
+                                                                                                      <p>india&<b>campaign_state</b>=Maharashtra&<b>campaign_city=</b>Mumbai&<b>campaign_id=</b>campaing1234&<b>campaign_keyword= ' . $keywords_name . '</b>&<b>campaign_device=' . $device_name . '</b>&<b>campaign_placement=</b>' . $placement_name . '&<b>project_name=</b>' . $projectName . '&<b>block_type=</b>' . $block_type . '&<b>remarks=</b>test&</p>
                                                                                                       <p><b>ip_address=</b>' . $_SERVER['REMOTE_ADDR'] . '&<b>other_1=</b>test&<b>other_2=</b>test&<b>other_3=</b>test</b></p> 
                                                                                                 </td>
                                                                                             </tr>                                                                               
@@ -649,14 +693,15 @@ class ApiController extends Controller {
                                                                                                                                     <tr>
                                                                                                                                         <td width="100%" height="10"></td>
                                                                                                                                     </tr>
+                                                                                                                                    <br/><br/><br/>
                                                                                                                                     <tr>
                                                                                                                                         <td width="1000">
 
                                                                                                                                             <table width="98%" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidthinner" style="font-size:16px;font-family: Helvetica, Arial, sans-serif;">
                                                                                                                                                 <tbody>
                                                                                                                                                     <tr align="center" style="background: #d6202d; color: #fff;">
-                                                                                                                                                        <th style="border:1px solid #555;font-size: 16px; color: #fff;">List of project names & block types in BMS</th>
-                                                                                                                                                    </tr>' . $modelName . '
+                                                                                                                                                        <th style="border:1px solid #555;font-size: 16px; color: #fff;">List of projects & block types</th>
+                                                                                                                                                    </tr>' . $project . '
                                                                                                                                                 </tbody>
                                                                                                                                             </table>
 
@@ -667,15 +712,13 @@ class ApiController extends Controller {
                                                                                                                         </div>
                                                                                                                     </td>
                                                                                                                 </tr>
-
-
                                                                                                                 <tr>
                                                                                                                     <td width="100%">
                                                                                                                         <table width="1000" bgcolor="" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth">
                                                                                                                             <tbody>
                                                                                                                                 <tr>
                                                                                                                                     <td width="100%" height="10"></td>
-                                                                                                                                </tr>
+                                                                                                                                </tr> <br/><br/>
                                                                                                                                 <tr>
                                                                                                                                     <td width="1000">
 
@@ -694,15 +737,8 @@ class ApiController extends Controller {
                                                                                                                         </table>
                                                                                                                     </td>
                                                                                                                 </tr>   
-
-
-
-
-
-
                                                                                                                 <tr>
                                                                                                                     <td width="100%">
-
                                                                                                                         <table width="1000" bgcolor="" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth">
                                                                                                                             <tbody>
                                                                                                                                 <tr>
@@ -713,8 +749,6 @@ class ApiController extends Controller {
 
                                                                                                                                         <table width="980" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidthinner" style="font-size:16px;font-family: Helvetica, Arial, sans-serif;">
                                                                                                                                             <tbody>
-
-
                                                                                                                                                 <tr align="center">
                                                                                                                                                     <td width="50%" style="border:1px solid #555;font-size: 16px;">
                                                                                                                                                         <b>Customer First Name </b>
@@ -722,9 +756,7 @@ class ApiController extends Controller {
                                                                                                                                                     <td width="50%" style="border:1px solid #555;font-size: 16px;">
                                                                                                                                                         <span>' . $first_name_mandatory . '</span>
                                                                                                                                                     </td>
-
                                                                                                                                                 </tr>
-
                                                                                                                                                 <tr align="center">
                                                                                                                                                     <td width="50%" style="border:1px solid #555;font-size: 16px;">
                                                                                                                                                         <b>Customer Last Name </b>
@@ -732,7 +764,14 @@ class ApiController extends Controller {
                                                                                                                                                     <td width="50%" style="border:1px solid #555;font-size: 16px;">
                                                                                                                                                         <span>' . $last_name_mandatory . '</span>
                                                                                                                                                     </td>
-
+                                                                                                                                                </tr>
+                                                                                                                                                <tr align="center">
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <b>Customer Last Name </b>
+                                                                                                                                                    </td>
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <span>' . $country_code_mandatory . '</span>
+                                                                                                                                                    </td>
                                                                                                                                                 </tr>
                                                                                                                                                 <tr align="center">
                                                                                                                                                     <td width="50%" style="border:1px solid #555;font-size: 16px;">
@@ -741,7 +780,22 @@ class ApiController extends Controller {
                                                                                                                                                     <td width="50%" style="border:1px solid #555;font-size: 16px;">
                                                                                                                                                         <span>' . $mobile_number_mandatory . '</span>
                                                                                                                                                     </td>
-
+                                                                                                                                                </tr>
+                                                                                                                                                <tr align="center">
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <b>Mobile Number 10 Digit Minimum & Maximum Validation</b>
+                                                                                                                                                    </td>
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <span>Mandatory</span>
+                                                                                                                                                    </td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr align="center">
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <b>Mobile Number First Digit Should Be Start With 9 or 8 or 7 Validation </b>
+                                                                                                                                                    </td>
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <span>Mandatory</span>
+                                                                                                                                                    </td>
                                                                                                                                                 </tr>
                                                                                                                                                 <tr align="center">
                                                                                                                                                     <td width="50%" style="border:1px solid #555;font-size: 16px;">
@@ -804,14 +858,13 @@ class ApiController extends Controller {
 
                                                                                                                                             </tbody>
                                                                                                                                         </table>
-
                                                                                                                                     </td>
                                                                                                                                 </tr>
                                                                                                                             </tbody>
                                                                                                                         </table>
                                                                                                                     </td>
                                                                                                                 </tr>   
-                                                                                                                <!-- error codes-->
+                                                                                                                <!-- error codes--><br/><br/>
                                                                                                                 <tr>
                                                                                                                     <td width="100%">
                                                                                                                         <table width="1000" bgcolor="" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth">
@@ -821,41 +874,30 @@ class ApiController extends Controller {
                                                                                                                                 </tr>
                                                                                                                                 <tr>
                                                                                                                                     <td width="1000">
-
                                                                                                                                         <table width="980" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidthinner" >
                                                                                                                                             <tbody>
-
                                                                                                                                                 <tr align="left" >
                                                                                                                                                     <td><b style="font-family: Helvetica, Arial, sans-serif;font-size: 16px;">Error Codes : 
                                                                                                                                                             <br> Note:</b> Error related emails will be sent to ' . $emplEmail->personal_email1 . '
                                                                                                                                                     </td>
                                                                                                                                                 </tr>
-
-
-
                                                                                                                                             </tbody>
                                                                                                                                         </table>
-
                                                                                                                                     </td>
                                                                                                                                 </tr>
                                                                                                                             </tbody>
                                                                                                                         </table>
                                                                                                                     </td>
                                                                                                                 </tr>    
-
-
-
                                                                                                                 <tr>
                                                                                                                     <td width="100%">
-
                                                                                                                         <table width="1000" bgcolor="" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth">
                                                                                                                             <tbody>
                                                                                                                                 <tr>
                                                                                                                                     <td width="100%" height="10"></td>
-                                                                                                                                </tr>
+                                                                                                                                </tr><br/><br/><br/>
                                                                                                                                 <tr>
                                                                                                                                     <td width="1000">
-
                                                                                                                                         <table width="980" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidthinner" style="font-size:16px;font-family: Helvetica, Arial, sans-serif;">
                                                                                                                                             <tbody>
                                                                                                                                                 <tr align="center">
@@ -873,7 +915,7 @@ class ApiController extends Controller {
                                                                                                                                                         <b>401</b>
                                                                                                                                                     </td>
                                                                                                                                                     <td width="920" style="border:1px solid #555;font-size: 16px;">
-                                                                                                                                                        <span>LMS API disabled or secret key is wrong</span>
+                                                                                                                                                        <span>BMS API disabled or secret key is wrong</span>
                                                                                                                                                     </td>
 
                                                                                                                                                 </tr>
@@ -908,6 +950,7 @@ class ApiController extends Controller {
 
                                                                                                                 <!-- end error codes -->
                                                                                                                 <!-- start developers -->
+                                                                                                                <br/><br/><br/><br/><br/>
                                                                                                                 <tr>
                                                                                                                     <td width="100%">
                                                                                                                         <table width="1000" bgcolor="" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth">
@@ -950,12 +993,23 @@ class ApiController extends Controller {
                                                                                                                                                 <tr align="left" >
                                                                                                                                                     <td>
                                                                                                                                                         <div>
-                                                                                                                                                            <b> 1.</b><span>Please refer this URL Send values for campaigning country, campaigning state, campaigning city from database only. Value should be matching to the database value which is available for your reference on the URL. </span>
-                                                                                                                                                            <b><br>2.</b><span>Please refer this URL Send values for campaigning keywords from database only. Value should be matching to the database value which is available for your reference on the URL.</span>
-                                                                                                                                                            <b> <br>3.</b><span>Please refer this URL  Send values for campaigning placement from database only. Value should be matching to the database value which is available for your reference on the URL.</span>
-                                                                                                                                                            <b> <br>4.</b><span>Refer the above parameters guidelines or Settings currently applicable for this API section properly to apply mandatory validations on your form fields.</span> 
-                                                                                                                                                            <br><b>5.</b><span>To verify customers mobile number or email id, there is no need to implement or integrate any thing from your side. Verification sms and emails will be sent from the LMS system automatically and when customer clicks on the verification link email id or mobile number will be flagged as verified directly.</span>
-                                                                                                                                                                <br><b>6.</b><span>Please note that if you send mobile number with country code as +91 (India) then mobile number should be 10 characters, system will not accept less or more characters then 10. But if you are sending any other country code then +91 (India), you are allowed so send 12 characters in mobile number field. Please apply your form validations as per the same.</span>
+                                                                                                                                                            <b> 1.</b><span>.Please refer this URL http://bmsbuilder.in/office.php/bmsPushApi/list?secret_key=c23EXsh3DN5u Send values for campaigning
+country, campaigning state, campaigning city from database only. Value should be matching to the database value which is available for
+your reference on the URL.  </span>
+                                                                                                                                                            <b><br>2.</b><span>Please refer this URL http://bmsbuilder.in/office.php/bmsPushApi/list_keyword?secret_key=c23EXsh3DN5u Send values for
+campaigning keywords from database only. Value should be matching to the database value which is available for your reference on the
+URL.</span>
+                                                                                                                                                            <b> <br>3.</b><span>Please refer this URL http://bmsbuilder.in/office.php/bmsPushApi/list_placement?secret_key=c23EXsh3DN5u Send values for
+campaigning placement from database only. Value should be matching to the database value which is available for your reference on
+the URL.</span>
+                                                                                                                                                            <b> <br>4.</b><span>Refer the above parameters guidelines or Settings currently applicable for this API section properly to apply mandatory validations on
+your form fields.</span> 
+                                                                                                                                                            <br><b>5.</b><span>To verify customers mobile number or email id, there is no need to implement or integrate any thing from your side. Verification sms
+and emails will be sent from the BMS system automatically and when customer clicks on the verification link email id or mobile number
+will be flagged as verified directly</span>
+                                                                                                                                                                <br><b>6.</b><span>Please note that if you send mobile number with country code as +91 (India) then mobile number should be 10 characters, system will
+not accept less or more characters then 10. But if you are sending any other country code then +91 (India), you are allowed so send 12
+characters in mobile number field. Please apply your form validations as per the same.</span>
                                                                                                                                                                     </div> 
                                                                                                                                                                     </td>
                                                                                                                                                                     </tr>
@@ -984,7 +1038,7 @@ class ApiController extends Controller {
                                                                                                                                                                                                 <tbody>
                                                                                                                                                                                                     <tr>
                                                                                                                                                                                                         <td colspan="3">
-                                                                                                                                                                                                        <b>LMS API</b>
+                                                                                                                                                                                                        <b>BMS API</b>
                                                                                                                                                                                                         </td>
                                                                                                                                                                                                     </tr>    
                                                                                                                                                                                                     <tr>
@@ -1100,13 +1154,17 @@ class ApiController extends Controller {
         }
         if ($request['pushApiData']['email_verification'] == 1) {
             $email_verification = 'Mandatory';
+            $email_veri = 1;
         } else {
             $email_verification = 'Not Mandatory';
+            $email_veri = 0;
         }
         if ($request['pushApiData']['mobile_verification'] == 1) {
             $mobile_verification = 'Mandatory';
+            $mob_veri = 1;
         } else {
             $mobile_verification = 'Not Mandatory';
+            $mob_veri = 0;
         }
         if ($request['pushApiData']['dial_outbound_call'] == 1) {
             $dial_outbound_call = 'Mandatory';
@@ -1129,13 +1187,48 @@ class ApiController extends Controller {
         } else {
             $sourceSubSource .= '';
         }
-        $modelName = '';
-//        $modelResult = DB::connection('masterdb')->table('mlst_lmsa_models')->get();
-        if (!empty($modelResult['0']->model_name)) {
-            $model_name = $modelResult['0']->model_name;
-        } else {
-            $model_name = '';
+
+
+        $projects = Project::get();
+        $project = '';
+        for ($i = 0; $i < count($projects); $i++) {
+
+            $project .= "<tr width='98%'><td style='border:1px solid #555;font-size: 16px;border-top:none;'><b>" . $projects[$i]['project_name'] . "</b><span style='color:blue'>(Project)</span></td></tr>";
+
+            $blocks = DB::table("project_blocks as p")
+                    ->join('laravel_developement_master_edynamics.mlst_bmsb_block_types as block', 'block.id', '=', 'p.block_type_id')
+                    ->select('block.block_name')
+                    ->where('p.project_id', '=', $projects[$i]['id'])
+                    ->get();
+
+            if (count($blocks) > 0) {
+                foreach ($blocks as $block) {
+
+                    $project .= "<tr width='98%'><td   style='border:1px solid #555;font-size: 16px;border-top:none;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $block->block_name . " <span style='color:blue'>(Sub Source)</span></td></tr>";
+                }
+            }
         }
+
+        $projectName = '';
+        $projectResult = DB::table('projects')->get();
+        if (!empty($projectResult['0']->project_name)) {
+            $projectName = $projectResult['0']->project_name;
+
+
+            $blocksTypes = DB::table("project_blocks as p")
+                    ->join('laravel_developement_master_edynamics.mlst_bmsb_block_types as block', 'block.id', '=', 'p.block_type_id')
+                    ->select('block.block_name')
+                    ->where('p.project_id', '=', $projectResult['0']->id)
+                    ->get();
+            if (!empty($blocksTypes)) {
+                $block_type = $blocksTypes['0']->block_name;
+            } else {
+                $block_type = '';
+            }
+        } else {
+            $projectName = '';
+        }
+
         $placement = DB::table('campaign_placement')->first();
 
         if (!empty($placement->placement_name)) {
@@ -1157,14 +1250,7 @@ class ApiController extends Controller {
             $keywords_name = '';
         }
 
-//        foreach ($modelResult as $model) {
-//            $modelName .= "<tr><td style='border:1px solid #555;font-size: 16px;border-top:none;'><b>" . $model->model_name . "</b></td></tr>";
-//        }
-
-
-//        $api_records = DB::table('push_api_settings')->latest('id')->first();
         $api_record = $request['pushApiData']['id'];
-
         $source = DB::connection('masterdb')->table('mlst_bmsb_enquiry_sales_sources')->select('sales_source_name', 'id')->first();
         $subsource = DB::table('enquiry_sales_sub_sources')->select('sub_source', 'id')->where('enquiry_sales_source_id', '=', $source->id)->first();
 
@@ -1174,6 +1260,13 @@ class ApiController extends Controller {
         } else {
             $subsourceName = '';
         }
+
+        if ($request['pushApiData']['country_code_mandatory'] == 1) {
+            $country_code_mandatory = 'Mandatory';
+        } else {
+            $country_code_mandatory = 'Not Mandatory';
+        }
+
         $client = \App\Models\ClientInfo::where('id', $GLOBALS['client_id'])->first();
 
         $companyLogo = config('global.s3Path') . '/client/' . $GLOBALS['client_id'] . '/' . $client->company_logo;
@@ -1203,7 +1296,7 @@ class ApiController extends Controller {
                                                                     &nbsp;
                                                                 </td>                                                              
                                                                 <td width="500" align="right">
-                                                                    <p style="text-align: right"><b>LMS API</b></p>
+                                                                    <p style="text-align: right"><b>BMS API</b></p>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -1293,22 +1386,19 @@ class ApiController extends Controller {
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td  valign="middle" align="left" width="100%" style="font-family: Helvetica, Arial, sans-serif; font-size: 16px; padding: 10px; text-align:left; color:#000" class="logo">
-                                                                                                   <p><b>Example Url</b>   : http://' . $_SERVER['SERVER_NAME'] . ':8000/api/pushapi/BmsPushApi?<b>api_record=' . $api_record . '</b>&<b>secret_key=' . trim($secretkey) . '</b>&<b>first_name=' . $employee->first_name . '</b>&</p>
+                                                                                                   <p><b>Example Url</b>: http://' . $_SERVER['SERVER_NAME'] . ':8000/api/pushapi/BmsPushApi?<b>api_record=' . $api_record . '</b>&<b>secret_key=' . trim($input['key']) . '</b>&<b>first_name=' . $employee->first_name . '</b>&</p>
                                                                                                    <p><b>last_name=' . $employee->last_name . '</b>&<b>country_code=</b>91&<b>mobile_no=</b>' . $employee->personal_mobile1 . '&<b>mobile_no_verification_status=</b>0&<b>landline=</b>' . $landline . '&<b>email_id=</b></p> 
                                                                                                        <p>' . $employee->personal_email1 . '&<b>email_id_verification_status=</b>0&<b>source=' . $sourceName . '</b>&<b>sub_source=</b>' . $subsourceName . '&<b>source_description=</b>testing enquiry by ' . $employee->first_name . ' ' . $employee->last_name . '&<b>referrer_mobile_number=</b>' . $employee->personal_mobile1 . '&<b>campaign_country=</b></p>
-                                                                                                      <p>india&<b>campaign_state</b>=Maharashtra&<b>campaign_city=</b>Mumbai&<b>campaign_id=</b>campaing1234&<b>campaign_keyword= ' . $keywords_name . '</b>&<b>campaign_device=' . $device_name . '</b>&<b>campaign_placement=</b>' . $placement_name . '&<b>model_name=</b>' . $model_name . '&<b>remarks=</b>test&</p>
+                                                                                                      <p>india&<b>campaign_state</b>=Maharashtra&<b>campaign_city=</b>Mumbai&<b>campaign_id=</b>campaing1234&<b>campaign_keyword= ' . $keywords_name . '</b>&<b>campaign_device=' . $device_name . '</b>&<b>campaign_placement=</b>' . $placement_name . '&<b>project_name=</b>' . $projectName . '&<b>block_type=</b>' . $block_type . '&<b>remarks=</b>test&</p>
                                                                                                       <p><b>ip_address=</b>' . $_SERVER['REMOTE_ADDR'] . '&<b>other_1=</b>test&<b>other_2=</b>test&<b>other_3=</b>test</b></p> 
-                                                                                                      </td>
+                                                                                                </td>
                                                                                             </tr>                                                                               
-                                                                                                                </tbody>
-                                                                                                                </table>
-                                                                                                                </td>
-                                                                                                                </tr>
-
-                                                                                                                <tr>
-                                                                                                                    <td>
-                                                                                                                        <!-- logo -->
-                                                                                                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" align="left" class="devicewidth">
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><table width="100%" cellpadding="0" cellspacing="0" border="0" align="left" class="devicewidth">
                                                                                                                             <tbody>
                                                                                                                                 <tr>
                                                                                                                                     <td  align="left" width="100%" style="font-family: Helvetica, Arial, sans-serif; font-size: 16px; padding: 10px; text-align:left; color:#000" class="logo">
@@ -1320,21 +1410,21 @@ class ApiController extends Controller {
                                                                                                                                 </tr>                                                                               
                                                                                                                             </tbody>
                                                                                                                         </table>
-                                                                                                                    </td>
-                                                                                                                </tr>
-                                                                                                                </tbody>
-                                                                                                                </table>
-                                                                                                                </td>
-                                                                                                                </tr>
-                                                                                                                </tbody>
-                                                                                                                </table>
-                                                                                                                </td>
-                                                                                                                </tr>
-                                                                                                                </tbody>
-                                                                                                                </table>
-                                                                                                                </td>
-                                                                                                                </tr>
-                                                                                                                <tr>
+                                                                                </td>
+                                                                                                                                </tr>
+                                                                                                                                </tbody>
+                                                                                                                                </table>
+                                                                                                                                </td>
+                                                                                                                                </tr>
+                                                                                                                                </tbody>
+                                                                                                                                </table>
+                                                                                                                                </td>
+                                                                                                                                </tr>
+                                                                                                                                </tbody>
+                                                                                                                                </table>
+                                                                                                                                </td>
+                                                                                                                                </tr>
+                                                                                                                                <tr>
                                                                                                                     <td width="100%">
                                                                                                                         <table width="1000" bgcolor="" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth">
                                                                                                                             <tbody>
@@ -1615,14 +1705,15 @@ class ApiController extends Controller {
                                                                                                                                     <tr>
                                                                                                                                         <td width="100%" height="10"></td>
                                                                                                                                     </tr>
+                                                                                                                                      <br/><br/>
                                                                                                                                     <tr>
-                                                                                                                                        <td width="1000">
+                                                                                                                                        <td width="1000"><br/><br/>
 
                                                                                                                                             <table width="98%" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidthinner" style="font-size:16px;font-family: Helvetica, Arial, sans-serif;">
                                                                                                                                                 <tbody>
                                                                                                                                                     <tr align="center" style="background: #d6202d; color: #fff;">
-                                                                                                                                                        <th style="border:1px solid #555;font-size: 16px; color: #fff;">List of model</th>
-                                                                                                                                                    </tr>' . $modelName . '
+                                                                                                                                                        <th style="border:1px solid #555;font-size: 16px; color: #fff;">List of projects & block types</th>
+                                                                                                                                                    </tr>' . $project . '
                                                                                                                                                 </tbody>
                                                                                                                                             </table>
 
@@ -1642,6 +1733,7 @@ class ApiController extends Controller {
                                                                                                                                 <tr>
                                                                                                                                     <td width="100%" height="10"></td>
                                                                                                                                 </tr>
+                                                                                                                                <br/><br/>
                                                                                                                                 <tr>
                                                                                                                                     <td width="1000">
 
@@ -1663,14 +1755,9 @@ class ApiController extends Controller {
                                                                                                                         </table>
                                                                                                                     </td>
                                                                                                                 </tr>   
-
-
-
-
-
-
+<br/><br/>
                                                                                                                 <tr>
-                                                                                                                    <td width="100%">
+                                                                                                                    <td width="100%"><br/><br/>
 
                                                                                                                         <table width="1000" bgcolor="" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth">
                                                                                                                             <tbody>
@@ -1705,12 +1792,35 @@ class ApiController extends Controller {
                                                                                                                                                 </tr>
                                                                                                                                                 <tr align="center">
                                                                                                                                                     <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <b>Customer Last Name </b>
+                                                                                                                                                    </td>
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <span>' . $country_code_mandatory . '</span>
+                                                                                                                                                    </td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr align="center">
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
                                                                                                                                                         <b>Customer Mobile Number </b>
                                                                                                                                                     </td>
                                                                                                                                                     <td width="50%" style="border:1px solid #555;font-size: 16px;">
                                                                                                                                                         <span>' . $mobile_number_mandatory . '</span>
                                                                                                                                                     </td>
-
+                                                                                                                                                </tr>
+                                                                                                                                                <tr align="center">
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <b>Mobile Number 10 Digit Minimum & Maximum Validation</b>
+                                                                                                                                                    </td>
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <span>Mandatory</span>
+                                                                                                                                                    </td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr align="center">
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <b>Mobile Number First Digit Should Be Start With 9 or 8 or 7 Validation </b>
+                                                                                                                                                    </td>
+                                                                                                                                                    <td width="50%" style="border:1px solid #555;font-size: 16px;">
+                                                                                                                                                        <span>Mandatory</span>
+                                                                                                                                                    </td>
                                                                                                                                                 </tr>
                                                                                                                                                 <tr align="center">
                                                                                                                                                     <td width="50%" style="border:1px solid #555;font-size: 16px;">
@@ -1780,7 +1890,7 @@ class ApiController extends Controller {
                                                                                                                         </table>
                                                                                                                     </td>
                                                                                                                 </tr>   
-                                                                                                                <!-- error codes-->
+                                                                                                                <!-- error codes--><br/><br/>
                                                                                                                 <tr>
                                                                                                                     <td width="100%">
                                                                                                                         <table width="1000" bgcolor="" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth">
@@ -1813,7 +1923,7 @@ class ApiController extends Controller {
                                                                                                                 </tr>    
 
 
-
+<br/><br/>
                                                                                                                 <tr>
                                                                                                                     <td width="100%">
 
@@ -1842,7 +1952,7 @@ class ApiController extends Controller {
                                                                                                                                                         <b>401</b>
                                                                                                                                                     </td>
                                                                                                                                                     <td width="920" style="border:1px solid #555;font-size: 16px;">
-                                                                                                                                                        <span>LMS API disabled or secret key is wrong</span>
+                                                                                                                                                        <span>BMS API disabled or secret key is wrong</span>
                                                                                                                                                     </td>
 
                                                                                                                                                 </tr>
@@ -1877,6 +1987,7 @@ class ApiController extends Controller {
 
                                                                                                                 <!-- end error codes -->
                                                                                                                 <!-- start developers -->
+                                                                                                                <br/><br/><br/><br/><br/>
                                                                                                                 <tr>
                                                                                                                     <td width="100%">
                                                                                                                         <table width="1000" bgcolor="" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth">
@@ -1919,12 +2030,23 @@ class ApiController extends Controller {
                                                                                                                                                 <tr align="left" >
                                                                                                                                                     <td>
                                                                                                                                                         <div>
-                                                                                                                                                            <b> 1.</b><span>Please refer this URL Send values for campaigning country, campaigning state, campaigning city from database only. Value should be matching to the database value which is available for your reference on the URL. </span>
-                                                                                                                                                            <b><br>2.</b><span>Please refer this URL Send values for campaigning keywords from database only. Value should be matching to the database value which is available for your reference on the URL.</span>
-                                                                                                                                                            <b> <br>3.</b><span>Please refer this URL  Send values for campaigning placement from database only. Value should be matching to the database value which is available for your reference on the URL.</span>
-                                                                                                                                                            <b> <br>4.</b><span>Refer the above parameters guidelines or Settings currently applicable for this API section properly to apply mandatory validations on your form fields.</span> 
-                                                                                                                                                            <br><b>5.</b><span>To verify customers mobile number or email id, there is no need to implement or integrate any thing from your side. Verification sms and emails will be sent from the LMS system automatically and when customer clicks on the verification link email id or mobile number will be flagged as verified directly.</span>
-                                                                                                                                                                <br><b>6.</b><span>Please note that if you send mobile number with country code as +91 (India) then mobile number should be 10 characters, system will not accept less or more characters then 10. But if you are sending any other country code then +91 (India), you are allowed so send 12 characters in mobile number field. Please apply your form validations as per the same.</span>
+                                                                                                                                                            <b> 1.</b><span>.Please refer this URL http://bmsbuilder.in/office.php/bmsPushApi/list?secret_key=c23EXsh3DN5u Send values for campaigning
+country, campaigning state, campaigning city from database only. Value should be matching to the database value which is available for
+your reference on the URL.  </span>
+                                                                                                                                                            <b><br>2.</b><span>Please refer this URL http://bmsbuilder.in/office.php/bmsPushApi/list_keyword?secret_key=c23EXsh3DN5u Send values for
+campaigning keywords from database only. Value should be matching to the database value which is available for your reference on the
+URL.</span>
+                                                                                                                                                            <b> <br>3.</b><span>Please refer this URL http://bmsbuilder.in/office.php/bmsPushApi/list_placement?secret_key=c23EXsh3DN5u Send values for
+campaigning placement from database only. Value should be matching to the database value which is available for your reference on
+the URL.</span>
+                                                                                                                                                            <b> <br>4.</b><span>Refer the above parameters guidelines or Settings currently applicable for this API section properly to apply mandatory validations on
+your form fields.</span> 
+                                                                                                                                                            <br><b>5.</b><span>To verify customers mobile number or email id, there is no need to implement or integrate any thing from your side. Verification sms
+and emails will be sent from the BMS system automatically and when customer clicks on the verification link email id or mobile number
+will be flagged as verified directly</span>
+                                                                                                                                                                <br><b>6.</b><span>Please note that if you send mobile number with country code as +91 (India) then mobile number should be 10 characters, system will
+not accept less or more characters then 10. But if you are sending any other country code then +91 (India), you are allowed so send 12
+characters in mobile number field. Please apply your form validations as per the same.</span>
                                                                                                                                                                     </div> 
                                                                                                                                                                     </td>
                                                                                                                                                                     </tr>
@@ -1953,7 +2075,7 @@ class ApiController extends Controller {
                                                                                                                                                                                                 <tbody>
                                                                                                                                                                                                     <tr>
                                                                                                                                                                                                         <td colspan="3">
-                                                                                                                                                                                                        <b>LMS API</b>
+                                                                                                                                                                                                        <b>BMS API</b>
                                                                                                                                                                                                         </td>
                                                                                                                                                                                                     </tr>    
                                                                                                                                                                                                     <tr>
@@ -2033,14 +2155,14 @@ class ApiController extends Controller {
 
         $obj_push_api = PushApiSetting::where('key', '=', $_GET['secret_key'])->where('status', '=', '1')->first();
         if (empty($obj_push_api)) {
-            $this->sendResponse(401, 'LMS API disabled or secret key is wrong.', $obj_push_api);
+            $this->sendResponse(401, 'BMS API disabled or secret key is wrong.', $obj_push_api);
         }
         $bms_push_request_url = "http://" . $_SERVER['SERVER_NAME'] . "/office.php/lmsPushApi?api_record=" . $_GET['api_record'] . "&secret_key=" . $_GET['secret_key'] . "&first_name=" . $_GET['first_name'] . "&last_name=" . $_GET['last_name']
                 . "&country_code=" . $_GET['country_code'] . "&mobile_no=" . $_GET['mobile_no'] . "&mobile_no_verification_status=" . $_GET['mobile_no_verification_status'] . "&landline=" . $_GET['landline'] . "&email_id=" . $_GET['email_id'] . "&email_id_verification_status=" . $_GET['email_id_verification_status'] . "&source=" . $_GET['source']
                 . "&sub_source=" . $_GET['sub_source'] . "&source_description=" . $_GET['source_description'] . "&referrer_mobile_number=" . $_GET['referrer_mobile_number'] . "&campaign_country=" . $_GET['campaign_country'] . "&"
                 . "campaign_state=" . $_GET['campaign_state'] . "&campaign_city=" . $_GET['campaign_city'] . "&campaign_id=" . $_GET['campaign_id']
                 . "&campaign_keyword=" . $_GET['campaign_keyword'] . "&campaign_device=" . $_GET['campaign_device'] . "&campaign_placement=" . $_GET['campaign_placement']
-                . "&model_name=" . $_GET['model_name'] . "&remarks=" . $_GET['remarks'] . "&ip_address=" . $_GET['ip_address'] . "&other_1=" . $_GET['other_1'] . "&other_2=" . $_GET['other_2'] . "&other_3=" . $_GET['other_3'];
+                . "&project_name=" . $_GET['project_name'] . "&block_type=" . $_GET['block_type'] . "&remarks=" . $_GET['remarks'] . "&ip_address=" . $_GET['ip_address'] . "&other_1=" . $_GET['other_1'] . "&other_2=" . $_GET['other_2'] . "&other_3=" . $_GET['other_3'];
 
         $_GET['requested_url'] = "'" . $bms_push_request_url . "'";
 
@@ -2054,6 +2176,7 @@ class ApiController extends Controller {
             }
             $mobile_no = trim($_GET['mobile_no']);
             $country_code = trim($_GET['country_code']);
+
             if ($obj_push_api->mobile_number_mandatory == 1 && empty($mobile_no)) {
                 $this->sendResponse(500, 'Customer Mobile Number Not Found.', $obj_push_api, $_GET);
             } else {
@@ -2068,6 +2191,7 @@ class ApiController extends Controller {
                     $this->sendResponse(500, 'Customer Mobile number validation failure. Please send proper mobile number and try again.', $obj_push_api, $_GET);
                 }
             }
+
             $email_id = trim($_GET['email_id']);
             if (empty($email_id) && $obj_push_api->email_id_mandatory == 1) {
                 $this->sendResponse(500, 'Customer Email id Not Found.', $obj_push_api, $_GET);
@@ -2077,7 +2201,7 @@ class ApiController extends Controller {
             if (!empty($_GET['source'])) {
                 $source = urldecode($_GET['source']);
                 $source = trim($source);
-                $source = DB::connection('masterdb')->table('mlst_lmsa_enquiry_sales_sources')->where('sales_source_name', '=', $_GET['source'])->first();
+                $source = DB::connection('masterdb')->table('mlst_bmsb_enquiry_sales_sources')->where('sales_source_name', '=', $_GET['source'])->first();
 
                 if (!empty($source)) {
                     $_GET['source'] = $source->id;
@@ -2100,14 +2224,14 @@ class ApiController extends Controller {
                     $_GET['sub_source'] = $subsource->id;
                 }
             }
-            if (!empty($_GET['model_name'])) {
-                $model_name = urldecode($_GET['model_name']);
-                $model_name = trim($model_name);
+            if (!empty($_GET['project_name'])) {
+                $project_name = urldecode($_GET['project_name']);
+                $project_name = trim($project_name);
 
-                $model = DB::connection('masterdb')->table('mlst_lmsa_models')->where('model_name', '=', $model_name)->first();
+                $project = DB::table('projects')->where('project_name', '=', $project_name)->first();
 
-                if (!empty($model)) {
-                    $_GET['model_name'] = $model->id;
+                if (!empty($project)) {
+                    $_GET['project_id'] = $project->id;
                 }
             }
             if (!empty($_GET['campaign_keyword'])) {
@@ -2142,10 +2266,11 @@ class ApiController extends Controller {
                     $_GET['campaign_placement'] = '';
                 }
             }
-            $enquiry_object = $this->operation($_GET, $obj_push_api, $model);
-            
+            $enquiry_object = $this->operation($_GET, $obj_push_api, $project);
+
+
             if (!empty($_GET['other_1']) && !empty($_GET['other_2'])) {
-//                $enquiry_project_obj = Enquiry::join('enquiry_details as detail', 'detail.enquiry_id', '=', 'enquiries.id')->where('enquiry_id', '=', $enquiry_object->enquiry_id)->where('model_id', '=', $model->id);
+//                $enquiry_project_obj = Enquiry::join('enquiry_details as detail', 'detail.enquiry_id', '=', 'enquiries.id')->where('enquiry_id', '=', $enquiry_object->enquiry_id)->where('model_id', '=', $project->id);
 
                 $this->sendResponse(200, 'Enquiry inserted successfully.', $obj_push_api, $_GET);
             } else {
@@ -2174,7 +2299,7 @@ class ApiController extends Controller {
         exit;
     }
 
-    public function operation($request, $obj_api, $model) {
+    public function operation($request, $obj_api, $project) {
         $mobile_no = $request['mobile_no'];
         $email_id = $request['email_id'];
         $source_desc = trim($request['source_description']);
@@ -2184,16 +2309,16 @@ class ApiController extends Controller {
         $employeearray = @explode(',', $obj_api->employee_id);
         $employelist = $obj_api->employee_id;
         $followup_info = $obj_api->id;
-        
+
         $employeeRR = Enquiry::join('enquiry_followups as followup', 'enquiries.id', '=', 'followup.enquiry_id')
-                ->whereIN('followup.followup_by', array($employelist))
+                ->whereIN('followup.followup_by_employee_id', array($employelist))
                 ->where('followup_entered_through', '=', 4)
                 ->select('enquiries.sales_employee_id')
                 ->orderBy('enquiries.id', 'DESC')
                 ->first();
 
         $empcount = @count($employeearray) - 1;
-        
+
 
         if (!empty($employeeRR)) {
             if (@in_array($employeeRR->sales_employee_id, $employeearray)) {
@@ -2210,11 +2335,11 @@ class ApiController extends Controller {
 
         if (empty($roundRobin))
             $roundRobin = $employeearray[0];
-       
+
         $obj_employee = Employee::where('id', $roundRobin)->first();
 
-        if (!empty($obj_employee)) {
 
+        if (!empty($obj_employee)) {
             if (!empty($mobile_no)) {
                 $obj_customer = CustomersContact::where('mobile_number', '=', $mobile_no)->first();
                 if (!empty($obj_customer)) {
@@ -2225,15 +2350,16 @@ class ApiController extends Controller {
                 $obj_customer = CustomersContact::where('email_id', '=', $email_id)->first();
             }
             if (!empty($obj_customer)) {
+
                 if ($obj_api->existing_open_customer_action == 1) {
                     $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
-                    $this->insertEnquiryModels($obj_enquiry, $model, $request);
+                    $this->insertEnquiryModels($obj_enquiry, $project, $request);
                     $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
                     //                    $this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
 
                     if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
 
-                        //$this->sendVerificationLink($obj_api, $obj_customer, $model, $obj_employee, $obj_enquiry);
+                        //$this->sendVerificationLink($obj_api, $obj_customer, $project, $obj_employee, $obj_enquiry);
                     }
                     return $obj_enquiry;
                 } else {
@@ -2242,7 +2368,7 @@ class ApiController extends Controller {
                     $obj_enquiry = '';
                     if (!empty($obj_enquiry)) {
                         $obj_employee = Employee::where('id', '=', $obj_enquiry->sales_employee_id)->first();
-                        $this->insertEnquiryModels($obj_enquiry, $model, $request);
+                        $this->insertEnquiryModels($obj_enquiry, $project, $request);
                         $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
                         //$this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
 
@@ -2253,20 +2379,20 @@ class ApiController extends Controller {
                     else {
                         if ($obj_api->existing_lost_customer_action == 1) {
                             $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
-                            $this->insertEnquiryModels($obj_enquiry, $model, $request);
+                            $this->insertEnquiryModels($obj_enquiry, $project, $request);
                             $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
                             //                    $this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
 
                             if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
 
-                                //$this->sendVerificationLink($obj_api, $obj_customer, $model, $obj_employee, $obj_enquiry);
+                                //$this->sendVerificationLink($obj_api, $obj_customer, $project, $obj_employee, $obj_enquiry);
                             }
                         } else {
 
                             $obj_enquiry = Enquiry::where('customer_id', '=', $obj_customer->customer_id)->orderBy('id', 'desc')->first();
                             if (!empty($obj_enquiry)) {
 
-                                $this->insertEnquiryModels($obj_enquiry, $model, $request);
+                                $this->insertEnquiryModels($obj_enquiry, $project, $request);
                                 $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
                                 //$this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
 
@@ -2281,13 +2407,13 @@ class ApiController extends Controller {
             } else {
 
 
-                $customer_type = 0;
+//                $customer_type = 0;
                 $country = $request['country_code'];
                 if ($country != '91' && $country != '') {
                     $customer_type = 1;
                 }
                 $obj_customer = new Customer();
-                $obj_customer->customer_type = $customer_type;
+//                $obj_customer->customer_type = $customer_type;
                 $obj_customer->first_name = $request['first_name'];
                 $obj_customer->last_name = $request['last_name'];
                 $obj_customer->client_id = 1;
@@ -2303,12 +2429,13 @@ class ApiController extends Controller {
 
                 $obj_customerContacts->save();
                 $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
-                $this->insertEnquiryModels($obj_enquiry, $model, $request);
+
+                $this->insertEnquiryModels($obj_enquiry, $project, $request);
                 $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
                 //                    $this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
 
                 if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
-                    //$this->sendVerificationLink($obj_api, $obj_customer, $model, $obj_employee, $obj_enquiry);
+                    //$this->sendVerificationLink($obj_api, $obj_customer, $project, $obj_employee, $obj_enquiry);
                 }
                 return $obj_enquiry;
             }
@@ -2332,11 +2459,11 @@ class ApiController extends Controller {
     }
 
     public function insertFollowups($obj_enquiry, $obj_employee, $obj_api, $custMsg = '', $status = 0) {
-       
+
         $obj_followups = new EnquiryFollowup();
         $obj_followups->enquiry_id = $obj_employee->id;
         $obj_followups->followup_date_time = date("Y-m-d h:i:s");
-        $obj_followups->followup_by = $obj_employee->employee_id;
+        $obj_followups->followup_by_employee_id = $obj_employee->employee_id;
         $obj_followups->followup_entered_through = '4';
         $obj_followups->next_followup_date = date('Y-m-d');
         $obj_followups->next_followup_time = date("h:i:s");
@@ -2352,14 +2479,14 @@ class ApiController extends Controller {
         return $obj_followups;
     }
 
-    public function insertEnquiryModels($obj_enquiry, $model, $request) {
-        if (!empty($model)) {
+    public function insertEnquiryModels($obj_enquiry, $project, $request) {
+        if (!empty($project)) {
             $obj_model_enquiry = Enquiry::where('id', '=', $obj_enquiry->id)->get();
             $obj_model = new EnquiryDetail();
-            if (empty($obj_project_enquiry) && !empty($model)) {
+            if (empty($obj_project_enquiry) && !empty($project)) {
                 $obj_model = new EnquiryDetail();
                 $obj_model->enquiry_id = $obj_enquiry->id;
-                $obj_model->model_id = $model->id;
+                $obj_model->project_id = $project->id;
                 $obj_model->save();
                 return $obj_model;
             }
@@ -2467,9 +2594,9 @@ class ApiController extends Controller {
             $templatedata['employee_id'] = $obj_api->error_notification_email;
             $templatedata['client_id'] = config('global.client_id');
             $templatedata['template_setting_customer'] = 0; //50;
-            $templatedata['template_setting_employee'] = 47;
+            $templatedata['template_setting_employee'] = 50;
             $templatedata['customer_id'] = '1';
-            $templatedata['model_id'] = 0;
+            $templatedata['project_id'] = 0;
             $templatedata['sms_status'] = '1';
             $templatedata['email_status'] = '1';
             $templatedata['arrExtra'][0] = array(
@@ -2503,34 +2630,64 @@ class ApiController extends Controller {
                 $obj_api->pdf_name,
             );
             $r = 1;
-            $result = CommonFunctions::templateData($templatedata);
-            return json_encode($result);
+            // $result = CommonFunctions::templateData($templatedata);
+            // return json_encode($result);
         }
     }
 
     public function successNofificationMail($status, $message, $obj_api, $request) {
 
-
         $enquiry = Enquiry::latest()->first();
         $sales_employee_id = $enquiry['sales_employee_id'];
         $emp = Employee::select('employees.first_name', 'employees.last_name', 'employees.personal_mobile1', 'employees.personal_email1', 'de.designation')
-                ->join('lmsauto_master_final.mlst_lmsa_designations as de', 'employees.designation_id', '=', 'de.id')
+                ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_designations as de', 'employees.designation_id', '=', 'de.id')
                 ->where('employees.id', '=', $sales_employee_id)
                 ->first();
 
-
-        $source = DB::table('lmsauto_master_final.mlst_lmsa_enquiry_sales_sources')->where('id', '=', $request['source'])->first();
+        $source = DB::table('laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources')->where('id', '=', $request['source'])->first();
         if (!empty($source)) {
             $sales_source_name = $source->sales_source_name;
         } else {
             $sales_source_name = '';
         }
+        
+        if (!empty($request['project_id'])) {
+            $projectDetails = Project::select('pw.project_address', 'pw.short_description', 'pw.project_logo','pw.project_contact_numbers', 'pw.project_brochure','pw.project_banner_images', 'pw.google_map_short_url')
+                    ->leftjoin('project_web_pages as pw', 'projects.id', '=', 'pw.project_id')
+                    ->where('projects.id', '=', $request['project_id'])
+                    ->first();
+            $project_address = $projectDetails->project_address;
+            $short_description = $projectDetails->short_description;
+            $project_logo = $projectDetails->project_logo;
+            $project_brochure = $projectDetails->project_brochure;
+            $google_map_short_url = $projectDetails->google_map_short_url;
+            $project_contact_numbers = $projectDetails->project_contact_numbers;
+            if(!empty($projectDetails->project_banner_images)){
+              $project_banner_images =   explode(',',$projectDetails->project_banner_images);
+             $project_banner_images =  $project_banner_images['0'];
+            }
+            $project_banner_images = $projectDetails->project_banner_images;
+            
+        } else {
+            $project_address = '';
+            $short_description = '';
+            $project_logo = '';
+            $project_brochure = '';
+            $google_map_short_url = '';
+            $project_contact_numbers = '';
+        }
 
+        $project_link = 'http://' . $_SERVER['SERVER_NAME'] . ':8000/project-details/' . $request['project_id'];
+        $project_logo = config('global.s3Path') . '/project/project_logo/' . $project_logo;
+        $project_brochure = config('global.s3Path') . '/project/project_brochure/' . $project_brochure;
+        $project_banner_images = config('global.s3Path') . '/project/project_banner_images/' . $project_banner_images;
+        
+        
         $templatedata['employee_id'] = $emp->id;
         $templatedata['client_id'] = config('global.client_id');
         $templatedata['customer_status'] = '1';
         $templatedata['employee_status'] = '1';
-        $templatedata['model_id'] = 0;
+        $templatedata['project_id'] = 0;
         $templatedata['sms_status'] = 1;
         $templatedata['email_status'] = 1;
         $templatedata['employee_mobno'] = $emp->personal_mobile1;
@@ -2548,6 +2705,16 @@ class ApiController extends Controller {
             '[#employeeMobile#]',
             '[#employeeEmail#]',
             '[#employeeDesignation#]',
+            '[#projectName#]',
+            '[#projectBlockType#]',
+            '[#projectAddress#]',
+            '[#projectShortDesc#]',
+            '[#projectLink#]',
+            '[#projectLogo#]',
+            '[#projectBroucher#]',
+            '[#projectBannerImage#]',
+            '[#projectGoogleMap#]',
+            '[#projectContactNo#]',
             '[#companyLogo#]',
             '[#companyMarketingName#]',
             '[#companyAddress#]',
@@ -2566,7 +2733,19 @@ class ApiController extends Controller {
             $emp->personal_mobile1,
             $emp->personal_email1,
             $emp->designation,
+            $request['project_name'],
+            $request['block_type'],
+            $project_address,
+            $short_description,
+            $project_link,
+            $project_logo,
+            $project_brochure,
+            $project_banner_images,
+            $google_map_short_url,
+            $project_contact_numbers,
         );
+
+
         $result = CommonFunctions::texttemplateData($templatedata, $obj_api, $request);
         return json_encode($result);
     }

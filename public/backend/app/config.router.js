@@ -4980,7 +4980,7 @@ angular.module('app')
                                     templateUrl: '/pushapi/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                      label: 'LMS Auto / LMS Auto Settings / API Management / New  API',
+                                      label: 'BMS Auto / BMS Auto Settings / API Management / New  API',
                                       title: 'New API',  
                                   
                                     },
@@ -5047,7 +5047,7 @@ angular.module('app')
                                     templateUrl: '/pushapi/manage',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                         label: 'LMS Auto / LMS Auto Settings / API Management / Manage  API',
+                                         label: 'BMS Auto / BMS Auto Settings / API Management / Manage  API',
                                          title: 'Manage API',
                                     },
                                     resolve: {
