@@ -56,7 +56,7 @@
                                 <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.first_name.$dirty && userForm.first_name.$invalid)}">
                                     <label for="">First Name <span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="userData.first_name" name="first_name" class="form-control"  capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')"    maxlength="15" required>
+                                        <input type="text" ng-model="userData.first_name" name="first_name" class="form-control"  capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" maxlength="15" required>
                                         <i class="fa fa-user"></i>
                                         <div ng-show="step1" ng-messages="userForm.first_name.$error" class="help-block step1">
                                             <div ng-message="required">This field is required.</div>
@@ -79,7 +79,7 @@
                                 <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.last_name.$dirty && userForm.last_name.$invalid)}">
                                     <label for="">Last Name <span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="userData.last_name" name="last_name" class="form-control"  maxlength="15" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')"  maxlength="15"  required>
+                                        <input type="text" ng-model="userData.last_name" name="last_name" class="form-control"  maxlength="15" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" maxlength="15" required>
                                         <i class="fa fa-user"></i>
                                         <div ng-show="step1" ng-messages="userForm.last_name.$error" class="help-block step1">
                                             <div ng-message="required">This field is required.</div>
@@ -266,9 +266,9 @@
                                             <span class="input-icon icon-right1">
                                                 <input type="text" ng-model="userContact.personal_mobile2" maxlength="10" style="margin-left: -24px;" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile2" id="personal_mobile2" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateMobileNumber(userContact.personal_mobile2, 'errFamilyMobile')">
                                                 <i class="fa fa-phone hrMargin"></i>
-                                                <div ng-show="step2 || errMobile || errFamilyMobile" ng-messages="userContactForm.personal_mobile2.$error" class="help-block step2 {{ applyClassMobile}}">
+                                                <div ng-show="step2 | errMobile | errFamilyMobile" ng-messages="userContactForm.personal_mobile2.$error" class="help-block step2 {{ applyClassMobile}}">
                                                     <div ng-message="minlength">Personal Mobile Number must be 10 digits</div>
-                                                    <div>{{ errMobile}}</div>
+                                                    <div>{{ errPersonalMobile}}</div>
                                                     <div>{{ errFamilyMobile}}</div>
                                                 </div>
                                             </span>                               

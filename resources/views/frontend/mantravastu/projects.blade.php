@@ -53,14 +53,11 @@
                                     </span>
                                 </div>
                                 <div class="project-info">
-                                    <div>
-                                        <span>Amenities</span>Sample data</div>
-                                    <div>
-                                        <span>Speciafication</span>Sample data</div>
-
+                                    <div><span>Amenities</span>Sample data</div>
+                                    <div><span>Speciafication</span>Sample data</div>
                                 </div>
                                 <p>{{list.short_description|htmlToPlaintext | limitTo : 15}}{{list.short_description.length > 15? '': '...'}}</p>                            
-                                <a href="#/project-details/{{list.id}}" target="_self" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
+                                <a href="/#/project-details/{{list.id}}" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -85,7 +82,7 @@
                                         <span>Speciafication</span>Sample data</div>
                                 </div>
                                 <p>{{list.short_description|htmlToPlaintext | limitTo : 15}}{{list.short_description.length > 15? '': '...'}}</p>                            
-                                <a href="#/project-details/{{list.id}}" target="_self" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
+                                <a href="/#/project-details/{{list.id}}" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -110,7 +107,7 @@
                                         <span>Speciafication</span>Sample data</div>
                                 </div>
                                 <p>{{list.short_description|htmlToPlaintext | limitTo : 15}}{{list.short_description.length > 15? '': '...'}}</p>                            
-                                <a href="#/project-details/{{list.id}}" target="_self" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
+                                <a href="/#/project-details/{{list.id}}" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -151,74 +148,6 @@
                             <div class="mask"></div>
                         </div>
                     </li>
-
-
-                    <!--                 <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix upcoming">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 3">
-                                             <a href="#single-project" class="more show_hide" rel="#slidingDiv2">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>
-                                     <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix current">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 4">
-                                             <a href="#single-project" class="show_hide more" rel="#slidingDiv3">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>
-                                     <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix completed">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 5">
-                                             <a href="#single-project" class="show_hide more" rel="#slidingDiv4">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>
-                                     <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix upcoming">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 6">
-                                             <a href="#single-project" class="show_hide more" rel="#slidingDiv5">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>
-                                     <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix current">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 7" />
-                                             <a href="#single-project" class="show_hide more" rel="#slidingDiv6">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>
-                                     <li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix upcoming">
-                                         <div class="thumbnail">
-                                             <img src="frontend/mantra_vastu/images/project.jpg" alt="project 9">
-                                             <a href="#single-project" class="show_hide more" rel="#slidingDiv8">
-                                                 <i class="icon-plus"></i>
-                                             </a>
-                                             <h3>Project Name</h3>
-                                             <p>Project Information</p>
-                                             <div class="mask"></div>
-                                         </div>
-                                     </li>-->
                 </ul>
             </div>
         </div>
@@ -270,32 +199,32 @@
                 <div class="row-fluid centered">
                     <ul class="social">
                         <li>
-                            <a href="">
+                            <a href="https://www.facebook.com/mantravpl" target="_blank">
                                 <span class="icon-facebook-circled"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="https://twitter.com/JahagirdarD" target="_blank">
                                 <span class="icon-twitter-circled"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="https://in.linkedin.com/in/dineshjahagirdar" target="_blank">
                                 <span class="icon-linkedin-circled"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="https://www.pinterest.com/Mantra_vastu/" target="_blank">
                                 <span class="icon-pinterest-circled"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="" target="_blank">
                                 <span class="icon-dribbble-circled"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="https://plus.google.com/111989364413040119355" target="_blank">
                                 <span class="icon-gplus-circled"></span>
                             </a>
                         </li>
@@ -422,43 +351,111 @@
     <script src="frontend/mantravastu/js/jquery.js"></script>
 
     <script>
-        $(document).ready(function () {
-            $("html, body").animate({
-                scrollTop: 0
-            }, 600);
-            $('.bxslider').bxSlider({
-                mode: 'fade',
-                captions: true
-            });
+//        $(document).ready(function () {
+//            $("html, body").animate({
+//                scrollTop: 0
+//            }, 600);
+//            $('.bxslider').bxSlider({
+//                mode: 'fade',
+//                captions: true
+//            });
+//
+//            $(".currentProjects").click(function (e) {
+//                $(".nav-pills li").addClass('filter').removeClass('filter active')
+//                $(this).parent('li').addClass('filter active').removeClass('filter');
+//                //mix current
+//                //$("thumbnails li").css("display", "none");
+//                $('.thumbnails li').not('.li mix current').css("display", "none");
+//                e.preventDefault();
+//            });
+//            $(".show_hide").live("click", function (e) {
+//                var id = $(this).attr('rel');
+//                $('html, body').animate({
+//                    scrollTop: //$('.single-project').not('.single-project '+id).css("display", "none")
+//                            $("#" + id).show()
+//                }, 1500);
+//                $(this).parent('li').addClass('filter active').removeClass('filter');
+//                e.preventDefault();
+//
+//            });
+//            
+//            $("a#home").click(function (e) {
+//                        //window.history.replaceState("","title",'http://127.0.0.1:8000');
+//                window.location.href = 'http://127.0.0.1:8000';
+//                e.preventDefault();
+//                $('html, body').animate({
+//                scrollTop: $("#homepage").offset().top
+//                },1500);
+//            });
+//        });
 
-            $(".currentProjects").click(function (e) {
-                $(".nav-pills li").addClass('filter').removeClass('filter active')
-                $(this).parent('li').addClass('filter active').removeClass('filter');
-                //mix current
-                //$("thumbnails li").css("display", "none");
-                $('.thumbnails li').not('.li mix current').css("display", "none");
-                e.preventDefault();
-            });
-            $(".show_hide").live("click", function (e) {
-                var id = $(this).attr('rel');
-                $('html, body').animate({
-                    scrollTop: //$('.single-project').not('.single-project '+id).css("display", "none")
-                            $("#" + id).show()
-                }, 1500);
-                $(this).parent('li').addClass('filter active').removeClass('filter');
-                e.preventDefault();
-
-            });
-            
-            $("a#home").click(function (e) {
-                        //window.history.replaceState("","title",'http://127.0.0.1:8000');
-                window.location.href = 'http://127.0.0.1:8000';
-                e.preventDefault();
-                $('html, body').animate({
-                scrollTop: $("#homepage").offset().top
-                },1500);
-            });
+ $(document).ready(function () {    
+      $("html, body").animate({
+        scrollTop: 0
+    }, 600);
+$("a#home").click(function (e) {
+    e.preventDefault();
+    if(window.location.pathname == '/projects')
+     {
+         window.location.href = "http://127.0.0.1:8000";
+     }
+    $('html, body').animate({
+    scrollTop: $("#homepage").offset().top
+    },1500);
+    });
+    
+    $("a#about").click(function (e) {
+    e.preventDefault();
+     if(window.location.pathname == '/projects')
+     {
+        window.location.href = "http://127.0.0.1:8000";         
+     }
+     else{
+    $('html, body').animate({
+    scrollTop: $("#aboutus").offset().top
+    },1500);
+    
+    }
+    });
+    
+    $("a#contactus").click(function (e) {
+    e.preventDefault();     
+    $('html, body').animate({
+    scrollTop: $("#contact").offset().top
+    },1500);
+    });
+    
+    $("a#careers").click(function (e) {
+    if(window.location.pathname == '/projects')
+    {
+       window.location.href = "http://127.0.0.1:8000";         
+    }
+    e.preventDefault();
+    $('html, body').animate({
+    scrollTop: $("#careersdata").offset().top
+    },1500);
+    });
+    
+    $("a#clients").click(function (e) {
+    e.preventDefault();
+    $('html, body').animate({
+    scrollTop: $("#testmonials").offset().top
+    },1500);
+    });
+    
+    
+//    
+        $(".show_hide").live("click", function (e) {
+            var id = $(this).attr('rel');
+            $('html, body').animate({
+                scrollTop: //$('.single-project').not('.single-project '+id).css("display", "none")
+                        $("#" + id).show()
+            }, 1500);
+            $(this).parent('li').addClass('filter active').removeClass('filter');
+            e.preventDefault();
         });
+    
+    });
 
         window.onload = function () {
             document.getElementById("enquiry").onclick = function () {
@@ -485,6 +482,4 @@
             };
         }
 
-    </script>
-</body>
-</html>
+</script>

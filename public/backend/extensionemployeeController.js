@@ -1,5 +1,5 @@
 'use strict';
-app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upload', '$window', '$timeout', '$state', '$rootScope', '$stateParams', 'toaster', function ($scope, Data, $filter, Upload, $window, $timeout, $state, $rootScope, $stateParams, toaster) {
+app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upload', '$window', '$timeout', '$state', '$rootScope', '$stateParams', 'toaster', '$modal', function ($scope, Data, $filter, Upload, $window, $timeout, $state, $rootScope, $stateParams, toaster, $modal) {
         $scope.pageHeading = 'Extension Employees';
         $scope.itemsPerPage = 30;
         $scope.btnSubmit = false;
@@ -21,6 +21,21 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
         }
+        
+        
+         $scope.showHelpManageExtension= function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Manage Extension</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        
         
         $scope.employeeExtExportToxls = function () {
             $scope.getexcel = window.location = "employeeExtExportToxls";

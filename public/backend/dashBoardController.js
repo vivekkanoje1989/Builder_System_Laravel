@@ -1,4 +1,4 @@
-app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$location', function ($scope, Data, toaster, $state, $location) {
+app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$location', '$modal', function ($scope, Data, toaster, $state, $location, $modal) {
 
         $scope.itemsPerPage = 30;
         $scope.reqLeave = false;
@@ -28,8 +28,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
-        
-        
+
+
         $scope.requestForMeExportToxls = function () {
             $scope.get_excel = window.location = "/request-for-me/requestForMeExportToxls";
             if ($scope.get_excel) {
@@ -95,13 +95,13 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         }
         $scope.employeeRowCC = [];
         $scope.getEmployeesCC = function ()
-        { 
+        {
             $scope.empID = [];
             var i;
-            for(i=0; i < $scope.request.application_to.length; i++){
-                 $scope.empID.push($scope.request.application_to[i].id);
+            for (i = 0; i < $scope.request.application_to.length; i++) {
+                $scope.empID.push($scope.request.application_to[i].id);
             }
-           
+
             Data.post('getEmployeesCC', {'id': $scope.empID}).then(function (response) {
                 $scope.employeeRowCC = response.records;
             });
@@ -127,6 +127,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         };
         $scope.dorequestLeaveAction = function (request) {
             $scope.reqLeave = true;
+            $('.firstDiv').css('opacity','0.1').css("pointer-events","none");
+            $('.pleaseWait').css("display", "block").css("z-index","9999");
             var date = new Date(request.from_date);
             $scope.from_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             var date = new Date(request.to_date);
@@ -138,11 +140,15 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                     $scope.reqLeave = false;
                     toaster.pop('success', 'Manage request', "Request created successfully");
                     $state.go('myRequestIndex');
+                } else {
+                    $scope.reqLeave = false;
                 }
             });
         };
         $scope.doOtherApprovalAction = function (request)
         {
+             $('.firstDiv').css('opacity','0.1').css("pointer-events","none");
+            $('.pleaseWait').css("display", "block").css("z-index","9999");
             $scope.reqOtherLeave = true;
             Data.post('request-approval/other', {
                 uid: request.application_to, cc: request.application_cc, req_desc: request.req_desc, request_type: "Approval", status: "1"}).then(function (response) {

@@ -1,4 +1,4 @@
-app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', function ($scope, Data, toaster, $rootScope) {
+app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope','$modal', function ($scope, Data, toaster, $rootScope,$modal) {
 
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
@@ -20,6 +20,19 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
+        
+         $scope.showHelpContactUs = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Contact Us</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
         
          $scope.deleteContact = function (id, index) {
             Data.post('contact-us/deleteContact', {

@@ -1,5 +1,5 @@
 'use strict';
-app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', 'toaster', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, toaster) {
+app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', 'toaster','$modal', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, toaster, $modal) {
         $scope.pageHeading = 'Create Custom Template';
         $scope.buttonLabel = 'Create';
         $scope.customAlertData = {};
@@ -10,7 +10,6 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
         $scope.currentPage = $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.exportData = '';
-
         $scope.pageNumber = 1;
         $scope.pageChanged = function (pageNo, functionName, id, type, pageNumber) {
             $scope[functionName](id, type, pageNumber, $scope.itemsPerPage);
@@ -26,6 +25,19 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
                 }
             });
         };
+             $scope.showHelpCustomTemplate = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Custom Template Settings</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        
 
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;

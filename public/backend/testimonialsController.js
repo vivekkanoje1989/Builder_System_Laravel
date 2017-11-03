@@ -1,4 +1,4 @@
-app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$parse', '$state', function ($scope, Data, Upload, toaster, $parse, $state) {
+app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$parse', '$state','$modal', function ($scope, Data, Upload, toaster, $parse, $state, $modal) {
 
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
@@ -16,12 +16,36 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
             });
         };
 
+        $scope.showHelpManageTestimonial = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Manage Testimonials</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
+        $scope.showHelpApproveTestimonial = function () {
+            $scope.optionModal = $modal.open({
+                template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Approve Testimonials</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
+                controller: [
+                    '$scope', '$modalInstance', function ($scope, $modalInstance) {
+                        $scope.closeModal = function () {
+                            $modalInstance.dismiss();
+                        };
+                    }
+                ]
+            });
+        }
 
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
         }
-        
+
         $scope.searchDetails = {};
         $scope.searchData = {};
         $scope.filterDetails = function (search) {
@@ -53,7 +77,7 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
                 $scope.ApprovedTestimonialsRow.splice(index, 1);
             });
         }
-        
+
         $scope.deleteApprovedList = function (id, index) {
             Data.post('testimonials/deleteApprovedList', {
                 'testimonial_id': id}).then(function (response) {
@@ -61,13 +85,13 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
                 $scope.ApprovedTestimonialsRow.splice(index, 1);
             });
         }
-        
+
         $scope.$on("deleteRecords", function (event, args) {
             $scope.deleteApprovedList(args['id'], args['index']);
-           
+
         });
         $scope.$on("deleteItems", function (event, args) {
-          $scope.deleteDisApprovedList(args['id'], args['index']);
+            $scope.deleteDisApprovedList(args['id'], args['index']);
         });
 
         $scope.manageTestimonialDisapproveExportToExcel = function () {

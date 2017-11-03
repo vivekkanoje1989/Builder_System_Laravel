@@ -1,6 +1,7 @@
 <form name="promotionalsmsForm" novalidate ng-submit="promotionalsmsForm.$valid && sendPromotionalSMS(promotionalsmsData, promotionalsmsData.mobilenumbers)" ng-controller="promotionalsmsController">
     <input type="hidden" ng-model="promotionalsmsForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="promotionalsmsForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-    <div class="col-lg-12 col-sm-12 col-xs-12">
+    <!--<div class="col-lg-12 col-sm-12 col-xs-12">-->
+    <div class="col-lg-6 col-md-6 col-xs-6">
         <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading}}</h5>-->
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -9,7 +10,7 @@
             <div class="widget-body">
                 <div id="promotionalsms-form">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="checkbox">
                                     <label>
@@ -27,7 +28,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="">SMS Type <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
@@ -44,7 +47,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-12">
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!promotionalsmsForm.sms_body.$dirty && promotionalsmsForm.sms_body.$invalid)}">
                                 <label for="">Enter SMS Body </label>
                                 <textarea ng-model="promotionalsmsData.sms_body" id="sms_body" name="sms_body" class="form-control" rows="8" required></textarea>
@@ -56,10 +59,11 @@
                             </div>
                             <h5 style="margin-top:20px">SMS Count : <span id ="totalsms">1</span> SMS Characters Count : <span id="totalcharacters">0</span></h5>
                         </div>
-
-                        <div class="col-md-6 col-sm-6 col-xs-12" ng-show="promotionalsmsData.send_sms_type == 1">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" ng-show="promotionalsmsData.send_sms_type == 1">
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!promotionalsmsForm.smsnumbers.$dirty && promotionalsmsForm.smsnumbers.$invalid)}">
-                                <label for="">Enter Comma Separated Mobile Numbers </label>
+                                <label for="">Enter Comma Separated Mobile Numbers. Ex-97xxxxxxxx,98xxxxxxxx. </label>
                                 <textarea ng-model="promotionalsmsData.smsnumbers" id="smsnumbers" name="smsnumbers" class="form-control" rows="8" ng-required="promotionalsmsData.send_sms_type == 1"></textarea>
                                 <span class="hide" id="lengtherr">Mobile number is not valid</span>
                                 <h5 style="margin-top:20px">Number Count : <span id="totalnumbers">0</span></h5>
@@ -72,14 +76,14 @@
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12" ng-show="promotionalsmsData.send_sms_type == 2"> 
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!promotionalsmsForm.mobilenumbers.$dirty && promotionalsmsForm.mobilenumbers.$invalid)}">
-                                <label for="">Upload .xlsx Format Only </label>
+                                <label for="">Upload .xls Format Only </label>
                                 <input type="file" ngf-select ng-model="promotionalsmsData.mobilenumbers"  id="mobilenumbers" class="form-control" name="mobilenumbers" accept="xls/*" ng-required="promotionalsmsData.send_sms_type == 2">
                                 <span class="input-icon icon-right">
                                     <div ng-show="step1" ng-messages="promotionalsmsForm.mobilenumbers.$error" class="help-block step1">
                                         <div ng-message="required">File is not selected.</div>
                                     </div>
                                 </span>
-                                <span><a class="sample-link" href="https://s3-ap-south-1.amazonaws.com/lms-auto-common/bulk_file/sample_bulk_sms_file.xlsx" target="_blank">Download Sample</a></span>
+                                <span><a class="sample-link" href="http://bmsb.netestgcp.in/common/bulksmsmobile/bulkMobileNumbersSample.xls" target="_blank">Download Sample</a></span>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12" ng-show="promotionalsmsData.send_sms_type == 3"> 

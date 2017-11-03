@@ -16,8 +16,9 @@
     <div class="col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Documents</span>                
-            </div>
+                <span class="widget-caption">Manage Documents</span> 
+                  <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
+             </div>
             <div class="widget-body table-responsive">
                
                 <div class="row table-toolbar">
@@ -93,7 +94,7 @@
                                 <td>{{ list.document_name}}</td>   
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit documents" data-toggle="modal" data-target="#documentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.document_name}}', $index)" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                 <span ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmployeeDocuments({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                 <span ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                         </tbody>
@@ -176,5 +177,26 @@
     </div>
     <script src="/js/filterSlider.js"></script>
     <!-- Filter Form End-->
+    <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
+        <div class="modal-dialog">
+           
+            <div class="modal-content helpModal" >
+                <div class="modal-header helpModalHeader bordered-bottom bordered-themeprimary" >
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title" align="center">Task Priority Help Info</h4>
+                </div>                
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="helpContent">Priority </label>
+                                <span class="input-icon icon-right">                                    
+                                    
+                                </span>
+                            </div>                            
+                        </div>
+                    </div>  
+            </div>
+        </div>
+    </div>
 </div>
 

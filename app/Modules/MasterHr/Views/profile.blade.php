@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-9 cl-xs-9" align="center">
-                                <button type="submit" class="btn btn-primary" id="btn_update_profile" ng-click="btnProfile = true" style="margin-top: 7%;">Update Profile</button>
+                                <button type="submit" class="btn btn-primary" id="btn_update_profile" ng-click="btnProfile = true" style="margin-top: 7%;" ng-disabled="profileBtn">Update Profile</button>
                             </div>
                         </div>
                     </div>

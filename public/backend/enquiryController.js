@@ -731,7 +731,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         $scope.ct_presalesemployee = [];
         $scope.getAllEmployeeData = function (employee_id) {
-            Data.get('master-sales/getEmployeeData').then(function (response) {
+            Data.post('master-sales/getEmployeeData').then(function (response) {
                 $scope.ct_presalesemployee = response.presalesemprecords;
             });
         };
@@ -1291,6 +1291,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.displayemail = $scope.userpermissions.indexOf("01406");
                         $scope.mobileList = response.enquiryDetails.mobileNumber;
                         $scope.emailList = response.enquiryDetails.emailId;
+          
+                        if($scope.emailList=='null'){
+                            $scope.emailList = '';
+                        }
+                        
                         var source = (response.enquiryDetails[0].sales_source_name == null) ? ' ' : response.enquiryDetails[0].sales_source_name;
                         var subsource = (response.enquiryDetails[0].enquiry_subsource == null) ? ' ' : ' / ' + response.enquiryDetails[0].enquiry_subsource;
                         $scope.sourceDetails = source + subsource;
@@ -1447,7 +1452,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             Data.post('master-sales/insertTodayRemark', {
                 data: data, custInfo: custInfo
             }).then(function (response) {
-                alert($scope.shared);
                 $scope.sbtbtndis = false;
                 if (!response.success) {
                     $scope.errorMsg = response.errorMsg;

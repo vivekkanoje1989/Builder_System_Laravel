@@ -16,8 +16,9 @@
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">{{pagetitle}}</span>                
-            </div>
+                <span class="widget-caption">{{pagetitle}}</span> 
+             <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
+          </div>
             <div class="widget-body table-responsive" >
                 <div class="row table-toolbar">
                     <div class="row col-sm-2">
@@ -40,12 +41,12 @@
                     <div class="col-sm-4">
                         
                     </div>                    
-                    <div class="btn-group pull-right filterBtn">
+                    <div class="btn-group pull-right filterBtn" ng-if="enquiriesLength != 0">
                         <a class="btn btn-default toggleForm" ng-click="procName('proc_get_today_followups', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                    <div class="DTTT btn-group">
+                    <div class="DTTT btn-group" ng-if="enquiriesLength != 0">
                         <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Action</a>
                         <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
@@ -72,7 +73,7 @@
                             @endif 
                         </ul>
                     </div>                    
-                    <div  class="dataTables_filter">                        
+                    <div  class="dataTables_filter" ng-if="enquiriesLength != 0">                        
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
@@ -115,7 +116,7 @@
                     <div>
                         <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
                     </div>
-                    <div class="dataTables_length" >
+                    <div class="dataTables_length" ng-if="enquiriesLength != 0">
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
                                 <option value="30">30</option>
@@ -383,4 +384,26 @@
     </div>
     </div>
     <div data-ng-include="'/MasterSales/showFilter'"></div>
+     <!--model Help-->
+    <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
+        <div class="modal-dialog">
+           
+            <div class="modal-content helpModal" >
+                <div class="modal-header helpModalHeader bordered-bottom bordered-themeprimary" >
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title" align="center">Task Priority Help Info</h4>
+                </div>                
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="helpContent">Priority </label>
+                                <span class="input-icon icon-right">                                    
+                                    
+                                </span>
+                            </div>                            
+                        </div>
+                    </div>  
+            </div>
+        </div>
+    </div>
 </div>

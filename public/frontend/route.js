@@ -82,10 +82,7 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
                     templateUrl: 'website/projects',
                     controller: 'AppCtrl'
                 })
-                .when('/projects', {
-                    templateUrl: 'website/projects',
-                    controller: 'AppCtrl'
-                })
+               
                 .otherwise({
                     redirectTo: '/'
                 });
@@ -97,7 +94,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.contact = {};
         $scope.career = {};
         $scope.projectsdata = [];
-        //$scope.aminities = $scope.availble = $scope.projects = [];
+        //$scope.aminities = $scope.availble = $scope.projects = [];        
         var baseUrl = 'website/';
         $scope.getPostsDropdown = function () {
             $http.get(baseUrl + 'jobPost').then(function (response) {
@@ -107,16 +104,20 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.random = function () {
             return 0.5 - Math.random();
         }
-
+        $scope.refreshCaptcha = function()
+        {           
+            $scope.randomNumber  = 0.5 - Math.random();
+            alert($scope.randomNumber);
+        }
         $scope.selectedbBlogs = function (blogId)
         {
             $scope.blogId = blogId;
         }
         $scope.getProjectDetails = function (id)
         {
-            $http.post(baseUrl + 'getProjectDetails', {'id': id}).then(function (response) {
+                $http.post(baseUrl + 'getProjectDetails', {'id': id}).then(function (response) {
                 $scope.aminities = response.aminities;
-                $scope.availble = response.availble;
+                $scope.availble = response.data.availble;
                 $scope.projects = response.projects;
                 $scope.projectsdata = response.result;
                 if (response.data.result.project_banner_images != null) {
@@ -146,10 +147,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 }
                 $scope.projects = response.data.projects;
                 $scope.googleMap = response.data.result.google_map_iframe;
-                $scope.project_name1 = response.data.result.project_name;
-                 
-                                alert($scope.project_name1);
-
+                $scope.project_name = response.data.result.project_name;                 
             });
         }
 
@@ -298,7 +296,6 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.get(baseUrl + 'getpressRelease').then(function (response) {
                 $scope.pressRelease = response.data.result;
-                console.log($scope.pressRelease)
             });
         }
 
@@ -349,14 +346,18 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
 
             });
         }
+        $scope.interested_inproject = function()
+        {
+            //alert(projectid+"---"+blockid);
+            alert("uma");
+            $("#enquiry-popup").show();
+        }
 
-
-        $scope.doContactAction = function (contact) {
-            //alert("uma");
-
+        $scope.doContactAction = function (contact) {           
 //            var v = grecaptcha.getResponse();
 //            
 //            if (v.length != '0') {
+alert($("#imgcaptcha").val()); return false;
             $http.post(baseUrl + 'addContact', 
                 {contactData: contact}).then(function (response) {
                     if (response.data.status == true) {

@@ -135,9 +135,11 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
         }
 
         $scope.filteredReportData = function (data, page, noOfRecords) {
+            console.log(data);
             $scope.showloader();
             page = noOfRecords * (page - 1);
             Data.post('bmsConsumption/filterReportData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
+            
                 if (response.success)
                 {
                     $scope.totalSms = response.records;

@@ -240,8 +240,8 @@
                                                 </span> 
                                                 <div class="col-sm-12" ng-if ="displayemail != '-1'">
                                                     <span ng-if="emailList.length > 0" ng-repeat="(key,value) in emailList track by $index" style="float: left;  margin: 7px 20px 5px 0px;">    
-                                                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                                                        <span class="text" ng-click="manageEmailText(key, value)">{{value}}</span>
+                                                        <i class="fa fa-envelope" aria-hidden="true" ng-if="value!='null'"></i>
+                                                        <span class="text" ng-click="manageEmailText(key, value)" ng-if="value!='null'">{{value}}</span>
                                                     </span>
                                                     <div class="col-sm-12" style=" margin-left: -13px;"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
                                                     <span class="input-icon icon-right" ng-if="addEmail">

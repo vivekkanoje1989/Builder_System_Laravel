@@ -1040,11 +1040,12 @@ angular.module('app')
                                     }
                                 })
                                 .state('importEnquiryIndex', {
-                                    url: '/sales/importEnquiry',
+                                    url: '/sales/importEnquiries',
                                     templateUrl: '/master-sales/import',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Import Enquiry'
+                                        title: 'Import Enquiries',
+                                        label: 'Sales /  Customers Management / Import Enquiries',
                                     },
                                     resolve: {
                                         deps:
@@ -3137,7 +3138,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        parent: 'testimonialsIndex',
+                                        parent: 'testimonialsManage',
                                         label: 'Edit Testimonial',
                                         title: 'Edit Testimonial',
                                     },
@@ -3168,7 +3169,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        parent: 'testimonialsManage',
+                                        parent: 'testimonialsIndex',
                                         label: 'Update Testimonial',
                                         title: 'Update Testimonial',
                                     },

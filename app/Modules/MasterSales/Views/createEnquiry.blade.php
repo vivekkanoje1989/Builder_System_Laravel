@@ -20,7 +20,7 @@
                                 <i class="fa fa-sort-desc"></i>                               
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.title_id.$error" class="help-block enqFormBtn">
-                                <div ng-message="required">Please enter title</div>
+                                <div ng-message="required">Please select title</div>
                             </div>
                         </div>                        
                     </div>                    
@@ -40,7 +40,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.last_name.$dirty && enquiryForm.last_name.$invalid)}">
                             <label for="">Last Name <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input class="form-control" type="text" maxlength="15" ng-model="enquiryData.last_name" name="first_name" required>
+                                <input class="form-control" type="text" maxlength="15" ng-model="enquiryData.last_name" name="last_name" required>
                                 <i class="fa fa-money"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.last_name.$error" class="help-block enqFormBtn">
@@ -103,11 +103,12 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.max_budget.$dirty && enquiryForm.max_budget.$invalid)}">
                             <label for="">Max Budget <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input class="form-control" type="text" maxlength="7" ng-model="enquiryData.max_budget" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="max_budget" required>
+                                <input class="form-control" type="text" minlength="4" maxlength="7" ng-pattern="/^[1-9]+[0-9]*$/" ng-model="enquiryData.max_budget" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="max_budget" required>
                                 <i class="fa fa-money"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.max_budget.$error" class="help-block enqFormBtn">
                                 <div ng-message="required">Please enter max budget</div>
+                                <span ng-show="enquiryForm.max_budget.$error.pattern">Please enter valid max budget</span>
                             </div>
                         </div>
                     </div>  

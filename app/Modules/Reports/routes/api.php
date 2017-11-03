@@ -42,5 +42,8 @@ Route::group(array('module' => 'Reports', 'middleware' => ['api'], 'namespace' =
     Route::post('api/reports/teamProjectSourceReport', 'ReportsController@teamProjectSourceReport');
     Route::post('api/reports/subCategoryReport', 'ReportsController@subCategoryReport');
     Route::post('api/reports/subSourceReport', 'ReportsController@subSourceReport');
+    Route::post('api/reports/projectSubSourceReport', 'ReportsController@projectSubSourceReport');
+    Route::post('api/reports/subProjectCategoryReport', 'ReportsController@subProjectCategoryReport');
+    Route::post('api/reports/subProjectStatusReport', 'ReportsController@subProjectStatusReport');
     Route::post('api/reports/subStatusReport', 'ReportsController@subStatusReport');
 });

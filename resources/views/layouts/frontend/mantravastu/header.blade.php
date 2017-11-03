@@ -6,7 +6,6 @@
  * License: http://graphberry.com/pages/license
 -->
 <html lang="en">
-
     <head>
         <meta charset=utf-8>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +32,6 @@
         <link rel="apple-touch-icon-precomposed" href="frontend/mantravastu/images/ico/apple-touch-icon-57.png">
         <link rel="shortcut icon" href="frontend/mantravastu/images/ico/favicon.ico">
     </head>
-
     <body ng-app="app">
         <div class="navbar">
             <div class="navbar-inner">
@@ -50,12 +48,26 @@
                         ABC Builder ABC Builder<br>
                         <span>Homes for Life</span>
                     </div>
-
                     <!-- Main navigation -->
+
+<!--                    <div class="nav-collapse collapse" ng-init="getMenus()"> 
+                        <ul class="jt-menu  nav navbar-nav">
+                            <li ng-repeat="menu in getMenus" class="item-114"  ng-click="select(menu.id)" ng-class="{active: isActive(menu.id)}">
+                                <a class="nav-main-link"  href="/{{menu.page_name}}">{{menu.page_name}}</a>
+                                <ul class="collapse">
+                                    <li    ng-repeat="subMenu in menu.menu_list">
+                                        <a  href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/{{subMenu.page_name}}">{{subMenu.page_name}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div style="clear: both;"></div>
+                    </div>-->
+                    
                     <div class="nav-collapse collapse pull-right">
                         <ul class="nav" id="top-navigation">
                             <li><a href="" id="home">Home</a></li>
-                            <li><a href="/projects" target="_self">Projects</a></li>
+                            <li><a href="projects" target="_self">Projects</a></li>
                             <li><a href="" id="about">About</a></li>
                             <li><a href="" id="clients">Testimonials</a></li>
                             <li><a href="" id="careers">Careers</a></li>

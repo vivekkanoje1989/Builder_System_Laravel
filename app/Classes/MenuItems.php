@@ -109,8 +109,8 @@ class MenuItems {
                 )),
             3 => array('name' => 'HR', 'icon' => 'hr-img menu-icon-sz', 'micon' => 'img/human.resource.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'hr', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '0301,0302,0303', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '0301', 'name' => 'User Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 5,
-                        'submenu_ids' => '030101,030102,030103,030104,030105', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                    1 => array('id' => '0301', 'name' => 'User Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 6,
+                        'submenu_ids' => '030101,030102,030103,030104,030105,030106', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '030101', 'name' => 'Manage Users', 'micon' => 'img/list.png', 'icon' => '', 'url' => '/user/index', 'slug' => 'userIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
 //                            2 => array('id' => '030102', 'name' => 'New User', 'micon' => 'img/newUser.png', 'icon' => '', 'url' => '/user', 'slug' => 'user', 'uiSrefActive' => 'active', 'total_submenu' => 1),
 //                            3 => array('id' => '030103', 'name' => 'Quick User', 'micon' => 'img/quickUser.png', 'url' => '/user/quick-user', 'slug' => 'quickUser', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -119,6 +119,7 @@ class MenuItems {
                             3 => array('id' => '030103', 'name' => 'Organization Chart', 'micon' => 'img/chart.png', 'icon' => '', 'url' => '/user/orgchart', 'slug' => 'userChart', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             4 => array('id' => '030104', 'name' => 'User Documents', 'icon' => '','micon' => 'img/userDocument.png', 'url' => '/user/document', 'slug' => 'userDocument', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             5 => array('id' => '030105', 'name' => 'Manage Documents', 'icon' => '','micon' => 'img/manageDocument.png', 'url' => '/manage/document', 'slug' => 'documentIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            6 => array('id' => '030106', 'name' => 'Manage Role', 'icon' => '','micon' => 'img/manageRole.png', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     2 => array('id' => '0302', 'name' => 'Salary Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                         'submenu_ids' => '030201', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
@@ -130,7 +131,7 @@ class MenuItems {
 //                            2 => array('id' => '030302', 'name' => 'Manage Role', 'micon' => 'img/manageRole.png', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
 //                        )),
                     
-                    3 => array('id' => '0303', 'name' => 'Manage Role', 'icon' => '', 'url' => '/user/manageroles', 'micon' => 'img/manageRole.png','slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+//                    3 => array('id' => '0303', 'name' => 'Manage Role', 'icon' => '', 'url' => '/user/manageroles', 'micon' => 'img/manageRole.png','slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),
             4 => array('name' => 'Sales', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'sales', 'has_submenu' => true, 'total_submenu' => 5,
                 'submenu_ids' => '0401,0402,0403,0404,0405', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
