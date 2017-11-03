@@ -2,23 +2,6 @@
     .tabsets ul li{
         width:50%;
     }
-</style>
-<!--<div class="row" ng-controller="smsController">
-    <div class="col-lg-12 col-sm-12 col-xs-12">
-        <h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>SMS Reports</h5>
-        <div class="col-lg-12 col-sm-6 col-xs-12">
-                <tabset class="tabsets">
-                    <tab heading="SMS LOG'S REPORT">
-                        <div data-ng-include=" '/bmsConsumption/smsReport' "></div>
-                    </tab>
-                    <tab heading="SMS LOG'S" class="uploadsTab">
-                        <div data-ng-include=" '/bmsConsumption/smsLogs' "></div>
-                    </tab>
-                </tabset>
-        </div>
-    </div>
-</div>-->
-<style>
     .close {
         color:black;
     }
@@ -47,16 +30,11 @@
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
                     <a href="[[ config('global.backendUrl') ]]#/bmsConsumption/smsLogs" class="btn btn-default">SMS Logs</a> <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" href="" ng-click="procName('proc_sms_report_logs', 0)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" href="" ng-hide="disableBtn" ng-click="procName('proc_sms_report_logs', 0)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
 
-                    <div  class="dataTables_filter">
-                        <label>
-                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
-                        </label>
-                    </div>
                     <!-- filter data-->
                     <div class="row">
                         <div class="row" style="border:2px;" id="filter-show">
@@ -72,24 +50,6 @@
                                 </b>                        
                             </div>
                         </div>
-                        <!-- filter data-->
-<!--                        <div class="dataTables_length" >
-                            <label>
-                                <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                    <option value="30">30</option>
-                                    <option value="100">100</option>
-                                    <option value="200">200</option>
-                                    <option value="300">300</option>
-                                    <option value="400">400</option>
-                                    <option value="500">500</option>
-                                    <option value="600">600</option>
-                                    <option value="700">700</option>
-                                    <option value="800">800</option>
-                                    <option value="900">900</option>
-                                    <option value="999">999</option>
-                                </select>
-                            </label>
-                        </div>-->
                         <br>
                         <div>
                             <p ng-if="smsReportLength != 0" style=" font-weight: 600; font-size: 20px;margin-left: 20px;"><span>Report for {{firstDateofThisMonth}}<span><span ng-if="currentDate"> To {{currentDate}}</span></p>
@@ -120,10 +80,9 @@
                                                             <td>{{ smsLogP.failPercentage}} %</td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="4"  ng-show="smsReportLength == 0" align="center">Records Not Found</td>   
-                                                        </tr>
-                                                        <tr>
+                                                            <td colspan="4"  ng-show="smsReportLength == 0" align="center">Records Not Found</td>  
                                                             <td colspan="4"  ng-show="(totalSms|filter:search).length == 0" align="center">Record Not Found</td>   
+                                                            <td colspan="4"  ng-show="totalCount == 0" align="center">Record Not Found</td>   
                                                         </tr>
                                                     </tbody>
                                                 </table><br>

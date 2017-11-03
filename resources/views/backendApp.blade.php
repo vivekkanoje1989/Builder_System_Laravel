@@ -16,7 +16,7 @@
                     <link ng-if="settings.rtl" ng-href="/backend/assets/css/bootstrap-rtl.min.css" rel="stylesheet" />
                     <link href="/backend/assets/css/font-awesome.min.css" rel="stylesheet" />
                     <link href="/backend/assets/css/weather-icons.min.css" rel="stylesheet" />
-                    <link href="/backend/assets/css/samples.css" rel="stylesheet" />
+                    <!--<link href="/backend/assets/css/samples.css" rel="stylesheet" />-->
 
                     <!--Fonts-->
                     <style>

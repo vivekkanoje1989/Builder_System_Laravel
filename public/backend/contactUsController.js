@@ -62,10 +62,17 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope','$mod
         $scope.manageContactUs = function () {
             $scope.showloader();
             Data.post('contact-us/manageContactUs').then(function (response) {
+                if(response.success){
                 $scope.contactUsRow = response.records;
                 $scope.exportData = response.exportData;
                 $scope.deleteBtn = response.deleteBtn;
                 $scope.hideloader();
+            }
+            else{
+                 $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+            }
             });
         };
         $scope.initialModal = function (id, index) {

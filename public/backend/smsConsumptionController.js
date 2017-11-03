@@ -48,6 +48,9 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     $scope.exportSmsLogsData = response.exportSmsLogsData;
                 } else {
                     $scope.errorMsg = response.message;
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                 }
                 $scope.hideloader();
             });
@@ -86,6 +89,9 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
 
                 } else {
                     $scope.errorMsg = response.message;
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                 }
             });
         }
@@ -135,11 +141,10 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
         }
 
         $scope.filteredReportData = function (data, page, noOfRecords) {
-            console.log(data);
             $scope.showloader();
             page = noOfRecords * (page - 1);
             Data.post('bmsConsumption/filterReportData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
-            
+
                 if (response.success)
                 {
                     $scope.totalSms = response.records;
@@ -188,37 +193,43 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
             Data.post('bmsConsumption/allSmsReports', {
                 id: empId, pageNumber: pageNumber, itemPerPage: itemPerPage,
             }).then(function (response) {
-                $scope.smsPercentage = response.logInPercentage;
-                $scope.totalSms = response.records;
-                $scope.firstDateofThisMonth = response.firstDate;
-                $scope.currentDate = response.currentDate;
+                if (response.success) {
+                    $scope.smsPercentage = response.logInPercentage;
+                    $scope.totalSms = response.records;
+                    $scope.firstDateofThisMonth = response.firstDate;
+                    $scope.currentDate = response.currentDate;
 
-                $scope.fail = response.records[0].fail;
-                if ($scope.fail == 0) {
-                    $scope.failP = '0';
+                    $scope.fail = response.records[0].fail;
+                    if ($scope.fail == 0) {
+                        $scope.failP = '0';
+                    } else {
+                        $scope.failP = '100';
+                    }
+
+                    $scope.categorylabels = ["Delivered", "Undelivered"];
+                    $scope.categorydata = [$scope.totalSms[0].success, $scope.totalSms[0].fail];
+                    $scope.categorycolors = ['#FFA500', '#DCDCDC'];
+                    $scope.categoryoptions = {
+                        cutoutPercentage: 60,
+                        animation: {
+                            animatescale: true
+                        }
+                    };
+
+                    $scope.categorylabels1 = ["Operator issue"];
+                    $scope.categorydata1 = [$scope.fail];
+                    $scope.categorycolors1 = ['#00ADF9'];
+                    $scope.categoryoptions = {
+                        cutoutPercentage: 60,
+                        animation: {
+                            animatescale: true
+                        }
+                    };
                 } else {
-                    $scope.failP = '100';
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                 }
-
-                $scope.categorylabels = ["Delivered", "Undelivered"];
-                $scope.categorydata = [$scope.totalSms[0].success, $scope.totalSms[0].fail];
-                $scope.categorycolors = ['#FFA500', '#DCDCDC'];
-                $scope.categoryoptions = {
-                    cutoutPercentage: 60,
-                    animation: {
-                        animatescale: true
-                    }
-                };
-
-                $scope.categorylabels1 = ["Operator issue"];
-                $scope.categorydata1 = [$scope.fail];
-                $scope.categorycolors1 = ['#00ADF9'];
-                $scope.categoryoptions = {
-                    cutoutPercentage: 60,
-                    animation: {
-                        animatescale: true
-                    }
-                };
             });
         }
 

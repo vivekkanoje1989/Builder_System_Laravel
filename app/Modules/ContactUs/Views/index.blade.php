@@ -22,16 +22,15 @@
 
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
-                    <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" href="" ng-hide="disableBtn"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2" ng-disabled="disableBtn">
                             <span>Actions</span>
-                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"  ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
                                     <a href="" ng-click="contactUsExportToxls()" ng-show="exportData == '1'">Export</a>
@@ -42,7 +41,7 @@
                     </div>
                     <div  class="dataTables_filter">
                         <label>
-                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                            <input type="search"  ng-disabled="disableBtn" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
                     </div>
                     <!-- filter data--> 
@@ -64,7 +63,7 @@
                     <!-- filter data-->
                     <div class="dataTables_length" >
                         <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                            <select class="form-control"  ng-disabled="disableBtn" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
                                 <option value="30">30</option>
                                 <option value="100">100</option>
                                 <option value="200">200</option>
@@ -129,6 +128,7 @@
                             </tr>
                             <tr>
                                 <td colspan="6"  ng-show="(contactUsRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="6"  ng-show="totalCount == 0" align="center">Records Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
