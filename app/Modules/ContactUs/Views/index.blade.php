@@ -22,16 +22,15 @@
 
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
-                    <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" href="" ng-hide="disableBtn"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2" ng-disabled="disableBtn">
                             <span>Actions</span>
-                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"  ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
                                     <a href="" ng-click="contactUsExportToxls()" ng-show="exportData == '1'">Export</a>
@@ -42,7 +41,7 @@
                     </div>
                     <div  class="dataTables_filter">
                         <label>
-                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                            <input type="search"  ng-disabled="disableBtn" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
                     </div>
                     <!-- filter data--> 
@@ -64,7 +63,7 @@
                     <!-- filter data-->
                     <div class="dataTables_length" >
                         <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                            <select class="form-control"  ng-disabled="disableBtn" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
                                 <option value="30">30</option>
                                 <option value="100">100</option>
                                 <option value="200">200</option>
@@ -129,6 +128,7 @@
                             </tr>
                             <tr>
                                 <td colspan="6"  ng-show="(contactUsRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="6"  ng-show="totalCount == 0" align="center">Records Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
@@ -169,7 +169,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.country_id.$error">
-                                            <div ng-message="required">Country is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>
                                 </div>
@@ -184,7 +184,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.state_id.$error">
-                                            <div ng-message="required">State is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>
                                 </div>
@@ -201,7 +201,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.city_id.$error">
-                                            <div ng-message="required">City is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>
                                 </div>
@@ -215,7 +215,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.location_id.$error">
-                                            <div ng-message="required">Location is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>
                                 </div>
@@ -228,7 +228,7 @@
                                     <span class="input-icon icon-right">
                                         <textarea col="50" row="2" class="form-control" ng-model="address" name="address" maxlength="250" required></textarea>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.address.$error">
-                                            <div ng-message="required">Address is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>
                                 </div>
@@ -275,7 +275,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="pin_code" name="pin_code"  maxlength="6" minlength="6" required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.pin_code.$error">
-                                            <div ng-message="required">Pin code is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                             <div ng-message="minlength">Pin code must be 6 digits</div>
                                             <div ng-message="maxlength">Pin code must be 6 digits</div>
                                         </div>
@@ -298,7 +298,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="google_map_url" name="google_map_url"  required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.google_map_url.$error">
-                                            <div ng-message="required">Map is required</div>
+                                            <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>  
                                 </div>

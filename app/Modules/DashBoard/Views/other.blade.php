@@ -1,3 +1,14 @@
+<style>
+    .pleaseWait{
+        display:none;
+    }
+    .sending{
+        margin-top: 17%;
+        position: absolute;
+        margin-left: 34%;
+    }
+
+</style>
 <div class="row" ng-controller="dashboardCtrl" ng-init="getEmployees()">
     <div class="firstDiv">
         <div class="col-lg-6 col-md-6 col-xs-12">

@@ -7,18 +7,63 @@
             </div>
             <div class="widget-body table-responsive">
              
-                <div class="row">
-                 <div class="col-sm-6 col-xs-12">
-                      <div class="col-sm-2">    
-                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control" ng-model="itemsPerPage">
-                      </div>
-                      <div class="col-sm-3"> 
-                          <span class="input-icon icon-right">
-                            <input type="text" ng-model="search" class="form-control"   oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" >
-                            <i class="fa fa-search" aria-hidden="true"></i></span>
-                      </div>
-                  </div>
-                </div><br>
+                 <div class="row table-toolbar">
+                    <a href="[[ config('global.backendUrl') ]]#/pushapi/create" class="btn btn-default">Add New Api</a>
+                     <div class="btn-group pull-right filterBtn">
+                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                    </div>
+                </div>
+                <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                    <div class="DTTT btn-group">
+                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                            <span>Actions</span>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu dropdown-default">
+                                <li>
+                                    <a href="" ng-click="ApiExportToxls()" ng-show="exportData == '1'">Export</a>
+                                </li>
+
+                            </ul>
+                        </a>
+                    </div>
+                    <div  class="dataTables_filter">
+                        <label>
+                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                        </label>
+                    </div>
+                    <!-- filter data--> 
+                    <div class="row" style="border:2px;" id="filter-show">
+                        <div class="col-sm-12 col-xs-12">
+                            <b ng-repeat="(key, value) in searchData">
+                                <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
+                                    <div class="alert alert-info fade in">
+                                        <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
+                                        <strong ng-if="key === 'punch_line'" data-toggle="tooltip" title="Punch Line"><strong> Punch Line : </strong> {{ value}}</strong>
+                                        <strong ng-if="key === 'legal_name'" data-toggle="tooltip" title="Legal Name"><strong> Legal Name : </strong> {{ value}}</strong>
+                                    </div>
+                                </div>
+                            </b>                        
+                        </div>
+                    </div>
+                    <!-- filter data-->
+                    <div class="dataTables_length" >
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                                <option value="30">30</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -42,7 +87,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="list in listApis| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                        <tr role="row" dir-paginate="list in listApis| filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
                             <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                             <td>{{ list.api_name}}</td>
                             <td>{{ list.key}}</td>

@@ -1,10 +1,11 @@
 
-app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', 'toaster', '$parse', '$rootScope','$modal', function ($scope, Data, $timeout, Upload, $state, toaster, $parse, $rootScope,$modal) {
+app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', 'toaster', '$parse', '$rootScope', '$modal', function ($scope, Data, $timeout, Upload, $state, toaster, $parse, $rootScope, $modal) {
 
         $scope.blogId = 0;
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.exportData = '';
+        $scope.disableBtn = false;
         $scope.createBlog = false;
         $scope.updateBlog = false;
         $scope.searchDetails = {};
@@ -36,7 +37,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
             });
         }
 
-        
+
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
@@ -46,10 +47,17 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
         $scope.manageBlogs = function () {
             $scope.showloader();
             Data.post('manage-blog/manageBlogs').then(function (response) {
-                $scope.hideloader();
-                $scope.blogsRow = response.records;
-                $scope.exportData = response.exportData;
-                $scope.deleteBtn = response.delete;
+                if (response.success) {
+                    $scope.hideloader();
+                    $scope.blogsRow = response.records;
+                    $scope.exportData = response.exportData;
+                    $scope.deleteBtn = response.delete;
+                } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+
+                }
             });
         };
 

@@ -9,6 +9,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         $scope.request = {};
         $scope.employeeRow = [];
         $scope.employeeRow = [];
+        $scope.disableBtn = false;
         $scope.getEmployees = function () {
 
             Data.get('request-leave/getEmployees').then(function (response) {
@@ -127,8 +128,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         };
         $scope.dorequestLeaveAction = function (request) {
             $scope.reqLeave = true;
-            $('.firstDiv').css('opacity','0.1').css("pointer-events","none");
-            $('.pleaseWait').css("display", "block").css("z-index","9999");
+            $('.firstDiv').css('opacity', '0.1').css("pointer-events", "none");
+            $('.pleaseWait').css("display", "block").css("z-index", "9999");
             var date = new Date(request.from_date);
             $scope.from_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             var date = new Date(request.to_date);
@@ -147,8 +148,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         };
         $scope.doOtherApprovalAction = function (request)
         {
-             $('.firstDiv').css('opacity','0.1').css("pointer-events","none");
-            $('.pleaseWait').css("display", "block").css("z-index","9999");
+            $('.firstDiv').css('opacity', '0.1').css("pointer-events", "none");
+            $('.pleaseWait').css("display", "block").css("z-index", "9999");
             $scope.reqOtherLeave = true;
             Data.post('request-approval/other', {
                 uid: request.application_to, cc: request.application_cc, req_desc: request.req_desc, request_type: "Approval", status: "1"}).then(function (response) {
@@ -165,21 +166,33 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
             $scope.showloader();
             Data.post('my-request/getMyRequest', {
                 uid: $scope.application_to, cc: $scope.application_cc, req_desc: $scope.req_desc}).then(function (response) {
-                $scope.hideloader();
-                $scope.myRequest = response.records;
-                $scope.exportMyRequest = response.exportData;
-                $scope.myRequestCount = response.totalCount;
+                if (response.status) {
+                    $scope.hideloader();
+                    $scope.myRequest = response.records;
+                    $scope.exportMyRequest = response.exportData;
+                    $scope.myRequestCount = response.totalCount;
+                } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+                }
             });
         };
         $scope.getRequestForMe = function ()
         {
             $scope.showloader();
             Data.get('my-request/getRequestForMe').then(function (response) {
-                $scope.hideloader();
-                $scope.myRequest = response.records;
-                $scope.exportData = response.exportData;
-                $scope.totalCount = $scope.myRequest.length;
-                $scope.searchLength = $scope.myRequest.length;
+                if (response.status) {
+                    $scope.hideloader();
+                    $scope.myRequest = response.records;
+                    $scope.exportData = response.exportData;
+                    $scope.totalCount = $scope.myRequest.length;
+                    $scope.searchLength = $scope.myRequest.length;
+                } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+                }
             });
         }
         $scope.changeStatus = function ()

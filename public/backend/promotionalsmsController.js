@@ -1,5 +1,5 @@
 'use strict';
-app.controller('promotionalsmsController', ['$scope', 'Data', 'Upload', '$timeout', '$state', 'toaster','$modal', function ($scope, Data, Upload, $timeout, $state, toaster, $modal) {
+app.controller('promotionalsmsController', ['$scope', 'Data', 'Upload', '$timeout', '$state', 'toaster', '$modal', function ($scope, Data, Upload, $timeout, $state, toaster, $modal) {
         $scope.pageHeading = 'Promotional SMS';
         $scope.promotionalsmsData = {};
         $scope.btnsend = false;
@@ -60,8 +60,8 @@ app.controller('promotionalsmsController', ['$scope', 'Data', 'Upload', '$timeou
                 ]
             });
         }
-        
-        
+
+
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
@@ -126,6 +126,10 @@ app.controller('promotionalsmsController', ['$scope', 'Data', 'Upload', '$timeou
                     }
                 } else {
                     $scope.teamsmslogslength = response.totalCount;
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+
                 }
                 $scope.flagForChange = 0;
                 $scope.hideloader();
