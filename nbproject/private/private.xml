@@ -2,6 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
 <<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/apiController.js</file>
@@ -89,5 +92,6 @@
 >>>>>>> 793483107956268a026191855ff9acfe67f452e0
 >>>>>>> a468c2dab622866d9c53f2e25bc22dad203cfea8
 >>>>>>> 1b6adaea2cfdaccaa5b3ef7fb63ae9d833a546d7
+>>>>>>> c9741d0ce871bf65a0f731917df06f5c46026535
     </open-files>
 </project-private>
