@@ -17,9 +17,15 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         $scope.manageCompany = function () {
             Data.get('manage-companies/manageCompany').then(function (response) {
+                if(response.status){
                 $scope.CompanyRow = response.result;
                 $scope.exportData = response.exportData;
                 $scope.deleteBtn = response.delete;
+                 } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+                }
             });
         };
         

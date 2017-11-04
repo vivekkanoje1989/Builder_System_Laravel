@@ -1,5 +1,5 @@
 'use strict';
-app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$rootScope','$modal', function ($scope, Data, Upload, $timeout, toaster, $parse, $rootScope,$modal) {
+app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$rootScope', '$modal', function ($scope, Data, Upload, $timeout, toaster, $parse, $rootScope, $modal) {
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.subId = '0';
@@ -55,10 +55,16 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.getWebPages = function () {
             $scope.showloader();
             Data.get('web-pages/getWebPages').then(function (response) {
-                $scope.hideloader();
-                $scope.listPages = response.records.data;
-                $scope.exportData = response.records.exportData;
-                $scope.deleteBtn = response.records.delete;
+                if (response.success) {
+                    $scope.hideloader();
+                    $scope.listPages = response.records.data;
+                    $scope.exportData = response.records.exportData;
+                    $scope.deleteBtn = response.records.delete;
+                } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+                }
 
             });
         }

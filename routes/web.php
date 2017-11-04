@@ -79,10 +79,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/password/reset', 'backend\Auth\ResetPasswordController@reset');
 
     //Website frontend
-      $frontActions = ["/index", "/about", "/careers", "/blogs", "/contact", "/testimonials", "/projects", "/project-details/{projectId}", "/blog-details/{blogId}",
-        "/news", "/news-details/{newsId}", "/press-release", "/events",  "/scheduleTestDrive", "/sendwebEnquiry", "/sendwebContact", "/insurance",
-        "/sendJobpost", "/sendcontact", "/addAppointment", "/getservicelocation", "getfCities", "getfCountries", "/sendInsurance", "/customerform/{id}","/scheduletestdriveform/{id}", "getfGender", "getfProfession", '/getemployeedetails/{id}', '/registration/{id}', '/getfBloodGroup', '/getfEducationList', '/thanking-you', '/compassdetails',
-        '/getnextfollowupTime',"/index/{id}",'/about/{id}'];
+    $frontActions = ["/index", "/about", "/careers", "/blogs", "/contact", "/testimonials", "/projects", "/project-details/{projectId}", "/blog-details/{blogId}",
+        "/news", "/news-details/{newsId}", "/press-release", "/events", "/scheduleTestDrive", "/sendwebEnquiry", "/sendwebContact", "/insurance",
+        "/sendJobpost", "/sendcontact", "/addAppointment", "/getservicelocation", "getfCities", "getfCountries", "/sendInsurance", "/customerform/{id}", "/scheduletestdriveform/{id}", "getfGender", "getfProfession", '/getemployeedetails/{id}', '/registration/{id}', '/getfBloodGroup', '/getfEducationList', '/thanking-you', '/compassdetails',
+        '/getnextfollowupTime', "/index/{id}", '/about/{id}'];
 
     if (in_array(\Request::server('REQUEST_URI'), $frontActions)) {
         Route::get('/{param}', 'frontend\UserController@onPageReload');
@@ -95,6 +95,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post($getWebsiteUrl . '/register_applicant', 'frontend\UserController@register_applicant');
     Route::post($getWebsiteUrl . '/addContact', 'frontend\UserController@addContact');
     //Route::post($getWebsiteUrl . '/saveContact', 'frontend\UserController@saveContact');
+    Route::get($getWebsiteUrl . '/registration/{id}', 'frontend\UserController@registration');
     Route::get($getWebsiteUrl . '/jobPost', 'frontend\UserController@jobPost');
     Route::get($getWebsiteUrl . '/background', 'frontend\UserController@getBackGroundImages');
     Route::get($getWebsiteUrl . '/contact', 'frontend\UserController@contact');
@@ -132,7 +133,18 @@ Route::group(['middleware' => ['web']], function () {
     Route::get($getWebsiteUrl . '/testimonial/{id}', 'frontend\UserController@testimonialdetail');
     Route::post($getWebsiteUrl . '/getTestimonialDetails', 'frontend\UserController@getTestimonialDetails');
     Route::get($getWebsiteUrl . '/enquiry/{id}', 'frontend\UserController@enquiry');
-    
+    Route::get($getWebsiteUrl . '/getfTitle', 'frontend\UserController@getTitle');
+    Route::get($getWebsiteUrl . '/getfGender', 'backend\AdminController@getGender');
+    Route::get($getWebsiteUrl . '/getfBloodGroup', 'backend\AdminController@getBloodGroup');
+    Route::get($getWebsiteUrl . '/getfEducationList', 'backend\AdminController@getEducationList');
+    Route::get($getWebsiteUrl . '/getfCountries', 'frontend\UserController@getfCountries');
+    Route::post($getWebsiteUrl . '/getemployeedetails', 'frontend\UserController@getEmployee');
+    Route::post($getWebsiteUrl . '/getfStates', 'frontend\UserController@getfStates');
+    Route::post($getWebsiteUrl . '/getfCities', 'frontend\UserController@getfCities');
+    Route::post($getWebsiteUrl . '/updateemployeedetails', 'frontend\UserController@updateEmployee');
+    Route::get($getWebsiteUrl . '/thanking-you', 'frontend\UserController@getThankingYou');
+
+
     $result = \DB::table('web_themes')->where('status', '1')->select(['id', 'theme_name'])->first();
     $result = json_decode(json_encode($result), true);
     Config::set('global.themeName', $result['theme_name']);
@@ -146,6 +158,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
     /*     * ******************************************************************** */
     Route::get('/getMenuItems', 'backend\AdminController@getMenuItems');
+
     Route::get('/getTitle', 'backend\AdminController@getTitle');
     Route::get('/getGender', 'backend\AdminController@getGender');
     Route::get('/getBloodGroup', 'backend\AdminController@getBloodGroup');
@@ -168,7 +181,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/getAmenitiesList', 'backend\AdminController@getAmenitiesList'); //geeta
     Route::get('/getChannelList', 'backend\AdminController@getChannelList'); //geeta
     Route::get('/getEmployeeData', 'backend\AdminController@getEmployeeData'); //geeta
-     Route::get('/getSalesStatus', 'backend\AdminController@getSalesStatus'); //manoj
+    Route::get('/getSalesStatus', 'backend\AdminController@getSalesStatus'); //manoj
     Route::post('/getBlockTypes', 'backend\AdminController@getBlockTypes'); //geeta
     Route::post('/getSubBlocks', 'backend\AdminController@getSubBlocks'); //geeta
     Route::get('/manageBlockStages', 'backend\AdminController@manageBlockStages'); //archana
@@ -199,6 +212,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/getccPreSalesCategory', 'backend\AdminController@getccPreSalesCategory');
     Route::post('/getccpresalesSubtatus', 'backend\AdminController@getccpresalesSubtatus');
     Route::post('/getccPreSalesSubCategory', 'backend\AdminController@getccPreSalesSubCategory');
+
     Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');
     });
@@ -216,7 +230,6 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/widgets', function () {
         return View::make('backend.widgets');
     });
-
 });
 
 

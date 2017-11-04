@@ -19,13 +19,13 @@
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">      
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" data-target="#showFilterModal" ng-click="procName('proc_cc_presales_previous',3)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" data-target="#showFilterModal" ng-hide="disableBtn" ng-click="procName('proc_cc_presales_previous',3)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div  class="dataTables_filter">                        
                         <label>
-                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                            <input type="search" class="form-control input-sm" ng-model="search" name="search" ng-disabled="disableBtn">
                         </label>
                     </div>
                     <!--filter data--> 
@@ -61,7 +61,7 @@
                         </div>
                     <div class="dataTables_length" >
                         <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                            <select class="form-control" ng-disabled="disableBtn" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
                                 <option value="30">30</option>
                                 <option value="100">100</option>
                                 <option value="200">200</option>

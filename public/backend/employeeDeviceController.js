@@ -1,5 +1,5 @@
 'use strict';
-app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$parse','$modal', function ($scope, $state, Data, toaster, $parse, $modal) {
+app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$parse', '$modal', function ($scope, $state, Data, toaster, $parse, $modal) {
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
 
@@ -67,9 +67,15 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
             }).then(function (response) {
                 if (id === 'index')
                 {
-                    $scope.listDevices = response.records;
-                    $scope.exportData = response.exportData;
-                    $scope.deleteBtn = response.delete;
+                    if (response.success) {
+                        $scope.listDevices = response.records;
+                        $scope.exportData = response.exportData;
+                        $scope.deleteBtn = response.delete;
+                    } else {
+                        $scope.hideloader();
+                        $scope.totalCount = 0;
+                        $scope.disableBtn = true;
+                    }
                 }
                 if (id > 0)
                 {

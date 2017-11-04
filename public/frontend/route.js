@@ -23,7 +23,7 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
                 .when('/testimonials', {
                     templateUrl: 'website/testimonials',
                     controller: 'AppCtrl'
-                })                
+                })
                 .when('/contact', {
                     templateUrl: 'website/contact',
                     controller: 'AppCtrl'
@@ -82,13 +82,13 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
                     templateUrl: 'website/projects',
                     controller: 'AppCtrl'
                 })
-               
+
                 .otherwise({
                     redirectTo: '/'
                 });
         $locationProvider.html5Mode({enabled: true, requireBase: true});
     }]);
-app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', function ($scope, Upload, $timeout, $http, $location, $rootScope) {
+app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope','$window', function ($scope, Upload, $timeout, $http, $location, $rootScope,$window) {
         $scope.submitted = false;
         $scope.empl = true;
         $scope.contact = {};
@@ -96,18 +96,14 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.projectsdata = [];
         //$scope.aminities = $scope.availble = $scope.projects = [];        
         var baseUrl = 'website/';
+        
         $scope.getPostsDropdown = function () {
             $http.get(baseUrl + 'jobPost').then(function (response) {
                 $scope.jobPostRow = response.data.result;
             });
         };
         $scope.random = function () {
-            return 0.5 - Math.random();
-        }
-        $scope.refreshCaptcha = function()
-        {           
-            $scope.randomNumber  = 0.5 - Math.random();
-            alert($scope.randomNumber);
+            return 0.5 - Math.random();        
         }
         $scope.selectedbBlogs = function (blogId)
         {
@@ -115,7 +111,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         }
         $scope.getProjectDetails = function (id)
         {
-                $http.post(baseUrl + 'getProjectDetails', {'id': id}).then(function (response) {
+            $http.post(baseUrl + 'getProjectDetails', {'id': id}).then(function (response) {
                 $scope.aminities = response.aminities;
                 $scope.availble = response.data.availble;
                 $scope.projects = response.projects;
@@ -147,7 +143,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 }
                 $scope.projects = response.data.projects;
                 $scope.googleMap = response.data.result.google_map_iframe;
-                $scope.project_name = response.data.result.project_name;                 
+                $scope.project_name = response.data.result.project_name;
             });
         }
 
@@ -206,6 +202,113 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 $scope.current = response.data.current;
             });
         };
+
+
+        $scope.getemployee = function (empid)
+        {
+            $http.post('website/getemployeedetails', {
+                data: {empId: empid},
+            }).then(function (response) {
+                
+                if (!response.data.success) {
+                    $scope.errorMsg = response.data.message;
+                } else {
+                    $scope.userData = response.data.records;
+                    var current_country = response.data.records.current_country_id;
+                    var current_state = response.data.records.current_state_id;
+                    $scope.userData.permenent_city_id = "";
+                    $scope.userData.permenent_country_id = "";
+                    $scope.userData.permenent_pin = "";
+                    $scope.userData.permenent_state_id = "";
+                    $scope.userData.current_city_id = "";
+                    $scope.userData.current_country_id = "";
+                    $scope.userData.current_pin = "";
+                    $scope.userData.current_state_id = "";
+                    $scope.userData.highest_education_id = "";
+                    $scope.userData.gender_id = "";
+                    $scope.userData.marital_status = "";
+                    $scope.userData.blood_group_id = "";
+                    $scope.userData.physic_status = "";
+                    $scope.userData.date_of_birth = "";
+                    $scope.userData.marriage_date = "";
+                    $http.post('website/getfStates', {
+                        data: {countryId: current_country},
+                    }).then(function (response) {
+                        if (!response.data.success) {
+                            $scope.errorMsg = response.message;
+                        } else {
+                            $scope.stateList = response.data.records;
+                            $http.post('website/getfCities', {
+                                data: {stateId: current_state},
+                            }).then(function (response) {
+                                if (!response.data.success) {
+                                    $scope.errorMsg = response.data.message;
+                                } else {
+                                    $scope.cityList = response.data.records;
+                                    $timeout(function () {
+                                        $scope.userData.permenent_state_id = angular.copy($scope.userData.current_state_id);
+                                        $scope.userData.permenent_city_id = angular.copy($scope.userData.current_city_id);
+                                    }, 500);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        };
+        
+        
+         $scope.updateemployee = function (userdata, empid)
+        {
+            $scope.isDisabled = true;
+            $scope.pls_wait = true;
+            if (userdata.date_of_birth != "")
+            {
+                userdata.date_of_birth = $("#date_of_birth").val();
+            }
+            if (userdata.marital_status == 2)
+            {
+                userdata.marriage_date = $("#marriagedate").val();
+            } else
+            {
+                userdata.marriage_date = "";
+            }
+
+            if (typeof userdata.employee_photo_file_name == "undefined" || typeof userdata.employee_photo_file_name == "string")
+            {
+                userdata.employee_photo_is_available = 0;
+                userdata.employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
+            } else
+            {
+                userdata.employee_photo_is_available = 1;
+            }
+
+            var data = {data: userdata, empId: empid}
+            var url = '/website/updateemployeedetails';
+            userdata.employee_photo_file_name.upload = Upload.upload({
+                url: url,
+                headers: {enctype: 'multipart/form-data'},
+                data: data
+            })
+
+            userdata.employee_photo_file_name.upload.then(function (response) {
+                $scope.isDisabled = false;
+                $scope.pls_wait = false;
+                if (response.data.success) {
+                    $window.location.href = 'website/thanking-you';
+                } else
+                {
+                    $scope.regerror = "Something went wrong please try again";
+                }
+            },
+                    function (response) {
+
+
+
+                    });
+        }
+
+
         $scope.getTestimonials = function () {
 
             $http.get(baseUrl + 'getTestimonials').then(function (response) {
@@ -346,40 +449,41 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
 
             });
         }
-        $scope.interested_inproject = function()
+        $scope.interested_inproject = function ()
         {
             //alert(projectid+"---"+blockid);
             alert("uma");
             $("#enquiry-popup").show();
         }
 
-        $scope.doContactAction = function (contact) {           
+        $scope.doContactAction = function (contact) {
 //            var v = grecaptcha.getResponse();
 //            
 //            if (v.length != '0') {
-alert($("#imgcaptcha").val()); return false;
-            $http.post(baseUrl + 'addContact', 
-                {contactData: contact}).then(function (response) {
-                    if (response.data.status == true) {
-                        $scope.submitted = true;
-                        $timeout(function () {
-                            $scope.submitted = false;
-                        }, 3000);
+            alert($("#imgcaptcha").val());
+            return false;
+            $http.post(baseUrl + 'addContact',
+                    {contactData: contact}).then(function (response) {
+                if (response.data.status == true) {
+                    $scope.submitted = true;
+                    $timeout(function () {
+                        $scope.submitted = false;
+                    }, 3000);
 
-                        $timeout(function () {
-                            $scope.contact = {};
-                            $scope.contactForm.$setPristine();
+                    $timeout(function () {
+                        $scope.contact = {};
+                        $scope.contactForm.$setPristine();
 //                            grecaptcha.reset();
-                            $scope.sbtBtn = false;
-                            //$scope.recaptcha = '';
+                        $scope.sbtBtn = false;
+                        //$scope.recaptcha = '';
 //                        $scope.loginAlertMessage = true;
-                        });
-                    }
-                }, function (response) {
-                    if (response.status !== 200) {
-                        $scope.err_msg = "Please Select image for upload";
-                    }
-                });
+                    });
+                }
+            }, function (response) {
+                if (response.status !== 200) {
+                    $scope.err_msg = "Please Select image for upload";
+                }
+            });
 //            } else {
 //                $scope.recaptcha = "Please revalidate captcha";
 //            }
@@ -436,14 +540,131 @@ alert($("#imgcaptcha").val()); return false;
                 }
             }
         };
-         // uma
+        // uma
         $scope.scrollTo = function (id) {
-        $timeout(function() {
-        $location.hash(id);
-        $anchorScroll();
-    });
-    }
+            $timeout(function () {
+                $location.hash(id);
+                $anchorScroll();
+            });
+        }
     }]);
+
+
+
+app.controller('titleCtrl', function ($scope, $http) {
+    $http.get('website/getfTitle').then(function (response) {
+        if (!response.data.success) {
+            $scope.errorMsg = response.data.message;
+        } else {
+            $scope.titles = response.data.records;
+        }
+    });
+});
+
+app.controller('genderCtrl', function ($scope, $http) {
+    $http.get('website/getfGender').then(function (response) {
+        if (!response.data.success) {
+            $scope.errorMsg = response.data.message;
+        } else {
+            $scope.genders = response.data.records;
+        }
+    });
+});
+
+app.controller('bloodGroupCtrl', function ($scope, $http) {
+    $http.get('website/getfBloodGroup').then(function (response) {
+        if (!response.data.success) {
+            $scope.errorMsg = response.data.message;
+        } else {
+            $scope.bloodGroups = response.data.records;
+        }
+    });
+});
+
+
+app.controller('educationListCtrl', function ($scope, $http) {
+    $http.get('website/getfEducationList').then(function (response) {
+        if (!response.data.success) {
+            $scope.errorMsg = response.data.message;
+        } else {
+            $scope.educationList = response.data.records;
+        }
+    });
+});
+
+
+app.controller('currentCountryListCtrl', function ($scope, $http) {
+
+    $http.get('website/getfCountries').then(function (response) {
+        if (!response.data.success) {
+            $scope.errorMsg = response.data.message;
+        } else {
+            $scope.countryList = response.data.records;
+        }
+    });
+    $scope.onCountryChange = function () {//for state list
+        $scope.stateList = "";
+        $http.post('website/getfStates', {
+            data: {countryId: $("#current_country_id").val()},
+        }).then(function (response) {
+            if (!response.data.success) {
+                $scope.errorMsg = response.data.message;
+            } else {
+                $scope.stateList = response.data.records;
+            }
+        });
+    };
+    $scope.onStateChange = function () {//for city list
+        $scope.cityList = "";
+        $http.post('website/getfCities', {
+            data: {stateId: $("#current_state_id").val()},
+        }).then(function (response) {
+            if (!response.data.success) {
+                $scope.errorMsg = response.data.message;
+            } else {
+                $scope.cityList = response.data.records;
+            }
+        });
+    };
+});
+
+
+
+app.controller('permanentCountryListCtrl', function ($scope, $timeout, $http) {
+    $http.get('website/getfCountries').then(function (response) {
+        if (!response.data.success) {
+            $scope.errorMsg = response.data.message;
+        } else {
+            $scope.countryList = response.data.records;
+        }
+    });
+    $scope.onPCountryChange = function () {
+        $scope.stateList = "";
+        $http.post('website/getfStates', {
+            data: {countryId: $scope.userData.permenent_country_id},
+        }).then(function (response) {
+
+            if (!response.data.success) {
+                $scope.errorMsg = response.data.message;
+            } else {
+                $scope.stateList = response.data.records;
+            }
+        });
+    };
+    $scope.onPStateChange = function () {
+        $scope.cityList = "";
+        $http.post('website/getfCities', {
+            data: {stateId: $scope.userData.permenent_state_id},
+        }).then(function (response) {
+            if (!response.data.success) {
+                $scope.errorMsg = response.data.message;
+            } else {
+                $scope.cityList = response.data.records;
+            }
+        });
+    };
+});
+
 
 app.directive('validFile', function () {
     return {
