@@ -58,7 +58,7 @@ class BlockStagesController extends Controller {
             $manageBlockstage = array();
             $j = 1;
             for ($i = 0; $i < count($getBlockstage); $i++) {
-                $blogData['Sr No.'] = $j++;
+                $blogData['Sr. No.'] = $j++;
                 $blogData['Block Stage Name'] = $getBlockstage[$i]['block_stage_name'];
                 $manageBlockstage[] = $blogData;
             }

@@ -1,11 +1,18 @@
-app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster','$modal', function ($scope, Data, $rootScope, $timeout, toaster, $modal) {
+app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', '$modal', function ($scope, Data, $rootScope, $timeout, toaster, $modal) {
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
         $scope.manageEmployeeDocuments = function () {
             Data.get('employee-document/employeeDocuments').then(function (response) {
-                $scope.DocumentsRow = response.records;
-                $scope.exportData = response.exportData;
-                $scope.deleteBtn = response.delete;
+                if (response.success) {
+                    $scope.DocumentsRow = response.records;
+                    $scope.exportData = response.exportData;
+                    $scope.deleteBtn = response.delete;
+                } else {
+
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+                    $scope.errorMsg = response.message;
+                }
             });
         };
 
@@ -33,8 +40,8 @@ app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeo
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
-         $scope.showHelpEmpDocument = function () {
+
+        $scope.showHelpEmpDocument = function () {
             $scope.optionModal = $modal.open({
                 template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Employee Documents</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
                 controller: [
@@ -49,9 +56,24 @@ app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeo
 
         $scope.initialModal = function (id, document_name, index)
         {
-            $scope.index = index;
-            $scope.id = id;
-            $scope.document_name = document_name;
+            
+            if (id == 0)
+            {
+                $scope.heading = 'Add Document';
+                 $scope.index = index;
+                $scope.id = '0';
+                $scope.action = 'Add';
+                $scope.require = true;
+                $scope.image = '';
+                 $scope.document_name = document_name;
+            } else {
+                $scope.require = false;
+                 $scope.index = index;
+                $scope.heading = 'Edit Document';
+                $scope.id = id;
+                $scope.action = 'Update';
+                 $scope.document_name = document_name;
+            }
         }
 
         $scope.deleteEmployeeDocuments = function (id, index) {
@@ -61,8 +83,8 @@ app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeo
                 $scope.DocumentsRow.splice(index, 1);
             });
         }
-        
-           $scope.$on("deleteRecords", function (event, args) {
+
+        $scope.$on("deleteRecords", function (event, args) {
             $scope.deleteEmployeeDocuments(args['id'], args['index']);
         });
 

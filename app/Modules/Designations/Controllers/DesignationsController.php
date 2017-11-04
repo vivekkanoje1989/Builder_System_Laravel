@@ -58,7 +58,7 @@ class DesignationsController extends Controller {
             $manageDesignations = array();
             $j = 1;
             for ($i = 0; $i < count($getDesignations); $i++) {
-                $manageDesignationsData['Sr No.'] = $j++;
+                $manageDesignationsData['Sr. No.'] = $j++;
                 $manageDesignationsData['Designation'] = $getDesignations[$i]['designation'];
                 if ($getDesignations[$i]['status'] == '1') {
                     $manageDesignationsData['Status'] = 'Active';

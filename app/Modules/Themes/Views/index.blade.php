@@ -180,7 +180,7 @@
                                 <label>Theme Name<span class="sp-err">*</span></label>
                                 <input type="text" class="form-control" ng-model="theme.theme_name" capitalizeFirst name="theme_name" ng-change="errorMsg = null" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="themesForm.theme_name.$error">
-                                    <div ng-message="required">Theme name is required</div>
+                                    <div ng-message="required">This field is required.</div>
                                     <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                                 <div ng-if="theme_name" class="sp-err theme_name">{{theme_name}}</div>
@@ -192,7 +192,7 @@
                                 <label>Theme Image<span class="sp-err">*</span></label>
                                 <input type="file" ngf-select   ng-model="theme.image_url" name="image_url" id="image_url"  accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="themesForm.image_url.$error">
-                                    <div ng-message="required">Image is required</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                                 <div ng-if="image_url" class="sp-err image_url">{{image_url}}</div>
                                 <span class="help-block">{{image_url_err}}</span>

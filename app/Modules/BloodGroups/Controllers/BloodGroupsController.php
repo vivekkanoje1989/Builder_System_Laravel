@@ -68,7 +68,7 @@ class BloodGroupsController extends Controller {
             $manageBloodGroups = array();
             $j = 1;
             for ($i = 0; $i < count($getBloodGroups); $i++) {
-                 $blogData['Sr No.'] = $j++;
+                 $blogData['Sr. No.'] = $j++;
                 $blogData['Blood Group'] = $getBloodGroups[$i]['blood_group'];
                 $manageBloodGroups[] = $blogData;
             }

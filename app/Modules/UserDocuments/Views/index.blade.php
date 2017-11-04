@@ -69,7 +69,7 @@
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i> 
                                                 <div ng-show="sbtBtn" ng-messages="userForm.document_id.$error" class="help-block errMsg">
-                                                    <div ng-message="required" class="sp-err">Please select document</div>
+                                                    <div ng-message="required" class="sp-err">This field is required.</div>
                                                     <div ng-if="errorMsgg">{{errorMsgg}}</div>
                                                 </div>
                                                  <div ng-if="document_id" class="errMsg status sp-err">{{document_id}}</div>
@@ -83,7 +83,7 @@
                                             <span class="input-icon icon-right">
                                                 <input type="text" class="form-control" ng-model="userData.document_number" name="document_number" required maxlength="15"  >
                                                 <div ng-show="sbtBtn" ng-messages="userForm.document_number.$error" class="help-block errMsg">
-                                                    <div ng-message="required" class="sp-err">Please enter document number</div>
+                                                    <div ng-message="required" class="sp-err">This field is required.</div>
                                                 </div>
                                                  <div ng-if="document_number" class="errMsg status sp-err">{{document_number}}</div>
                                             </span>

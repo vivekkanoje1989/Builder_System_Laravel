@@ -637,7 +637,7 @@
                                                 <table class="table table-hover table-striped table-bordered collectiontbl" at-config="config">
                                                     <thead class="bord-bot">
                                                         <tr>
-                                                            <th style="width:5%;text-align: center;">SR No.</th>
+                                                            <th style="width:5%;text-align: center;">Sr. No.</th>
                                                             <th style="width:5%;text-align: center;">Collection Stage</th>
                                                             <th style="width:5%;text-align: center;">Payment Date</th>
                                                             <th style="width:5%;text-align: center;">Payment Amount</th>                        

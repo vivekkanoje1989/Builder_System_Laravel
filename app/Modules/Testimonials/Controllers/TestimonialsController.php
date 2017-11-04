@@ -95,7 +95,7 @@ class TestimonialsController extends Controller {
             $j = 1;
             for ($i = 0; $i < count($getApprovedTestimonials); $i++) {
 
-                $testimonial['Sr No.'] = $j++;
+                $testimonial['Sr. No.'] = $j++;
                 $testimonial['Customer Name'] = $getApprovedTestimonials[$i]['customer_name'];
                 $testimonial['Mobile Number'] = $getApprovedTestimonials[$i]['mobile_number'];
                 $testimonial['Company Name'] = $getApprovedTestimonials[$i]['company_name'];
@@ -160,7 +160,7 @@ class TestimonialsController extends Controller {
             $j = 1;
             for ($i = 0; $i < count($getApprovedTestimonials); $i++) {
 
-                $testimonial['Sr No.'] = $j++;
+                $testimonial['Sr. No.'] = $j++;
                 $testimonial['Customer Name'] = $getApprovedTestimonials[$i]['customer_name'];
                 $testimonial['Mobile Number'] = $getApprovedTestimonials[$i]['mobile_number'];
                 $testimonial['Company Name'] = $getApprovedTestimonials[$i]['company_name'];

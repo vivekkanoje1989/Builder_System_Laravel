@@ -381,8 +381,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             Data.post('master-hr/manageUsers', {
                 empId: id
             }).then(function (response) {
-                console.log(response)
-
                 if (response.success) {
                     $scope.flagForChange = 0;
                     if (action == "index") {
@@ -670,6 +668,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         $scope.modal.userName = response.records.data[0].username;
                     }
                 } else {
+                    
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                     $scope.errorMsg = response.message;
                 }
 
@@ -990,11 +992,16 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         /****************** Roles *********************/
         $scope.manageRoles = function () {
             Data.get('master-hr/getRoles').then(function (response) {
+                  $scope.showloader();
                 if (response.success) {
+                     $scope.hideloader();
                     $scope.roleList = response.list;
                     $scope.exportDetails = response.exportDetails;
                 } else {
                     $scope.errorMsg = response.message;
+                       $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                 }
             });
         }
@@ -1350,6 +1357,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             if (profileData.employee_photo_file_name === '' || typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
                 profileData.employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
                 toaster.pop('success', 'Profile', 'Profile updated successfully');
+           $state.go('dashboard');
             } else {
                 var url = '/master-hr/updateProfileInfo';
                 var data = {data: profileData};
@@ -1367,10 +1375,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     } else {
                         $scope.profileBtn = true;
                         toaster.pop('success', 'Profile', 'Profile updated successfully');
+                         $state.go('dashboard');
                         $timeout(function () {
                             $rootScope.imageUrl = response.data.photo;
                         }, 300);
-                        window.reload();
+                       
                     }
 
                 });
@@ -1379,6 +1388,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.updatePassword = function (profileData)
         {
+            $scope.changePass = true;
             Data.post('master-hr/updatePassword', {
                 data: profileData,
             }).then(function (response) {
@@ -1386,6 +1396,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     toaster.pop('error', 'Profile', 'Something went wrong please try again later');
                 } else
                 {
+                     $scope.changePass = false;
                     toaster.pop('success', 'Profile', 'Password has been changed as well as Mail and sms has been sent to you.');
                     $state.go('dashboard');
                 }

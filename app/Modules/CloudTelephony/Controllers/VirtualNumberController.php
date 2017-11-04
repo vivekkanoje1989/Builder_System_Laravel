@@ -100,7 +100,7 @@ class VirtualNumberController extends Controller {
             $manageVirtualNumber = array();
             $j = 1;
             for ($i = 0; $i < count($manageLists); $i++) {
-                $blogData['Sr No.'] = $j++;
+                $blogData['Sr. No.'] = $j++;
                 $blogData['Virtual Number'] = $manageLists[$i]['virtual_display_number'];
                 $blogData['Source'] = $manageLists[$i]['source_name'];
                 $blogData['Subsource'] = $manageLists[$i]['subsource'];

@@ -253,7 +253,7 @@ class MasterHrController extends Controller {
             $manageUsers = array();
             $j = 1;
             for ($i = 0; $i < count($manageUser); $i++) {
-                $blogData['Sr No.'] = $j++;
+                $blogData['Sr. No.'] = $j++;
                 $first_name = $manageUser[$i]['first_name'];
                 $team_lead_fname = $manageUser[$i]['team_lead_fname'];
                 $team_lead_lname = $manageUser[$i]['team_lead_lname'];
@@ -507,7 +507,7 @@ class MasterHrController extends Controller {
             $j = 1;
             for ($i = 0; $i < count($roles); $i++) {
 
-                $roleData['Sr No.'] = $j++;
+                $roleData['Sr. No.'] = $j++;
                 $roleData['Role Name'] = $roles[$i]['role_name'];
                 $manageRoles[] = $roleData;
             }
