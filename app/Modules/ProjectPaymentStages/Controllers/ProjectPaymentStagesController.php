@@ -62,7 +62,7 @@ class ProjectPaymentStagesController extends Controller {
             $manageProjectPayment = array();
             $j = 1;
             for ($i = 0; $i < count($getProjectPayment); $i++) {
-                $manageProjectPaymentData['Sr No.'] = $j++;
+                $manageProjectPaymentData['Sr. No.'] = $j++;
                 $manageProjectPaymentData['Project Stages'] = $getProjectPayment[$i]['stage_name'];
                 $manageProjectPayment[] = $manageProjectPaymentData;
             }

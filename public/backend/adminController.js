@@ -122,12 +122,12 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         }
     }
 
-
+$rootScope.forgotP = false;
     $scope.getpassword = function (username) {
+        $rootScope.forgotP = true;
         Data.post('getforgotpassword', {
             username: username
         }).then(function (response) {
-            console.log(response);
             if (response.success) {
                 $scope.collapsed = false;
                 $scope.showmsg = true;

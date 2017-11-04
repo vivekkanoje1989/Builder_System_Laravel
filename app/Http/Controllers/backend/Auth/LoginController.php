@@ -149,7 +149,6 @@ use AuthenticatesUsers;
         $username = $request['username'];
         $password = $request['password'];
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
-
         $checkUsername = Employee::getRecords(["id", "employee_status"], ["username" => $username]); //(select attributes, where conditions)
         if (!empty($checkUsername)) {
             $empId = $checkUsername[0]->id;
@@ -229,7 +228,7 @@ use AuthenticatesUsers;
                     $empExist->username,
                     $password
                 );
-                // $result = CommonFunctions::templateData($templatedata);
+                 $result = CommonFunctions::templateData($templatedata);
                 $result = ['success' => true, "message" => "Your new password has been sent to your registered email id & mobile number, please check the same"];
             } else {
                 $result = ['success' => false, "message" => "User does not exist"];

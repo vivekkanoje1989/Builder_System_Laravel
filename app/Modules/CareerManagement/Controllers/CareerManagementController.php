@@ -204,7 +204,7 @@ class CareerManagementController extends Controller {
             $manageCareers = array();
             $j = 1;
             for ($i = 0; $i < count($careers); $i++) {
-                $careerData['Sr No.'] = $j++;
+                $careerData['Sr. No.'] = $j++;
                 $careerData['Job Title'] = $careers[$i]['job_title'];
                 $careerData['Job Eligibility'] = preg_replace("/\r|\n/", "", $careers[$i]['job_eligibility']);
                 $careerData['Application Start Date'] = $careers[$i]['application_start_date'];
@@ -307,7 +307,7 @@ class CareerManagementController extends Controller {
             $manageCareers = array();
             $j = 1;
             for ($i = 0; $i < count($careers); $i++) {
-                $careerData['Sr No.'] = $j++;
+                $careerData['Sr. No.'] = $j++;
                 $careerData['First Name'] = $careers[$i]['first_name'];
                 $careerData['Last Name'] = $careers[$i]['last_name'];
                 $careerData['Mobile Number'] = $careers[$i]['mobile_number'];

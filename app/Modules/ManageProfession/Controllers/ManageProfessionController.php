@@ -61,7 +61,7 @@ class ManageProfessionController extends Controller {
             $manageProfession = array();
             $j = 1;
             for ($i = 0; $i < count($getProfession); $i++) {
-                $manageProfessionData['Sr No.'] = $j++;
+                $manageProfessionData['Sr. No.'] = $j++;
                 $manageProfessionData['Block Stage Name'] = $getProfession[$i]['profession'];
                 if($getProfession[$i]['status'] == '1'){
                     $manageProfessionData['Status'] = 'Active';

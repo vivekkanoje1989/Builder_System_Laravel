@@ -73,7 +73,7 @@ class PaymentHeadingsController extends Controller {
             $managePayment = array();
             $j = 1;
             for ($i = 0; $i < count($getPayment); $i++) {
-                 $managePaymentData['Sr No.'] = $j++;
+                 $managePaymentData['Sr. No.'] = $j++;
                 $managePaymentData['Payment Heading'] = $getPayment[$i]['payment_heading'];
                 $managePayment[] = $managePaymentData;
             }

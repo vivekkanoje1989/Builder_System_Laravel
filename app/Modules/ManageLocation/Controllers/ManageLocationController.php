@@ -68,7 +68,7 @@ class ManageLocationController extends Controller {
             $manageLocation = array();
             $j = 1;
             for ($i = 0; $i < count($getLocation); $i++) {
-                 $manageLocationData['Sr No.'] = $j++;
+                 $manageLocationData['Sr. No.'] = $j++;
                 $manageLocationData['Location'] = $getLocation[$i]['location'];
                 $manageLocation[] = $manageLocationData;
             }

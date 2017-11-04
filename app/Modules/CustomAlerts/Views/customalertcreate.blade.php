@@ -30,7 +30,7 @@
                                                         <span class="input-icon icon-right">
                                                             <input type="text" id="friendly_name" ng-model="customAlertData.friendly_name" name="friendly_name" class="form-control"  ng-maxlength="50"  maxlength="50" required>
                                                             <div ng-show="sbtBtn && customAlertForm.friendly_name.$invalid" ng-messages="customAlertForm.friendly_name.$error" class="help-block">
-                                                                <div ng-message="required" style="color: red !important;">This field is required</div>
+                                                                <div ng-message="required" style="color: red !important;">This field is required.</div>
                                                                 <div ng-message="maxlength" class="sp-err">Too short (Maximum length is 50 character)</div>
                                                             </div> 
                                                         </span>
@@ -49,7 +49,7 @@
                                                             <textarea id="sms_body1" ng-model="customAlertData.sms_body" style="height: 125px;" name="sms_body" class="form-control ng-pristine ng-valid ng-valid-required ng-touched"  ng-maxlength="250"  maxlength="250" required=""></textarea>
 
                                                             <div ng-show="sbtBtn && customAlertForm.sms_body.$invalid" ng-messages="customAlertForm.sms_body.$error" class="help-block ng-hide ng-inactive">
-                                                                <div ng-message="required" style="color: red !important;">This field is required</div>
+                                                                <div ng-message="required" style="color: red !important;">This field is required.</div>
                                                                 <div ng-message="maxlength" class="sp-err">Too short (Maximum length is 250 character)</div>
                                                             </div>
                                                         </span>
@@ -68,7 +68,7 @@
                                                             <input type="text" id="email_subject1" ng-model="customAlertData.email_subject" name="email_subject" class="form-control ng-pristine ng-valid ng-valid-required ng-touched" ng-maxlength="100"  maxlength="100"  required>
 
                                                             <div ng-show="sbtBtn && customAlertForm.email_subject.$invalid" ng-messages="customAlertForm.email_subject.$error" class="help-block ng-hide ng-inactive">
-                                                                <div ng-message="required" style="color: red !important;">This field is required</div>
+                                                                <div ng-message="required" style="color: red !important;">This field is required.</div>
                                                                 <div ng-message="maxlength" class="sp-err">Too short (Maximum length is 100 character)</div>
                                                             </div>
                                                         </span>
@@ -87,7 +87,7 @@
                                                             <textarea ck-editor id="email_body" ng-model="customAlertData.email_body" name="email_body" class="form-control ng-pristine ng-valid ng-valid-required ng-touched" required=""></textarea>
                                                             <i class="fa fa fa-align-left"></i>
                                                             <div ng-show="sbtBtn && customAlertForm.email_body.$invalid" ng-messages="customAlertForm.email_body.$error" class="help-block ng-hide ng-inactive">
-                                                                <div ng-message="required" style="color: red !important;">This field is required</div>
+                                                                <div ng-message="required" style="color: red !important;">This field is required.</div>
                                                             </div>
                                                         </span>
                                                     </div>

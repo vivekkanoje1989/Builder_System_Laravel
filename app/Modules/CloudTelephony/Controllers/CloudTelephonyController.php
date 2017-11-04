@@ -230,7 +230,7 @@ class CloudTelephonyController extends Controller {
             $manageReg = array();
             $j = 1;
             for ($i = 0; $i < count($manageLists); $i++) {
-                $blogData['Sr No.'] = $j++;
+                $blogData['Sr. No.'] = $j++;
                 $blogData['Client NamVirtualNumbee'] = $manageLists[$i]['marketing_name'];
                 $blogData['Virtual Number'] = $manageLists[$i]['virtual_number'];
                 $blogData['Activation Date'] = $manageLists[$i]['activation_date'];
