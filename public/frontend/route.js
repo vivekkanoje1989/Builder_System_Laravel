@@ -96,18 +96,14 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.projectsdata = [];
         //$scope.aminities = $scope.availble = $scope.projects = [];        
         var baseUrl = 'website/';
+        
         $scope.getPostsDropdown = function () {
             $http.get(baseUrl + 'jobPost').then(function (response) {
                 $scope.jobPostRow = response.data.result;
             });
         };
         $scope.random = function () {
-            return 0.5 - Math.random();
-        }
-        $scope.refreshCaptcha = function ()
-        {
-            $scope.randomNumber = 0.5 - Math.random();
-            alert($scope.randomNumber);
+            return 0.5 - Math.random();        
         }
         $scope.selectedbBlogs = function (blogId)
         {

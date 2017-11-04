@@ -191,6 +191,8 @@ class UserController extends Controller {
 
     public function addContact() {
         header('Access-Control-Allow-Origin: *');
+        print_r($_SESSION);
+        print_r(session()->all());exit;
         $input = Input::all();
         $name = explode(' ', $input['contactData']['name']);
         $input['contactData']['first_name'] = $name[0];
