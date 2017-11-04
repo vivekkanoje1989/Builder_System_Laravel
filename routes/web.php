@@ -232,6 +232,13 @@ Route::group(['middleware' => ['auth:admin']], function () {
     });
 });
 
+
+Route::get('/api/allEmployeesSmsReport', 'backend\smsReportController@allEmployeesSmsReport');
+Route::get('/api/allTeamLeadSmsReport', 'backend\smsReportController@allTeamLeadSmsReport');
+Route::get('/api/allEmployeesMorningSmsReport', 'backend\smsReportController@allEmployeesMorningSmsReport');
+Route::get('/api/allTeamLeadMorningSmsReport', 'backend\smsReportController@allTeamLeadMorningSmsReport');
+
+
 Route::group(['middleware' => ['user']], function () {
     Route::post('user/logout', 'frontend\Auth\LoginController@getLogout');
     Route::get('user/dashboard', 'frontend\UserController@dashboard');

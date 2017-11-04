@@ -35,7 +35,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.remarkData.sms_privacy_status = 1;
         $scope.remarkData.email_privacy_status = 1;
         $scope.shared = $scope.sharedemployee = 0;
-
+        $scope.sendDocDisable = false;
         $rootScope.newEnqFlag1 = 0;
         $scope.todayremarkTimeChange = function (selectedDate)
         {
@@ -814,11 +814,18 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (response.success)
                 {
                     $scope.documentListData = response.records[0];
+                    $scope.sendDocDisable = true;
+                    if($scope.documentListData.location_map_images != null && $scope.documentListData.floor_plan_images != null && $scope.documentListData.layout_plan_images!= null && $scope.documentListData.amenities_images!= null && $scope.documentListData.project_brochure!= null && $scope.documentListData.specification_images!= null && $scope.documentListData.video_link!= null) 
+                    {
+                        $scope.sendDocDisable = false;
+                    }
+                    
                 } else
                 {
                     $scope.documentListData = {};
-                }
-            });
+                    $scope.sendDocDisable = true;
+                }                 
+            });            
         }
 
         $scope.insertSendDocument = function (documentdata)
@@ -831,16 +838,31 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 } else {
                 }
             });
+            $scope.sendDocDisable = true;
             $scope.SelectedDocs = flag;
             Data.post('master-sales/insertSendDocument', {documentData: documentdata, isUpdate: $scope.editableCustInfo, sendDocument: $scope.SelectedDocs, enquiry_id: $rootScope.enquiryId, }).then(function (response) {
+                $scope.sendDocDisable = false;
                 if (response.success)
                 {
                     toaster.pop('success', 'Sent Documents', "Document Sent successfully");
-                    $(".sendDocumentDataModal").hide('fast');
-                    $state.reload();
+                    $("#sendDocumentDataModal").toggle('fast');
+                    //$('#sendDocumentDataModal').modal('toggle');
+                    $state.transitionTo($state.current, $stateParams, {
+                        reload: true, //reload current page
+                        inherit: false, //if set to true, the previous param values are inherited
+                        notify: true //reinitialise object
+                    });
+                    $(".modal-backdrop").hide();
                 } else
                 {
                     toaster.pop('error', 'Sent Documents', "Error While Document Sent");
+                    $('#sendDocumentDataModal').modal('hide');
+                     $state.transitionTo($state.current, $stateParams, {
+                        reload: true, //reload current page
+                        inherit: false, //if set to true, the previous param values are inherited
+                        notify: true //reinitialise object
+                    });
+                     $(".modal-backdrop").hide();
                 }
             });
         }
@@ -865,7 +887,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         {
             window.open('https://storage.googleapis.com/bkt_bms_laravel/project/' + foldername + '/' + imagename + '');
         }
-
         $scope.chkallDocuments = function ()
         {
             if ($("#allselect").is(':checked'))
@@ -1029,7 +1050,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         $scope.showComapnyList = false;
         $scope.getCompanyList = function (name) {
-            if (name != null && name != '') {
+            if (name != null || name != '' || name == 'undefined') {
                 $scope.remarkData.company_id = 0;
                 $scope.showComapnyList = true; //show ul li
                 $scope.remarkData.corporateCust = true; //show checkbox
@@ -1447,8 +1468,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     payment_status_id: modalData.payment_status_id,
                 }
             };
-            $scope.sbtbtndis = true;
-            
+            $scope.sbtbtndis = true;            
             Data.post('master-sales/insertTodayRemark', {
                 data: data, custInfo: custInfo
             }).then(function (response) {
