@@ -111,7 +111,7 @@
                                 </div><hr>
                                 <div class="row" style="float:right;margin-right: 0px;">
                                     <input type="submit" class="btn btn-primary" name="sendbtn"  id="sendbtn" ng-disabled="(documentListData | json) == '{}'" value="Send">
-                                </div>
+                                </div>                                
                             </form>
                         </div>
                     </div>

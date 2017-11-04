@@ -162,10 +162,10 @@
                                             <span  ng-if="displayMobileN != '1'" class="text">{{enquiry.mobile}}</span>
                                         </p>
                                         <p ng-if="emailPermission == '1'" ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
-                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                            <i class="fa fa-envelope" aria-hidden="true" ng-show="all_email_list.length > 0"></i>
                                             <span ng-repeat="emailobj in all_email_list| limitTo:2">
-                                                {{emailobj}}
-                                                <span ng-if="$index == 0 && all_email_list.length >= 2">
+                                                <span class="text" ng-if="emailobj!='null'">{{emailobj}}</span>
+                                                <span ng-if="$index == 0 && all_email_list.length >= 2 && emailobj!='null'">
                                                     /
                                                 </span>
 

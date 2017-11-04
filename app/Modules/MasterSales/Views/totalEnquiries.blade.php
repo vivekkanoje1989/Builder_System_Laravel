@@ -11,6 +11,7 @@
         padding: 5px;
     }  
 </style>
+
 <div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4,'',''); getAllEmployeeData()">
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
@@ -83,6 +84,7 @@
                             </label>
                         @endif                          
                     </div>
+                   capcha <div class="g-recaptcha" data-sitekey="6LcIDDcUAAAAAEzlU702L0_99cDqkYaXsZxDO42C"></div>
                     <!-- filter data--> 
                     <div class="row col-sm-12" style="border:2px;" id="filter-show">
                         <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate'">                         
