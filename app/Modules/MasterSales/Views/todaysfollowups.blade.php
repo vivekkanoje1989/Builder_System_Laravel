@@ -10,6 +10,7 @@
         color: black;
         padding: 5px;
     }
+
 </style>
 <div class="row" ng-controller="enquiryController" ng-init="todaysFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 1,''); getAllEmployeeData();" >
     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '[[ csrf_token() ]]'">

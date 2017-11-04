@@ -49,7 +49,7 @@
                                 <div class="project-title clearfix">
                                     <h3>{{list.project_name}}</h3>
                                     <span class="show_hide close">
-                                        <i class="icon-cancel"></i>
+                                        <i class="icon-cancel"  id="cancelId{{list.id}}" onclick="cancelProjectDivCurrent({{list.id}})"></i>
                                     </span>
                                 </div>
                                 <div class="project-info">

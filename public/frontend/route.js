@@ -131,8 +131,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 }
                 if (response.data.result.amenities_images != null) {
                     $scope.amenities_images = response.data.result.amenities_images.split(',');
-                }
-//                console.log($scope.amenities_images);
+                }                
                 $scope.project_address = response.data.result.project_address;
                 $scope.email_sending_id = response.data.result.email_sending_id;
                 $scope.project_brochure = response.data.result.project_brochure;
@@ -373,7 +372,6 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.post(baseUrl + 'getBlogDetails', {'blog_id': blog_id}).then(function (response) {
                 $scope.blogDetail = response.data.result;
-                console.log($scope.blogDetail)
                 $scope.blog_images = $scope.blogDetail.blog_images.split(',');
             });
         }
@@ -382,7 +380,6 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.get(baseUrl + 'getNews').then(function (response) {
                 $scope.news = response.data.result;
-                console.log($scope.news)
             });
         }
 
@@ -416,7 +413,6 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.get(baseUrl + 'getEvents').then(function (response) {
                 $scope.events = response.data.result;
-                console.log($scope.events)
             });
         }
 
@@ -424,8 +420,6 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.post(baseUrl + 'getEventDetails', {'id': id}).then(function (response) {
                 $scope.eventDetails = response.data.result;
-                console.log($scope.eventDetails)
-
                 $scope.images = JSON.parse($scope.eventDetails.gallery);
 
             });
@@ -445,23 +439,10 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.post(baseUrl + 'getTestimonialDetails', {'testimonial_id': id}).then(function (response) {
                 $scope.testimonialDetails = response.data.result;
-                console.log($scope.testimonialDetails)
-
             });
-        }
-        $scope.interested_inproject = function ()
-        {
-            //alert(projectid+"---"+blockid);
-            alert("uma");
-            $("#enquiry-popup").show();
-        }
-
+        }        
         $scope.doContactAction = function (contact) {
-//            var v = grecaptcha.getResponse();
-//            
-//            if (v.length != '0') {
-            alert($("#imgcaptcha").val());
-            return false;
+            
             $http.post(baseUrl + 'addContact',
                     {contactData: contact}).then(function (response) {
                 if (response.data.status == true) {
@@ -473,10 +454,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                     $timeout(function () {
                         $scope.contact = {};
                         $scope.contactForm.$setPristine();
-//                            grecaptcha.reset();
                         $scope.sbtBtn = false;
-                        //$scope.recaptcha = '';
-//                        $scope.loginAlertMessage = true;
                     });
                 }
             }, function (response) {
@@ -484,9 +462,6 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                     $scope.err_msg = "Please Select image for upload";
                 }
             });
-//            } else {
-//                $scope.recaptcha = "Please revalidate captcha";
-//            }
         }
         $scope.doApplicantAction = function (career, resumeFileName, photoUrl)
         {
