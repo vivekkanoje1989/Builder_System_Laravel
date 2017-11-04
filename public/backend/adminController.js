@@ -176,6 +176,7 @@ app.controller('salesEnqCategoryCtrl', function ($scope, Data) {
                 $scope.errorMsg = response.message;
             } else {
                 $scope.salesEnqSubCategoryList = response.records;
+                $("#sales_subcategory_id").val("");
             }
         });
     }
@@ -206,6 +207,9 @@ app.controller('salesEnqStatusCtrl', function ($scope, Data) {
                 $scope.errorMsg = response.message;
             } else {
                 $scope.salesEnqSubStatusList = response.records;
+                $scope.divEmail = false;
+                $scope.divSms = false;
+                $scope.divText = true;
             }
         });
     }

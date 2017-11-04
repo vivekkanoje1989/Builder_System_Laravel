@@ -269,12 +269,11 @@
                                             </div>
                                             <div class="col-sm-7">
                                                 <div class="form-group" ng-if="companyInput">
-                                                    <input type="text" class="form-control" placeholder="Company name" ng-model="remarkData.company_name" name="company_name" ng-keyup="getCompanyList(remarkData.company_name)" 
-                                                           required>
+                                                    <input type="text" class="form-control" placeholder="Company name" ng-model="remarkData.company_name" name="company_name" ng-keyup="getCompanyList(remarkData.company_name)" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" required>
                                                     <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList" >
                                                         <li ng-repeat="company in company_list| filter : remarkData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
                                                     </ul> 
-                                                    <div ng-show="sbtBtn" ng-messages="remarkForm.company_name.$error" class="help-block">
+                                                    <div ng-show="sbtBtn && remarkData.corporateCust==true" ng-messages="remarkForm.company_name.$error" class="help-block">
                                                         <div ng-message="required">This field is required.</div>
                                                     </div>
                                                 </div>
@@ -403,12 +402,12 @@
                                         <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && salesEnqSubCategoryList.length != 0) && (!remarkForm.sales_subcategory_id.$dirty && remarkForm.sales_subcategory_id.$invalid)}">
                                             <label for="">Enquiry Sub Category<span class="sp-err" ng-if="salesEnqSubCategoryList.length != 0">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <select class="form-control" ng-model="remarkData.sales_subcategory_id" name="sales_subcategory_id" id="sales_subcategory_id" ng-required="salesEnqSubCategoryList.length != 0">
+                                                <select class="form-control" ng-model="remarkData.sales_subcategory_id" name="sales_subcategory_id" id="sales_subcategory_id" ng-required="salesEnqSubCategoryList.length > 0">
                                                     <option value="">Select Sub Category</option>
                                                     <option ng-repeat="list in salesEnqSubCategoryList" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_subcategory_id}}">({{list.listing_position}}) {{list.enquiry_sales_subcategory}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="sbtBtn" ng-messages="remarkForm.sales_subcategory_id.$error" class="help-block errMsg" ng-if="salesEnqSubCategoryList.length != 0">
+                                                <div ng-show="sbtBtn" ng-messages="remarkForm.sales_subcategory_id.$error" class="help-block errMsg">
                                                     <div ng-message="required">Please Select Sub category</div>
                                                 </div>
                                             </span>
@@ -901,7 +900,7 @@
                                                                             <div class="control-group">                                                            
                                                                                 <div class="checkbox" ng-repeat="mlist in mobileList track by $index">
                                                                                     <label>
-                                                                                        <input type="checkbox" ng-model="mobile_number" ng-change="checkedMobileNo(mlist, $index)" value="{{mlist}}" id="mob_{{$index}}" class="clsMobile">
+                                                                                        <input type="checkbox" ng-model="mobile_number" name="mobile_number" ng-change="checkedMobileNo(mlist, $index)" value="{{mlist}}" id="mob_{{$index}}" class="clsMobile" required>
                                                                                         <span class="text">{{mlist}}</span>
                                                                                     </label>
                                                                                 </div>
@@ -958,7 +957,7 @@
                                                                                 <div class="control-group">
                                                                                     <div class="checkbox" ng-repeat="elist in emailList track by $index">
                                                                                         <label>
-                                                                                            <input type="checkbox" ng-model="email_id" ng-change="checkedEmailId(elist, $index)" value="{{elist}}" id="email_{{$index}}" class="clsEmail">
+                                                                                            <input type="checkbox" ng-model="email_id" name="email_id" ng-change="checkedEmailId(elist, $index)" value="{{elist}}" id="email_{{$index}}" class="clsEmail" required>
                                                                                             <span class="text">{{elist}}</span>
                                                                                         </label>
                                                                                     </div>
