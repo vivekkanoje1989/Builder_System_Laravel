@@ -1029,7 +1029,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         $scope.showComapnyList = false;
         $scope.getCompanyList = function (name) {
-            if (name != null && name != '') {
+            if (name != null || name != '' || name == 'undefined') {
                 $scope.remarkData.company_id = 0;
                 $scope.showComapnyList = true; //show ul li
                 $scope.remarkData.corporateCust = true; //show checkbox

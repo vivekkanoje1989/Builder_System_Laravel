@@ -84,7 +84,6 @@
                             </label>
                         @endif                          
                     </div>
-                   capcha <div class="g-recaptcha" data-sitekey="6LcIDDcUAAAAAEzlU702L0_99cDqkYaXsZxDO42C"></div>
                     <!-- filter data--> 
                     <div class="row col-sm-12" style="border:2px;" id="filter-show">
                         <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate'">                         
