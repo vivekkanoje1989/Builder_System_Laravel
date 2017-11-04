@@ -2,6 +2,33 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/public/index.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/projectdetails.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/mantravastu/js/app.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantravastu/header.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontendApp.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Models/Customer.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantravastu/main.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Models/CustomersContact.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantravastu/footer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysfollowups.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/frontend/UserController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Gagan/footer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/quickEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/projectdetails.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/projects.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/backendApp.blade.php</file>
+        </group>
+=======
         <group/>
 <<<<<<< HEAD
 =======
@@ -19,5 +46,6 @@
         </group>
 >>>>>>> 8a0ab093ece7a89c80c50ebad29c25dd7540ab09
 >>>>>>> f430b096083b586bc36268c2cf43fb12270367df
+>>>>>>> f13ecb72fe90f23f948d1e6b7b8e5a4954c28cce
     </open-files>
 </project-private>
