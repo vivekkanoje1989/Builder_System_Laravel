@@ -83,10 +83,10 @@
                                         <div class="rect4"></div>
                                         <div class="rect5"></div>
                                     </div>
-                                </div> 
+                                </div>
                                 @include('layouts.backend.layout')
-
                                 <!-- Scripts -->
+                                <script src="https://www.google.com/recaptcha/api.js"></script>
                                 <script src="/backend/lib/jquery/jquery.min.js"></script>
                                 <script src="/backend/lib/jquery/bootstrap.js"></script>
                                 <script src="//cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>

@@ -18,6 +18,7 @@
                 <span class="widget-caption">{{pagetitle}}</span>                
              <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
           </div>
+             <div class="g-recaptcha" data-sitekey="6LcIDDcUAAAAAEzlU702L0_99cDqkYaXsZxDO42C"></div>   
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
                     <div class="row col-sm-2">

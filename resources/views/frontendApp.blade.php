@@ -131,8 +131,7 @@
                 <div id="to-top" class="to-top"><i class="fa fa-angle-up"></i></div>
 
             </div>
-            <!-- /WRAPPER -->
-
+            
             <!-- JS Global -->
             <script src="/frontend/theme31/assets/plugins/jquery/jquery-1.11.1.min.js"></script>
             <script src="/frontend/theme31/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
