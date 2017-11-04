@@ -1126,15 +1126,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.hideIcon = function (id) {
             if (id == 3 || id == 4) {
                 $(".checkLost").hide();
-                if (id != 4)
+                if (id != 4){
                     $("#footerContent").hide();
+                }
                 $scope.divEmail = false;
                 $scope.divSms = false;
                 $scope.divText = true;
             } else {
                 $(".checkLost").show();
                 $("#footerContent").show();
-                $scope.divText = true;
             }
         }
 
@@ -1286,6 +1286,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
             $scope.minDate = new Date();
             $scope.booked = $scope.collected = true;
+            
             var time = new Date();
             if (enqid !== '') {
                 $scope.pageHeading = 'Today`s Remark';
@@ -1302,6 +1303,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.userpermissions = angular.copy(response.userpermissions);
                         $scope.displayCallBtn = $scope.userpermissions.indexOf("01403");
                         $("#custId").val(response.enquiryDetails[0].customerId);
+                        
                         if (response.enquiryDetails[0].title_id == 0 || response.enquiryDetails[0].title_id == null) {
                             $scope.remarkData.title_id = '';
                         }
@@ -1362,7 +1364,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                             $scope.remarkData.booking_date = ((d.getDate()) + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear());
                         }
                         $scope.todayremarkTimeChange(time);
-
+                        
                         Data.post('getSalesEnqSubStatus', {
                             statusId: response.enquiryDetails[0].sales_status_id
                         }).then(function (response) {
@@ -1372,32 +1374,36 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                                 $scope.salesEnqSubStatusList = response.records;
                                 $("#sales_substatus_id").val(sales_substatus_id);
                                 $scope.remarkData.sales_substatus_id = angular.copy(sales_substatus_id);
-
-                                if ($scope.remarkData.sales_substatus_id == 0 || $scope.remarkData.sales_substatus_id == null || $scope.remarkData.sales_substatus_id === undefined) {
+                                
+                                if ($scope.remarkData.sales_status_id == '' || $scope.remarkData.sales_substatus_id == 0 || $scope.remarkData.sales_substatus_id == null || $scope.remarkData.sales_substatus_id === undefined) {
                                     $scope.remarkData.sales_substatus_id = "";
                                 } else {
                                     $scope.remarkData.sales_substatus_id = angular.copy(sales_substatus_id);
                                 }
                             }
                         });
-
-                        Data.post('getSalesEnqSubCategory', {
-                            categoryId: response.enquiryDetails[0].sales_category_id
-                        }).then(function (response) {
-                            if (!response.success) {
-                                $scope.errorMsg = response.message;
-                            } else {
-
-                                $scope.salesEnqSubCategoryList = response.records;
-                                if ($scope.remarkData.sales_subcategory_id == 0 || $scope.remarkData.sales_subcategory_id == null || $("#sales_subcategory_id").val() === undefined) {
-                                    $scope.remarkData.sales_subcategory_id = "";
+                        
+                        if(response.enquiryDetails[0].sales_category_id !== 1){
+                            Data.post('getSalesEnqSubCategory', {
+                                categoryId: response.enquiryDetails[0].sales_category_id
+                            }).then(function (response) {
+                                if (!response.success) {
+                                    $scope.errorMsg = response.message;
                                 } else {
-                                    $("#sales_subcategory_id").val(sales_subcategory_id);
-                                    $scope.remarkData.sales_subcategory_id = angular.copy(sales_subcategory_id);
-                                }
-                            }
-                        });
+                                    $scope.salesEnqSubCategoryList = response.records;
 
+                                    $scope.remarkData.sales_subcategory_id = angular.copy(sales_subcategory_id);
+
+                                    if ($scope.remarkData.sales_category_id == '' ||$scope.remarkData.sales_subcategory_id == 0 || $scope.remarkData.sales_subcategory_id == null || $("#sales_subcategory_id").val() === undefined) {
+                                        $scope.remarkData.sales_subcategory_id = "";
+                                    } else {
+                                        $("#sales_subcategory_id").val(sales_subcategory_id);
+                                        $scope.remarkData.sales_subcategory_id = angular.copy(sales_subcategory_id);
+                                    }
+                                }
+                            });
+                        }else{$scope.remarkData.sales_subcategory_id = "";}
+                        
                         if ($scope.remarkData.customer_fname !== '') {
                             $scope.custInfo = true;
                             $scope.editableCustInfo = false;
@@ -1596,47 +1602,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         /*********************IMPORT ENQUIRIES (GEETA)*********************/
-
-//        $scope.getModulesWiseHistory = function (enquiry_id, opt, htype)
-//        {
-//            /*
-//             * htype =  1 for the enquiryhistory popup
-//             * htype = 2 for the todayremark popup
-//             * 
-//             */
-//
-//            var modules = new Array();
-//            if (opt == 1)
-//            {
-//                if ($('#chk_enquiry_history').is(":checked"))
-//                {
-//                    $(':checkbox.chk_followup_history_all').prop('checked', true);
-//                } else
-//                {
-//                    $(':checkbox.chk_followup_history_all').prop('checked', false);
-//                }
-//            }
-//
-//            $(".chk_followup_history_all").each(function () {
-//
-//                if ($(this).is(":checked"))
-//                {
-//                    modules.push($(this).data("id"))
-//                }
-//            });
-//
-//            if (modules.length == 2)
-//            {
-//                $(':checkbox#chk_enquiry_history').prop('checked', true);
-//            } else
-//            {
-//                $(':checkbox#chk_enquiry_history').prop('checked', false);
-//            }
-//
-//            $scope.gethisotryDataModal(enquiry_id, modules, htype)
-//        }
-
-
 
     }]);
 
