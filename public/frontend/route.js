@@ -88,7 +88,7 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
                 });
         $locationProvider.html5Mode({enabled: true, requireBase: true});
     }]);
-app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope','$window', function ($scope, Upload, $timeout, $http, $location, $rootScope,$window) {
+app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', '$window', function ($scope, Upload, $timeout, $http, $location, $rootScope, $window) {
         $scope.submitted = false;
         $scope.empl = true;
         $scope.contact = {};
@@ -96,14 +96,14 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.projectsdata = [];
         //$scope.aminities = $scope.availble = $scope.projects = [];        
         var baseUrl = 'website/';
-        
+
         $scope.getPostsDropdown = function () {
             $http.get(baseUrl + 'jobPost').then(function (response) {
                 $scope.jobPostRow = response.data.result;
             });
         };
         $scope.random = function () {
-            return 0.5 - Math.random();        
+            return 0.5 - Math.random();
         }
         $scope.selectedbBlogs = function (blogId)
         {
@@ -131,7 +131,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 }
                 if (response.data.result.amenities_images != null) {
                     $scope.amenities_images = response.data.result.amenities_images.split(',');
-                }                
+                }
                 $scope.project_address = response.data.result.project_address;
                 $scope.email_sending_id = response.data.result.email_sending_id;
                 $scope.project_brochure = response.data.result.project_brochure;
@@ -208,7 +208,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
             $http.post('website/getemployeedetails', {
                 data: {empId: empid},
             }).then(function (response) {
-                
+
                 if (!response.data.success) {
                     $scope.errorMsg = response.data.message;
                 } else {
@@ -255,9 +255,9 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 }
             });
         };
-        
-        
-         $scope.updateemployee = function (userdata, empid)
+
+
+        $scope.updateemployee = function (userdata, empid)
         {
             $scope.isDisabled = true;
             $scope.pls_wait = true;
@@ -352,8 +352,15 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 $scope.contacts = response.data.result;
             });
         }
-
-
+        $scope.cancelProjectDivCurrent = function (projectid) {
+            $("#slidingDivcurrent" + projectid).hide();
+        }
+        $scope.cancelProjectDivCompleted = function (projectid) {
+            $("#slidingDivcompleted" + projectid).hide();
+        }
+        $scope.cancelProjectDivUpcoming = function (projectid) {
+            $("#slidingDivupcoming" + projectid).hide();
+        }
         $scope.getCareers = function ()
         {
             $http.get(baseUrl + 'getCareers').then(function (response) {
@@ -440,9 +447,9 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
             $http.post(baseUrl + 'getTestimonialDetails', {'testimonial_id': id}).then(function (response) {
                 $scope.testimonialDetails = response.data.result;
             });
-        }        
+        }
         $scope.doContactAction = function (contact) {
-            
+
             $http.post(baseUrl + 'addContact',
                     {contactData: contact}).then(function (response) {
                 if (response.data.status == true) {
