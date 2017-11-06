@@ -56,7 +56,7 @@
                                         <strong ng-if="key === 'in_date'" data-toggle="tooltip" title="Date"><strong> Date: </strong> {{ value |date:'yyyy-MM-dd'}}</strong>
                                         <strong ng-if="key === 'request_type'" data-toggle="tooltip" title="Request Type"><strong> Request Type : </strong> {{ value}}</strong>
                                         <strong ng-if="key === 'application_from'" data-toggle="tooltip" title="Application From"><strong> Application From : </strong> {{ value}}</strong>
-                                        <strong ng-if="key === 'from_date'" data-toggle="tooltip" title="From Date"><strong> From Date : </strong> {{ value| date:'yyyy-MM-dd' }}</strong>
+                                        <strong ng-if="key === 'from_date'" data-toggle="tooltip" title="From Date"><strong> From Date : </strong> {{ value| date:'dd-MM-yyyy' }}</strong>
                                         <strong ng-if="key === 'to_date'" data-toggle="tooltip" title="To Date"><strong> To Date : </strong> {{ value}}</strong>
                                         <strong ng-if="key === 'status'" data-toggle="tooltip" title=" Status"><strong> Status : </strong> {{ value== 1 ? "Leave" : "Approved"}}</strong>
                                     </div>
@@ -199,7 +199,7 @@
                     <tr><td style="font-weight: 600;">TO</td><td class="text-center"><b>:</b></td><td>{{to_name}}</td></tr>
                     <tr><td style="font-weight: 600;">CC</td><td class="text-center"><b>:</b></td><td>{{cc_name}}</td></tr>
                     <tr><td style="font-weight: 600;">DESCRIPTION</td><td class="text-center"><b>:</b></td><td>{{req_desc}}</td></tr>
-                    <tr><td style="font-weight: 600;">STATUS</td><td class="text-center"><b>:</b></td><td>{{status == 1 ? "Requested" : status == 2 ? "Rejected" :"Accepted" }}</td></tr>
+                    <tr><td style="font-weight: 600;">STATUS</td><td class="text-center"><b>:</b></td><td>{{statusDescription == 1 ? "Requested" : statusDescription == 2 ? "Rejected" :"Accepted" }}</td></tr>
                 </table>
                 <form novalidate ng-submit="requestForForm.$valid && changeStatus()" name="requestForForm">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
@@ -216,7 +216,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="requestForForm.status.$error">
-                                    <div ng-message="required">Status is required</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                                 <br/>
                             </span>

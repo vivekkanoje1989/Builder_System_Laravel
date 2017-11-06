@@ -791,7 +791,7 @@ class MasterHrController extends Controller {
 
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['userData'] = array_merge($request['userData'], $create);
-           
+
             if ($request['userData']['date_of_birth'] == 'NaN-aN-NaN') {
                 unset($request['userData']['date_of_birth']);
             }
@@ -1588,7 +1588,6 @@ class MasterHrController extends Controller {
                     if (count($arrdiff2) == 0) {
                         $removeId[] = $parentId[0];
                     }
-                   
                 }
                 if (!empty($input['data']['allChild3Id'])) { //[01401,0140102],[014010205], [0140101,0140102], [014010201,014010202,014010203,014010204,014010205]
                     $allChild3Id = array_map(function($el) {
@@ -1679,12 +1678,12 @@ class MasterHrController extends Controller {
                 ->get();
 
         $data = array();
-        foreach ($input as $key => $team) {            
+        foreach ($input as $key => $team) {
             $obj = Employee::leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                     ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
                     ->where('employees.id', $team['id'])
                     ->where('employees.team_lead_id', '<>', NULL)
-                    ->whereIn('employees.employee_status', [1, 2])                  
+                    ->whereIn('employees.employee_status', [1, 2])
                     ->get();
             if (!empty($obj)) {
                 $data[$key]['v'] = $obj[0]->id;
@@ -1697,7 +1696,7 @@ class MasterHrController extends Controller {
                     $data[$key]['f'] = '<img src="' . $team['employee_photo_file_name'] . '" class="imgdata" style="border: 4px double #fd4949;"><div class="myblock" style="background-color: rgba(253, 42, 42, 0.85);">' . $team['first_name'] . ' ' . $team['last_name'] . '<br>' . $team['designation'] . '</div></div>';
                 } if ($team['employee_status'] == 1) {
                     $data[$key]['f'] = '<img src="' . $team['employee_photo_file_name'] . '" class="imgdata" style="border: 4px double #2dc3e8;"><div class="myblock" style="background-color: rgb(45, 195, 232);">' . $team['first_name'] . ' ' . $team['last_name'] . '<br>' . $team['designation'] . '</div></div>';
-                } 
+                }
                 if ($team['team_lead_id'] == '0' || $team['team_lead_id'] == null) {
                     $data[$key]['teamId'] = $team['id'];
                 } else {
@@ -1717,7 +1716,7 @@ class MasterHrController extends Controller {
         $authkey = trim($request["authkey"]);
         //checking for user related to authkey.
         $empModel = Employee::where('mobile_remember_token', $authkey)->first();
-        
+
         if (!empty($empModel)) {
             $teams = array();
             $validate = Employee::where('client_id', $empModel->client_id)->get();
@@ -1725,16 +1724,16 @@ class MasterHrController extends Controller {
             $client = \App\Models\ClientInfo::where(['id' => $empModel->client_id])->first();
             foreach ($validate as $value) {
                 $title = DB::connection('masterdb')->table('mlst_titles')->where('id', '=', $value->title_id)->select('title')->first();
-               if(!empty($title->title)){
-                $value->title = $title->title;
-               }
+                if (!empty($title->title)) {
+                    $value->title = $title->title;
+                }
 
                 if (!empty($value->employee_photo_file_name)) {
                     $value->employee_photo_file_name = config('global.s3Path') . '/employee-photos/' . $value->employee_photo_file_name;
                 } else {
                     $value->employee_photo_file_name = '';
                 }
-                
+
                 if (!empty($value->department_id))
                     $value->department_id = explode(',', $value->department_id);
                 $designations = DB::connection('masterdb')->table('mlst_bmsb_designations')->where('id', '=', $value->designation_id)->select('designation')->first();
@@ -1743,7 +1742,7 @@ class MasterHrController extends Controller {
                 $value->employee_menus = json_decode($value->employee_submenus);
                 $teams[] = $value->getAttributes();
             }
-          
+
             $this->allusers = array();
             $this->getTeamIds($empModel->id);
             $alluser = $this->allusers;
@@ -1899,51 +1898,29 @@ class MasterHrController extends Controller {
         }
     }
 
-//    public function updateProfileInfo() {
-//        $id = Auth::guard('admin')->user()->id;
-//        $employee = Employee::where('id', $id)->first();
-//        $request = Input::all();
-//        $photo = [];
-//        if (!empty($employee)) {
-//            $imageName = time() . "." . $request['data']['employee_photo_file_name']->getClientOriginalExtension();
-//            $tempPath = $request['data']['employee_photo_file_name']->getPathName();
-//            $folderName = 'employee-photos';
-//            $name = S3::s3FileUpload($tempPath, $imageName, $folderName);
-//            $employee->employee_photo_file_name = $name;
-//            if ($employee->update()) {
-//                $photo = config('global.s3Path') . '/employee-photos/' . $name;
-//                $result = ['success' => true, 'photo' => $photo];
-//                return json_encode($result);
-//            } else {
-//                $result = ['success' => false];
-//                return json_encode($result);
-//            }
-//        } else {
-//            $result = ['success' => false];
-//            return json_encode($result);
-//        }
-//    }
-
     public function updateProfileInfo() {
         $id = Auth::guard('admin')->user()->id;
         $employee = Employee::where('id', $id)->first();
         $request = Input::all();
-        $photo = [];
-        if (!empty($employee)) {
-            $originalName = $request['data']['employee_photo_file_name']->getClientOriginalName();
-            if ($originalName != "fileNotSelected") {
+
+        if ($request['data']['employee_photo_file_name']->getClientSize() !== 0 && $request['data']['employee_photo_file_name']->getError() !== 1) {
+
+            if (!empty($employee)) {
                 $imageName = time() . "." . $request['data']['employee_photo_file_name']->getClientOriginalExtension();
                 $tempPath = $request['data']['employee_photo_file_name']->getPathName();
                 $folderName = 'employee-photos';
+
                 $name = S3::s3FileUpload($tempPath, $imageName, $folderName);
+
                 $employee->employee_photo_file_name = $name;
-                $photo = config('global.s3Path') . '/employee-photos/' . $name;
-            } else {
-                unset($request['data']['employee_photo_file_name']);
-            }
-            if ($employee->update()) {
-                $result = ['success' => true, 'photo' => $photo];
-                return json_encode($result);
+                if ($employee->update()) {
+                    $photo = config('global.s3Path') . '/employee-photos/' . $name;
+                    $result = ['success' => true, 'photo' => $photo];
+                    return json_encode($result);
+                } else {
+                    $result = ['success' => false];
+                    return json_encode($result);
+                }
             } else {
                 $result = ['success' => false];
                 return json_encode($result);
@@ -2331,8 +2308,5 @@ class MasterHrController extends Controller {
         }
         return \Response()->json($result);
     }
-    
-    
-    
 
 }
