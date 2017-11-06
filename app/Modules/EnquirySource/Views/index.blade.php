@@ -69,7 +69,7 @@
                                 <input type="text" class="form-control" ng-model="sub_source" name="sub_source" placeholder="Sub source" ng-change="errorMsg = null" required>
                                 <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="subsourceForm.sub_source.$error">
-                                    <div ng-message="required">Sub source is required</div>
+                                    <div ng-message="required">This field is required.</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
                                 </div>
                             </span>
@@ -83,7 +83,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="subsourceForm.sub_source_status.$error">
-                                    <div ng-message="required">Source status is required</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                             </span>
                         </div>
@@ -110,7 +110,7 @@
                                 <input type="text" class="form-control" ng-model="source_name" name="source_name" placeholder="Source name" ng-change="errorMsg = null" required>
                                 <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="sourceForm.source_name.$error">
-                                    <div ng-message="required">Source is required</div>
+                                    <div ng-message="required">This field is required.</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
                                 </div>
                             </span><br/><br/>
@@ -123,7 +123,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="sourceForm.source_status.$error">
-                                    <div ng-message="required">Source status is required</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                             </span>
                         </div>

@@ -3,6 +3,8 @@
     top: 0 !important; 
     left: 0 !important;
 }
+.ng-touched::-webkit-input-placeholder { color: #bdefe0; }
+.ng-untouched::-webkit-input-placeholder { color: #bdefe0; }
 </style>
 <link rel="stylesheet" href="/backend/assets/css/w3.css">
 <div class="page-bg" ng-controller="adminController" style="background:url(/backend/images/bg.jpg);background-repeat: no-repeat;background-size: cover;min-height: 100%;    position: absolute;    width: 100%;">
@@ -32,22 +34,22 @@
                         </div>
                         <div id="login-form" class="w3-animate-right col-xs-12 col-md-12" >
                             <div class="input-group">
-                                <input type="text" name="mobile" class="form-control in-tag" placeholder="Mobile" ng-model="loginData.mobile" check-login-credentials="" minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required="" ng-model-options="{allowInvalid: true, debounce: 100}">
+                                <input type="text" name="mobile" tabindex="1" class="form-control in-tag" placeholder="Mobile" ng-model="loginData.mobile" check-login-credentials="" minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required="" ng-model-options="{allowInvalid: true, debounce: 100}">
                                 <div ng-show="next1" ng-messages="loginForm.mobile.$error" class="help-block next1">
                                     <div ng-message="required" class="sp-err">Username is required</div>
                                     <div ng-message="minlength"  class="sp-err">Invalid mobile no.</div>
                                     <div ng-message="wrongCredentials"  class="sp-err">{{errMsg}}</div>
                                 </div>                     
                             </div>
-                            <br>
+<!--                            <br>
                             <br>
                             <div class="group-div" align="center">
                                 <button class=" w3-btn w3-hover-white bt-next1" ng-click="next1 = true">Next</button>
-                            </div>
-                        </div>
-                        <div id="forgot-form" class="w3-animate-right col-xs-12 col-md-12">
+                            </div>-->
+                        <!--</div>-->
+<!--                        <div id="forgot-form" class="w3-animate-right col-xs-12 col-md-12">-->
                             <div class="input-group">
-                                <input class="form-control in-tag" placeholder="Password" type="password" name="password" minlength="6" maxlength="15" ng-model="loginData.password" required="" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="resetErrorMsg()">
+                                <input class="form-control in-tag"  tabindex="2" placeholder="Password" type="password" name="password" minlength="6" maxlength="15" ng-model="loginData.password" required="" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="resetErrorMsg()">
                             </div>
                             <div ng-show="next2" ng-messages="loginForm.password.$error" class="help-block next2">
                                 <div ng-message="required"  class="sp-err">Required</div>
@@ -62,14 +64,14 @@
                                 <div ng-show="collapsed">
                                     <h5>You really forgot your password ?</h5>                                     
                                     <div>
-                                        <button ng-show="collapsed" ng-click="getpassword(loginData.mobile)" class="for-btn">Yes</button>
-                                        <button ng-show="collapsed" ng-click="collapsed = !collapsed" class="for-btn">No</button>
+                                        <a href="" ng-show="collapsed" ng-click="getpassword(loginData.mobile)" tabindex="4" class="for-btn" ng-disabled="forgotP">Yes</a>
+                                        <a href="" ng-show="collapsed" ng-click="collapsed = !collapsed" tabindex="5" class="for-btn">No</a>
                                     </div>   
                                 </div>
                             </div>
                             <br>
                             <div class="group-div"  align="center">
-                                <button type="submit" ng-click="next2 = true" class="sub-btn w3-btn">Login</button>
+                                <button type="submit" ng-click="next2 = true"  tabindex="3" class="sub-btn w3-btn">Login</button>
                             </div>
                         </div>
                     </form>

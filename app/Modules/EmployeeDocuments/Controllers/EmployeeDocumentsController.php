@@ -61,7 +61,7 @@ class EmployeeDocumentsController extends Controller {
             $j = 1;
             for ($i = 0; $i < count($result); $i++) {
                  
-                $documentData['Sr No.'] = $j++;
+                $documentData['Sr. No.'] = $j++;
                 $documentData['Document Name'] = $result[$i]['document_name'];
                 $manageDocuments[] = $documentData;
             }

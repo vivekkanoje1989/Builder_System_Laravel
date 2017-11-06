@@ -82,7 +82,7 @@
                         <thead class="bord-bot">
                             <tr>
                             <tr>
-                                <th style="width:5%">Sr No.</th> 
+                                <th style="width:5%">Sr. No.</th> 
                                 <th style="width: 30%">
                                     <a href="javascript:void(0);" ng-click="orderByField('discount_name')">Discount name
                                         <span ><img ng-hide="(sortKey == 'discount_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>

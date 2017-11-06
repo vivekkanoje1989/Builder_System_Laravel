@@ -75,7 +75,7 @@
                         <thead class="bord-bot">
                             <tr>
                             <tr>
-                                <th style="width:10%">Sr No.</th> 
+                                <th style="width:10%">Sr. No.</th> 
                                 <th style="width: 75%">
                                     <a href="javascript:void(0);" ng-click="orderByField('project_type')">Project Types
                                         <span ><img ng-hide="(sortKey == 'project_type' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
@@ -131,7 +131,7 @@
                                 <label>Project type<span class="sp-err">*</span></label>
                                 <input type="text" class="form-control" ng-model="project_type" name="project_type" ng-change="errorMsg = null" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="projecttypesForm.project_type.$error">
-                                    <div ng-message="required">Project type is required</div>
+                                    <div ng-message="required">This field is required.</div>
                                     <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>

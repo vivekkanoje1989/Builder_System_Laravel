@@ -37,7 +37,7 @@
                                                     <input type="text" ng-model="contentPage.page_name" required name="page_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="255">
                                                     <i class="fa fa-address-card"></i>
                                                     <div  ng-if="sbtBtn1" ng-messages="contentPageForm.page_name.$error">
-                                                        <div ng-message="required" class="err">Page name is required.</div>
+                                                        <div ng-message="required" class="err">This field is required.</div>
                                                     </div>
                                                     <div ng-if="page_name" class="errMsg page_name sp-err">{{page_name}}</div>
                                                 </span>
@@ -50,7 +50,7 @@
                                                     <input type="text" ng-model="contentPage.page_title" name="page_title" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="60" >
                                                     <i class="fa fa-address-card"></i>
                                                     <div ng-if="sbtBtn1" ng-messages="contentPageForm.page_title.$error">
-                                                        <div ng-message="required" class="err">Page title is required.</div>
+                                                        <div ng-message="required" class="err">This field is required. </div>
                                                     </div>
                                                     <div ng-if="page_title" class="errMsg page_title sp-err">{{page_title}}</div>
                                                 </span>
@@ -91,7 +91,7 @@
                                                     <input type="text" ng-model="contentPage.parent_page_position" required name="parent_page_position" maxlength="2"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">                                                             
                                                 </span>
                                                 <div ng-if="sbtBtn1" ng-messages="contentPageForm.parent_page_position.$error">
-                                                    <div ng-message="required" class="err">Page position is required.</div>
+                                                    <div ng-message="required" class="err">This field is required.</div>
                                                 </div>
                                                  
                                             </div>
@@ -190,7 +190,7 @@
                                                     <input type="text" ng-model="subcontentPage.subpage_name" required  name="subpage_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" >
                                                     <i class="fa fa-address-card"></i>
                                                     <div  ng-if="sbtBtn"  ng-messages="imageMgntForm.subpage_name.$error">
-                                                        <div ng-message="required" class="err">Page name is required.</div>
+                                                        <div ng-message="required" class="err">This field is required.</div>
                                                     </div>
                                                     <div ng-if="subpage_name" class="errMsg page_name sp-err">{{subpage_name}}</div>
                                                 </span>
@@ -203,7 +203,7 @@
                                                     <input type="text" ng-model="subcontentPage.subpage_title" name="subpage_title" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                                     <i class="fa fa-address-card"></i>
                                                     <div ng-if="sbtBtn" ng-messages="imageMgntForm.subpage_title.$error">
-                                                        <div ng-message="required" class="err">Page title is required.</div>
+                                                        <div ng-message="required" class="err">This field is required.</div>
                                                     </div>
                                                     <div ng-if="subpage_title" class="errMsg page_title sp-err">{{subpage_title}}</div>
                                                 </span>
@@ -260,7 +260,7 @@
                                                     <input type="text" ng-model="subcontentPage.child_page_position" required  name ="child_page_position" maxlength="2" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  name="parent_page_position" class="form-control">                                                             
                                                 </span>
                                                 <div ng-if="sbtBtn"  ng-messages="imageMgntForm.child_page_position.$error">
-                                                    <div ng-message="required" class="err sp-err">Page position is required.</div>
+                                                    <div ng-message="required" class="err sp-err">This field is required.</div>
                                                 </div>
                                                 
                                                 <div ng-if="child_page_position" class="errMsg status sp-err">{{child_page_position}}</div>
@@ -279,7 +279,7 @@
                                                         <option value="0">Inactive</option>
                                                     </select>
                                                     <div ng-if="sbtBtn" ng-messages="imageMgntForm.status.$error">
-                                                        <div ng-message="required" class="err">Select status</div>
+                                                        <div ng-message="required" class="err">This field is required.</div>
                                                     </div>
                                                     <div ng-if="status" class="errMsg status sp-err">{{status}}</div>
                                                     <i class="fa fa-caret-down" aria-hidden="true"></i>

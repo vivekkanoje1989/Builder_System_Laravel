@@ -59,7 +59,7 @@ class ManageProjectTypesController extends Controller {
             $manageTypes = array();
             $j = 1;
             for ($i = 0; $i < count($getTypes); $i++) {
-                $manageTypesData['Sr No.'] = $j++;
+                $manageTypesData['Sr. No.'] = $j++;
                 $manageTypesData['Project Type'] = $getTypes[$i]['project_type'];
                 $manageTypes[] = $manageTypesData;
             }

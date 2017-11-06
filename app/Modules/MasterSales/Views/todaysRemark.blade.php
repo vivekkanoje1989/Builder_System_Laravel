@@ -134,8 +134,8 @@
     .main-container1 > .content2 {
         width: 100%;
         position: absolute;
-        height: 445px;
-        bottom: -390px;
+        height: 480px;
+        bottom: -423px;
         left: 0;
         right: 0;
         z-index: 101;
@@ -637,7 +637,7 @@
                                                 <table class="table table-hover table-striped table-bordered collectiontbl" at-config="config">
                                                     <thead class="bord-bot">
                                                         <tr>
-                                                            <th style="width:5%;text-align: center;">SR No.</th>
+                                                            <th style="width:5%;text-align: center;">Sr. No.</th>
                                                             <th style="width:5%;text-align: center;">Collection Stage</th>
                                                             <th style="width:5%;text-align: center;">Payment Date</th>
                                                             <th style="width:5%;text-align: center;">Payment Amount</th>                        

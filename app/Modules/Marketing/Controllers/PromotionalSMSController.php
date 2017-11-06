@@ -212,7 +212,7 @@ class PromotionalSMSController extends Controller {
             $j = 1;
             for ($i = 0; $i < count($manageSms); $i++) {
 
-                $smsData['Sr No.'] = $j++;
+                $smsData['Sr. No.'] = $j++;
                 $smsData['Sent Date & Time'] = $manageSms[$i]['sent_date_time'];
                 $smsData['Transaction Id'] = $manageSms[$i]['externalId1'];
                 $smsData['Mobile Number'] = $manageSms[$i]['mobile_number'];
@@ -262,7 +262,7 @@ class PromotionalSMSController extends Controller {
             $j = 1;
             for ($i = 0; $i < count($manageSms); $i++) {
 
-                $smsData['Sr No.'] = $j++;
+                $smsData['Sr. No.'] = $j++;
                 $smsData['Sent Date & Time'] = $manageSms[$i]['sent_date_time'];
                 $smsData['Transaction Id'] = $manageSms[$i]['externalId1'];
                 $smsData['Mobile Number'] = $manageSms[$i]['mobile_number'];
@@ -428,7 +428,7 @@ class PromotionalSMSController extends Controller {
             $j = 1;
             for ($i = 0; $i < count($manageSms); $i++) {
 
-                $smsData['Sr No.'] = $j++;
+                $smsData['Sr. No.'] = $j++;
                 $smsData['Sent Date & Time'] = $manageSms[$i]['sent_date_time'];
                 $smsData['Transaction Id'] = $manageSms[$i]['externalId1'];
                 $smsData['Mobile Number'] = $manageSms[$i]['mobile_number'];

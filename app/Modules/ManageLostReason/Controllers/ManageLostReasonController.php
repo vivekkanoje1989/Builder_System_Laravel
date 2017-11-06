@@ -60,7 +60,7 @@ class ManageLostReasonController extends Controller {
             $manageData = array();
             $j = 1;
             for ($i = 0; $i < count($data); $i++) {
-                $blogData['Sr No.'] = $j++;
+                $blogData['Sr. No.'] = $j++;
                 $blogData['Reason'] = $data[$i]['reason'];
                 if ($data[$i]['lost_reason_status'] == '1') {
                     $blogData['Status'] = 'Active';
