@@ -919,6 +919,13 @@ class MasterSalesController extends Controller {
                 }
 
                 /*                 * ***************************Mobile / Email Update [For Mobile App Only]**************************** */
+                if (!empty($request['custInfo']['sms_privacy_status'])) {
+                    Customer::where('id', $customerId)->update(["sms_privacy_status" => $request['custInfo']['sms_privacy_status']]);
+                }
+                if (!empty($request['custInfo']['email_privacy_status'])) {
+                    Customer::where('id', $customerId)->update(["email_privacy_status" => $request['custInfo']['email_privacy_status']]);
+                }
+                        
                 if (!empty($request['custInfo']['mobile_number']) || !empty($request['custInfo']['email_id'])) {
                     $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number', 'email_id')->where('customer_id', $customerId)->get();
 
