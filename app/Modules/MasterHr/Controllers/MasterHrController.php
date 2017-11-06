@@ -169,20 +169,93 @@ class MasterHrController extends Controller {
         }
     }
 
-    public function preSalesEnquiry() {
+     public function preSalesEnquiry() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $empl_id = Auth::guard('admin')->user()->id;
 
-        $empId = [];
-        foreach ($request['employee_id'] as $employee) {
-            array_push($empId, $employee['id']);
+        if (!empty($request['loggedInUserId'])) {
+            $empl_id = $request['loggedInUserId'];
+        } else {
+            $empl_id = Auth::guard('admin')->user()->id;
         }
-        $employee_id = implode(',', $empId);
-        $post = array('presale_shared_employee' => $employee_id);
+        $empId = [];
+        $empNames = [];
+        if (!empty($request['employee_id'])) {
+            foreach ($request['employee_id'] as $employee) {
+                array_push($empId, $employee['id']);
+                array_push($empNames, $employee['first_name'] . " " . $employee['last_name']);
+            }
+            $empResult = Employee::where('id', '=', $request['empId'])->select('presale_shared_employee')->first();
+            $emplarray = explode(',', $empResult->presale_shared_employee);
+            $emailempId = [];
+            $emailempNames = [];
+            foreach ($request['employee_id'] as $employee) {
+                $search = in_array($employee['id'], $emplarray);
 
-        $result = Employee::where('id', '=', $request['empId'])->update($post);
-        $result = ['success' => true, 'records' => $result];
+                if ($search != 1) {
+                    array_push($emailempId, ['name' => $employee['first_name'] . " " . $employee['last_name'], 'id' => $employee['id']]);
+                    array_push($emailempNames, $employee['first_name'] . " " . $employee['last_name']);
+                }
+            }
+            if (!empty($request["empFirstName"])) {
+                $loginFirstName = $request["empFirstName"];
+            } else {
+                $loginFirstName = Auth::guard('admin')->user()->first_name;
+            }
+            if (!empty($request["empLastName"])) {
+                $loginlastName = $request["empLastName"];
+            } else {
+                $loginlastName = Auth::guard('admin')->user()->last_name;
+            }
+            $loginEmployeeName = $loginFirstName . ' ' . $loginlastName;
+
+            for ($i = 0; $i < count($emailempId); $i++) {
+                $templatedata['employee_id'] = $emailempId[$i]['id'];
+                $templatedata['client_id'] = config('global.client_id');
+                $templatedata['template_setting_customer'] = 0;
+                $templatedata['template_setting_employee'] = 51;
+                $templatedata['event_id_customer'] = 0;
+                $templatedata['event_id_employee'] = 69;
+                $templatedata['customer_id'] = 0;
+                $templatedata['model_id'] = 0;
+
+                $templatedata['arrExtra'][0] = array(
+                    '[#employeeName#]',
+                    '[#loginEmployeeName#]'
+                );
+                $templatedata['arrExtra'][1] = array(
+                    $emailempId[$i]['name'],
+                    $loginEmployeeName
+                );
+                $result = CommonFunctions::templateData($templatedata);
+                print_r($result);
+                exit;
+            }
+            $templatedata = [];
+            $employee_id = implode(',', $empId);
+            $sharedEmployee = implode(',', $empNames);
+            $templatedata['employee_id'] = $empl_id;
+            $templatedata['client_id'] = config('global.client_id');
+            $templatedata['template_setting_customer'] = 0;
+            $templatedata['template_setting_employee'] = 51;
+            $templatedata['customer_id'] = 0;
+            $templatedata['model_id'] = 0;
+            $templatedata['event_id_employee'] = 71;
+            $templatedata['arrExtra'][0] = array(
+                '[#sharedEmployee#]',
+            );
+            $templatedata['arrExtra'][1] = array(
+                $sharedEmployee,
+            );
+            $result = CommonFunctions::templateData($templatedata);
+            $post = array('presale_shared_employee' => $employee_id);
+            $result = Employee::where('id', '=', $request['empId'])->update($post);
+            $result = ['success' => true, 'records' => $result];
+        } else {
+             $post = array('presale_shared_employee' => '');
+             $result = Employee::where('id', '=', $request['empId'])->update($post);
+            $result = ['success' => false, 'message' => "Employees Not Selected for sharing enquiry"];
+        }
         return json_encode($result);
     }
 
@@ -2187,15 +2260,12 @@ class MasterHrController extends Controller {
             $return_val = $server_url; //localhost
 
             $templatedata['employee_id'] = $employee->id;
-
-
             $templatedata['client_id'] = config('global.client_id');
             $templatedata['template_setting_customer'] = 0;
             $templatedata['template_setting_employee'] = 25;
             $templatedata['event_id_customer'] = 0;
             $templatedata['event_id_employee'] = 7;
             $templatedata['customer_id'] = 0;
-            $templatedata['model_id'] = 0;
             $templatedata['arrExtra'][0] = array(
                 '[#employeeRegistrationLink#]'
             );

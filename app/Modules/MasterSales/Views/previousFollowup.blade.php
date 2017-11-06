@@ -71,13 +71,12 @@
                             @endif 
                         </ul>
                     </div>                    
-                    <div  class="dataTables_filter" ng-if="enquiriesLength != 0">
+                    <div  class="dataTables_filter" >
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
                         <label  style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="previousFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 3, sharedemployee)" ><span  class="text">&nbsp;&nbsp;Shared Enquiries</span></label>
                     </div>
-                    <!-- filter data--> 
                     <div class="row col-sm-12" style="border:2px;" id="filter-show">
                         <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate'">                         
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}" ng-if="value != ''">
