@@ -42,12 +42,14 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label id="lblpp" for="">Profile picture<span class="sp-err">*</span></label>
-                                    <span class="input-icon icon-right">
-                                        <input type="file" ngf-select name="employee_photo_file_name" id="employee_photo_file_name"   ng-model="profileData.employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile"> 
-                                        <div ng-show="btnProfile"   ng-messages="frmProfile.employee_photo_file_name.$error" class="help-block">
-                                            <div id="err_pp" ng-message="required" class="sp-err">This field is required.</div>
-                                        </div>
-                                    </span>  
+                                      <span class="input-icon icon-right">
+                                            <input type="file" ngf-select name="employee_photo_file_name" id="employee_photo_file_name"   ng-model="profileData.employee_photo_file_name" ng-change="checkImageExtension(profileData.employee_photo_file_name);" id="employee_photo_file_name" ngf-max-size="3MB" accept="image/x-png,image/gif,image/jpeg,image/bmp,image/jpg"    class="form-control imageFile"  ngf-model-invalid="errorFile" required> 
+                                        <div ng-show="btnProfile || invalidImage"   ng-messages="frmProfile.employee_photo_file_name.$error" class="help-block">
+                                                <div id="err_pp" ng-message="required" class="sp-err">Please select profile picture must be less than 3 MB</div>
+                                                <div ng-if="invalidImage" class="sp-err">{{invalidImage}}</div>
+                                       </div>
+                                            
+                                    </span> 
                                 </div>
                             </div>
                         </div> 
@@ -93,9 +95,10 @@
                                 <div class="form-group">
                                     <label id="lbloldpassword" for="">Old Password <span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="password" check-old-password ng-model="profileData.oldPassword" id="oldPassword"  name="oldPassword" maxlength="15" class="form-control" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
+                                        <input type="password" check-old-password ng-model="profileData.oldPassword" id="oldPassword"  name="oldPassword" maxlength="15" class="form-control"  maxlength="15"  required ng-model-options="{ allowInvalid: true, debounce: 300 }">
                                         <div ng-show="btnfrmPassword"   ng-messages="frmPassword.oldPassword.$error" class="help-block">
                                             <div id="err_old_required" ng-message="required" class="sp-err">This field is required.</div>
+                                             <div id="err_new_pass_maxlength" ng-message="maxlength" class="sp-err">Maximum 15 Characters Allowed.</div>
                                             <div id="err_old_pass_match" ng-message="compareOldPassword" class="sp-err">Password could not be matched</div>
                                         </div>
                                         <div ng-if="oldPassword" class="sp-err oldPassword">{{oldPassword}}</div>

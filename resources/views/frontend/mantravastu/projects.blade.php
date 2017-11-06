@@ -39,18 +39,16 @@
             </ul>
             <!-- Start details for portfolio project  -->
             <div id="single-project">
-                <div ng-repeat="list in current">
-                    <div id="slidingDivcurrent{{$index + 1}}" class="toggleDiv row-fluid single-project">
+                <div ng-repeat="list in current track by $index">
+                    <div id="slidingDivcurrent{{list.id}}" class="toggleDiv row-fluid single-project">
                         <div class="span6">
                             <img src="[[config('global.s3Path')]]/project/project_logo/{{list.project_logo}}" alt="project 1" />
                         </div>
                         <div class="span6">
                             <div class="project-description">
                                 <div class="project-title clearfix">
-                                    <h3>{{list.project_name}}</h3>
-                                    <span class="show_hide close">
-                                        <i class="icon-cancel"  id="cancelId{{list.id}}" onclick="cancelProjectDivCurrent({{list.id}})"></i>
-                                    </span>
+                                    <h3>{{list.project_name}}</h3>                                    
+                                        <a href ng-click="cancelProjectDivCurrent(list.id)"><span class="show_hide close"><i class="icon-cancel"></i></span></a>
                                 </div>
                                 <div class="project-info">
                                     <div><span>Amenities</span>Sample data</div>
@@ -63,7 +61,7 @@
                     </div>
                 </div>
                 <div ng-repeat="list in completed">
-                    <div id="slidingDivcompleted{{$index + 1}}" class="toggleDiv row-fluid single-project">
+                    <div id="slidingDivcompleted{{list.id}}" class="toggleDiv row-fluid single-project">
                         <div class="span6">
                             <img src="[[config('global.s3Path')]]/project/project_logo/{{list.project_logo}}" />
                         </div>
@@ -71,9 +69,7 @@
                             <div class="project-description">
                                 <div class="project-title clearfix">
                                     <h3>{{ list.project_name}}</h3>
-                                    <span class="show_hide close">
-                                        <i class="icon-cancel"></i>
-                                    </span>
+                                    <a href ng-click="cancelProjectDivCompleted(list.id)"><span class="show_hide close"><i class="icon-cancel"></i></span></a>
                                 </div>
                                 <div class="project-info">
                                     <div>
@@ -88,7 +84,7 @@
                     </div>
                 </div>
                 <div ng-repeat="list in upcoming">
-                    <div id="slidingDivupcoming{{$index + 1}}" class="toggleDiv row-fluid single-project">
+                    <div id="slidingDivupcoming{{list.id}}" class="toggleDiv row-fluid single-project">
                         <div class="span6">
                             <img src="[[config('global.s3Path')]]/project/project_logo/{{list.project_logo}}" />
                         </div>
@@ -96,9 +92,7 @@
                             <div class="project-description">
                                 <div class="project-title clearfix">
                                     <h3>{{ list.project_name}}</h3>
-                                    <span class="show_hide close">
-                                        <i class="icon-cancel"></i>
-                                    </span>
+                                    <a href ng-click="cancelProjectDivUpcoming(list.id)"><span class="show_hide close"><i class="icon-cancel"></i></span></a>
                                 </div>
                                 <div class="project-info">
                                     <div>
@@ -117,7 +111,7 @@
                     <li ng-repeat="list in current"  class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix current" ng-if="current">
                         <div class="thumbnail">
                             <img src="[[config('global.s3Path')]]/project/project_logo/{{list.project_logo}}" alt="project 1">
-                            <a class="show_hide more" rel="slidingDivcurrent{{$index + 1}}">
+                            <a class="show_hide more" rel="slidingDivcurrent{{list.id}}">
                                 <i class="icon-plus"></i>
                             </a>
                             <h3>{{list.project_name}}</h3>
@@ -129,7 +123,7 @@
                         <div class="thumbnail">
                             <img src="[[config('global.s3Path')]]/project/project_logo/{{list.project_logo}}" alt="project 1" ng-if="list.project_logo != ''">
                             <img ng-if="list.project_logo == null" src="https://xcski.org/site/wp-content/uploads/2017/05/project.png" style="margin-top: -7%;">
-                            <a id="slidingDivcompleted{{$index + 1}}" class="show_hide more" rel="slidingDivcompleted{{$index + 1}}">
+                            <a id="slidingDivcompleted{{list.id}}" class="show_hide more" rel="slidingDivcompleted{{list.id}}">
                                 <i class="icon-plus"></i>
                             </a>
                             <h3>{{list.project_name}}</h3>
@@ -140,7 +134,7 @@
                     <li ng-repeat="list in upcoming"  class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mix upcoming" ng-if="upcoming">
                         <div class="thumbnail">
                             <img src="[[config('global.s3Path')]]/project/project_logo/{{list.project_logo}}" alt="project 1">
-                            <a class="show_hide more" rel="slidingDivupcoming{{$index + 1}}">
+                            <a class="show_hide more" rel="slidingDivupcoming{{list.id}}">
                                 <i class="icon-plus"></i>
                             </a>
                             <h3>{{list.project_name}}</h3>
@@ -251,15 +245,12 @@
                 <p class="enquiry-input">
                     <input type="phone" name="phone" placeholder="Your Mobile Number" autofocus>
                 </p>
-
                 <p class="enquiry-input">
                     <input type="email" name="email" placeholder="Your Email" autofocus>
                 </p>
-
                 <p class="enquiry-input">
                     <textarea name="remark" placeholder="Your Remark…"></textarea>
                 </p>
-
                 <div>
                     Captcha Image*
                     <div><img id="captchaimg5" style="padding: 0 0 0 5px;" src="http://www.e-dynamics.in/reb/captcha_code_file.php?rand=1265139648&amp;name=enquiry_captcha">
@@ -271,14 +262,11 @@
                 <p class="enquiry-input">
                     <input id="txtCaptcha" name="txtCaptcha" value="" type="text" autocomplete="on" placeholder="Captcha">
                 </p>
-
-
                 <p class="enquiry-submit">
                     <input type="submit" value="Send Message">
                 </p>
             </fieldset>
         </form>
-
     </div>
     <!-- share your Experience -->
     <div id="experience-popup">
@@ -350,59 +338,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="frontend/mantravastu/js/jquery.js"></script>
 
-    <script>
-//        $(document).ready(function () {
-//            $("html, body").animate({
-//                scrollTop: 0
-//            }, 600);
-//            $('.bxslider').bxSlider({
-//                mode: 'fade',
-//                captions: true
-//            });
-//
-//            $(".currentProjects").click(function (e) {
-//                $(".nav-pills li").addClass('filter').removeClass('filter active')
-//                $(this).parent('li').addClass('filter active').removeClass('filter');
-//                //mix current
-//                //$("thumbnails li").css("display", "none");
-//                $('.thumbnails li').not('.li mix current').css("display", "none");
-//                e.preventDefault();
-//            });
-//            $(".show_hide").live("click", function (e) {
-//                var id = $(this).attr('rel');
-//                $('html, body').animate({
-//                    scrollTop: //$('.single-project').not('.single-project '+id).css("display", "none")
-//                            $("#" + id).show()
-//                }, 1500);
-//                $(this).parent('li').addClass('filter active').removeClass('filter');
-//                e.preventDefault();
-//
-//            });
-//            
-//            $("a#home").click(function (e) {
-//                        //window.history.replaceState("","title",'http://127.0.0.1:8000');
-//                window.location.href = 'http://127.0.0.1:8000';
-//                e.preventDefault();
-//                $('html, body').animate({
-//                scrollTop: $("#homepage").offset().top
-//                },1500);
-//            });
-//        });
-
- $(document).ready(function () {    
+<script>
+$(document).ready(function () {    
       $("html, body").animate({
         scrollTop: 0
     }, 600);
-$("a#home").click(function (e) {
-    e.preventDefault();
-    if(window.location.pathname == '/projects')
-     {
-         window.location.href = "http://127.0.0.1:8000";
-     }
-    $('html, body').animate({
-    scrollTop: $("#homepage").offset().top
-    },1500);
-    });
+    $("a#home").click(function (e) {
+        e.preventDefault();
+        if(window.location.pathname == '/projects')
+         {
+             window.location.href = "http://127.0.0.1:8000";
+         }
+        $('html, body').animate({
+        scrollTop: $("#homepage").offset().top
+        },1500);
+        });
     
     $("a#about").click(function (e) {
     e.preventDefault();
@@ -442,44 +392,40 @@ $("a#home").click(function (e) {
     scrollTop: $("#testmonials").offset().top
     },1500);
     });
-    
-    
-//    
-        $(".show_hide").live("click", function (e) {
+      
+    $(".show_hide").live("click", function (e) {
             var id = $(this).attr('rel');
             $('html, body').animate({
-                scrollTop: //$('.single-project').not('.single-project '+id).css("display", "none")
+                scrollTop: //$('#single-project div').children(':not(#'+id+')').hide()
                         $("#" + id).show()
             }, 1500);
             $(this).parent('li').addClass('filter active').removeClass('filter');
             e.preventDefault();
         });
     
-    });
-
-        window.onload = function () {
-            document.getElementById("enquiry").onclick = function () {
-                var e = document.getElementById("enquiry-popup");
-                var f = document.getElementById("enquiry-popup-form");
-                e.style.display = "block";
-                f.style.display = "block";
-            };
-            document.getElementById("experience").onclick = function () {
-                var g = document.getElementById("experience-popup");
-                var h = document.getElementById("experience-popup-form");
-                g.style.display = "block";
-                h.style.display = "block";
-            };
-            document.getElementById("clos").onclick = function () {
-                var e = document.getElementById("enquiry-popup");
-                var f = document.getElementById("enquiry-popup-form");
-                var g = document.getElementById("experience-popup");
-                var h = document.getElementById("experience-popup-form");
-                e.style.display = "none";
-                f.style.display = "none";
-                g.style.display = "none";
-                h.style.display = "none";
-            };
-        }
-
+});    
+window.onload = function () {
+    document.getElementById("enquiry").onclick = function () {
+        var e = document.getElementById("enquiry-popup");
+        var f = document.getElementById("enquiry-popup-form");
+        e.style.display = "block";
+        f.style.display = "block";
+    };
+    document.getElementById("experience").onclick = function () {
+        var g = document.getElementById("experience-popup");
+        var h = document.getElementById("experience-popup-form");
+        g.style.display = "block";
+        h.style.display = "block";
+    };
+    document.getElementById("clos").onclick = function () {
+        var e = document.getElementById("enquiry-popup");
+        var f = document.getElementById("enquiry-popup-form");
+        var g = document.getElementById("experience-popup");
+        var h = document.getElementById("experience-popup-form");
+        e.style.display = "none";
+        f.style.display = "none";
+        g.style.display = "none";
+        h.style.display = "none";
+    };
+}
 </script>

@@ -758,6 +758,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.bulkreasignemployee = function (bulkData) {
+            $scope.reassignBtn = true;
             Data.post('master-sales/BulkReasignEmployee', {
                 employee_id: bulkData, enquiry_id: $scope.Bulkflag
             }).then(function (response) {
