@@ -180,7 +180,7 @@
                                                         <table class="table table-hover table-striped table-bordered" at-config="config">
                                                             <thead class="bord-bot">
                                                                 <tr>
-                                                                    <th>Sr No.</th>
+                                                                    <th>Sr. No.</th>
                                                                     <th>Enquiry Date</th>
                                                                     <th>Customer</th>
                                                                     <th>Mobile No.</th>
@@ -362,7 +362,7 @@
                                                 <table class="table table-hover table-striped table-bordered" at-config="config">
                                                     <thead class="bord-bot">
                                                         <tr>
-                                                            <th>Sr No.</th>
+                                                            <th>Sr. No.</th>
                                                             <th>Enquiry Date</th>
                                                             <th>Customer</th>
                                                             <th>Mobile No.</th>
@@ -568,7 +568,7 @@
                                                             <table class="table table-hover table-striped table-bordered" at-config="config">
                                                                 <thead class="bord-bot">
                                                                     <tr>
-                                                                        <th>Sr No.</th>
+                                                                        <th>Sr. No.</th>
                                                                         <th>Enquiry Date</th>
                                                                         <th>Customer</th>
                                                                         <th>Mobile No.</th>

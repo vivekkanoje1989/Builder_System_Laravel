@@ -97,7 +97,7 @@ class ExtensionEmployeeController extends Controller {
             $employeesExtension = array();
             $j = 1;
             for ($i = 0; $i < count($ctEmployeesExtension); $i++) {
-                $blogData['Sr No.'] = $j++;
+                $blogData['Sr. No.'] = $j++;
                 $firstName = $ctEmployeesExtension[$i]['first_name'];
                 $lastName = $ctEmployeesExtension[$i]['last_name'];
                 $designation = $ctEmployeesExtension[$i]['designation'];

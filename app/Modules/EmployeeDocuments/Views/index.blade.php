@@ -17,34 +17,34 @@
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Documents</span> 
-                  <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
-             </div>
+                <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
+            </div>
             <div class="widget-body table-responsive">
-               
+
                 <div class="row table-toolbar">
                     <a data-toggle="modal" data-target="#documentModal" ng-click="initialModal(0, '', '')" class="btn btn-default">Create Document</a>
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" href="" ng-hide="disableBtn"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="manageDocumentExportToExcel()" ng-show="exportData == '1'">
-                            <span>Export</span>
-                        </a>
-                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
-                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+
+                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2" ng-disabled="disableBtn"> 
+                            <span>Actions</span>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="javascript:void(0);">Action</a>
+                                    <a class="" ng-click="manageDocumentExportToExcel()" ng-show="exportData == '1'">
+                                        <span>Export</span>
+                                    </a>
                                 </li>
                             </ul>
                         </a>
                     </div>
                     <div  class="dataTables_filter">
                         <label>
-                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                            <input type="search" ng-disabled="disableBtn" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
                     </div>
                     <!-- filter data--> 
@@ -63,13 +63,18 @@
                     <!-- filter data-->
                     <div class="dataTables_length" >
                         <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
+                            <select class="form-control" ng-disabled="disableBtn" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                               <option value="30">30</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
                             </select>
                         </label>
                     </div>
@@ -94,8 +99,12 @@
                                 <td>{{ list.document_name}}</td>   
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit documents" data-toggle="modal" data-target="#documentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.document_name}}', $index)" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                 <span ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"  ng-show="(DocumentsRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="3"  ng-show="totalCount == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
@@ -119,7 +128,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" align="center">Documents</h4>
+                    <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="documentForm.$valid && doDocumentsAction()" name="documentForm">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
@@ -133,14 +142,14 @@
                                 <input type="text" class="form-control" ng-model="document_name" name="document_name" ng-change="errorMsg = null" required>
 
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="documentForm.document_name.$error">
-                                    <div ng-message="required">Document name is required</div>
+                                    <div ng-message="required">This field is required.</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
                                 </div>
                             </span>
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">{{action}}</button>
                     </div> 
                 </form>           
             </div>
@@ -179,22 +188,22 @@
     <!-- Filter Form End-->
     <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
         <div class="modal-dialog">
-           
+
             <div class="modal-content helpModal" >
                 <div class="modal-header helpModalHeader bordered-bottom bordered-themeprimary" >
                     <button type="button" class="close" data-dismiss="modal">×</button>
                     <h4 class="modal-title" align="center">Task Priority Help Info</h4>
                 </div>                
                 <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group col-sm-12">
-                                <label class="helpContent">Priority </label>
-                                <span class="input-icon icon-right">                                    
-                                    
-                                </span>
-                            </div>                            
-                        </div>
-                    </div>  
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label class="helpContent">Priority </label>
+                            <span class="input-icon icon-right">                                    
+
+                            </span>
+                        </div>                            
+                    </div>
+                </div>  
             </div>
         </div>
     </div>

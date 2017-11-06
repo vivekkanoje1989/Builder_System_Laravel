@@ -74,7 +74,7 @@ class ManageStatesController extends Controller {
             $manageState = array();
             $j = 1;
             for ($i = 0; $i < count($getState); $i++) {
-                $manageStateData['Sr No.'] = $j++;
+                $manageStateData['Sr. No.'] = $j++;
                 $manageStateData['Country'] = $getState[$i]['country_name'];
                 $manageStateData['State'] = $getState[$i]['name'];
                 $manageState[] = $manageStateData;

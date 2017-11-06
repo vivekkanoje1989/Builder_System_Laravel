@@ -1895,7 +1895,7 @@ class CloudCallingLogsController extends Controller {
             $manageUsers = array();
             $j = 1;
             for ($i = 0; $i < count($manageCallLogs); $i++) {
-                $blogData['Sr No.'] = $j++;
+                $blogData['Sr. No.'] = $j++;
                 $first_name = $manageCallLogs[$i]['first_name'];
                 $last_name = $manageCallLogs[$i]['last_name'];
                 $callDate = $manageCallLogs[$i]['call_date'];
@@ -2030,7 +2030,7 @@ class CloudCallingLogsController extends Controller {
             $manageUsers = array();
             $j = 1;
             for ($i = 0; $i < count($manageCallLogs); $i++) {
-                $blogData['Sr No.'] = $j++;
+                $blogData['Sr. No.'] = $j++;
                 $first_name = $manageCallLogs[$i]['first_name'];
                 $last_name = $manageCallLogs[$i]['last_name'];
                 $callDate = $manageCallLogs[$i]['call_date'];
@@ -2291,7 +2291,7 @@ class CloudCallingLogsController extends Controller {
             $managelogs = array();
             $j = 1;
             for ($i = 0; $i < count($manageCallLogs); $i++) {
-                $blogData['Sr No.'] = $j++;
+                $blogData['Sr. No.'] = $j++;
                 $first_name = $manageCallLogs[$i]['first_name'];
                 $last_name = $manageCallLogs[$i]['last_name'];
                 $callDate = $manageCallLogs[$i]['call_date'];
@@ -2423,7 +2423,7 @@ class CloudCallingLogsController extends Controller {
             $managelogs = array();
             $j = 1;
             for ($i = 0; $i < count($manageCallLogs); $i++) {
-                $blogData['Sr No.'] = $j++;
+                $blogData['Sr. No.'] = $j++;
                 $first_name = $manageCallLogs[$i]['first_name'];
                 $last_name = $manageCallLogs[$i]['last_name'];
                 $callDate = $manageCallLogs[$i]['call_date'];

@@ -664,7 +664,7 @@ class ProjectsController extends Controller {
             $getCount = Project::select('id', 'created_by', 'project_status', 'project_type_id', 'project_name', 'created_at')->with(['getEmployee', 'projectTypes', 'projectStatus'])->get()->count();
             $j = 1;
             for ($i = 0; $i < count($getProjects); $i++) {
-                $getProject['Sr No.'] = $j++;
+                $getProject['Sr. No.'] = $j++;
                 $getProject['Registration Date & Time'] = $getProjects[$i]['created_at'];
                 $getProject['Registered by'] = $getProjects[$i]['getEmployee']['first_name'] . ' ' . $getProjects[$i]['getEmployee']['last_name'];
                 $getProject['Project Name'] = $getProjects[$i]['project_name'];

@@ -61,7 +61,7 @@ class HighestEducationController extends Controller {
             $manageHighestEducations = array();
             $j = 1;
             for ($i = 0; $i < count($getHighestEducations); $i++) {
-                 $highestEducationsData['Sr No.'] = $j++;
+                 $highestEducationsData['Sr. No.'] = $j++;
                 $highestEducationsData['Education'] = $getHighestEducations[$i]['education'];
                 if($getHighestEducations[$i]['status']=='1'){
                     $highestEducationsData['status'] = 'Active';

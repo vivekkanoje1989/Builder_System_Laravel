@@ -75,7 +75,7 @@
                     <table class="table table-hover table-striped table-bordered tableHeader" at-config="config">
                         <thead class="bord-bot">
                             <tr>
-                                <th style="width:5%">Sr No.</th>                      
+                                <th style="width:5%">Sr. No.</th>                      
                                 <th style="width: 30%">
                                      <a href="javascript:void(0);" ng-click="orderByField('designation')">Designations
                                         <span ><img ng-hide="(sortKey == 'designation' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>

@@ -122,7 +122,7 @@
                     </div>
                 </div>
                 <div id="gallaryimg" class="tab-pane fade" style="margin-top:10px;">
-                    <ul class="nav nav-tabs" >{{ gallery}}
+                    <ul class="nav nav-tabs" >
                         <li class="active"><a data-toggle="tab" href="" id="elevationsid">Elevations</a></li>
                         <li><a data-toggle="tab" href="" id="walk">Walk Through</a></li>
                     </ul>

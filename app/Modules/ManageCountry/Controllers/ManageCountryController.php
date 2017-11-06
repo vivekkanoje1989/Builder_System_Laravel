@@ -72,7 +72,7 @@ class ManageCountryController extends Controller {
             $manageCountry = array();
             $j = 1;
             for ($i = 0; $i < count($getCountry); $i++) {
-                $manageCountryData['Sr No.'] = $j++;
+                $manageCountryData['Sr. No.'] = $j++;
                 $manageCountryData['Country Name'] = $getCountry[$i]['name'];
                 $manageCountry[] = $manageCountryData;
             }

@@ -79,7 +79,7 @@ class EnquiryLocationsController extends Controller {
             $manageLocations = array();
             $j = 1;
             for ($i = 0; $i < count($getLocations); $i++) {
-                $getLocationsData['Sr No.'] = $j++;
+                $getLocationsData['Sr. No.'] = $j++;
                 $getLocationsData['City'] = $getLocations[$i]['city_name'];
                 $getLocationsData['Location'] = $getLocations[$i]['location'];
                 $manageLocations[] = $getLocationsData;

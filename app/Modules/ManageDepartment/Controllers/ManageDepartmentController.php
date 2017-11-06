@@ -74,7 +74,7 @@ class ManageDepartmentController extends Controller {
             $manageDepartments = array();
             $j = 1;
             for ($i = 0; $i < count($getDepartments); $i++) {
-                $getDepartmentsData['Sr No.'] = $j++;
+                $getDepartmentsData['Sr. No.'] = $j++;
                 $getDepartmentsData['Department'] = $getDepartments[$i]['department_name'];
                 $getDepartmentsData['Vertical Name'] = $getDepartments[$i]['verticalData'];
                 $manageDepartments[] = $getDepartmentsData;

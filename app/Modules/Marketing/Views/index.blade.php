@@ -53,7 +53,7 @@
                                 <textarea ng-model="promotionalsmsData.sms_body" id="sms_body" name="sms_body" class="form-control" rows="8" required></textarea>
                                 <span class="input-icon icon-right">
                                     <div ng-show="step1" ng-messages="promotionalsmsForm.sms_body.$error" class="help-block step1">
-                                        <div ng-message="required" class="sp-err">Please enter text Message.</div>
+                                        <div ng-message="required" class="sp-err">This field is required.</div>
                                     </div>
                                 </span>
                             </div>
@@ -80,7 +80,7 @@
                                 <input type="file" ngf-select ng-model="promotionalsmsData.mobilenumbers"  id="mobilenumbers" class="form-control" name="mobilenumbers" accept="xls/*" ng-required="promotionalsmsData.send_sms_type == 2">
                                 <span class="input-icon icon-right">
                                     <div ng-show="step1" ng-messages="promotionalsmsForm.mobilenumbers.$error" class="help-block step1">
-                                        <div ng-message="required">File is not selected.</div>
+                                        <div ng-message="required">This field is required.</div>
                                     </div>
                                 </span>
                                 <span><a class="sample-link" href="http://bmsb.netestgcp.in/common/bulksmsmobile/bulkMobileNumbersSample.xls" target="_blank">Download Sample</a></span>

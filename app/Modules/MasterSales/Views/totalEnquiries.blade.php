@@ -84,7 +84,6 @@
                             </label>
                         @endif                          
                     </div>
-                   capcha <div class="g-recaptcha" data-sitekey="6LcIDDcUAAAAAEzlU702L0_99cDqkYaXsZxDO42C"></div>
                     <!-- filter data--> 
                     <div class="row col-sm-12" style="border:2px;" id="filter-show">
                         <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate'">                         
@@ -296,7 +295,7 @@
                             </span>
                         </div>
                         <div>
-<!--                                     <span ng-if="enquiry.location_name != null && enquiry.location_name != '' " data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
+<!--                        <span ng-if="enquiry.location_name != null && enquiry.location_name != '' " data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
                                 <b>Preferred Location :</b>
                                  {{enquiry.location_name | limitTo : 45 }}
                                 <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                        
@@ -314,7 +313,7 @@
                         <div>
                             <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'',sharedemployee)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
                             <a href ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
-                            <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
+                            <a href ng-if="enquiry.email != '' && enquiry.email != 'null'" data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
                             <a href data-toggle="modal" data-target="#siteVisitDataModal" ng-click="siteVisit({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Site Visit</a><br/>
                         </div>
                     </td>

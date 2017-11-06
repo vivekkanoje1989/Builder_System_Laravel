@@ -98,7 +98,7 @@
                                                 &nbsp;&nbsp;&nbsp;<input type="checkbox" name="allselect" id="allselect" ng-click="chkallDocuments()">
                                                 <span class="text">Select All</span>
                                             </label>
-                                            <div class="form-group">                                                  
+                                            <div class="form-group">
                                                 <div class="col-sm-3" ng-repeat="(key,value) in documentListData" ng-if="value != '' && value != null && value != 'null'">
                                                     <label> 
                                                         <input type="checkbox" name="{{ key}}" value="{{ key}}@{{ value}}" id="{{ key}}" class="chkDocList">
@@ -110,7 +110,7 @@
                                     </div>
                                 </div><hr>
                                 <div class="row" style="float:right;margin-right: 0px;">
-                                    <input type="submit" class="btn btn-primary" name="sendbtn"  id="sendbtn" ng-disabled="(documentListData | json) == '{}'" value="Send">
+                                    <input type="submit" class="btn btn-primary" name="sendbtn"  id="sendbtn" ng-disabled="(documentListData | json) == '{}' || sendDocDisable" value="Send">
                                 </div>                                
                             </form>
                         </div>

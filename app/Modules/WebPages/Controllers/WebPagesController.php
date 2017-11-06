@@ -79,7 +79,7 @@ class WebPagesController extends Controller {
             $webPages = array();
             $j = 1;
             for ($i = 0; $i < count($data); $i++) {
-                $webData['Sr No.'] = $j++;
+                $webData['Sr. No.'] = $j++;
                 $webData['Page Name'] = $data[$i]['page_name'];
                 $webData['Page Title'] = $data[$i]['page_title'];
                 $status = $data[$i]['status'];

@@ -72,7 +72,7 @@ class ManageCityController extends Controller {
             $manageCities = array();
             $j = 1;
             for ($i = 0; $i < count($getCities); $i++) {
-                $manageCitiesData['Sr No.'] = $j++;
+                $manageCitiesData['Sr. No.'] = $j++;
                 $manageCitiesData['State'] = $getCities[$i]['state_name'];
                 $manageCitiesData['City'] = $getCities[$i]['name'];
                 $manageCities[] = $manageCitiesData;

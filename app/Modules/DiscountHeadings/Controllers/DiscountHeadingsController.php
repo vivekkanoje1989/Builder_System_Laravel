@@ -61,7 +61,7 @@ class DiscountHeadingsController extends Controller {
             $manageDiscountname = array();
             $j = 1;
             for ($i = 0; $i < count($getDiscountname); $i++) {
-                $discountData['Sr No.'] = $j++;
+                $discountData['Sr. No.'] = $j++;
                 $discountData['Discount Name'] = $getDiscountname[$i]['discount_name'];
                 if ($getDiscountname[$i]['status'] == '1') {
                     $discountData['Status'] = 'Active';

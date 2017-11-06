@@ -30,7 +30,7 @@
                                                 <span class="input-icon icon-right">
                                                     <input type="text" class="form-control" ng-model="testimonial.customer_name" name="customer_name" ng-change="errorMsg = null" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                                     <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.customer_name.$error">
-                                                        <div ng-message="required">Customer name is required</div>
+                                                        <div ng-message="required">This field is required.</div>
                                                         <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                                     </div>
                                                     <br/>
@@ -45,7 +45,7 @@
                                                 <span class="input-icon icon-right">
                                                     <input type="text" class="form-control" ng-model="testimonial.company_name" name="company_name"  required>
                                                     <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.company_name.$error">
-                                                        <div ng-message="required">Company name is required</div>
+                                                        <div ng-message="required">This field is required.</div>
                                                     </div>
                                                     <br/>
                                                 </span>
@@ -59,7 +59,7 @@
                                                 <span class="input-icon icon-right">
                                                     <input type="text" class="form-control" ng-model="testimonial.mobile_number" name="mobile_number" maxlength="10" minlength="10" required oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                                     <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.mobile_number.$error">
-                                                        <div ng-message="required">Mobile no is required</div>
+                                                        <div ng-message="required">This field is required.</div>
                                                         <div ng-message="maxlength">Mobile no must be 10 digit</div>
                                                         <div ng-message="minlength">Mobile no must be 10 digit</div>
                                                     </div>
@@ -101,7 +101,7 @@
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.approve_status.$error">
-                                                    <div ng-message="required">Status is required</div>
+                                                    <div ng-message="required">This field is required.</div>
                                                 </div>
                                             </span>
                                         </div> 
@@ -125,7 +125,7 @@
                                                 <span class="input-icon icon-right">
                                                     <textarea ng-model="testimonial.description" name="description" class="capitalize form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
                                                     <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.description.$error">
-                                                        <div ng-message="required">Testimonial description is required</div>
+                                                        <div ng-message="required">This field is required.</div>
                                                     </div>
                                                 </span>
                                             </div>  
