@@ -313,7 +313,9 @@ class DashBoardController extends Controller {
         $i = 0;
         foreach ($employees as $employee) {
             $employees[$i]->application_to = $employee->empName;
-             $employees[$i]->in_date=  date('d-m-Y h:i A', strtotime($employee->in_date));
+             $emp_date=  date('d-m-Y h:i A', strtotime($employee->in_date));
+             $inDate = explode(' ',$emp_date);
+             $employees[$i]->in_date = $inDate[0].' @ '.$inDate[1] .$inDate[2];
              $employees[$i]->from_date=  date('d-m-Y', strtotime($employee->from_date));
              $employees[$i]->to_date=  date('d-m-Y', strtotime($employee->to_date));
             $i++;

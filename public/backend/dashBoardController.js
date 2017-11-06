@@ -78,7 +78,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                     
                 }
                 if (type != 2) {
-                    var loginDate = search.to_date;
+                    var loginDate = new Date(search.to_date);
                     var day = loginDate.getDate().toString();
                     if (day.length > 1) {
                         search.to_date = (loginDate.getDate() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getFullYear());
