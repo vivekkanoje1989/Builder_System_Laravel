@@ -134,8 +134,8 @@
     .main-container1 > .content2 {
         width: 100%;
         position: absolute;
-        height: 445px;
-        bottom: -390px;
+        height: 480px;
+        bottom: -423px;
         left: 0;
         right: 0;
         z-index: 101;
