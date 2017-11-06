@@ -476,8 +476,7 @@ class CommonFunctions {
                 if ($template_settings_employee->email_status == 1 || !empty($alertdata['email_status'])) {
                     $subject = $emp_email_subject;
                     $data = ['mailBody' => $emp_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $emp_email, "cc" => $template_employee->email_cc_ids, "attachment" => $emp_attachedfile];
-                    print_r($data);
-                    exit;
+                   
                     $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
                 }
                 if ($template_settings_employee->sms_status == 1 || !empty($alertdata['sms_status'])) {

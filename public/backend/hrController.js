@@ -51,7 +51,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $rootScope.roleMenuList = [];
         $scope.searchDetails = {};
         $scope.searchData = {};
-        
+
         $scope.filterDetails = function (search) {
             if (search.joining_date != undefined) {
                 var today = new Date(search.joining_date);
@@ -74,11 +74,16 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.preSalesEnquiry = function (presales, employee_id) {
-
+             $("#presalesbtn").attr("disabled", "disabled");
             Data.post('master-hr/preSalesEnquiry', {employee_id: presales, empId: employee_id}).then(function (response) {
                 if (response.success) {
                     toaster.pop('success', 'Pre Sales Enquiry', 'Enquiries shared successfully');
+                } else {
+                    toaster.pop('warning', 'Pre Sales Enquiry', response.message);
                 }
+                $timeout(function () {
+                    $("#presalesbtn").removeAttr("disabled");
+                }, 5000);
             });
         }
 
@@ -743,7 +748,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         }
-        
+
         $scope.showPermissions = function () { //permission wise employees
 
             Data.get('master-hr/getMenuListsForEmployee').then(function (response) {
@@ -1265,53 +1270,18 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.getProfile = function () {
             Data.post('master-hr/getProfileInfo', {})
-                    .then(function (response) {
-                        $scope.profileData = response.records;
-                        $scope.profileData.employee_photo_file_name = '';
-                        $scope.password_confirmation;
-                        $scope.flag_profile_photo = response.flag_profile_photo;
-                        $scope.old_profile_photo = response.old_profile_photo;
-                    });
+            .then(function (response) {
+                $scope.profileData = response.records;
+                $scope.profileData.employee_photo_file_name = '';
+                $scope.password_confirmation;
+                $scope.flag_profile_photo = response.flag_profile_photo;
+                $scope.old_profile_photo = response.old_profile_photo;
+            });
         }
 
         $scope.updateProfile = function (profileData)
         {
             $scope.profileBtn = true;
-
-//            if (profileData.employee_photo_file_name === '' || typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
-//                profileData.employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
-//                toaster.pop('success', 'Profile', 'Profile updated successfully');
-//           $state.go('dashboard');
-//            } else {
-//                var url = '/master-hr/updateProfileInfo';
-//                var data = {data: profileData};
-//
-//                profileData.employee_photo_file_name.upload = Upload.upload({
-//                    url: url,
-//                    headers: {enctype: 'multipart/form-data'},
-//                    data: data
-//                })
-//                profileData.employee_photo_file_name.upload.then(function (response)
-//                {
-//                    if (response.success == false) {
-//                        $scope.profileBtn = false;
-//                        toaster.pop('error', 'Profile', 'Please upload profile photo');
-//                    } else {
-//                        $scope.profileBtn = true;
-//                        toaster.pop('success', 'Profile', 'Profile updated successfully');
-//                         $state.go('dashboard');
-//                        $timeout(function () {
-//                            $rootScope.imageUrl = response.data.photo;
-//                        }, 300);
-//                       
-//                    }
-//
-//                });
-//            }
-
-//            if (profileData.employee_photo_file_name === '' || typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
-//                profileData.employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
-//            }
             profileData.changePasswordflag = $scope.passwordValidation;
             var url = '/master-hr/updateProfileInfo';
             var data = {data: profileData};
@@ -1337,6 +1307,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
             });
         }
+
 
         $scope.updatePassword = function (profileData)
         {
