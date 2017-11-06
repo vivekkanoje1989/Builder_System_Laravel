@@ -1986,51 +1986,29 @@ class MasterHrController extends Controller {
         }
     }
 
-//    public function updateProfileInfo() {
-//        $id = Auth::guard('admin')->user()->id;
-//        $employee = Employee::where('id', $id)->first();
-//        $request = Input::all();
-//        $photo = [];
-//        if (!empty($employee)) {
-//            $imageName = time() . "." . $request['data']['employee_photo_file_name']->getClientOriginalExtension();
-//            $tempPath = $request['data']['employee_photo_file_name']->getPathName();
-//            $folderName = 'employee-photos';
-//            $name = S3::s3FileUpload($tempPath, $imageName, $folderName);
-//            $employee->employee_photo_file_name = $name;
-//            if ($employee->update()) {
-//                $photo = config('global.s3Path') . '/employee-photos/' . $name;
-//                $result = ['success' => true, 'photo' => $photo];
-//                return json_encode($result);
-//            } else {
-//                $result = ['success' => false];
-//                return json_encode($result);
-//            }
-//        } else {
-//            $result = ['success' => false];
-//            return json_encode($result);
-//        }
-//    }
-
     public function updateProfileInfo() {
         $id = Auth::guard('admin')->user()->id;
         $employee = Employee::where('id', $id)->first();
         $request = Input::all();
-        $photo = [];
-        if (!empty($employee)) {
-            $originalName = $request['data']['employee_photo_file_name']->getClientOriginalName();
-            if ($originalName != "fileNotSelected") {
+
+        if ($request['data']['employee_photo_file_name']->getClientSize() !== 0 && $request['data']['employee_photo_file_name']->getError() !== 1) {
+
+            if (!empty($employee)) {
                 $imageName = time() . "." . $request['data']['employee_photo_file_name']->getClientOriginalExtension();
                 $tempPath = $request['data']['employee_photo_file_name']->getPathName();
                 $folderName = 'employee-photos';
+
                 $name = S3::s3FileUpload($tempPath, $imageName, $folderName);
+
                 $employee->employee_photo_file_name = $name;
-                $photo = config('global.s3Path') . '/employee-photos/' . $name;
-            } else {
-                unset($request['data']['employee_photo_file_name']);
-            }
-            if ($employee->update()) {
-                $result = ['success' => true, 'photo' => $photo];
-                return json_encode($result);
+                if ($employee->update()) {
+                    $photo = config('global.s3Path') . '/employee-photos/' . $name;
+                    $result = ['success' => true, 'photo' => $photo];
+                    return json_encode($result);
+                } else {
+                    $result = ['success' => false];
+                    return json_encode($result);
+                }
             } else {
                 $result = ['success' => false];
                 return json_encode($result);

@@ -40,8 +40,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/createQuickEnquiry', 'MasterSalesController@createQuickEnquiry')->middleware("permission:040101");
 
     Route::get('/master-sales/import', ['middleware' => 'permission:040502', function () {
-            return View::make('MasterSales::import');
-        }]);
+        return View::make('MasterSales::import');
+    }]);
 
     /*     * ********************************************************* */
     Route::get('/master-sales/updateCustomer/{id}', 'MasterSalesController@updateCustomer'); //update customer data
@@ -52,6 +52,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/showEnquiry/{id}', 'MasterSalesController@showEnquiry'); //show enquiry page
     Route::post('/master-sales/saveEnquiry', 'MasterSalesController@saveEnquiry'); //save enquiry data
     Route::post('/master-sales/privacyStatus', 'MasterSalesController@privacyStatus');
+    Route::post('/master-sales/getEmployeeData', 'MasterSalesController@getEmployeeData');
 
     Route::get('/master-sales/editCustomer/cid/{cid}', 'MasterSalesController@editCustomer')->middleware("permission:040102|040103|040104|040105|040106|040107|040108|040109|040101004|040101005|040101006|040101001|040101002|040101003"); //updateCustomer
     Route::get('/master-sales/editEnquiry/cid/{cid}/eid/{eid}', 'MasterSalesController@editEnquiry'); //update enquiry data
@@ -123,8 +124,5 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
 
 
     Route::get('/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee');
-
-    Route::post('/master-sales/getEmployeeData', 'MasterSalesController@getEmployeeData');
-    Route::post('/master-sales/preSalesShareEnquiry', 'MasterSalesController@preSalesShareEnquiry');
-    
+    Route::post('/master-sales/preSalesShareEnquiry', 'MasterSalesController@preSalesShareEnquiry');    
 });

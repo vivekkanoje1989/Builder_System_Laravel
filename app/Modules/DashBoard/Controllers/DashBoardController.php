@@ -305,7 +305,7 @@ class DashBoardController extends Controller {
             $rows = DB::select("select FOUND_ROWS() as totalCount");
             $cnt = $rows[0]->totalCount;
         } else {
-            $report = "select request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, GROUP_CONCAT(distinct employees.first_name,' ', employees.last_name) as empName, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = " . $loggedInUserId . " GROUP BY request.id ";
+            $report = "select request.id,request.reply, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, GROUP_CONCAT(distinct employees.first_name,' ', employees.last_name) as empName, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = " . $loggedInUserId . " GROUP BY request.id ";
             $employees = DB::select($report);
           
             $cnt = count($employees);
@@ -404,16 +404,19 @@ class DashBoardController extends Controller {
             $cnt = $rows[0]->totalCount;
         } else {
             $employees = EmployeeRequest::join('employees', 'request.created_by', '=', 'employees.id')
-                    ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
+                    ->select('request.id', 'request.in_date','request.reply', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                     ->where('request.uid', '=', $loggedInUserId)
                     ->get();
-            $cnt = '';
+            $cnt = '0';
         }
         $i = 0;
         foreach ($employees as $employee) {
             $employees[$i]['application_from'] = $employee['first_name'] . ' ' . $employee['last_name'];
             $date = explode(' ', $employee['in_date']);
             $employees[$i]['in_date'] = $date[0];
+             $employees[$i]->in_date=  date('d-m-Y', strtotime($employee->in_date));
+             $employees[$i]->from_date=  date('d-m-Y', strtotime($employee->from_date));
+             $employees[$i]->to_date=  date('d-m-Y', strtotime($employee->to_date));
             $i++;
         }
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
