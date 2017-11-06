@@ -1277,41 +1277,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.updateProfile = function (profileData)
         {
             $scope.profileBtn = true;
-
-//            if (profileData.employee_photo_file_name === '' || typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
-//                profileData.employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
-//                toaster.pop('success', 'Profile', 'Profile updated successfully');
-//           $state.go('dashboard');
-//            } else {
-//                var url = '/master-hr/updateProfileInfo';
-//                var data = {data: profileData};
-//
-//                profileData.employee_photo_file_name.upload = Upload.upload({
-//                    url: url,
-//                    headers: {enctype: 'multipart/form-data'},
-//                    data: data
-//                })
-//                profileData.employee_photo_file_name.upload.then(function (response)
-//                {
-//                    if (response.success == false) {
-//                        $scope.profileBtn = false;
-//                        toaster.pop('error', 'Profile', 'Please upload profile photo');
-//                    } else {
-//                        $scope.profileBtn = true;
-//                        toaster.pop('success', 'Profile', 'Profile updated successfully');
-//                         $state.go('dashboard');
-//                        $timeout(function () {
-//                            $rootScope.imageUrl = response.data.photo;
-//                        }, 300);
-//                       
-//                    }
-//
-//                });
-//            }
-
-//            if (profileData.employee_photo_file_name === '' || typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
-//                profileData.employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
-//            }
             profileData.changePasswordflag = $scope.passwordValidation;
             var url = '/master-hr/updateProfileInfo';
             var data = {data: profileData};
