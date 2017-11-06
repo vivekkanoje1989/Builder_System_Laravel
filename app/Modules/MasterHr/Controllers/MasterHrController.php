@@ -39,8 +39,12 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
 
         $result = Employee::where('id', '=', $request['employee_id'])->select('presale_shared_employee', 'postsale_shared_employee')->first();
+        if (!empty($result->presale_shared_employee)) {
+            $arr = explode(",", $result->presale_shared_employee);
+        } else {
+            $arr = [];
+        }
 
-        $arr = explode(",", $result->presale_shared_employee);
         $getpresalesEmployees = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                 ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
                 ->where("employees.employee_status", 1)
@@ -53,7 +57,11 @@ class MasterHrController extends Controller {
             $i++;
         }
 
-        $arr1 = explode(",", $result->postsale_shared_employee);
+        if (!empty($result->postsale_shared_employee)) {
+            $arr1 = explode(",", $result->postsale_shared_employee);
+        } else {
+            $arr1 = [];
+        }
         $getPostSalesEmployees = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                 ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
                 ->where("employees.employee_status", 1)
@@ -169,10 +177,9 @@ class MasterHrController extends Controller {
         }
     }
 
-     public function preSalesEnquiry() {
+    public function preSalesEnquiry() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
         if (!empty($request['loggedInUserId'])) {
             $empl_id = $request['loggedInUserId'];
         } else {
@@ -213,12 +220,11 @@ class MasterHrController extends Controller {
                 $templatedata['employee_id'] = $emailempId[$i]['id'];
                 $templatedata['client_id'] = config('global.client_id');
                 $templatedata['template_setting_customer'] = 0;
-                $templatedata['template_setting_employee'] = 51;
+                $templatedata['template_setting_employee'] = 52;
                 $templatedata['event_id_customer'] = 0;
-                $templatedata['event_id_employee'] = 69;
+                $templatedata['event_id_employee'] = 68;
                 $templatedata['customer_id'] = 0;
-                $templatedata['model_id'] = 0;
-
+                
                 $templatedata['arrExtra'][0] = array(
                     '[#employeeName#]',
                     '[#loginEmployeeName#]'
@@ -227,9 +233,8 @@ class MasterHrController extends Controller {
                     $emailempId[$i]['name'],
                     $loginEmployeeName
                 );
-                $result = CommonFunctions::templateData($templatedata);
-                print_r($result);
-                exit;
+               // $result = CommonFunctions::templateData($templatedata);
+               
             }
             $templatedata = [];
             $employee_id = implode(',', $empId);
@@ -239,8 +244,7 @@ class MasterHrController extends Controller {
             $templatedata['template_setting_customer'] = 0;
             $templatedata['template_setting_employee'] = 51;
             $templatedata['customer_id'] = 0;
-            $templatedata['model_id'] = 0;
-            $templatedata['event_id_employee'] = 71;
+            $templatedata['event_id_employee'] = 69;
             $templatedata['arrExtra'][0] = array(
                 '[#sharedEmployee#]',
             );
@@ -248,12 +252,14 @@ class MasterHrController extends Controller {
                 $sharedEmployee,
             );
             $result = CommonFunctions::templateData($templatedata);
+            print_r($result);
+            exit;
             $post = array('presale_shared_employee' => $employee_id);
             $result = Employee::where('id', '=', $request['empId'])->update($post);
             $result = ['success' => true, 'records' => $result];
         } else {
-             $post = array('presale_shared_employee' => '');
-             $result = Employee::where('id', '=', $request['empId'])->update($post);
+            $post = array('presale_shared_employee' => '');
+            $result = Employee::where('id', '=', $request['empId'])->update($post);
             $result = ['success' => false, 'message' => "Employees Not Selected for sharing enquiry"];
         }
         return json_encode($result);
@@ -281,7 +287,11 @@ class MasterHrController extends Controller {
         $loggedInUserId = Auth::guard('admin')->user()->id;
 
         $result = Employee::where('id', '=', $request['data']['employee_id'])->select('presale_shared_employee', 'postsale_shared_employee')->first();
-        $arr = explode(",", $result->presale_shared_employee);
+        if (!empty($result->presale_shared_employee)) {
+            $arr = explode(",", $result->presale_shared_employee);
+        } else {
+            $arr = [];
+        }
         if (!empty($result->presale_shared_employee)) {
             $getEmp = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                             ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
@@ -294,7 +304,12 @@ class MasterHrController extends Controller {
         } else {
             $preSalesResult = [];
         }
-        $arr1 = explode(",", $result->postsale_shared_employee);
+        
+        if (!empty($result->postsale_shared_employee)) {
+            $arr1 = explode(",", $result->postsale_shared_employee);
+        } else {
+            $arr1 = [];
+        }
         if (!empty($result->postsale_shared_employee)) {
             $getEmp = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                             ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
@@ -864,7 +879,7 @@ class MasterHrController extends Controller {
 
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['userData'] = array_merge($request['userData'], $create);
-           
+
             if ($request['userData']['date_of_birth'] == 'NaN-aN-NaN') {
                 unset($request['userData']['date_of_birth']);
             }
@@ -1661,7 +1676,6 @@ class MasterHrController extends Controller {
                     if (count($arrdiff2) == 0) {
                         $removeId[] = $parentId[0];
                     }
-                   
                 }
                 if (!empty($input['data']['allChild3Id'])) { //[01401,0140102],[014010205], [0140101,0140102], [014010201,014010202,014010203,014010204,014010205]
                     $allChild3Id = array_map(function($el) {
@@ -1752,12 +1766,12 @@ class MasterHrController extends Controller {
                 ->get();
 
         $data = array();
-        foreach ($input as $key => $team) {            
+        foreach ($input as $key => $team) {
             $obj = Employee::leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                     ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
                     ->where('employees.id', $team['id'])
                     ->where('employees.team_lead_id', '<>', NULL)
-                    ->whereIn('employees.employee_status', [1, 2])                  
+                    ->whereIn('employees.employee_status', [1, 2])
                     ->get();
             if (!empty($obj)) {
                 $data[$key]['v'] = $obj[0]->id;
@@ -1770,7 +1784,7 @@ class MasterHrController extends Controller {
                     $data[$key]['f'] = '<img src="' . $team['employee_photo_file_name'] . '" class="imgdata" style="border: 4px double #fd4949;"><div class="myblock" style="background-color: rgba(253, 42, 42, 0.85);">' . $team['first_name'] . ' ' . $team['last_name'] . '<br>' . $team['designation'] . '</div></div>';
                 } if ($team['employee_status'] == 1) {
                     $data[$key]['f'] = '<img src="' . $team['employee_photo_file_name'] . '" class="imgdata" style="border: 4px double #2dc3e8;"><div class="myblock" style="background-color: rgb(45, 195, 232);">' . $team['first_name'] . ' ' . $team['last_name'] . '<br>' . $team['designation'] . '</div></div>';
-                } 
+                }
                 if ($team['team_lead_id'] == '0' || $team['team_lead_id'] == null) {
                     $data[$key]['teamId'] = $team['id'];
                 } else {
@@ -1790,7 +1804,7 @@ class MasterHrController extends Controller {
         $authkey = trim($request["authkey"]);
         //checking for user related to authkey.
         $empModel = Employee::where('mobile_remember_token', $authkey)->first();
-        
+
         if (!empty($empModel)) {
             $teams = array();
             $validate = Employee::where('client_id', $empModel->client_id)->get();
@@ -1798,16 +1812,16 @@ class MasterHrController extends Controller {
             $client = \App\Models\ClientInfo::where(['id' => $empModel->client_id])->first();
             foreach ($validate as $value) {
                 $title = DB::connection('masterdb')->table('mlst_titles')->where('id', '=', $value->title_id)->select('title')->first();
-               if(!empty($title->title)){
-                $value->title = $title->title;
-               }
+                if (!empty($title->title)) {
+                    $value->title = $title->title;
+                }
 
                 if (!empty($value->employee_photo_file_name)) {
                     $value->employee_photo_file_name = config('global.s3Path') . '/employee-photos/' . $value->employee_photo_file_name;
                 } else {
                     $value->employee_photo_file_name = '';
                 }
-                
+
                 if (!empty($value->department_id))
                     $value->department_id = explode(',', $value->department_id);
                 $designations = DB::connection('masterdb')->table('mlst_bmsb_designations')->where('id', '=', $value->designation_id)->select('designation')->first();
@@ -1816,7 +1830,7 @@ class MasterHrController extends Controller {
                 $value->employee_menus = json_decode($value->employee_submenus);
                 $teams[] = $value->getAttributes();
             }
-          
+
             $this->allusers = array();
             $this->getTeamIds($empModel->id);
             $alluser = $this->allusers;
@@ -2401,8 +2415,5 @@ class MasterHrController extends Controller {
         }
         return \Response()->json($result);
     }
-    
-    
-    
 
 }

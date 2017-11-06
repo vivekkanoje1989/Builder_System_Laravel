@@ -51,7 +51,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $rootScope.roleMenuList = [];
         $scope.searchDetails = {};
         $scope.searchData = {};
-        
+
         $scope.filterDetails = function (search) {
             if (search.joining_date != undefined) {
                 var today = new Date(search.joining_date);
@@ -74,11 +74,16 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.preSalesEnquiry = function (presales, employee_id) {
-
+             $("#presalesbtn").attr("disabled", "disabled");
             Data.post('master-hr/preSalesEnquiry', {employee_id: presales, empId: employee_id}).then(function (response) {
                 if (response.success) {
                     toaster.pop('success', 'Pre Sales Enquiry', 'Enquiries shared successfully');
+                } else {
+                    toaster.pop('warning', 'Pre Sales Enquiry', response.message);
                 }
+                $timeout(function () {
+                    $("#presalesbtn").removeAttr("disabled");
+                }, 5000);
             });
         }
 
@@ -629,7 +634,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         $scope.modal.userName = response.records.data[0].username;
                     }
                 } else {
-                    
+
                     $scope.hideloader();
                     $scope.totalCount = 0;
                     $scope.disableBtn = true;
@@ -743,7 +748,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         }
-        
+
         $scope.showPermissions = function () { //permission wise employees
 
             Data.get('master-hr/getMenuListsForEmployee').then(function (response) {
@@ -927,14 +932,14 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         /****************** Roles *********************/
         $scope.manageRoles = function () {
             Data.get('master-hr/getRoles').then(function (response) {
-                  $scope.showloader();
+                $scope.showloader();
                 if (response.success) {
-                     $scope.hideloader();
+                    $scope.hideloader();
                     $scope.roleList = response.list;
                     $scope.exportDetails = response.exportDetails;
                 } else {
                     $scope.errorMsg = response.message;
-                       $scope.hideloader();
+                    $scope.hideloader();
                     $scope.totalCount = 0;
                     $scope.disableBtn = true;
                 }
@@ -1281,7 +1286,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             if (profileData.employee_photo_file_name === '' || typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
                 profileData.employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
                 toaster.pop('success', 'Profile', 'Profile updated successfully');
-           $state.go('dashboard');
+                $state.go('dashboard');
             } else {
                 var url = '/master-hr/updateProfileInfo';
                 var data = {data: profileData};
@@ -1299,11 +1304,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     } else {
                         $scope.profileBtn = true;
                         toaster.pop('success', 'Profile', 'Profile updated successfully');
-                         $state.go('dashboard');
+                        $state.go('dashboard');
                         $timeout(function () {
                             $rootScope.imageUrl = response.data.photo;
                         }, 300);
-                       
+
                     }
 
                 });
@@ -1320,7 +1325,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     toaster.pop('error', 'Profile', 'Something went wrong please try again later');
                 } else
                 {
-                     $scope.changePass = false;
+                    $scope.changePass = false;
                     toaster.pop('success', 'Profile', 'Password has been changed as well as Mail and sms has been sent to you.');
                     $state.go('dashboard');
                 }
