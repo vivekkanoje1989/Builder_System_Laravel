@@ -77,7 +77,6 @@ class CustomersController extends Controller {
             $result = Customers::select('id', 'first_name', 'last_name', 'sms_privacy_status', 'email_privacy_status', 'title_id', 'source_id', 'profession_id')->with('getTitle', 'getProfession', 'getSource')->orderBy('id', 'ASC')->get();
             $customerDetails = array();
             $result = json_decode(json_encode($result), true);
-//            print_r($result);die();
             $j=1;
             for ($i = 0; $i < count($result); $i++) {
                 $customerData['id'] = $j++;

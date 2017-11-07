@@ -510,20 +510,19 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
             }
         }
 
-
         $scope.checkImageExtension = function (employeePhoto) {
-
             if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
                 var ext = employeePhoto.name.match(/\.(.+)$/)[1];
                 if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
                     $scope.invalidImage = "";
-                    $scope.altName = employeePhoto.name;
                 } else {
                     $(".imageFile").val("");
-                    $scope.invalidImage = "Invalid file format. Image should be jpg or jpeg or png or bmp format only.";
+                    $scope.invalidImage = "Invalid file format. File type should be jpg or jpeg or png or bmp format only.";
+                    $scope.frmRegistration.$valid = false;
                 }
             }
         };
+
         // uma
         $scope.scrollTo = function (id) {
             $timeout(function () {

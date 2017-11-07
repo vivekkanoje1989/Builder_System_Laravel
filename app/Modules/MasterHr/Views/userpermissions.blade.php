@@ -35,7 +35,7 @@
                     </div>
                     <div ng-show='roleData.roleType == 1' class="col-sm-6 col-lg-2">
                         <div class="form-group">
-                            <label>Role</label>
+                            <label> Select Role for {{empName}}</label>
                             <span class="input-icon icon-right">                                
                                 <select class="form-control" ng-model="roleData.roleId" name="roleId" ng-init="manageRoles()" ng-change="updatePermissions([[ $empId ]], roleData.roleId)">
                                     <option value="">Select Role</option>

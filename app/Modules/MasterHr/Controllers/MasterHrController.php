@@ -224,7 +224,7 @@ class MasterHrController extends Controller {
                 $templatedata['event_id_customer'] = 0;
                 $templatedata['event_id_employee'] = 68;
                 $templatedata['customer_id'] = 0;
-                
+
                 $templatedata['arrExtra'][0] = array(
                     '[#employeeName#]',
                     '[#loginEmployeeName#]'
@@ -233,8 +233,8 @@ class MasterHrController extends Controller {
                     $emailempId[$i]['name'],
                     $loginEmployeeName
                 );
-               // $result = CommonFunctions::templateData($templatedata);
-               
+
+                CommonFunctions::templateData($templatedata);
             }
             $templatedata = [];
             $employee_id = implode(',', $empId);
@@ -251,9 +251,9 @@ class MasterHrController extends Controller {
             $templatedata['arrExtra'][1] = array(
                 $sharedEmployee,
             );
-            $result = CommonFunctions::templateData($templatedata);
-            print_r($result);
-            exit;
+
+            CommonFunctions::templateData($templatedata);
+
             $post = array('presale_shared_employee' => $employee_id);
             $result = Employee::where('id', '=', $request['empId'])->update($post);
             $result = ['success' => true, 'records' => $result];
@@ -304,7 +304,7 @@ class MasterHrController extends Controller {
         } else {
             $preSalesResult = [];
         }
-        
+
         if (!empty($result->postsale_shared_employee)) {
             $arr1 = explode(",", $result->postsale_shared_employee);
         } else {
@@ -969,6 +969,16 @@ class MasterHrController extends Controller {
                 }
             }
         }
+        if ($input['userStatus']['employee_status'] == '3') {
+            $this->allusers = array();
+            $this->tuserid($input['employeeId']);
+            $alluser = $this->allusers;
+            $employee = Employee::where('id', '=', $input['employeeId'])->select('team_lead_id')->first();
+            foreach ($alluser as $team) {
+                $employee = Employee::where('id', '=', $team)->update(['team_lead_id'=>$employee->team_lead_id]);
+            }
+        }
+
         if ($input['createStatus'] == 0) {
             $password = substr(rand(10000000, 99999999), 0, 8);
             $username = $input['userStatus']['username'];
@@ -989,8 +999,8 @@ class MasterHrController extends Controller {
                 $username,
                 $password
             );
+            $result = CommonFunctions::templateData($templatedata);
         }
-
         if ($input['userStatus']['high_security_password_type'] == '0') {
             $highsecuritypassword = substr(rand(100000, 999999), 0, 4);
         } else {

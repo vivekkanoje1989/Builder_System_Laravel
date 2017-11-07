@@ -458,13 +458,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
                         $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
+                        console.log(response.enquiryDetails[0].next_followup_time);
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
+                        
+                        
                         var d = new Date();
                         d.setHours(setTime[0]);
-                        d.setMinutes(setTime[1]); alert($scope.enquiryData.next_followup_time);
-                        //$scope.enquiryData.next_followup_time = d;
-                       
+                        d.setMinutes(setTime[1]);                       
                         if($scope.enquiryData.next_followup_date !== "" && $scope.enquiryData.next_followup_date !== null)
                         {
                             $scope.todayremarkTimeChange($scope.enquiryData.next_followup_date);
@@ -692,8 +693,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails, MobileNo: $scope.searchData.searchWithMobile, EmailId: $scope.searchData.searchWithEmail,
                 }).then(function (response) {
                     if (response.success) {
-                        toaster.pop('success', 'Enquiry', response.message);
                         $scope.disableFinishButton = true;
+                        toaster.pop('success', 'Enquiry', response.message);                        
                         $state.reload();
                     } else
                     {

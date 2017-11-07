@@ -140,7 +140,7 @@
                             </tr>
                             <tr>
                                 <td colspan="8"  ng-show="(myRequest|filter:search | filter:searchData).length == 0" align="center">Records Not Found</td>   
-                                <td colspan="8"  ng-show="totalCount== 0" align="center">Records Not Found</td>   
+                                <td colspan="8"  ng-show="totalCount1== 0" align="center">Records Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

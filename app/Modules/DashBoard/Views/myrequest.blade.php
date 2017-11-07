@@ -15,6 +15,8 @@
         border:none !important;
     }
 </style>
+
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>-->
 <div class="row" ng-controller="dashboardCtrl" ng-init="getMyRequest()">    
     <div class=" mainDiv col-xs-12 col-md-12">
         <div class="widget">
@@ -69,8 +71,8 @@
                                         <strong ng-if="key === 'in_date'" data-toggle="tooltip" title="Date"><strong> Date: </strong> {{ value |date:'yyyy-MM-dd'}}</strong>
                                         <strong ng-if="key === 'request_type'" data-toggle="tooltip" title="Request Type"><strong> Request Type : </strong> {{ value}}</strong>
                                         <strong ng-if="key === 'application_to'" data-toggle="tooltip" title="Application To"><strong> Application To : </strong> {{ value}}</strong>
-                                        <strong ng-if="key === 'from_date'" data-toggle="tooltip" title="From Date"><strong> From Date : </strong> {{ value | date:'dd-MM-yyyy' }}</strong>
-                                        <strong ng-if="key === 'to_date'" data-toggle="tooltip" title="To Date"><strong> To Date : </strong> {{ value}}</strong>
+                                        <strong ng-if="key === 'from_date'" data-toggle="tooltip" title="From Date"><strong> From Date : </strong> {{ searchData.from_date | date:'dd-MM-yyyy' }} To {{ searchData.to_date |date:'dd-MMM-yyyy' }}</strong>
+                                        <!--<strong ng-if="key === 'to_date'" data-toggle="tooltip" title="To Date"><strong> To Date : </strong> {{ value}}</strong>-->
                                         <strong ng-if="key === 'status'" data-toggle="tooltip" title=" Status"><strong> Status : </strong> {{ value== 1 ? " Leave" : "Approved"}}</strong>
                                     </div>
                                 </div>
@@ -146,7 +148,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in myRequest| filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" >
+                            <tr role="row" dir-paginate="list in myRequest| filter:search |filter:searchData  | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{list.in_date}}</td> 
                                 <td>{{list.request_type}}</td>
@@ -159,7 +161,7 @@
                             </tr>
                             <tr>
                                 <td colspan="8"  ng-show="(myRequest | filter:search | filter:searchData).length == 0 || myRequestCount == 0" align="center">Records Not Found</td>   
-                                <td colspan="8"  ng-if="totalCount == 0" align="center">Records Not Found</td>   
+                                <td colspan="8"  ng-if="totalCount1 == 0" align="center">Records Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

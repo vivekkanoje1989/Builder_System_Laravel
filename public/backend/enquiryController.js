@@ -37,6 +37,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.shared = $scope.sharedemployee = 0;
         $scope.sendDocDisable = false;
         $rootScope.newEnqFlag1 = 0;
+        
+        
         $scope.todayremarkTimeChange = function (selectedDate)
         {
             var currentDate = new Date();
@@ -332,7 +334,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.pagetitle = "My Reassigned Enquiries";
             } else {
                 $scope.report_name = "Teams Reassign Enquiries";
-                $scope.pagetitle = "Team`s Reassign Enquiries ";
+                $scope.pagetitle = "Team\'\s Reassign Enquiries ";
             }
 
             $scope.sharedemployee = shared;
@@ -374,7 +376,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             } else {
                 $rootScope.parentBreadcrumbFlag = "teamtotalenquiries";
                 $scope.report_name = "Teams Total Enquiries";
-                $scope.pagetitle = "Team`s Total Enquiries ";
+                $scope.pagetitle = "Team\'\s Total Enquiries ";
             }
             $scope.sharedemployee = shared;
             Data.post('master-sales/getTotalEnquiries', {
@@ -413,8 +415,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.pagetitle = "My Today's Followups";
             } else {
                 $rootScope.parentBreadcrumbFlag = "teamtodaysfollowups";
-                $scope.report_name = "Team`s Today's Followups";
-                $scope.pagetitle = "Team`s Today's Followups";
+                $scope.report_name = "Team\'\s Today's Followups";
+                $scope.pagetitle = "Team\'\s Today's Followups";
             }
 
             $scope.sharedEmployees = shared;
@@ -455,8 +457,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.pagetitle = "My Pending Followups";
             } else {
                 $rootScope.parentBreadcrumbFlag = "teampendingfollowups";
-                $scope.report_name = "Team`s Pending Followups";
-                $scope.pagetitle = "Team`s Pending Followups";
+                $scope.report_name = "Team\'\s Pending Followups";
+                $scope.pagetitle = "Team\'\s Pending Followups";
             }
             $scope.sharedemployee = shared;
             Data.post('master-sales/getPendingFollowups', {
@@ -494,8 +496,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.pagetitle = "My Previous Followups";
             } else {
                 $rootScope.parentBreadcrumbFlag = "teampreviousfollowups";
-                $scope.report_name = "Team`s Previous Followups";
-                $scope.pagetitle = "Team`s Previous Followups";
+                $scope.report_name = "Team\'\s Previous Followups";
+                $scope.pagetitle = "Team\'\s Previous Followups";
             }
             
             $scope.sharedemployee = shared;
@@ -536,8 +538,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.pagetitle = "My Lost Enquiries";
             } else {
                 $rootScope.parentBreadcrumbFlag = "teamlostenquiries";
-                $scope.report_name = "Team`s Lost Enquiries";
-                $scope.pagetitle = "Team`s Lost Enquiries";
+                $scope.report_name = "Team\'\s Lost Enquiries";
+                $scope.pagetitle = "Team\'\s Lost Enquiries";
             }
             $scope.sharedemployee = shared;
             $scope.showloader();
@@ -585,8 +587,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.pagetitle = "My Booked Enquiries";
             } else {
                 $rootScope.parentBreadcrumbFlag = "teambookedenquiries";
-                $scope.report_name = "Team`s Booked Enquiries";
-                $scope.pagetitle = "Team`s Booked Enquiries";
+                $scope.report_name = "Team\'\s Booked Enquiries";
+                $scope.pagetitle = "Team\'\s Booked Enquiries";
             }
             $scope.sharedemployee = shared;
             $scope.showloader();
@@ -1290,7 +1292,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             
             var time = new Date();
             if (enqid !== '') {
-                $scope.pageHeading = 'Today`s Remark';
+                $scope.pageHeading = 'Today\'\s Remark';
                 Data.post('master-sales/getTodayRemark', {
                     enquiryId: enqid, followupId: followupId
                 }).then(function (response) {

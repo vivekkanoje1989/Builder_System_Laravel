@@ -242,7 +242,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-sub  btn-primary" ng-click="step1 = true" ng-disabled="passwordBtn" >Submit</button>
+                        <button type="submit" class="btn btn-sub  btn-primary" ng-click="step1 = true" ng-disabled="passwordBtn" >Change</button>
                     </div>
                 </form>
             </div>
