@@ -290,7 +290,8 @@
                         <td width="20%">
                             <div><b>Booked On : </b>{{ enquiry.last_followup_date}}</div><hr class="enq-hr-line">
                             <div><a href data-toggle="modal" data-target="#collectionModal" ng-click="getCollectionDetails({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Booking Details</a></div>
-                            <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
+                            <a href ng-if="enquiry.email.split(',').length > 0" data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a>
+                            <span ng-if="enquiry.email.split(',').length > 0"><br/></span>
                         </td>
                         </tr>
                         <tr ng-if="enquiriesLength == 0 ||(enquiries|filter:search).length == 0">

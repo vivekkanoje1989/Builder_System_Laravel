@@ -297,7 +297,8 @@
                             <div>
                                 <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'',sharedemployee)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remark</a><br/>
                                 <!--<a href ><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Quotation</a><br/>-->
-                                <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
+                                <a href ng-if="enquiry.email.split(',').length > 0" data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a>
+                                <span ng-if="enquiry.email.split(',').length > 0"><br/></span>
                             </div>
 
                         </td>

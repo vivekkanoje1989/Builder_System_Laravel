@@ -692,8 +692,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails, MobileNo: $scope.searchData.searchWithMobile, EmailId: $scope.searchData.searchWithEmail,
                 }).then(function (response) {
                     if (response.success) {
-                        toaster.pop('success', 'Enquiry', response.message);
                         $scope.disableFinishButton = true;
+                        toaster.pop('success', 'Enquiry', response.message);                        
                         $state.reload();
                     } else
                     {
