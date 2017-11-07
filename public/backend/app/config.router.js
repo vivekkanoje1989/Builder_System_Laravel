@@ -1638,8 +1638,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / My Todays Followups',
-                                        title: 'Todays Followups',
+                                        label: 'Sales / Pre Sales / My Today\'\s Followups',
+                                        title: 'Today\'\s Followups',
                                     },
                                     resolve: {
                                         deps:
@@ -1842,8 +1842,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Team`s Enquiries / Team Todays Followups',
-                                        title: 'Team Todays Followups',
+                                        label: 'Sales / Pre Sales / Team\'\s Enquiries / Team Today\'\s Followups',
+                                        title: 'Team Today\'\s Followups',
                                     },
                                     resolve: {
                                         deps:
