@@ -1,11 +1,11 @@
 <style>
-.span9 {
-padding-top: 8%;
-}
-.bx-wrapper #clint-slider  img
-{
-    width:104px !important;
-}
+    .span9 {
+        padding-top: 8%;
+    }
+    .bx-wrapper #clint-slider  img
+    {
+        width:104px !important;
+    }
 </style>
 @extends('layouts/frontend/mantravastu/main')
 @section('content')
@@ -40,7 +40,7 @@ padding-top: 8%;
                     </div>
                 </div>            
             </div>
-            
+
         </div>
     </div>
     <!-- projects section end -->
@@ -57,7 +57,7 @@ padding-top: 8%;
             </div>
             <div class="row-fluid centered" id="abt">
                 <figure>
-                <img src="frontend/mantra_vastu/images/sample.jpg" class="img-responsive" alt="" />
+                    <img src="frontend/mantra_vastu/images/sample.jpg" class="img-responsive" alt="" />
                 </figure>
             </div>
             <div class="about-text">
@@ -82,12 +82,12 @@ padding-top: 8%;
                         </ul>
                     </div>
                     <ul class="row client-slider" id="clint-slider">                    
-                        <li style="float: left; list-style: none; position: relative; width: 210px; margin-right: 25px;" class="bx-clone" aria-hidden="true" ng-repeat="emp in employee | limitTo:8">
+                        <li style="float: left; list-style: none; position: relative; width: 210px; margin-right: 25px;" class="bx-clone" aria-hidden="true" ng-repeat="emp in employee| limitTo:8">
                             <a href="">
                                 <img src="https://storage.googleapis.com/bkt_bms_laravel/employee-photos/{{ emp.employee_photo_file_name}}" class="img-responsive img-circle" alt="" style="display:block;">
                             </a>
-                            <h3>{{ emp.first_name }} {{ emp.last_name }}</h3>
-                            <p>{{ emp.designation }}</p>
+                            <h3>{{ emp.first_name}} {{ emp.last_name}}</h3>
+                            <p>{{ emp.designation}}</p>
                         </li>
                     </ul>
                 </div>
@@ -104,13 +104,13 @@ padding-top: 8%;
                     <h1>What Client Say?</h1>
                 </div>
                 <div class="row">
-                    <div class="span3" ng-repeat="list in testimonial|limitTo:4"">
+                    <div class="span3" style="padding-left: 10px;" ng-repeat="list in testimonial|limitTo:4"">
                         <div class="testimonial">                        
                             <p>{{ list.description}} </p>
                             <div class="whopic">
                                 <div class="arrow"></div>
-                                <img ng-if="photo_url != null " src="[[config('global.s3Path')]]/Testimonial/{{ photo_url}}" alt="https://furtaev.ru/preview/user_3_small.png" class="img-circle centered" alt="client 1">
-                                <img ng-if="photo_url == null " src="https://furtaev.ru/preview/user_3_small.png" class="img-circle centered" alt="client 1">
+                                <img ng-if="photo_url != null" src="[[config('global.s3Path')]]/Testimonial/{{ photo_url}}" alt="https://furtaev.ru/preview/user_3_small.png" class="img-circle centered" alt="client 1">
+                                <img ng-if="photo_url == null" src="https://furtaev.ru/preview/user_3_small.png" class="img-circle centered" alt="client 1">
     <!--                            <strong>{{ list.customer_name}}
                                     <b>{{ list.company_name }}</b>
                                 </strong>-->
@@ -126,6 +126,7 @@ padding-top: 8%;
     </div>
     <!-- Newsletter section start -->
     <div class="section third-section" id="careersdata">
+        <div class="triangle animated fadeInDown" style="border-top: 30px solid black; border-left: 585px outset transparent; border-right: 585px outset transparent;"></div>
         <div class="container newsletter">
             <div class="title">
                 <h1>Careers</h1>
@@ -141,7 +142,7 @@ padding-top: 8%;
                     <!--<p>{{ list.job_eligibility}}</p>-->
                     <p> Eligibility Criteria: <span>BE / B-Tech</span></p>
                     <p> Location: <span>{{list.job_locations}}</span></p>
-                    <p> Job Posted Date: <span>{{ list.application_start_date }}</span></p>
+                    <p> Job Posted Date: <span>{{ list.application_start_date}}</span></p>
                     <p> Job Application Closed by: <span>{{ list.application_close_date}}</span></p>
                     <a id="job-apply" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">Apply now</a>
                     <hr>
@@ -193,14 +194,14 @@ padding-top: 8%;
                                         <div class="error left-align" id="err-message">Please enter your Message here.</div>
                                     </div>
                                 </div>
-<!--                                <div class="control-group">
-                                    <div class="controls">
-                                        <img id="contact_captcha" style="padding: 0 0 0 5px;" src="[[URL::to('/')]]/captcha_code_file.php?rand=435435&amp;name=contact_captcha">
-                                        <div style="padding: 0 0 0 5px;">Click <a style="color:blue" ng-click='refreshCaptcha("contact_captcha");'>here</a> to refresh</div> 
-
-                                        <input class="txtsize" type="text" value="" id="imgcaptcha" name="img_captcha" placeholder="Enter Image Text">
-                                    </div>
-                                </div>-->
+                                <!--                                <div class="control-group">
+                                                                    <div class="controls">
+                                                                        <img id="contact_captcha" style="padding: 0 0 0 5px;" src="[[URL::to('/')]]/captcha_code_file.php?rand=435435&amp;name=contact_captcha">
+                                                                        <div style="padding: 0 0 0 5px;">Click <a style="color:blue" ng-click='refreshCaptcha("contact_captcha");'>here</a> to refresh</div> 
+                                
+                                                                        <input class="txtsize" type="text" value="" id="imgcaptcha" name="img_captcha" placeholder="Enter Image Text">
+                                                                    </div>
+                                                                </div>-->
                                 <div class="g-recaptcha" data-sitekey="6LcIDDcUAAAAAEzlU702L0_99cDqkYaXsZxDO42C"></div>
                                 <div class="control-group">
                                     <div class="controls">
@@ -215,14 +216,14 @@ padding-top: 8%;
             </div>
             <div class="container">
                 <div class="span9 center contact-info">
-                <p>{{ contacts[0].address }}</p>
-                <p class="info-mail">{{ contacts[0].email}}</p>
-                <p>{{ contacts[0].contact_number1 }}</p>
-                <p>{{ contacts[0].contact_number2 }}</p>                
-                <div class="title">
-                    <h3>We Are Social</h3>
+                    <p>{{ contacts[0].address}}</p>
+                    <p class="info-mail">{{ contacts[0].email}}</p>
+                    <p>{{ contacts[0].contact_number1}}</p>
+                    <p>{{ contacts[0].contact_number2}}</p>                
+                    <div class="title">
+                        <h3>We Are Social</h3>
+                    </div>
                 </div>
-            </div>
                 <div class="row-fluid centered">
                     <ul class="social">
                         <li>
@@ -308,55 +309,44 @@ padding-top: 8%;
 
     </div>
     <!-- share your Experience -->
-    <div id="experience-popup">
-        <form action="" class="experience" id="experience-popup-form">
+    <div id="experience-popup" class="black_overlay">
+        <form action="" class="experience" id="experience-popup-form" onsubmit="createTestimonial()">
             <h4> experience for Property</h4>
             <a href="" class="close" id="clos"><img src="frontend/mantravastu/images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
             <fieldset class="experience-inner">
                 <p class="experience-input">
-                    <input type="text" name="Fname" placeholder="Your First Name…" autofocus>
+                    <input type="text" name="CustFname" id="CustFname" placeholder="Your First Name…" autofocus>
                 </p>
 
                 <p class="experience-input">
-                    <input type="text" name="Lname" placeholder="Your Last Name…" autofocus>
+                    <input type="text" name="CustLname" id="CustLname" placeholder="Your Last Name…" autofocus>
                 </p>
 
                 <p class="experience-input">
-                    <input type="phone" name="phone" placeholder="Your Mobile Number" autofocus>
+                    <input type="phone" name="mobile_num" id="mobile_num" placeholder="Your Mobile Number" autofocus>
                 </p>
 
                 <p class="experience-input">
-                    <input type="email" name="email" placeholder="Your Email" autofocus>
+                    <input type="email" name="email_id" id="email_id" placeholder="Your Email" autofocus>
                 </p>
 
                 Upload Your Photo
                 <p class="experience-input">
-                    <input id="uploadimg" name="uploadimg" value="" autocomplete="on" placeholder="Upload Your Photo" type="file" autofocus>
+                    <input type="file" id="uploadimg" name="uploadimg" value="" id="uploadimg" autocomplete="on" placeholder="Upload Your Photo" type="file" autofocus>
                 </p>
 
                 <p class="experience-input">
-                    <textarea name="experience" placeholder="Your Experience…"></textarea>
+                    <textarea name="description" id="description" placeholder="Your Experience…"></textarea>
                 </p>
-
-                <!--            <div>
-                                Captcha Image*
-                                <div><img id="captchaimg5" style="padding: 0 0 0 5px;" src="http://www.e-dynamics.in/reb/captcha_code_file.php?rand=1265139648&amp;name=experience_captcha">
-                                    <div style="padding: 0 0 0 5px;">
-                                        Click <a class="here" href="javascript: refreshCaptcha(&quot;captchaimg5&quot;);">here</a> to refresh
-                                    </div> 
-                                </div>
-                            </div>
-                            <p class="experience-input">
-                                <input id="txtCaptcha" name="txtCaptcha" value="" type="text" autocomplete="on" placeholder="Captcha">
-                            </p>-->
-
-
+                <div>
+                    Captcha Image*
+                    <div class="g-recaptcha" data-sitekey="6LcIDDcUAAAAAEzlU702L0_99cDqkYaXsZxDO42C"></div>
+                </div>
                 <p class="experience-submit">
                     <input type="submit" value="Send Message">
                 </p>
             </fieldset>
         </form>
-
     </div>
     <!-- Share your experience ends here -->
 
@@ -429,113 +419,161 @@ padding-top: 8%;
 @endsection()
 <script src="https://www.google.com/recaptcha/api.js"></script>
 <script>
-    $(document).ready(function(){
-    $("html, body").animate({
-        scrollTop: 0
-    }, 600);
-    status1 = status2 = status3 =  status4 = false;
-    contactUs = function(){
-    var name = $("#fname").val();
-    var mobile = $("#mobile").val();
-    var email = $("#emailid").val();
-    var message = $("#message").val();
-    if(name== '')
-    {
-        $("#err-name").show();
-    }
-    else{
-        $("#err-name").hide();
-    }
-    if(email== '')
-    {
-        $("#err-email").show();
-    }
-    else{
-        $("#err-email").hide();
-    }
-    if(mobile== '')
-    {
-         $("#err-mobile").show();
-    }
-    else{        
-        var pat = /^[0,9]$/;
-        if(mobile.match(pat))
-        {
-            alert("if");
-            $("#err-mobile").hide();
-        }else{
-            alert("else");
-        $("#err-mobile").show();
-    }
-       
-    }
-    if(message== '')
-    {
-        $("#err-message").show();
-    }
-    else{
-        $("#err-message").hide();
-    }
-    if(name!== '' && mobile !== '' && email!=='' && message!=='')
-    {
-        $.ajax({
-            async: false,
-            method:'POST',
-            url: "http://192.168.0.111:8000/website/addContact",              
-            data:{contactData:{name:name,mobile_number:mobile,email_id:email,message:message}},
-            success: function(result){
-                alert(result);
-                if(result == '')
-                {
-                    
-                }
-                else
-                {
-                    $("#fname").val('');
-                    $("#mobile").val('');
-                    $("#emailid").val('');
-                    $("#message").val('');
-                }
-    }});
-    }
-    else{
-        $("#err-all").show();
-    }
-    }
-    
-    $("a#home").click(function (e) {
-    e.preventDefault();
-    $('html, body').animate({
-    scrollTop: $("#homepage").offset().top
-    },1500);
-    });
-    
-    $("a#about").click(function (e) {
-    e.preventDefault();
-    $('html, body').animate({
-    scrollTop: $("#aboutus").offset().top
-    },1500);
-    });
-    
-    $("a#contactus").click(function (e) {
-    e.preventDefault();
-    $('html, body').animate({
-    scrollTop: $("#contact").offset().top
-    },1500);
-    });
-    
-    $("a#careers").click(function (e) {
-    e.preventDefault();
-    $('html, body').animate({
-    scrollTop: $("#careersdata").offset().top
-    },1500);
-    });
-    
-    $("a#clients").click(function (e) {
-    e.preventDefault();
-    $('html, body').animate({
-    scrollTop: $("#testmonials").offset().top
-    },1500);
-    });
-    
-    });</script>
+                        window.onload = function () {
+                        document.getElementById("enquiry").onclick = function () {
+                        var e = document.getElementById("enquiry-popup");
+                        var f = document.getElementById("enquiry-popup-form");
+                        e.style.display = "block"; f.style.display = "block";
+                        };
+                        document.getElementById("job-apply").onclick = function () {
+                        var g = document.getElementById("job-apply-popup");
+                        var h = document.getElementById("job-apply-popup-form");
+                        g.style.display = "block"; h.style.display = "block";
+                        };
+                        document.getElementById("job-apply-2").onclick = function () {
+                        var g = document.getElementById("job-apply-popup");
+                        var h = document.getElementById("job-apply-popup-form");
+                        g.style.display = "block"; h.style.display = "block";
+                        };
+                        }
+
+                        $(document).ready(function(){
+                        $("#experience").on("click", function(){
+                        $("#experience-popup").css("display", "block");
+                        $("#experience-popup-form").css("display", "block");
+                        });
+                        $(".close").on("click", function(){
+                        $("#experience-popup").css("display", "none");
+//            var f = document.getElementById("enquiry-popup-form"); 
+//            var g = document.getElementById("job-apply-popup"); 
+//            var h = document.getElementById("job-apply-popup-form"); 
+//            var a = document.getElementById("experience-popup"); 
+//            var b = document.getElementById("experience-popup-form"); 
+                        });
+                        $("html, body").animate({
+                        scrollTop: 0
+                        }, 600);
+                        status1 = status2 = status3 = status4 = false;
+                        createTestimonial = function()
+                        {
+                        var name = $("#CustFname").val()+" "+$("#CustLname").val();
+                        var mobile =  $("#mobile_num").val();
+                        var email =  $("#email_id").val();
+                        var description =  $("#description").val();
+                        var photoUrl =  $("#uploadimg").val();
+                        $.ajax({
+                        async: false,
+                                method:'POST',
+                                url: "http://192.168.0.109:8000/website/create_testimonials",
+                                data:{testimonial:{customer_name:name, mobile_number:mobile,description:description,photo_url:photoUrl}},
+                                success: function(result){
+                                if (result == '')
+                                {
+
+                                }
+                                else
+                                {
+                                $("#fname").val('');
+                                $("#mobile").val('');
+                                $("#emailid").val('');
+                                $("#message").val('');
+                                }
+                                }});
+                        }
+                        contactUs = function(){
+                        var name = $("#fname").val();
+                        var mobile = $("#mobile").val();
+                        var email = $("#emailid").val();
+                        var message = $("#message").val();
+                        if (name == '')
+                        {
+                        $("#err-name").show();
+                        }
+                        else{
+                        $("#err-name").hide();
+                        }
+                        if (email == '')
+                        {
+                        $("#err-email").show();
+                        }
+                        else{
+                        $("#err-email").hide();
+                        }
+                        if (mobile == '')
+                        {
+                        $("#err-mobile").show();
+                        }
+                        else{
+                        var pat = /^[0,9]$/;
+                        if (mobile.match(pat))
+                        {
+                        $("#err-mobile").hide();
+                        } else{
+                        $("#err-mobile").show();
+                        }
+
+                        }
+                        if (message == '')
+                        {
+                        $("#err-message").show();
+                        }
+                        else{
+                        $("#err-message").hide();
+                        }
+                        if (name !== '' && mobile !== '' && email !== '' && message !== '')
+                        {
+                        $.ajax({
+                        async: false,
+                                method:'POST',
+                                url: "http://192.168.0.104:8000/website/addContact",
+                                data:{contactData:{name:name, mobile_number:mobile, email_id:email, message:message}},
+                                success: function(result){
+                                if (result == '')
+                                {
+
+                                }
+                                else
+                                {
+                                $("#fname").val('');
+                                $("#mobile").val('');
+                                $("#emailid").val('');
+                                $("#message").val('');
+                                }
+                                }});
+                        }
+                        else{
+                        $("#err-all").show();
+                        }
+                        }
+
+                        $("a#home").click(function (e) {
+                        e.preventDefault();
+                        $('html, body').animate({
+                        scrollTop: $("#homepage").offset().top
+                        }, 1500);
+                        });
+                        $("a#about").click(function (e) {
+                        e.preventDefault();
+                        $('html, body').animate({
+                        scrollTop: $("#aboutus").offset().top
+                        }, 1500);
+                        });
+                        $("a#contactus").click(function (e) {
+                        e.preventDefault();
+                        $('html, body').animate({
+                        scrollTop: $("#contact").offset().top
+                        }, 1500);
+                        });
+                        $("a#careers").click(function (e) {
+                        e.preventDefault();
+                        $('html, body').animate({
+                        scrollTop: $("#careersdata").offset().top
+                        }, 1500);
+                        });
+                        $("a#clients").click(function (e) {
+                        e.preventDefault();
+                        $('html, body').animate({
+                        scrollTop: $("#testmonials").offset().top
+                        }, 1500);
+                        });
+                        });</script>

@@ -233,8 +233,9 @@ class MasterHrController extends Controller {
                     $emailempId[$i]['name'],
                     $loginEmployeeName
                 );
-               // $result = CommonFunctions::templateData($templatedata);
-               
+
+                CommonFunctions::templateData($templatedata);               
+
             }
             $templatedata = [];
             $employee_id = implode(',', $empId);
@@ -251,9 +252,9 @@ class MasterHrController extends Controller {
             $templatedata['arrExtra'][1] = array(
                 $sharedEmployee,
             );
-            $result = CommonFunctions::templateData($templatedata);
-            print_r($result);
-            exit;
+
+            CommonFunctions::templateData($templatedata);
+            
             $post = array('presale_shared_employee' => $employee_id);
             $result = Employee::where('id', '=', $request['empId'])->update($post);
             $result = ['success' => true, 'records' => $result];
