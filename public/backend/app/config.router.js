@@ -1738,8 +1738,8 @@ angular.module('app')
                                     templateUrl: '/master-sales/teamTotalEnquiry/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Team`s Enquiries / Team Total Enquiries',
-                                        title: 'Team Total Enquiries',
+                                        label: 'Sales / Pre Sales / Team\'\s Enquiries / Team\'\s Total Enquiries',
+                                        title: 'Team\'\s Total Enquiries',
                                     },
                                     resolve: {
                                         deps:
@@ -1774,8 +1774,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Team`s Enquiries / Team Lost Enquiries',
-                                        title: 'Team Lost Enquiries',
+                                        label: 'Sales / Pre Sales / Team\'\s Enquiries / Team\'\s Lost Enquiries',
+                                        title: 'Team\'\s Lost Enquiries',
                                     },
                                     resolve: {
                                         deps:
@@ -1808,8 +1808,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Team`s Enquiries / Team Booked Enquiry',
-                                        title: 'Team Booked Enquiry',
+                                        label: 'Sales / Pre Sales / Team\'\s Enquiries / Team\'\s Booked Enquiry',
+                                        title: 'Team\'\s Booked Enquiry',
                                     },
                                     resolve: {
                                         deps:
@@ -1842,8 +1842,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Team\'\s Enquiries / Team Today\'\s Followups',
-                                        title: 'Team Today\'\s Followups',
+                                        label: 'Sales / Pre Sales / Team\'\s Enquiries / Team\'\s Today\'\s Followups',
+                                        title: 'Team\'\s Today\'\s Followups',
                                     },
                                     resolve: {
                                         deps:
@@ -1877,8 +1877,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Team`s Enquiries / Team Pending Followups',
-                                        title: 'Team Pending Followups',
+                                        label: 'Sales / Pre Sales / Team\'\s Enquiries / Team\'\s Pending Followups',
+                                        title: 'Team\'\s Pending Followups',
                                     },
                                     resolve: {
                                         deps:
@@ -1911,8 +1911,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Team`s Enquiries / Team Previous Followups',
-                                        title: 'Team Previous Followups',
+                                        label: 'Sales / Pre Sales / Team\'\s Enquiries / Team\'\s Previous Followups',
+                                        title: 'Team\'\s Previous Followups',
                                     },
                                     resolve: {
                                         deps:
@@ -4314,8 +4314,8 @@ angular.module('app')
                                     templateUrl: '/reports/getTeamEnquiryreports',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Reports / Pre Sales / Team`s Report / Team`s Enquiry Report',
-                                        title: 'Team`s Enquiry Report',
+                                        label: 'Reports / Pre Sales / Team\'\s Report / Team\'\s Enquiry Report',
+                                        title: 'Team\'\s Enquiry Report',
                                     },
                                     resolve: {
                                         deps:
@@ -4344,8 +4344,8 @@ angular.module('app')
                                     templateUrl: '/reports/teamfollowupReport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Reports / Pre Sales / Team`s Report / Team`s Followup Report',
-                                        title: 'Team`s Followup Reports',
+                                        label: 'Reports / Pre Sales / Team\'\s Report / Team\'\s Followup Report',
+                                        title: 'Team\'\s Followup Reports',
                                     },
                                     resolve: {
                                         deps:
@@ -4374,7 +4374,7 @@ angular.module('app')
                                     templateUrl: '/reports/projectwiseTeamreport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Reports / Pre Sales / Team`s Report / Project Wise Reports',
+                                        label: 'Reports / Pre Sales / Team\'\s Report / Project Wise Reports',
                                         title: 'Project Wise Reports',
                                     },
                                     resolve: {
@@ -4472,8 +4472,8 @@ angular.module('app')
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Cloud Telephony / Call Logs / Team`s Incoming Call Logs',
-                                        title: 'Team`s Incoming Call Logs',
+                                        label: 'Cloud Telephony / Call Logs / Team\'\s Incoming Call Logs',
+                                        title: 'Team\'\s Incoming Call Logs',
                                     },
                                     resolve: {
                                         deps: [
@@ -4538,8 +4538,8 @@ angular.module('app')
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Cloud Telephony / Call Logs / Team`s Outgoing Logs',
-                                        title: 'Team`s Outgoing Logs',
+                                        label: 'Cloud Telephony / Call Logs / Team\'\s Outgoing Logs',
+                                        title: 'Team\'\s Outgoing Logs',
                                     },
                                     resolve: {
                                         deps: [
@@ -4669,8 +4669,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/total/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Customer Care/ Pre-Sales / Team`s Total Followups',
-                                        title: 'Team`s Total Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team\'\s Total Followups',
+                                        title: 'Team\'\s Total Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4738,8 +4738,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/completed/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Customer Care/ Pre-Sales / Team`s Completed Followups',
-                                        title: 'Team`s Completed Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team\'\s Completed Followups',
+                                        title: 'Team\'\s Completed Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4808,8 +4808,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/previous/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Customer Care/ Pre-Sales / Team`s Previous Followups',
-                                        title: 'Team`s Previous Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team\'\s Previous Followups',
+                                        title: 'Team\'\s Previous Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4843,8 +4843,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/today/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Customer Care/ Pre-Sales / My Today`s Followups',
-                                        title: 'My Today`s Followups'
+                                        label: 'Customer Care/ Pre-Sales / My Today\'\s Followups',
+                                        title: 'My Today\'\s Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4877,8 +4877,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/today/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Customer Care/ Pre-Sales / Team`s Today`s Followups',
-                                        title: 'Team`s Today`s Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team\'\s Today\'\s Followups',
+                                        title: 'Team\'\s Today\'\s Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4947,8 +4947,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/pending/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Customer Care/ Pre-Sales / Team`s Pending Followups',
-                                        title: 'Team`s Pending Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team\'\s Pending Followups',
+                                        title: 'Team\'\s Pending Followups'
                                     },
                                     resolve: {
                                         deps:
