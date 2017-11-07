@@ -191,8 +191,6 @@ class UserController extends Controller {
 
     public function addContact() {
         header('Access-Control-Allow-Origin: *');
-        print_r($_SESSION);
-        print_r(session()->all());exit;
         $input = Input::all();
         $name = explode(' ', $input['contactData']['name']);
         $input['contactData']['first_name'] = $name[0];
@@ -253,20 +251,23 @@ class UserController extends Controller {
     }
 
     public function create_testimonials() {
+        header('Access-Control-Allow-Origin: *');    
         $input = Input::all();
-        if (!empty($input['photoUrl'])) {
-            $originalName = $input['photoUrl']->getClientOriginalName();
-            if ($originalName !== 'fileNotSelected') {
-
-                $s3FolderName = "Testimonials";
-                $imageName = 'testimonial_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['photoUrl']->getClientOriginalExtension();
-                S3::s3FileUpload($input['photoUrl']->getPathName(), $imageName, $s3FolderName);
-                $photo_url = $imageName;
-            } else {
-                $photo_url = '';
-            }
+        echo basename($_FILES['uploadimg']['tmp_name']); exit;
+       
+        if (!empty($input['photoUrl']) || !empty($input['photo_url'])) {
+//            $originalName = $input['photoUrl']->getClientOriginalName();
+//            if ($originalName !== 'fileNotSelected') {
+//
+//                $s3FolderName = "Testimonials";
+//                $imageName = 'testimonial_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['photoUrl']->getClientOriginalExtension();
+//                S3::s3FileUpload($input['photoUrl']->getPathName(), $imageName, $s3FolderName);
+//                $photo_url = $imageName;
+//            } else {
+//                $photo_url = '';
+//            }
         }
-        $input['testimonial']['photo_url'] = $photo_url;
+      //  $input['testimonial']['photo_url'] = $photo_url;
         $result = WebTestimonials::create($input['testimonial']);
         return json_encode(['result' => $result, 'status' => true]);
     }
