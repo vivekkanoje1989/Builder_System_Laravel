@@ -900,7 +900,7 @@
                                                                             <div class="control-group">                                                            
                                                                                 <div class="checkbox" ng-repeat="mlist in mobileList track by $index">
                                                                                     <label>
-                                                                                        <input type="checkbox" ng-model="mobile_number" name="mobile_number" ng-change="checkedMobileNo(mlist, $index)" value="{{mlist}}" id="mob_{{$index}}" class="clsMobile" required>
+                                                                                        <input type="checkbox" ng-model="mobile_number" name="mobile_number" ng-change="checkedMobileNo(mlist, $index)" value="{{mlist}}" id="mob_{{$index}}" class="clsMobile" ng-required="divSms">
                                                                                         <span class="text">{{mlist}}</span>
                                                                                     </label>
                                                                                 </div>
@@ -957,7 +957,7 @@
                                                                                 <div class="control-group">
                                                                                     <div class="checkbox" ng-repeat="elist in emailList track by $index">
                                                                                         <label>
-                                                                                            <input type="checkbox" ng-model="email_id" name="email_id" ng-change="checkedEmailId(elist, $index)" value="{{elist}}" id="email_{{$index}}" class="clsEmail" required>
+                                                                                            <input type="checkbox" ng-model="email_id" name="email_id" ng-change="checkedEmailId(elist, $index)" value="{{elist}}" id="email_{{$index}}" class="clsEmail" ng-required="divEmail">
                                                                                             <span class="text">{{elist}}</span>
                                                                                         </label>
                                                                                     </div>

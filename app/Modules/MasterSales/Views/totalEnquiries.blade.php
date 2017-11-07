@@ -72,7 +72,7 @@
                             @endif 
                         </ul>
                     </div>                    
-                    <div  class="dataTables_filter" ng-if="enquiriesLength != 0">                        
+                    <div  class="dataTables_filter" >                        
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>

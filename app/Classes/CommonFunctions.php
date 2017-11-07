@@ -161,6 +161,7 @@ class CommonFunctions {
     }
 
     public static function templateData($alertdata) {
+        
         $customer_id = $alertdata['customer_id'];
         $employee_id = $alertdata['employee_id'];
         $client_id = $alertdata['client_id'];
@@ -335,7 +336,7 @@ class CommonFunctions {
             // ----------- Replace employee tags --------------//
 
             $employee = \App\Models\backend\Employee::where('id', $employee_id)->first();
-
+            
             if (!empty($employee->office_mobile_no)) {
                 $employeeMobile = $employee->office_mobile_no;
             } else if (!empty($employee->personal_mobile1)) {
@@ -345,13 +346,13 @@ class CommonFunctions {
             if (!empty($employee->first_name))
                 $employeeName = ucwords($employee->first_name . ' ' . $employee->last_name);
 
-            $emp_email = '';
-            if (!empty($employee->office_email_id)) {
+            $emp_email = '';             
+            if (!empty($employee->office_email_id) &&  $employee->office_email_id != 'null') {
                 $emp_email = $employee->office_email_id;
             } else if (!empty($employee->personal_email1)) {
                 $emp_email = $employee->personal_email1;
             }
-
+          
             $search = array('[#employeeName#]', '[#employeeMobile#]', '[#employeeEmail#]');
             $replace = array($employeeName, $employeeMobile, $emp_email);
             if (!empty($template_employee)) {
@@ -475,6 +476,7 @@ class CommonFunctions {
                 if ($template_settings_employee->email_status == 1 || !empty($alertdata['email_status'])) {
                     $subject = $emp_email_subject;
                     $data = ['mailBody' => $emp_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $emp_email, "cc" => $template_employee->email_cc_ids, "attachment" => $emp_attachedfile];
+                   
                     $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
                 }
                 if ($template_settings_employee->sms_status == 1 || !empty($alertdata['sms_status'])) {

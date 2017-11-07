@@ -291,6 +291,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
             })
 
             userdata.employee_photo_file_name.upload.then(function (response) {
+                console.log(response);
                 $scope.isDisabled = false;
                 $scope.pls_wait = false;
                 if (response.data.success) {

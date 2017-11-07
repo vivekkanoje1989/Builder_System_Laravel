@@ -138,6 +138,7 @@ class DashBoardController extends Controller {
                 ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
                 ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
                 ->where('db2.id', '!=', $loggedInUserId)
+                ->where('db2.employee_status', '=', 1)
                 ->get();
         $i = 0;
         foreach ($employees as $employee) {
@@ -158,15 +159,8 @@ class DashBoardController extends Controller {
         $request = json_decode($postdata, true);
         $empId = implode(',', $request['id']);
         $loggedInUserId = Auth::guard('admin')->user()->id;
-        $report = "select db2.first_name, db2.last_name, db2.id, db1.designation from `laravel_developement_master_edynamics`.`mlst_bmsb_designations` as `db1` inner join `laravel_developement_builder_client`.`employees` as `db2` on db1.id = db2.designation_id where db2.id <> " . $loggedInUserId . " AND not find_in_set(db2.id, '" . $empId . "' )";
+        $report = "select db2.first_name, db2.last_name, db2.id, db1.designation from `laravel_developement_master_edynamics`.`mlst_bmsb_designations` as `db1` inner join `laravel_developement_builder_client`.`employees` as `db2` on db1.id = db2.designation_id where db2.employee_status = 1 AND db2.id <> " . $loggedInUserId . " AND not find_in_set(db2.id, '" . $empId . "' )";
         $employees = DB::select($report);
-//           $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
-//                ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
-//                ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
-//                ->where([
-//                    ['db2.id', '<>', $loggedInUserId],
-//                    ['db2.id', '<>', $request['id'][0]['id']]])
-//                ->get();
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
         } else {
@@ -305,7 +299,7 @@ class DashBoardController extends Controller {
             $rows = DB::select("select FOUND_ROWS() as totalCount");
             $cnt = $rows[0]->totalCount;
         } else {
-            $report = "select request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, GROUP_CONCAT(distinct employees.first_name,' ', employees.last_name) as empName, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = " . $loggedInUserId . " GROUP BY request.id ";
+            $report = "select request.id,request.reply, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, GROUP_CONCAT(distinct employees.first_name,' ', employees.last_name) as empName, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = " . $loggedInUserId . " GROUP BY request.id ";
             $employees = DB::select($report);
           
             $cnt = count($employees);
@@ -313,7 +307,9 @@ class DashBoardController extends Controller {
         $i = 0;
         foreach ($employees as $employee) {
             $employees[$i]->application_to = $employee->empName;
-             $employees[$i]->in_date=  date('d-m-Y h:i A', strtotime($employee->in_date));
+             $emp_date=  date('d-m-Y h:i A', strtotime($employee->in_date));
+             $inDate = explode(' ',$emp_date);
+             $employees[$i]->in_date = $inDate[0].' @ '.$inDate[1] .$inDate[2];
              $employees[$i]->from_date=  date('d-m-Y', strtotime($employee->from_date));
              $employees[$i]->to_date=  date('d-m-Y', strtotime($employee->to_date));
             $i++;
@@ -404,16 +400,19 @@ class DashBoardController extends Controller {
             $cnt = $rows[0]->totalCount;
         } else {
             $employees = EmployeeRequest::join('employees', 'request.created_by', '=', 'employees.id')
-                    ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
+                    ->select('request.id', 'request.in_date','request.reply', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                     ->where('request.uid', '=', $loggedInUserId)
                     ->get();
-            $cnt = '';
+            $cnt = '0';
         }
         $i = 0;
         foreach ($employees as $employee) {
             $employees[$i]['application_from'] = $employee['first_name'] . ' ' . $employee['last_name'];
             $date = explode(' ', $employee['in_date']);
             $employees[$i]['in_date'] = $date[0];
+             $employees[$i]->in_date=  date('d-m-Y', strtotime($employee->in_date));
+             $employees[$i]->from_date=  date('d-m-Y', strtotime($employee->from_date));
+             $employees[$i]->to_date=  date('d-m-Y', strtotime($employee->to_date));
             $i++;
         }
         $userAgent = $_SERVER['HTTP_USER_AGENT'];

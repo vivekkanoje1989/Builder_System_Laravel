@@ -155,6 +155,7 @@ class UserController extends Controller {
         $update = CommonFunctions::updateMainTableRecords(0);
         $userdata = array_merge($userdata, $update);
         $employeeupdate = Employee::where('id', $id)->update($userdata);
+        
         if (!empty($employeeupdate)) {
             $employee = Employee::where("id", $id)->first();
             $password = substr($employee->username, 0, 8);
@@ -162,7 +163,9 @@ class UserController extends Controller {
             $employee->password = \Hash::make($password);
             $employee->high_security_password_type = 1;
             $employee->high_security_password = 1234;
+         
             if ($employee->save()) {
+                
                 $templatedata['employee_id'] = $employee->id;
                 $templatedata['client_id'] = config('global.client_id');
                 $templatedata['template_setting_customer'] = 0;
@@ -177,6 +180,7 @@ class UserController extends Controller {
                     $username,
                     $password
                 );
+                 
                 $url = "website/thanking-you";
                 $result = CommonFunctions::templateData($templatedata);
                 $result = ['success' => true, 'url' => $url];
@@ -244,7 +248,13 @@ class UserController extends Controller {
             $client = json_decode(config('global.client_info'), true);
             $client_id = $client['master_client_id'];
             $clientinfo = \App\Models\ClientInfo::where('id', $client_id)->first();
-            $clientdata['logo'] = config('global.s3Path') . '/client/' . $client_id . '/' . $clientinfo->company_logo;
+            if(!empty($clientinfo->company_logo)){
+                $company_logo = $clientinfo->company_logo;
+            }else{
+                $company_logo = '';
+            }
+            $clientdata['logo'] = config('global.s3Path') . '/client/' . $client_id . '/' . $company_logo;
+             
             $clientdata['empId'] = $employeeid;
             return view("frontend.common.registration")->with("clientdata", $clientdata);
         }

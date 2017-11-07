@@ -46,36 +46,46 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         $scope.searchDetails = {};
         $scope.searchData = {};
 
-        $scope.filterDetails = function (search) {
+        $scope.filterDetails = function (search, type) {
             if (search.in_date != undefined) {
                 var today = new Date(search.in_date);
                 var day = today.getDate().toString();
                 if (day.length > 1) {
-                    search.in_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+                    search.in_date = (today.getDate() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
                 } else {
-                    search.in_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-0' + today.getDate());
+                    search.in_date = (today.getDate() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-0' + today.getFullYear());
                 }
             }
             if (search.from_date != undefined) {
+                 if (type == 2) {
+                    var today = search.from_date.toString();
+                    
+                }
+                if (type != 2) {
                 var today = new Date(search.from_date);
                 var day = today.getDate().toString();
                 if (day.length > 1) {
-                    search.from_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+                    search.from_date = (today.getDate() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
                 } else {
-                    search.from_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-0' + today.getDate());
+                    search.from_date = ("0" + today.getDate() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
                 }
+            }
             }
 
             if (search.to_date != undefined) {
-                var loginDate = new Date(search.to_date);
-
-                var day = loginDate.getDate().toString();
-                if (day.length > 1) {
-                    search.to_date = (loginDate.getFullYear() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getDate());
-                } else {
-                    search.to_date = (loginDate.getFullYear() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-0' + loginDate.getDate());
+                if (type == 2) {
+                    var loginDate = search.to_date.toString();
+                    
                 }
-
+                if (type != 2) {
+                    var loginDate = new Date(search.to_date);
+                    var day = loginDate.getDate().toString();
+                    if (day.length > 1) {
+                        search.to_date = (loginDate.getDate() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getFullYear());
+                    } else {
+                        search.to_date = ("0" + loginDate.getDate() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getFullYear());
+                    }
+                }
 
             }
 
@@ -83,8 +93,9 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         }
         $scope.removeFilterData = function (keyvalue) {
             delete $scope.searchData[keyvalue];
-            $scope.filterDetails($scope.searchData);
+            $scope.filterDetails($scope.searchData, 2);
         }
+
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
@@ -116,10 +127,13 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
             $scope.from_date = list.from_date;
             $scope.to_date = list.to_date;
             $scope.req_desc = list.req_desc;
-            $scope.to_name = list.first_name + " " + list.last_name;
+//            $scope.to_name = list.first_name + " " + list.last_name;
             $scope.id = list.id;
+            $scope.reply = list.reply;
             $scope.status = list.status;
+            $scope.statusDescription = list.status;
             Data.post('my-request/description', {id: $scope.id}).then(function (response) {
+
                 if (response.status) {
                     $scope.cc_name = response.ccEmp;
                     $scope.to_name = response.toEmp;
@@ -182,8 +196,11 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         {
             $scope.showloader();
             Data.get('my-request/getRequestForMe').then(function (response) {
+
                 if (response.status) {
                     $scope.hideloader();
+//                    console.log(response);
+                    $scope.statusDescription = response.status;
                     $scope.myRequest = response.records;
                     $scope.exportData = response.exportData;
                     $scope.totalCount = $scope.myRequest.length;
@@ -209,18 +226,18 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                 }
             });
         }
-        $scope.statusChange = function (list, index)
-        {
-            $scope.id = list.id;
-            $scope.index = index;
-            $scope.in_date = list.in_date;
-            $scope.request_type = list.request_type;
-            $scope.first_name = list.first_name;
-            $scope.last_name = list.last_name;
-            $scope.from_date = list.from_date;
-            $scope.to_date = list.to_date;
-            $scope.req_desc = list.req_desc;
-        }
+//        $scope.statusChange = function (list, index)
+//        {
+//            $scope.id = list.id;
+//            $scope.index = index;
+//            $scope.in_date = list.in_date;
+//            $scope.request_type = list.request_type;
+//            $scope.first_name = list.first_name;
+//            $scope.last_name = list.last_name;
+//            $scope.from_date = list.from_date;
+//            $scope.to_date = list.to_date;
+//            $scope.req_desc = list.req_desc;
+//        }
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

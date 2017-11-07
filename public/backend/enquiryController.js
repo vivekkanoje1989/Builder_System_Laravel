@@ -758,6 +758,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.bulkreasignemployee = function (bulkData) {
+            $scope.reassignBtn = true;
             Data.post('master-sales/BulkReasignEmployee', {
                 employee_id: bulkData, enquiry_id: $scope.Bulkflag
             }).then(function (response) {
@@ -1301,7 +1302,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.remarkData = angular.copy(response.enquiryDetails[0]);
                         $scope.remarkData.customerId = angular.copy(response.enquiryDetails[0].customerId);
                         $scope.userpermissions = angular.copy(response.userpermissions);
-                        $scope.displayCallBtn = $scope.userpermissions.indexOf("01403");
+                        $scope.displayCallBtn = $scope.userpermissions.indexOf("01403");console.log("=="+$scope.displayCallBtn);
                         $("#custId").val(response.enquiryDetails[0].customerId);
                         
                         if (response.enquiryDetails[0].title_id == 0 || response.enquiryDetails[0].title_id == null) {
