@@ -233,7 +233,9 @@ class MasterHrController extends Controller {
                     $emailempId[$i]['name'],
                     $loginEmployeeName
                 );
+
                 CommonFunctions::templateData($templatedata);               
+
             }
             $templatedata = [];
             $employee_id = implode(',', $empId);
@@ -250,6 +252,7 @@ class MasterHrController extends Controller {
             $templatedata['arrExtra'][1] = array(
                 $sharedEmployee,
             );
+
             CommonFunctions::templateData($templatedata);
             
             $post = array('presale_shared_employee' => $employee_id);

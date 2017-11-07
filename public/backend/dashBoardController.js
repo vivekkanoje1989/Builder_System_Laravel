@@ -57,25 +57,25 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                 }
             }
             if (search.from_date != undefined) {
-                 if (type == 2) {
+                if (type == 2) {
                     var today = search.from_date.toString();
-                    
+
                 }
                 if (type != 2) {
-                var today = new Date(search.from_date);
-                var day = today.getDate().toString();
-                if (day.length > 1) {
-                    search.from_date = (today.getDate() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
-                } else {
-                    search.from_date = ("0" + today.getDate() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
+                    var today = new Date(search.from_date);
+                    var day = today.getDate().toString();
+                    if (day.length > 1) {
+                        search.from_date = (today.getDate() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
+                    } else {
+                        search.from_date = ("0" + today.getDate() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
+                    }
                 }
-            }
             }
 
             if (search.to_date != undefined) {
                 if (type == 2) {
                     var loginDate = search.to_date.toString();
-                    
+
                 }
                 if (type != 2) {
                     var loginDate = new Date(search.to_date);
@@ -196,7 +196,6 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         {
             $scope.showloader();
             Data.get('my-request/getRequestForMe').then(function (response) {
-
                 if (response.status) {
                     $scope.hideloader();
 //                    console.log(response);
@@ -207,7 +206,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                     $scope.searchLength = $scope.myRequest.length;
                 } else {
                     $scope.hideloader();
-                    $scope.totalCount = 0;
+                    $scope.totalCount1 = 0;
                     $scope.disableBtn = true;
                 }
             });

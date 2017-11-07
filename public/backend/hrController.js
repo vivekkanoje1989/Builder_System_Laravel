@@ -12,6 +12,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.presalesemployee_id = [];
         // $scope.presales =[];
         $scope.invalidImage = '';
+        $scope.invalidImagesize = '';
         $scope.contact = true;
         $scope.listUsers = [];
         var today = new Date();
@@ -74,9 +75,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.preSalesEnquiry = function (presales, employee_id) {
-             $("#presalesbtn").attr("disabled", "disabled");
+            $("#presalesbtn").attr("disabled", "disabled");
             Data.post('master-hr/preSalesEnquiry', {employee_id: presales, empId: employee_id}).then(function (response) {
-                if (response.success == '1') {
+                if (response.success) {
                     toaster.pop('success', 'Pre Sales Enquiry', 'Enquiries shared successfully');
                 } else {
                     toaster.pop('warning', 'Pre Sales Enquiry', response.message);
@@ -176,18 +177,39 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.applyClassDepartment = 'ng-inactive';
             }
         };
+
+        /* 3145728 = 3Mb  */
+        $scope.checkImagesize = function (employeePhoto) {
+
+            if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
+                var maxSize = employeePhoto.size;
+
+                if (maxSize <= 3145728) {
+                    console.log("3MB");
+                    $scope.invalidImagesize = "";
+                } else {
+                    console.log(">3MB");
+                    $scope.invalidImagesize = "Please select image size less than 3 MB";
+                }
+            }
+        }
+
         $scope.checkImageExtension = function (employeePhoto) {
+
             if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
                 var ext = employeePhoto.name.match(/\.(.+)$/)[1];
+
                 if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
                     $scope.invalidImage = "";
                 } else {
                     $(".imageFile").val("");
-                    $scope.invalidImage = "Invalid file format. File type should be jpg or jpeg or png or bmp format only.";
-                    $scope.usereducationForm.$valid = false;
+
+                    $scope.invalidImage = "Invalid file format. File type should be jpg,jpeg,gif,png,bmp format only";
                 }
             }
-        };
+        }
+
+
 
         $scope.validateMobile = function (mobNo, label) {
             var mobNoSplit = mobNo.split('-')[1];
@@ -1270,13 +1292,13 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.getProfile = function () {
             Data.post('master-hr/getProfileInfo', {})
-            .then(function (response) {
-                $scope.profileData = response.records;
-                $scope.profileData.employee_photo_file_name = '';
-                $scope.password_confirmation;
-                $scope.flag_profile_photo = response.flag_profile_photo;
-                $scope.old_profile_photo = response.old_profile_photo;
-            });
+                    .then(function (response) {
+                        $scope.profileData = response.records;
+                        $scope.profileData.employee_photo_file_name = '';
+                        $scope.password_confirmation;
+                        $scope.flag_profile_photo = response.flag_profile_photo;
+                        $scope.old_profile_photo = response.old_profile_photo;
+                    });
         }
 
         $scope.updateProfile = function (profileData)
@@ -1300,13 +1322,14 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 {
                     $rootScope.imageUrl = response.data.photo;
 
-                    toaster.pop('success', 'Profile', 'Profile updated successfully');
+                    toaster.pop('success', 'Profile', 'Profile picture updated successfully');
                     $state.go('dashboard');
                 }
             }, function (response) {
 
             });
         }
+
 
 
         $scope.updatePassword = function (profileData)
