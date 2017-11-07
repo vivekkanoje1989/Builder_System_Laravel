@@ -862,3 +862,4 @@ app.filter('htmlToPlaintext', function ()
         return  temp;
     };
 });
+

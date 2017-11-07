@@ -37,6 +37,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.shared = $scope.sharedemployee = 0;
         $scope.sendDocDisable = false;
         $rootScope.newEnqFlag1 = 0;
+        
+        
         $scope.todayremarkTimeChange = function (selectedDate)
         {
             var currentDate = new Date();

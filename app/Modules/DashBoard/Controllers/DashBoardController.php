@@ -422,6 +422,7 @@ class DashBoardController extends Controller {
                 $export = 1;
             }
         }
+       $employees=  json_decode(json_encode($employees), true);
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees, 'exportData' => $export, 'totalCount' => $cnt];
         } else {
