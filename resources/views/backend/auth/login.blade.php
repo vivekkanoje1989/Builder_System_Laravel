@@ -34,7 +34,7 @@
                         </div>
                         <div id="login-form" class="w3-animate-right col-xs-12 col-md-12" >
                             <div class="input-group">
-                                <input type="text" name="mobile" tabindex="1" class="form-control in-tag"  focus-me placeholder="Mobile" ng-model="loginData.mobile" check-login-credentials="" minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required="" ng-model-options="{allowInvalid: true, debounce: 100}">
+                                <input type="text" name="mobile" id="mobile" tabindex="1" class="form-control in-tag"  focus-me placeholder="Mobile" ng-model="loginData.mobile" check-login-credentials="" minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required="" ng-model-options="{allowInvalid: true, debounce: 100}" autofocus>
                                 <div ng-show="next1" ng-messages="loginForm.mobile.$error" class="help-block next1">
                                     <div ng-message="required" class="sp-err">Username is required.</div>
                                     <div ng-message="minlength"  class="sp-err">Invalid mobile no.</div>
@@ -49,7 +49,7 @@
                         </div>
                         <div id="forgot-form" class="w3-animate-right col-xs-12 col-md-12">
                             <div class="input-group">
-                                <input class="form-control in-tag"  tabindex="2" placeholder="Password" type="password" name="password" minlength="6" maxlength="15" ng-model="loginData.password" required="" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="resetErrorMsg()">
+                                <input class="form-control in-tag" tabindex="2" placeholder="Password" type="password" name="password" id="password" minlength="6" maxlength="15" ng-model="loginData.password" required="" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="resetErrorMsg()">
                             </div>
                             <div ng-show="next2" ng-messages="loginForm.password.$error" class="help-block next2">
                                 <div ng-message="required"  class="sp-err">Password is required.</div>
@@ -92,14 +92,22 @@
     $(document).ready(function () {
         $(".bt-next1").click(function (e) {
             if ($(".next1").hasClass("ng-active")) {
+                $("#mobile").focus();
                 e.preventDefault();
             } else {
                 $("#login-form").hide();
                 $("#forgot-form").show();
+                $("#password").focus();
+            }
+        });
+        $(".sub-btn").click(function (e) {
+            if ($(".next2").hasClass("ng-active")) {
+                $("#password").focus();
             }
         });
         $(".next2").click(function (e) {
             if ($(".next2").hasClass("ng-active")) {
+                $("#password").focus();
                 e.preventDefault();
             } else {
                 $("#forgot-form").hide();

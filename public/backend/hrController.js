@@ -76,7 +76,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.preSalesEnquiry = function (presales, employee_id) {
              $("#presalesbtn").attr("disabled", "disabled");
             Data.post('master-hr/preSalesEnquiry', {employee_id: presales, empId: employee_id}).then(function (response) {
-                console.log(response);
                 if (response.success) {
                     toaster.pop('success', 'Pre Sales Enquiry', 'Enquiries shared successfully');
                 } else {
@@ -1271,16 +1270,16 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.getProfile = function () {
             Data.post('master-hr/getProfileInfo', {})
-                    .then(function (response) {
-                        $scope.profileData = response.records;
-                        $scope.profileData.employee_photo_file_name = '';
-                        $scope.password_confirmation;
-                        $scope.flag_profile_photo = response.flag_profile_photo;
-                        $scope.old_profile_photo = response.old_profile_photo;
-                    });
+            .then(function (response) {
+                $scope.profileData = response.records;
+                $scope.profileData.employee_photo_file_name = '';
+                $scope.password_confirmation;
+                $scope.flag_profile_photo = response.flag_profile_photo;
+                $scope.old_profile_photo = response.old_profile_photo;
+            });
         }
 
-         $scope.updateProfile = function (profileData)
+        $scope.updateProfile = function (profileData)
         {
             $scope.profileBtn = true;
             profileData.changePasswordflag = $scope.passwordValidation;

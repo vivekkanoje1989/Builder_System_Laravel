@@ -383,10 +383,12 @@ p {
 }
 .primary-section {
  
-    background:#FECE1A;
+    /*background:#FECE1A;*/
+    background:#000000;
 }
 .primary-section .triangle {
-    border-top: 40px solid #191818;
+    /*border-top: 40px solid #191818;*/
+    border-top: 40px solid #fece1a;
 }
 .primary-section .title {
     border-bottom: 1px solid #FFF;
