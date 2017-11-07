@@ -23,6 +23,7 @@ class WebTestimonials extends Eloquent {
         'testimonial',
         'description',
         'mobile_number',
+        'email_id',
         'web_status',
         'approve_status',
         'created_date',

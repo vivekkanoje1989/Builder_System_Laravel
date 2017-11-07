@@ -155,7 +155,7 @@ class UserController extends Controller {
         $update = CommonFunctions::updateMainTableRecords(0);
         $userdata = array_merge($userdata, $update);
         $employeeupdate = Employee::where('id', $id)->update($userdata);
-        
+
         if (!empty($employeeupdate)) {
             $employee = Employee::where("id", $id)->first();
             $password = substr($employee->username, 0, 8);
@@ -163,9 +163,9 @@ class UserController extends Controller {
             $employee->password = \Hash::make($password);
             $employee->high_security_password_type = 1;
             $employee->high_security_password = 1234;
-         
+
             if ($employee->save()) {
-                
+
                 $templatedata['employee_id'] = $employee->id;
                 $templatedata['client_id'] = config('global.client_id');
                 $templatedata['template_setting_customer'] = 0;
@@ -180,7 +180,7 @@ class UserController extends Controller {
                     $username,
                     $password
                 );
-                 
+
                 $url = "website/thanking-you";
                 $result = CommonFunctions::templateData($templatedata);
                 $result = ['success' => true, 'url' => $url];
@@ -248,37 +248,66 @@ class UserController extends Controller {
             $client = json_decode(config('global.client_info'), true);
             $client_id = $client['master_client_id'];
             $clientinfo = \App\Models\ClientInfo::where('id', $client_id)->first();
-            if(!empty($clientinfo->company_logo)){
+            if (!empty($clientinfo->company_logo)) {
                 $company_logo = $clientinfo->company_logo;
-            }else{
+            } else {
                 $company_logo = '';
             }
             $clientdata['logo'] = config('global.s3Path') . '/client/' . $client_id . '/' . $company_logo;
-             
+
             $clientdata['empId'] = $employeeid;
             return view("frontend.common.registration")->with("clientdata", $clientdata);
         }
     }
 
     public function create_testimonials() {
-        header('Access-Control-Allow-Origin: *');    
+        header('Access-Control-Allow-Origin: *');
+        header('Content-type: application/json');
         $input = Input::all();
-        echo basename($_FILES['uploadimg']['tmp_name']); exit;
-       
-        if (!empty($input['photoUrl']) || !empty($input['photo_url'])) {
-//            $originalName = $input['photoUrl']->getClientOriginalName();
-//            if ($originalName !== 'fileNotSelected') {
-//
-//                $s3FolderName = "Testimonials";
-//                $imageName = 'testimonial_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['photoUrl']->getClientOriginalExtension();
-//                S3::s3FileUpload($input['photoUrl']->getPathName(), $imageName, $s3FolderName);
-//                $photo_url = $imageName;
-//            } else {
-//                $photo_url = '';
-//            }
-        }
-      //  $input['testimonial']['photo_url'] = $photo_url;
-        $result = WebTestimonials::create($input['testimonial']);
+        if (!empty($input['photoUrl'])) {
+            $originalName = $input['photoUrl']->getClientOriginalName();
+            if ($originalName !== 'fileNotSelected') {
+
+                $s3FolderName = "Testimonials";
+                $imageName = 'testimonial_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['photoUrl']->getClientOriginalExtension();
+                S3::s3FileUpload($input['photoUrl']->getPathName(), $imageName, $s3FolderName);
+                $photo_url = $imageName;
+            } else {
+                $photo_url = '';
+            }
+        }       
+        if (!empty($input['testimonial'])) {
+            $input['testimonial']['photo_url'] = $photo_url;
+            $result = WebTestimonials::create($input['testimonial']);
+        } else {
+            $input['photo_url'] = $photo_url;
+            $result = WebTestimonials::create($input);
+        }        
+        /* mail/message template for testimonials */
+        
+        $templatedata['employee_id'] = 1;
+        $templatedata['client_id'] = config('global.client_id');
+        $comp = config('global.companyName');
+        $templatedata['template_setting_customer'] = 54;
+        $templatedata['template_setting_employee'] = 53;
+        $templatedata['customer_id'] = 0;
+        $templatedata['project_id'] = 0;
+        $templatedata['frontuserEmailId'] = $input['email_id'];
+        $templatedata['frontuserMobile'] = $input['mobile_number'];
+        $templatedata['arrExtra'][0] = array(
+                    '[#testCustName#]',
+                    '[#testCustMob#]',
+                    '[#experience#]',
+                    '[#companyMktName#]',
+                );
+                $templatedata['arrExtra'][1] = array(
+                    $input['customer_name'],
+                    $input['mobile_number'],
+                    $input['description'],
+                    $comp,
+                );
+        $result = CommonFunctions::templateData($templatedata);        
+        /* end mail/message template for testimonials */        
         return json_encode(['result' => $result, 'status' => true]);
     }
 
@@ -591,8 +620,8 @@ class UserController extends Controller {
     public function enquiry() {
         return view('frontend.' . $this->themeName . '.enquiry');
     }
-    
-     public function getThankingYou() {
+
+    public function getThankingYou() {
         return view("frontend.common.thanking-you");
     }
 
