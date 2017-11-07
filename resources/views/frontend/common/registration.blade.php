@@ -77,7 +77,7 @@
                                                 <div class="w3-container">
 
 
-                                                    <form name="frmRegistration" novalidate ng-submit="frmRegistration.$valid && updateemployee(userData, [[ $empId ]])" ng-init="getemployee([[ $empId]])" >
+                                                    <form name="frmRegistration" novalidate ng-submit="frmRegistration.$valid && invalidImage == '' && updateemployee(userData, [[ $empId ]])" ng-init="getemployee([[ $empId]])" >
                                                         <div class="col-sm-12">
                                                             <div class="row">
                                                                 <div class="col-md-12 clol-xs-12">
@@ -86,7 +86,7 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12 clol-xs-12">
-                                                                    <h3>Personal Information</h3>	{{sbtBtn}}						
+                                                                    <h3>Personal Information</h3>				
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -207,9 +207,12 @@
                                                                 </div>	
                                                                 <div class="col-sm-4 form-group">
                                                                     <label for="">Employee Photo ( W 105 X H 120 )</label>
-                                                                    <input type="file"ngf-select ng-model="userData.employee_photo_file_name" name="employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" accept="image/x-png,image/gif,image/jpeg" >
-                                                                        <div class="img-div2" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
+                                                                    <input type="file"ngf-select ng-model="userData.employee_photo_file_name" name="employee_photo_file_name"  ng-change="checkImageExtension(userData.employee_photo_file_name)"   ng-model-options="{ allowInvalid: true, debounce: 300 }"  id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" accept="image/x-png,image/gif,image/jpeg" >
+                                                                        <div class="img-div2" ng-show="invalidImage == ''" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
                                                                             <img ng-src="{{list}}" style="width:100px;height: 70px" class="thumb photoPreview">
+                                                                        </div>
+                                                                        <div ng-show="sbtBtn || invalidImage" class="error_msg" ng-messages="userData.employee_photo_file_name.$error" class="help-block">
+                                                                            <div ng-if="invalidImage">{{invalidImage}}</div>
                                                                         </div>
                                                                 </div>	
                                                             </div>

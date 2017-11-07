@@ -721,13 +721,13 @@
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userStatusForm.show_on_homepage.$dirty && userStatusForm.show_on_homepage.$invalid)}">
                                 <label>Show on website <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <select name="show_on_homepage" id="show_on_homepage" ng-model="userStatus.show_on_homepage" class="form-control">
+                                    <select name="show_on_homepage" id="show_on_homepage" ng-model="userStatus.show_on_homepage" required class="form-control">
                                         <option value="">Select</option>
                                         <option value="1">Yes</option>
                                         <option value="0">No</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
-                                    <div ng-show="step5" ng-messages="userForm.show_on_homepage.$error" class="help-block step5">
+                                    <div ng-show="step5" ng-messages="userStatusForm.show_on_homepage.$error" class="help-block step5">
                                         <div ng-message="required">This field is required.</div>
                                     </div>
                                 </span>
@@ -793,7 +793,7 @@
                             </span>
                             <span ng-show="userData.employee_photo_file_name.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5" ng-click="previous(4, 5)">Prev</button>
-                            <button type="submit" class="btn btn-primary btn-submit-last"  ng-click="step5 = true">Update</button>
+                            <button type="submit" class="btn btn-primary btn-submit-last" ng-disabled="step5disabled"  ng-click="step5 = true">Update</button>
                             <a href="[[ config('global.backendUrl') ]]#/user/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>

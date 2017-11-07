@@ -158,7 +158,7 @@ class UserController extends Controller {
         
         if (!empty($employeeupdate)) {
             $employee = Employee::where("id", $id)->first();
-            $password = substr($employee->username, 0, 8);
+            $password = substr(rand(10000000, 99999999), 0, 8);
             $username = $employee->username;
             $employee->password = \Hash::make($password);
             $employee->high_security_password_type = 1;
@@ -171,7 +171,6 @@ class UserController extends Controller {
                 $templatedata['template_setting_customer'] = 0;
                 $templatedata['template_setting_employee'] = 26;
                 $templatedata['customer_id'] = 0;
-                $templatedata['model_id'] = 0;
                 $templatedata['arrExtra'][0] = array(
                     '[#username#]',
                     '[#password#]'
@@ -241,8 +240,10 @@ class UserController extends Controller {
 
     public function registration($id) {
         $employeeid = base64_decode($id);
+        
         $employee = Employee::where("id", $employeeid)->first();
-        if (!empty($employee->password)) {
+       
+        if (!empty($employee->password) || empty($employee)) {
             return view("frontend.common.linkexpired")->with("empId", $employeeid);
         } else {
             $client = json_decode(config('global.client_info'), true);
