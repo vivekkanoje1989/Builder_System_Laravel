@@ -580,10 +580,8 @@ class MasterSalesController extends Controller {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
             if (!empty($request['enquiryData']['next_followup_date'])) {
-                // uppdate followups
-                $next_followup_time = date('H:i:s', strtotime($request['enquiryData']['next_followup_time']));
-                $next_followup_time = $request['enquiryData']['remarks'];
-                //echo "update enquiry_followups set next_followup_date = '".$request['enquiryData']['next_followup_date']."',followup_by_employee_id = ".$request['enquiryData']['followup_by_employee_id'].", next_followup_time='".$request['enquiryData']['next_followup_time']."',sales_category_id = ".$request['enquiryData']['sales_category_id']."  where enquiry_id = ".$request['enquiryData']['id']." ORDER BY `id` DESC LIMIT 1";exit;
+                // uppdate followups                
+                $next_followup_time = date('H:i:s', strtotime($request['enquiryData']['next_followup_time']));             
                 $updatefollowups = DB::select("update enquiry_followups set next_followup_date = '" . $request['enquiryData']['next_followup_date'] . "',followup_by_employee_id = " . $request['enquiryData']['followup_by_employee_id'] . ", next_followup_time='" . $next_followup_time . "',sales_category_id = " . $request['enquiryData']['sales_category_id'] . "  where enquiry_id = " . $request['enquiryData']['id'] . " ORDER BY `id` DESC LIMIT 1");
             }
             unset($request['enquiryData']['project_id'], $request['enquiryData']['block_id'], $request['enquiryData']['sub_block_id'], $request['enquiryData']['enquiry_category_id'], $request['enquiryData']['city_id'], $request['enquiryData']['csrfToken'], $request['enquiryData']['next_followup_date'], $request['enquiryData']['next_followup_time'], $request['enquiryData']['project_name'], $request['enquiryData']['block_name'], $request['enquiryData']['block_sub_type'], $request['enquiryData']['followup_by_employee_id'], $request['enquiryData']['remarks'], $request['enquiryData']['enqdetails_id'], $request['enquiryData']['loggedInUserId']);
