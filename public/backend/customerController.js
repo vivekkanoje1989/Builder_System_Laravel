@@ -27,6 +27,22 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.showaddress = true;
         $scope.hideaddress = false;
         $scope.customerAddress = false;
+        $scope.todayremarkTimeChange = function (selectedDate)
+        {
+            var currentDate = new Date();
+            $scope.currentDate = (currentDate.getFullYear() + '-' + ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + currentDate.getDate());
+            var selectedDate = new Date(selectedDate);
+            $scope.selectedDate = (selectedDate.getFullYear() + '-' + ("0" + (selectedDate.getMonth() + 1)).slice(-2) + '-' + selectedDate.getDate());
+            Data.post('getnextfollowupTime', {
+                data: {currentDate: $scope.currentDate, selectedDate: $scope.selectedDate},
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.timeList = response.records;
+                }
+            });
+        }
         $scope.showAddress = function () {
             $scope.showaddress = false;
             $scope.hideaddress = true;
@@ -446,8 +462,13 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         var location = response.enquiryDetails[0].enquiry_locations;
                         var d = new Date();
                         d.setHours(setTime[0]);
-                        d.setMinutes(setTime[1]);
-                        $scope.enquiryData.next_followup_time = d;
+                        d.setMinutes(setTime[1]); alert($scope.enquiryData.next_followup_time);
+                        //$scope.enquiryData.next_followup_time = d;
+                       
+                        if($scope.enquiryData.next_followup_date !== "" && $scope.enquiryData.next_followup_date !== null)
+                        {
+                            $scope.todayremarkTimeChange($scope.enquiryData.next_followup_date);
+                        }
                         $scope.enquiryData.project_id = "";
                         $scope.enquiryData.block_id = $scope.enquiryData.sub_block_id = [];
                         $scope.hstep = 0;
