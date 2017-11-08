@@ -261,8 +261,7 @@ class UserController extends Controller {
         }
     }
 
-    public function create_testimonials() {
-        header('Access-Control-Allow-Origin: *');
+    public function create_testimonials() {        
         header('Content-type: application/json');
         $input = Input::all();
         if (!empty($input['photoUrl'])) {
@@ -462,7 +461,6 @@ class UserController extends Controller {
     public function getProjectDetails() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
         $projects = Project::join('project_web_pages', 'project_web_pages.project_id', '=', 'projects.id')
                 ->get();
         $availble = Project::join('project_blocks', 'project_blocks.project_id', '=', 'projects.id')
