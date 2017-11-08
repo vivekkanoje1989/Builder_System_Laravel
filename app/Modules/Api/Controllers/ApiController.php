@@ -54,13 +54,13 @@ class ApiController extends Controller {
         } else {
             $emp_id = Auth::guard('admin')->user()->id;
         }
-           $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
-         if (in_array('01401', $array)) {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
             $export = 1;
         } else {
             $export = '';
         }
-        
+
         $getApilist = array();
         $this->tuserid($emp_id);
         $alluser = $this->allusers;
@@ -70,13 +70,11 @@ class ApiController extends Controller {
                 ->whereIN('push_api_settings.employee_id', $alluser)
                 ->get();
 
-        $result = ['success' => true, 'records' => $getApilist,'export'=>$export];
+        $result = ['success' => true, 'records' => $getApilist, 'export' => $export];
         return json_encode($result);
     }
-    
-    
-    
-       public function apiExportToxls() {
+
+    public function apiExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $result = PushApiSetting::select('api_name', 'key', 'id')->get();
@@ -125,7 +123,7 @@ class ApiController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $emp_ids = explode(',', $request['data']['employee']);
-  
+
         $resultEmployee = Employee::whereNOTIN('id', $emp_ids)->select('first_name', 'last_name', 'id')->get();
 
         if (!empty($resultEmployee)) {
@@ -2543,21 +2541,20 @@ characters in mobile number field. Please apply your form validations as per the
         $obj_bms_api_logs->error_message = $message;
         $obj_bms_api_logs->requested_url_date = date('Y-m-d h:i:s');
         $obj_bms_api_logs->save();
-
         $error_notification_email = @explode(',', $obj_api->error_notification_email);
         $currenttime = date('d-m-Y @ H:i:s a');
+        
         if (!empty($_GET['first_name'])) {
             $fistname = $_GET['first_name'];
         } else {
             $fistname = $status;
         }
-
+        
         if (!empty($_GET['last_name'])) {
             $lastname = $_GET['last_name'];
         } else {
             $lastname = $status;
         }
-
         if (!empty($_GET['mobile_no'])) {
             $mobile_no = trim($_GET['mobile_no']);
             $country_code = trim($_GET['country_code']);
@@ -2580,7 +2577,6 @@ characters in mobile number field. Please apply your form validations as per the
         } else {
             $mobile_no = $status;
         }
-
         if (!empty($_GET['email_id'])) {
             if (!filter_var($_GET['email_id'], FILTER_VALIDATE_EMAIL)) {
                 $email_id = $status;
@@ -2590,29 +2586,23 @@ characters in mobile number field. Please apply your form validations as per the
         } else {
             $email_id = $status;
         }
-
         if (!empty($_GET['source'])) {
             $source = $_GET['source'];
         } else {
             $source = $status;
         }
-
         if (!empty($_GET['sub_source'])) {
             $sub_source = $_GET['sub_source'];
         } else {
             $sub_source = $status;
         }
 
-
         if (!empty($error_notification_email)) {
             $default_content = '';
-
             $templatedata = array();
             $username = "";
             $password = "";
-
             $email = DB::table('email_configuration')->where('id', '=', $obj_api->from_email_id)->first();
-
             if (!empty($obj_api->from_email_id)) {
                 $username = $email->email;
                 $password = $email->password;
@@ -2622,13 +2612,11 @@ characters in mobile number field. Please apply your form validations as per the
             } else {
                 $sales_source_name = '';
             }
-
             if (!empty($_GET['sub_source'])) {
                 $enquiry_subsource = $_GET['sub_source'];
             } else {
                 $enquiry_subsource = '';
             }
-
             $templatedata['employee_id'] = $obj_api->error_notification_email;
             $templatedata['client_id'] = config('global.client_id');
             $templatedata['template_setting_customer'] = 0; //50;
@@ -2668,8 +2656,8 @@ characters in mobile number field. Please apply your form validations as per the
                 $obj_api->pdf_name,
             );
             $r = 1;
-            // $result = CommonFunctions::templateData($templatedata);
-            // return json_encode($result);
+            $result = CommonFunctions::templateData($templatedata);
+            return json_encode($result);
         }
     }
 
@@ -2688,9 +2676,8 @@ characters in mobile number field. Please apply your form validations as per the
         } else {
             $sales_source_name = '';
         }
-        
         if (!empty($request['project_id'])) {
-            $projectDetails = Project::select('pw.project_address', 'pw.short_description', 'pw.project_logo','pw.project_contact_numbers', 'pw.project_brochure','pw.project_banner_images', 'pw.google_map_short_url')
+            $projectDetails = Project::select('pw.project_address', 'pw.short_description', 'pw.project_logo', 'pw.project_contact_numbers', 'pw.project_brochure', 'pw.project_banner_images', 'pw.google_map_short_url')
                     ->leftjoin('project_web_pages as pw', 'projects.id', '=', 'pw.project_id')
                     ->where('projects.id', '=', $request['project_id'])
                     ->first();
@@ -2700,12 +2687,11 @@ characters in mobile number field. Please apply your form validations as per the
             $project_brochure = $projectDetails->project_brochure;
             $google_map_short_url = $projectDetails->google_map_short_url;
             $project_contact_numbers = $projectDetails->project_contact_numbers;
-            if(!empty($projectDetails->project_banner_images)){
-              $project_banner_images =   explode(',',$projectDetails->project_banner_images);
-             $project_banner_images =  $project_banner_images['0'];
+            if (!empty($projectDetails->project_banner_images)) {
+                $project_banner_images = explode(',', $projectDetails->project_banner_images);
+                $project_banner_images = $project_banner_images['0'];
             }
             $project_banner_images = $projectDetails->project_banner_images;
-            
         } else {
             $project_address = '';
             $short_description = '';
@@ -2714,13 +2700,11 @@ characters in mobile number field. Please apply your form validations as per the
             $google_map_short_url = '';
             $project_contact_numbers = '';
         }
-
         $project_link = 'http://' . $_SERVER['SERVER_NAME'] . ':8000/project-details/' . $request['project_id'];
         $project_logo = config('global.s3Path') . '/project/project_logo/' . $project_logo;
         $project_brochure = config('global.s3Path') . '/project/project_brochure/' . $project_brochure;
         $project_banner_images = config('global.s3Path') . '/project/project_banner_images/' . $project_banner_images;
-        
-        
+
         $templatedata['employee_id'] = $emp->id;
         $templatedata['client_id'] = config('global.client_id');
         $templatedata['customer_status'] = '1';
@@ -2782,7 +2766,6 @@ characters in mobile number field. Please apply your form validations as per the
             $google_map_short_url,
             $project_contact_numbers,
         );
-
 
         $result = CommonFunctions::texttemplateData($templatedata, $obj_api, $request);
         return json_encode($result);
