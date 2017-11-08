@@ -165,10 +165,20 @@ class CommonFunctions {
         $customer_id = $alertdata['customer_id'];
         $employee_id = $alertdata['employee_id'];
         $client_id = $alertdata['client_id'];
-        if (!empty($alertdata['project_id']) && $alertdata['project_id'] <> 0) {
+        if (!empty($alertdata['project_id']) && $alertdata['project_id'] != 0) {
             $project_id = $alertdata['project_id'];
         } else {
             $project_id = 0;
+        }
+        if (!empty($alertdata['frontuserEmailId']) && $alertdata['frontuserEmailId'] !== 0) {
+            $frontuserEmail = $alertdata['frontuserEmailId'];
+        } else {
+            $frontuserEmail = 0;
+        }
+        if (!empty($alertdata['frontuserMobile']) && $alertdata['frontuserMobile'] !== 0) {
+            $frontuserMobile = $alertdata['frontuserMobile'];
+        } else {
+            $frontuserMobile = 0;
         }
         if (!empty($alertdata['obj_inbound'])) {
             $obj_inbound = $alertdata['obj_inbound'];
@@ -193,10 +203,9 @@ class CommonFunctions {
         $car_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/car.png";
         $loc_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/loc2.png";
 
-        if (!empty($customer_id > 0)) {
+        if (!empty($customer_id > 0) || !empty($alertdata['frontuserEmailId'])) {
             //$template_settings_customer = TemplatesSetting::where(['client_id' => $client_id, 'templates_event_id' => $eventid_customer, 'template_for' => 1])->first();
             $template_settings_customer = TemplatesSetting::where(['id' => $template_setting_customer])->first();
-
             if (!empty($template_settings_customer)) {
                 if ($template_settings_customer->template_type == 0) {                    // check defualt template = 0 or custom template =1
                     $template_customer = MlstBmsbTemplatesDefaults::where(['id' => $template_settings_customer->default_template_id])->first();
@@ -204,9 +213,7 @@ class CommonFunctions {
                     $template_customer = TemplatesCustom::where(['id' => $template_settings_customer->custom_template_id])->first();
                 }
             }
-        }
-
-
+        }        
         if (!empty($template_customer)) {
             $cust_email_subject = $template_customer->email_subject;
             $cust_emailTemplate = $template_customer->email_body;
@@ -442,7 +449,7 @@ class CommonFunctions {
             $userName = '';
             $password = '';
         }
-        $companyName = $client->marketing_name;
+        $companyName = $client->marketing_name;        
         if (!empty($customer_id > 0)) {
             if (!empty($template_settings_customer)) {
                 if ($template_settings_customer->email_status == 1 && !empty($customer_email_to)) {
@@ -457,15 +464,27 @@ class CommonFunctions {
                     $mobile = $customer_mobile_number;
                     $customer = "Yes";
                     $customerId = $customer_contact->customer_id;
-
                     // $result = Gupshup::sendSMS($cust_smsTemplate, $customer_mobile_to, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
-
                     $result = Gupshup::sendSMS($cust_smsTemplate, $customer_mobile_to, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
 
                 }
             }
         }
-
+        
+        else
+        {            
+            if($frontuserEmail !== 0){
+                $subject = $cust_email_subject;                    
+                $data = ['mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $frontuserEmail, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile];
+                $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
+            }            
+            if($frontuserMobile !== 0){
+                $customer = "Yes";
+                $mobile = $frontuserMobile;
+                $customerId = 0;
+                $result = Gupshup::sendSMS($cust_smsTemplate, $frontuserMobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
+            }            
+        }    
         if (!empty($employee_id > 0)) {
             if (!empty($alertdata['emp_cc']) && !empty($template_employee->email_cc_ids)) {
                 $template_employee->email_cc_ids = $template_employee->email_cc_ids . ',' . $alertdata['emp_cc'];

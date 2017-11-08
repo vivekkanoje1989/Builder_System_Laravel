@@ -77,7 +77,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.preSalesEnquiry = function (presales, employee_id) {
             $("#presalesbtn").attr("disabled", "disabled");
             Data.post('master-hr/preSalesEnquiry', {employee_id: presales, empId: employee_id}).then(function (response) {
-                if (response.success) {
+                if (response.success == '1') {
                     toaster.pop('success', 'Pre Sales Enquiry', 'Enquiries shared successfully');
                 } else {
                     toaster.pop('warning', 'Pre Sales Enquiry', response.message);

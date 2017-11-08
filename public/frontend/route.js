@@ -152,6 +152,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
             if (v.length != '0') {
                 var url = baseUrl + 'create_testimonials';
                 var data = {'testimonial': testimonial, 'photoUrl': photo_url};
+                $("#experienceMessageBtn").attr("disabled", true);
                 photo_url.upload = Upload.upload({
                     url: url,
                     headers: {enctype: 'multipart/form-data'},

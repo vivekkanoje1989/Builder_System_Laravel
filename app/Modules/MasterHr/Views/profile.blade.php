@@ -38,22 +38,6 @@
                                 </div>
                             </div>
                         </div>
-
-<!--                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label id="lblpp" for="">Profile picture<span class="sp-err">*</span></label>
-                                    <span class="input-icon icon-right">
-                                        <input type="file" ngf-select name="employee_photo_file_name" id="employee_photo_file_name"   ng-model="profileData.employee_photo_file_name" ng-change="checkImageExtension(profileData.employee_photo_file_name);" id="employee_photo_file_name" ngf-max-size="3MB" accept="image/x-png,image/gif,image/jpeg,image/bmp,image/jpg"    class="form-control imageFile"  ngf-model-invalid="errorFile" required> 
-                                        <div ng-show="btnProfile || invalidImage"   ng-messages="frmProfile.employee_photo_file_name.$error" class="help-block">
-                                            <div id="err_pp" ng-message="required" class="sp-err">Please select profile picture.</div>
-                                            <div ng-if="invalidImage" class="sp-err">{{invalidImage}}</div>
-                                        </div>
-                                    </span> 
-                                </div>
-                            </div>
-                        </div> -->
-    <!--ngf-max-size=3MB  3MB=3145728  -->
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
@@ -80,12 +64,6 @@
 
                         <div class="row">
                             <div class="col-lg-3 cl-xs-3">
-<!--                                <div ng-repeat="list in employee_photo_file_name_preview">    
-                                    <img ng-src="{{list}}" class="thumb" style="width: 60%;"/>
-                                </div>
-                                <div ng-show="(!employee_photo_file_name_preview) && (flag_profile_photo == 1)">
-                                    <img ng-src="{{old_profile_photo}}" class="thumb" style="width: 60%;"/>
-                                </div>-->
                             </div>
                             <div class="col-lg-9 cl-xs-9" align="center">
                                 <button type="submit" class="btn btn-primary" id="btn_update_profile" ng-click="btnProfile = true" style="margin-top: 7%;" ng-disabled="profileBtn">Update Profile</button>
