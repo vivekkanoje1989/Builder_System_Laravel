@@ -21,8 +21,6 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
         $scope.searchDetails = {};
         $scope.searchData = {};
         $scope.filterDetails = function (search) {
-            console.log(search);
-//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }
@@ -115,7 +113,6 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     data: {employee: employee},
                     async: false,
                 }).then(function (response) {
-                    console.log(response)
                     if (!response.success) {
                         $scope.errorMsg = response.message;
                     } else {
@@ -304,7 +301,6 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     + '</tr>'
                     + '</tbody>'
                     + '</table>';
-            console.log($scope.pushApiData.customer_email_template)
         }
 
 
@@ -458,7 +454,6 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     + '</tbody>'
                     + '</table>';
 
-            console.log($scope.pushApiData.employee_email_template);
         }
 
         $scope.getEmailConfiguration = function () {
