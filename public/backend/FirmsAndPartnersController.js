@@ -66,12 +66,10 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.manageCompanies = function () {
             Data.get('manage-companies/manageCompanies').then(function (response) {
                 $scope.companyType = response.result;
-                console.log($scope.companyType)
             });
         };
 
         $scope.manageStateCode = function (state_id) {
-            alert(state_id)
             for (var i = 0; i < $scope.statesRow.length; i++) {
                 
                 if ($scope.statesRow[i]['id'] == state_id) {

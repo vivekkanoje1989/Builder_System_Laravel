@@ -1,5 +1,5 @@
 'use strict';
-app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeout','$parse','$modal', function ($scope, $state, Data, $timeout, $parse, $modal) {
+app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeout', '$parse', '$modal', 'toaster', function ($scope, $state, Data, $timeout, $parse, $modal, toaster) {
         $scope.lstAllEmployees = [];
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
@@ -12,12 +12,12 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
                 $scope.listPortals = response.records;
             });
         }
-        
+
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
         }
-        
+
         $scope.changestatus = function (status, id)
         {
             var ischk = document.getElementById('statuschk' + id).checked;
@@ -28,8 +28,8 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
                 //flash messages
             });
         }
-        
-        $scope.showHelpPropertyPortal= function () {
+
+        $scope.showHelpPropertyPortal = function () {
             $scope.optionModal = $modal.open({
                 template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Property Portals</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
                 controller: [
@@ -41,7 +41,7 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
                 ]
             });
         }
-        
+
         $scope.changeAccountStatus = function (status, id)
         {
             var ischk = document.getElementById('accountStatuschk' + id).checked;
@@ -57,10 +57,29 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
             Data.post('propertyportals/properyPortalAccount', {
                 Data: {id: id},
             }).then(function (response) {
-                $scope.listPortalAccounts = response.records;
-                $scope.portal_name = response.portalName[0].portal_name;
+                console.log(response);
+                if (response.success) {
+                    $scope.listPortalAccounts = response.records;
+                    $scope.exportData = response.exportData;
+//                    $scope.portal_name =  response.portalName[0].portal_name;
+                } else {
+                    $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
+                }
             });
         }
+
+        $scope.accountsExportToxls = function (id) {
+            $scope.getexcel = window.location = "/propertyportals/accountsExportToxls/" + id;
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+
+
         $scope.managePortalAccounts = function (portalTypeId, portalAccountId, action)
         {
             if (portalAccountId === 0)
