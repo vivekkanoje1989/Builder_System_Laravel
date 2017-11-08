@@ -1,5 +1,5 @@
 <div class="row" ng-controller="hrController" ng-init="getProfile()">
-    <div class="col-lg-6 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-xs-12">{{invalidImage}}
   
         <form ng-submit="frmProfile.$valid && invalidImage == '' && updateProfile(profileData)"  name="frmProfile"  novalidate enctype="multipart/form-data"  >
             <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">

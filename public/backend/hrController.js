@@ -185,10 +185,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 var maxSize = employeePhoto.size;
 
                 if (maxSize <= 3145728) {
-                    console.log("3MB");
                     $scope.invalidImagesize = "";
                 } else {
-                    console.log(">3MB");
                     $scope.invalidImagesize = "Please select image size less than 3 MB";
                 }
             }
@@ -200,7 +198,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 var ext = employeePhoto.name.match(/\.(.+)$/)[1];
 
                 if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
-                    $scope.invalidImage = "Valid Image Format";
+                    $scope.invalidImage = "";
                 } else {
                     $(".imageFile").val("");
 
@@ -1303,6 +1301,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.updateProfile = function (profileData)
         {
+            alert('hi')
             $scope.profileBtn = true;
             profileData.changePasswordflag = $scope.passwordValidation;
             var url = '/master-hr/updateProfileInfo';
@@ -1400,14 +1399,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         /****************** archana *********************/
 
         $scope.changePermanentAddress = function () {
-
             var copyContent = $("#copyContent").is(":checked");
-
             if (copyContent) {
                 $scope.userContact.permenent_address = angular.copy($scope.userContact.current_address);
                 $scope.userContact.permenent_country_id = angular.copy($scope.userContact.current_country_id);
                 $scope.userContact.permenent_pin = angular.copy($scope.userContact.current_pin);
-
+                alert($scope.userContact.current_country_id)
                 Data.post('getStates', {
                     data: {countryId: $scope.userContact.current_country_id},
                 }).then(function (response) {
@@ -1424,10 +1421,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                                 $scope.cityTwoList = response.records;
                             }
                             $timeout(function () {
-                                // $("#permenent_state_id").val($scope.userContact.current_state_id);
-                                // $("#permenent_city_id").val($scope.userContact.current_city_id);
-                                $scope.userContact.permenent_state_id = $scope.userContact.current_state_id;
-                                $scope.userContact.permenent_city_id = $scope.userContact.current_city_id;
+//                                 $("#permenent_state_id").val($scope.userContact.current_state_id);
+//                                 $("#permenent_city_id").val($scope.userContact.current_city_id);
+              
+                                $scope.userContact.permenent_state_id = angular.copy($scope.userContact.current_state_id);
+                                $scope.userContact.permenent_city_id = angular.copy($scope.userContact.current_city_id);
                             }, 500);
                         });
                     }

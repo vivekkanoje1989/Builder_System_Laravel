@@ -6,7 +6,7 @@
                   <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
               </div>
             <div class="widget-body table-responsive">
-                <table class="table table-hover table-striped table-bordered" at-config="config">
+                <table class="table table-hover table-striped table-bordered tableHeader" at-config="config">
                     <thead class="bord-bot">
                         <tr>
                             <th style="width:5%">Sr.No.</th>
