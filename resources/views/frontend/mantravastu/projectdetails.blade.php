@@ -60,7 +60,7 @@
                                         2 BHK apartment of 950 Sq Ft , with state of the art design of the apartment.
                                     </li>
                                     <li class="interested">
-                                        <a id="enquiry"  ng-click="interested_inproject()" class="button" style="border: 1px solid #FECE1A; color: #FECE1A;">I am Interested</a>
+                                        <a id="enquiry" class="projectEnquiry" style="border: 1px solid #FECE1A; color: #FECE1A;">I am Interested</a>
                                     </li>
                                 </ul>
                             </div>
@@ -413,6 +413,12 @@
         scrollTop: $("#aboutus").offset().top
         },1500);
         });
+        
+        $(".projectEnquiry").on("click", function(){            
+//        $("#enquiry-popup").css("display", "block");
+//        $("#enquiry-popup-form").css("display", "block");
+        });
+
     });
     $(document).ready(function ($) {
         $('.bxslider').bxSlider({mode: 'fade', captions: true, auto: true, autoControls: true, });
