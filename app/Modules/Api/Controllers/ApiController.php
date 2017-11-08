@@ -2549,7 +2549,6 @@ characters in mobile number field. Please apply your form validations as per the
         } else {
             $fistname = $status;
         }
-        
         if (!empty($_GET['last_name'])) {
             $lastname = $_GET['last_name'];
         } else {
