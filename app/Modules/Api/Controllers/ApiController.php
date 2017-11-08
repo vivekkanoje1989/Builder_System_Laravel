@@ -69,6 +69,11 @@ class ApiController extends Controller {
                 ->select('push_api_settings.*', 'emp.first_name', 'emp.last_name', 'emp.title_id as emp_title_id')
                 ->whereIN('push_api_settings.employee_id', $alluser)
                 ->get();
+        $i = 0;
+        foreach($getApilist as $getApilists){
+            $getApilist[$i]['empName'] = $getApilists['first_name']. ' '.$getApilists['last_name'];
+            $i++;
+        }
 
         $result = ['success' => true, 'records' => $getApilist,'export'=>$export];
         return json_encode($result);

@@ -2,7 +2,7 @@
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Edit Account</span>
+                <span class="widget-caption">Edit Portal Account</span>
             </div>
             <div class="widget-body">    
                 <form name="portalAccountForm" novalidate ng-submit="portalAccountForm.$valid && createPortalAccount(portalData,aliasLists,[[$portalTypeId]],[[ $portalAccountId ]])" ng-init="managePortalAccounts([[ $portalTypeId ]],[[!empty($portalAccountId) ? $portalAccountId : '0']], 'edit')">
@@ -138,8 +138,9 @@
                             </div>
                             <div class="row" style="margin-top: 2%;" id="btnCreate">
                                 <div class="col-md-12 col-xs-12" align="right">                            
-                                    <button type="submit" class="btn btn-primary btn-submit-last"  ng-disabled="portalAccountForm.$invalid">{{ buttonLabel }}</button>
-                                </div>
+                                  <a href="[[ config('global.backendUrl') ]]#/portalaccounts/[[ $portalTypeId ]]" class="btn btn-primary">Cancel</a>
+                                  <button type="submit" class="btn btn-primary btn-submit-last"  ng-disabled="portalAccountForm.$invalid">{{ buttonLabel }}</button>
+                                    </div>
                             </div>
                         </div>
                     </div>

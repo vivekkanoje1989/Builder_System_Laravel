@@ -16,7 +16,6 @@
     }
 </style>
 
-<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>-->
 <div class="row" ng-controller="dashboardCtrl" ng-init="getMyRequest()">    
     <div class=" mainDiv col-xs-12 col-md-12">
         <div class="widget">
@@ -161,7 +160,7 @@
                             </tr>
                             <tr>
                                 <td colspan="8"  ng-show="(myRequest | filter:search | filter:searchData).length == 0 || myRequestCount == 0" align="center">Records Not Found</td>   
-                                <td colspan="8"  ng-if="totalCount1 == 0" align="center">Records Not Found</td>   
+                                <td colspan="8"  ng-if="totalCount == 0" align="center">Records Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

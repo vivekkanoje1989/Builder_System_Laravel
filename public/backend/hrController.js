@@ -185,10 +185,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 var maxSize = employeePhoto.size;
 
                 if (maxSize <= 3145728) {
-                    console.log("3MB");
                     $scope.invalidImagesize = "";
                 } else {
-                    console.log(">3MB");
                     $scope.invalidImagesize = "Please select image size less than 3 MB";
                 }
             }
@@ -200,7 +198,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 var ext = employeePhoto.name.match(/\.(.+)$/)[1];
 
                 if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
-                    $scope.invalidImage = "Valid Image Format";
+                    $scope.invalidImage = "";
                 } else {
                     $(".imageFile").val("");
 
@@ -1303,6 +1301,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.updateProfile = function (profileData)
         {
+            alert('hi')
             $scope.profileBtn = true;
             profileData.changePasswordflag = $scope.passwordValidation;
             var url = '/master-hr/updateProfileInfo';
