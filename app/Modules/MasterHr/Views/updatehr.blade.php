@@ -488,7 +488,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-change="onPStateChange()" ng-model="userContact.permenent_state_id" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
-                                                <option ng-repeat="state in stateTwoList track by $index" value="{{state.id}}" ng-selected="{{ state.id == userContact.permenent_state_id}}">{{state.name}}</option>
+                                                <option ng-repeat="state in stateTwoList track by $index" value="{{state.id}}" ng-selected="state.id == userContact.permenent_state_id">{{state.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.permenent_state_id.$error" class="help-block step2">
@@ -505,7 +505,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-model="userContact.permenent_city_id" name="permenent_city_id" id="permenent_city_id" class="form-control" required>
                                                 <option value="">Select City</option>
-                                                <option ng-repeat="city in cityTwoList track by $index" value="{{city.id}}" ng-selected="{{ city.id == userContact.permenent_city_id}}">{{city.name}}</option>
+                                                <option ng-repeat="city in cityTwoList track by $index" value="{{city.id}}" ng-selected="city.id == userContact.permenent_city_id">{{city.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.permenent_city_id.$error" class="help-block step2">
