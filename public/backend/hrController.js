@@ -1407,7 +1407,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.userContact.permenent_address = angular.copy($scope.userContact.current_address);
                 $scope.userContact.permenent_country_id = angular.copy($scope.userContact.current_country_id);
                 $scope.userContact.permenent_pin = angular.copy($scope.userContact.current_pin);
-
                 Data.post('getStates', {
                     data: {countryId: $scope.userContact.current_country_id},
                 }).then(function (response) {
@@ -1424,8 +1423,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                                 $scope.cityTwoList = response.records;
                             }
                             $timeout(function () {
-                                // $("#permenent_state_id").val($scope.userContact.current_state_id);
-                                // $("#permenent_city_id").val($scope.userContact.current_city_id);
+                                 $("#permenent_state_id").val($scope.userContact.current_state_id);
+                                 $("#permenent_city_id").val($scope.userContact.current_city_id);
                                 $scope.userContact.permenent_state_id = $scope.userContact.current_state_id;
                                 $scope.userContact.permenent_city_id = $scope.userContact.current_city_id;
                             }, 500);
