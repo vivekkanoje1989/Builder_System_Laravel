@@ -458,7 +458,7 @@
                                             <div class="form-group">                                            
                                                 <label for="">Lane Name</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.lane_name" name="lane_name" class="form-control date-picker">
+                                                    <input type="text" ng-model="contactData.lane_name" maxlength="30"  name="lane_name" class="form-control date-picker">
                                                     <i class="fa fa-building-o"></i>
                                                 </span>
                                             </div>
@@ -469,7 +469,7 @@
                                             <div class="form-group">
                                                 <label for="">Landmark</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.landmark" name="landmark" class="form-control date-picker">
+                                                    <input type="text" ng-model="contactData.landmark" name="landmark" maxlength="30" class="form-control date-picker">
                                                     <i class="fa fa-building-o"></i>
                                                 </span>
                                             </div>
@@ -478,7 +478,7 @@
                                             <div class="form-group">
                                                 <label for="">Pin</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.pin" name="pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                                    <input type="text" ng-model="contactData.pin" name="pin" maxlength="6" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                                     <i class="fa fa-compass" aria-hidden="true"></i>
                                                 </span>
                                             </div>

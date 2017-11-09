@@ -161,7 +161,6 @@ class CommonFunctions {
     }
 
     public static function templateData($alertdata) {
-        
         $customer_id = $alertdata['customer_id'];
         $employee_id = $alertdata['employee_id'];
         $client_id = $alertdata['client_id'];
@@ -198,11 +197,10 @@ class CommonFunctions {
             $emp_attachedfile = $alertdata['emp_attached_file'];
         else
             $emp_attachedfile = "";
-
         // $model_id = $alertdata['project_id'];
         $car_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/car.png";
         $loc_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/loc2.png";
-
+        
         if (!empty($customer_id > 0) || !empty($alertdata['frontuserEmailId'])) {
             //$template_settings_customer = TemplatesSetting::where(['client_id' => $client_id, 'templates_event_id' => $eventid_customer, 'template_for' => 1])->first();
             $template_settings_customer = TemplatesSetting::where(['id' => $template_setting_customer])->first();
@@ -214,6 +212,7 @@ class CommonFunctions {
                 }
             }
         }        
+        
         if (!empty($template_customer)) {
             $cust_email_subject = $template_customer->email_subject;
             $cust_emailTemplate = $template_customer->email_body;
@@ -514,9 +513,10 @@ class CommonFunctions {
     }
 
     public static function texttemplateData($alertdata, $obj_api, $request) {
+        
         $emailConfig = EmailConfiguration::where('id', 1)->first();
-        $isInternational = 0; //0 OR 1
-        $sendingType = 1; //always 0 for T_SMS
+        $isInternational = 0; 
+        $sendingType = 1; 
         $smsType = "T_SMS";
         $client_id = $alertdata['client_id'];
         
@@ -544,7 +544,7 @@ class CommonFunctions {
         array_push($alertdata['arrExtra']['1'], $companyAddress);
         array_push($alertdata['arrExtra']['1'], $website);
 
-        if ($alertdata['customer_status'] == '1') {
+        if ($alertdata['customer_status'] == '1' && $obj_api['send_email_customer'] == 1) {
 
             $cust_emailTemplate = $obj_api['customer_email_template'];
 
@@ -562,7 +562,7 @@ class CommonFunctions {
             $data = ['mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => "", "subject" => $obj_api->customer_email_subject_line, "to" => str_replace(' ', '', $request['email_id']), 'cc' => str_replace(' ', '', $obj_api['customer_email_cc']), 'bcc' => str_replace(' ', '', $obj_api['customer_email_bcc'])];
             $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
         }
-        if ($alertdata['employee_status'] == '1') {
+        if ($alertdata['employee_status'] == '1' && $obj_api['send_sms_employee'] == 1) {
             $empl_emailTemplate = $obj_api['employee_email_template'];
             $search = $alertdata['arrExtra']['0'];
             $replace = $alertdata['arrExtra']['1'];
@@ -578,7 +578,7 @@ class CommonFunctions {
             $data = ['mailBody' => $empl_emailTemplate, "fromEmail" => $userName, "fromName" => "", "subject" => $obj_api->employee_email_subject_line, "to" => str_replace(' ', '', $alertdata['employee_email']), 'cc' => str_replace(' ', '', $obj_api['employee_email_cc']), 'bcc' => str_replace(' ', '', $obj_api['employee_email_bcc'])];
             $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
         }
-        if ($alertdata['customer_status'] == 1) {
+        if ($alertdata['customer_status'] == 1 && $obj_api['send_sms_customer'] == 1) {
             $search = $alertdata['arrExtra']['0'];
             $replace = $alertdata['arrExtra']['1'];
             $customer_smsTemplate = str_replace($search, $replace, $obj_api['customer_sms_template']);
@@ -590,7 +590,7 @@ class CommonFunctions {
             }
             $result = Gupshup::sendSMS($customer_smsTemplate, $customer_mobno, $alertdata['employee_id'], $request, $customerId, $isInternational, $sendingType, $smsType);
         }
-        if ($alertdata['employee_status'] == 1) {
+        if ($alertdata['employee_status'] == 1 && $obj_api['send_sms_employee'] == 1) {
             if (!empty($obj_api['employee_sms_cc_numbers'])) {
                 $employee_mobno = $alertdata['employee_mobno'] . "," . $obj_api['employee_sms_cc_numbers'];
             } else {

@@ -4,6 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
 <<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/create.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/apiController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Api/Controllers/ApiController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+=======
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/frontend/UserController.php</file>
+=======
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/propertyPortalsController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/FirmsAndPartnersController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/apiController.js</file>
@@ -42,11 +52,14 @@
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/projects.blade.php</file>
 =======
 <<<<<<< HEAD
+>>>>>>> 4f89c7ce14900fe45c44d4b09a382997d2f396b9
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/updatehr.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
+<<<<<<< HEAD
+=======
 =======
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
@@ -54,6 +67,8 @@
 >>>>>>> a3d9d19304b453bdf906c5f09fc24b8be06a8a02
 >>>>>>> 11f209b65feaea17481628e515871e79c0a34a00
 >>>>>>> 459fa5ee023e0f657ac2727569b14e8a53dcf773
+>>>>>>> 39ea33151273a0d5551b607c3ff09ee888f4d9a1
+>>>>>>> 4f89c7ce14900fe45c44d4b09a382997d2f396b9
         </group>
     </open-files>
 </project-private>

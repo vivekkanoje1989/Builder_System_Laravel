@@ -2771,7 +2771,8 @@ characters in mobile number field. Please apply your form validations as per the
             $project_contact_numbers,
         );
 
-        $result = CommonFunctions::texttemplateData($templatedata, $obj_api, $request);
+         $result = CommonFunctions::texttemplateData($templatedata, $obj_api, $request);
+       
         return json_encode($result);
     }
 
