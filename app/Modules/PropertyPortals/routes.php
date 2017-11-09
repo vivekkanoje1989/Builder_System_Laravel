@@ -14,6 +14,8 @@ Route::group(array('module' => 'PropertyPortals', 'middleware' => 'auth:admin', 
     Route::get('/propertyportals/{id}/createAccount', 'PropertyPortalsController@createAccount'); //View new portal account
     Route::post('/propertyportals/actionPortalAccount', 'PropertyPortalsController@actionPortalAccount'); //Create new portal account
     
+    
+    Route::get('/propertyportals/accountsExportToxls/{id}', 'PropertyPortalsController@accountsExportToxls');
     Route::post('/propertyportals/getupdatePortalAccount', 'PropertyPortalsController@getupdatePortalAccount');//edit Account view
     Route::get('/propertyportals/{portaltypeid}/{accountid}/updatePortalAccount', 'PropertyPortalsController@updatePortalAccount'); //update account
     

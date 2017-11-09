@@ -18,6 +18,25 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
             });
         }
 
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+        $scope.filterDetails = function (search) {
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+
         $scope.updateApis = function (id) {
             if (!id) {
                 $scope.pushApiData.first_name_mandatory = true;
@@ -39,7 +58,7 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
-        
+
 
         $scope.createApi = function (pushApiData) {
 
@@ -87,18 +106,17 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     data: {employee: employee},
                     async: false,
                 }).then(function (response) {
-   
+
                     $scope.pushApiData.employee_id = response.records;
                 });
                 Data.post('pushapi/getEmployeesOther', {
                     data: {employee: employee},
                     async: false,
                 }).then(function (response) {
-                console.log(response)    
-                if (!response.success) {
+                    if (!response.success) {
                         $scope.errorMsg = response.message;
                     } else {
-                       $scope.employeesDatas = response.records;
+                        $scope.employeesDatas = response.records;
                     }
                 });
             })
@@ -152,25 +170,6 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     + '                        </tr>'
                     + '                        <tr>'
                     + '                            <td style="border-collapse: collapse; color: #666666; font-family: Arial,Helvetica,sans-serif; font-size: 13px; font-weight: normal; line-height: 18px; margin: 0; padding: 5px 0; text-align: left;" align="left" width="100%">Thanks a lot for expressing interest for below property in [#projectName#]</td>'
-                    + '                        </tr>'
-                    + '                        <tr>'
-                    + '                            <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 10px 0 0;" align="left" width="100%">'
-                    + '                                <table style="background-color: #ffffff; border: 1px solid #e9e9e9; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">'
-                    + '                                    <tbody>'
-                    + '                                       <tr>'
-                    + '                                            <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0;" align="left" width="100%">'
-                    + '                                                <table style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-weight: normal; margin: 0px; padding: 0px; width: 100%;" align="center" border="0" cellpadding="0" cellspacing="0">'
-                    + '                                                    <tbody>'
-                    + '                                                        <tr>'
-                    + '                                                            <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 5px;" align="center" width="100%"><img src="[#projectBannerImage#]" style="display: block;" border="0" width="100%" class="CToWUd" /></td>'
-                    + '                                                        </tr>'
-                    + '                                                    </tbody>'
-                    + '                                                </table>'
-                    + '                                            </td>'
-                    + '                                        </tr>'
-                    + '                                    </tbody>'
-                    + '                                </table>'
-                    + '                            </td>'
                     + '                        </tr>'
                     + '                        <tr>'
                     + '                            <td style="border-collapse: collapse; font-family: Arial,Helvetica,sans-serif; font-weight: normal; margin: 0; padding: 15px 0 0;" align="left" width="100%">'
@@ -283,7 +282,6 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     + '</tr>'
                     + '</tbody>'
                     + '</table>';
-            console.log($scope.pushApiData.customer_email_template)
         }
 
 
@@ -437,7 +435,6 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     + '</tbody>'
                     + '</table>';
 
-            console.log($scope.pushApiData.employee_email_template);
         }
 
         $scope.getEmailConfiguration = function () {

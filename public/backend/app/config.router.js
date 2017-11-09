@@ -1073,7 +1073,7 @@ angular.module('app')
                                     templateUrl: '/propertyportals/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'BMS / BMS Settings / Property Portals / Create Project',
+                                        label: 'BMS / BMS Settings / Property Portals ',
                                         title: 'Create Project',
                                     },
                                     resolve: {
@@ -1106,6 +1106,7 @@ angular.module('app')
                                     controller: 'propertyPortalsController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent:'propertyPortalIndex',
                                         label: 'Accounts Details',
                                         title: 'Accounts Details',
                                     },
@@ -1139,6 +1140,7 @@ angular.module('app')
                                     controller: 'propertyPortalsController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent:'propertyPortalAccounts',
                                         label: 'Add Portal Accounts',
                                         title: 'Add Portal Accounts',
                                         description: ''
@@ -1173,9 +1175,9 @@ angular.module('app')
                                     controller: 'propertyPortalsController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+//                                        parent:'propertyPortalAccounts',
                                         label: 'Edit Portal Account',
                                         title: 'Edit Portal Account',
-                                        description: ''
                                     },
                                     resolve: {
                                         deps: [

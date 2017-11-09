@@ -2,7 +2,7 @@
     <div class="navbar-container">
         <!-- Navbar Barnd -->
         <div class="navbar-header pull-left">
-            <a href="#" class="navbar-brand">
+            <a href="/office.php#/dashboard" class="navbar-brand">
                 <small>
                     <img src="/backend/assets/img/bms.png" ng-if="!settings.rtl" alt="" />
                     <img src="/backend/assets/img/bms.png" ng-if="settings.rtl" alt="" />
