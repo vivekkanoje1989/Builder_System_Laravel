@@ -41,7 +41,7 @@
                                         <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                         <i class="fa fa-user"></i>
                                         <div ng-show="formButton" ng-messages="customerForm.first_name.$error" class="help-block errMsg">
-                                            <div ng-message="required">Please enter first name</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                         <div ng-if="first_name" class="errMsg first_name">{{first_name}}</div>
                                     </span>
@@ -65,7 +65,7 @@
                                         <input type="text" class="form-control" ng-model="customerData.last_name" name="last_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                         <i class="fa fa-user"></i>
                                         <div ng-show="formButton" ng-messages="customerForm.last_name.$error" class="help-block errMsg">
-                                            <div ng-message="required">Please enter last name</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                         <div ng-if="last_name" class="errMsg last_name">{{last_name}}</div>
                                     </span>
@@ -83,7 +83,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div ng-show="formButton" ng-messages="customerForm.gender_id.$error" class="help-block errMsg">
-                                            <div ng-message="required">Please enter gender</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                         <div ng-if="gender_id" class="errMsg gender_id">{{gender_id}}</div>
                                     </span>
@@ -99,7 +99,7 @@
                                                 <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
                                         <div ng-show="formButton" ng-messages="customerForm.birth_date.$error" class="help-block errMsg">
-                                            <div ng-message="required">Please select birth date</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                         <div ng-if="birth_date"class="errMsg birth_date">{{birth_date}}</div>
                                         </p>
@@ -133,7 +133,7 @@
                                         </select>                
                                         <i class="fa fa-sort-desc"></i>
                                         <div ng-show="formButton" ng-messages="customerForm.profession_id.$error" class="help-block errMsg">
-                                            <div ng-message="required">Please enter profession</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                         <div ng-if="profession_id" class="errMsg profession_id">{{profession_id}}</div>
                                     </span>
@@ -146,7 +146,7 @@
                                         <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" ng-pattern="/^[1-9]\d*$/" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                                         <i class="fa fa-money"></i>
                                         <div ng-show="formButton" ng-messages="customerForm.monthly_income.$error" class="help-block errMsg">
-                                            <div ng-message="required">Please enter monthly income</div>
+                                            <div ng-message="required">This field is required</div>
                                             <div ng-message="pattern">Please enter valid income</div>
                                         </div>
                                         <div ng-if="monthly_income" class="errMsg monthly_income">{{monthly_income}}</div>
@@ -164,7 +164,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div ng-show="formButton" ng-messages="customerForm.sms_privacy_status.$error" class="help-block errMsg">
-                                            <div ng-message="required">Please enter SMS privacy status</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                         <div ng-if="sms_privacy_status" class="errMsg sms_privacy_status">{{sms_privacy_status}}</div>
                                     </span>
@@ -180,7 +180,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div ng-show="formButton" ng-messages="customerForm.email_privacy_status.$error" class="help-block errMsg">
-                                            <div ng-message="required">Please enter email privacy status</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                         <div ng-if="email_privacy_status" class="errMsg email_privacy_status">{{email_privacy_status}}</div>
                                     </span>
@@ -198,7 +198,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div ng-show="formButton" ng-messages="customerForm.source_id.$error" class="help-block errMsg">
-                                            <div ng-message="required">Please select source</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                         <div ng-if="source_id" class="errMsg source_id">{{source_id}}</div>
                                     </span>
@@ -221,10 +221,10 @@
                                 <div class="form-group">
                                     <label for="">Source Description</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" disabled required>
+                                        <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" disabled>
                                         <i class="fa fa fa-align-left"></i>
                                         <div ng-show="formButton" ng-messages="customerForm.source_description.$error" class="help-block errMsg">
-                                            <div ng-message="required">Please enter source description</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                         <div ng-if="source_description" class="errMsg source_description">{{source_description}}</div>
                                     </span>
@@ -248,7 +248,7 @@
                                         <th>Mobile Number</th>
                                         <th>Landline Number</th>
                                         <th>Email ID</th>
-                                        <th>Pin</th>
+                                        <th>Pin Code</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

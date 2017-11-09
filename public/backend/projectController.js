@@ -155,6 +155,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.projectData = $scope.contactData = $scope.seoData = settingData;
                     $scope.projectData.project_id = prid;
                     $scope.projectData.prid = prid;
+                    toaster.pop('success', 'Project', response.message);
                 });
             }
         }

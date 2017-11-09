@@ -330,7 +330,7 @@
                                                     <i class="glyphicon glyphicon-phone"></i>
                                                 </span>
                                                 <div ng-show="modalSbtBtn && modalForm.mobile_number.$invalid" ng-messages="modalForm.mobile_number.$error" class="help-block">
-                                                    <div ng-message="required">Mobile number is required</div> 
+                                                    <div ng-message="required">This field is required</div> 
                                                     <div ng-message="uniqueMobile">Mobile number already exist</div>
                                                 </div>
                                             </div>
@@ -416,7 +416,7 @@
                                             <div class="form-group">
                                                 <label for="">House Number</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.house_number" name="house_number" class="form-control date-picker">
+                                                    <input type="text" ng-model="contactData.house_number" maxlength="10" name="house_number" class="form-control date-picker">
                                                     <i class="fa fa-home"></i>
                                                 </span>
                                             </div>
@@ -427,7 +427,7 @@
                                             <div class="form-group">
                                                 <label for="">Building House Name</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.building_house_name" name="building_house_name" class="form-control">
+                                                    <input type="text" ng-model="contactData.building_house_name" maxlength="20" name="building_house_name" class="form-control">
                                                     <i class="fa fa-building-o"></i>
                                                 </span>
                                             </div>
@@ -437,7 +437,7 @@
                                                 <span class="input-icon icon-right">
                                                     <label for="">Wing Name</label>
                                                     <span class="input-icon icon-right">
-                                                        <input type="text" ng-model="contactData.wing_name" name="wing_name" class="form-control">
+                                                        <input type="text" ng-model="contactData.wing_name" maxlength="20" name="wing_name" class="form-control">
                                                         <i class="fa fa-building-o"></i>
                                                     </span> 
                                                 </span>
@@ -449,7 +449,7 @@
                                             <div class="form-group">
                                                 <label for="">Area Name</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.area_name" name="area_name" class="form-control date-picker">
+                                                    <input type="text" ng-model="contactData.area_name" maxlength="30" name="area_name" class="form-control date-picker">
                                                     <i class="fa fa-building-o"></i>
                                                 </span>                                      
                                             </div>
@@ -476,7 +476,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label for="">Pin</label>
+                                                <label for="">Pin Code</label>
                                                 <span class="input-icon icon-right">
                                                     <input type="text" ng-model="contactData.pin" name="pin" maxlength="6" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                                     <i class="fa fa-compass" aria-hidden="true"></i>
@@ -538,7 +538,7 @@
                                             <div class="form-group">
                                                 <label for="">Remarks</label>
                                                 <span class="input-icon icon-right">
-                                                    <textarea ng-model="contactData.other_remarks" name="other_remarks" class="form-control"></textarea>
+                                                    <textarea ng-model="contactData.other_remarks" name="other_remarks" class="form-control" maxlength="300"></textarea>
                                                     <i class="fa fa-building-o"></i>
                                                 </span>
                                             </div>
