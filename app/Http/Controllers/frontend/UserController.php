@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\frontend;
 
 use App\Models\frontend\User;
