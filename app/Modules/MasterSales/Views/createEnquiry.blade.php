@@ -46,7 +46,7 @@
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.last_name.$error" class="help-block enqFormBtn">
                                 <div ng-message="required">Please enter last name</div>
                             </div>
-                        </div>                        
+                        </div>                      
                     </div>
                     <div class="col-sm-3 col-md-3 col-xs-12"  ng-controller="enquirySourceCtrl">
                         <div class="form-group">
@@ -58,7 +58,8 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="formButton" ng-messages="enquiryForm.source_id.$error" class="help-block errMsg">
-                                    <div ng-message="required">Please select source</div>
+                                    <div ng-message="required">Please select source< 
+                                        /div>
                                 </div>
                                 <div ng-if="source_id" class="errMsg source_id">{{source_id}}</div>
                             </span>
@@ -130,7 +131,23 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
-                    <div class="col-sm-3 col-xs-6">
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType != 0">
+                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
+                            <label for="">Reassign To <span class="sp-err">*</span></label>
+                            <span class="input-icon icon-right">
+                                <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id" required>
+                                    <option value="">Select Employee</option>
+                                    <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="list.id == [[ Auth::guard('admin')->user()->id ]]">{{list.first_name}} {{list.last_name}}</option>                                              
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.followup_by_employee_id.$error" class="help-block enqFormBtn">
+                                    <div ng-message="required">Please select followup employee</div>
+                                </div>
+                                <div ng-if="followup_by_employee_id" class="sp-err blog_title">{{followup_by_employee_id}}</div>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType != 1">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
                             <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
@@ -145,7 +162,7 @@
                                 <div ng-if="followup_by_employee_id" class="sp-err blog_title">{{followup_by_employee_id}}</div>
                             </span>
                         </div>
-                    </div>                      
+                    </div>   
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_date.$dirty && enquiryForm.next_followup_date.$invalid)}">
                             <label for="">Next Followup Date & Time<span class="sp-err">*</span></label>
@@ -207,7 +224,7 @@
                     </div>
                     <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_required == 1">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.parking_type.$dirty && enquiryForm.parking_type.$invalid)}">
-                            <label for="">Parking Type <span class="sp-err">*</span></label>
+                            <label for="">Parking Type</label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="enquiryData.parking_type" name="parking_type">
                                     <option value="1">Common Parking</option>                                       

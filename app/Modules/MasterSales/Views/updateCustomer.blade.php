@@ -209,7 +209,7 @@
                                     <label for="">Sub Source</label>
                                     <span class="input-icon icon-right">
                                         <select class="form-control" ng-model="customerData.subsource_id" name="subsource_id" id="subsource_id" disabled>
-                                            <option value="">Select SubSource</option>
+                                            <option value="">Select Sub Source</option>
                                             <option ng-repeat="subSource in subSourceList" value="{{subSource.id}}" ng-selected="{{subSource.id == customerData.subsource_id}}">{{subSource.sub_source}}</option>
                                         </select>   
                                         <i class="fa fa-sort-desc"></i>
@@ -221,7 +221,7 @@
                                 <div class="form-group">
                                     <label for="">Source Description</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" disabled required>
+                                        <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" disabled>
                                         <i class="fa fa fa-align-left"></i>
                                         <div ng-show="formButton" ng-messages="customerForm.source_description.$error" class="help-block errMsg">
                                             <div ng-message="required">Please enter source description</div>
