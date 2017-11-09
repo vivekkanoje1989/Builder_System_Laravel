@@ -176,59 +176,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Contact section start -->
-    <div id="contact" class="contact">
-        <div class="section secondary-section">
-            <div class="container">
-                <div class="span9 center contact-info">
-                    <p>{{ contacts[0].address}}</p>
-                    <p class="info-mail">{{ contacts[0].email}}</p>
-                    <p>{{ contacts[0].contact_number1}}</p>
-                    <p>{{ contacts[0].contact_number2}}</p>                
-                    <div class="title">
-                        <h3>We Are Social</h3>
-                    </div>
-                </div>
-                <div class="row-fluid centered">
-                    <ul class="social">
-                        <li>
-                            <a href="https://www.facebook.com/mantravpl" target="_blank">
-                                <span class="icon-facebook-circled"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://twitter.com/JahagirdarD" target="_blank">
-                                <span class="icon-twitter-circled"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://in.linkedin.com/in/dineshjahagirdar" target="_blank">
-                                <span class="icon-linkedin-circled"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.pinterest.com/Mantra_vastu/" target="_blank">
-                                <span class="icon-pinterest-circled"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" target="_blank">
-                                <span class="icon-dribbble-circled"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://plus.google.com/111989364413040119355" target="_blank">
-                                <span class="icon-gplus-circled"></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Contact section edn -->
-
     <div id="enquiry-popup">
         <form action="" class="enquiry" id="enquiry-popup-form">
             <h4> Enquiry for Property</h4>
@@ -268,58 +215,7 @@
             </fieldset>
         </form>
     </div>
-    <!-- share your Experience -->
-    <div id="experience-popup">
-        <form action="" class="experience" id="experience-popup-form">
-            <h4> experience for Property</h4>
-            <a href="" class="close" id="clos"><img src="frontend/mantra_vastu/images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
-            <fieldset class="experience-inner">
-                <p class="experience-input">
-                    <input type="text" name="Fname" placeholder="Your First Name…" autofocus>
-                </p>
-
-                <p class="experience-input">
-                    <input type="text" name="Lname" placeholder="Your Last Name…" autofocus>
-                </p>
-
-                <p class="experience-input">
-                    <input type="phone" name="phone" placeholder="Your Mobile Number" autofocus>
-                </p>
-
-                <p class="experience-input">
-                    <input type="email" name="email" placeholder="Your Email" autofocus>
-                </p>
-
-                Upload Your Photo
-                <p class="experience-input">
-                    <input id="uploadimg" name="uploadimg" value="" autocomplete="on" placeholder="Upload Your Photo" type="file" autofocus>
-                </p>
-
-                <p class="experience-input">
-                    <textarea name="experience" placeholder="Your Experience…"></textarea>
-                </p>
-
-                <div>
-                    Captcha Image*
-                    <div><img id="captchaimg5" style="padding: 0 0 0 5px;" src="http://www.e-dynamics.in/reb/captcha_code_file.php?rand=1265139648&amp;name=experience_captcha">
-                        <div style="padding: 0 0 0 5px;">
-                            Click <a class="here" href="javascript: refreshCaptcha(&quot;captchaimg5&quot;);">here</a> to refresh
-                        </div> 
-                    </div>
-                </div>
-                <p class="experience-input">
-                    <input id="txtCaptcha" name="txtCaptcha" value="" type="text" autocomplete="on" placeholder="Captcha">
-                </p>
-
-
-                <p class="experience-submit">
-                    <input type="submit" value="Send Message">
-                </p>
-            </fieldset>
-        </form>
-
-    </div>
-    <!-- Share your experience ends here -->
+    
 
     <!-- Footer section start -->
     <div class="footer">
@@ -339,7 +235,15 @@
     <script src="frontend/mantravastu/js/jquery.js"></script>
 
 <script>
-$(document).ready(function () {    
+$(document).ready(function () {   
+    $("#experience").on("click", function(){            
+            $("#experienceMessageBtn").attr("disabled", false);
+            $("#experience-popup").css("display", "block");
+            $("#experience-popup-form").css("display", "block");
+            });
+            $(".close").on("click", function(){
+            $("#experience-popup").css("display", "none");
+            });
       $("html, body").animate({
         scrollTop: 0
     }, 600);
@@ -402,21 +306,46 @@ $(document).ready(function () {
             $(this).parent('li').addClass('filter active').removeClass('filter');
             e.preventDefault();
         });
+        
+        createTestimonial = function()
+            {
+            var data;
+            event.stopPropagation();
+            event.preventDefault();
+            data = new FormData();
+            data.append('photoUrl', $('input[id="uploadimg"]')[0].files[0]);
+            data.append('mobile_number', $('input[id="mobile_num"]').val());
+            data.append('description', $('textarea[id="descriptiondata"]').val());
+            data.append('customer_name', $('input[id="CustFname"]').val() + " " + $('input[id="CustLname"]').val());
+            data.append('email_id', $('input[id="email_id"]').val());
+            $.ajax({
+            async: false,
+                    method:'POST',
+                    type: 'POST',
+                    cache: false,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    url: "http://192.168.0.109:8000/website/create_testimonials",
+                    data:data,
+                    success: function(result){
+                    if (result == '')
+                    {
+
+                    }
+                    else
+                    {
+                    
+//                  $("#fname").val('');
+//                  $("#mobile").val('');
+                    $("#email_id").val('');
+//                                $("#message").val('');
+                    }
+                    }});
+            }
     
 });    
-window.onload = function () {
-    document.getElementById("enquiry").onclick = function () {
-        var e = document.getElementById("enquiry-popup");
-        var f = document.getElementById("enquiry-popup-form");
-        e.style.display = "block";
-        f.style.display = "block";
-    };
-    document.getElementById("experience").onclick = function () {
-        var g = document.getElementById("experience-popup");
-        var h = document.getElementById("experience-popup-form");
-        g.style.display = "block";
-        h.style.display = "block";
-    };
+window.onload = function () {    
     document.getElementById("clos").onclick = function () {
         var e = document.getElementById("enquiry-popup");
         var f = document.getElementById("enquiry-popup-form");

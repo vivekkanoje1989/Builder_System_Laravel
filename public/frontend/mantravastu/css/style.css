@@ -27,7 +27,19 @@
 /*
 1. General
 **********************************************************************/
- body {
+.main-overlay{
+    top: 0;
+    background: black;
+    z-index: 999;
+    width: 100%;
+    display: block;
+    visibility: show;
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    background-color: grey;
+    }
+body {
     font-family:'Roboto', sans-serif;
     color: #FFF;
 	background: url(../images/background.jpg) #181A1C no-repeat;
@@ -1197,7 +1209,7 @@ input, textarea, select, label {
 }
 img.btn_close {
 	float: right;
-    margin: -62px 0px 0 0;
+    margin: -47px 0px 0 0;
 }
 /* enquiry pop up end */
 /*Share Experience */
@@ -1209,7 +1221,7 @@ img.btn_close {
   max-width: 320px;
   background: #eef5f7;
   position: fixed;
-  top: 5%;
+  top: 15%;
   left: 40%;
   z-index: 99999;
   border: 1px solid #cfd5da;
