@@ -1158,7 +1158,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         if (response.customerPersonalDetails[0].pan_number === "null" || response.customerPersonalDetails[0].pan_number === 0) {
                             $scope.customerData.pan_number = "";
                         }
-                        if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00") {
+                        if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
                             $scope.customerData.birth_date = "";
                         } else {
                             var bdt = new Date(response.customerPersonalDetails[0].birth_date);

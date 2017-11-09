@@ -324,7 +324,7 @@
                                         </div>
                                         <div class="col-sm-4 col-xs-4">
                                             <div class="form-group">
-                                                <label for="">Mobile Number</label>
+                                                <label for="">Mobile Number<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
                                                     <input type="text" ng-model="contactData.mobile_number" name="mobile_number" id="mobile_number" class="form-control" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" check-mobile-exist ng-model-options="{ allowInvalid: true, debounce: 300 }" required>
                                                     <i class="glyphicon glyphicon-phone"></i>

@@ -207,7 +207,7 @@
                     </div>
                     <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_required == 1">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.parking_type.$dirty && enquiryForm.parking_type.$invalid)}">
-                            <label for="">Parking Type <span class="sp-err">*</span></label>
+                            <label for="">Parking Type</label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="enquiryData.parking_type" name="parking_type">
                                     <option value="1">Common Parking</option>                                       
