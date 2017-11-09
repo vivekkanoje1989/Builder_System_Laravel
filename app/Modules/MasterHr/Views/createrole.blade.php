@@ -12,7 +12,7 @@
                             <span class="input-icon icon-right">
                                 <input type="text" ng-model="RoleData.role_name" name="role_name"  maxlength="20" oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" class="form-control" required>
                                 <div ng-show="sbt" ng-messages="RoleForm.role_name.$error" class="help-block">
-                                    <div ng-message="required" class="sp-err">Please enter define role name. </div>
+                                    <div ng-message="required" class="sp-err">This field is required. </div>
                                 </div>
 
                             </span>                                

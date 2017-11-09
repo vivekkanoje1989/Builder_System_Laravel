@@ -316,7 +316,7 @@
                                         </div>                                                                        
                                     </div>
                                     <div ng-show="sbtBtn2" ng-messages="remarkForm.customer_email_template.$error" class="help-block">
-                                        <div ng-message="required">Please enter email content</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </div>
                             </span>
@@ -373,8 +373,8 @@
                                         <textarea  name="employee_email_template"  ng-model="pushApiData.employee_email_template" id="employee_email_template" data-ck-editor  required  style="position: relative;"></textarea>
                                     </div>
                                     <div ng-show="sbtBtn2" ng-messages="remarkForm.employee_email_template.$error" class="help-block">
-                                        <div ng-message="required">Please enter email content</div>
-                                    </div>
+                                        <div ng-message="required">This field is required.</div>
+                                    </div>Please enter
                                 </div>
                             </span>
                         </div>

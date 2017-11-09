@@ -20,7 +20,7 @@
                                 <i class="fa fa-sort-desc"></i>                               
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.title_id.$error" class="help-block enqFormBtn">
-                                <div ng-message="required">Please select title</div>
+                                <div ng-message="required">This field is required.</div>
                             </div>
                         </div>                        
                     </div>                    
@@ -32,7 +32,7 @@
                                 <i class="fa fa-user"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.first_name.$error" class="help-block enqFormBtn">
-                                <div ng-message="required">Please enter first name</div>
+                                <div ng-message="required">This field is required.</div>
                             </div>
                         </div>                        
                     </div>
@@ -44,7 +44,7 @@
                                 <i class="fa fa-user"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.last_name.$error" class="help-block enqFormBtn">
-                                <div ng-message="required">Please enter last name</div>
+                                <div ng-message="required">This field is required.</div>
                             </div>
                         </div>                      
                     </div>
@@ -58,8 +58,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="formButton" ng-messages="enquiryForm.source_id.$error" class="help-block errMsg">
-                                    <div ng-message="required">Please select source< 
-                                        /div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                                 <div ng-if="source_id" class="errMsg source_id">{{source_id}}</div>
                             </span>
@@ -79,7 +78,7 @@
                                     <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_enquiry_date.$error" class="help-block">
-                                    <div ng-message="required">Please select enquiry date</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                                 <div ng-if="sales_enquiry_date" class="sp-err blog_title">{{sales_enquiry_date}}</div>
                             </p>
@@ -96,7 +95,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_category_id.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required">Please select enquiry category</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                                 <div ng-if="sales_category_id" class="sp-err blog_title">{{sales_category_id}}</div>
                             </span>
@@ -110,7 +109,7 @@
                                 <i class="fa fa-money"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.max_budget.$error" class="help-block enqFormBtn">
-                                <div ng-message="required">Please enter max budget</div>
+                                <div ng-message="required">This field is required.</div>
                                 <span ng-show="enquiryForm.max_budget.$error.pattern">Please enter valid max budget</span>
                             </div>
                         </div>
@@ -119,9 +118,9 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.remarks.$dirty && enquiryForm.remarks.$invalid)}">
                             <label for="">Remark <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <textarea class="form-control" ng-model="enquiryData.remarks" name="remarks"  ng-disabled="disableDataOnEnqUpdate"></textarea>
+                                <textarea class="form-control" ng-model="enquiryData.remarks" name="remarks"  ng-disabled="disableDataOnEnqUpdate" required></textarea>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.remarks.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required">Please enter remarks</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                                 <div ng-if="remarks" class="sp-err remarks">{{remarks}}</div>
                             </span>
@@ -157,7 +156,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.followup_by_employee_id.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required">Please select followup employee</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                                 <div ng-if="followup_by_employee_id" class="sp-err blog_title">{{followup_by_employee_id}}</div>
                             </span>
@@ -173,29 +172,24 @@
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.next_followup_date.$error" class="help-block">
-                                    <div ng-message="required">Please select followup date</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                                 <div ng-if="next_followup_date" class="sp-err blog_title">{{next_followup_date}}</div>
                                 </p>
                             </div>                            
                         </div>
                     </div>
-                    <!--                    <div class="col-sm-3 col-xs-6">                            
-                                            <div ng-controller="TimepickerDemoCtrl">
-                                                <timepicker ng-model="enquiryData.next_followup_time" ng-change="changed()" hour-step="hstep" format="HH:mm" minute-step="mstep" show-meridian="ismeridian" value="{{ enquiryData.next_followup_time | date:'HH:mm:ss' }}" style="margin: -1.5% 0 0 -5%;" id="timepicker"></timepicker>
-                                            </div>
-                                        </div>-->
                     <div class="col-sm-3 col-xs-6">
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_time.$dirty && enquiryForm.next_followup_time.$invalid)}">
                             <label for="">Time<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select ng-model="enquiryData.next_followup_time" name="next_followup_time" id="next_followup_time" class="form-control" required>
                                     <option value=""> Select Time </option>
-                                    <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="{{time.value == enquiryData.next_followup_time}}">{{time.label}}</option>
+                                    <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="time.value == enquiryData.next_followup_time">{{time.label}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
-                                <div  ng-show="sbtBtn" ng-messages="enquiryForm.next_followup_time.$error" class="help-block">
-                                    <div ng-message="required" >This field is required</div>
+                                <div ng-show="enqFormBtn"  ng-messages="enquiryForm.next_followup_time.$error" class="help-block">
+                                    <div ng-message="required" >This field is required.</div>
                                 </div>
                             </span>
                         </div>
@@ -232,7 +226,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.parking_type.$error" class="help-block">
-                                    <div ng-message="required">Please select parking type</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                                 <div ng-if="parking_type" class="sp-err blog_title">{{parking_type}}</div>
                             </span>
@@ -276,7 +270,7 @@
                                 </div>
                             </div>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.finance_required.$error" class="help-block">
-                                <div ng-message="required">Please select finance</div>
+                                <div ng-message="required">This field is required.</div>
                             </div>                                
                         </div>
                     </div>
@@ -337,7 +331,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.city_id.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required">Please select City</div>
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                                 <div ng-if="city_id" class="sp-err blog_title">{{city_id}}</div>
                             </span>
@@ -353,7 +347,7 @@
                                 </ui-select-choices>
                             </ui-select>         
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.enquiry_locations.$valid" class="help-block enqFormBtn">
-                                <div ng-message="required">Please select location</div>
+                                <div ng-message="required">This field is required.</div>
                             </div>
                             <div ng-if="enquiry_locations" class="sp-err blog_title">{{enquiry_locations}}</div>
                         </div>
@@ -403,7 +397,7 @@
                             </select>
                             <i class="fa fa-sort-desc"></i>
                             <div ng-if=" projectsDetails.length == 0" class="help-block enqFormBtn">
-                                <div>Please select Project</div>
+                                <div>This field is required.</div>
                             </div>
                             <div ng-if="project_id" class="sp-err blog_title">{{project_id}}</div>
                         </span>

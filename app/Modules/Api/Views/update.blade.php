@@ -317,7 +317,7 @@
                                         </div>                                                                        
                                     </div>
                                     <div ng-show="sbtBtn2" ng-messages="remarkForm.customer_email_template.$error" class="help-block">
-                                        <div ng-message="required">Please enter email content</div>
+                                        <div ng-message="required">This field is required.</div>
                                     </div>
                                 </div>
                             </span>
@@ -345,9 +345,7 @@
                                 <label for="">Mark BCC of this email to :</label>
                                 <span class="input-icon icon-right">
                                     <input type="text" placeholder="" ng-model="pushApiData.employee_email_bcc" name="employee_email_bcc" class="form-control">
-                                    <div ng-show="btn"  ng-messages="pushApiForm.employee_email_bcc.$error" class="help-block">
-                                        <div ng-message="required">This field is required</div>
-                                    </div>
+                                   
                                     <div style="color:red">Enter multiple email id's comma separated</div>
                                 </span>                           
                             </div>
@@ -355,7 +353,7 @@
 
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" >
-                                <label for="">Email subject line :</label>
+                                <label for="">Email subject line :  <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="text" placeholder="" ng-model="pushApiData.employee_email_subject_line" name="employee_email_subject_line" class="form-control" >
                                     <div ng-show="btn"  ng-messages="pushApiForm.employee_email_subject_line.$error" class="help-block">
@@ -376,7 +374,7 @@
                                         </div>                                                                      
                                     </div>
                                     <div ng-show="sbtBtn2" ng-messages="remarkForm.employee_email_template.$error" class="help-block">
-                                        <div ng-message="required">Please enter email content</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </div>
                             </span>
