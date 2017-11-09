@@ -10,6 +10,7 @@ app.controller('DatepickerDemoCtrl', function ($scope, $filter) {
 
     $scope.clear = function () {
         $scope.dt = null;
+        $("#next_followup_time").html("");
     };
 
     // Disable weekend selection
