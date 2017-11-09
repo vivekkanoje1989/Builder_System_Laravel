@@ -52,10 +52,9 @@ class MasterSalesController extends Controller {
     }
 
     public function store() {
-        try {
+     //   try {
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
-
             if (empty($input)) {
                 $input = Input::all();
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -69,6 +68,7 @@ class MasterSalesController extends Controller {
             if (!empty($input['customerData'])) {
                 $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
                 if ($validator->fails()) {
+                    print_r($validator->messages());
                     $result = ['success' => false, 'message' => $validator->messages()];
                     return json_encode($result, true);
                 }
@@ -105,7 +105,7 @@ class MasterSalesController extends Controller {
                     if (!empty($contacts['landline_calling_code'])) {
                         $contacts['landline_calling_code'] = (int) $contacts['landline_calling_code'];
                     }
-                    if ($contacts['email_id']==null) {
+                if (empty($contacts['email_id']) || $contacts['email_id']== null) {
                         $contacts['email_id'] = '';
                     }
                     $contacts = array_merge($contacts, $create);
@@ -113,10 +113,10 @@ class MasterSalesController extends Controller {
                     CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
                 }
             }
-        } catch (\Exception $ex) {
-            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-            return response()->json($result);
-        }
+//        } catch (\Exception $ex) {
+//            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+//            return response()->json($result);
+//        }
         $result = ["success" => true, "customerId" => $createCustomer->id];
         return response()->json($result);
     }
@@ -528,6 +528,7 @@ class MasterSalesController extends Controller {
                 }
                 $request['followupDetails']['actual_followup_date_time'] = "0000-00-00 00:00:00";
                 $request['followupDetails']['sales_category_id'] = $request['enquiryData']['sales_category_id'];
+                $request['followupDetails']['client_id'] = config('global.client_id');
                 $request['followupDetails']['sales_subcategory_id'] = $request['followupDetails']['sales_status_id'] = $request['followupDetails']['sales_substatus_id'] = 1;
 
                 $request['followupDetails'] = array_merge($request['followupDetails'], $create);

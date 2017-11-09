@@ -209,7 +209,7 @@
                                     <label for="">Sub Source</label>
                                     <span class="input-icon icon-right">
                                         <select class="form-control" ng-model="customerData.subsource_id" name="subsource_id" id="subsource_id" disabled>
-                                            <option value="">Select SubSource</option>
+                                            <option value="">Select Sub Source</option>
                                             <option ng-repeat="subSource in subSourceList" value="{{subSource.id}}" ng-selected="{{subSource.id == customerData.subsource_id}}">{{subSource.sub_source}}</option>
                                         </select>   
                                         <i class="fa fa-sort-desc"></i>

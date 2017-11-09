@@ -67,10 +67,6 @@
                                                 <span><b>Email : </b>{{ documentData.customer_email_id}}<br></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 col-xs-6">
-                                            <!--<b>Address:</b> {{ documentData.customer_address}}-->
-                                            <b>Address:</b><span ng-if="documentData.customer_area_name == ''"> -</span><span ng-if="documentData.customer_area_name != ''">{{ documentData.customer_area_name}}</span>
-                                        </div>
                                     </div>
                                 </div><hr>
                                 <div class="row">
