@@ -43,6 +43,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             });
         }
+
+        $scope.manageQuickEnquiry = function () {
+            $scope.searchData.mobile_calling_code = '+91';
+//            $rootScope.parentBreadcrumbFlag = 'quickEnquiry';
+        }
+
         $scope.showAddress = function () {
             $scope.showaddress = false;
             $scope.hideaddress = true;
@@ -309,7 +315,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.customer_id = response.data.customerId;
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
                             toaster.pop('success', 'Customer', 'Record successfully created');
-                            $scope.custSubmitBtn=true;
+                            $scope.custSubmitBtn = true;
                         } else {
                             toaster.pop('success', 'Customer', 'Record successfully updated');
                         }
@@ -389,11 +395,11 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             $scope.customerData.monthly_income = "";
                         else
                             $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
-                        
+
                         if (response.customerPersonalDetails[0].birth_date === '0000-00-00' || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
-                            $scope.customerData.birth_date = ''; 
-                        } else { 
-                            $scope.customerData.birth_date =  response.customerPersonalDetails[0].birth_date; 
+                            $scope.customerData.birth_date = '';
+                        } else {
+                            $scope.customerData.birth_date = response.customerPersonalDetails[0].birth_date;
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                         }
 
@@ -407,7 +413,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
                             }
                         }
-                      
+
                         for (var i = 0; i < response.customerPersonalDetails.get_customer_contacts.length; i++) {
                             if (response.customerPersonalDetails.get_customer_contacts[i].mobile_number === '0' || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === '' || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === null || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === "null") {
                                 $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
@@ -455,18 +461,18 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.showDiv = true;
                         $scope.enquiryformDiv = true;
                     } else {
+//                        console.log(response['customerContactDetails'][0]['mobile_calling_code']);
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
                         $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
-                        console.log(response.enquiryDetails[0].next_followup_time);
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
-                        
-                        
+
+
                         var d = new Date();
                         d.setHours(setTime[0]);
-                        d.setMinutes(setTime[1]);                       
-                        if($scope.enquiryData.next_followup_date !== "" && $scope.enquiryData.next_followup_date !== null)
+                        d.setMinutes(setTime[1]);
+                        if ($scope.enquiryData.next_followup_date !== "" && $scope.enquiryData.next_followup_date !== null)
                         {
                             $scope.todayremarkTimeChange($scope.enquiryData.next_followup_date);
                         }
@@ -478,6 +484,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.contacts = angular.copy(response.customerContactDetails);
                         $scope.contactData = angular.copy(response.customerContactDetails);
                         $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
+                        $scope.searchData.mobile_calling_code = response.customerContactDetails[0].mobile_calling_code;
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
 
@@ -485,7 +492,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             $scope.customerData.monthly_income = "";
                         else
                             $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
-                        
+
                         if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
                             $scope.customerData.birth_date = "";
                         } else {
@@ -574,7 +581,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 });
             }
         }
-        
+
         $scope.createEnquiry = function () {
 
             SweetAlert.swal({
@@ -684,8 +691,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 //        };
         $scope.saveEnquiryData = function (enquiryData)
         {
+            var mobilecc = $("#mobile_calling_code").val();
             var date = new Date($scope.enquiryData.next_followup_date);
             $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+
+
+            if (mobilecc != '') {
+                enquiryData.mobile_calling_code = mobilecc;
+            }
 
             if (typeof $scope.enquiryData.id === 'undefined') {
                 var enqData = enquiryData;
@@ -694,7 +707,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }).then(function (response) {
                     if (response.success) {
                         $scope.disableFinishButton = true;
-                        toaster.pop('success', 'Enquiry', response.message);                        
+                        toaster.pop('success', 'Enquiry', response.message);
                         $state.reload();
                     } else
                     {

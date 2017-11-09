@@ -28,7 +28,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.first_name.$dirty && enquiryForm.first_name.$invalid)}">
                             <label for="">First Name <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input class="form-control" type="text" maxlength="15" ng-model="enquiryData.first_name" name="first_name" required>
+                                <input class="form-control" type="text" maxlength="15" capitalizeFirst ng-model="enquiryData.first_name" name="first_name" required>
                                 <i class="fa fa-user"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.first_name.$error" class="help-block enqFormBtn">
@@ -40,7 +40,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.last_name.$dirty && enquiryForm.last_name.$invalid)}">
                             <label for="">Last Name <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input class="form-control" type="text" maxlength="15" ng-model="enquiryData.last_name" name="last_name" required>
+                                <input class="form-control" type="text" maxlength="15" capitalizeFirst ng-model="enquiryData.last_name" name="last_name" required>
                                 <i class="fa fa-user"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.last_name.$error" class="help-block enqFormBtn">
@@ -118,7 +118,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.remarks.$dirty && enquiryForm.remarks.$invalid)}">
                             <label for="">Remark <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <textarea class="form-control" ng-model="enquiryData.remarks" name="remarks"  ng-disabled="disableDataOnEnqUpdate" required></textarea>
+                                <textarea class="form-control capitalize" ng-model="enquiryData.remarks" name="remarks"  ng-disabled="disableDataOnEnqUpdate" required></textarea>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.remarks.$error" class="help-block enqFormBtn">
                                     <div ng-message="required">This field is required.</div>
                                 </div>
