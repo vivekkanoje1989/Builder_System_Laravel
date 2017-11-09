@@ -252,7 +252,7 @@
                                 <th>Mobile Number</th>
                                 <th>Landline Number</th>
                                 <th>Email ID</th>
-                                <th>Pin</th>
+                                <th>Pin Code</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
