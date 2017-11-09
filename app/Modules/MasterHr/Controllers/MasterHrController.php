@@ -178,8 +178,10 @@ class MasterHrController extends Controller {
     }
 
     public function preSalesEnquiry() {
+
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+
         if (!empty($request['loggedInUserId'])) {
             $empl_id = $request['loggedInUserId'];
         } else {
@@ -233,7 +235,6 @@ class MasterHrController extends Controller {
                     $emailempId[$i]['name'],
                     $loginEmployeeName
                 );
-
                 CommonFunctions::templateData($templatedata);
             }
             $templatedata = [];
@@ -447,7 +448,6 @@ class MasterHrController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $employee_id = $request['employee_id'];
-
         if (!empty($request)) {
             if (!empty($request['bulkData']['sales_employee_id'])) {
                 $sales_employee_id = $request['bulkData']['sales_employee_id'];
@@ -975,7 +975,7 @@ class MasterHrController extends Controller {
             $alluser = $this->allusers;
             $employee = Employee::where('id', '=', $input['employeeId'])->select('team_lead_id')->first();
             foreach ($alluser as $team) {
-                $employee = Employee::where('id', '=', $team)->update(['team_lead_id'=>$employee->team_lead_id]);
+                $employee = Employee::where('id', '=', $team)->update(['team_lead_id' => $employee->team_lead_id]);
             }
         }
 
