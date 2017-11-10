@@ -30,9 +30,12 @@
 </style>
 <div class="row"> 
     <div class="widget flat radius-bordered ">
-        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController" ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]],[[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]],1); getAllEmployeeData();">
-            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Quick Enquiry</h5>
-            <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12" style="box-shadow:none;">
+        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController" ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]],[[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]],1); getAllEmployeeData();manageQuickEnquiry()">
+            <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i></h5>-->
+             <div class="widget-header bordered-bottom bordered-themeprimary ">
+                <span class="widget-caption">Quick Enquiry</span>
+             </div>
+            <div class="widget-body col-lg-12 col-sm-12 col-xs-12" style="box-shadow:none;">
                 <div id="customer-form">                    
                     <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'">
                     <input type="hidden" ng-model="searchData.customerId" name="customerId" id="custId" value="{{searchData.customerId}}">
@@ -42,6 +45,14 @@
                                 Customer Details  
                             </div>
                             <div class="row">
+                                 <div class="col-sm-1 col-xs-1">
+                                    <div class="form-group" >
+                                        <label for="">Country Code</label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" disabled ng-model="searchData.mobile_calling_code" name="mobile_calling_code"  id="mobile_calling_code" class="form-control">
+                                        </span>
+                                    </div>
+                                </div>
                                 <div class="col-sm-3 col-md-3 col-xs-12">
                                     <div class="form-group">
                                         <label for="">Mobile Number</label>
@@ -255,3 +266,6 @@
         </div>
     </div>
 </div>
+<script>
+    $("#mobile_calling_code,#landline_calling_code").intlTelInput();
+</script>

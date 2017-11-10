@@ -87,6 +87,7 @@ class EnquiryFollowup extends Eloquent
 	];
 
 	protected $fillable = [
+                'client_id',
 		'enquiry_id',
 		'followup_date_time',
 		'followup_by_employee_id',

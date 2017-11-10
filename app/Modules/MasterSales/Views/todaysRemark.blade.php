@@ -150,9 +150,9 @@
 
     .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;}
     .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;}
-    
+
     .followupdate + ul.dropdown-menu{
-       top: -254px !important;
+        top: -254px !important;
     }
 </style>
 
@@ -212,7 +212,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div ng-if ="displaymobile != '-1'">
-                                                    <span ng-if="mobileList" ng-repeat="(key,value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
+                                                    <span ng-if="mobileList" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
                                                         <img ng-if="displayCallBtn != '-1'"  src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
                                                         <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">{{value}}</span>
                                                     </span> 
@@ -234,14 +234,14 @@
                                                     </span>
                                                     <input type="hidden" ng-mode="prevMob" name="prevMob" id="prevMob"><br>
                                                 </div>
-                                                <span ng-if="displaymobile == '-1' && mobileList" ng-repeat="(key,value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
+                                                <span ng-if="displaymobile == '-1' && mobileList" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
                                                     <img ng-if="displayCallBtn != '-1'" src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
                                                     <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">+91-xxxxxx{{  value.substring(value.length - 4, value.length)}}</span>
                                                 </span> 
                                                 <div class="col-sm-12" ng-if ="displayemail != '-1'">
-                                                    <span ng-if="emailList.length > 0" ng-repeat="(key,value) in emailList track by $index" style="float: left;  margin: 7px 20px 5px 0px;">    
-                                                        <i class="fa fa-envelope" aria-hidden="true" ng-if="value!='null'"></i>
-                                                        <span class="text" ng-click="manageEmailText(key, value)" ng-if="value!='null'">{{value}}</span>
+                                                    <span ng-if="emailList.length > 0" ng-repeat="(key, value) in emailList track by $index" style="float: left;  margin: 7px 20px 5px 0px;">    
+                                                        <i class="fa fa-envelope" aria-hidden="true" ng-if="value != 'null'"></i>
+                                                        <span class="text" ng-click="manageEmailText(key, value)" ng-if="value != 'null'">{{value}}</span>
                                                     </span>
                                                     <div class="col-sm-12" style=" margin-left: -13px;"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
                                                     <span class="input-icon icon-right" ng-if="addEmail">
@@ -271,9 +271,9 @@
                                                 <div class="form-group" ng-if="companyInput">
                                                     <input type="text" class="form-control" placeholder="Company name" ng-model="remarkData.company_name" name="company_name" ng-keyup="getCompanyList(remarkData.company_name)" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" required>
                                                     <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList" >
-                                                        <li ng-repeat="company in company_list| filter : remarkData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
+                                                        <li ng-repeat="company in company_list | filter : remarkData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
                                                     </ul> 
-                                                    <div ng-show="sbtBtn && remarkData.corporateCust==true" ng-messages="remarkForm.company_name.$error" class="help-block">
+                                                    <div ng-show="sbtBtn && remarkData.corporateCust == true" ng-messages="remarkForm.company_name.$error" class="help-block">
                                                         <div ng-message="required">This field is required.</div>
                                                     </div>
                                                 </div>
@@ -460,7 +460,7 @@
                                             <ui-select ng-controller="employeesCtrl" ng-model="remarkData.followup_by_employee_id" name="followup_by_employee_id" theme="bootstrap">
                                                 <ui-select-match placeholder="Select Employee">{{remarkData.followup_by_employee_id.first_name}}</ui-select-match>
                                                 <ui-select-choices repeat="item in employeeList | filter: $select.search">
-                                                    <div ng-bind-html="item.first_name  | highlight: $select.search"></div>
+                                                    <div ng-bind-html="item.first_name | highlight: $select.search"></div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
@@ -468,21 +468,21 @@
                                 </div>
 
                                 <tabset justified="true" ng-if="remarkData.sales_status_id == 3">
-                                    <tab heading="Booking Details" id="bookingTab">
-                                        <div class="row" ng-controller="projectBlocksCtrl" ng-show="remarkData.sales_status_id == 3">
+                                    <tab heading="Booking Details" id="bookingTab" ng-controller="projectBlocksCtrl">
+                                        <div class="row"  ng-show="remarkData.sales_status_id == 3">
                                             <div class="col-sm-6">
                                                 <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && modelList.length != 0) && (!remarkForm.project_id.$dirty && remarkForm.project_id.$invalid)}">
                                                     <label for="">Project<span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
-                                                        <select ng-controller="projectCtrl" ng-model="remarkData.project_id" name="project_id"  id ="project_id" class="form-control" ng-change="getWings(remarkData.project_id); getBlocks(remarkData.project_id);">
+                                                        <select ng-controller="projectCtrl" ng-model="remarkData.project_id" name="project_id"  id ="project_id" class="form-control" ng-change="getWings(remarkData.project_id); getBlocks(remarkData.project_id);" required>
                                                             <option value="">Select Project</option>
                                                             <option ng-repeat="plist in projectList" value="{{plist.id}}_{{plist.project_name}}">{{plist.project_name}}</option>
                                                         </select>
-                                                        <i class="fa fa-sort-desc"></i>
-                                                        <div ng-show="bookBtn" ng-messages="remarkForm.project_id.$error" class="help-block">
-                                                            <div ng-message="required">Please Select project</div>
-                                                        </div>
+                                                        <i class="fa fa-sort-desc"></i>                                                        
                                                     </span>
+                                                    <div ng-show="bookBtn" ng-messages="remarkForm.project_id.$error" class="help-block">
+                                                        <div ng-message="required">Please Select project</div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
@@ -500,6 +500,8 @@
                                                     </span>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && blockList.length != 0) && (!remarkForm.block_id.$dirty && remarkForm.block_id.$invalid)}">
                                                     <label for="">Block Type<span class="sp-err" ng-if="blockList.length > 0">*</span></label>
@@ -529,7 +531,7 @@
                                                         </div>
                                                     </span>
                                                 </div>
-                                            </div>                                   
+                                            </div>  
                                         </div>
 
                                         <div class="row">
@@ -1108,7 +1110,7 @@
                                     <label for="">Birth Date<span class="sp-err">*</span></label>
                                     <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                         <p class="input-group">
-                                            <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" readonly/>
+                                            <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" readonly/>
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default" ng-click="open($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
@@ -1124,7 +1126,7 @@
                                     <label for="">Marriage Date</label>
                                     <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                         <p class="input-group">
-                                            <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly />
+                                            <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly />
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default" ng-click="open($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
@@ -1301,7 +1303,7 @@
                         </div>  
                     </form>
                 </tab>
-                <tab heading="Enquiry History" ng-click="initHistoryDataModal(remarkData.enquiryId,{{initmoduelswisehisory}},1)" id="historyTab">
+                <tab heading="Enquiry History" ng-click="initHistoryDataModal(remarkData.enquiryId,{{initmoduelswisehisory}}, 1)" id="historyTab">
                     <div class="model-body">
                         <div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
                     </div>
@@ -1312,12 +1314,12 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-    $("a#gotoCustomerTab").on("click", function(){
-    $("li#remarkTab").removeClass('active');
-    $("li#customerTab").addClass('active');
-    $("li#customerTab a").trigger('click');
-    });
-    $(".modal-footer").hide();
+    $(document).ready(function () {
+        $("a#gotoCustomerTab").on("click", function () {
+            $("li#remarkTab").removeClass('active');
+            $("li#customerTab").addClass('active');
+            $("li#customerTab a").trigger('click');
+        });
+        $(".modal-footer").hide();
     });
 </script>

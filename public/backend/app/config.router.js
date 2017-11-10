@@ -1748,7 +1748,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        return $ocLazyLoad.load(['textAngular','ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1759,6 +1759,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
                                                                             '/js/accordian.js',
+                                                                            '/backend/app/controllers/textangular.js',
                                                                         ]
                                                                     }
                                                                     );

@@ -80,13 +80,13 @@ class ProjectsController extends Controller {
                 $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                 $input['settingData'] = array_merge($input['settingData'], $create);
                 $actionProject = ProjectWebPage::create($input['settingData']);
-                $msg = "Record added successfully";
+                $msg = "Basic information added successfully";
             } else if (!empty($input["settingData"]) && !empty($getProjectDetails[0])) { //update
                 $input['settingData']['client_id'] = config('global.client_id');
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $input['settingData'] = array_merge($input['settingData'], $update);
                 $actionProject = ProjectWebPage::where('project_id', $input["getDataByPrid"])->update($input['settingData']);
-                $msg = "Record updated successfully";
+                $msg = "Basic information updated successfully";
             }
         }
         if (!empty($getProjectDetails[0])) {

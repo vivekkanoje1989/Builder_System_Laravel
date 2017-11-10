@@ -1331,7 +1331,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.updateProfile = function (profileData)
         {
-            alert('hi')
             $scope.profileBtn = true;
             profileData.changePasswordflag = $scope.passwordValidation;
             var url = '/master-hr/updateProfileInfo';
@@ -1438,6 +1437,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.userContact.permenent_state_id = angular.copy($scope.userContact.current_state_id);
                 $scope.$broadcast("stateChange");
                 $scope.userContact.permenent_city_id = angular.copy($scope.userContact.permenent_city_id);
+
             }
 
         }
