@@ -350,7 +350,7 @@ p {
     list-style: none;
     float: none;
     position:relative;
-    margin:5px; auto;
+    margin:5px auto;
 }
 .social li {
     display:inline-block;
@@ -1118,7 +1118,7 @@ input, textarea, select, label {
 .enquiry-input > input:focus, .enquiry-input > textarea:focus {
    border: 2px solid #181a1c !important;
   outline: 0;
-  -webkit-box-shadow: 0px 0px 0px 8px #E1E1E1
+  -webkit-box-shadow: 0px 0px 0px 8px #E1E1E1;
   box-shadow: 0 0 0 8px #e1ecf5;
 }
 .lt-ie9 .enquiry-input > input, .lt-ie9 .enquiry-input > textarea {
@@ -1293,8 +1293,8 @@ img.btn_close {
 .experience-input > input:focus, .experience-input > textarea:focus {
    border: 2px solid #181a1c !important;
   outline: 0;
-  -webkit-box-shadow: 0px 0px 0px 8px #E1E1E1
-  box-shadow: 0 0 0 8px #e1ecf5;
+  -webkit-box-shadow: 0px 0px 0px 8px #E1E1E1;
+  box-shadow : 0 0 0 8px #e1ecf5;
 }
 .lt-ie9 .experience-input > input, .lt-ie9 .experience-input > textarea {
   line-height: 27px;
@@ -1416,7 +1416,7 @@ img.btn_close {
 .job-apply-input > input:focus, .job-apply-input > textarea:focus {
    border: 2px solid #181a1c !important;
   outline: 0;
-  -webkit-box-shadow: 0px 0px 0px 8px #E1E1E1
+  -webkit-box-shadow: 0px 0px 0px 8px #E1E1E1;
   box-shadow: 0 0 0 8px #e1ecf5;
 }
 .lt-ie9 .job-apply-input > input, .lt-ie9 .job-apply-input > textarea {

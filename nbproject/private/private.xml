@@ -3,7 +3,43 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/controllers/datepicker.js</file>
+=======
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/previousFollowup.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/projectdetails.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/sendDocument.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/updateCustomer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Models/Customer.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/route.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createCustomer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/pendingFollowup.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/mantravastu/footer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysfollowups.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/controllers/datepicker.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/mantravastu/css/style.css</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/frontend/UserController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/quickEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/mantravastu/projects.blade.php</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysRemark.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/quickEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/updateCustomer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createCustomer.blade.php</file>
+>>>>>>> a1310d044e84df7f1a29609423363608704f65bd
+>>>>>>> d9e2f2c10741321440ba7c94459b592b8e513692
         </group>
     </open-files>
 </project-private>

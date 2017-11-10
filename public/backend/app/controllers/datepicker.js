@@ -5,16 +5,11 @@ app.controller('DatepickerDemoCtrl', function ($scope, $filter) {
     $scope.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     $scope.today = function () {
         $scope.dt = new Date();
-        $("#next_followup_time").empty();
     };
     $scope.today();
 
     $scope.clear = function () { 
         $scope.dt = null;
-    };
-    $scope.select = function (param) {alert("hhh");
-        if (param === null)
-            $("#next_followup_time").empty();
     };
 
     // Disable weekend selection
@@ -76,6 +71,6 @@ app.controller('DatepickerDemoCtrl', function ($scope, $filter) {
     };
 
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
-    $scope.format = $scope.formats[1];
+    $scope.format = $scope.formats[2];
 
 });
