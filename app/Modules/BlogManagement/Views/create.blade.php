@@ -73,7 +73,7 @@
                                 </span>
                                 <span class="help-block">{{bannerImage_err}}</span>
                             </div>
-                            <div class="img-div2" data-title="name" ng-repeat="list in bannerImage_preview">    
+                            <div class="img-div2" data-title="name" ng-repeat="list in blog_banner_images_preview">    
                                 <img ng-src="{{list}}" class="thumb photoPreview">
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                                 </span>
                                 <span class="help-block">{{galleryImage_err}}</span>
                             </div>
-                            <div class="img-div2" data-title="name" ng-repeat="list in galleryImage_preview">    
+                            <div class="img-div2" data-title="name" ng-repeat="list in blog_images_preview">    
                                 <img ng-src="{{list}}" class="thumb photoPreview" height="180px" width="180px;">
                             </div>
                         </div>

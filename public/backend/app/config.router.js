@@ -1614,7 +1614,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select','textAngular', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1648,7 +1648,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select','textAngular', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1682,7 +1682,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select', 'textAngular', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1716,7 +1716,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select', 'textAngular', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,

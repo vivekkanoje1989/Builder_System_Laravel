@@ -43,10 +43,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             });
         }
+        $(".country-list li").click(function () {
+            $("#searchWithMobile").val('');
+           $('.showDivCustomer').hide();
+           $('.showDiv').hide();
+        });
 
         $scope.manageQuickEnquiry = function () {
             $scope.searchData.mobile_calling_code = '+91';
-//            $rootScope.parentBreadcrumbFlag = 'quickEnquiry';
         }
 
         $scope.showAddress = function () {
@@ -390,6 +394,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
+                        $scope.searchData.mobile_calling_code = "+"+response.customerPersonalDetails.get_customer_contacts[0].mobile_calling_code;
 
                         if (response.customerPersonalDetails[0].monthly_income == "0")
                             $scope.customerData.monthly_income = "";
@@ -461,7 +466,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.showDiv = true;
                         $scope.enquiryformDiv = true;
                     } else {
-//                        console.log(response['customerContactDetails'][0]['mobile_calling_code']);
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
                         $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
@@ -484,7 +488,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.contacts = angular.copy(response.customerContactDetails);
                         $scope.contactData = angular.copy(response.customerContactDetails);
                         $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
-                        $scope.searchData.mobile_calling_code = response.customerContactDetails[0].mobile_calling_code;
+                        $scope.searchData.mobile_calling_code = "+"+response.customerContactDetails[0].mobile_calling_code;
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
 

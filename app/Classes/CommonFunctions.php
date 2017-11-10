@@ -14,6 +14,8 @@ use App\Models\ClientInfo;
 use App\Modules\Projects\Models\Project;
 use App\Modules\MasterSales\Models\Customer;
 use App\Models\backend\Employee;
+use App\Modules\MyStorage\Models\MyStorage;
+use App\Modules\MyStorage\Models\StorageFiles;
 
 class CommonFunctions {
 
@@ -200,7 +202,7 @@ class CommonFunctions {
         // $model_id = $alertdata['project_id'];
         $car_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/car.png";
         $loc_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/loc2.png";
-        
+
         if (!empty($customer_id > 0) || !empty($alertdata['frontuserEmailId'])) {
             //$template_settings_customer = TemplatesSetting::where(['client_id' => $client_id, 'templates_event_id' => $eventid_customer, 'template_for' => 1])->first();
             $template_settings_customer = TemplatesSetting::where(['id' => $template_setting_customer])->first();
@@ -211,8 +213,8 @@ class CommonFunctions {
                     $template_customer = TemplatesCustom::where(['id' => $template_settings_customer->custom_template_id])->first();
                 }
             }
-        }        
-        
+        }
+
         if (!empty($template_customer)) {
             $cust_email_subject = $template_customer->email_subject;
             $cust_emailTemplate = $template_customer->email_body;
@@ -342,7 +344,7 @@ class CommonFunctions {
             // ----------- Replace employee tags --------------//
 
             $employee = \App\Models\backend\Employee::where('id', $employee_id)->first();
-            
+
             if (!empty($employee->office_mobile_no)) {
                 $employeeMobile = $employee->office_mobile_no;
             } else if (!empty($employee->personal_mobile1)) {
@@ -352,13 +354,13 @@ class CommonFunctions {
             if (!empty($employee->first_name))
                 $employeeName = ucwords($employee->first_name . ' ' . $employee->last_name);
 
-            $emp_email = '';             
-            if (!empty($employee->office_email_id) &&  $employee->office_email_id != 'null') {
+            $emp_email = '';
+            if (!empty($employee->office_email_id) && $employee->office_email_id != 'null') {
                 $emp_email = $employee->office_email_id;
             } else if (!empty($employee->personal_email1)) {
                 $emp_email = $employee->personal_email1;
             }
-          
+
             $search = array('[#employeeName#]', '[#employeeMobile#]', '[#employeeEmail#]');
             $replace = array($employeeName, $employeeMobile, $emp_email);
             if (!empty($template_employee)) {
@@ -448,7 +450,7 @@ class CommonFunctions {
             $userName = '';
             $password = '';
         }
-        $companyName = $client->marketing_name;        
+        $companyName = $client->marketing_name;
         if (!empty($customer_id > 0)) {
             if (!empty($template_settings_customer)) {
                 if ($template_settings_customer->email_status == 1 && !empty($customer_email_to)) {
@@ -465,25 +467,21 @@ class CommonFunctions {
                     $customerId = $customer_contact->customer_id;
                     // $result = Gupshup::sendSMS($cust_smsTemplate, $customer_mobile_to, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
                     $result = Gupshup::sendSMS($cust_smsTemplate, $customer_mobile_to, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
-
                 }
             }
-        }
-        
-        else
-        {            
-            if($frontuserEmail !== 0){
-                $subject = $cust_email_subject;                    
+        } else {
+            if ($frontuserEmail !== 0) {
+                $subject = $cust_email_subject;
                 $data = ['mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $frontuserEmail, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile];
                 $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
-            }            
-            if($frontuserMobile !== 0){
+            }
+            if ($frontuserMobile !== 0) {
                 $customer = "Yes";
                 $mobile = $frontuserMobile;
                 $customerId = 0;
                 $result = Gupshup::sendSMS($cust_smsTemplate, $frontuserMobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
-            }            
-        }    
+            }
+        }
         if (!empty($employee_id > 0)) {
             if (!empty($alertdata['emp_cc']) && !empty($template_employee->email_cc_ids)) {
                 $template_employee->email_cc_ids = $template_employee->email_cc_ids . ',' . $alertdata['emp_cc'];
@@ -494,7 +492,7 @@ class CommonFunctions {
                 if ($template_settings_employee->email_status == 1 || !empty($alertdata['email_status'])) {
                     $subject = $emp_email_subject;
                     $data = ['mailBody' => $emp_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $emp_email, "cc" => $template_employee->email_cc_ids, "attachment" => $emp_attachedfile];
-                   
+
                     $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
                 }
                 if ($template_settings_employee->sms_status == 1 || !empty($alertdata['sms_status'])) {
@@ -505,7 +503,7 @@ class CommonFunctions {
                     }
                     $customer = "No";
                     $customerId = 0;
-                    $result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);             
+                    $result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
                 }
             }
         }
@@ -513,13 +511,13 @@ class CommonFunctions {
     }
 
     public static function texttemplateData($alertdata, $obj_api, $request) {
-        
+
         $emailConfig = EmailConfiguration::where('id', 1)->first();
-        $isInternational = 0; 
-        $sendingType = 1; 
+        $isInternational = 0;
+        $sendingType = 1;
         $smsType = "T_SMS";
         $client_id = $alertdata['client_id'];
-        
+
         $client = \App\Models\ClientInfo::where('id', $client_id)->first();
         $project = Project::where('id', $client->project_id)->first();
         $companyMarketingName = $companyGoogleMap = $companyAddress = $companyLogo = $brandColor = $displayImage = $employeeName = $employeeMobile = $employeeEmail = $mobile_number = $customerEmail = $customerName = " ";
@@ -574,7 +572,7 @@ class CommonFunctions {
                 $userName = '';
                 $password = '';
             }
- 
+
             $data = ['mailBody' => $empl_emailTemplate, "fromEmail" => $userName, "fromName" => "", "subject" => $obj_api->employee_email_subject_line, "to" => str_replace(' ', '', $alertdata['employee_email']), 'cc' => str_replace(' ', '', $obj_api['employee_email_cc']), 'bcc' => str_replace(' ', '', $obj_api['employee_email_bcc'])];
             $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
         }
@@ -600,6 +598,23 @@ class CommonFunctions {
             $customerId = 0;
             $result = Gupshup::sendSMS($employee_smsTemplate, $employee_mobno, $alertdata['employee_id'], $request, $customerId, $isInternational, $sendingType, $smsType);
         }
+    }
+
+    public static function saveImages($folderName, $imageName) {
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $folderAvail = MyStorage::where('folder', '=', $folderName)->select('id')->first();
+        if (empty($folderAvail)) {
+            $folderPost = ['folder' => $folderName];
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+            $input['folderData'] = array_merge($folderPost, $create);
+            MyStorage::create($input['folderData']);
+            $folderAvail = MyStorage::latest('id')->first();
+        }
+        $post = ['storage_id' => $folderAvail->id, 'file_name' => $imageName, 'file_url' => $folderName . "/" . $imageName];
+        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+        $input['imageData'] = array_merge($post, $create);
+        $create = StorageFiles::create($input['imageData']);
+        return $create;
     }
 
 }

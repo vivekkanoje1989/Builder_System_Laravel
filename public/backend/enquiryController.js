@@ -33,7 +33,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.Bulkflag = [];
         $scope.remarkData = {};
         $scope.remarkData.sms_privacy_status = 1;
-        $scope.remarkData.email_privacy_status = 1;
+        $scope.remarkData.email_privacy_status = 1;        
         $scope.shared = $scope.sharedemployee = 0;
         $scope.sendDocDisable = false;
         $rootScope.newEnqFlag1 = 0;
@@ -206,6 +206,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.getModulesWiseHist = function (enquiry_id, opt)
         {
+            alert(enquiry_id+" "+opt);
             if (opt == 1)
             {
                 if ($('#chk_enquiry_history').is(":checked"))
@@ -257,42 +258,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
             $scope.initHistoryDataModal(enquiry_id, moduelswisehisory, 0)
         }
-
-
-
-
-
-        $scope.getModulesWiseHist = function (enquiry_id, opt)
-        {
-            if (opt == 1)
-            {
-                if ($('#chk_enquiry_history').is(":checked"))
-                {
-                    $(':checkbox.chk_followup_history_all').prop('checked', true);
-                } else
-                {
-                    $(':checkbox.chk_followup_history_all').prop('checked', false);
-                }
-            }
-            var mhistory = new Array();
-            if ($('#chk_presales').is(":checked"))
-            {
-                mhistory.push($('#chk_presales').data("id"))
-            }
-            if ($('#chk_Customer_Care').is(":checked"))
-            {
-                mhistory.push($('#chk_Customer_Care').data("id"))
-            }
-            if (mhistory.length == 2)
-            {
-                $(':checkbox#chk_enquiry_history').prop('checked', true);
-            } else
-            {
-                $(':checkbox#chk_enquiry_history').prop('checked', false);
-            }
-            $scope.initHistoryDataModal(enquiry_id, mhistory, 0)
-        }
-
 
         $scope.exportReport = function (result) {
 
@@ -1354,7 +1319,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.customer_area_name = response.enquiryDetails[0].customer_area_name;
                         $scope.customer_address = (response.enquiryDetails[0].customer_address == '') ? '' : response.enquiryDetails[0].customer_address;
                         $scope.remarkData.followup_by_employee_id = {"id": response.enquiryDetails[0].sales_employee_id, "first_name": response.enquiryDetails[0].first_name + " " + response.enquiryDetails[0].last_name};
-
+console.log("next_followup_time"+response.enquiryDetails[0].next_followup_time);
                         if ($scope.editExistingFollowup == true) {
                             $scope.remarkData.textRemark = response.enquiryDetails[0].remarks;
                         }
@@ -1436,13 +1401,13 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     }
                 });
                 $timeout(function () {
-                    $("li#remarkTab a").trigger('click');
-                    $("#next_followup_time").val("");
+                    $scope.remarkData.next_followup_time = '';
+                    $("li#remarkTab a").trigger('click');        
                 }, 200);
             }
         }
 
-        $scope.bookingId = '';
+        $scope.bookingId = '';        
         $scope.insertTodayRemark = function (modalData, sharedemployee) {
             if ($scope.editableCustInfo == true) {
                 if (modalData.customer_fname == '' && modalData.customer_lname == '') {
