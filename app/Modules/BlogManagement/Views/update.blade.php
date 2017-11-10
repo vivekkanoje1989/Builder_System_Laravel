@@ -21,7 +21,7 @@
                 <span class="widget-caption">Edit Blog</span>
             </div>
             <div class="widget-body">
-                <form  ng-submit="blogsForm.$valid && doblogscreateAction(blogData.blog_banner_images, blogData.blog_images,blogData,galleryImage_preview)" name="blogsForm"  novalidate enctype="multipart/form-data">
+                <form  ng-submit="blogsForm.$valid && doblogscreateAction(blogData.blog_banner_images, blogData.blog_images, blogData, galleryImage_preview)" name="blogsForm"  novalidate enctype="multipart/form-data">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                     <div class="row">
                         <div class="col-sm-3 col-xs-12 ">
@@ -34,7 +34,7 @@
                                             <div ng-message="required">This field is required.</div>
                                             <div ng-if="errormsg">{{errormsg}}</div>
                                         </div>
-                                         <div ng-if="blog_title" class="sp-err blog_title">{{blog_title}}</div>
+                                        <div ng-if="blog_title" class="sp-err blog_title">{{blog_title}}</div>
                                         <br/>
                                     </span>
                                 </div>
@@ -75,8 +75,11 @@
                                 </span>
                                 <span class="help-block">{{bannerImage_err}}</span>
                             </div>
-                            <div class="img-div2" data-title="name" ng-repeat="list in bannerImage_preview">    
+                            <div class="img-div2"   data-title="name" ng-repeat="list in bannerImage_preview">    
                                 <img ng-src="[[ Config('global.s3Path') ]]/Blog/blog_banner_images/{{list}}" class="thumb photoPreview">
+                            </div>
+                            <div class="img-div2" data-title="name" ng-repeat="list in blog_banner_images_preview">    
+                                <img ng-src="{{list}}" class="thumb photoPreview">
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-12">
@@ -87,10 +90,12 @@
                                 </span>
                                 <span class="help-block">{{galleryImage_err}}</span>
                             </div>
-                             <!--<img ng-if="!employee_photo_file_name_preview" ng-src="[[ Config('global.s3Path') ]]employee-photos/{{imgUrl}}" class="thumb photoPreview">-->
-                            <div class="img-div2" data-title="name" ng-repeat="list in galleryImage_preview track by $index" > 
+                            <div class="img-div2"  data-title="name" ng-repeat="list in galleryImage_preview track by $index" > 
                                 <i class="fa fa-times rem-icon" ng-if="list"  title="{{list}}" ng-click="removeGalleryImg('{{list}}',{{$index}})"></i>
                                 <img ng-if="list" ng-src="[[ Config('global.s3Path') ]]/Blog/gallery_image/{{list}}" class="thumb photoPreview">
+                            </div>
+                            <div class="img-div2" data-title="name" ng-repeat="list in blog_images_preview">    
+                                <img ng-src="{{list}}" class="thumb photoPreview" height="180px" width="180px;">
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-12 ">
@@ -102,7 +107,7 @@
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_code.$error">
                                             <div ng-message="required">This field is required.</div>
                                         </div>
-                                         <div ng-if="blog_code" class="sp-err blog_code">{{blog_code}}</div>
+                                        <div ng-if="blog_code" class="sp-err blog_code">{{blog_code}}</div>
                                     </span>
                                 </div>
                             </div>

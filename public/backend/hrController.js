@@ -53,6 +53,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.searchDetails = {};
         $scope.searchData = {};
 
+
+        $scope.stateTwoPermanentList = [];
+
         $scope.filterDetails = function (search) {
             if (search.joining_date != undefined) {
                 var today = new Date(search.joining_date);
@@ -571,14 +574,14 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                                     if (!response.success) {
                                         $scope.errorMsg = result.message;
                                     } else {
-                                        $scope.stateTwoList = result.records;
+                                        $scope.stateTwoPermanentList = result.records;
                                         Data.post('getCities', {
                                             data: {stateId: permenent_state},
                                         }).then(function (cityresult) {
                                             if (!result.success) {
                                                 $scope.errorMsg = cityresult.message;
                                             } else {
-                                                $scope.cityTwoList = cityresult.records;
+                                                $scope.cityTwoPermanentList = cityresult.records;
                                                 $timeout(function () {
                                                     $scope.userContact.permenent_state_id = permenent_state;
                                                     $scope.userContact.permenent_city_id = permenent_city;
@@ -779,16 +782,43 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         }
-        $scope.removeEmpID = function (empId, parentId, submenuId, allChild2Id, allChild3Id) {
 
-            Data.post('master-hr/removeEmpID',
-                    {empId: empId, parentId: parentId, submenuId: submenuId, allChild2Id: allChild2Id, allChild3Id: allChild3Id}).then(function (response) {
-                if (!response.success) {
-                    toaster.pop('error', '', 'Something went wrong');
-                } else {
-                    toaster.pop('success', '', 'Employee removed successfully');
-                }
-            });
+//        $scope.parentfunc = function(index){
+//            alert(index)
+//            $scope.parentId =index;
+//        }
+//        $scope.childfunc = function(index){
+//            alert(index)
+//            $scope.childId =index;
+//        }
+//        
+        $scope.removeEmpID = function (empId, parentId, submenuId, allChild2Id, allChild3Id, index) {
+//              alert(empId)
+//              alert(parentId)
+//              alert(submenuId)
+
+            SweetAlert.swal({
+                title: "Are you sure?", //Bold text
+                text: "Your will not be able to recover this employee!", //light text
+                type: "warning", //type -- adds appropiriate icon
+                showCancelButton: true, // displays cancel btton
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, suspend it!",
+                closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
+                closeOnCancel: false
+            },
+                    function (isConfirm) { //Function that triggers on user action.
+                        if (isConfirm) {
+
+                            Data.post('master-hr/removeEmpID',
+                                    {empId: empId, parentId: parentId, submenuId: submenuId, allChild2Id: allChild2Id, allChild3Id: allChild3Id}).then(function (response) {
+
+                            });
+                            SweetAlert.swal("Deleted!");
+                        } else {
+                            SweetAlert.swal("Your Employee is safe!");
+                        }
+                    });
         }
 
         $scope.updatePermissions = function (empId, roleId) {
@@ -1372,7 +1402,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     })
                     .then(function (response)
                     {
-
                         if (!response.success)
                         {
                             $scope.isDisabled = false;
@@ -1404,32 +1433,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.userContact.permenent_address = angular.copy($scope.userContact.current_address);
                 $scope.userContact.permenent_country_id = angular.copy($scope.userContact.current_country_id);
                 $scope.userContact.permenent_pin = angular.copy($scope.userContact.current_pin);
-                alert($scope.userContact.current_country_id)
-                Data.post('getStates', {
-                    data: {countryId: $scope.userContact.current_country_id},
-                }).then(function (response) {
-                    if (!response.success) {
-                        $scope.errorMsg = response.message;
-                    } else {
-                        $scope.stateTwoList = response.records;
-                        Data.post('getCities', {
-                            data: {stateId: $scope.userContact.current_state_id},
-                        }).then(function (response) {
-                            if (!response.success) {
-                                $scope.errorMsg = response.message;
-                            } else {
-                                $scope.cityTwoList = response.records;
-                            }
-                            $timeout(function () {
-//                                 $("#permenent_state_id").val($scope.userContact.current_state_id);
-//                                 $("#permenent_city_id").val($scope.userContact.current_city_id);
-              
-                                $scope.userContact.permenent_state_id = angular.copy($scope.userContact.current_state_id);
-                                $scope.userContact.permenent_city_id = angular.copy($scope.userContact.current_city_id);
-                            }, 500);
-                        });
-                    }
-                });
+
+                $scope.$broadcast("countryChange");
+                $scope.userContact.permenent_state_id = angular.copy($scope.userContact.current_state_id);
+                $scope.$broadcast("stateChange");
+                $scope.userContact.permenent_city_id = angular.copy($scope.userContact.permenent_city_id);
             }
 
         }
@@ -1453,7 +1461,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             } else {
                 emp_id = $rootScope.employeeId;
             }
-
             if (typeof employee_photo_file_name == "undefined" || typeof employee_photo_file_name == "string") {
                 employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
@@ -1561,9 +1568,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     $(".wiredstep4").removeClass("active");
                     $(".wiredstep4").addClass('complete');
                     if (empId > 0) {
-                        toaster.pop('success', 'Employee Details', "Educational & Other Details Updated Successfully");
+                        toaster.pop('success', 'Employee Details', "Job Offer Details Updated Successfully");
                     } else {
-                        toaster.pop('success', 'Employee Details', "Educational & Other Details Saved Successfully");
+                        toaster.pop('success', 'Employee Details', "Job Offer Details  Saved Successfully");
                     }
                 });
             }, 1500);
@@ -1762,6 +1769,139 @@ app.controller('teamLeadCtrlforQuick', function ($scope, Data) {
 
         }
     });
+});
+
+
+
+
+app.controller('currentCountryListCtrl', function ($scope, $rootScope, Data) {
+    $("#current_country_id").val("101");
+    Data.get('getCountries').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.countryList = response.records;
+        }
+    });
+    $scope.onCountryChange = function () { //for state list
+        $scope.stateList = "";
+        Data.post('getStates', {
+            data: {countryId: $("#current_country_id").val()},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.stateList = response.records;
+            }
+        });
+    };
+
+    $scope.onStateChange = function () {//for city list
+        $scope.cityList = "";
+        Data.post('getCities', {
+            data: {stateId: $("#current_state_id").val()},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.cityList = response.records;
+            }
+        });
+    };
+    $scope.onCityChange = function () { //for location list
+        $scope.locationList = "";
+        Data.post('getLocations', {
+            data: {countryId: $("#current_country_id").val(), stateId: $("#current_state_id").val(), cityId: $("#current_city_id").val()},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.locationList = response.records;
+            }
+        });
+    };
+});
+app.controller('permanentCountryListCtrl', function ($scope, $rootScope, $timeout, Data) {
+
+
+    $scope.$on("countryChange", function (event, args) {
+        $scope.onPCountryChange();
+    });
+
+    $scope.$on("stateChange", function (event, args) {
+        $scope.onPStateChange();
+    });
+
+
+    Data.get('getCountries').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.countryList = response.records;
+        }
+    });
+
+    $scope.onPCountryChange = function () {
+
+        $scope.stateList = "";
+        Data.post('getStates', {
+            data: {countryId: $scope.userContact.permenent_country_id},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.stateTwoPermanentList = response.records;
+            }
+        });
+    };
+
+    $scope.onPStateChange = function () {
+        $scope.cityList = "";
+        Data.post('getCities', {
+            data: {stateId: $scope.userContact.permenent_state_id},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.cityTwoPermanentList = response.records;
+            }
+        });
+    };
+
+    $scope.checkboxSelected = function (copy) {
+        if (copy) {  // when checked
+            $scope.userContact.permenent_address = angular.copy($scope.userContact.current_address);
+            $scope.userContact.permenent_country_id = angular.copy($scope.userContact.current_country_id);
+            $scope.userContact.permenent_pin = angular.copy($scope.userContact.current_pin);
+
+            Data.post('getStates', {
+                data: {countryId: $scope.userContact.current_country_id},
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.stateTwoPermanentList = response.records;
+                    Data.post('getCities', {
+                        data: {stateId: $scope.userContact.current_state_id},
+                    }).then(function (response) {
+                        if (!response.success) {
+                            $scope.errorMsg = response.message;
+                        } else {
+                            $scope.cityTwoPermanentList = response.records;
+                        }
+                        $timeout(function () {
+                            // $("#permenent_state_id").val($scope.userContact.current_state_id);
+                            // $("#permenent_city_id").val($scope.userContact.current_city_id);
+                            $scope.userContact.permenent_state_id = $scope.userContact.current_state_id;
+                            $scope.userContact.permenent_city_id = $scope.userContact.current_city_id;
+                        }, 500);
+                    });
+                }
+            });
+        } else {
+            $scope.userContact.permenent_address = $scope.userContact.permenent_country_id = $scope.userContact.permenent_state_id = $scope.userContact.permenent_city_id = $scope.userContact.permenent_pin = "";
+        }
+    };
 });
 
 app.directive("limitTo", [function () {

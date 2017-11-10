@@ -237,7 +237,7 @@
                         <div class="form-group">
                             <span class="input-icon icon-right">
                                 <input type="text" class="form-control" ng-model="modal.userName" name="userName" placeholder="User Name" readonly="">
-                                <i class="fa fa-user thm-color circular"></i>
+                                <i class="fa fa-mobile  thm-color circular"></i>
                             </span>
                         </div>
                     </div>

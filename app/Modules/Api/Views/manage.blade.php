@@ -110,7 +110,9 @@
                             <th style="width: 10%">
                                 Status
                             </th>
-                            <th style="width: 10%">Actions</th>
+                            <th style="width: 10%">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,16 +125,12 @@
                             <td ng-if="list.status == 1">Active</td>
                             <td ng-if="list.status == 2">Deactive</td>
                             <td class="">
-
                                 <div class="" tooltip-html-unsafe="Edit API" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/pushapi/edit/{{ list.id}}" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
-
                             </td>
-
                         </tr>
                         <tr>
                             <td colspan="10"  ng-show="(listUsers|filter:search).length == 0" align="center">Record Not Found</td>   
                         </tr>
-
                     </tbody>
                 </table>
                 <div class="DTTTFooter">
