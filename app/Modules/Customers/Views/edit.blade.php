@@ -252,9 +252,9 @@
 
                                 <div class="col-sm-3 col-xs-12">
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.source_description.$dirty && requestLeave.source_description.$invalid) }">
-                                        <label>Source Description<span class="sp-err">*</span></label>
+                                        <label>Source Description</label>
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="customerData.source_description" name="source_description" class="form-control" required></textarea>
+                                            <textarea ng-model="customerData.source_description" name="source_description" class="form-control"></textarea>
                                         </span>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.source_description.$error">
                                             <div ng-message="required">Source Description is required.</div>

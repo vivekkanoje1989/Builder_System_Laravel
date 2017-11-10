@@ -3,7 +3,7 @@
         <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDivCustomer">
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="form-title">
-                    Personal Details 
+                    Personal Details
                 </div>
             </div>
             <div class="col-lg-12 col-sm-12 col-xs-12">
@@ -84,7 +84,7 @@
                             <label for="">Birth Date<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="{{format}}" required is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
+                                    <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="dd-MM-yyyy" required is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
@@ -135,7 +135,7 @@
                             <label for="">Marriage Date</label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
+                                    <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
@@ -252,7 +252,7 @@
                                 <th>Mobile Number</th>
                                 <th>Landline Number</th>
                                 <th>Email ID</th>
-                                <th>Pin</th>
+                                <th>Pin Code</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
