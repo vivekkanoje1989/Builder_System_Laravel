@@ -2709,6 +2709,7 @@ characters in mobile number field. Please apply your form validations as per the
         $project_brochure = config('global.s3Path') . '/project/project_brochure/' . $project_brochure;
         $project_banner_images = config('global.s3Path') . '/project/project_banner_images/' . $project_banner_images;
 
+        
         $templatedata['employee_id'] = $emp->id;
         $templatedata['client_id'] = config('global.client_id');
         $templatedata['customer_status'] = '1';
