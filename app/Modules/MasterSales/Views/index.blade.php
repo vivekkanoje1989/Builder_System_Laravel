@@ -82,7 +82,7 @@
                                     <div class="form-group">
                                         <label for="">Mobile Number</label>
                                         <span class="input-icon icon-right">                                    
-                                            <input type="text" class="form-control" ng-disabled="disableText" ng-model="searchData.searchWithMobile" get-customer-details-directive minlength="10" maxlength="10"  ng-pattern="/^[789][0-9]{9,10}$/" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
+                                            <input type="text" class="form-control" ng-disabled="disableText" ng-model="searchData.searchWithMobile" get-customer-details-directive minlength="10" maxlength="10" id="searchWithMobile"  ng-pattern="/^[789][0-9]{9,10}$/" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
                                             <i class="glyphicon glyphicon-phone"></i>
                                             <div ng-messages="searchData.searchWithMobile.$error" class="help-block">
                                                 <div ng-message="minlength">Invalid mobile no.</div>
@@ -107,7 +107,7 @@
                         </div>
                         <br><br>
                     </div>
-                    <tabset ng-if="showDivCustomer" class="demo-tab row">
+                    <tabset ng-if="showDivCustomer" class="demo-tab row showDivCustomer">
                         <tab heading="Customer Information" id="custDiv">
                             <div data-ng-include=" '/MasterSales/createCustomer'"></div>
                         </tab>
@@ -116,7 +116,7 @@
                         </tab>
                     </tabset>
                 </div>                
-                <div class="col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv && !enquiryList">
+                <div class="col-lg-12 col-sm-12 col-xs-12 showDiv" ng-if="showDiv && !enquiryList">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="form-title">
                             Previous Open Enquiries

@@ -622,6 +622,7 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, $http) {
         }
     });
     $scope.onPCountryChange = function () {
+  
         $scope.stateList = "";
         $http.post('website/getfStates', {
             data: {countryId: $scope.userData.permenent_country_id},

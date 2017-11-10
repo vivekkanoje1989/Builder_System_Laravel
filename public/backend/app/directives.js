@@ -129,6 +129,8 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
         model.$asyncValidators.customerInputs = function () {
             var customerMobileNo = '';
             var customerEmailId = '';
+            var customerCallingCode = '';
+            customerCallingCode = $("#mobile_calling_code").val();
             customerMobileNo = $scope.searchData.searchWithMobile;
             customerEmailId = $scope.searchData.searchWithEmail;
             if (model.$isEmpty(customerMobileNo) && model.$isEmpty(customerEmailId))
@@ -136,7 +138,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
             else {
                 //$scope.showloader();
                 return Data.post('master-sales/getCustomerDetails', {
-                    data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId},
+                    data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId,customerCallingCode:customerCallingCode},
                 }).then(function (response) {  
                     if (response.success) { //response true
                         if (response.flag === 0)//if customer exist, enquiry is empty

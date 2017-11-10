@@ -21,6 +21,7 @@ use Session;
 use Excel;
 use App\Models\MlstTitle;
 
+
 class MasterHrController extends Controller {
 
     public static $empArr;
@@ -1037,25 +1038,18 @@ class MasterHrController extends Controller {
         $validationRules = Employee::validationRulesstep3();
         $input = Input::all();
         $originalName = $input['employee_photo_file_name']->getClientOriginalName();
-
         if ($originalName != "fileNotSelected") {
             if (!empty($input['employee_photo_file_name'])) {
-
                 $folderName = 'employee-photos';
-//                $image =  $input['employee_photo_file_name']->getPathName();
                 $imageName = time() . "." . $input['employee_photo_file_name']->getClientOriginalExtension();
+                CommonFunctions::saveImages($folderName,$imageName);
                 $tempPath = $input['employee_photo_file_name']->getPathName();
                 $name = S3::s3FileUpload($tempPath, $imageName, $folderName);
-
-//                $image = ['0' => $input['employee_photo_file_name']];
-//                $imageName = S3::s3FileUplod($image, $folderName, 1);
-//                $imageName = trim($imageName, ',');
                 $input['userEducation']['employee_photo_file_name'] = $imageName;
             }
         } else {
             unset($input['userEducation']['employee_photo_file_name']);
         }
-
         $employee = Employee::where('id', '=', $input['employeeId'])->update($input['userEducation']);
         $result = ['success' => true, 'message' => 'Employee registeration successfully'];
         return json_encode($result);

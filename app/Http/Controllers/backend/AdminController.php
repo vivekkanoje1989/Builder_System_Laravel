@@ -965,7 +965,6 @@ class AdminController extends Controller {
 
     public function getEmployeesDetails() {
         $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id','personal_email1')->where("employee_status", 1)->get();
-
         $i = 0;
         foreach ($getEmployees as $ctEmployeesExt) {
             $getEmployees[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] . '(' . $ctEmployeesExt['designation'] . ')';
