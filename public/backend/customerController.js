@@ -43,10 +43,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             });
         }
+        $(".country-list li").click(function () {
+            $("#searchWithMobile").val('');
+           $('.showDivCustomer').hide();
+           $('.showDiv').hide();
+        });
 
         $scope.manageQuickEnquiry = function () {
             $scope.searchData.mobile_calling_code = '+91';
-//            $rootScope.parentBreadcrumbFlag = 'quickEnquiry';
         }
 
         $scope.showAddress = function () {
@@ -390,6 +394,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
+                        $scope.searchData.mobile_calling_code = "+"+response.customerPersonalDetails.get_customer_contacts[0].mobile_calling_code;
 
                         if (response.customerPersonalDetails[0].monthly_income == "0")
                             $scope.customerData.monthly_income = "";
