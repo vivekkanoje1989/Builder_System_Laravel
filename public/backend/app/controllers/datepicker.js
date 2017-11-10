@@ -5,12 +5,16 @@ app.controller('DatepickerDemoCtrl', function ($scope, $filter) {
     $scope.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     $scope.today = function () {
         $scope.dt = new Date();
+        $("#next_followup_time").empty();
     };
     $scope.today();
 
-    $scope.clear = function () {
+    $scope.clear = function () { 
         $scope.dt = null;
-        $("#next_followup_time").html("");
+    };
+    $scope.select = function (param) {alert("hhh");
+        if (param === null)
+            $("#next_followup_time").empty();
     };
 
     // Disable weekend selection
@@ -47,20 +51,19 @@ app.controller('DatepickerDemoCtrl', function ($scope, $filter) {
             }
         }
         if (type == 3) {
-            if($scope.customerData.birth_date !== null || $scope.customerData.birth_date !=="-0001-11-30 00:00:00"){
+            if ($scope.customerData.birth_date !== null || $scope.customerData.birth_date !== "-0001-11-30 00:00:00") {
                 $scope.maxDates = new Date($scope.customerData.birth_date);
                 if ($scope.maxDates.getDate() < 10) {
-                    var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' +  ("0" + $scope.maxDates.getDate()));
-                }else{
+                    var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + ("0" + $scope.maxDates.getDate()));
+                } else {
                     var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + $scope.maxDates.getDate());
                 }
                 $scope.customerData.birth_date = date_of_birth;
-            }
-            else{
+            } else {
                 $scope.maxDates = new Date($scope.customerData.marriage_date);
                 if ($scope.maxDates.getDate() < 10) {
-                    var marriage_date = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' +  ("0" + $scope.maxDates.getDate()));
-                }else{
+                    var marriage_date = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + ("0" + $scope.maxDates.getDate()));
+                } else {
                     var marriage_date = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + $scope.maxDates.getDate());
                 }
                 $scope.customerData.marriage_date = marriage_date;
