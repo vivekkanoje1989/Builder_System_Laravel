@@ -3040,6 +3040,7 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
+            //print_r($request['documentData']);exit;
             $doc = array();
             if (!empty($request['loggedInUserId'])) {
                 $loggedInUserId = $request['loggedInUserId'];
@@ -3048,6 +3049,7 @@ Regards,<br>
             }
             if ($request['isUpdate']) { // update customer
                 $update = Customer::where('id', $request['documentData']['customer_id'])->update(['first_name' => $request['documentData']['customer_fname'], 'last_name' => $request['documentData']['customer_lname'], 'title_id' => $request['documentData']['title_id']]);
+                $update = CustomersContact::where([['customer_id','=', $request['documentData']['customer_id']],['mobile_number','=',$request['documentData']['customer_mobile_no']]])->update(['email_id'=>$request['documentData']['email_id']]);
             }
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $insertDocument['enquiry_id'] = $request['enquiry_id'];
