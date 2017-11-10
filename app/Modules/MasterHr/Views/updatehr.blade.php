@@ -14,8 +14,8 @@
         margin-left: 185px;
     }
     .ui-datepicker .btn-group .btn-danger.btn{
-    display: none;
-}
+        display: none;
+    }
 </style>
 <input type="hidden" ng-model="userForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="userForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
 <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-init="userForm.id = '[[ $empId ]]'" value="[[ $empId ]]" class="form-control">
@@ -24,8 +24,8 @@
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Edit User</h5>-->
         <div class="widget-header bordered-bottom bordered-themeprimary ">
-                <span class="widget-caption">Edit User</span>
-            </div>
+            <span class="widget-caption">Edit User</span>
+        </div>
         <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
             <ul class="steps">
                 <li   ng-click="getStepDiv(1, steps, 1, steps.first_name)" id="step1" ng-class="{'complete':steps.first_name == 1}" class="user_steps wiredstep1"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
@@ -193,7 +193,7 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="submit" class="btn btn-primary btn-nxt1"  ng-click="step1 = true;"  >Next</button>
-                             <a href="[[ config('global.backendUrl') ]]#/user/index" class="btn btn-primary">Cancel</a>
+                            <a href="[[ config('global.backendUrl') ]]#/user/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -471,7 +471,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userContactForm.permenent_country_id.$invalid)}">
                                         <label for="">Select Country <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-change="onPCountryChange()" ng-model="userContact.permenent_country_id" name="permenent_country_id" class="form-control" required>
+                                            <select ng-change="onPCountryChange()" ng-model="userContact.permenent_country_id" name="permenent_country_id" id="permenent_country_id" class="form-control" required>
                                                 <option value="">Select Country</option>
                                                 <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == userContact.permenent_country_id}}">{{country.name}}</option>
                                             </select>
@@ -488,7 +488,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-change="onPStateChange()" ng-model="userContact.permenent_state_id" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
-                                                <option ng-repeat="state in stateTwoList track by $index" value="{{state.id}}" ng-selected="state.id == userContact.permenent_state_id">{{state.name}}</option>
+                                                <option ng-repeat="state in stateTwoPermanentList track by $index" value="{{state.id}}" ng-selected="state.id == userContact.permenent_state_id">{{state.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.permenent_state_id.$error" class="help-block step2">
@@ -505,7 +505,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-model="userContact.permenent_city_id" name="permenent_city_id" id="permenent_city_id" class="form-control" required>
                                                 <option value="">Select City</option>
-                                                <option ng-repeat="city in cityTwoList track by $index" value="{{city.id}}" ng-selected="city.id == userContact.permenent_city_id">{{city.name}}</option>
+                                                <option ng-repeat="city in cityTwoPermanentList track by $index" value="{{city.id}}" ng-selected="city.id == userContact.permenent_city_id">{{city.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.permenent_city_id.$error" class="help-block step2">
@@ -797,7 +797,7 @@
                             <a href="[[ config('global.backendUrl') ]]#/user/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
-                    </form>
+                </form>
             </div>
         </div>
     </div>
@@ -833,9 +833,9 @@
                         <div class="">
                             <span><strong>Total Enquires found : {{totsalesEnquiries}}</strong></span>
                         </div>
-<!--                        <div class="">
-                            <span><strong>Total Deals : </strong></span>
-                        </div>-->
+                        <!--                        <div class="">
+                                                    <span><strong>Total Deals : </strong></span>
+                                                </div>-->
                     </div>
                     <br>
                     <div class="row" ng-if="totpresalesEnquiries > 0">
