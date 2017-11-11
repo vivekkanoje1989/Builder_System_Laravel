@@ -4,6 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
 <<<<<<< HEAD
         <group>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysRemark.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/sendDocument.blade.php</file>
+=======
+<<<<<<< HEAD
+        <group>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/previousFollowup.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/directives.js</file>
@@ -30,7 +40,7 @@
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryHistory.blade.php</file>
 >>>>>>> 525d84b0124f2ee422dd87e5fbc0c3d4d34e8acc
+>>>>>>> b35fdc7d9b91b595ccc6ed147ed044e1d7d5a792
         </group>
->>>>>>> a3921952545c603b216d93b86d19d7a193fc4f8c
     </open-files>
 </project-private>
