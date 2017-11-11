@@ -131,6 +131,19 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             }
         }
+        $scope.checkMobileValue = function () {
+            if (typeof $scope.contactData.mobile_number === 'undefined' || $scope.contactData.mobile_number === '') {
+                $scope.errMobileNo = false;
+            } else {
+                var regMobile = /^[789]/;
+                if (!regMobile.test($scope.contactData.mobile_number)) {
+                    $scope.errMobileNo = true;
+                } else {
+                    $scope.errMobileNo = "";
+                    $scope.errMobileNo = false;
+                }
+            }
+        }
         var sessionContactData = $scope.contactData.index = "";
         $window.sessionStorage.setItem("sessionContactData", "");
 
@@ -182,7 +195,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 if (i < $scope.contacts.length) {
                     angular.forEach($scope.contacts, function (data, index) {
                         if (index === i) {
-                            $scope.contactData.mobile_calling_code = $("#mobile_calling_code").val();
+                            $scope.contactData.mobile_calling_code = $("#mobile_calling_code1").val();
                             $scope.contacts.splice(index, 1); //Remove index
                             $scope.contacts.splice(index, 0, contactData);  //Update new value and returns array
                             $scope.contactData = {};
@@ -190,7 +203,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     });
                 } else {
                     $scope.contacts.push({
-                        'mobile_calling_code': $("#mobile_calling_code").val(),
+                        'mobile_calling_code': $("#mobile_calling_code1").val(),
                         'mobile_number_lable': $scope.contactData.mobile_number_lable,
                         'mobile_number': $scope.contactData.mobile_number,
                         'landline_calling_code': $scope.contactData.landline_calling_code,
@@ -212,6 +225,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         'google_map_link': $scope.contactData.google_map_link,
                         'other_remarks': $scope.contactData.other_remarks,
                     })
+                     
                 }
 
             }
@@ -226,6 +240,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
                         $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
                 $scope.contactData.mobile_calling_code = '+91';
+                $scope.contactData.landline_calling_code = '+91';
                 $scope.contactData.email_id = $scope.contactData.house_number =
                         $scope.contactData.building_house_name = $scope.contactData.wing_name =
                         $scope.contactData.area_name = $scope.contactData.lane_name =
@@ -690,17 +705,17 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         /****************************************Enquiry Controller*********************************************/
 
         $scope.historyList = {};
-//        $scope.pageChangeHandler = function (num) {
-//            $scope.noOfRows = num;
-//            $scope.currentPage = num * $scope.itemsPerPage;
-//        };
         $scope.saveEnquiryData = function (enquiryData)
         {
+            $scope.disableFinishButton = true;
             var mobilecc = $("#mobile_calling_code").val();
             var date = new Date($scope.enquiryData.next_followup_date);
             $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
-
-
+            if($scope.enquiryData.property_possession_date !== "0000-00-00" )
+            {
+                var tentativeDate = new Date($scope.enquiryData.property_possession_date);
+                $scope.enquiryData.property_possession_date = (tentativeDate.getFullYear() + '-' + ("0" + (tentativeDate.getMonth() + 1)).slice(-2) + '-' + tentativeDate.getDate());
+            }
             if (mobilecc != '') {
                 enquiryData.mobile_calling_code = mobilecc;
             }

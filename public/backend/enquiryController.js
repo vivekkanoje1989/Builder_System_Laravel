@@ -779,19 +779,16 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 {
                     var flag = 0;
                     $scope.documentData = angular.copy(response.records);
-                    alert(response.records.customer_email_id);
                     var allemails = response.records.customer_email_id.split(",");
-                    for (var i = 1; i < allemails.length; i++)
+                    for(var i=1;i<= allemails.length ; i++)
                     {
-                        if (allemails[i] !== '' || allemails[i] !== null)
-                        {
-                            flag = 1;
-                        }
-                    }
-                    alert("flaggg" + flag);
+                       if(allemails[i] !=='' || allemails[i] !== null || allemails[i] !=='null') 
+                       {
+                           flag = 1;
+                       }
+                    }                    
                     if (response.records.customer_fname !== "" && response.records.customer_lname !== "" && flag == 0)
                     {
-                        alert("if");
                         $scope.custInfo = true;
                         $scope.documentData.project_id = 0;
                         $scope.editableCustInfo = false;
@@ -825,7 +822,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.insertSendDocument = function (documentdata)
         {
-            console.log(documentdata);
             var flag = [];
             $(".chkDocList").each(function (key, value) {
                 if ($(this).is(':checked')) {

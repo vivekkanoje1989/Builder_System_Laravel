@@ -212,9 +212,10 @@
                             </div>
                         </div>
                     </div>
+                    <!--if common parking then 2 wheelar and 4 wheelar parking numbers wants to enter-->
                     <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_required == 1">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.parking_type.$dirty && enquiryForm.parking_type.$invalid)}">
-                            <label for="">Parking Type</label>
+                            <label for="">Parking Type<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="enquiryData.parking_type" name="parking_type">
                                     <option value="1">Common Parking</option>                                       
@@ -228,20 +229,20 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_required == 1">
+                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_type == 1 && enquiryData.parking_required == 1">
                         <div class="form-group">
-                            <label for="">Number of 2 wheeler parkings required</label>
-                            <span class="input-icon icon-right">
-                                <input class="form-control" type="text" ng-model="enquiryData.two_wheeler_parkings_required"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="two_wheeler_parkings_required">
+                            <label for="">Number of 2 wheeler parkings required </label>{{two_wheeler_parkings_required}}
+                            <span class="input-icon icon-right" ng-init="enquiryData.two_wheeler_parkings_required == 0 ? '' : enquiryData.two_wheeler_parkings_required ">
+                                <input class="form-control" type="text" ng-model="enquiryData.two_wheeler_parkings_required" maxlength="5" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="two_wheeler_parkings_required">
                                 <i class="fa fa-motorcycle"></i>
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_required == 1">
+                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_type == 1 && enquiryData.parking_required == 1">
                         <div class="form-group">
                             <label for="">Number of 4 wheeler parkings required</label>
-                            <span class="input-icon icon-right">
-                                <input class="form-control" type="text" ng-model="enquiryData.four_wheeler_parkings_required" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="four_wheeler_parkings_required">
+                            <span class="input-icon icon-right" ng-init="enquiryData.four_wheeler_parkings_required > 0 ? enquiryData.four_wheeler_parkings_required : '' ">
+                                <input class="form-control" type="text" ng-model="enquiryData.four_wheeler_parkings_required" maxlength="5" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="four_wheeler_parkings_required">
                                 <i class="fa fa-car"></i>
                             </span>
                         </div>
