@@ -146,11 +146,9 @@ class MasterSalesController extends Controller {
     public function editCustomer($cid) {
         return view("MasterSales::index")->with(["editCustomerId" => $cid]);
     }
-
     public function editEnquiry($cid, $eid) {
         return view("MasterSales::index")->with(["editCustomerId" => $cid, "editEnquiryId" => $eid]);
     }
-
     /**
      * Update the specified resource in storage.
      *

@@ -313,7 +313,6 @@
                             <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'',sharedemployee)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Today's Remarks</a><br/>
                             <a href ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
                             <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents<br/></a>
-                            <span ng-if="enquiry.email.split(',').length > 0"><br/></span>
                             <a href data-toggle="modal" data-target="#siteVisitDataModal" ng-click="siteVisit({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Site Visit</a><br/>
                         </div>
                     </td>
