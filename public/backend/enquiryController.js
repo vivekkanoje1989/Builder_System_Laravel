@@ -764,16 +764,16 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 {
                     var flag  = 0;
                     $scope.documentData = angular.copy(response.records);
+                    console.log(response.records);
                     alert(response.records.customer_email_id);
                     var allemails = response.records.customer_email_id.split(",");
-                    for(var i=1;i< allemails.length ; i++)
+                    for(var i=1;i<= allemails.length ; i++)
                     {
-                       if(allemails[i] !=='' || allemails[i] !== null) 
+                       if(allemails[i] !=='' || allemails[i] !== null || allemails[i] !=='null') 
                        {
                            flag = 1;
                        }
-                    }
-                    alert("flaggg"+flag);
+                    }                    
                     if (response.records.customer_fname !== "" && response.records.customer_lname !== "" && flag == 0)
                     {
                         alert("if");
