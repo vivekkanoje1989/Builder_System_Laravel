@@ -43,14 +43,15 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             });
         }
-        $(".country-list li").click(function () {
-            $("#searchWithMobile").val('');
-           $('.showDivCustomer').hide();
-           $('.showDiv').hide();
-        });
 
-        $scope.manageQuickEnquiry = function () {
+
+        $scope.manageQuickEnquiry = function (id) {
             $scope.searchData.mobile_calling_code = '+91';
+            $(".countryClass ul li").click(function () {
+                $("#searchWithMobile").val('');
+                $('.showDivCustomer').hide();
+                $('.showDiv').hide();
+            });
         }
 
         $scope.showAddress = function () {
@@ -224,7 +225,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $timeout(function () {
                 $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
                         $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
-
+                $scope.contactData.mobile_calling_code = '+91';
                 $scope.contactData.email_id = $scope.contactData.house_number =
                         $scope.contactData.building_house_name = $scope.contactData.wing_name =
                         $scope.contactData.area_name = $scope.contactData.lane_name =
@@ -394,7 +395,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
-                        $scope.searchData.mobile_calling_code = "+"+response.customerPersonalDetails.get_customer_contacts[0].mobile_calling_code;
+                        $scope.searchData.mobile_calling_code = "+" + response.customerPersonalDetails.get_customer_contacts[0].mobile_calling_code;
 
                         if (response.customerPersonalDetails[0].monthly_income == "0")
                             $scope.customerData.monthly_income = "";
@@ -488,7 +489,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.contacts = angular.copy(response.customerContactDetails);
                         $scope.contactData = angular.copy(response.customerContactDetails);
                         $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
-                        $scope.searchData.mobile_calling_code = "+"+response.customerContactDetails[0].mobile_calling_code;
+                        $scope.searchData.mobile_calling_code = "+" + response.customerContactDetails[0].mobile_calling_code;
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
 

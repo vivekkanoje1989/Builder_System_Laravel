@@ -1,7 +1,7 @@
 <div class="modal-body"> 
     <div>
             <label>
-                <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHist(history_enquiryId,1)"  id="chk_enquiry_history">
+                <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHist(history_enquiryId,1)" id="chk_enquiry_history" class="chk_enquiry_history">
                 <span class="text">All</span>
             </label>
             &nbsp;&nbsp;

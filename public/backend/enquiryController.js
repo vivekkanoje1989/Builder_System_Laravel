@@ -110,14 +110,18 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }, 200);
         }
 
-
+        var mhistory = new Array(); 
         $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init)
         {
             if (init == 1)
             {
                 /*using the enquiry history modal*/
+                
+                mhistory.push($('#chk_presales').data("id"));
+                mhistory.push($('#chk_Customer_Care').data("id"));
+                
                 $(':checkbox.chk_followup_history_all').prop('checked', true);
-                $(':checkbox#chk_enquiry_history').prop('checked', true);
+                $(':checkbox.chk_enquiry_history').prop('checked', true);
             }
             Data.post('customer-care/presales/getenquiryHistory', {
                 enquiryId: enquiry_id, moduelswisehisory: moduelswisehisory
@@ -203,11 +207,31 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             });
         }
-
+        
         $scope.getModulesWiseHist = function (enquiry_id, opt)
         {
-            alert(enquiry_id+" "+opt);
+            
             if (opt == 1)
+            {
+                $('.chk_enquiry_history').click(function(){                     
+                    if ($(this).is(":checked")){alert("if");
+                        $(':checkbox.chk_followup_history_all').prop('checked', true);
+                        console.log(mhistory);
+                    } else{alert("else");
+                        $(':checkbox.chk_followup_history_all').prop('checked', false);
+                    }
+                }); 
+            }alert(mhistory.length);
+            if (mhistory.length == 2)
+            {
+                $(':checkbox#chk_enquiry_history').prop('checked', true);
+                mhistory.pop();
+            } else
+            {
+                mhistory.push($('#chk_Customer_Care').data("id"));
+                $(':checkbox#chk_enquiry_history').prop('checked', false);
+            }
+            /*if (opt == 1)
             {
                 if ($('#chk_enquiry_history').is(":checked"))
                 {
@@ -220,11 +244,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             var mhistory = new Array();
             if ($('#chk_presales').is(":checked"))
             {
-                mhistory.push($('#chk_presales').data("id"))
+                mhistory.push($('#chk_presales').data("id"));
             }
             if ($('#chk_Customer_Care').is(":checked"))
             {
-                mhistory.push($('#chk_Customer_Care').data("id"))
+                mhistory.push($('#chk_Customer_Care').data("id"));
             }
             if (mhistory.length == 2)
             {
@@ -232,32 +256,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             } else
             {
                 $(':checkbox#chk_enquiry_history').prop('checked', false);
-            }
-            $scope.initHistoryDataModal(enquiry_id, mhistory, 0)
-        }
-
-
-
-        $scope.exportReport = function (result) {
-
-
-            $(".chk_followup_history_all").each(function () {
-                if ($(this).is(":checked"))
-                {
-                    moduelswisehisory.push($(this).data("id"))
-                }
-            });
-
-            if (moduelswisehisory.length == 2)
-            {
-                $(':checkbox#chk_enquiry_history').prop('checked', true);
-            } else
-            {
-                $(':checkbox#chk_enquiry_history').prop('checked', false);
-            }
-
-            $scope.initHistoryDataModal(enquiry_id, moduelswisehisory, 0)
-        }
+            }*/
+            //$scope.initHistoryDataModal(enquiry_id, mhistory, 0);
+        };
 
         $scope.exportReport = function (result) {
 
