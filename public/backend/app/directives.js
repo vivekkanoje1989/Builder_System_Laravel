@@ -141,8 +141,8 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                     data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId,customerCallingCode:customerCallingCode},
                 }).then(function (response) {  
                     if (response.success) { //response true
-                        if (response.flag === 0)//if customer exist
-                        {
+                        if (response.flag === 0)//if customer exist, enquiry is empty
+                        { 
                             $scope.company_list = [];
                             var result = '';
                             $scope.showDiv = false;
@@ -248,7 +248,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
 
                             }, 200);
                             $scope.hideloader();
-                        } else { //enquiry list of customer 
+                        } else { //enquiry list of customer //customer and enquiry is exist
 
                             var url = $location.path();
                             if (url === "/sales/enquiry" || url === "/sales/quickEnquiry") {
@@ -266,7 +266,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }
                             $scope.hideloader();
                         }
-                    } else {//response false                        
+                    } else {//response false    //initialise variable for new customer                    
                         $scope.locations = [];
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
