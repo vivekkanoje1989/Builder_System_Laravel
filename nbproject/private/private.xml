@@ -2,11 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysRemark.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryHistory.blade.php</file>
         </group>
+>>>>>>> a3921952545c603b216d93b86d19d7a193fc4f8c
     </open-files>
 </project-private>

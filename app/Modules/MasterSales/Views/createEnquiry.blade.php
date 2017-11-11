@@ -131,18 +131,14 @@
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6" ng-if="enqType != 0">
-                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
+                        <div class="form-group">
                             <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id" required>
+                                <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id">
                                     <option value="">Select Employee</option>
-                                    <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="list.id == [[ Auth::guard('admin')->user()->id ]]">{{list.first_name}} {{list.last_name}}</option>                                              
+                                    <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="list.id == [[ Auth::guard('admin')->user()->id ]]">{{list.first_name}} {{list.last_name}}</option>
                                 </select>
-                                <i class="fa fa-sort-desc"></i>
-                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.followup_by_employee_id.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required">Please select followup employee</div>
-                                </div>
-                                <div ng-if="followup_by_employee_id" class="sp-err blog_title">{{followup_by_employee_id}}</div>
+                                <i class="fa fa-sort-desc"></i>                                                                
                             </span>
                         </div>
                     </div>
@@ -375,10 +371,7 @@
                                     <input type="text" ng-model="enquiryData.property_possession_date" name="property_possession_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>
-                                    <!--                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_enquiry_date.$error" class="help-block">
-                                                                        <div ng-message="required">Please select tentative possession date</div>
-                                                                    </div>-->
+                                    </span>                                    
                                 </p>
                             </div>                               
                         </div> 

@@ -763,12 +763,24 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             Data.post('master-sales/sendDocuments', {enquiryId: id}).then(function (response) {
                 if (response.success)
                 {
+                    var flag  = 0;
                     $scope.documentData = angular.copy(response.records);
-                    if (response.records.customer_fname != "" || response.records.customer_lname != "")
+                    alert(response.records.customer_email_id);
+                    var allemails = response.records.customer_email_id.split(",");
+                    for(var i=1;i< allemails.length ; i++)
                     {
+                       if(allemails[i] !=='' || allemails[i] !== null) 
+                       {
+                           flag = 1;
+                       }
+                    }
+                    alert("flaggg"+flag);
+                    if (response.records.customer_fname !== "" && response.records.customer_lname !== "" && flag == 0)
+                    {
+                        alert("if");
                         $scope.custInfo = true;
                         $scope.documentData.project_id = 0;
-                        $scope.editableCustInfo = false;
+                        $scope.editableCustInfo = false; 
                     } else {
                         $scope.custInfo = false;
                         $scope.editableCustInfo = true;
@@ -783,7 +795,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (response.success)
                 {
                     $scope.documentListData = response.records[0];
-                    $scope.sendDocDisable = true;
+                    $scope.sendDocDisable = true;                    
                     if($scope.documentListData.location_map_images != null && $scope.documentListData.floor_plan_images != null && $scope.documentListData.layout_plan_images!= null && $scope.documentListData.amenities_images!= null && $scope.documentListData.project_brochure!= null && $scope.documentListData.specification_images!= null && $scope.documentListData.video_link!= null) 
                     {
                         $scope.sendDocDisable = false;
@@ -799,6 +811,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.insertSendDocument = function (documentdata)
         {
+            console.log(documentdata);
             var flag = [];
             $(".chkDocList").each(function (key, value) {
                 if ($(this).is(':checked')) {
