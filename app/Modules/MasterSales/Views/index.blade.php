@@ -306,7 +306,7 @@
                                 <button type="button" class="close" id="closeModal" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title" align="center">Contact Details</h4>
                             </div>
-                            <input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">
+                            <!--<input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">-->
                             <div class="modal-body">
                                 <div class="col-lg-12 col-sm-12 col-xs-12">
                                     <div class="row">
@@ -326,7 +326,7 @@
                                             <div class="form-group" >
                                                 <label for="">Country Code<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right"> 
-                                                    <input type="text" disabled ng-model="contactData.mobile_calling_code"  name="mobile_calling_code"  id="mobile_calling_code" class="form-control" required>
+                                                    <input type="text" disabled ng-model="contactData.mobile_calling_code"  name="mobile_calling_code"  id="mobile_calling_code1" class="form-control"  required>
                                                 </span>
                                                 <div ng-show="modalSbtBtn && modalForm.mobile_calling_code.$invalid" ng-messages="modalForm.mobile_calling_code.$error" class="help-block">
                                                     <div ng-message="required">This field is required</div> 
@@ -337,14 +337,15 @@
                                             <div class="form-group">
                                                 <label for="">Mobile Number<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number" id="mobile_number" class="form-control" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  pattern="/^[789][0-9]{9,10}$/" check-mobile-exist ng-model-options="{ allowInvalid: true, debounce: 300 }" required>
+                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number"  id="mobile_number" class="form-control" maxlength="10" ng-change="checkMobileValue(contactData.mobile_calling_code)" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  check-mobile-exist ng-model-options="{ allowInvalid: true, debounce: 300 }" required>
                                                     <i class="glyphicon glyphicon-phone"></i>
                                                 </span>
                                                 <div ng-show="modalSbtBtn && modalForm.mobile_number.$invalid" ng-messages="modalForm.mobile_number.$error" class="help-block">
                                                     <div ng-message="required">This field is required</div> 
                                                     <div ng-message="uniqueMobile">Mobile number already exist</div>
-                                                    <div ng-message="pattern">Invalid mobile number!</div>
+                                                    <!--<div ng-message="pattern">Invalid mobile number!</div>-->
                                                 </div>
+                                                <div ng-show="errMobileNo" class="sp-err">Invalid mobile number!</div>
                                             </div>
                                         </div>
                                     </div>
@@ -579,5 +580,5 @@
            $("#subbtn").trigger("click");
        });
    });
-   $("#mobile_calling_code,#landline_calling_code").intlTelInput();
+   $("#mobile_calling_code,#landline_calling_code,#mobile_calling_code1").intlTelInput();
 </script>
