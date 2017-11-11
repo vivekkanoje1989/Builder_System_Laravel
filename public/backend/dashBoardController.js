@@ -45,6 +45,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         }
         $scope.searchDetails = {};
         $scope.searchData = {};
+        $scope.filterRecords = {};
 
         $scope.filterDetails = function (search, type) {
             if (search.in_date != undefined) {
@@ -56,7 +57,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                     search.in_date = (today.getDate() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-0' + today.getFullYear());
                 }
             }
-            if (search.from_date != undefined) {
+            if (search.from_date != undefined && search.from_date != 'null') {
                 if (type == 2) {
                     var today = search.from_date.toString();
 
@@ -88,8 +89,14 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                 }
 
             }
-
-            $scope.searchData = search;
+//            if (search.to_date === null || search.from_date === null) {
+//               var filterRecords = search.request_type;
+//                 console.log($scope.searchData);
+//                $scope.filterRecords.push({'request_type': filterRecords});
+//                console.log($scope.filterRecords);
+//            } else {
+                $scope.searchData = search;
+//            }
         }
         $scope.removeFilterData = function (keyvalue) {
             delete $scope.searchData[keyvalue];
