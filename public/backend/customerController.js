@@ -690,17 +690,17 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         /****************************************Enquiry Controller*********************************************/
 
         $scope.historyList = {};
-//        $scope.pageChangeHandler = function (num) {
-//            $scope.noOfRows = num;
-//            $scope.currentPage = num * $scope.itemsPerPage;
-//        };
         $scope.saveEnquiryData = function (enquiryData)
         {
+            $scope.disableFinishButton = true;
             var mobilecc = $("#mobile_calling_code").val();
             var date = new Date($scope.enquiryData.next_followup_date);
             $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
-
-
+            if($scope.enquiryData.property_possession_date !== "0000-00-00" )
+            {
+                var tentativeDate = new Date($scope.enquiryData.property_possession_date);
+                $scope.enquiryData.property_possession_date = (tentativeDate.getFullYear() + '-' + ("0" + (tentativeDate.getMonth() + 1)).slice(-2) + '-' + tentativeDate.getDate());
+            }
             if (mobilecc != '') {
                 enquiryData.mobile_calling_code = mobilecc;
             }
