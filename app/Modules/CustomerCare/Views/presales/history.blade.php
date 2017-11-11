@@ -10,16 +10,6 @@
                 <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="1" class="chk_followup_history_all" id="chk_presales">
                 <span class="text">Pre Sales</span>
             </label>
-            
-            <!--label>&nbsp;&nbsp;
-                <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="3" class="chk_followup_history_all" id="chk_finance">
-                <span class="text">Finance</span>
-            </label>
-             &nbsp;&nbsp;
-             <label>
-                 <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="4" class="chk_followup_history_all" id="chk_Exchange">
-                <span class="text">Exchange</span>
-            </label-->
              &nbsp;&nbsp;
             <label>
                 <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="2"  class="chk_followup_history_all" id="chk_Customer_Care">

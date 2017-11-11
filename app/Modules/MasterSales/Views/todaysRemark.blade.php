@@ -180,7 +180,7 @@
                                                         </select>
                                                         <i class="fa fa-sort-desc"></i>
                                                         <div ng-show="sbtBtn" ng-messages="remarkForm.title_id.$error" class="help-block">
-                                                            <div ng-message="required">This field is required..</div>
+                                                            <div ng-message="required">This field is required.</div>
                                                         </div>
                                                     </span>
                                                 </div>
@@ -191,7 +191,7 @@
                                                         <input type="text" placeholder="First Name" ng-model="remarkData.customer_fname" name="customer_fname" capitalization class="form-control" ng-required="editableCustInfo">
                                                         <i class="fa fa-user"></i>
                                                         <div ng-show="sbtBtn" ng-messages="remarkForm.first_name.$error" class="help-block">
-                                                            <div ng-message="required">This field is required..</div>
+                                                            <div ng-message="required">This field is required.</div>
                                                         </div>
                                                     </span>
                                                 </div>
@@ -202,7 +202,7 @@
                                                         <input type="text" placeholder="Last Name" ng-model="remarkData.customer_lname" name="customer_lname" capitalization class="form-control" ng-required="editableCustInfo">
                                                         <i class="fa fa-user"></i>
                                                         <div ng-show="sbtBtn" ng-messages="remarkForm.last_name.$error" class="help-block">
-                                                            <div ng-message="required">This field is required..</div>
+                                                            <div ng-message="required">This field is required.</div>
                                                         </div>
                                                     </span>
                                                 </div>
@@ -271,10 +271,10 @@
                                                 <div class="form-group" ng-if="companyInput">
                                                     <input type="text" class="form-control" placeholder="Company name" ng-model="remarkData.company_name" name="company_name" ng-keyup="getCompanyList(remarkData.company_name)" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" required>
                                                     <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList" >
-                                                        <li ng-repeat="company in company_list | filter : remarkData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
+                                                        <li ng-repeat="company in company_list| filter : remarkData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
                                                     </ul> 
                                                     <div ng-show="sbtBtn && remarkData.corporateCust == true" ng-messages="remarkForm.company_name.$error" class="help-block">
-                                                        <div ng-message="required">This field is required..</div>
+                                                        <div ng-message="required">This field is required.</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1303,9 +1303,117 @@
                     </form>
                 </tab>
                 <tab heading="Enquiry History" ng-click="initHistoryDataModal(remarkData.enquiryId,{{initmoduelswisehisory}}, 1)" id="historyTab">
-                    <div class="model-body">
-                        <div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
+
+                    <div class="modal-body"> 
+                        <div>
+                            <label>
+                                <input type="checkbox" name="chk_enquiry_history_remark" ng-click="getModulesWiseHist_remark(history_enquiryId, 1, 'todayremarkFlag')" checked  id="chk_enquiry_history_remark">
+                                <span class="text">All</span>
+                            </label>
+                            &nbsp;&nbsp;
+                            <label>
+                                <input type="checkbox"  ng-click="getModulesWiseHist_remark(history_enquiryId, 0, 'todayremarkFlag')" data-id="1" checked class="chk_followup_history_all_remark" id="chk_presales_remark">
+                                <span class="text">Pre Sales</span>
+                            </label>
+                            &nbsp;&nbsp;
+                            <label>
+                                <input type="checkbox"  ng-click="getModulesWiseHist_remark(history_enquiryId, 0, 'todayremarkFlag')" data-id="2" checked  class="chk_followup_history_all_remark" id="chk_Customer_Care_remark">
+                                <span class="text">Customer Care</span>
+                            </label>
+                            <hr class="enq-hr-line">           
+                            1) <span>PS = Pre Sales</span> &nbsp;&nbsp;2) <span>CC = Customer Care</span>            
+                            <hr class="enq-hr-line">    
+                        </div>
+
+                        <div style="height: auto;max-height: 605px;margin-top: 0px;    overflow-x: hidden;overflow-y: scroll;">
+                            <table class="table table-hover table-striped table-bordered" at-config="config" >
+                                <thead class="bord-bot">
+                                    <tr>
+                                        <th class="enq-table-th" style="width:3%">SR</th>
+                                        <th class="enq-table-th" style="width: 13%;">
+                                            Followup By 
+                                        </th>
+                                        <th class="enq-table-th" style="width: 13%">
+                                            Last  
+                                        </th>
+                                        <th class="enq-table-th" style="width: 13%">
+                                            Next
+                                        </th>
+                                        <th class="enq-table-th" style="width: 20%">
+                                            Status
+                                        </th>
+                                        <th class="enq-table-th" style="width: 38%">
+                                            Remarks
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="history in historyList track by $index | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                                    <tr role="row" >
+                                        <td style="width:4%" rowspan="2">
+                                            {{ $index + 1}}
+                                        </td>
+                                        <td style="width: 10%;">
+                                            <div>
+                                                {{ history.first_name}}  {{ history.last_name}}    
+                                                <span>
+                                                    <b>({{history.short_name}})</b>
+                                                </span>
+                                            </div>
+
+                                        </td>
+                                        <td style="width: 10%">
+                                            {{ history.last_followup_date | split:'@':0}}<br/> @ {{ history.last_followup_date | split:'@':1 }}
+                                        </td>
+
+
+                                        <td style="width: 10%">
+                                            <span ng-if="history.next_followup_date != null && history.next_followup_date != '00-00-0000'">
+                                                {{ history.next_followup_date}} <br/>@ {{ history.next_followup_time}}
+                                            </span>
+                                            <span ng-if="history.next_followup_date == null || history.next_followup_date == '00-00-0000'">
+                                                <center>  -</center>
+                                            </span>
+
+                                        </td>
+                                        <td style="width: 8%">
+                                            <div ng-show="history.cc_presales_status != null">
+                                                {{history.cc_presales_status}} <span ng-if="history.cc_presales_substatus != null">/<br/></span>
+                                                {{history.cc_presales_substatus}}
+                                            </div>
+                                            <div ng-show="history.sales_status != null">
+                                                {{history.sales_status}} <span ng-if="history.enquiry_sales_substatus != null">/<br/></span>
+                                                {{history.enquiry_sales_substatus}}
+                                            </div>
+                                            <div ng-show="history.cc_presales_status == null && history.sales_status == null">
+                                                N/A
+                                            </div>
+
+                                        </td>               
+                                        <td style="width: 16%">
+                                            <span data-toggle="tooltip" title="{{history.remarks| removeHTMLTags}}">{{history.remarks| removeHTMLTags | limitTo : 150 }} </span>  
+                                            <span ng-if="history.remarks.length > 150" data-toggle="tooltip" title="{{history.remarks| removeHTMLTags}}">...</span>
+                                        </td>
+                                    </tr>
+                                    <tr ng-if="history.call_recording_url != '' && history.call_recording_url != 'None' && history.call_recording_url != None">
+                                        <td colspan="7">
+                                            <audio style="width: 600px;" id="recording_{{ history.id}}" controls></audio>
+                                        </td>
+                                    </tr>            
+                                </tbody>
+                                <tr ng-if="historyList.length == 0">
+                                    <td colspan="6" class="text-align-center">
+                                        --Record Not Found--
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
+                    <style>
+                        .errMsg{
+                            color:red;
+                        }
+                    </style>
+
                 </tab>
             </tabset>
         </div>
@@ -1314,11 +1422,10 @@
 
 <script>
     $(document).ready(function () {
-        $("a#gotoCustomerTab").on("click", function () {
-            $("li#remarkTab").removeClass('active');
-            $("li#customerTab").addClass('active');
-            $("li#customerTab a").trigger('click');
-        });
-        $(".modal-footer").hide();
+    $("a#gotoCustomerTab").on("click", function () {
+    $("li#remarkTab").removeClass('active');
+    $("li#customerTab").addClass('active');
+    $("li#customerTab a").trigger('click');
     });
-</script>
+    $(".modal-footer").hide();
+    });</script>

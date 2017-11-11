@@ -2121,7 +2121,36 @@ Regards,<br>
                 $columnFlag = 0;
                 $colHeaders = $sheetData[0];
 
-                if (trim($colHeaders[0]) === 'Enquiry Date (DD-MM-YYYY)' && trim($colHeaders[1]) === 'Title (Mr./Ms./Mrs./Doctor)' && trim($colHeaders[2]) === 'First Name' && trim($colHeaders[3]) === 'Middle Name (Optional)' && trim($colHeaders[4]) === 'Last Name' && trim($colHeaders[5]) === 'Corporate Customer (Yes / No)' && trim($colHeaders[6]) === 'Company Name' && trim($colHeaders[7]) === 'Birth Date (DD-MM-YYYY) (optional)' && trim($colHeaders[8]) === 'Anniversary Date (DD-MM-YYYY) (optional)' && trim($colHeaders[9]) === 'Mobile No1 (10 Digits Only)' && trim($colHeaders[10]) === 'Mobile No 2 (Optional)' && trim($colHeaders[11]) === 'Email 1' && trim($colHeaders[12]) === 'Email 2 (Optional)' && trim($colHeaders[13]) === 'Enquiry Source' && trim($colHeaders[14]) === 'Sub Source(optional)' && trim($colHeaders[15]) === 'Source Description (Optional)' && trim($colHeaders[16]) === 'Enquiry Project Name (As per BMS)' && trim($colHeaders[17]) === 'Block Type' && trim($colHeaders[18]) === 'Enquiry Category (Hot/Warm/Cold)' && trim($colHeaders[19]) === 'Employee Mobile' && trim($colHeaders[20]) === 'Enquiry Status (Open / Booked / Lost / Preserved for Future)' && trim($colHeaders[21]) === 'Enquiry Last Followup Remark (Optional)' && trim($colHeaders[22]) === 'Next Followup Date' && trim($colHeaders[23]) === 'Lost Date' && trim($colHeaders[24]) === 'Lost reason (As Per BMS)' && trim($colHeaders[25]) === 'Lost Sub Reason (Optional)' && trim($colHeaders[26]) === 'Lost Remark' && trim($colHeaders[27]) === 'Booked Date' && trim($colHeaders[28]) === 'Booked Project (Project Name As Per BMS)' && trim($colHeaders[29]) === 'Booked Block Type (Type Such as 1 BHK, 3 BHK as Per BMS)'
+                if (trim($colHeaders[0]) === 'Enquiry Date (DD-MM-YYYY)' 
+                        && trim($colHeaders[1]) === 'Title (Mr./Ms./Mrs./Doctor)' 
+                        && trim($colHeaders[2]) === 'First Name' 
+                        && trim($colHeaders[3]) === 'Middle Name (Optional)' 
+                        && trim($colHeaders[4]) === 'Last Name' 
+                        && trim($colHeaders[5]) === 'Corporate Customer (Yes / No)' 
+                        && trim($colHeaders[6]) === 'Company Name' 
+                        && trim($colHeaders[7]) === 'Birth Date (DD-MM-YYYY) (optional)' 
+                        && trim($colHeaders[8]) === 'Anniversary Date (DD-MM-YYYY) (optional)' 
+                        && trim($colHeaders[9]) === 'Mobile No1 (10 Digits Only)' 
+                        && trim($colHeaders[10]) === 'Mobile No 2 (Optional)' 
+                        && trim($colHeaders[11]) === 'Email 1' 
+                        && trim($colHeaders[12]) === 'Email 2 (Optional)' 
+                        && trim($colHeaders[13]) === 'Enquiry Source' 
+                        && trim($colHeaders[14]) === 'Sub Source(optional)' 
+                        && trim($colHeaders[15]) === 'Source Description (Optional)' 
+                        && trim($colHeaders[16]) === 'Enquiry Project Name (As per BMS)' 
+                        && trim($colHeaders[17]) === 'Block Type' 
+                        && trim($colHeaders[18]) === 'Enquiry Category (Hot/Warm/Cold)' 
+                        && trim($colHeaders[19]) === 'Employee Mobile' 
+                        && trim($colHeaders[20]) === 'Enquiry Status (Open / Booked / Lost / Preserved for Future)' 
+                        && trim($colHeaders[21]) === 'Enquiry Last Followup Remark (Optional)' 
+                        && trim($colHeaders[22]) === 'Next Followup Date' 
+                        && trim($colHeaders[23]) === 'Lost Date' 
+                        && trim($colHeaders[24]) === 'Lost reason (As Per BMS)' 
+                        && trim($colHeaders[25]) === 'Lost Sub Reason (Optional)' 
+                        && trim($colHeaders[26]) === 'Lost Remark' 
+                        && trim($colHeaders[27]) === 'Booked Date' 
+                        && trim($colHeaders[28]) === 'Booked Project (Project Name As Per BMS)' 
+                        && trim($colHeaders[29]) === 'Booked Block Type (Type Such as 1 BHK, 3 BHK as Per BMS)'
                 ) {
                     $columnFlag = 1;
                 } else {
@@ -2548,7 +2577,7 @@ Regards,<br>
                             $invalid++;
                             continue;
                         }
-                        echo $customerInfo->customer_id . "<br>";
+
                         //insert customer, customer contact, enquiries, enquiry details, enquiry followups, bookings
                         if ($flag == 1) {
                             if (!empty($customerInfo))

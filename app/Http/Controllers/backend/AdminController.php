@@ -133,7 +133,7 @@ class AdminController extends Controller {
 
             $final_time_slot = array();
             $i = 0;
-            foreach ($time_slot as $final_time_slot_row) {echo $final_time_slot_row."<br>";
+            foreach ($time_slot as $final_time_slot_row) {
                 $final_time_slot[$i]['value'] = $final_time_slot_row;
                 $final_time_slot[$i]['label'] = date('h:i A', strtotime($final_time_slot_row));
                 $i++;
