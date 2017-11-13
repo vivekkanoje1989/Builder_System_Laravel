@@ -94,13 +94,14 @@
                             <label>Birth Date </label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="userData.birth_date"  show-button-bar="false"  name="date_of_birth" id="date_of_birth" max-date="maxDates" class="form-control" datepicker-popup="{{format}}" is-open="opened"  datepicker-options="dateOptions" close-text="Close" readonly />
+                                    <input type="text" ng-model="userData.birth_date"  name="date_of_birth"  id="date_of_birth" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" datepicker-options="dateOptions" close-text="Close" readonly />
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        <button type="button" class="btn btn-default"  ng-click="open($event, 1)" ><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </p>
                             </div>
                         </div>
+                        
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.gender_id.$dirty && userForm.gender_id.$invalid)}">
                                 <label for="">Gender <span class="sp-err">*</span></label>
@@ -252,28 +253,30 @@
                                 </div> 
                             </div> 
                             <div class="row">                            
-                                <div class="col-sm-2 col-xs-2">
+                                 <div class="col-sm-2 col-xs-2">
                                     <div class="form-group">
                                         <label for="">Country code</label>
                                         <span class="input-icon icon-right">
                                             <input type="text" disabled ng-model="userContact.personal_mobile2_calling_code" style="width:110px; height:34px;" name="personal_mobile2_calling_code" id="personal_mobile2_calling_code" class="form-control" placeholder="+91-" ng-model-options="{ updateOn: 'blur' }" ng-change="validateMobileNumber(userContact.personal_mobile2, 'errFamilyMobile')">
+
                                         </span>                               
                                     </div> 
                                 </div> 
+
                                 <div class="col-sm-4 col-xs-4">
                                     <div class="form-group">
-                                        <label for="">Family Member Mobile Number</label>
+                                        <label for="">Family Member Mobile No.</label>
                                         <span class="input-icon icon-right1">
                                             <input type="text" ng-model="userContact.personal_mobile2" maxlength="10" style="margin-left: -24px;" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile2" id="personal_mobile2" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateMobileNumber(userContact.personal_mobile2, 'errFamilyMobile')">
                                             <i class="fa fa-phone hrMargin"></i>
-                                            <div ng-show="step2 | errMobile | errFamilyMobile" ng-messages="userContactForm.personal_mobile2.$error" class="help-block step2 {{ applyClassMobile}}">
+                                            <div ng-show="step2 || errMobile || errFamilyMobile" ng-messages="userContactForm.personal_mobile2.$error" class="help-block step2 {{ applyClassMobile}}">
                                                 <div ng-message="minlength">Personal Mobile Number must be 10 digits</div>
-                                                <div>{{ errPersonalMobile}}</div>
+                                                <div>{{ errMobile}}</div>
                                                 <div>{{ errFamilyMobile}}</div>
                                             </div>
                                         </span>                               
                                     </div> 
-                                </div> 
+                                </div>  
                                 <div class="col-sm-2 col-xs-2">
                                     <div class="form-group">
                                         <label for="">Country code</label>
@@ -478,7 +481,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-change="onPStateChange()" ng-model="userContact.permenent_state_id" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
-                                                <option ng-repeat="state in stateTwoList track by $index" value="{{state.id}}" ng-selected="state.id == userContact.permenent_state_id">{{state.name}}</option>
+                                                <option ng-repeat="state in stateTwoPermanentList track by $index" value="{{state.id}}" ng-selected="state.id == userContact.permenent_state_id">{{state.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.permenent_state_id.$error" class="help-block step2">
@@ -495,7 +498,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-model="userContact.permenent_city_id" name="permenent_city_id" id="permenent_city_id" class="form-control" required>
                                                 <option value="">Select City</option>
-                                                <option ng-repeat="city in cityTwoList track by $index" value="{{city.id}}" ng-selected="city.id == userContact.permenent_city_id">{{city.name}}</option>
+                                                <option ng-repeat="city in cityTwoPermanentList track by $index" value="{{city.id}}" ng-selected="city.id == userContact.permenent_city_id">{{city.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.permenent_city_id.$error" class="help-block step2">

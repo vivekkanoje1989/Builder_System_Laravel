@@ -763,6 +763,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         $scope.addProjectRow = function (projectId)
         {
+            alert(projectId);
             if ((projectId !== ""))
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;

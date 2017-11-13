@@ -75,8 +75,6 @@
                                         <div class="col-lg-12 col-xs-12 well">
                                             <div class="">
                                                 <div class="w3-container">
-
-
                                                     <form name="frmRegistration" novalidate ng-submit="frmRegistration.$valid && invalidImage == '' && updateemployee(userData, [[ $empId ]])" ng-init="getemployee([[ $empId]])" >
                                                         <div class="col-sm-12">
                                                             <div class="row">
@@ -117,7 +115,6 @@
                                                                         </div>
                                                                 </div>
                                                             </div>	
-
                                                             <div class="row">
                                                                 <div class="col-sm-4 form-group" ng-controller="genderCtrl">
                                                                     <label>Gender <span class="error_msg">*</span></label>                                                        
@@ -129,7 +126,6 @@
                                                                         <div ng-message="required" class="error_msg">&nbsp;This field is Required</div>
                                                                     </div>                                                         
                                                                 </div>
-
                                                                 <div class="col-sm-4 form-group">
                                                                     <label>Physic Status <span class="error_msg">*</span></label>	
                                                                     <select ng-model="userData.physic_status" name="physic_status" class="form-control"   placeholder="Select Physic" required>
@@ -141,7 +137,6 @@
                                                                         <div ng-message="required" class="error_msg">&nbsp;This field is Required</div>
                                                                     </div>
                                                                 </div>
-
                                                                 <div class="col-sm-4 form-group"  ng-if="userData.physic_status == 2">
                                                                     <label for="">Physic  Description</label>
                                                                     <div class="form-group">
@@ -158,9 +153,7 @@
                                                                         <div ng-message="required" class="error_msg">&nbsp;This field is Required</div>
                                                                     </div>   
                                                                 </div>
-
                                                             </div>
-
                                                             <div class="row">
                                                                 <div class="col-sm-4 form-group">
                                                                     <label>Birth Date</label>
@@ -180,7 +173,6 @@
                                                                 <div class="col-sm-4 form-group" ng-show="userData.marital_status == 2">
                                                                     <label>Marriage Date</label>
                                                                     <input type="text" ng-model="userData.marriage_date" name="marriage_date" class="form-control" id="marriagedate">
-
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -189,7 +181,6 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-
                                                                 <div class="col-sm-4 form-group">
                                                                     <label for="">Highest Education <span class="error_msg">*</span></label>
                                                                     <select ng-controller="educationListCtrl" ng-model="userData.highest_education_id" name="highest_education_id" class="form-control" required>
@@ -200,7 +191,6 @@
                                                                         <div ng-message="required" class="error_msg">This field is required</div>
                                                                     </div>
                                                                 </div>
-
                                                                 <div class="col-sm-4 form-group">
                                                                     <label>Education Details</label>
                                                                     <input type="text" ng-model="userData.education_details" name="education_details" capitalization placeholder="Education Details"  oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')"  maxlength="50" class="form-control">
@@ -216,14 +206,12 @@
                                                                         </div>
                                                                 </div>	
                                                             </div>
-
                                                             <div class="row">
                                                                 <div class="col-md-12 clol-xs-12">
                                                                     <h3>Contact Information</h3>							
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-
                                                                 <div class="col-sm-4 form-group">
                                                                     <label>Personal Mobile No. <span class="error_msg">*</span></label>
                                                                     <input type="text"  ng-model="userData.personal_mobile1" name="personal_mobile1" ng-disabled="true" placeholder="Mobile Number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  ng-pattern="/^[0-9]{10}$/" maxlength="10" required>
@@ -233,7 +221,6 @@
                                                                             <div ng-message="maxlength" class="error_msg">Maximum 10 digit are Allowed</div> 
                                                                         </div>
                                                                 </div>
-
                                                                 <div class="col-sm-4 form-group">
                                                                     <label>Office Mobile No. </label>
                                                                     <input type="text"  ng-model="userData.office_mobile_no" name="office_mobile_no" placeholder="Mobile Number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  ng-pattern="/^[7-9][0-9]{9}$/" maxlength="10">
@@ -264,8 +251,6 @@
                                                                         </div>
                                                                 </div>			
                                                             </div>
-
-
                                                             <div class="row">
                                                                 <div class="col-md-12 clol-xs-12">
                                                                     <h3>Correspondence Address </h3>
@@ -327,15 +312,10 @@
                                                                         </div>
                                                                 </div>
                                                             </div>
-
-
-
-
                                                             <div class="row">
                                                                 <div class="col-md-12 clol-xs-12">
                                                                     <h3>Permanent Address</h3>	
                                                                 </div>
-
                                                                 <div class="col-md-12 clol-xs-12">
                                                                     <hr>	
                                                                 </div>
@@ -381,10 +361,6 @@
                                                                     </div>
                                                                 </div>		
                                                             </div>
-
-
-
-
                                                             <div class="row">
                                                                 <div class="col-sm-4 form-group">								
                                                                     <label>Pin code <span class="error_msg">*</span></label>
@@ -405,8 +381,6 @@
 
                                             </div>
                                         </div>
-
-
                                         <script src="/frontend/common/assets/jquery.min.js"></script>
                                         <script src="/frontend/common/assets/bootstrap.min.js"></script>
                                         <script src="/frontend/common/assets/jquery-ui.js"></script>	
