@@ -2314,7 +2314,7 @@ Regards,<br>
                         }
 
                         if (!empty($sheetData[$j][16])) {
-                            $projectName = \App\Models\Project::select('id')->where('project_name', '=', $sheetData[$j][16])->first();
+                            $projectName = Project::select('id')->where('project_name', '=', $sheetData[$j][16])->first();
                             if (!empty($projectName)) {
                                 $enquiries['project_id'] = $projectName->id;
                             } else {

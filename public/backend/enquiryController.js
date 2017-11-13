@@ -811,7 +811,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     {
                         $scope.sendDocDisable = false;
                     }
-
                 } else
                 {
                     $scope.documentListData = {};
