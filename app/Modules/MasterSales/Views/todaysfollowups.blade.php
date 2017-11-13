@@ -286,7 +286,7 @@
                             </span></div>
                         <hr class="enq-hr-line">
                         <div>
-                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1,'enquiryhistoryFlag')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
                         </div>
 
                     </td>

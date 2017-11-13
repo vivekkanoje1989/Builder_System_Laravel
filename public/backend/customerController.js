@@ -703,7 +703,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
 
         /****************************************Enquiry Controller*********************************************/
-
         $scope.historyList = {};
         $scope.saveEnquiryData = function (enquiryData)
         {
@@ -841,6 +840,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.projectsDetails.splice(index, 1);
 
         }
+         $scope.editproject_details = function(list){
+            $scope.enquiryData.project_id = angular.copy(list.project_id);
+            $scope.enquiryData.block_id = angular.copy(list.block_id);
+            $scope.enquiryData.sub_block_id = angular.copy(list.sub_block_id);            
+        }
+        
         $scope.changeLocations = function (cityId)
         {
             Data.post('master-sales/getAllLocations', {

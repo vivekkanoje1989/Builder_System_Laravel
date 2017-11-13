@@ -65,7 +65,7 @@ class Customer extends Model
 
 	protected $dates = [
 		//'birth_date',
-		//'marriage_date',
+		'marriage_date',
 		'created_date',
 		'updated_date'
 	];
@@ -121,7 +121,6 @@ class Customer extends Model
             'middle_name' => 'max:15',
             'last_name' => 'required|max:15',
             'gender_id' => 'required',
-            'marriage_date' => 'date',
             'source_id' => 'required|numeric',
         );
         return $rules;

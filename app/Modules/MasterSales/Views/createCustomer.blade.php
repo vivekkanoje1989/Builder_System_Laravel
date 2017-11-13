@@ -135,7 +135,7 @@
                             <label for="">Marriage Date</label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
+                                    <input type="text" ng-init="marriage_date.marriage_date =='0000-00-00' ? '': marriage_date.marriage_date" ng-model="marriage_datemarriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
@@ -201,7 +201,7 @@
                             <label for=""></label>
                             <span class="input-icon icon-right">
                                 <label>
-                                    <input type="checkbox" ng-model="customerData.corporate_customer" name="corporate_customer" id="corporateCust" ng-click="isChecked(customerData.corporate_customer)">
+                                    <input type="checkbox" ng-model="customerData.corporate_customer"name="corporate_customer" id="corporateCust" ng-click="isChecked(customerData.corporate_customer)">
                                     <span class="text"> Corporate Customer</span>
                                 </label>
                             </span>	
@@ -211,7 +211,7 @@
                     <div class="col-sm-3 col-md-3 col-xs-12" >
                         <div class="form-group" ng-if="companyInput">
                             <label for="">Company Name</label>
-                            <input type="text" class="form-control" placeholder="Enter Company name" name="company_name" ng-model="customerData.company_name" ng-keyup="getCompanyList(customerData.company_name)" ng-required="companyInput == '1'">
+                            <input type="text" class="form-control" placeholder="Enter Company name"   maxlength="200"  name="company_name" ng-model="customerData.company_name" ng-keyup="getCompanyList(customerData.company_name)" ng-required="companyInput == '1'">
                             <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList">
                                 <li ng-repeat="company in company_list| filter : customerData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
                             </ul> 
@@ -276,7 +276,7 @@
         </div>
         <div class="col-lg-12 col-xs-12 col-md-12" align="center" ng-disabled="disableCreateButton">
             <button type="submit" class="btn btn-primary" ng-show="showDivCustomer" id="custSubmitBtn" ng-disabled="custSubmitBtn" ng-click="formButton = true">{{btnLabelC}}</button>
-            <button type="submit" class="btn btn-primary" ng-show="backBtn" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')">Cancel</button>
+            <button class="btn btn-primary" ng-show="backBtn" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')">Cancel</button>
         </div>
     </form>
 </div>

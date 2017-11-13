@@ -142,7 +142,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                 }).then(function (response) {  
                     if (response.success) { //response true
                         if (response.flag === 0)//if customer exist, enquiry is empty
-                        { 
+                        {   
+                            $scope.disableText = true;
+                            $(".country-list").css("display","none");
                             $scope.company_list = [];
                             var result = '';
                             $scope.showDiv = false;
@@ -262,6 +264,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 $scope.resetBtn = true;
                                 $scope.backBtn = true;
                                 $scope.disableSource = true;
+                                $(".country-list").css("display","none");
                                 return false;
                             }
                             $scope.hideloader();
