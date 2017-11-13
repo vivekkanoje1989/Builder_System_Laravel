@@ -55,6 +55,7 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
+            print_r($input);
             if (empty($input)) {
                 $input = Input::all();
                 $loggedInUserId = Auth::guard('admin')->user()->id;

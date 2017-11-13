@@ -968,13 +968,15 @@ class MasterHrController extends Controller {
                 }
             }
         }
-        if ($input['userStatus']['employee_status'] == '3') {
-            $this->allusers = array();
-            $this->tuserid($input['employeeId']);
-            $alluser = $this->allusers;
-            $employee = Employee::where('id', '=', $input['employeeId'])->select('team_lead_id')->first();
-            foreach ($alluser as $team) {
-                $employee = Employee::where('id', '=', $team)->update(['team_lead_id' => $employee->team_lead_id]);
+        if (!empty($input['userStatus']['employee_status'])) {
+            if ($input['userStatus']['employee_status'] == '3') {
+                $this->allusers = array();
+                $this->tuserid($input['employeeId']);
+                $alluser = $this->allusers;
+                $employee = Employee::where('id', '=', $input['employeeId'])->select('team_lead_id')->first();
+                foreach ($alluser as $team) {
+                    $employee = Employee::where('id', '=', $team)->update(['team_lead_id' => $employee->team_lead_id]);
+                }
             }
         }
 
