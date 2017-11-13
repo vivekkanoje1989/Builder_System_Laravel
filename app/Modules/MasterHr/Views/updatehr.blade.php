@@ -98,9 +98,9 @@
                             <label>Birth Date </label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="userPersonalData.birth_date" show-button-bar="false" name="date_of_birth"  id="date_of_birth" max-date="maxDates" class="form-control" datepicker-popup="{{format}}" is-open="opened"  datepicker-options="dateOptions" close-text="Close" readonly />
+                                    <input type="text" ng-model="userPersonalData.birth_date"  name="date_of_birth"  id="date_of_birth" class="form-control" datepicker-popup="{{format}}" is-open="opened"  datepicker-options="dateOptions" close-text="Close" readonly />
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default"  ng-click="open($event, 2)" show-button-bar="false"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        <button type="button" class="btn btn-default"  ng-click="open($event, 2)" ><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </p>
                             </div>
@@ -457,7 +457,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userContactForm.permenent_address.$invalid)}">
                                         <label for="">Permanent Address <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="userContact.permenent_address" name="permenent_address" class="form-control" maxlength="250" required></textarea>
+                                            <textarea ng-model="userContact.permenent_address" name="permenent_address" ng-disabled="permanentAdd" class="form-control" maxlength="250" required></textarea>
                                             <i class="fa fa-map-marker"></i>                                            
                                             <div ng-show="step2" ng-messages="userContactForm.permenent_address.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
@@ -471,7 +471,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userContactForm.permenent_country_id.$invalid)}">
                                         <label for="">Select Country <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-change="onPCountryChange()" ng-model="userContact.permenent_country_id" name="permenent_country_id" id="permenent_country_id" class="form-control" required>
+                                            <select ng-change="onPCountryChange()" ng-model="userContact.permenent_country_id"  ng-disabled="permanentCountry" name="permenent_country_id" id="permenent_country_id" class="form-control" required>
                                                 <option value="">Select Country</option>
                                                 <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == userContact.permenent_country_id}}">{{country.name}}</option>
                                             </select>
@@ -486,7 +486,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userContactForm.permenent_state_id.$invalid)}">
                                         <label for="">Select State <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-change="onPStateChange()" ng-model="userContact.permenent_state_id" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
+                                            <select ng-change="onPStateChange()" ng-model="userContact.permenent_state_id"  ng-disabled="permanentState" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
                                                 <option ng-repeat="state in stateTwoPermanentList track by $index" value="{{state.id}}" ng-selected="state.id == userContact.permenent_state_id">{{state.name}}</option>
                                             </select>
@@ -503,7 +503,7 @@
                                     <label for="">Select City <span class="sp-err">*</span></label>											
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userContactForm.permenent_city_id.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <select ng-model="userContact.permenent_city_id" name="permenent_city_id" id="permenent_city_id" class="form-control" required>
+                                            <select ng-model="userContact.permenent_city_id" name="permenent_city_id"  ng-disabled="permanentCity" id="permenent_city_id" class="form-control" required>
                                                 <option value="">Select City</option>
                                                 <option ng-repeat="city in cityTwoPermanentList track by $index" value="{{city.id}}" ng-selected="city.id == userContact.permenent_city_id">{{city.name}}</option>
                                             </select>
@@ -518,7 +518,7 @@
                                     <label for="">Pin code <span class="sp-err">*</span></label>
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.permenent_pin.$dirty && userContactForm.permenent_pin.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <input type="text" name="permenent_pin" ng-model-options="{ updateOn: 'blur' }" ng-change="pinPCodeValidation(userContact.permenent_pin, errPermanentPin)" ng-model="userContact.permenent_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
+                                            <input type="text" name="permenent_pin" ng-model-options="{ updateOn: 'blur' }"  ng-disabled="permanentPin"  ng-change="pinPCodeValidation(userContact.permenent_pin, errPermanentPin)" ng-model="userContact.permenent_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
                                             <i class="fa fa-map-pin"></i>
                                             <div ng-show="step2 || errPPin"  ng-messages="userContactForm.permenent_pin.$error" class="help-block step2 {{applyClassppin}}">
                                                 <div ng-message="required">This field is required.</div>

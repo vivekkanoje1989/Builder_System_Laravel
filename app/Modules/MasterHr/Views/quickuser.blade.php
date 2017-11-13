@@ -67,7 +67,7 @@
                                             <i class="fa fa-phone"></i>
                                             <div ng-show="btnQukEmp || errPersonalMobile" ng-messages="frmQuickEmp.personal_mobile1.$error" class="help-block step2 {{ applyClassPMobile}}">
                                                 <div ng-message="required" class="sp-err">This field is required.</div>
-                                                <div ng-message="minlength" class="sp-err">Personal mobile no. must be 10 digits</div>
+                                                <div ng-message="minlength" class="sp-err">Personal mobile number must be 10 digits</div>
                                                 <div ng-message="pattern" class="sp-err">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
                                                 <div ng-message="uniqueMobile" class="sp-err">Number already exists enter different number</div>
                                                 <div class="sp-err">{{ errPersonalMobile}}</div>
@@ -239,3 +239,11 @@
 </form>
 <script>
     $("#personal_mobile1_calling_code,#office_mobile_calling_code").intlTelInput();</script>    
+
+
+
+
+
+
+
+

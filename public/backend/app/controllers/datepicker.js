@@ -33,18 +33,7 @@ app.controller('DatepickerDemoCtrl', function ($scope, $filter) {
         $event.preventDefault();
         $event.stopPropagation();
         $scope.opened = true;
-        if (type == 1) {
-            var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + $scope.maxDates.getDate());
-            $scope.userData.birth_date = date_of_birth;
-            $scope.customerData.birth_date = date_of_birth;
-        }
-
-        if (type == 2) {
-            if ($scope.userPersonalData.birth_date == '' || $scope.userPersonalData.birth_date == '0000-00-00') {
-                var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + $scope.maxDates.getDate());
-                $scope.userPersonalData.birth_date = date_of_birth;
-            }
-        }
+        
         if (type == 3) {
             if ($scope.customerData.birth_date !== null || $scope.customerData.birth_date !== "-0001-11-30 00:00:00") {
                 $scope.maxDates = new Date($scope.customerData.birth_date);

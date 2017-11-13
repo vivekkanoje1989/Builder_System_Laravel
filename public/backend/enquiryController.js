@@ -764,7 +764,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
             });
         }
-
+        
         $scope.sendDocuments = function (id)
         {
             $rootScope.enquiryId = id;
@@ -891,7 +891,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.updateCustInfo = function (custId)
         {
-            $state.go("salesUpdateCustomer", {'customerId': custId});
+            $state.go("salesUpdateCustomer", {'customerId': custId,'onlyupdate' : 1});
         }
         $scope.updateEnq = function (custId, enqId)
         {
