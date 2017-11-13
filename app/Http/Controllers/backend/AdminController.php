@@ -560,8 +560,9 @@ class AdminController extends Controller {
     public function checkUniqueMobile1() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+       
         if (!empty($request['data']['mobileData'])) {
-            $mobileData = $request['data']['mobileData'][0];
+            $mobileData = $request['data']['mobileData'];
             $id = $request['data']['id'];
             if ($id == 0) {
                 $checkMobile = Employee::select('personal_mobile1', 'office_mobile_no')

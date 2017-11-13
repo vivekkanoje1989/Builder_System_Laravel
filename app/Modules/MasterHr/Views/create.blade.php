@@ -195,10 +195,10 @@
                     </div>
                 </form>
             </div>	
-            <div class="step-pane" id="wiredstep2" >	
+            <div class="step-pane " id="wiredstep2" >	
                 <form name="userContactForm" novalidate ng-submit="userContactForm.$valid && contact && createContactForm(userContact, [[$empId]])"   >
                     <div class="form-title">
-                        Contact Information
+                        Contact Information 
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-xs-12">
@@ -214,21 +214,20 @@
                                 </div>
                                 <div class="col-sm-4 col-xs-4">
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.personal_mobile1.$dirty && userContactForm.personal_mobile1.$invalid)}">
-                                        <label for="">Personal Mobile Number<span class="sp-err">*</span></label>
+                                        <label for="">Personal Mobile Number <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right1"> 
-                                            <input type="text" ng-model="userContact.personal_mobile1" ng-minlength="10" style="margin-left: -24px;" maxlength="10"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile1" check-unique-mobiles id="personal_mobile1" class="form-control"  ng-model-options="{ allowInvalid: true, debounce: 300 }" ng-change="copyToUsername(userContact.personal_mobile1); validateMobile(userContact.personal_mobile1); uniqueMobile" required>
+                                            <input type="text" ng-model="userContact.personal_mobile1" ng-minlength="10" ng-pattern="/^[7-9][0-9]{9}$/" style="margin-left: -24px;" maxlength="10"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile1" check-unique-mobiles id="personal_mobile1" class="form-control"  ng-model-options="{ allowInvalid: true, debounce: 300 }" ng-change="copyToUsername(userContact.personal_mobile1); validateMobile(userContact.personal_mobile1); uniqueMobile " required>
                                             <i class="fa fa-phone hrMargin"></i>
-                                            <div ng-show="step2 || errPersonalMobile" ng-messages="userContactForm.personal_mobile1.$error" class="help-block step2 {{ applyClassPMobile}}">
+                                            <div ng-show="step2 || errPersonalMobile1 || uniqueMobile" ng-messages="userContactForm.personal_mobile1.$error" class="help-block step2 {{ applyClassPMobile}}">
                                                 <div ng-message="required">This field is required.</div>
                                                 <div ng-message="minlength">Personal mobile no. must be 10 digits</div>
-                                                <div ng-message="pattern">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
+                                                <div ng-message="pattern">Mobile number should be 10 digits and pattern should be for ex. 9999999999</div>
                                                 <div ng-message="uniqueMobile">Number already exists enter different number</div>
-                                                <div>{{ errPersonalMobile}}</div>
+                                                <div>{{errPersonalMobile1}}</div>
                                             </div>
                                         </span>
                                     </div>
                                 </div>
-
                                 <div class="col-sm-2 col-xs-2">
                                     <div class="form-group">
                                         <label for="">Country code</label>
@@ -241,10 +240,11 @@
                                     <div class="form-group">
                                         <label for="">Office Mobile Number</label>
                                         <span class="input-icon icon-right1">
-                                            <input type="text" ng-model="userContact.office_mobile_no" maxlength="10" style="margin-left: -25px; " ng-minlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  name="office_mobile_no" id="office_mobile_no" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateOfficeMobileNumber(userContact.office_mobile_no, 'errOfficeNOMobile')">
+                                            <input type="text" ng-model="userContact.office_mobile_no" ng-minlength="10" maxlength="10" ng-pattern="/^[7-9][0-9]{9}$/" style="margin-left: -25px; " ng-minlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  name="office_mobile_no" id="office_mobile_no" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateOfficeMobileNumber(userContact.office_mobile_no, 'errOfficeNOMobile')">
                                             <i class="fa fa-phone hrMargin"></i>
                                             <div ng-show="step2 || errOfficeMobile || errOfficeNOMobile" ng-messages="userContactForm.office_mobile_no.$error" class="help-block step2 {{ applyOfficeClassMobile}}">
-                                                <div ng-message="minlength">Office Mobile Number must be 10 digits</div>
+                                                <div ng-message="minlength">Office mobile number must be 10 digits</div>
+                                                 <div ng-message="pattern">Mobile number should be 10 digits and pattern should be for ex. 9999999999</div>
                                                 <div>{{ errOfficeMobile}}</div>
                                                 <div>{{ errOfficeNOMobile}}</div>
                                             </div>
@@ -265,12 +265,13 @@
 
                                 <div class="col-sm-4 col-xs-4">
                                     <div class="form-group">
-                                        <label for="">Family Member Mobile No.</label>
+                                        <label for="">Family Member Mobile Number</label>
                                         <span class="input-icon icon-right1">
-                                            <input type="text" ng-model="userContact.personal_mobile2" maxlength="10" style="margin-left: -24px;" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile2" id="personal_mobile2" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateMobileNumber(userContact.personal_mobile2, 'errFamilyMobile')">
+                                            <input type="text" ng-model="userContact.personal_mobile2" ng-maxlength="10" maxlength="10" ng-minlength="10" style="margin-left: -24px;" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile2" id="personal_mobile2" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateMobileNumber(userContact.personal_mobile2, 'errFamilyMobile')">
                                             <i class="fa fa-phone hrMargin"></i>
                                             <div ng-show="step2 || errMobile || errFamilyMobile" ng-messages="userContactForm.personal_mobile2.$error" class="help-block step2 {{ applyClassMobile}}">
-                                                <div ng-message="minlength">Personal Mobile Number must be 10 digits</div>
+                                                <div ng-message="minlength">Family member mobile number must be 10 digits</div>
+                                                <div ng-message="maxlength">Family member mobile number must be 10 digits</div>
                                                 <div>{{ errMobile}}</div>
                                                 <div>{{ errFamilyMobile}}</div>
                                             </div>
@@ -290,11 +291,11 @@
                                     <div class="form-group">
                                         <label for="">Landline Number</label>
                                         <span class="input-icon icon-right1">
-                                            <input type="text" ng-model="userContact.personal_landline_no" ng-minlength="10" style="margin: 0px 0 0 -25px;" maxlength="10" ng-minlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_landline_no" id="personal_landline_no" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(userContact.personal_landline_no)">
+                                            <input type="text" ng-model="userContact.personal_landline_no" ng-minlength="6" ng-minlength="8" style="margin: 0px 0 0 -25px;"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_landline_no" id="personal_landline_no" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(userContact.personal_landline_no)">
                                             <i class="fa fa-phone hrMargin"></i>
                                             <div ng-show="step2 || errLandline" ng-messages="userContactForm.personal_landline_no.$error" class="help-block step2 {{applyClass}}">
-                                                <div ng-message="minlength">Personal Mobile Number must be 10 digits</div>
-                                                <div ng-message="minlength">Landline No. must be 10 digits</div>
+                                                <div ng-message="minlength">Landline number must be 10 digits</div>
+                                                <div ng-message="minlength">Landline number must be 10 digits</div>
                                                 <div ng-if="errLandline">{{ errLandline}}</div>
                                             </div>
                                         </span>                               
@@ -363,7 +364,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.current_address.$dirty && userContactForm.current_address.$invalid)}">
                                         <label for="">Correspondence Address <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="userContact.current_address" name="current_address" ng-change="changePermanentAddress()" class="form-control" maxlength="255" required></textarea>
+                                            <textarea ng-model="userContact.current_address" name="current_address" ng-change="changePermanentAddress()"  ng-disabled="permanentAdd" class="form-control" maxlength="255" required></textarea>
                                             <i class="fa fa-map-marker"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.current_address.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
@@ -377,7 +378,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.current_country_id.$dirty && userContactForm.current_country_id.$invalid)}">
                                         <label for="">Select Country <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-change="onCountryChange(); changePermanentAddress();" ng-model="userContact.current_country_id" name="current_country_id" id="current_country_id" class="form-control" required>
+                                            <select ng-change="onCountryChange(); changePermanentAddress();" ng-model="userContact.current_country_id"  ng-disabled="permanentCountry" name="current_country_id" id="current_country_id" class="form-control" required>
                                                 <option value="">Select Country</option>
                                                 <option ng-repeat="country in countryList track by $index" value="{{country.id}}" data-sortname ="{{country.sortname}}" data-phonecode="{{country.phonecode}}" ng-selected="{{ country.id == userContact.current_country_id}}">{{country.name}}</option>
                                             </select>
@@ -392,7 +393,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.current_state_id.$dirty && userContactForm.current_state_id.$invalid)}">
                                         <label for="">Select State <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-model="userContact.current_state_id" ng-change="onStateChange(); changePermanentAddress()" name="current_state_id" id="current_state_id" class="form-control" required>
+                                            <select ng-model="userContact.current_state_id" ng-change="onStateChange(); changePermanentAddress()"  ng-disabled="permanentState" name="current_state_id" id="current_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
                                                 <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == userContact.current_state_id}}">{{state.name}}</option>
                                             </select>
@@ -409,7 +410,7 @@
                                     <label for="">Select City <span class="sp-err">*</span></label>											
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.current_city_id.$dirty && userContactForm.current_city_id.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <select ng-model="userContact.current_city_id" ng-change="changePermanentAddress();" name="current_city_id" class="form-control" required>
+                                            <select ng-model="userContact.current_city_id" ng-change="changePermanentAddress();"  ng-disabled="permanentCity" name="current_city_id" class="form-control" required>
                                                 <option value="">Select City</option>
                                                 <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == userContact.current_city_id}}">{{city.name}}</option>
                                             </select>
@@ -424,7 +425,7 @@
                                     <label for="">Pin code <span class="sp-err">*</span></label>
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.current_pin.$dirty && userContactForm.current_pin.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <input type="text" name="current_pin" ng-model-options="{ updateOn: 'blur' }" ng-change="changePermanentAddress(); pinCodeValidation(userContact.current_pin, errCurrentPin)" ng-model="userContact.current_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
+                                            <input type="text" name="current_pin" ng-model-options="{ updateOn: 'blur' }" ng-disabled="permanentPin" ng-change="changePermanentAddress(); pinCodeValidation(userContact.current_pin, errCurrentPin)" ng-model="userContact.current_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
                                             <i class="fa fa-map-pin"></i>
                                             <div ng-show="step2 || errPin"  ng-messages="userContactForm.current_pin.$error" class="help-block step2 {{applyClasspin}}">
                                                 <div ng-message="required">This field is required.</div>
