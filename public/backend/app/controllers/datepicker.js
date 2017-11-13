@@ -70,7 +70,7 @@ app.controller('DatepickerDemoCtrl', function ($scope, $filter) {
         startingDay: 1
     };
 
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.formats = ['dd-MMMM-yyyy', 'dd-MM-yyyy', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[1];
 
 });
