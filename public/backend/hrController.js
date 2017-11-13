@@ -136,9 +136,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             }
         };
 
-
-
-
         $scope.validateLandlineNumber = function (validLandline) {
             if (validLandline != undefined) {
                 if (validLandline.length > 0) {
@@ -155,15 +152,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.errLandline = "";
                 $scope.applyClass = 'ng-inactive';
             }
-
         };
         
-        
-        
-        
         $scope.validateOfficeMobileNumber = function (value) {
-            alert(value)
-            
              var regex = /^[789]/;
             if (!regex.test(value)) {
      
