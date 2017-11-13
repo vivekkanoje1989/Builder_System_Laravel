@@ -269,7 +269,8 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }
                             $scope.hideloader();
                         }
-                    } else {//response false    //initialise variable for new customer                    
+                    } else {//response false    //initialise variable for new customer   
+                         
                         $scope.locations = [];
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
@@ -277,9 +278,11 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                         if ($scope.searchData.searchWithMobile === undefined) {
                             $scope.searchData.searchWithMobile = '';
                         }
+                        $scope.callingCode =$("#mobile_calling_code").val();
                         $scope.searchData.customerId = '';
-                        $scope.contacts = [{"mobile_calling_code": "+91", "mobile_number": $scope.searchData.searchWithMobile, "email_id_lable": 1, "email_id": $scope.searchData.searchWithEmail, "mobile_number_lable": 1, "landline_lable": 1, "landline_number": ''}];
-                        $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
+                        $scope.contacts = [{"mobile_calling_code": $scope.callingCode, "mobile_number": $scope.searchData.searchWithMobile, "email_id_lable": 1, "email_id": $scope.searchData.searchWithEmail, "mobile_number_lable": 1, "landline_calling_code" : "+91", "landline_lable": 1, "landline_number": ''}];
+                     
+                    $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
                         $scope.customerData.title_id = $scope.customerData.first_name = $scope.customerData.middle_name =
                                 $scope.customerData.last_name = 
                                 $scope.customerData.marriage_date = $scope.customerData.monthly_income =

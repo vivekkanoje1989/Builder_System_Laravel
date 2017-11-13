@@ -2,7 +2,7 @@
 app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', '$location', 'SweetAlert', '$rootScope', function ($scope, $state, Data, Upload, $timeout, $parse, $window, toaster, $location, SweetAlert, $rootScope) {
         $scope.pageHeading = 'Detailed Enquiry';
         $scope.customerData = [];
-        $scope.contactData = {};
+        $scope.contactData = [];
         $scope.searchData = {};
         $scope.enquiryData = {};
         $scope.btnLabelC = $scope.btnLabelE = "Save";
@@ -164,6 +164,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.contactData.index = index;
         }
         $scope.addRow = function (contactData) {
+           
             if ($scope.contactData.index === "" || typeof $scope.contactData.index === "undefined") {
                 $('#errContactDetails').text("");
                 $scope.contacts.push({
@@ -762,6 +763,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         $scope.addProjectRow = function (projectId)
         {
+            alert(projectId);
             if ((projectId !== ""))
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
