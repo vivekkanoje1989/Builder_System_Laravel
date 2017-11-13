@@ -43,7 +43,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group" ng-if="enquiriesLength != 0">
-                        <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Action</a>
+                        <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Actions</a>
                         <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))

@@ -21,7 +21,6 @@ use Session;
 use Excel;
 use App\Models\MlstTitle;
 
-
 class MasterHrController extends Controller {
 
     public static $empArr;
@@ -938,7 +937,6 @@ class MasterHrController extends Controller {
         $validationRules = Employee::validationRulesstep4();
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-
         $departmentData = array();
         if (!empty($input['userJobData']['department_id'])) {
             foreach ($input['userJobData']['department_id'] as $department_id) {
@@ -1027,7 +1025,13 @@ class MasterHrController extends Controller {
         } else {
             $loggedInUserId = Auth::guard('admin')->user()->id;
         }
-
+        $this->allusers = array();
+        $this->tuserid($input['empId']);
+        $alluser = $this->allusers;
+        $employee = Employee::where('id', '=', $input['empId'])->select('team_lead_id')->first();
+        foreach ($alluser as $team) {
+            $employee = Employee::where('id', '=', $team)->update(['team_lead_id' => $employee->team_lead_id]);
+        }
         $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
         $result = ['success' => true, 'result' => $suspend];
         return json_encode($result);
@@ -1042,7 +1046,7 @@ class MasterHrController extends Controller {
             if (!empty($input['employee_photo_file_name'])) {
                 $folderName = 'employee-photos';
                 $imageName = time() . "." . $input['employee_photo_file_name']->getClientOriginalExtension();
-                CommonFunctions::saveImages($folderName,$imageName);
+                CommonFunctions::saveImages($folderName, $imageName);
                 $tempPath = $input['employee_photo_file_name']->getPathName();
                 $name = S3::s3FileUpload($tempPath, $imageName, $folderName);
                 $input['userEducation']['employee_photo_file_name'] = $imageName;

@@ -511,7 +511,6 @@ class CommonFunctions {
     }
 
     public static function texttemplateData($alertdata, $obj_api, $request) {
-        
         $emailConfig = EmailConfiguration::where('id', 1)->first();
         $isInternational = 0;
         $sendingType = 1;

@@ -70,8 +70,8 @@ class ApiController extends Controller {
                 ->whereIN('push_api_settings.employee_id', $alluser)
                 ->get();
         $i = 0;
-        foreach($getApilist as $getApilists){
-            $getApilist[$i]['empName'] = $getApilists['first_name']. ' '.$getApilists['last_name'];
+        foreach ($getApilist as $getApilists) {
+            $getApilist[$i]['empName'] = $getApilists['first_name'] . ' ' . $getApilists['last_name'];
             $i++;
         }
 
@@ -2395,7 +2395,7 @@ characters in mobile number field. Please apply your form validations as per the
                 if ($obj_api->existing_open_customer_action == 1) {
                     $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
                     $this->insertEnquiryModels($obj_enquiry, $project, $request);
-                    $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
+                   // $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
                     //                    $this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
 
                     if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
@@ -2410,7 +2410,7 @@ characters in mobile number field. Please apply your form validations as per the
                     if (!empty($obj_enquiry)) {
                         $obj_employee = Employee::where('id', '=', $obj_enquiry->sales_employee_id)->first();
                         $this->insertEnquiryModels($obj_enquiry, $project, $request);
-                        $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
+                      //  $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
                         //$this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
 
                         if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status'])
@@ -2421,7 +2421,7 @@ characters in mobile number field. Please apply your form validations as per the
                         if ($obj_api->existing_lost_customer_action == 1) {
                             $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
                             $this->insertEnquiryModels($obj_enquiry, $project, $request);
-                            $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
+                         //   $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
                             //                    $this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
 
                             if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
@@ -2434,7 +2434,7 @@ characters in mobile number field. Please apply your form validations as per the
                             if (!empty($obj_enquiry)) {
 
                                 $this->insertEnquiryModels($obj_enquiry, $project, $request);
-                                $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
+                               // $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
                                 //$this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
 
                                 if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
@@ -2446,8 +2446,6 @@ characters in mobile number field. Please apply your form validations as per the
                     }
                 }
             } else {
-
-
 //                $customer_type = 0;
                 $country = $request['country_code'];
                 if ($country != '91' && $country != '') {
@@ -2469,12 +2467,9 @@ characters in mobile number field. Please apply your form validations as per the
                 $obj_customerContacts->email_verification_status = $request['email_id_verification_status'];
 
                 $obj_customerContacts->save();
-                $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
-
-                $this->insertEnquiryModels($obj_enquiry, $project, $request);
-                $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
-                //                    $this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
-
+                $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark, 0);
+                //$this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
+                // $this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
                 if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
                     //$this->sendVerificationLink($obj_api, $obj_customer, $project, $obj_employee, $obj_enquiry);
                 }
@@ -2483,56 +2478,32 @@ characters in mobile number field. Please apply your form validations as per the
         }
     }
 
-    public function insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark) {
-
-        $obj_enquiry = new Enquiry();
-        $obj_enquiry->sales_enquiry_date = date('Y-m-d');
-        $obj_enquiry->updated_date = date("Y-m-d h:i:s");
-        $obj_enquiry->client_id = 1;
-        $obj_enquiry->sales_source_id = $source_id;
-        $obj_enquiry->customer_id = $obj_customer->id;
-        $obj_enquiry->sales_employee_id = $obj_employee['id'];
-        $obj_enquiry->sales_source_description = $source_desc;
-        $obj_enquiry->sales_subsource_id = $sub_source;
-        $obj_enquiry->sales_status_id = 1;
-        $obj_enquiry->save();
-        return $obj_enquiry;
-    }
-
-    public function insertFollowups($obj_enquiry, $obj_employee, $obj_api, $custMsg = '', $status = 0) {
-
-        $obj_followups = new EnquiryFollowup();
-        $obj_followups->enquiry_id = $obj_employee->id;
-        $obj_followups->followup_date_time = date("Y-m-d h:i:s");
-        $obj_followups->followup_by_employee_id = $obj_employee->employee_id;
-        $obj_followups->followup_entered_through = '4';
-        $obj_followups->next_followup_date = date('Y-m-d');
-        $obj_followups->next_followup_time = date("h:i:s");
-        $obj_followups->actual_followup_date_time = date("Y-m-d h:i:s");
-        if ($status == 0)
-            $followups_remark = 'Enquiry Added Through ';
-        else
-            $followups_remark = 'Followup Updated Through';
-        $obj_followups->remarks = $followups_remark . $obj_api->api_name . ' API';
-        if (!empty($custMsg))
-            $obj_followups->remarks = $followups_remark . $obj_api->api_name . ' API. Customer message:- ' . $custMsg;
-        $obj_followups->save();
+    public function insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark, $custMsg = '', $status = 0) {
+        $input = PushApiSetting::doAction($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
+        $obj_enquiry = Enquiry::create($input['enquiryData']);
+        $obj_followups = EnquiryFollowup::create($input['followupData']);
         return $obj_followups;
     }
 
-    public function insertEnquiryModels($obj_enquiry, $project, $request) {
-        if (!empty($project)) {
-            $obj_model_enquiry = Enquiry::where('id', '=', $obj_enquiry->id)->get();
-            $obj_model = new EnquiryDetail();
-            if (empty($obj_project_enquiry) && !empty($project)) {
-                $obj_model = new EnquiryDetail();
-                $obj_model->enquiry_id = $obj_enquiry->id;
-                $obj_model->project_id = $project->id;
-                $obj_model->save();
-                return $obj_model;
-            }
-        }
-    }
+//    public function insertFollowups($obj_enquiry, $obj_employee, $obj_api, $custMsg = '', $status = 0) {
+//        $obj_followups = new EnquiryFollowup();
+//        $obj_followups->enquiry_id = $obj_employee->id;
+//        $obj_followups->followup_date_time = date("Y-m-d h:i:s");
+//        $obj_followups->followup_by_employee_id = $obj_employee->employee_id;
+//        $obj_followups->followup_entered_through = '4';
+//        $obj_followups->next_followup_date = date('Y-m-d');
+//        $obj_followups->next_followup_time = date("h:i:s");
+//        $obj_followups->actual_followup_date_time = date("Y-m-d h:i:s");
+//        if ($status == 0)
+//            $followups_remark = 'Enquiry Added Through ';
+//        else
+//            $followups_remark = 'Followup Updated Through';
+//        $obj_followups->remarks = $followups_remark . $obj_api->api_name . ' API';
+//        if (!empty($custMsg))
+//            $obj_followups->remarks = $followups_remark . $obj_api->api_name . ' API. Customer message:- ' . $custMsg;
+//        $obj_followups->save();
+//        return $obj_followups;
+//    }
 
     public function errorNofificationMail($status, $message, $obj_api) {
         $encodeUrl = urlencode($_GET['requested_url']);
@@ -2548,7 +2519,7 @@ characters in mobile number field. Please apply your form validations as per the
         $obj_bms_api_logs->save();
         $error_notification_email = @explode(',', $obj_api->error_notification_email);
         $currenttime = date('d-m-Y @ H:i:s a');
-        
+
         if (!empty($_GET['first_name'])) {
             $fistname = $_GET['first_name'];
         } else {
@@ -2709,7 +2680,6 @@ characters in mobile number field. Please apply your form validations as per the
         $project_brochure = config('global.s3Path') . '/project/project_brochure/' . $project_brochure;
         $project_banner_images = config('global.s3Path') . '/project/project_banner_images/' . $project_banner_images;
 
-        
         $templatedata['employee_id'] = $emp->id;
         $templatedata['client_id'] = config('global.client_id');
         $templatedata['customer_status'] = '1';
@@ -2772,8 +2742,8 @@ characters in mobile number field. Please apply your form validations as per the
             $project_contact_numbers,
         );
 
-         $result = CommonFunctions::texttemplateData($templatedata, $obj_api, $request);
-       
+        $result = CommonFunctions::texttemplateData($templatedata, $obj_api, $request);
+
         return json_encode($result);
     }
 

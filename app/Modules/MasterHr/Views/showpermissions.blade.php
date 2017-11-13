@@ -44,7 +44,7 @@
                                                     </label>
                                                     <!--data-dismiss="alert"-->
                                                     <div class="accordian-body collapse row" id="{{child1.id}}">                                                         
-                                                        <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child1.emp"> 
+                                                        <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child1.emp" id="{{child1.id}}_{{$index}}"> 
                                                             <a href class="close" ng-click="removeEmpID(key,[],[{{child1.id}}],[{{ child1.submenu_ids}}],[],$index);" > ×</a>
                                                             <strong class="ng-binding ng-scope">{{value | split:'-':0}}</strong><br/>
                                                             <div style="font-size: 10px;text-align: center;">({{ value | split:'-':1 }})</div>
@@ -56,7 +56,7 @@
                                                         <span class="text"> &nbsp;&nbsp;&nbsp; {{ child1.name }}</span>
                                                     </label>
                                                     <div class="accordian-body collapse row" id="{{child1.id}}" ng-if='child1.total_submenu == 1 && !child1.has_submenu'>                                                         
-                                                        <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child1.emp"> 
+                                                        <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child1.emp" id="{{child1.id}}_{{$index}}"> 
                                                             <a href class="close" ng-if='child1.total_submenu == 1' ng-click="removeEmpID(key,[],[{{child1.id}}],[{{ child1.submenu_ids}}],[],$index);" > ×</a>
                                                             <strong class="ng-binding ng-scope">{{value | split:'-':0}}</strong><br/>
                                                             <div style="font-size: 10px;text-align: center;">({{ value | split:'-':1 }})</div>
@@ -68,7 +68,7 @@
                                                                 <span class="text"> &nbsp;&nbsp;&nbsp; {{ child2.name }}</span>
                                                             </label>
                                                             <div class="accordian-body collapse row" id="{{child2.id}}">                                                         
-                                                                <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child2.emp"> 
+                                                                <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child2.emp" id="{{child2.id}}_{{$index}}"> 
                                                                     <a href class="close" ng-click="removeEmpID(key,[{{child1.id}}],[{{child2.id}}],[{{ child1.submenu_ids}}],[],$index);" > ×</a>
                                                                     <strong class="ng-binding ng-scope">{{value | split:'-':0}}</strong><br/>
                                                                     <div style="font-size: 10px;text-align: center;">({{ value | split:'-':1 }})</div>
@@ -82,7 +82,7 @@
                                                                 <span class="text"> &nbsp;&nbsp;&nbsp; {{ child2.name }}</span>
                                                             </label>
                                                             <div class="accordian-body collapse row" id="{{child2.id}}" ng-if='child2.total_submenu == 1 && !child2.has_submenu'>                                                         
-                                                                <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child2.emp"> 
+                                                                <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child2.emp" id="{{child2.id}}_{{$index}}"> 
                                                                     <a href class="close" ng-if='child2.total_submenu == 1' ng-click="removeEmpID(key,[{{child1.id}}],[{{child2.id}}],[{{ child1.submenu_ids}}],[],$index);" > ×</a>
                                                                     <strong class="ng-binding ng-scope">{{value | split:'-':0}}</strong><br/>
                                                                     <div style="font-size: 10px;text-align: center;">({{ value | split:'-':1 }})</div>
@@ -94,7 +94,7 @@
                                                                         <span class="text"> &nbsp;&nbsp;&nbsp; {{ child3.name }}</span>
                                                                     </label>
                                                                     <div class="accordian-body collapse row" id="{{child3.id}}" ng-if='child3.total_submenu == 1 && !child3.has_submenu'>
-                                                                        <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child3.emp"> 
+                                                                        <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child3.emp" id="{{child3.id}}_{{$index}}"> 
                                                                             <a href class="close" ng-click="removeEmpID(key,[{{child1.id}},{{child2.id}}],[{{child3.id}}],[{{ child1.submenu_ids}}],[{{ child2.submenu_ids}}],$index);" > ×</a>
                                                                             <strong class="ng-binding ng-scope">{{value | split:'-':0}}</strong><br/>
                                                                             <div style="font-size: 10px;text-align: center;">({{ value | split:'-':1 }})</div>
@@ -108,7 +108,7 @@
                                                                         <span class="text"> &nbsp;&nbsp;&nbsp; {{ child3.name }}</span>
                                                                     </label>
                                                                     <div class="accordian-body collapse row" id="{{child3.id}}">                                                         
-                                                                        <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child3.emp"> 
+                                                                        <div class="col-sm-1 alert alert-info fade in" ng-repeat="(key, value) in child3.emp" id="{{child3.id}}_{{$index}}"> 
                                                                             <a href class="close" ng-if='child3.total_submenu == 1' ng-click="removeEmpID(key,[{{child1.id}},{{child2.id}}],[{{child3.id}}],[{{ child1.submenu_ids}}],[{{ child2.submenu_ids}}],$index);" > ×</a>
                                                                             <strong class="ng-binding ng-scope">{{value | split:'-':0}}</strong><br/>
                                                                             <div style="font-size: 10px;text-align: center;">({{ value | split:'-':1 }})</div>

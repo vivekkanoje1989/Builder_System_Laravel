@@ -19,38 +19,50 @@
                                     </div>
                                 </div>
                                 <div class="row col-lg-12 col-sm-12 col-xs-12" ng-show="editableCustInfo">
-                                    <div class="col-sm-4">
-                                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!sendDocumentForm.title_id.$dirty && sendDocumentForm.title_id.$invalid)}">
+                                    <div class="col-sm-2">
+                                        <div class="form-group" ng-class="{ 'has-error' : sendbtn && (!sendDocumentForm.title_id.$dirty && sendDocumentForm.title_id.$invalid)}">
                                             <span class="input-icon icon-right">
                                                 <select ng-model="documentData.title_id" ng-controller="titleCtrl" name="title_id" class="form-control" ng-required="editableCustInfo">
                                                     <option value="">Select Title</option>
                                                     <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == documentData.title_id}}">{{t.title}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="sendbtn" ng-messages="sendDocumentForm.title_id.$error" class="help-block">
-                                                    <div ng-message="required">This field is required.</div>
+                                                <div ng-show="sendbtn" ng-messages="sendDocumentForm.title_id.$error" class="help-block sendbtn">
+                                                    <div ng-message="required">This field is required</div>
                                                 </div>
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!sendDocumentForm.customer_fname.$dirty && sendDocumentForm.customer_fname.$invalid)}">
+                                    <div class="col-sm-3">
+                                        <div class="form-group" ng-class="{ 'has-error' : sendbtn && (!sendDocumentForm.customer_fname.$dirty && sendDocumentForm.customer_fname.$invalid)}">
                                             <span class="input-icon icon-right">
                                                 <input type="text" placeholder="First Name" ng-model="documentData.customer_fname" name="customer_fname" capitalization class="form-control" ng-required="editableCustInfo">
                                                 <i class="fa fa-user"></i>
-                                                <div ng-show="sendbtn" ng-messages="sendDocumentForm.first_name.$error" class="help-block">
-                                                    <div ng-message="required">This field is required.</div>
+                                                <div ng-show="sendbtn" ng-messages="sendDocumentForm.customer_fname.$error" class="help-block sendbtn">
+                                                    <div ng-message="required">This field is required</div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group" ng-class="{ 'has-error' : sendbtn && (!sendDocumentForm.customer_lname.$dirty && sendDocumentForm.customer_lname.$invalid)}">
+                                            <span class="input-icon icon-right">
+                                                <input type="text" placeholder="Last Name" ng-model="documentData.customer_lname" name="customer_lname" capitalization class="form-control" ng-required="editableCustInfo">
+                                                <i class="fa fa-user"></i>
+                                                <div ng-show="sendbtn" ng-messages="sendDocumentForm.customer_lname.$error" class="help-block sendbtn">
+                                                    <div ng-message="required">This field is required</div>
                                                 </div>
                                             </span>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
-                                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!sendDocumentForm.customer_lname.$dirty && sendDocumentForm.customer_lname.$invalid)}">
+                                        <div class="form-group" ng-class="{ 'has-error' : sendbtn && (!sendDocumentForm.email_id.$dirty && sendDocumentForm.email_id.$invalid)}">
                                             <span class="input-icon icon-right">
-                                                <input type="text" placeholder="Last Name" ng-model="documentData.customer_lname" name="customer_lname" capitalization class="form-control" ng-required="editableCustInfo">
-                                                <i class="fa fa-user"></i>
-                                                <div ng-show="sendbtn" ng-messages="sendDocumentForm.last_name.$error" class="help-block">
-                                                    <div ng-message="required">This field is required.</div>
+                                                <input type="email" placeholder="Email" ng-model="documentData.email_id" name="email_id" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" class="form-control" ng-required="editableCustInfo">
+                                                <i class="fa fa-envelope"></i>
+                                                <div ng-show="sendbtn" ng-messages="sendDocumentForm.email_id.$error" class="help-block sendbtn">
+                                                    <div ng-message="required">This field is required</div>
+                                                    <div ng-message="pattern">Enter valid email</div>
                                                 </div>
                                             </span>
                                         </div>
@@ -80,7 +92,7 @@
                                                         <option ng-repeat="plist in projectList" value="{{plist.id}}" >{{plist.project_name}}</option>
                                                     </select>
                                                     <i class="fa fa-sort-desc"></i>
-                                                    <div ng-show="sendbtn" ng-messages="sendDocumentForm.project_id.$error" class="help-block errMsg">
+                                                    <div ng-show="sendbtn" ng-messages="sendDocumentForm.project_id.$error" class="help-block sendbtn">
                                                         <div ng-message="required">Please select project</div>
                                                     </div>
                                                 </span>
@@ -106,7 +118,7 @@
                                     </div>
                                 </div><hr>
                                 <div class="row" style="float:right;margin-right: 0px;">
-                                    <input type="submit" class="btn btn-primary" name="sendbtn"  id="sendbtn" ng-disabled="(documentListData | json) == '{}' || sendDocDisable" value="Send">
+                                    <input type="submit" class="btn btn-primary" name="sendbtn" ng-click="sendbtn = true" id="sendbtn" ng-disabled="(documentListData | json) == '{}' || sendDocDisable" value="Send">
                                 </div>                                
                             </form>
                         </div>

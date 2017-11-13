@@ -104,7 +104,7 @@ class MasterSalesController extends Controller {
                     if (!empty($contacts['landline_calling_code'])) {
                         $contacts['landline_calling_code'] = (int) $contacts['landline_calling_code'];
                     }
-                if (empty($contacts['email_id']) || $contacts['email_id']== null) {
+                    if (empty($contacts['email_id']) || $contacts['email_id'] == null) {
                         $contacts['email_id'] = '';
                     }
                     $contacts = array_merge($contacts, $create);
@@ -272,7 +272,12 @@ class MasterSalesController extends Controller {
             $request = json_decode($postdata, true);
             $customerMobileNo = !empty($request['data']['customerMobileNo']) ? $request['data']['customerMobileNo'] : "0";
             $customerEmailId = !empty($request['data']['customerEmailId']) ? $request['data']['customerEmailId'] : "0";
-            $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '")');
+            $customerCallingCode = !empty($request['data']['customerCallingCode']) ? $request['data']['customerCallingCode'] : "0";
+            $customerCallingCode= str_replace('+','',$customerCallingCode);
+                
+            $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '","'.$customerCallingCode.'")');
+            
+//            print_r($getCustomerContacts);
             if (count($getCustomerContacts) > 0) {
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
                 unset($getCustomerPersonalDetails[0]['pan_number']);
@@ -431,7 +436,7 @@ class MasterSalesController extends Controller {
             $validationMessages = Enquiry::validationMessages();
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-           
+
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
                 $validator = Validator::make($request['enquiryData'], $validationRules, $validationMessages);
@@ -566,7 +571,9 @@ class MasterSalesController extends Controller {
             $validationMessages = Enquiry::validationMessages();
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-
+            if (!empty($request['enquiryData']['mobile_calling_code'])) {
+                $mobileCallingCode = $request['enquiryData']['mobile_calling_code'];
+            }
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
                 $validator = Validator::make($request['enquiryData'], $validationRules, $validationMessages);
@@ -575,6 +582,7 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
+            unset($request['enquiryData']['mobile_calling_code']);
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
@@ -582,7 +590,7 @@ class MasterSalesController extends Controller {
             }
             if (!empty($request['enquiryData']['next_followup_date'])) {
                 // uppdate followups                
-                $next_followup_time = date('H:i:s', strtotime($request['enquiryData']['next_followup_time']));             
+                $next_followup_time = date('H:i:s', strtotime($request['enquiryData']['next_followup_time']));
                 $updatefollowups = DB::select("update enquiry_followups set next_followup_date = '" . $request['enquiryData']['next_followup_date'] . "',followup_by_employee_id = " . $request['enquiryData']['followup_by_employee_id'] . ", next_followup_time='" . $next_followup_time . "',sales_category_id = " . $request['enquiryData']['sales_category_id'] . "  where enquiry_id = " . $request['enquiryData']['id'] . " ORDER BY `id` DESC LIMIT 1");
             }
             unset($request['enquiryData']['project_id'], $request['enquiryData']['block_id'], $request['enquiryData']['sub_block_id'], $request['enquiryData']['enquiry_category_id'], $request['enquiryData']['city_id'], $request['enquiryData']['csrfToken'], $request['enquiryData']['next_followup_date'], $request['enquiryData']['next_followup_time'], $request['enquiryData']['project_name'], $request['enquiryData']['block_name'], $request['enquiryData']['block_sub_type'], $request['enquiryData']['followup_by_employee_id'], $request['enquiryData']['remarks'], $request['enquiryData']['enqdetails_id'], $request['enquiryData']['loggedInUserId']);
@@ -613,6 +621,8 @@ class MasterSalesController extends Controller {
 
             $update = Enquiry::where('id', $request['enquiryData']['id'])->update($request['enquiryData']);
 
+
+
             if (!empty($request['projectEnquiryDetails'])) {
                 foreach ($request['projectEnquiryDetails'] as $projectDetail) {
                     $getProjectId = EnquiryDetail::select("id")->where(['enquiry_id' => $request['enquiryData']['id'], 'project_id' => $projectDetail['project_id'], 'block_id' => $projectDetail['block_id'], 'sub_block_id' => $projectDetail['sub_block_id']])->get();
@@ -625,6 +635,22 @@ class MasterSalesController extends Controller {
                         EnquiryDetail::create($projectDetail);
                     }
                 }
+            }
+            if (!empty($mobileCallingCode)) {
+                $contacts = $contacts1 = array();
+                $mobileCallingCode = str_replace('+', '', $mobileCallingCode);
+                $contacts['mobile_calling_code'] = $mobileCallingCode;
+                $contacts1 = $contacts;
+                $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                $contacts = array_merge($contacts, $update);
+
+                $contacts = CustomersContact::where(['customer_id' => $request['enquiryData']['customer_id']])->update($contacts);
+
+                $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                $contacts1 = array_merge($contacts1, $create);
+                CustomersContactsLog::create($contacts1);
+
+                $result = ["success" => true, 'updated' => '1'];
             }
 
             $result = ['success' => true, 'message' => 'Record updated Successfully.'];
@@ -924,7 +950,7 @@ class MasterSalesController extends Controller {
                 if (!empty($request['custInfo']['email_privacy_status'])) {
                     Customer::where('id', $customerId)->update(["email_privacy_status" => $request['custInfo']['email_privacy_status']]);
                 }
-                        
+
                 if (!empty($request['custInfo']['mobile_number']) || !empty($request['custInfo']['email_id'])) {
                     $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number', 'email_id')->where('customer_id', $customerId)->get();
 
@@ -2013,7 +2039,7 @@ Regards,<br>
             });
         })->save('XLS', "downloads/");
 
-        $basepath = base_path().'/public/downloads/' . $fileName . ".xls";
+        $basepath = base_path() . '/public/downloads/' . $fileName . ".xls";
 
         /* save file in aws */
         $folderName = "/sales/exportReport/";
@@ -2055,7 +2081,7 @@ Regards,<br>
         );
 
         CommonFunctions::templateData($templatedata);
-        
+
         $result = ['success' => true, 'sheetName' => $fileName . ".xls", "fileUrl" => $file_url];
         return response()->json($result);
     }
@@ -3040,6 +3066,7 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
+            //print_r($request['documentData']);exit;
             $doc = array();
             if (!empty($request['loggedInUserId'])) {
                 $loggedInUserId = $request['loggedInUserId'];
@@ -3048,6 +3075,7 @@ Regards,<br>
             }
             if ($request['isUpdate']) { // update customer
                 $update = Customer::where('id', $request['documentData']['customer_id'])->update(['first_name' => $request['documentData']['customer_fname'], 'last_name' => $request['documentData']['customer_lname'], 'title_id' => $request['documentData']['title_id']]);
+                $update = CustomersContact::where([['customer_id','=', $request['documentData']['customer_id']],['mobile_number','=',$request['documentData']['customer_mobile_no']]])->update(['email_id'=>$request['documentData']['email_id']]);
             }
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $insertDocument['enquiry_id'] = $request['enquiry_id'];
