@@ -400,7 +400,7 @@
                 </div>
                 <div class="col-sm-3 col-xs-6">
                     <div class="form-group multi-sel-div" ng-class="{ 'has-error' : addProBtn && (!enquiryForm.block_id.$dirty && enquiryForm.block_id.$invalid)}">
-                        <label for="">Blocks</label>{{ addProBtn}}	
+                        <label for="">Blocks</label>
                         <span class="input-icon icon-right">
                         <ui-select ng-change="checkBlockLength(enquiryData.block_id)" multiple ng-model="enquiryData.block_id"  name="block_id" theme="select2" ng-disabled="disabled" required="required">
                             <ui-select-match placeholder='Select blocks'>{{$item.block_name}}</ui-select-match>
@@ -456,7 +456,7 @@
                                         <th style="width: 10%;">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>{{ projectsDetails}}
+                                <tbody>
                                     <tr ng-repeat="list in projectsDetails| unique:'project_id'">
                                         <td>{{ $index + 1}}</td>                                    
                                         <td>{{ list.project_name}}</td>

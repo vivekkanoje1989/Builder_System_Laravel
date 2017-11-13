@@ -511,15 +511,15 @@ class CommonFunctions {
     }
 
     public static function texttemplateData($alertdata, $obj_api, $request) {
-
         $emailConfig = EmailConfiguration::where('id', 1)->first();
         $isInternational = 0;
         $sendingType = 1;
         $smsType = "T_SMS";
         $client_id = $alertdata['client_id'];
-
         $client = \App\Models\ClientInfo::where('id', $client_id)->first();
-        $project = Project::where('id', $client->project_id)->first();
+        if(!empty($client->project_id)){
+            $project = Project::where('id', $client->project_id)->first();
+        }
         $companyMarketingName = $companyGoogleMap = $companyAddress = $companyLogo = $brandColor = $displayImage = $employeeName = $employeeMobile = $employeeEmail = $mobile_number = $customerEmail = $customerName = " ";
 
         if (!empty($client->company_logo))
@@ -535,8 +535,12 @@ class CommonFunctions {
         if (!empty($client->pin_code))
             $companyAddress .= $client->pin_code;
 
-        if (!empty($client->website))
+        if (!empty($client->website)){
             $website = $client->website;
+        }else{
+            $website = '';
+        }
+        
         array_push($alertdata['arrExtra']['1'], $companyLogo);
         array_push($alertdata['arrExtra']['1'], $companyMarketingName);
         array_push($alertdata['arrExtra']['1'], $companyAddress);

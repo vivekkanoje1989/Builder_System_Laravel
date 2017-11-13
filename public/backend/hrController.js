@@ -126,10 +126,13 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.validateMobileNumber = function (value) {
             var regex = /^(\+\d{1,4}-)\d{10}$/;
+            alert(value);
             if (!regex.test(value)) {
+                alert("1")
                 $scope.errMobile = "Mobile number should be 10 digits and pattern should be for ex. +91-9999999999";
                 $scope.applyClassMobile = 'ng-active';
             } else {
+                
                 $scope.errMobile = "";
                 $scope.applyClassMobile = 'ng-inactive';
             }
@@ -213,12 +216,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
 
         $scope.validateMobile = function (mobNo, label) {
-            var mobNoSplit = mobNo.split('-')[1];
-            var firstDigit = mobNoSplit.substring(0, 1);
-
+           
             var model = $parse(label);
-
-            if (mobNoSplit === "0000000000") {
+            if (mobNo === "0000000000") {
                 model.assign($scope, "Mobile number should be 10 digits and pattern should be for ex. +91-9999999999");
                 $scope.applyClassMobile = 'ng-active';
             } else if (firstDigit === "0") {
@@ -418,6 +418,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                                 if (response.records.data[0].current_address == response.records.data[0].permenent_address && response.records.data[0].current_city_id == response.records.data[0].permenent_city_id && response.records.data[0].current_country_id == response.records.data[0].permenent_country_id && response.records.data[0].current_pin == response.records.data[0].permenent_pin && response.records.data[0].current_state_id == response.records.data[0].permenent_state_id)
                                 {
                                     $scope.copyContent = true;
+                                    $scope.permanentAdd = true;
+                                    $scope.permanentCountry = true;
+                                    $scope.permanentState = true;
+                                    $scope.permanentCity = true;
+                                    $scope.permanentPin = true;
                                 }
                             }
                             $scope.pageHeading = 'Edit User';
@@ -738,7 +743,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     $scope.step1 = false;
                     $("#passwordClosebtn").trigger('click');
                     $timeout(function () {
-                        toaster.pop('success', '', 'Your password has been successfully changed. Please check your mail.');
+                        toaster.pop('success', '', 'Your password has been changed successfully, Please check your email.');
                     }, 500);
                 } else {
                     $scope.errorMsg = response.message;
@@ -793,32 +798,27 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 //        }
 //        
         $scope.removeEmpID = function (empId, parentId, submenuId, allChild2Id, allChild3Id, index) {
-//              alert(empId)
-//              alert(parentId)
-//              alert(submenuId)
-
             SweetAlert.swal({
                 title: "Are you sure?", //Bold text
-                text: "Your will not be able to recover this employee!", //light text
+                text: "permission of employee will remove!", //light text
                 type: "warning", //type -- adds appropiriate icon
                 showCancelButton: true, // displays cancel btton
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, suspend it!",
+                confirmButtonText: "Yes, remove permission!",
                 closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
                 closeOnCancel: false
             },
-                    function (isConfirm) { //Function that triggers on user action.
+            function (isConfirm) { //Function that triggers on user action.
                         if (isConfirm) {
-
                             Data.post('master-hr/removeEmpID',
                                     {empId: empId, parentId: parentId, submenuId: submenuId, allChild2Id: allChild2Id, allChild3Id: allChild3Id}).then(function (response) {
-
+                                 $("#0"+submenuId+"_"+index).remove();
                             });
-                            SweetAlert.swal("Deleted!");
+                            SweetAlert.swal("Permission removed!");
                         } else {
-                            SweetAlert.swal("Your Employee is safe!");
+                            SweetAlert.swal("Permission not removed!");
                         }
-                    });
+            });
         }
 
         $scope.updatePermissions = function (empId, roleId) {
@@ -1552,9 +1552,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 empId = $rootScope.employeeId;
             }
             $timeout(function () {
-                var date = new Date(userJobData.joining_date);
-                userJobData.joining_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
-                userJobData = angular.fromJson(angular.toJson(userJobData));
+//                var date = new Date(userJobData.joining_date);
+//                userJobData.joining_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+//                userJobData = angular.fromJson(angular.toJson(userJobData));
                 Data.post('master-hr/manageJobForm', {
                     userJobData: userJobData, employeeId: empId
                 }).then(function (response) {
@@ -1591,7 +1591,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             $(".wiredstep" + current).removeClass('active');
             $(".wiredstep" + pre).removeClass('complete');
             $(".wiredstep" + current).addClass('complete');
-
+            
             if (pre == 1) {
                 if ($scope.userPersonalData.birth_date == '0000-00-00' || $scope.userPersonalData.birth_date == 'NaN-aN-NaN') {
                     $scope.userPersonalData.birth_date = '';
@@ -1609,13 +1609,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     $scope.userData.marriage_date = new Date();
                 }
             }
+          
             if (pre == 4) {
-                if ($scope.userJobData.joining_date == '0000-00-00' || $scope.userJobData.joining_date == 'NaN-aN-NaN') {
+               if ($scope.userJobData.joining_date == '0000-00-00' || $scope.userJobData.joining_date == 'NaN-aN-NaN') {
                     $scope.userJobData.joining_date = '';
                 }
             }
-            var date = new Date($scope.userJobData.joining_date);
-            $scope.userJobData.joining_date = (date.getDate() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear());
         }
 
         $scope.createEmp = function ()
@@ -1870,6 +1869,12 @@ app.controller('permanentCountryListCtrl', function ($scope, $rootScope, $timeou
 
     $scope.checkboxSelected = function (copy) {
         if (copy) {  // when checked
+
+            $scope.permanentAdd = true;
+            $scope.permanentCountry = true;
+            $scope.permanentState = true;
+            $scope.permanentCity = true;
+            $scope.permanentPin = true;
             $scope.userContact.permenent_address = angular.copy($scope.userContact.current_address);
             $scope.userContact.permenent_country_id = angular.copy($scope.userContact.current_country_id);
             $scope.userContact.permenent_pin = angular.copy($scope.userContact.current_pin);
@@ -1899,6 +1904,11 @@ app.controller('permanentCountryListCtrl', function ($scope, $rootScope, $timeou
                 }
             });
         } else {
+            $scope.permanentAdd = false;
+            $scope.permanentCountry = false;
+            $scope.permanentState = false;
+            $scope.permanentCity = false;
+            $scope.permanentPin = false;
             $scope.userContact.permenent_address = $scope.userContact.permenent_country_id = $scope.userContact.permenent_state_id = $scope.userContact.permenent_city_id = $scope.userContact.permenent_pin = "";
         }
     };

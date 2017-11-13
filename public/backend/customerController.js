@@ -762,39 +762,32 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         $scope.addProjectRow = function (projectId)
         {
-            alert(projectId+"----------proj id");
-            if (projectId !== "")
+            alert(projectId);
+            if ((projectId !== ""))
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
                 var totalBlocks = $scope.enquiryData.block_id.length;
                 $scope.subblockname = [];
                 $scope.sub_block_id = [];
                 $scope.blockname = [];
-                $scope.block_id = [];                
+                $scope.block_id = [];
                 for (var i = 0; i < totalSubBlocks; i++)
                 {
                     $scope.subblockname.push($scope.enquiryData.sub_block_id[i].block_sub_type);
                     $scope.sub_block_id.push($scope.enquiryData.sub_block_id[i].id);
                 }
-                
                 for (var j = 0; j < totalBlocks; j++)
                 {
                     $scope.blockname.push($scope.enquiryData.block_id[j].block_name);
                     $scope.block_id.push($scope.enquiryData.block_id[j].id);
                 }
-                alert($scope.enquiryData.id+" ------------id");
-               if ($scope.enquiryData.id === 'undefined') { alert($scope.enquiryData.id+" ------------id");
-                   alert("hello");
+                if ($scope.enquiryData.id === 'undefined') {
                     Data.post('master-sales/addEnquiryDetailRow', {
                         enquiry_id: $scope.enquiryData.id,
                         project_id: $scope.enquiryData.project_id.split('_')[0],
                         block_id: $scope.block_id.toString(),
                         sub_block_id: $scope.sub_block_id.toString()
                     }).then(function (response) {
-                        alert("hi");
-                        console.log($scope.subblockname);
-                console.log($scope.blockname);
-                        console.log(response);
                         $scope.projectsDetails.push({
                             'id': response.enqId,
                             'project_id': $scope.enquiryData.project_id.split('_')[0],
@@ -820,7 +813,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.enquiryData.sub_block_id = {};
                 $scope.enquiryData.project_id = '';
             } else {
-                alert("else");
                 if (projectId == "") {
                     $scope.emptyProjectId = true;
                 }
