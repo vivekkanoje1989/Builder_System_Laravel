@@ -73,7 +73,7 @@
                         <label for="">Date of enquiry <span class="sp-err">*</span></label>
                         <div ng-controller="DatepickerDemoCtrl" class="form-group">
                             <p class="input-group">
-                                <input type="text" ng-model="enquiryData.sales_enquiry_date" name="sales_enquiry_date" id="sales_enquiry_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required>
+                                <input type="text" ng-model="enquiryData.sales_enquiry_date" name="sales_enquiry_date" id="sales_enquiry_date" class="form-control" datepicker-popup="dd-M-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
@@ -163,7 +163,7 @@
                             <label for="">Next Followup Date & Time<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="enquiryData.next_followup_date" name="next_followup_date"  id="next_followup_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" ng-change="todayremarkTimeChange(enquiryData.next_followup_date)"  min-date=enquiryData.sales_enquiry_date  datepicker-options="dateOptions" close-text="Close" readonly required />
+                                    <input type="text" ng-model="enquiryData.next_followup_date" name="next_followup_date"  id="next_followup_date" class="form-control" datepicker-popup="dd-M-yyyy" is-open="opened" ng-change="todayremarkTimeChange(enquiryData.next_followup_date)"  min-date=enquiryData.sales_enquiry_date  datepicker-options="dateOptions" close-text="Close" readonly required />
                                     <span class="input-group-btn" >
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
@@ -179,12 +179,12 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_time.$dirty && enquiryForm.next_followup_time.$invalid)}">
                             <label for="">Time<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select ng-model="enquiryData.next_followup_time" name="next_followup_time" id="next_followup_time" class="form-control" required>
+                                <select ng-model="enquiryData.next_followup_time" name="next_followup_time" id="next_followup_time" class="form-control" required="required">
                                     <option value=""> Select Time </option>
                                     <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="time.value == enquiryData.next_followup_time">{{time.label}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
-                                <div ng-show="enqFormBtn"  ng-messages="enquiryForm.next_followup_time.$error" class="help-block">
+                                <div ng-show="enqFormBtn"  ng-messages="enquiryForm.next_followup_time.$error" class="help-block enqFormBtn">
                                     <div ng-message="required" >This field is required.</div>
                                 </div>
                                 <div ng-if="next_followup_time" class="sp-err blog_title">{{next_followup_time}}</div>
@@ -399,9 +399,10 @@
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-6">
-                    <div class="form-group multi-sel-div">
-                        <label for="">Blocks</label>	
-                        <ui-select ng-change="checkBlockLength(enquiryData.block_id)" multiple ng-model="enquiryData.block_id"  name="block_id" theme="select2" ng-disabled="disabled">
+                    <div class="form-group multi-sel-div" ng-class="{ 'has-error' : addProBtn && (!enquiryForm.block_id.$dirty && enquiryForm.block_id.$invalid)}">
+                        <label for="">Blocks</label>{{ addProBtn}}	
+                        <span class="input-icon icon-right">
+                        <ui-select ng-change="checkBlockLength(enquiryData.block_id)" multiple ng-model="enquiryData.block_id"  name="block_id" theme="select2" ng-disabled="disabled" required="required">
                             <ui-select-match placeholder='Select blocks'>{{$item.block_name}}</ui-select-match>
                             <ui-select-choices repeat="list in blockTypeList | filter:$select.search">
                                 {{list.block_name}} 
@@ -410,6 +411,10 @@
                         <div ng-show="enqFormBtn" class="help-block enqFormBtn">
                             <div ng-if="projectsDetails.length == 0">This field is required.</div>
                         </div>
+                        <div ng-show="addProBtn" ng-messages="enquiryForm.block_id.$valid" class="help-block addProBtn">
+                            <div ng-message="required">This field is required.</div>
+                        </div>
+                        </span>
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-6">
@@ -429,7 +434,7 @@
                 <div class="col-sm-3 col-xs-6">
                     <div class="form-group"><label for=""></label>
                         <span class="input-icon icon-right">
-                            <button type="button" class="btn btn-primary" ng-click="addProjectRow({{enquiryData.project_id}})" style="padding: 7px 5px;">Add Project</button>
+                            <button type="button" class="btn btn-primary" ng-click="addProBtn = true && addProjectRow({{enquiryData.project_id}})" style="padding: 7px 5px;">Add Project</button>
                         </span> 
                     </div>
                 </div>                   
@@ -451,8 +456,8 @@
                                         <th style="width: 10%;">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr ng-repeat="list in projectsDetails| unique:'id'">
+                                <tbody>{{ projectsDetails}}
+                                    <tr ng-repeat="list in projectsDetails| unique:'project_id'">
                                         <td>{{ $index + 1}}</td>                                    
                                         <td>{{ list.project_name}}</td>
                                         <td>{{ list.blocks}}</td>
