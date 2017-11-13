@@ -55,6 +55,11 @@
                                             </span>
                                         </div>
                                     </div>
+                                    
+                                    
+                                    
+                                    
+                                    
                                     <div class="col-sm-4">
                                         <div class="form-group" ng-class="{ 'has-error' : sendbtn && (!sendDocumentForm.email_id.$dirty && sendDocumentForm.email_id.$invalid)}">
                                             <span class="input-icon icon-right">
@@ -75,8 +80,19 @@
                                             <div ng-if="documentData.customer_mobile_no != ''">
                                                 <span><b>Mobile :</b> {{ documentData.customer_mobile_no}}<br></span>
                                             </div><br>
-                                            <div ng-if="documentData.customer_email_id != ''">
-                                                <span><b>Email : </b>{{ documentData.customer_email_id}}<br></span>
+                                            <div ng-init="all_email_list = documentData.customer_email_id.split(',');">
+                                                <div ng-if="documentData.customer_email_id != ''" >
+                                                    <span ng-repeat="emailobj in all_email_list| limitTo:2"><b>Email : </b>{{ emailobj}}<br></span>
+                                                </div>
+                                            </div>
+                                            <div ng-if="documentData.customer_email_id == '' || documentData.customer_email_id == ',null' ">
+                                                <div class="col-sm-12" style=" margin-left: -13px;"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
+                                                    <span class="input-icon icon-right" ng-if="addEmail">
+                                                        <input type="email" ng-model="remarkData.email_id" name="email_id" placeholder="Enter Email Address" class="form-control" maxlength="40" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" ng-model-options="{ allowInvalid: true, debounce: 550 }"
+                                                               ng-change="addInfo(remarkData.customerId, '', remarkData.email_id, 'email_id')">
+                                                        <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeEmailText()"></i>
+                                                        <div ng-if="emailErr" style="color: red;">{{emailErr}}</div>
+                                                    </span> 
                                             </div>
                                         </div>
                                     </div>

@@ -11,9 +11,11 @@ $(document).ready(function(){
         if ($(".wrap-filter-form").hasClass("on")) {
             $(".mainDiv").css("opacity","0.2");
             $(".mainDiv").css("pointer-events","none");
+            $('body').addClass('modal-open');
         }else{
             $(".mainDiv").css("opacity","");
             $(".mainDiv").css("pointer-events","visible");
+            $('body').removeClass('modal-open');
         }
     });
 });

@@ -1,23 +1,24 @@
 <div class="modal-body"> 
     <div>
-            <label>
-                <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHist(history_enquiryId,1)"  id="chk_enquiry_history">
-                <span class="text">All</span>
-            </label>
-            &nbsp;&nbsp;
-            <label>
-                <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHist(history_enquiryId,0)" data-id="1" class="chk_followup_history_all" id="chk_presales">
-                <span class="text">Pre Sales</span>
-            </label>
-            &nbsp;&nbsp;
-            <label>
-                <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHist(history_enquiryId,0)" data-id="2"  class="chk_followup_history_all" id="chk_Customer_Care">
-                <span class="text">Customer Care</span>
-            </label>
-            <hr class="enq-hr-line">           
-                1) <span>PS = Pre Sales</span> &nbsp;&nbsp;2) <span>CC = Customer Care</span>            
-            <hr class="enq-hr-line">    
+        <label>
+            <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHist(history_enquiryId,1, 'enquiryhistoryFlag')" checked id="chk_enquiry_history">
+            <span class="text">All</span>
+        </label>
+        &nbsp;&nbsp;
+        <label>
+            <input type="checkbox"  ng-click="getModulesWiseHist(history_enquiryId,0, 'enquiryhistoryFlag')" data-id="1" checked class="chk_followup_history_all" id="chk_presales">
+            <span class="text">Pre Sales</span>
+        </label>
+        &nbsp;&nbsp;
+        <label>
+            <input type="checkbox"  ng-click="getModulesWiseHist(history_enquiryId,0, 'enquiryhistoryFlag')" data-id="2" checked class="chk_followup_history_all" id="chk_Customer_Care">
+            <span class="text">Customer Care</span>
+        </label>
+        <hr class="enq-hr-line">           
+            1) <span>PS = Pre Sales</span> &nbsp;&nbsp;2) <span>CC = Customer Care</span>            
+        <hr class="enq-hr-line">    
     </div>
+    
     <div style="height: auto;max-height: 605px;margin-top: 0px;    overflow-x: hidden;overflow-y: scroll;">
         <table class="table table-hover table-striped table-bordered" at-config="config" >
         <thead class="bord-bot">

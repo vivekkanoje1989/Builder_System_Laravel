@@ -63,15 +63,15 @@
                     <!-- filter data--> 
                     <div class="row" style="border:2px;" id="filter-show">
                         <div class="col-sm-12 col-xs-12">
-                            <b ng-repeat="(key, value) in searchData"  ng-if="value != 0">
+                            <b ng-repeat="(key, value) in searchData track by $index"  ng-if="value != 0 && value != null">
                                 <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                     <div class="alert alert-info fade in">
                                         <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
                                         <strong ng-if="key === 'in_date'" data-toggle="tooltip" title="Date"><strong> Date: </strong> {{ value |date:'yyyy-MM-dd'}}</strong>
                                         <strong ng-if="key === 'request_type'" data-toggle="tooltip" title="Request Type"><strong> Request Type : </strong> {{ value}}</strong>
                                         <strong ng-if="key === 'application_to'" data-toggle="tooltip" title="Application To"><strong> Application To : </strong> {{ value}}</strong>
-                                        <strong ng-if="key === 'from_date'" data-toggle="tooltip" title="From Date"><strong> From Date : </strong> {{ searchData.from_date | date:'dd-MM-yyyy' }} To {{ searchData.to_date |date:'dd-MMM-yyyy' }}</strong>
-                                        <!--<strong ng-if="key === 'to_date'" data-toggle="tooltip" title="To Date"><strong> To Date : </strong> {{ value}}</strong>-->
+                                        <strong ng-if="key === 'from_date'" data-toggle="tooltip" title="From Date"><strong> From Date : </strong> {{ searchData.from_date | date:'dd-MM-yyyy' }}</strong>
+                                        <strong ng-if="key === 'to_date'" data-toggle="tooltip" title="To Date"><strong> To Date : </strong> {{ value}}</strong>
                                         <strong ng-if="key === 'status'" data-toggle="tooltip" title=" Status"><strong> Status : </strong> {{ value== 1 ? " Leave" : "Approved"}}</strong>
                                     </div>
                                 </div>

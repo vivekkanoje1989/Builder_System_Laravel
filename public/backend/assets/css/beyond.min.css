@@ -30,6 +30,12 @@
     float: left;
     margin-right: 5px;
 }
+.modal-open, .progress {
+    overflow: hidden;
+    position: fixed !important;
+    width: 100% !important;
+}
+
 #catNew{
     width: 16px;
     height: 16px;
