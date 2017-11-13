@@ -55,6 +55,7 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
+            print_r($input);
             if (empty($input)) {
                 $input = Input::all();
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -2313,7 +2314,7 @@ Regards,<br>
                         }
 
                         if (!empty($sheetData[$j][16])) {
-                            $projectName = \App\Models\Project::select('id')->where('project_name', '=', $sheetData[$j][16])->first();
+                            $projectName = Project::select('id')->where('project_name', '=', $sheetData[$j][16])->first();
                             if (!empty($projectName)) {
                                 $enquiries['project_id'] = $projectName->id;
                             } else {
