@@ -898,7 +898,7 @@
                                                                     <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label for="">Select mobile number <span class="sp-err">*</span></label>
-                                                                            <div class="control-group">                                                            
+                                                                            <div class="control-group" ng-style="{'overflow-y': mobileList.length > 2 ? 'scroll' : 'none'}" style="min-height: 75px;">                                                            
                                                                                 <div class="checkbox" ng-repeat="mlist in mobileList track by $index">
                                                                                     <label>
                                                                                         <input type="checkbox" ng-model="mobile_number" name="mobile_number" ng-change="checkedMobileNo(mlist, $index)" value="{{mlist}}" id="mob_{{$index}}" class="clsMobile" ng-required="divSms">
@@ -955,7 +955,7 @@
                                                                         <div class="col-sm-6">
                                                                             <div class="form-group">
                                                                                 <label>Select email id<span class="sp-err">*</span></label>
-                                                                                <div class="control-group">
+                                                                                <div class="control-group" ng-style="{'overflow-y': emailList.length > 2 ? 'scroll' : 'none'}" style="height: 65px;">
                                                                                     <div class="checkbox" ng-repeat="elist in emailList track by $index">
                                                                                         <label>
                                                                                             <input type="checkbox" ng-model="email_id" name="email_id" ng-change="checkedEmailId(elist, $index)" value="{{elist}}" id="email_{{$index}}" class="clsEmail" ng-required="divEmail">
