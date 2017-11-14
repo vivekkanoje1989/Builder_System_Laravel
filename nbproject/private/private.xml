@@ -2,6 +2,35 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/create.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/quickuser.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/controllers/datepicker.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/directives.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/showpermissions.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/AdminController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/updatehr.blade.php</file>
+        </group>
+=======
+<<<<<<< HEAD
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysRemark.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Models/CustomersContact.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/sendDocument.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Models/Customer.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createCustomer.blade.php</file>
+        </group>
+=======
         <group/>
+>>>>>>> 0dcbcccdb37c249c518f736c708ac5ea8d1ee6e2
+>>>>>>> f6b54e4431e05358c8a716da7e656118fa717fbc
     </open-files>
 </project-private>

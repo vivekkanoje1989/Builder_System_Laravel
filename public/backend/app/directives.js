@@ -489,7 +489,7 @@ app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
                 return Data.post('checkUniqueMobile1', {
                     data: {mobileData: personal_mobile1, id: employeeId},
                 }).then(function (response) {
-                    console.log(response);
+           
                     $timeout(function () {
                         model.$setValidity('uniqueMobile', !!response.success);
                     }, 1000);

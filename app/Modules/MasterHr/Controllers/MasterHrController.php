@@ -1022,6 +1022,7 @@ class MasterHrController extends Controller {
     public function suspendEmployee() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
+      
         if (!empty($input['loggedInUserId'])) {
             $loggedInUserId = $input['loggedInUserId'];
         } else {
@@ -1031,6 +1032,7 @@ class MasterHrController extends Controller {
         $this->tuserid($input['empId']);
         $alluser = $this->allusers;
         $employee = Employee::where('id', '=', $input['empId'])->select('team_lead_id')->first();
+     
         foreach ($alluser as $team) {
             $employee = Employee::where('id', '=', $team)->update(['team_lead_id' => $employee->team_lead_id]);
         }
