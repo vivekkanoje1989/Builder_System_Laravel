@@ -699,7 +699,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             delete $scope.filterData[keyvalue];
             $scope.getFilteredData($scope.filterData, 1, 30);
             $('#slideout').toggleClass('on');
-            return false;
         }
 
         $scope.singleSelect = function ()
@@ -1176,7 +1175,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         if (response.customerPersonalDetails[0].pan_number === "null" || response.customerPersonalDetails[0].pan_number === 0) {
                             $scope.customerData.pan_number = "";
                         }
-                        if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
+                        if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN' || response.customerPersonalDetails[0].birth_date === '0000-00-00') {
                             $scope.customerData.birth_date = "";
                         } else {
                             var bdt = new Date(response.customerPersonalDetails[0].birth_date);
@@ -1232,7 +1231,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     }, 350);
                 }
             });
-
         }
 
         $scope.updateTodayRemarkCustomerModal = function (customerData, customerContacts, customerId, customerPhoto) { //Customer Details tab inseide today remark popup
@@ -1323,7 +1321,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.remarkData.customerId = angular.copy(response.enquiryDetails[0].customerId);
                         $scope.userpermissions = angular.copy(response.userpermissions);
                         $scope.displayCallBtn = $scope.userpermissions.indexOf("01403");
-                        console.log("==" + $scope.displayCallBtn);
                         $("#custId").val(response.enquiryDetails[0].customerId);
 
                         if (response.enquiryDetails[0].title_id == 0 || response.enquiryDetails[0].title_id == null) {
@@ -1360,7 +1357,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.customer_area_name = response.enquiryDetails[0].customer_area_name;
                         $scope.customer_address = (response.enquiryDetails[0].customer_address == '') ? '' : response.enquiryDetails[0].customer_address;
                         $scope.remarkData.followup_by_employee_id = {"id": response.enquiryDetails[0].sales_employee_id, "first_name": response.enquiryDetails[0].first_name + " " + response.enquiryDetails[0].last_name};
-                        console.log("next_followup_time" + response.enquiryDetails[0].next_followup_time);
                         if ($scope.editExistingFollowup == true) {
                             $scope.remarkData.textRemark = response.enquiryDetails[0].remarks;
                         }
@@ -1581,7 +1577,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 headers: {enctype: 'multipart/form-data'},
                 data: data
             }).then(function (response, evt) {
-                //console.log(response);
                 if (response.data.success) {
 
                     toaster.pop({
@@ -1620,7 +1615,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             Data.post('master-sales/getImportHistory', {}).then(function (response) {
                 if (response.success) {
                     $scope.showhistoryList = response.records;
-                    //console.log($scope.showhistoryList);
                 }
             });
         }

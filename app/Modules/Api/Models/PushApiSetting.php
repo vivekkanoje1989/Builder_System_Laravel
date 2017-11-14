@@ -6,7 +6,6 @@
  */
 
 namespace App\Modules\Api\Models;
-
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -153,7 +152,6 @@ class PushApiSetting extends Eloquent {
     ];
 
     public static function doAction($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark, $status = 0) {
-
         $input['enquiryData']['sales_enquiry_date'] = date('Y-m-d');
         $input['enquiryData']['updated_date'] = date("Y-m-d h:i:s");
         $input['enquiryData']['client_id'] = 1;
@@ -163,13 +161,13 @@ class PushApiSetting extends Eloquent {
         $input['enquiryData']['sales_source_description'] = $source_desc;
         $input['enquiryData']['sales_subsource_id'] = $sub_source;
         $input['enquiryData']['sales_status_id'] = 1;
-
-        $input['followupData']['enquiry_id'] = 1;
-        $input['followupData']['followup_date_time'] = 1;
-        $input['followupData']['followup_by_employee_id'] = 1;
-        $input['followupData']['next_followup_date'] = 1;
-        $input['followupData']['next_followup_time'] = 1;
-        $input['followupData']['actual_followup_date_time'] = 1;
+        $input['followupData']['followup_date_time'] = date("Y-m-d h:i:s");
+        $input['followupData']['created_date'] = date("Y-m-d");
+        $input['followupData']['followup_by_employee_id'] = $obj_employee->employee_id;
+        $input['followupData']['next_followup_date'] = date('Y-m-d');
+        $input['followupData']['next_followup_time'] = date("h:i:s");
+        $input['followupData']['actual_followup_date_time'] = date("Y-m-d h:i:s");
+        $input['followupData']['followup_entered_through'] = '4';
         if ($status == 0) {
             $followups_remark = 'Enquiry Added Through ';
         } else {
@@ -183,5 +181,4 @@ class PushApiSetting extends Eloquent {
 
         return $input;
     }
-
 }

@@ -2381,22 +2381,31 @@ characters in mobile number field. Please apply your form validations as per the
 
 
         if (!empty($obj_employee)) {
+
             if (!empty($mobile_no)) {
-                $obj_customer = CustomersContact::where('mobile_number', '=', $mobile_no)->first();
-                if (!empty($obj_customer)) {
-                    $obj_customer = CustomersContact::where('landline_number', '=', $request['landline'])->first();
+                $obj_customer = CustomersContact::join('customers as cus', 'cus.id', '=', 'customers_contacts.customer_id')
+                        ->where('customers_contacts.mobile_number', '=', $mobile_no)
+                        ->first();
+
+                if (empty($obj_customer)) {
+                    $obj_customer = CustomersContact::join('customers as cus', 'cus.id', '=', 'customers_contacts.customer_id')
+                            ->where('customers_contacts.landline_number', '=', $request['landline'])
+                            ->first();
                 }
             }
             if (!empty($email_id) && empty($obj_customer)) {
-                $obj_customer = CustomersContact::where('email_id', '=', $email_id)->first();
+                $obj_customer = CustomersContact::join('customers as cus', 'cus.id', '=', 'customers_contacts.customer_id')
+                        ->where('customers_contacts.email_id', '=', $email_id)
+                        ->first();
             }
+           
             if (!empty($obj_customer)) {
 
                 if ($obj_api->existing_open_customer_action == 1) {
                     $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
-                    $this->insertEnquiryModels($obj_enquiry, $project, $request);
+//                    $this->insertEnquiryModels($obj_enquiry, $project, $request);
                     if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
-
+                        
                     }
                     return $obj_enquiry;
                 } else {
@@ -2405,7 +2414,7 @@ characters in mobile number field. Please apply your form validations as per the
                     $obj_enquiry = '';
                     if (!empty($obj_enquiry)) {
                         $obj_employee = Employee::where('id', '=', $obj_enquiry->sales_employee_id)->first();
-                        $this->insertEnquiryModels($obj_enquiry, $project, $request);
+//                        $this->insertEnquiryModels($obj_enquiry, $project, $request);
 
                         if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status'])
                             return $obj_enquiry;
@@ -2413,12 +2422,12 @@ characters in mobile number field. Please apply your form validations as per the
                     else {
                         if ($obj_api->existing_lost_customer_action == 1) {
                             $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
-                            $this->insertEnquiryModels($obj_enquiry, $project, $request);
+//                            $this->insertEnquiryModels($obj_enquiry, $project, $request);
                         } else {
 
                             $obj_enquiry = Enquiry::where('customer_id', '=', $obj_customer->customer_id)->orderBy('id', 'desc')->first();
                             if (!empty($obj_enquiry)) {
-                                $this->insertEnquiryModels($obj_enquiry, $project, $request);
+//                                $this->insertEnquiryModels($obj_enquiry, $project, $request);
                             }
                         }
                         return $obj_enquiry;
@@ -2444,8 +2453,10 @@ characters in mobile number field. Please apply your form validations as per the
                 $obj_customerContacts->email_verification_status = $request['email_id_verification_status'];
 
                 $obj_customerContacts->save();
+
                 $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark, 0);
                 if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
+                    
                 }
                 return $obj_enquiry;
             }
@@ -2454,7 +2465,12 @@ characters in mobile number field. Please apply your form validations as per the
 
     public function insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark, $custMsg = '', $status = 0) {
         $input = PushApiSetting::doAction($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
+        $create = CommonFunctions::insertMainTableRecords(1);
+        $input['enquiryData'] = array_merge($input['enquiryData'], $create);
         $obj_enquiry = Enquiry::create($input['enquiryData']);
+        $input['followupData'] = array_merge($input['followupData'], $create);
+        $enq = Enquiry::latest('id')->first();
+        $input['followupData']['enquiry_id'] = $enq->id;
         $obj_followups = EnquiryFollowup::create($input['followupData']);
         return $obj_followups;
     }
