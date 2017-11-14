@@ -1174,6 +1174,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $(".checkLost").hide();
                 if (id != 4) {
                     $("#footerContent").hide();
+                }else{
+                    $("#footerContent").show();
                 }
                 $scope.divEmail = false;
                 $scope.divSms = false;
@@ -1183,7 +1185,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $("#footerContent").show();
             }
         }
-
+        $scope.companyValidate = function(){
+            $scope.sbtBtn = true;
+        }
         $scope.getTodayRemarkCustomerModal = function (cid) {
             Data.post('master-sales/getCustomerDataWithId', {
                 data: {customerId: cid},
@@ -1328,7 +1332,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.getTodayRemark(enqid, followupId);
         }
         $scope.getTodayRemark = function (enqid, followupId, sharedemployee) {
-
             $scope.minDate = new Date();
             $scope.booked = $scope.collected = true;
 
