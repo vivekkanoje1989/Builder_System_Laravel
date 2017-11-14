@@ -2395,12 +2395,8 @@ characters in mobile number field. Please apply your form validations as per the
                 if ($obj_api->existing_open_customer_action == 1) {
                     $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
                     $this->insertEnquiryModels($obj_enquiry, $project, $request);
-                   // $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
-                    //                    $this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
-
                     if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
 
-                        //$this->sendVerificationLink($obj_api, $obj_customer, $project, $obj_employee, $obj_enquiry);
                     }
                     return $obj_enquiry;
                 } else {
@@ -2410,49 +2406,30 @@ characters in mobile number field. Please apply your form validations as per the
                     if (!empty($obj_enquiry)) {
                         $obj_employee = Employee::where('id', '=', $obj_enquiry->sales_employee_id)->first();
                         $this->insertEnquiryModels($obj_enquiry, $project, $request);
-                      //  $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
-                        //$this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
 
                         if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status'])
-                        //$this->sendVerificationLink($obj_api, $obj_customer, $obj_projects, $obj_employee, $obj_enquiry);
                             return $obj_enquiry;
                     }
                     else {
                         if ($obj_api->existing_lost_customer_action == 1) {
                             $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark);
                             $this->insertEnquiryModels($obj_enquiry, $project, $request);
-                         //   $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
-                            //                    $this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
-
-                            if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
-
-                                //$this->sendVerificationLink($obj_api, $obj_customer, $project, $obj_employee, $obj_enquiry);
-                            }
                         } else {
 
                             $obj_enquiry = Enquiry::where('customer_id', '=', $obj_customer->customer_id)->orderBy('id', 'desc')->first();
                             if (!empty($obj_enquiry)) {
-
                                 $this->insertEnquiryModels($obj_enquiry, $project, $request);
-                               // $this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
-                                //$this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
-
-                                if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
-                                    // $this->sendVerificationLink($obj_api, $obj_customer, $obj_projects, $obj_employee, $obj_enquiry);
-                                }
                             }
                         }
                         return $obj_enquiry;
                     }
                 }
             } else {
-//                $customer_type = 0;
                 $country = $request['country_code'];
                 if ($country != '91' && $country != '') {
                     $customer_type = 1;
                 }
                 $obj_customer = new Customer();
-//                $obj_customer->customer_type = $customer_type;
                 $obj_customer->first_name = $request['first_name'];
                 $obj_customer->last_name = $request['last_name'];
                 $obj_customer->client_id = 1;
@@ -2468,10 +2445,7 @@ characters in mobile number field. Please apply your form validations as per the
 
                 $obj_customerContacts->save();
                 $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_desc, $sub_source, $obj_api, $remark, 0);
-                //$this->insertFollowups($obj_enquiry, $obj_employee, $obj_api, $remark, 0);
-                // $this->sendEmailAndSms($obj_enquiry, $obj_customer, $obj_projects, $obj_api, $obj_employee, $request['message']);
                 if (!$request['email_id_verification_status'] && !$request['mobile_no_verification_status']) {
-                    //$this->sendVerificationLink($obj_api, $obj_customer, $project, $obj_employee, $obj_enquiry);
                 }
                 return $obj_enquiry;
             }
@@ -2484,26 +2458,6 @@ characters in mobile number field. Please apply your form validations as per the
         $obj_followups = EnquiryFollowup::create($input['followupData']);
         return $obj_followups;
     }
-
-//    public function insertFollowups($obj_enquiry, $obj_employee, $obj_api, $custMsg = '', $status = 0) {
-//        $obj_followups = new EnquiryFollowup();
-//        $obj_followups->enquiry_id = $obj_employee->id;
-//        $obj_followups->followup_date_time = date("Y-m-d h:i:s");
-//        $obj_followups->followup_by_employee_id = $obj_employee->employee_id;
-//        $obj_followups->followup_entered_through = '4';
-//        $obj_followups->next_followup_date = date('Y-m-d');
-//        $obj_followups->next_followup_time = date("h:i:s");
-//        $obj_followups->actual_followup_date_time = date("Y-m-d h:i:s");
-//        if ($status == 0)
-//            $followups_remark = 'Enquiry Added Through ';
-//        else
-//            $followups_remark = 'Followup Updated Through';
-//        $obj_followups->remarks = $followups_remark . $obj_api->api_name . ' API';
-//        if (!empty($custMsg))
-//            $obj_followups->remarks = $followups_remark . $obj_api->api_name . ' API. Customer message:- ' . $custMsg;
-//        $obj_followups->save();
-//        return $obj_followups;
-//    }
 
     public function errorNofificationMail($status, $message, $obj_api) {
         $encodeUrl = urlencode($_GET['requested_url']);

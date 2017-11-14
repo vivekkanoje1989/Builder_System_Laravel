@@ -450,7 +450,11 @@ class CommonFunctions {
             $userName = '';
             $password = '';
         }
-        $companyName = $client->marketing_name;
+        if (!empty($client->marketing_name)) {
+            $companyName = $client->marketing_name;
+        } else {
+            $companyName = '';
+        }
         if (!empty($customer_id > 0)) {
             if (!empty($template_settings_customer)) {
                 if ($template_settings_customer->email_status == 1 && !empty($customer_email_to)) {
@@ -517,7 +521,7 @@ class CommonFunctions {
         $smsType = "T_SMS";
         $client_id = $alertdata['client_id'];
         $client = \App\Models\ClientInfo::where('id', $client_id)->first();
-        if(!empty($client->project_id)){
+        if (!empty($client->project_id)) {
             $project = Project::where('id', $client->project_id)->first();
         }
         $companyMarketingName = $companyGoogleMap = $companyAddress = $companyLogo = $brandColor = $displayImage = $employeeName = $employeeMobile = $employeeEmail = $mobile_number = $customerEmail = $customerName = " ";
@@ -535,12 +539,12 @@ class CommonFunctions {
         if (!empty($client->pin_code))
             $companyAddress .= $client->pin_code;
 
-        if (!empty($client->website)){
+        if (!empty($client->website)) {
             $website = $client->website;
-        }else{
+        } else {
             $website = '';
         }
-        
+
         array_push($alertdata['arrExtra']['1'], $companyLogo);
         array_push($alertdata['arrExtra']['1'], $companyMarketingName);
         array_push($alertdata['arrExtra']['1'], $companyAddress);

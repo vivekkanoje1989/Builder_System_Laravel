@@ -125,32 +125,55 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.validateMobileNumber = function (value) {
-            var regex = /^(\+\d{1,4}-)\d{10}$/;
-            alert(value);
+            var regex = /^[789]/;
             if (!regex.test(value)) {
-                alert("1")
-                $scope.errMobile = "Mobile number should be 10 digits and pattern should be for ex. +91-9999999999";
+     
+                $scope.errMobile = "Mobile number should be 10 digits and pattern should be for ex. 9999999999";
                 $scope.applyClassMobile = 'ng-active';
             } else {
-                
                 $scope.errMobile = "";
                 $scope.applyClassMobile = 'ng-inactive';
             }
         };
-        $scope.validateLandlineNumber = function (value) {
-            var validLandline = value;
-            if (validLandline != '') {
-                if (validLandline === "1234567890" || validLandline === "0000000000" || validLandline[0] === "0") {
-                    $scope.errLandline = "Invalid Landline number";
-                    $scope.applyClass = 'ng-active';
-                    $scope.userContactForm.$valid = false;
-                } else {
-                    $scope.errLandline = "";
-                    $scope.applyClass = 'ng-inactive';
+
+        $scope.validateLandlineNumber = function (validLandline) {
+            if (validLandline != undefined) {
+                if (validLandline.length > 0) {
+                    if (validLandline === "12345678" || validLandline === "00000000" || validLandline['0'] === "0") {
+                        $scope.errLandline = "Invalid Landline number";
+                        $scope.applyClass = 'ng-active';
+                        $scope.userContactForm.$valid = false;
+                    } else {
+                        $scope.errLandline = "";
+                        $scope.applyClass = 'ng-inactive';
+                    }
                 }
             } else {
                 $scope.errLandline = "";
                 $scope.applyClass = 'ng-inactive';
+            }
+        };
+        
+        $scope.validateOfficeMobileNumber = function (value) {
+             var regex = /^[789]/;
+            if (!regex.test(value)) {
+     
+                $scope.errOfficeMobile = "Mobile number should be 10 digits and pattern should be for ex. 9999999999";
+                $scope.applyOfficeClassMobile = 'ng-active';
+                $scope.userContactForm.$valid = false;
+            } else
+            if (value != '') {
+                if (value == '1234567890' || value == '0000000000' || value[0] == "0") {
+                    $scope.errOfficeMobile = "Invalid Mobile number";
+                    $scope.applyOfficeClassMobile = 'ng-active';
+                    $scope.userContactForm.$valid = false;
+                } else {
+                    $scope.errOfficeMobile = "";
+                    $scope.applyClassMobile = 'ng-inactive';
+                }
+            } else {
+                $scope.errOfficeMobile = "";
+                $scope.applyOfficeClassMobile = 'ng-inactive';
             }
         };
 
@@ -216,16 +239,15 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
 
         $scope.validateMobile = function (mobNo, label) {
-           
-            var model = $parse(label);
+            var firstDigit = mobNo.substring(0, 1);
             if (mobNo === "0000000000") {
-                model.assign($scope, "Mobile number should be 10 digits and pattern should be for ex. +91-9999999999");
+                $scope.errPersonalMobile1 = "Mobile number should be 10 digits and pattern should be for ex. 9999999999";
                 $scope.applyClassMobile = 'ng-active';
             } else if (firstDigit === "0") {
-                model.assign($scope, "First digit of mobile number should not be 0");
+                $scope.errPersonalMobile1 = "First digit of mobile number should not be 0";
                 $scope.applyClassMobile = 'ng-active';
             } else {
-                model.assign($scope, "");
+
                 $scope.errPersonalMobile = "";
                 $scope.applyClassMobile = 'ng-inactive';
             }
@@ -808,17 +830,17 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
                 closeOnCancel: false
             },
-            function (isConfirm) { //Function that triggers on user action.
+                    function (isConfirm) { //Function that triggers on user action.
                         if (isConfirm) {
                             Data.post('master-hr/removeEmpID',
                                     {empId: empId, parentId: parentId, submenuId: submenuId, allChild2Id: allChild2Id, allChild3Id: allChild3Id}).then(function (response) {
-                                 $("#0"+submenuId+"_"+index).remove();
+                                $("#0" + submenuId + "_" + index).remove();
                             });
                             SweetAlert.swal("Permission removed!");
                         } else {
                             SweetAlert.swal("Permission not removed!");
                         }
-            });
+                    });
         }
 
         $scope.updatePermissions = function (empId, roleId) {
@@ -1435,8 +1457,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
                 $scope.$broadcast("countryChange");
                 $scope.userContact.permenent_state_id = angular.copy($scope.userContact.current_state_id);
-                $scope.$broadcast("stateChange");
-                $scope.userContact.permenent_city_id = angular.copy($scope.userContact.permenent_city_id);
+
+                if ($scope.userContact.current_state_id != undefined) {
+                    $scope.$broadcast("stateChange");
+                    $scope.userContact.permenent_city_id = angular.copy($scope.userContact.current_city_id);
+                }
 
             }
 
@@ -1591,7 +1616,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             $(".wiredstep" + current).removeClass('active');
             $(".wiredstep" + pre).removeClass('complete');
             $(".wiredstep" + current).addClass('complete');
-            
+
             if (pre == 1) {
                 if ($scope.userPersonalData.birth_date == '0000-00-00' || $scope.userPersonalData.birth_date == 'NaN-aN-NaN') {
                     $scope.userPersonalData.birth_date = '';
@@ -1609,9 +1634,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     $scope.userData.marriage_date = new Date();
                 }
             }
-          
+
             if (pre == 4) {
-               if ($scope.userJobData.joining_date == '0000-00-00' || $scope.userJobData.joining_date == 'NaN-aN-NaN') {
+                if ($scope.userJobData.joining_date == '0000-00-00' || $scope.userJobData.joining_date == 'NaN-aN-NaN') {
                     $scope.userJobData.joining_date = '';
                 }
             }
@@ -1869,7 +1894,6 @@ app.controller('permanentCountryListCtrl', function ($scope, $rootScope, $timeou
 
     $scope.checkboxSelected = function (copy) {
         if (copy) {  // when checked
-
             $scope.permanentAdd = true;
             $scope.permanentCountry = true;
             $scope.permanentState = true;
@@ -1886,21 +1910,22 @@ app.controller('permanentCountryListCtrl', function ($scope, $rootScope, $timeou
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.stateTwoPermanentList = response.records;
-                    Data.post('getCities', {
-                        data: {stateId: $scope.userContact.current_state_id},
-                    }).then(function (response) {
-                        if (!response.success) {
-                            $scope.errorMsg = response.message;
-                        } else {
-                            $scope.cityTwoPermanentList = response.records;
-                        }
-                        $timeout(function () {
-                            // $("#permenent_state_id").val($scope.userContact.current_state_id);
-                            // $("#permenent_city_id").val($scope.userContact.current_city_id);
-                            $scope.userContact.permenent_state_id = $scope.userContact.current_state_id;
-                            $scope.userContact.permenent_city_id = $scope.userContact.current_city_id;
-                        }, 500);
-                    });
+                    alert($scope.userContact.current_state_id)
+                    if ($scope.userContact.current_state_id != undefined) {
+                        Data.post('getCities', {
+                            data: {stateId: $scope.userContact.current_state_id},
+                        }).then(function (response) {
+                            if (!response.success) {
+                                $scope.errorMsg = response.message;
+                            } else {
+                                $scope.cityTwoPermanentList = response.records;
+                            }
+                            $timeout(function () {
+                                $scope.userContact.permenent_state_id = $scope.userContact.current_state_id;
+                                $scope.userContact.permenent_city_id = $scope.userContact.current_city_id;
+                            }, 500);
+                        });
+                    }
                 }
             });
         } else {
