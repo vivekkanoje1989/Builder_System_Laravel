@@ -97,7 +97,7 @@
                                     <div class="form-group">
                                         <label for="">Email ID</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" class="form-control" ng-disabled="disableText" get-customer-details-directive ng-model="searchData.searchWithEmail" name="searchWithEmail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkValue(customerData.searchWithEmail)">
+                                            <input type="email" class="form-control" ng-disabled="disableText || emailField" get-customer-details-directive ng-model="searchData.searchWithEmail" name="searchWithEmail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkValue(customerData.searchWithEmail)">
                                             <i class="glyphicon glyphicon-envelope"></i>
                                         </span>
                                     </div>
@@ -180,28 +180,80 @@
                                                 <td>
                                                     <b> Enquiry Owner  :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}
                                                     <hr class="enq-hr-line">
-<!--                                                    <b>Test Drive : </b>{{enquiry.testdrive_remark}}
+<!--                                                    <b>Test Drive : </b>{{enquiry.testdrive_list}}
                                                     <hr class="enq-hr-line">-->
                                                     <b>Last followup :</b> {{enquiry.last_followup_date}}
                                                     <br/>
                                                     <b>By followup : {{enquiry.owner_fname}} {{enquiry.owner_lname}} : </b>{{enquiry.remarks}} 
                                                     <hr class="enq-hr-line">
-                                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})">View History</a>
+                                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)">View History</a>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>                                    
                                 </div>
                                 <!-- Modal -->
-                                <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
-                                    <div class="modal-dialog modal-lg">
+                                <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1' >
+                                    <div class="modal-dialog modal-lg"  ng-controller="enquiryController">
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header navbar-inner">
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 <h4 class="modal-title" align="center">Enquiry History</h4>
                                             </div>
-                                            <div class="modal-body">
+                                            <div class="modal-body"> 
+                                                <div>
+                            <label>
+                                <input type="checkbox" name="chk_enquiry_history_list" ng-click="getModulesWiseHist_list(history_enquiryId, 1, 'listFlag')" checked  id="chk_enquiry_history_list">
+                                <span class="text">All</span>
+                            </label>
+                            &nbsp;&nbsp;
+                            <label>
+                                <input type="checkbox"  ng-click="getModulesWiseHist_list(history_enquiryId, 0, 'listFlag')" data-id="1" checked class="chk_followup_history_all_list" id="chk_presales_list">
+                                <span class="text">Pre Sales</span>
+                            </label>
+                            &nbsp;&nbsp;
+                            <label>
+                                <input type="checkbox"  ng-click="getModulesWiseHist_list(history_enquiryId, 0, 'listFlag')" data-id="2" checked  class="chk_followup_history_all_list" id="chk_Customer_Care_list">
+                                <span class="text">Customer Care</span>
+                            </label>
+                            <hr class="enq-hr-line">           
+                            1) <span>PS = Pre Sales</span> &nbsp;&nbsp;2) <span>CC = Customer Care</span>            
+                            <hr class="enq-hr-line">    
+                        </div>
+
+                        <div style="height: auto;max-height: 605px;margin-top: 0px; overflow-x: hidden;overflow-y: scroll;">
+                            {{historyList}}
+                            <table class="table table-hover table-striped table-bordered" at-config="config" >
+                                <thead class="bord-bot">
+                                    <tr>
+                                        <th class="enq-table-th" style="width:3%">SR</th>
+                                        <th class="enq-table-th" style="width: 13%;">
+                                            Followup By 
+                                        </th>
+                                        <th class="enq-table-th" style="width: 13%">
+                                            Last  
+                                        </th>
+                                        <th class="enq-table-th" style="width: 13%">
+                                            Next
+                                        </th>
+                                        <th class="enq-table-th" style="width: 20%">
+                                            Status
+                                        </th>
+                                        <th class="enq-table-th" style="width: 38%">
+                                            Remarks
+                                        </th>
+                                    </tr>
+                                </thead>
+                                
+                            </table>
+                        </div>
+                                            </div>
+                                            
+                                            
+                                            
+                                            
+<!--                                            <div class="modal-body">
                                                 <table class="table table-hover table-striped table-bordered" at-config="config">
                                                     <thead class="bord-bot">
                                                         <tr>
@@ -268,7 +320,7 @@
 
                                                     </tbody>
                                                 </table>                                                
-                                            </div>
+                                            </div>-->
                                             <div class="modal-footer" align="center">
                                             </div>
                                         </div>
@@ -551,7 +603,7 @@
                                             <div class="form-group">
                                                 <label for="">Remarks</label>
                                                 <span class="input-icon icon-right">
-                                                    <textarea ng-model="contactData.other_remarks" name="other_remarks" class="form-control" maxlength="300"></textarea>
+                                                    <textarea ng-model="contactData.other_lists" name="other_lists" class="form-control" maxlength="300"></textarea>
                                                     <i class="fa fa-building-o"></i>
                                                 </span>
                                             </div>

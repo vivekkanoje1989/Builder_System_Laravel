@@ -172,9 +172,39 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.initHistoryDataModal(enquiry_id, mhistory1, 0, flag);
         };
         
-        $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, flag)
+        $scope.getModulesWiseHist_list = function (enquiry_id, opt, flag)
         {
-             
+            if (opt == 1)
+            {
+                if ($('#chk_enquiry_history_list').is(":checked"))
+                {
+                    $(':checkbox.chk_followup_history_all_list').prop('checked', true);
+                } else
+                {
+                    $(':checkbox.chk_followup_history_all_list').prop('checked', false);
+                }
+            }
+            var mhistory1 = [];
+            if ($('#chk_presales_list').is(":checked"))
+            {
+                mhistory1.push($('#chk_presales_list').data("id"));
+            }
+            if ($('#chk_Customer_Care_list').is(":checked"))
+            {
+                mhistory1.push($('#chk_Customer_Care_list').data("id"));
+            }
+            if (mhistory1.length == 2)
+            {
+                $(':checkbox#chk_enquiry_history_list').prop('checked', true);
+            } else
+            {
+                $(':checkbox#chk_enquiry_history_list').prop('checked', false);
+            }
+            $scope.initHistoryDataModal(enquiry_id, mhistory1, 0, flag);
+        };
+        
+        $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, flag)
+        {console.log(moduelswisehisory)
             if(flag === 'todayremarkFlag'){
                 if (init === 1)
                 {
