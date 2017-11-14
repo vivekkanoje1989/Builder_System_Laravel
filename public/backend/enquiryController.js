@@ -55,7 +55,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             });
         }
-
         $scope.cloudCallingLog = function (modules, employee_id, enquire_id, customer_id, sequence) {
             Data.post('cloudcallinglogs/outboundCalltrigger', {
                 modules: modules, employee_id: employee_id, enquire_id: enquire_id, customer_id: customer_id, sequence: sequence
@@ -797,6 +796,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.sendDocuments = function (id)
         {
             $rootScope.enquiryId = id;
+            $scope.documentData.project_id = '0';
             $timeout(function () {
                 $("li#historyTab").removeClass('active');
                 $("li#documentTab").addClass('active');
@@ -808,15 +808,20 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 {
                     var flag = 0;
                     $scope.documentData = angular.copy(response.records);
-                    var allemails = response.records.customer_email_id.split(",");
-                    for(var i=1;i<= allemails.length ; i++)
-                    {
-                       if(allemails[i] !=='' || allemails[i] !== null || allemails[i] !=='null') 
-                       {
-                           flag = 1;
-                       }
+                    $scope.documentData.customer_email_id = response.records.customer_email_id.split(',');
+                    if(response.records.customer_email_id !==''){
+                        if (response.records.customer_email_id.indexOf(',') > -1){
+                            var allemails = response.records.customer_email_id.split(",");
+                            for(var i=1;i<= allemails.length ; i++)
+                            {                               
+                                if(allemails[i] !=='' && allemails[i] !== null && allemails[i] !=='null' && typeof allemails[i] !== "undefined") 
+                               {
+                                   flag = flag+1;
+                               }
+                            }
+                        }else{flag = flag+1;}                        
                     }                    
-                    if (response.records.customer_fname !== "" && response.records.customer_lname !== "" && flag == 0)
+                    if (response.records.customer_fname !== "" && response.records.customer_lname !== "" && flag > 0)
                     {
                         $scope.custInfo = true;
                         $scope.documentData.project_id = 0;

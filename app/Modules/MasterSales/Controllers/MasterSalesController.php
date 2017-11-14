@@ -3072,7 +3072,8 @@ Regards,<br>
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             }
             if ($request['isUpdate']) { // update customer
-                $update = Customer::where('id', $request['documentData']['customer_id'])->update(['first_name' => $request['documentData']['customer_fname'], 'last_name' => $request['documentData']['customer_lname'], 'title_id' => $request['documentData']['title_id']]);
+                $arr = explode(",", $request['documentData']['customer_mobile_no']);
+                $update = Customer::where('id', $request['documentData']['customer_id'])->update(['first_name' => $request['documentData']['customer_fname'], 'last_name' => $request['documentData']['customer_lname'], 'title_id' => $request['documentData']['title_id']]);                
                 $update = CustomersContact::where([['customer_id', '=', $request['documentData']['customer_id']], ['mobile_number', '=', $request['documentData']['customer_mobile_no']]])->update(['email_id' => $request['documentData']['email_id']]);
             }
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
