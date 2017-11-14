@@ -97,7 +97,7 @@
                                     <div class="form-group">
                                         <label for="">Email ID</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" class="form-control" ng-disabled="disableText" get-customer-details-directive ng-model="searchData.searchWithEmail" name="searchWithEmail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkValue(customerData.searchWithEmail)">
+                                            <input type="email" class="form-control" ng-disabled="disableText || emailField" get-customer-details-directive ng-model="searchData.searchWithEmail" name="searchWithEmail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkValue(customerData.searchWithEmail)">
                                             <i class="glyphicon glyphicon-envelope"></i>
                                         </span>
                                     </div>
@@ -193,8 +193,8 @@
                                     </table>                                    
                                 </div>
                                 <!-- Modal -->
-                                <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'  ng-controller="enquiryController">
-                                    <div class="modal-dialog modal-lg">
+                                <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1' >
+                                    <div class="modal-dialog modal-lg"  ng-controller="enquiryController">
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header navbar-inner">

@@ -251,12 +251,12 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }, 200);
                             $scope.hideloader();
                         } else { //enquiry list of customer //customer and enquiry is exist
-
                             var url = $location.path();
                             if (url === "/sales/enquiry" || url === "/sales/quickEnquiry") {
                                 $scope.showDiv = true;
                                 $scope.showDivCustomer = false;
                                 $scope.backBtn = false;
+                                $scope.emailField = true;
                                 $scope.listsIndex = response;
                             } else {
                                 $rootScope.newEnqFlag = 0; //update existing data

@@ -56,7 +56,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             });
         }
 
-        $scope.readyPossession = function(){alert('success')
+        $scope.readyPossession = function(){
                 $scope.enquiryData.property_possession_date ='';
         }
         $scope.showAddress = function () {
@@ -480,6 +480,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 });
             }
             if (customerId !== 0 && enquiryId !== 0) {
+            
                 $scope.pageHeading = 'Edit Enquiry';
                 $scope.btnLabelC = $scope.btnLabelE = "Update";
                 Data.post('master-sales/getEnquiryDetails', {
@@ -770,49 +771,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 });
             }
         }
-        $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, flag)
-        {
-             alert('hi')
-            if(flag === 'todayremarkFlag'){
-                if (init === 1)
-                {
-                    $('.chk_followup_history_all_remark').prop('checked', true);
-                    $('.chk_enquiry_history_remark').prop('checked', true);
-                }
-            }else{
-                if (init === 1)
-                {
-                    $(':checkbox.chk_followup_history_all').prop('checked', true);
-                    $(':checkbox.chk_enquiry_history').prop('checked', true);
-                }
-            }
-            
-            Data.post('customer-care/presales/getenquiryHistory', {
-                enquiryId: enquiry_id, moduelswisehisory: moduelswisehisory
-            }).then(function (response) {
-                $scope.history_enquiryId = enquiry_id;
-                $scope.chk_followup_history_all = true;
-                $scope.chk_followup_history_all_remark = true;
-                if (response.success) {
-                    $scope.historyList = angular.copy(response.records);
-                    $timeout(function () {
-                        for (i = 0; i < $scope.historyList.length; i++) {
-                            if ($scope.historyList[i].call_recording_url != "" && $scope.historyList[i].call_recording_url != "None") {
-                                document.getElementById("recording_" + $scope.historyList[i].id).src = $scope.historyList[i].call_recording_url;
-                            }
-                        }
-                    }, 1000);
-                } else
-                {
-                    $scope.historyList = angular.copy(response.records);
-
-                }
-            });
-        }
+        
         
         $scope.addProjectRow = function (projectId)
         {
-            alert(projectId);
             if ((projectId !== ""))
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
