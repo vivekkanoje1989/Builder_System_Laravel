@@ -12,6 +12,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.blockTypeList = [];
         $scope.contacts = [];
         $scope.enqType = '';
+        
+        $scope.initmoduelswisehisory = [1, 2];
         $scope.errMobile = '';
         $scope.customerData.sms_privacy_status = $scope.customerData.email_privacy_status = 1;
         resetContactDetails();
@@ -54,6 +56,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             });
         }
 
+        $scope.readyPossession = function(){alert('success')
+                $scope.enquiryData.property_possession_date ='';
+        }
         $scope.showAddress = function () {
             $scope.showaddress = false;
             $scope.hideaddress = true;
@@ -374,6 +379,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.modal = {};
         }
         $scope.manageForm = function (customerId, enquiryId, enqType) {
+           
             $scope.enqType = enqType;
             var date = new Date();
             $scope.enquiryData.sales_enquiry_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
@@ -388,6 +394,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 Data.post('master-sales/getCustomerDataWithId', {
                     data: {customerId: customerId},
                 }).then(function (response) {
+                    
                     $scope.pageHeading = 'Edit Customer';
                     $scope.btnLabelC = "Update";
                     $scope.showDivCustomer = true;
@@ -730,7 +737,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         toaster.pop('success', 'Enquiry', response.message);
                         $state.reload();
                     } else
-                    {
+                    { 
+                        $scope.disableFinishButton = false;
                         var obj = response.message;
                         var selector = [];
                         for (var key in obj) {
@@ -750,6 +758,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $window.history.back();
                     } else
                     {
+                        $scope.disableFinishButton = false;
                         var obj = response.message;
                         var selector = [];
                         for (var key in obj) {
@@ -761,6 +770,46 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 });
             }
         }
+        $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, flag)
+        {
+             alert('hi')
+            if(flag === 'todayremarkFlag'){
+                if (init === 1)
+                {
+                    $('.chk_followup_history_all_remark').prop('checked', true);
+                    $('.chk_enquiry_history_remark').prop('checked', true);
+                }
+            }else{
+                if (init === 1)
+                {
+                    $(':checkbox.chk_followup_history_all').prop('checked', true);
+                    $(':checkbox.chk_enquiry_history').prop('checked', true);
+                }
+            }
+            
+            Data.post('customer-care/presales/getenquiryHistory', {
+                enquiryId: enquiry_id, moduelswisehisory: moduelswisehisory
+            }).then(function (response) {
+                $scope.history_enquiryId = enquiry_id;
+                $scope.chk_followup_history_all = true;
+                $scope.chk_followup_history_all_remark = true;
+                if (response.success) {
+                    $scope.historyList = angular.copy(response.records);
+                    $timeout(function () {
+                        for (i = 0; i < $scope.historyList.length; i++) {
+                            if ($scope.historyList[i].call_recording_url != "" && $scope.historyList[i].call_recording_url != "None") {
+                                document.getElementById("recording_" + $scope.historyList[i].id).src = $scope.historyList[i].call_recording_url;
+                            }
+                        }
+                    }, 1000);
+                } else
+                {
+                    $scope.historyList = angular.copy(response.records);
+
+                }
+            });
+        }
+        
         $scope.addProjectRow = function (projectId)
         {
             alert(projectId);

@@ -355,7 +355,7 @@
                             <label for="">Interested In</label>
                             <div class="radio" style="margin-top: 0px;">
                                 <label>
-                                    <input type="radio" class="" ng-model="enquiryData.property_possession_type" name="property_possession_type" value="1">
+                                    <input type="radio" class="" ng-model="enquiryData.property_possession_type" name="property_possession_type" ng-click="readyPossession()" value="1">
                                     <span class="text">Ready Possession </span>
                                 </label>&nbsp;&nbsp;
                                 <label>
@@ -370,7 +370,7 @@
                             <label for="">Tentative Possession Date</label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="enquiryData.property_possession_date" name="property_possession_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly>
+                                    <input type="text" ng-model="enquiryData.property_possession_date" name="property_possession_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>                                    
