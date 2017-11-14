@@ -144,7 +144,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                         if (response.flag === 0)//if customer exist, enquiry is empty
                         {   
                             $scope.disableText = true;
-                            $(".country-list").css("display","none");
+                            $(".countryClass").find(".country-list").css("display","none");
                             $scope.company_list = [];
                             var result = '';
                             $scope.showDiv = false;
@@ -264,7 +264,8 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 $scope.resetBtn = true;
                                 $scope.backBtn = true;
                                 $scope.disableSource = true;
-                                $(".country-list").css("display","none");
+                                console.log($(".countryClass").find(".country-list"));
+                                $(".countryClass").find(".country-list").css("display","none");
                                 return false;
                             }
                             $scope.hideloader();

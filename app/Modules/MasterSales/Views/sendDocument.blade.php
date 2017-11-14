@@ -54,12 +54,7 @@
                                                 </div>
                                             </span>
                                         </div>
-                                    </div>
-                                    
-                                    
-                                    
-                                    
-                                    
+                                    </div>                                    
                                     <div class="col-sm-4">
                                         <div class="form-group" ng-class="{ 'has-error' : sendbtn && (!sendDocumentForm.email_id.$dirty && sendDocumentForm.email_id.$invalid)}">
                                             <span class="input-icon icon-right">
