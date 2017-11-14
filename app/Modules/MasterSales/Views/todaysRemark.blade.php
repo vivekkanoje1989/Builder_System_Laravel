@@ -267,13 +267,13 @@
                                                     </label>
                                                 </span>	
                                             </div>
-                                            <div class="col-sm-7">
+                                            <div class="col-sm-7">{{remarkData.corporateCust}}
                                                 <div class="form-group" ng-if="companyInput">
                                                     <input type="text" class="form-control" placeholder="Company name" ng-model="remarkData.company_name" name="company_name" ng-keyup="getCompanyList(remarkData.company_name)" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" required>
                                                     <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList" >
                                                         <li ng-repeat="company in company_list| filter : remarkData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
                                                     </ul> 
-                                                    <div ng-show="sbtBtn && remarkData.corporateCust == true" ng-messages="remarkForm.company_name.$error" class="help-block">
+                                                    <div ng-show="sbtBtn | bookBtn" ng-messages="remarkForm.company_name.$error" class="help-block">
                                                         <div ng-message="required">This field is required.</div>
                                                     </div>
                                                 </div>
