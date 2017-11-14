@@ -62,7 +62,6 @@ class MasterSalesController extends Controller {
             } else {
                 $loggedInUserId = $input['customerData']['loggedInUserId'];
             }
-
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -2058,9 +2057,8 @@ Regards,<br>
 
 
         $exportdate = date('d-m-Y');
-        $exporttime = date('H:i:s');
+        $exporttime = date('H:i A');
         $ReportName = str_replace('_', ' ', $reportName);
-
         $templatedata['employee_id'] = $loggedInUserId;
         $templatedata['client_id'] = config('global.client_id');
         $templatedata['template_setting_customer'] = 0;
