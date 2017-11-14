@@ -105,12 +105,15 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.max_budget.$dirty && enquiryForm.max_budget.$invalid)}">
                             <label for="">Max Budget <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input class="form-control" type="text" minlength="4" maxlength="7" ng-pattern="/^[1-9]+[0-9]*$/" ng-model="enquiryData.max_budget" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="max_budget" required>
+                                <input class="form-control" type="text" minlength="6" maxlength="7" ng-pattern="/^[1-9]+[0-9]*$/" ng-model="enquiryData.max_budget" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="max_budget" required>
                                 <i class="fa fa-money"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.max_budget.$error" class="help-block enqFormBtn">
-                                <div ng-message="required">This field is required.</div>
-                                <span ng-show="enquiryForm.max_budget.$error.pattern">Please enter valid max budget</span>
+                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.max_budget.$error" class="help-block enqFormBtn">
+                               <div ng-message="minlength">Budget should be equal to or more than 6 digit.</div>
+                               <div ng-message="required">This field is required.</div>
+                               <span ng-show="enquiryForm.max_budget.$error.pattern">Please enter valid max budget</span>
+                           </div>
                             </div>
                         </div>
                     </div>  

@@ -36,7 +36,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group" ng-class="{ 'has-error' : sendbtn && (!sendDocumentForm.customer_fname.$dirty && sendDocumentForm.customer_fname.$invalid)}">
                                             <span class="input-icon icon-right">
-                                                <input type="text" placeholder="First Name" ng-model="documentData.customer_fname" name="customer_fname" capitalization class="form-control" ng-required="editableCustInfo">
+                                                <input type="text" placeholder="First Name" ng-model="documentData.customer_fname" name="customer_fname"  oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')"  capitalization class="form-control" ng-required="editableCustInfo">
                                                 <i class="fa fa-user"></i>
                                                 <div ng-show="sendbtn" ng-messages="sendDocumentForm.customer_fname.$error" class="help-block sendbtn">
                                                     <div ng-message="required">This field is required</div>
@@ -47,7 +47,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group" ng-class="{ 'has-error' : sendbtn && (!sendDocumentForm.customer_lname.$dirty && sendDocumentForm.customer_lname.$invalid)}">
                                             <span class="input-icon icon-right">
-                                                <input type="text" placeholder="Last Name" ng-model="documentData.customer_lname" name="customer_lname" capitalization class="form-control" ng-required="editableCustInfo">
+                                                <input type="text" placeholder="Last Name" ng-model="documentData.customer_lname"  oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" name="customer_lname" capitalization class="form-control" ng-required="editableCustInfo">
                                                 <i class="fa fa-user"></i>
                                                 <div ng-show="sendbtn" ng-messages="sendDocumentForm.customer_lname.$error" class="help-block sendbtn">
                                                     <div ng-message="required">This field is required</div>
@@ -75,19 +75,8 @@
                                             <div ng-if="documentData.customer_mobile_no != ''">
                                                 <span><b>Mobile :</b> {{ documentData.customer_mobile_no}}<br></span>
                                             </div><br>
-                                            <div ng-init="all_email_list = documentData.customer_email_id.split(',');">
-                                                <div ng-if="documentData.customer_email_id != ''" >
-                                                    <span ng-repeat="emailobj in all_email_list| limitTo:2"><b>Email : </b>{{ emailobj}}<br></span>
-                                                </div>
-                                            </div>
-                                            <div ng-if="documentData.customer_email_id == '' || documentData.customer_email_id == ',null' ">
-                                                <div class="col-sm-12" style=" margin-left: -13px;"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
-                                                    <span class="input-icon icon-right" ng-if="addEmail">
-                                                        <input type="email" ng-model="remarkData.email_id" name="email_id" placeholder="Enter Email Address" class="form-control" maxlength="40" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" ng-model-options="{ allowInvalid: true, debounce: 550 }"
-                                                               ng-change="addInfo(remarkData.customerId, '', remarkData.email_id, 'email_id')">
-                                                        <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeEmailText()"></i>
-                                                        <div ng-if="emailErr" style="color: red;">{{emailErr}}</div>
-                                                    </span> 
+                                            <div ng-if="documentData.customer_email_id != ''">                                               
+                                                    <b>Email : </b><span ng-repeat="emailobj in documentData.customer_email_id | limitTo:2" ng-if="emailobj !== '' && emailobj !== 'null' ">{{ emailobj}}<br></span>{{emailobj}}                                                
                                             </div>
                                         </div>
                                     </div>
@@ -100,7 +89,7 @@
                                                 <span class="input-icon icon-right" ng-controller="projectCtrl">
                                                     <select ng-model="documentData.project_id"  name="project_id" class="form-control" ng-change="documentList(documentData.project_id)" required>
                                                         <option value="0">Select Project</option>
-                                                        <option ng-repeat="plist in projectList" value="{{plist.id}}" >{{plist.project_name}}</option>
+                                                        <option ng-repeat="plist in projectList" value="{{plist.id}}"  ng-selected="{{plist.id == documentData.project_id}}" >{{plist.project_name}}</option>
                                                     </select>
                                                     <i class="fa fa-sort-desc"></i>
                                                     <div ng-show="sendbtn" ng-messages="sendDocumentForm.project_id.$error" class="help-block sendbtn">
