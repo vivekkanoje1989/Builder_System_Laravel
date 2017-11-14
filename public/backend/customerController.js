@@ -59,6 +59,15 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.readyPossession = function(){
                 $scope.enquiryData.property_possession_date ='';
         }
+        
+        $scope.listRecords = function(id,moduelswisehisory,init){
+            alert('hi')
+//         $rootScope.$broadcast("listHistory", {id, moduelswisehisory,init});
+//         $scope.$broadcast("listHistory");
+         $scope.$broadcast("pixelcolor");
+        }
+        
+        
         $scope.showAddress = function () {
             $scope.showaddress = false;
             $scope.hideaddress = true;

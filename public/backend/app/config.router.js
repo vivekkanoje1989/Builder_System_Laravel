@@ -300,7 +300,7 @@ angular.module('app')
                                 .state('salesCreate', {
                                     url: '/sales/enquiry',
                                     templateUrl: '/master-sales/create',
-                                    controller: 'customerController',
+                                  
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Sales / Detailed Enquiry',
@@ -319,7 +319,7 @@ angular.module('app')
                                                                             '/js/intlTelInput.js',
                                                                             '/backend/customerController.js',
                                                                             '/backend/app/controllers/datepicker.js',
-                                                                            //'/backend/enquiryController.js',
+                                                                            '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
                                                                         ]

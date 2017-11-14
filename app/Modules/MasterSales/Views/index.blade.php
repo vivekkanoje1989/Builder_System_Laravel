@@ -186,7 +186,7 @@
                                                     <br/>
                                                     <b>By followup : {{enquiry.owner_fname}} {{enquiry.owner_lname}} : </b>{{enquiry.remarks}} 
                                                     <hr class="enq-hr-line">
-                                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)">View History</a>
+                                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="listRecords({{ enquiry.id}},{{initmoduelswisehisory}},1)">View History</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -194,7 +194,7 @@
                                 </div>
                                 <!-- Modal -->
                                 <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1' >
-                                    <div class="modal-dialog modal-lg"  ng-controller="enquiryController">
+                                    <div class="modal-dialog modal-lg" >
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header navbar-inner">
