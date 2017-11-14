@@ -975,7 +975,7 @@ class MasterHrController extends Controller {
                 $alluser = $this->allusers;
                 $employee = Employee::where('id', '=', $input['employeeId'])->select('team_lead_id')->first();
                 foreach ($alluser as $team) {
-                    $employee = Employee::where('id', '=', $team)->update(['team_lead_id' => $employee->team_lead_id]);
+                    Employee::where('id', '=', $team)->update(['team_lead_id' => $employee->team_lead_id]);
                 }
             }
         }
