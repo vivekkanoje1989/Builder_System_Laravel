@@ -18,7 +18,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i> 
                                 <div ng-show="formButton" ng-messages="customerForm.title_id.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="title_id" class="errMsg title_id">{{title_id}}</div>
                             </span>
@@ -31,7 +31,7 @@
                                 <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                 <i class="fa fa-user"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.first_name.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="first_name" class="errMsg first_name">{{first_name}}</div>
                             </span>
@@ -55,7 +55,7 @@
                                 <input type="text" class="form-control" ng-model="customerData.last_name" name="last_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                 <i class="fa fa-user"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.last_name.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="last_name" class="errMsg last_name">{{last_name}}</div>
                             </span>
@@ -73,7 +73,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.gender_id.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="gender_id" class="errMsg gender_id">{{gender_id}}</div>
                             </span>
@@ -89,7 +89,7 @@
                                         <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 <div ng-show="formButton" ng-messages="customerForm.birth_date.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="birth_date"class="errMsg birth_date">{{birth_date}}</div>
                                 </p>
@@ -106,7 +106,7 @@
                                 </select>                
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.profession_id.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="profession_id" class="errMsg profession_id">{{profession_id}}</div>
                             </span>
@@ -119,7 +119,7 @@
                                 <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" ng-pattern="/^[1-9]\d*$/" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6">
                                 <i class="fa fa-rupee"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.monthly_income.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                     <div ng-message="pattern">Please enter valid income</div>
                                 </div>
                                 <div ng-if="monthly_income" class="errMsg monthly_income">{{monthly_income}}</div>
@@ -140,7 +140,7 @@
                                         <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 <div ng-show="formButton" ng-messages="customerForm.marriage_date.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="marriage_date"class="errMsg birth_date">{{marriage_date}}</div>
                                 </p>
@@ -160,7 +160,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.source_id.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="source_id" class="errMsg source_id">{{source_id}}</div>
                             </span>
@@ -188,7 +188,7 @@
                                 <!--<input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" ng-disabled="disableSource">-->
                                 <i class="fa fa fa-align-left"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.source_description.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="source_description" class="errMsg source_description">{{source_description}}</div>
                             </span>
@@ -210,13 +210,15 @@
 
                     <div class="col-sm-3 col-md-3 col-xs-12" >
                         <div class="form-group" ng-if="companyInput">
-                            <label for="">Company Name</label>
-                            <input type="text" class="form-control" placeholder="Enter Company name"   maxlength="200"  name="company_name" ng-model="customerData.company_name" ng-keyup="getCompanyList(customerData.company_name)" ng-required="companyInput == '1'">
+                            <label for="">Company Name<span class="sp-err">*</span></label>
+                            <input type="text" class="form-control" placeholder="Enter Company name"  ng-minlength="5" maxlength="50"  name="company_name" ng-model="customerData.company_name" ng-keyup="getCompanyList(customerData.company_name)" ng-required="companyInput == '1'">
                             <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList">
                                 <li ng-repeat="company in company_list| filter : customerData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
                             </ul> 
                             <div ng-show="formButton" ng-messages="customerForm.company_name.$error" class="help-block">
-                                <div ng-message="required" style="color: red !important;">This field is required.</div>
+                                <div ng-message="required" style="color: red !important;">This field is required</div>
+                                <div ng-message="maxlength" style="color: red !important;">Maximum 50 Characters Allowed</div>
+                                <div ng-message="minlength" style="color: red !important;">Minimum 5 and maximum 50 Characters Allowed</div>
                             </div>
                         </div>
                     </div>

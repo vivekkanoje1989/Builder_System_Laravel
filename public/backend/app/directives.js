@@ -251,12 +251,12 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }, 200);
                             $scope.hideloader();
                         } else { //enquiry list of customer //customer and enquiry is exist
-
                             var url = $location.path();
                             if (url === "/sales/enquiry" || url === "/sales/quickEnquiry") {
                                 $scope.showDiv = true;
                                 $scope.showDivCustomer = false;
                                 $scope.backBtn = false;
+                                $scope.emailField = true;
                                 $scope.listsIndex = response;
                             } else {
                                 $rootScope.newEnqFlag = 0; //update existing data
@@ -489,7 +489,7 @@ app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
                 return Data.post('checkUniqueMobile1', {
                     data: {mobileData: personal_mobile1, id: employeeId},
                 }).then(function (response) {
-                    console.log(response);
+           
                     $timeout(function () {
                         model.$setValidity('uniqueMobile', !!response.success);
                     }, 1000);
