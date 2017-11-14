@@ -55,7 +55,6 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
-            print_r($input);
             if (empty($input)) {
                 $input = Input::all();
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -275,7 +274,6 @@ class MasterSalesController extends Controller {
                 
             $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '","'.$customerCallingCode.'")');
             
-//            print_r($getCustomerContacts);
             if (count($getCustomerContacts) > 0) {
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
                 unset($getCustomerPersonalDetails[0]['pan_number']);
@@ -3092,7 +3090,6 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            //print_r($request['documentData']);exit;
             $doc = array();
             if (!empty($request['loggedInUserId'])) {
                 $loggedInUserId = $request['loggedInUserId'];
