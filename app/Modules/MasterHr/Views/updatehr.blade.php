@@ -327,14 +327,15 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
-                                    <div class="form-group">
+                                    <div class="form-group">{{sameEmail}}
                                         <label for=""> Office Email</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userContact.office_email_id" name="office_email_id" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/"  class="form-control">
+                                            <input type="email" ng-model="userContact.office_email_id"  check-for-same-emails name="office_email_id" ng-change="sameEmail" id="office_email_id" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"  class="form-control" ng-model-options="{ allowInvalid: true, debounce: 300 }">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.office_email_id.$error" class="help-block step2">
                                                 <div ng-message="email">Invalid email address.</div>
                                                 <div ng-message="pattern">Invalid email address.</div>
+                                                <div ng-message="sameEmail">Invalid email address.</div>
                                             </div>
                                         </span>
                                     </div>
@@ -345,7 +346,7 @@
                                     <div class="form-group">
                                         <label for=""> Alternate Email</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userContact.personal_email2" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/"   name="personal_email2" class="form-control">
+                                            <input type="email" ng-model="userContact.personal_email2" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"   name="personal_email2" class="form-control">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.personal_email2.$error"  class="help-block step2">
                                                 <div ng-message="email">Invalid email address.</div>
