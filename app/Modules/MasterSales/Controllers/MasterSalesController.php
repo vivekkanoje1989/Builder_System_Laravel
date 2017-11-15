@@ -1398,7 +1398,7 @@ Regards,<br>
 
     public function getTeamSharedEmployee() {
         $loggedInUserId = Auth::guard('admin')->user()->id;
-        $this->tuserid($loggedInUserId);
+        $this->getTeamIds($loggedInUserId);
         $sharedEmployees = '';
         $alluser = $this->allusers;
         $allEmpresult = Employee::whereIn('id', $alluser)->select('presale_shared_employee', 'postsale_shared_employee')->get();
@@ -1422,7 +1422,7 @@ Regards,<br>
         return json_encode($result);
     }
 
-    public function tuserid($id) {
+    public function getTeamIds($id) {
 
         $admin = \App\Models\backend\Employee::where(['team_lead_id' => $id])->get();
         if (!empty($admin)) {
@@ -1431,7 +1431,7 @@ Regards,<br>
 
                 $this->allusers[$item->id] = $item->id;
 
-                $this->tuserid($item->id);
+                $this->getTeamIds($item->id);
             }
         } else {
             return;
@@ -1962,18 +1962,6 @@ Regards,<br>
     }
 
     /*     * ******************** TEAM ENQUIRIES **************************** */
-
-    public function getTeamIds($id) {
-        $admin = \App\Models\backend\Employee::where(['team_lead_id' => $id])->get();
-        if (!empty($admin)) {
-            foreach ($admin as $item) {
-                $this->allusers[$item->id] = $item->id;
-                $this->getTeamIds($item->id);
-            }
-        } else {
-            return;
-        }
-    }
 
     public function exportToExcel() {
         $postdata = file_get_contents("php://input");
