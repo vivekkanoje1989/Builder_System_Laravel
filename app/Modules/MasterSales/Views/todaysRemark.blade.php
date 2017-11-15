@@ -211,9 +211,9 @@
 
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <div ng-if ="displaymobile != '-1'">
-                                                    <span ng-if="mobileList" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
-                                                        <img ng-if="displayCallBtn != '-1'"  src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
+                                                <div ng-show ="displaymobile != '1'">
+                                                    <span ng-if="displaymobile != '1'" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
+                                                        <a ng-show="displayCallBtn == '1'"> <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img"></a>
                                                         <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">{{value}}</span>
                                                     </span> 
                                                     <div class="col-sm-12"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
@@ -234,8 +234,8 @@
                                                     </span>
                                                     <input type="hidden" ng-mode="prevMob" name="prevMob" id="prevMob"><br>
                                                 </div>
-                                                <span ng-if="displaymobile == '-1' && mobileList" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
-                                                    <img ng-if="displayCallBtn != '-1'" src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
+                                                <span ng-if="displaymobile == '1' && mobileList" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
+                                                    <img ng-if="displayCallBtn == '1'" src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
                                                     <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">+91-xxxxxx{{  value.substring(value.length - 4, value.length)}}</span>
                                                 </span> 
                                                 <div class="col-sm-12" ng-if ="displayemail != '-1'">
@@ -555,7 +555,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <span class="input-icon icon-right">
-                                                    <button type="submit" class="btn btn-primary custom-btn" ng-click="[bookBtn = true, sbtBtn = true]; companyValidate();">Submit</button>
+                                                    <button type="submit" class="btn btn-primary custom-btn" ng-click="[bookBtn = true, sbtBtn = true]; companyValidate();" ng-disabled="disableRemarkSbt">Submit</button>
                                                 </span>
                                             </div>
                                         </div> 
@@ -855,8 +855,8 @@
                                                     <div class="row mod-sh-div" ng-show="divText">
                                                         <div class="col-sm-12">
                                                             <div id="divMyTags"><br>
-                                                                <label for="" ng-if="remarkData.sales_status_id != 4">Today's Remarks</label>
-                                                                <label for="" ng-if="remarkData.sales_status_id == 4">Lost Remarks</label>
+                                                                <label for="" ng-if="remarkData.sales_status_id != 4">Today's Remarks<span class="sp-err" >*</span></label>
+                                                                <label for="" ng-if="remarkData.sales_status_id == 4">Lost Remarks<span class="sp-err" >*</span></label>
                                                                 <div class="existingTag bordered-themeprimary">
                                                                     <div class="col-sm-12 csspadding">
                                                                         <div class="form-group">
@@ -885,7 +885,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
-                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="sbtBtn = true">Submit</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="sbtBtn = true" ng-disabled="disableRemarkSbt">Submit</button>
                                                             </div> 
                                                         </div>
                                                     </div>
@@ -940,8 +940,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
-                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]">Schedule For Later</button>
-                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]">Send Now</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]" ng-disabled="disableRemarkSbt">Schedule For Later</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]" ng-disabled="disableRemarkSbt">Send Now</button>
                                                             </div> 
                                                         </div>  
                                                     </div>
@@ -1016,8 +1016,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
-                                                                <button type="submit" class="btn btn-primary custom-btn">Schedule For Later</button>
-                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn2 = true, sbtBtn = true]">Send Now</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-disabled="disableRemarkSbt">Schedule For Later</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn2 = true, sbtBtn = true]" ng-disabled="disableRemarkSbt">Send Now</button>
                                                             </div> 
                                                         </div> 
                                                     </div>   

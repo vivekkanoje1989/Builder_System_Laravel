@@ -1496,9 +1496,9 @@ class MasterHrController extends Controller {
     public function getMenuLists() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-        $permission = $rolepermission = [];
+        $permission = [];
         $teams = array();
-
+//        $id = $input['data']['id'];
         $employeedetail = "";
         if (empty($input['data']['id']) || $input['data']['id'] == 0) {
             $getPermission = EmployeeRole::select('employee_submenus')->get();
@@ -1519,14 +1519,12 @@ class MasterHrController extends Controller {
                 $emptitle = \App\Models\MlstTitle::select('title')->where('id', '=', $getPermission[0]['title_id'])->first();
                 $employeedetail = $emptitle->title . " " . $getPermission[0]['first_name'] . " " . $getPermission[0]['last_name'];
             }
-            if ($getPermission[0]['employee_submenus'] !== '') {
-                $permission = json_decode($getPermission[0]['employee_submenus'], true);
-                $rolepermission = json_decode($getPermission[0]['employee_submenus']);
-            }
+            $permission = json_decode($getPermission[0]['employee_submenus'], true);
+            $rolepermission = json_decode($getPermission[0]['employee_submenus']);
         }
-
         $getMenu = MenuItems::getMenuItems();
 
+        // print_r($getMenu[4]['submenu'][1]['submenu'][9]['id']);exit;
         if (!empty($permission)) {
             $menuItem = array();
             foreach ($getMenu as $key => $menu) {
@@ -1536,6 +1534,7 @@ class MasterHrController extends Controller {
                 }
                 foreach ($menu['submenu'] as $k1 => $child1) {
                     if ($child1['slug'] == 'Team' && count($teams) == 0) {
+                        // print_r($menu['submenu'][$k1]['submenu'][$k2]);
                         unset($menu['submenu'][$k1]);
                         continue;
                     }
@@ -1546,6 +1545,7 @@ class MasterHrController extends Controller {
                         }
                         foreach ($child1['submenu'] as $k2 => $child2) {
                             if ($child2['slug'] == 'Team' && count($teams) == 0) {
+                                // print_r($menu['submenu'][$k1]['submenu'][$k2]);
                                 unset($menu['submenu'][$k1]['submenu'][$k2]);
                                 continue;
                             }
@@ -1584,7 +1584,6 @@ class MasterHrController extends Controller {
         } else {
 
             if (count($teams) == 0) {
-                print_r($getMenu[4]['submenu'][1]['submenu'][9]);exit;
                 unset($getMenu[4]['submenu'][1]['submenu'][9]);
             }
             ksort($getMenu);
@@ -2159,7 +2158,6 @@ class MasterHrController extends Controller {
 
         $employee = new Employee();
         $employee->title_id = $request['data']['title_id'];
-       
         $employee->employee_status = $request['data']['employee_status'];
         $employee->first_name = $request['data']['first_name'];
         $employee->last_name = $request['data']['last_name'];
@@ -2242,8 +2240,7 @@ class MasterHrController extends Controller {
         else
             $employee->employee_submenus = '["0101","0102","0103","0104","0105","0106","0107"]';
 
-//        $employee->client_id = config('global.client_id');
-        $employee->client_id = 1;
+        $employee->client_id = config('global.client_id');
 
         $employee->client_role_id = 1;
         $employee->high_security_password_type = 1;

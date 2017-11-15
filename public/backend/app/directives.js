@@ -271,8 +271,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 $scope.resetBtn = true;
                                 $scope.backBtn = true;
                                 $scope.disableSource = true;
-                                console.log($(".countryClass").find(".country-list"));
-                                $(".countryClass").find(".country-list").css("display", "none");
+
+                                $(".countryClass").find(".country-list").css("display","none");
+
                                 return false;
                             }
                             $scope.hideloader();

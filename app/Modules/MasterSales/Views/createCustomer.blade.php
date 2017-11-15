@@ -142,7 +142,7 @@
                                 <div ng-show="formButton" ng-messages="customerForm.marriage_date.$error" class="help-block errMsg">
                                     <div ng-message="required">This field is required</div>
                                 </div>
-                                <div ng-if="marriage_date"class="errMsg birth_date">{{marriage_date}}</div>
+                                <div ng-if="marriage_date"class="errMsg marriage_date">{{marriage_date}}</div>
                                 </p>
                             </div>
                         </div>

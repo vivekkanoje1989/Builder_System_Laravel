@@ -114,7 +114,7 @@
                                 <span ng-message="pattern">Invalid budget</span>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.remarks.$dirty && enquiryForm.remarks.$invalid)}">
                             <label for="">Remark <span class="sp-err">*</span></label>
@@ -131,7 +131,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
-                    <div class="col-sm-3 col-xs-6" ng-if="enqType != 0">
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType != 0 || (enquiryData.id =='' && enqType == 0 )">
                         <div class="form-group">
                             <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
@@ -143,7 +143,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6" ng-if="enqType == 0">
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType == 0 && enquiryData.id !='' ">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
                             <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
@@ -233,9 +233,9 @@
                     </div>
                     <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_type == 1 && enquiryData.parking_required == 1">
                         <div class="form-group">
-                            <label for="">Number of 2 wheeler parkings required </label>{{two_wheeler_parkings_required}}
+                            <label for="">Number of 2 wheeler parkings required </label>
                             <span class="input-icon icon-right">
-                                <input class="form-control" type="text" ng-init="enquiryData.two_wheeler_parkings_required == '0' ? '01-01-1990' : enquiryData.two_wheeler_parkings_required " ng-model="enquiryData.two_wheeler_parkings_required" maxlength="5" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="two_wheeler_parkings_required">
+                                <input class="form-control" type="text"  ng-model="enquiryData.two_wheeler_parkings_required" maxlength="5" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="two_wheeler_parkings_required">
                                 <i class="fa fa-motorcycle"></i>
                             </span>
                         </div>
@@ -435,7 +435,7 @@
                 <div class="col-sm-3 col-xs-6">
                     <div class="form-group"><label for=""></label>
                         <span class="input-icon icon-right">
-                            <button type="button" class="btn btn-primary" ng-click="addProBtn = true && addProjectRow({{enquiryData.project_id}})" style="padding: 7px 5px;">Add Project</button>
+                            <button type="button" class="btn btn-primary" ng-click="addProBtn = true && addProjectRow(enquiryData.project_id)" style="padding: 7px 5px;">Add Project</button>
                         </span> 
                     </div>
                 </div>                   

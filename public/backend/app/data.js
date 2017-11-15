@@ -17,8 +17,8 @@ return{
   }
 });*/
 
-app.factory("Data", ['$http', 
-    function ($http) { // This service connects to our REST API
+app.factory("Data", ['$http', '$window',
+    function ($http, $window) { // This service connects to our REST API
  
         var serviceBase = getUrl+'/';
  
@@ -27,27 +27,47 @@ app.factory("Data", ['$http',
             return $http.get(q,{
                 headers : {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function (results) {
-                return results.data;
+                if(results.error == "Unauthenticated." || results.data.error == "Unauthenticated."){
+                    $window.location.reload();
+                    return false;
+                }else{
+                    return results.data;
+                }
             });
         };
         obj.post = function (q, object) { // q = URL, object = Post values
             return $http.post(q, object,{
                 headers : {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function (results) {
-                return results.data;
+                if(results.error == "Unauthenticated." || results.data.error == "Unauthenticated."){
+                    $window.location.reload();
+                    return false;
+                }else{
+                    return results.data;
+                }
             });
         };
         obj.put = function (q, object) {
             return $http.put(q, object,{
             }).then(function (results) {
-                return results.data;
+                if(results.error == "Unauthenticated." || results.data.error == "Unauthenticated."){
+                    $window.location.reload();
+                    return false;
+                }else{
+                    return results.data;
+                }
             });
         };
         obj.delete = function (q) {
             return $http.delete(q,{
                 headers : {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function (results) {
-                return results.data;
+                if(results.error == "Unauthenticated." || results.data.error == "Unauthenticated."){
+                    $window.location.reload();
+                    return false;
+                }else{
+                    return results.data;
+                }
             });
         };
         return obj;
