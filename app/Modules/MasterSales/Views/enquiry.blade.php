@@ -169,11 +169,13 @@
                             <div class="form-group"  ng-class="{ 'has-error' : step2 && (!enquiryForm.max_budget.$dirty && enquiryForm.max_budget.$invalid)}">
                                 <label for="">Max Budget<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input class="form-control" type="text" maxlength="7" ng-model="enquiryData.max_budget"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="max_budget" required>
+                                    <input class="form-control" type="text" minlength="6" maxlength="7" ng-model="enquiryData.max_budget"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="max_budget" required>
                                     <i class="fa fa-motorcycle"></i>
                                 </span>
                                 <div ng-show="step2" ng-messages="enquiryForm.max_budget.$error" class="help-block step2">
+                                    <div ng-message="minlength">Budget should be equal to or more than 6 digit.</div>
                                     <div ng-message="required">Please Enter Budget</div>
+                                    <span ng-message="pattern">Invalid budget</span>
                                 </div>
                             </div>
                         </div>                        

@@ -39,6 +39,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $rootScope.newEnqFlag1 = 0;
         $scope.hideOnTodayRemark = false;
 
+        $scope.$on("pixelcolor", function (event, args) {
+           alert("Manoj")
+        });
+        
+        
         $scope.todayremarkTimeChange = function (selectedDate)
         {
             var currentDate = new Date();
@@ -108,7 +113,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.$broadcast('rzSliderForceRender');
             }, 200);
         };
-        
+
 
         $scope.getModulesWiseHist = function (enquiry_id, opt, flag)
         {
@@ -119,7 +124,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $(':checkbox.chk_followup_history_all').prop('checked', true);
                 } else
                 {
-                    $(':checkbox.chk_followup_history_all').prop('checked', false);                    
+                    $(':checkbox.chk_followup_history_all').prop('checked', false);
                 }
             }
             var mhistory = [];
@@ -170,7 +175,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }
             $scope.initHistoryDataModal(enquiry_id, mhistory1, 0, flag);
         };
-        
+
         $scope.getModulesWiseHist_list = function (enquiry_id, opt, flag)
         {
             if (opt == 1)
@@ -201,23 +206,30 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }
             $scope.initHistoryDataModal(enquiry_id, mhistory1, 0, flag);
         };
-        
+
         $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, flag)
-        {console.log(moduelswisehisory)
-            if(flag === 'todayremarkFlag'){
+        {
+            if (flag === 'todayremarkFlag') {
                 if (init === 1)
                 {
                     $('.chk_followup_history_all_remark').prop('checked', true);
                     $('.chk_enquiry_history_remark').prop('checked', true);
                 }
-            }else{
+            }
+             else if (flag === 'listFlag') {
+                if (init === 1)
+                {
+                    $('.chk_followup_history_all_list').prop('checked', true);
+                    $('.chk_enquiry_history_list').prop('checked', true);
+                }
+            }else {
                 if (init === 1)
                 {
                     $(':checkbox.chk_followup_history_all').prop('checked', true);
                     $(':checkbox.chk_enquiry_history').prop('checked', true);
                 }
             }
-            
+
             Data.post('customer-care/presales/getenquiryHistory', {
                 enquiryId: enquiry_id, moduelswisehisory: moduelswisehisory
             }).then(function (response) {
@@ -240,6 +252,13 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             });
         }
+
+
+//        $scope.$on("listHistory", function (event, args) {
+//            alert('helo')
+//            $scope.initHistoryDataModal(args['id'], args['moduelswisehisory'], args['init']);
+//        });
+        
 
         $scope.gethisotryDataModal = function (enquiry_id, modules, htype) {
             /*
@@ -644,29 +663,30 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.getFilteredData = function (filterData, page, recordsperpage) {
-
             Object.keys($scope.filterData).forEach(function (key) {
                 if ($scope.filterData[key] == '')
                 {
                     delete $scope.filterData[key];
                 }
             });
-
             $scope.showloader();
             if (typeof filterData.fromDate !== 'undefined') {
                 var fdate = new Date(filterData.fromDate);
-                $scope.filterData.fromDate = (fdate.getFullYear() + '-' + ("0" + (fdate.getMonth() + 1)).slice(-2) + '-' + fdate.getDate());
-            } else if (typeof filterData.toDate !== 'undefined') {
+                $scope.filterData.fromDate = (fdate.getDate() + '-' + ("0" + (fdate.getMonth() + 1)).slice(-2) + '-' + fdate.getFullYear());
+            } 
+            if(typeof filterData.toDate !== 'undefined' ) {
                 var tdate = new Date(filterData.toDate);
-                $scope.filterData.toDate = (tdate.getFullYear() + '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getDate());
+                $scope.filterData.toDate = (tdate.getDate() + '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getFullYear());
             }
             if (typeof filterData.bookingFromDate !== 'undefined') {
                 var fbdate = new Date(filterData.bookingFromDate);
                 $scope.filterData.bookingFromDate = (fbdate.getFullYear() + '-' + ("0" + (fbdate.getMonth() + 1)).slice(-2) + '-' + fbdate.getDate());
-            } else if (typeof filterData.bookingToDate !== 'undefined') {
+            } 
+            if (typeof filterData.bookingToDate !== 'undefined') {
                 var tbdate = new Date(filterData.tbdate);
                 $scope.filterData.bookingToDate = (tbdate.getFullYear() + '-' + ("0" + (tbdate.getMonth() + 1)).slice(-2) + '-' + tbdate.getDate());
             }
+          
             Data.post('master-sales/filteredData', {filterData: filterData, pageNumber: page, itemPerPage: $scope.itemsPerPage, getProcName: $scope.getProcName, teamType: $scope.type, shared: $scope.shared}).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -792,47 +812,48 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
             });
         }
+
         
         $scope.sendDocuments = function (id)
-        {
-            $rootScope.enquiryId = id;
-            $scope.documentData.project_id = '0';
-            $timeout(function () {
-                $("li#historyTab").removeClass('active');
-                $("li#documentTab").addClass('active');
-                $("#documentTab a").trigger("click");
-                $scope.documentList(0);
-            }, 200);
-            Data.post('master-sales/sendDocuments', {enquiryId: id}).then(function (response) {
-                if (response.success)
-                {
-                    var flag = 0;
-                    $scope.documentData = angular.copy(response.records);
-                    $scope.documentData.customer_email_id = response.records.customer_email_id.split(',');
-                    if(response.records.customer_email_id !==''){
-                        if (response.records.customer_email_id.indexOf(',') > -1){
-                            var allemails = response.records.customer_email_id.split(",");
-                            for(var i=1;i<= allemails.length ; i++)
-                            {                               
-                                if(allemails[i] !=='' && allemails[i] !== null && allemails[i] !=='null' && typeof allemails[i] !== "undefined") 
-                               {
-                                   flag = flag+1;
-                               }
-                            }
-                        }else{flag = flag+1;}                        
-                    }                    
-                    if (response.records.customer_fname !== "" && response.records.customer_lname !== "" && flag > 0)
-                    {
-                        $scope.custInfo = true;
-                        $scope.documentData.project_id = 0;
-                        $scope.editableCustInfo = false;
-                    } else {
-                        $scope.custInfo = false;
-                        $scope.editableCustInfo = true;
-                    }
-                }
-            });
-        }
+       {
+           $rootScope.enquiryId = id;
+           $scope.documentData.project_id = '0';
+           $timeout(function () {
+               $("li#historyTab").removeClass('active');
+               $("li#documentTab").addClass('active');
+               $("#documentTab a").trigger("click");
+               $scope.documentList(0);
+           }, 200);
+           Data.post('master-sales/sendDocuments', {enquiryId: id}).then(function (response) {
+               if (response.success)
+               {
+                   var flag = 0;
+                   $scope.documentData = angular.copy(response.records);
+                   $scope.documentData.customer_email_id = response.records.customer_email_id.split(',');
+                   if(response.records.customer_email_id !==''){
+                       if (response.records.customer_email_id.indexOf(',') > -1){
+                           var allemails = response.records.customer_email_id.split(",");
+                           for(var i=1;i<= allemails.length ; i++)
+                           {                               
+                               if(allemails[i] !=='' && allemails[i] !== null && allemails[i] !=='null' && typeof allemails[i] !== "undefined") 
+                              {
+                                  flag = flag+1;
+                              }
+                           }
+                       }else{flag = flag+1;}                        
+                   }                    
+                   if (response.records.customer_fname !== "" && response.records.customer_lname !== "" && flag > 0)
+                   {
+                       $scope.custInfo = true;
+                       $scope.documentData.project_id = 0;
+                       $scope.editableCustInfo = false;
+                   } else {
+                       $scope.custInfo = false;
+                       $scope.editableCustInfo = true;
+                   }
+               }
+           });
+       }
 
         $scope.documentList = function (projectId)
         {
@@ -925,7 +946,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.updateCustInfo = function (custId)
         {
-            $state.go("salesUpdateCustomer", {'customerId': custId,'onlyupdate' : 1});
+            $state.go("salesUpdateCustomer", {'customerId': custId, 'onlyupdate': 1});
         }
         $scope.updateEnq = function (custId, enqId)
         {
@@ -1153,6 +1174,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $(".checkLost").hide();
                 if (id != 4) {
                     $("#footerContent").hide();
+                }else{
+                    $("#footerContent").show();
                 }
                 $scope.divEmail = false;
                 $scope.divSms = false;
@@ -1162,7 +1185,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $("#footerContent").show();
             }
         }
-
+        $scope.companyValidate = function(){
+            $scope.sbtBtn = true;
+        }
         $scope.getTodayRemarkCustomerModal = function (cid) {
             Data.post('master-sales/getCustomerDataWithId', {
                 data: {customerId: cid},
@@ -1307,7 +1332,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.getTodayRemark(enqid, followupId);
         }
         $scope.getTodayRemark = function (enqid, followupId, sharedemployee) {
-
             $scope.minDate = new Date();
             $scope.booked = $scope.collected = true;
 

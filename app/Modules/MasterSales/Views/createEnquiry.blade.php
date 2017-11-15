@@ -20,7 +20,7 @@
                                 <i class="fa fa-sort-desc"></i>                               
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.title_id.$error" class="help-block enqFormBtn">
-                                <div ng-message="required">This field is required.</div>
+                                <div ng-message="required">This field is required</div>
                             </div>
                         </div>                        
                     </div>                    
@@ -32,7 +32,7 @@
                                 <i class="fa fa-user"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.first_name.$error" class="help-block enqFormBtn">
-                                <div ng-message="required">This field is required.</div>
+                                <div ng-message="required">This field is required</div>
                             </div>
                         </div>                        
                     </div>
@@ -44,7 +44,7 @@
                                 <i class="fa fa-user"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.last_name.$error" class="help-block enqFormBtn">
-                                <div ng-message="required">This field is required.</div>
+                                <div ng-message="required">This field is required</div>
                             </div>
                         </div>                      
                     </div>
@@ -57,8 +57,8 @@
                                     <option ng-repeat="source in sourceList" value="{{source.id}}" ng-selected="{{source.id == enquiryData.source_id}}">{{source.sales_source_name}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
-                                <div ng-show="formButton" ng-messages="enquiryForm.source_id.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required.</div>
+                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.source_id.$error" class="help-block errMsg">
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="source_id" class="errMsg source_id">{{source_id}}</div>
                             </span>
@@ -78,7 +78,7 @@
                                     <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_enquiry_date.$error" class="help-block">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="sales_enquiry_date" class="sp-err blog_title">{{sales_enquiry_date}}</div>
                             </p>
@@ -95,7 +95,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_category_id.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="sales_category_id" class="sp-err blog_title">{{sales_category_id}}</div>
                             </span>
@@ -109,21 +109,19 @@
                                 <i class="fa fa-money"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.max_budget.$error" class="help-block enqFormBtn">
-                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.max_budget.$error" class="help-block enqFormBtn">
-                               <div ng-message="minlength">Budget should be equal to or more than 6 digit.</div>
-                               <div ng-message="required">This field is required.</div>
-                               <span ng-message="pattern">Please enter valid max budget</span>
-                           </div>
+                                <div ng-message="minlength">Budget should be equal to or more than 6 digit.</div>
+                                <div ng-message="required">This field is required.</div>
+                                <span ng-message="pattern">Invalid budget</span>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.remarks.$dirty && enquiryForm.remarks.$invalid)}">
                             <label for="">Remark <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <textarea class="form-control capitalize" ng-model="enquiryData.remarks" name="remarks"  ng-disabled="disableDataOnEnqUpdate" required></textarea>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.remarks.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="remarks" class="sp-err remarks">{{remarks}}</div>
                             </span>
@@ -155,7 +153,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.followup_by_employee_id.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="followup_by_employee_id" class="sp-err blog_title">{{followup_by_employee_id}}</div>
                             </span>
@@ -171,7 +169,7 @@
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.next_followup_date.$error" class="help-block">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="next_followup_date" class="sp-err blog_title">{{next_followup_date}}</div>
                                 </p>
@@ -188,7 +186,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="enqFormBtn"  ng-messages="enquiryForm.next_followup_time.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required" >This field is required.</div>
+                                    <div ng-message="required" >This field is required</div>
                                 </div>
                                 <div ng-if="next_followup_time" class="sp-err blog_title">{{next_followup_time}}</div>
                             </span>
@@ -227,7 +225,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.parking_type.$error" class="help-block">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="parking_type" class="sp-err blog_title">{{parking_type}}</div>
                             </span>
@@ -271,7 +269,7 @@
                                 </div>
                             </div>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.finance_required.$error" class="help-block">
-                                <div ng-message="required">This field is required.</div>
+                                <div ng-message="required">This field is required</div>
                             </div>                                
                         </div>
                     </div>
@@ -332,7 +330,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.city_id.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required">This field is required.</div>
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="city_id" class="sp-err blog_title">{{city_id}}</div>
                             </span>
@@ -348,7 +346,7 @@
                                 </ui-select-choices>
                             </ui-select>         
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.enquiry_locations.$valid" class="help-block enqFormBtn">
-                                <div ng-message="required">This field is required.</div>
+                                <div ng-message="required">This field is required</div>
                             </div>
                             <div ng-if="enquiry_locations" class="sp-err blog_title">{{enquiry_locations}}</div>
                         </div>
@@ -395,7 +393,7 @@
                             </select>
                             <i class="fa fa-sort-desc"></i>
                             <div ng-show="enqFormBtn" class="help-block enqFormBtn">
-                                <div ng-if="projectsDetails.length == 0">This field is required.</div>
+                                <div ng-if="projectsDetails.length == 0">This field is required</div>
                             </div>
                             <div ng-if="project_id" class="sp-err blog_title">{{project_id}}</div>
                         </span>
@@ -412,10 +410,10 @@
                             </ui-select-choices>
                         </ui-select>
                         <div ng-show="enqFormBtn" class="help-block enqFormBtn">
-                            <div ng-if="projectsDetails.length == 0">This field is required.</div>
+                            <div ng-if="projectsDetails.length == 0">This field is required</div>
                         </div>
                         <div ng-show="addProBtn" ng-messages="enquiryForm.block_id.$valid" class="help-block addProBtn">
-                            <div ng-message="required">This field is required.</div>
+                            <div ng-message="required">This field is required</div>
                         </div>
                         </span>
                     </div>
@@ -430,7 +428,7 @@
                             </ui-select-choices>
                         </ui-select>
                         <div ng-show="enqFormBtn" class="help-block enqFormBtn">
-                            <div ng-if="projectsDetails.length == 0">This field is required.</div>
+                            <div ng-if="projectsDetails.length == 0">This field is required</div>
                         </div>
                     </div>
                 </div>
