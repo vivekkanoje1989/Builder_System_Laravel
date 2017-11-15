@@ -181,11 +181,12 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['loggedInUserId']);
                 unset($input['customerData']['id']);
                 unset($input['customerData']['company_name']);
-            }            
+            } 
+            
             $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
-            $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "";
+            $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
             $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "";
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
 
@@ -280,9 +281,6 @@ class MasterSalesController extends Controller {
                 unset($getCustomerPersonalDetails[0]['pan_number']);
                 unset($getCustomerPersonalDetails[0]['aadhar_number']);
                 unset($getCustomerPersonalDetails[0]['image_file']);
-                if ($getCustomerPersonalDetails[0]['birth_date'] = '0000-00-00') {
-                    $getCustomerPersonalDetails[0]['birth_date'] = '';
-                }
                 $getCustomerEnquiryDetails = DB::select('CALL proc_get_customer_open_enquiries(' . $getCustomerContacts[0]->customer_id . ')');
                 $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
 

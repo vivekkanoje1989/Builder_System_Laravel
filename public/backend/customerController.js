@@ -503,6 +503,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
                         $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
+                        $scope.enquiryData.four_wheeler_parkings_required = (response.enquiryDetails[0].four_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].four_wheeler_parkings_required;
+                        $scope.enquiryData.two_wheeler_parkings_required = (response.enquiryDetails[0].two_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].two_wheeler_parkings_required;
+                        $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : response.enquiryDetails[0].max_budget;
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
 
@@ -785,7 +788,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.addProjectRow = function (projectId)
         {
             alert(projectId);
-            if (projectId !== "" && typeof projectId !=="undefined")
+            console.log($scope.enquiryData.block_id.length);
+            if (projectId !== "" && typeof projectId !=="undefined" && $scope.enquiryData.block_id.length > 0)
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
                 var totalBlocks = $scope.enquiryData.block_id.length;
