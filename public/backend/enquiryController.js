@@ -39,32 +39,29 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $rootScope.newEnqFlag1 = 0;
         $scope.hideOnTodayRemark = false;
 
-        $scope.$on("pixelcolor", function (event, args) {
-            alert("Manoj")
-        });
-
-
         $scope.todayremarkTimeChange = function (selectedDate)
         {
-            
-             if (typeof selectedDate == 'undefined') {
-               $scope.timeList = [];
-           } else {
-               var currentDate = new Date();
-            $scope.currentDate = (currentDate.getFullYear() + '-' + ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + currentDate.getDate());
-            var selectedDate = new Date(selectedDate);
-            $scope.selectedDate = (selectedDate.getFullYear() + '-' + ("0" + (selectedDate.getMonth() + 1)).slice(-2) + '-' + selectedDate.getDate());
-            Data.post('getnextfollowupTime', {
-                data: {currentDate: $scope.currentDate, selectedDate: $scope.selectedDate},
-            }).then(function (response) {
-                if (!response.success) {
-                    $scope.errorMsg = response.message;
-                } else {
-                    $scope.timeList = response.records;
-                }
-            });
-           }
-           
+
+            if (typeof selectedDate == 'undefined') {
+                $scope.timeList = [];
+                $scope.remarkData.next_followup_time = '';
+            } else {
+                var currentDate = new Date();
+                $scope.currentDate = (currentDate.getFullYear() + '-' + ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + currentDate.getDate());
+                var selectedDate = new Date(selectedDate);
+                $scope.selectedDate = (selectedDate.getFullYear() + '-' + ("0" + (selectedDate.getMonth() + 1)).slice(-2) + '-' + selectedDate.getDate());
+                Data.post('getnextfollowupTime', {
+                    data: {currentDate: $scope.currentDate, selectedDate: $scope.selectedDate},
+                }).then(function (response) {
+                    if (!response.success) {
+                        $scope.errorMsg = response.message;
+                    } else {
+                        $scope.timeList = response.records;
+                        $scope.remarkData.next_followup_time = '';
+                    }
+                });
+            }
+
         }
         $scope.cloudCallingLog = function (modules, employee_id, enquire_id, customer_id, sequence) {
             Data.post('cloudcallinglogs/outboundCalltrigger', {
@@ -1360,7 +1357,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.remarkData = angular.copy(response.enquiryDetails[0]);
                         $scope.remarkData.customerId = angular.copy(response.enquiryDetails[0].customerId);
                         $scope.userpermissions = angular.copy(response.userpermissions);
-                       
+
                         $("#custId").val(response.enquiryDetails[0].customerId);
 
                         if (response.enquiryDetails[0].title_id == 0 || response.enquiryDetails[0].title_id == null) {
@@ -1371,7 +1368,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.userpermissions = angular.copy(response.userpermissions);
                         $scope.displayCallBtn = response.outBoundCall;
                         $scope.displayemail = $scope.userpermissions.indexOf("01406");
-                         $scope.displaymobile=  response.displayMobile;
+                        $scope.displaymobile = response.displayMobile;
                         $scope.mobileList = response.enquiryDetails.mobileNumber;
                         $scope.emailList = response.enquiryDetails.emailId;
                         if ($scope.emailList == 'null') {

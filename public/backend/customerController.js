@@ -35,6 +35,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         {
             if (typeof selectedDate == 'undefined') {
                 $scope.timeList = [];
+                $scope.remarkData.next_followup_time = '';
             } else {
                 var currentDate = new Date();
                 $scope.currentDate = (currentDate.getFullYear() + '-' + ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + currentDate.getDate());
@@ -47,6 +48,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.errorMsg = response.message;
                     } else {
                         $scope.timeList = response.records;
+                        $scope.remarkData.next_followup_time = '';
                     }
                 });
             }
