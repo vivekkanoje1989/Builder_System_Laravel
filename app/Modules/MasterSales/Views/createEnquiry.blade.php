@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-            <input type="text" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
+            <input type="hidden" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
             <!--
             enqType ==  1 -> Quick Enquiry
             enqType ==  0 -> detailed enquiry

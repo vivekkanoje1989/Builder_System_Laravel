@@ -555,7 +555,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <span class="input-icon icon-right">
-                                                    <button type="submit" class="btn btn-primary custom-btn" ng-click="[bookBtn = true, sbtBtn = true]; companyValidate();">Submit</button>
+                                                    <button type="submit" class="btn btn-primary custom-btn" ng-click="[bookBtn = true, sbtBtn = true]; companyValidate();" ng-disabled="disableRemarkSbt">Submit</button>
                                                 </span>
                                             </div>
                                         </div> 
@@ -885,7 +885,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
-                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="sbtBtn = true">Submit</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="sbtBtn = true" ng-disabled="disableRemarkSbt">Submit</button>
                                                             </div> 
                                                         </div>
                                                     </div>
@@ -940,8 +940,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
-                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]">Schedule For Later</button>
-                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]">Send Now</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]" ng-disabled="disableRemarkSbt">Schedule For Later</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]" ng-disabled="disableRemarkSbt">Send Now</button>
                                                             </div> 
                                                         </div>  
                                                     </div>
@@ -1016,8 +1016,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
-                                                                <button type="submit" class="btn btn-primary custom-btn">Schedule For Later</button>
-                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn2 = true, sbtBtn = true]">Send Now</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-disabled="disableRemarkSbt">Schedule For Later</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn2 = true, sbtBtn = true]" ng-disabled="disableRemarkSbt">Send Now</button>
                                                             </div> 
                                                         </div> 
                                                     </div>   

@@ -1475,7 +1475,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }
         }
 
-        $scope.bookingId = '';
+        $scope.bookingId = '';$scope.disableRemarkSbt = false;
         $scope.insertTodayRemark = function (modalData, sharedemployee) {
             if ($scope.editableCustInfo == true) {
                 if (modalData.customer_fname == '' && modalData.customer_lname == '') {
@@ -1524,10 +1524,14 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             };
             $scope.sbtbtndis = true;
+            $scope.disableRemarkSbt = true;
+            
+            $scope.showloader();
             Data.post('master-sales/insertTodayRemark', {
                 data: data, custInfo: custInfo
             }).then(function (response) {
                 $scope.sbtbtndis = false;
+                $scope.hideloader();
                 if (!response.success) {
                     $scope.errorMsg = response.errorMsg;
                 } else {
@@ -1567,6 +1571,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.sharedemployee = angular.copy(sharedemployee);
                         $('#statuschk1').prop('checked', true);
                     }
+                    $("body").removeClass("modal-open");
                 }
                 return false;
             });
