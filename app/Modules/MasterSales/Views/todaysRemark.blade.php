@@ -180,7 +180,7 @@
                                                         </select>
                                                         <i class="fa fa-sort-desc"></i>
                                                         <div ng-show="sbtBtn" ng-messages="remarkForm.title_id.$error" class="help-block">
-                                                            <div ng-message="required">This field is required.</div>
+                                                            <div ng-message="required">This field is required</div>
                                                         </div>
                                                     </span>
                                                 </div>
@@ -191,7 +191,7 @@
                                                         <input type="text" placeholder="First Name" ng-model="remarkData.customer_fname" name="customer_fname" capitalization class="form-control" ng-required="editableCustInfo">
                                                         <i class="fa fa-user"></i>
                                                         <div ng-show="sbtBtn" ng-messages="remarkForm.first_name.$error" class="help-block">
-                                                            <div ng-message="required">This field is required.</div>
+                                                            <div ng-message="required">This field is required</div>
                                                         </div>
                                                     </span>
                                                 </div>
@@ -202,7 +202,7 @@
                                                         <input type="text" placeholder="Last Name" ng-model="remarkData.customer_lname" name="customer_lname" capitalization class="form-control" ng-required="editableCustInfo">
                                                         <i class="fa fa-user"></i>
                                                         <div ng-show="sbtBtn" ng-messages="remarkForm.last_name.$error" class="help-block">
-                                                            <div ng-message="required">This field is required.</div>
+                                                            <div ng-message="required">This field is required</div>
                                                         </div>
                                                     </span>
                                                 </div>
@@ -225,7 +225,7 @@
                                                                 <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeMobText()"></i>
                                                             </span>
                                                             <div ng-show="remarkData.mobile_number.length > 0" ng-messages="remarkForm.mobile_number.$error" class="help-block {{ applyClassPMobile}}">
-                                                                <div ng-message="minlength" style="color: red !important;">Length of mobile number minimum 10 digit required.</div>
+                                                                <div ng-message="minlength" style="color: red !important;">Length of mobile number minimum 10 digit required</div>
                                                                 <div ng-message="pattern" style="color: red !important;">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
                                                                 <div ng-message="uniqueMobile">Mobile number already exist</div>
                                                             </div>
@@ -267,14 +267,14 @@
                                                     </label>
                                                 </span>	
                                             </div>
-                                            <div class="col-sm-7">{{sbtBtn}}
+                                            <div class="col-sm-7">
                                                 <div class="form-group" ng-if="companyInput" ng-class="{ 'has-error' : (sbtBtn) && (!remarkForm.company_name.$dirty && remarkForm.company_name.$invalid)}">
                                                     <input type="text" class="form-control" placeholder="Company name" ng-model="remarkData.company_name" name="company_name" ng-keyup="getCompanyList(remarkData.company_name)" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" required>
                                                     <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList" >
                                                         <li ng-repeat="company in company_list| filter : remarkData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
                                                     </ul> 
                                                     <div ng-show="sbtBtn" ng-messages="remarkForm.company_name.$error" class="help-block">
-                                                        <div ng-message="required">This field is required.</div>
+                                                        <div ng-message="required">This field is required</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -311,7 +311,7 @@
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.sales_status_id.$error" class="help-block errMsg">
-                                                    <div ng-message="required">This field is required.</div>
+                                                    <div ng-message="required">This field is required</div>
                                                 </div>
                                             </span>
                                         </div>
@@ -326,7 +326,7 @@
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.sales_substatus_id.$error" class="help-block errMsg" ng-if="salesEnqSubStatusList.length != 0">
-                                                    <div ng-message="required">This field is required.</div>
+                                                    <div ng-message="required">This field is required</div>
                                                 </div>
                                             </span>
                                         </div>
@@ -341,7 +341,7 @@
                                                         <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)" ng-disabled="!booked"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.booking_date.$error" class="help-block enqFormBtn">
-                                                    <div ng-message="required">This field is required.</div>
+                                                    <div ng-message="required">This field is required</div>
                                                 </div>
                                                 </p>
                                             </div>
@@ -361,7 +361,7 @@
                                                 <i class="fa fa-sort-desc"></i>
                                             </span>
                                             <div ng-show="sbtBtn" ng-messages="remarkForm.sales_lost_reason_id.$error" class="help-block enqFormBtn">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                         </div>                    
                                     </div>
@@ -376,7 +376,7 @@
                                                 <i class="fa fa-sort-desc"></i>
                                             </span>
                                             <div ng-show="sbtBtn" ng-messages="remarkForm.sales_lost_sub_reason_id.$error" class="help-block enqFormBtn">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                         </div>
                                     </div>
@@ -393,7 +393,7 @@
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.sales_category_id.$error" class="help-block errMsg">
-                                                    <div ng-message="required">This field is required.</div>
+                                                    <div ng-message="required">This field is required</div>
                                                 </div>
                                             </span>
                                         </div>
@@ -408,7 +408,7 @@
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.sales_subcategory_id.$error" class="help-block errMsg">
-                                                    <div ng-message="required">This field is required.</div>
+                                                    <div ng-message="required">This field is required</div>
                                                 </div>
                                             </span>
                                         </div>
@@ -429,7 +429,7 @@
                                                     </span>
                                                 </p>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_date.$error" class="help-block enqFormBtn">
-                                                    <div ng-message="required">This field is required.</div>
+                                                    <div ng-message="required">This field is required</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -445,7 +445,7 @@
                                                 <i class="fa fa-sort-desc"></i>                                                
                                             </span>
                                             <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_time.$error" class="help-block">
-                                                <div ng-message="required" >This field is required.</div>
+                                                <div ng-message="required" >This field is required</div>
                                             </div>
                                         </div>
                                     </div>
@@ -468,9 +468,9 @@
 
                                 <tabset justified="true" ng-if="remarkData.sales_status_id == 3">
                                     <tab heading="Booking Details" id="bookingTab" ng-controller="projectBlocksCtrl">
-                                        <div class="row"  ng-show="remarkData.sales_status_id == 3">
+                                        <div class="row"  >
                                             <div class="col-sm-6">
-                                                <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && modelList.length != 0) && (!remarkForm.project_id.$dirty && remarkForm.project_id.$invalid)}">
+                                                <div class="form-group" ng-class="{ 'has-error' : (bookBtn && modelList.length != 0) && (!remarkForm.project_id.$dirty && remarkForm.project_id.$invalid)}">
                                                     <label for="">Project<span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <select ng-controller="projectCtrl" ng-model="remarkData.project_id" name="project_id"  id ="project_id" class="form-control" ng-change="getWings(remarkData.project_id); getBlocks(remarkData.project_id);" required>
@@ -480,12 +480,12 @@
                                                         <i class="fa fa-sort-desc"></i>                                                        
                                                     </span>
                                                     <div ng-show="bookBtn" ng-messages="remarkForm.project_id.$error" class="help-block">
-                                                        <div ng-message="required">This field is required.</div>
+                                                        <div ng-message="required">This field is required</div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
-                                                <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && wingList.length != 0) && (!remarkForm.wing_id.$dirty && remarkForm.wing_id.$invalid)}">
+                                                <div class="form-group" ng-class="{ 'has-error' : (bookBtn && wingList.length != 0) && (!remarkForm.wing_id.$dirty && remarkForm.wing_id.$invalid)}">
                                                     <label for="">Wing<span class="sp-err" ng-if="wingList.length > 0">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <select ng-model="remarkData.wing_id" id="wing_id" name="wing_id" class="form-control" ng-required="wingList.length > 0">
@@ -494,7 +494,7 @@
                                                         </select>
                                                         <i class="fa fa-sort-desc"></i>
                                                         <div ng-show="bookBtn" ng-messages="remarkForm.wing_id.$error" class="help-block">
-                                                            <div ng-message="required">This field is required.</div>
+                                                            <div ng-message="required">This field is required</div>
                                                         </div>
                                                     </span>
                                                 </div>
@@ -502,7 +502,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && blockList.length != 0) && (!remarkForm.block_id.$dirty && remarkForm.block_id.$invalid)}">
+                                                <div class="form-group" ng-class="{ 'has-error' : (bookBtn && blockList.length != 0) && (!remarkForm.block_id.$dirty && remarkForm.block_id.$invalid)}">
                                                     <label for="">Block Type<span class="sp-err" ng-if="blockList.length > 0">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <select ng-model="remarkData.block_id" id="block_id" name="block_id" class="form-control" ng-required="blockList.length > 0" ng-change="getSubBlocks(remarkData.project_id, remarkData.block_id)">
@@ -511,13 +511,13 @@
                                                         </select>
                                                         <i class="fa fa-sort-desc"></i>
                                                         <div ng-show="bookBtn" ng-messages="remarkForm.block_id.$error" class="help-block">
-                                                            <div ng-message="required">This field is required.</div>
+                                                            <div ng-message="required">This field is required</div>
                                                         </div>
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
-                                                <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && subBlockList.length != 0) && (!remarkForm.sub_block_id.$dirty && remarkForm.sub_block_id.$invalid)}">
+                                                <div class="form-group" ng-class="{ 'has-error' : (bookBtn && subBlockList.length != 0) && (!remarkForm.sub_block_id.$dirty && remarkForm.sub_block_id.$invalid)}">
                                                     <label for="">Block Sub Type<span class="sp-err" ng-if="subBlockList.length > 0">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <select ng-model="remarkData.sub_block_id" id="sub_block_id" name="sub_block_id" class="form-control" ng-required="subBlockList.length > 0">
@@ -526,7 +526,7 @@
                                                         </select>
                                                         <i class="fa fa-sort-desc"></i>
                                                         <div ng-show="bookBtn" ng-messages="remarkForm.sub_block_id.$error" class="help-block">
-                                                            <div ng-message="required">This field is required.</div>
+                                                            <div ng-message="required">This field is required</div>
                                                         </div>
                                                     </span>
                                                 </div>
@@ -544,7 +544,7 @@
                                                                     <textarea class="form-control" rows="5" cols="50" ng-model="remarkData.textRemark" name="textRemark" ng-required="divText" capitalization></textarea>
                                                                 </span>
                                                                 <div ng-show="bookBtn" ng-messages="remarkForm.textRemark.$error" class="help-block">
-                                                                    <div ng-message="required">This field is required.</div>
+                                                                    <div ng-message="required">This field is required</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -555,7 +555,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <span class="input-icon icon-right">
-                                                    <button type="submit" class="btn btn-primary custom-btn" ng-click="[bookBtn = true, sbtBtn = true]">Submit</button>
+                                                    <button type="submit" class="btn btn-primary custom-btn" ng-click="[bookBtn = true, sbtBtn = true]; companyValidate();">Submit</button>
                                                 </span>
                                             </div>
                                         </div> 
@@ -863,8 +863,8 @@
                                                                             <span class="input-icon icon-right">
                                                                                 <textarea class="form-control" rows="5" cols="50" ng-model="remarkData.textRemark" name="textRemark" ng-required="divText" capitalization></textarea>
                                                                             </span>
-                                                                            <div ng-show="sbtBtn3" ng-messages="remarkForm.textRemark.$error" class="help-block">
-                                                                                <div ng-message="required">This field is required.</div>
+                                                                            <div ng-show="sbtBtn" ng-messages="remarkForm.textRemark.$error" class="help-block">
+                                                                                <div ng-message="required">This field is required</div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -885,7 +885,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
-                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn3 = true, sbtBtn = true]">Submit</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="sbtBtn = true">Submit</button>
                                                             </div> 
                                                         </div>
                                                     </div>
@@ -908,7 +908,7 @@
                                                                             </div>
                                                                         </div><br/><br/>
                                                                         <div ng-show="sbtBtn1" ng-messages="remarkForm.mobile_number.$error" class="help-block">
-                                                                            <div ng-message="required">This field is required.</div>
+                                                                            <div ng-message="required">This field is required</div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-9">
@@ -918,7 +918,7 @@
                                                                                 <textarea class="form-control" rows="4" ng-model="remarkData.msgRemark" name="msgRemark" ng-required="divSms" capitalization></textarea>
                                                                             </span>
                                                                             <div ng-show="sbtBtn1" ng-messages="remarkForm.msgRemark.$error" class="help-block">
-                                                                                <div ng-message="required">This field is required.</div>
+                                                                                <div ng-message="required">This field is required</div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -965,7 +965,7 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div ng-show="sbtBtn2" ng-messages="remarkForm.email_id.$error" class="help-block">
-                                                                                <div ng-message="required">This field is required.</div>
+                                                                                <div ng-message="required">This field is required</div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-sm-6">
@@ -975,7 +975,7 @@
                                                                                     <input type="text" ng-model="remarkData.subject" name="subject" class="form-control" ng-required="divEmail">
                                                                                 </span>
                                                                                 <div ng-show="sbtBtn2" ng-messages="remarkForm.subject.$error" class="help-block">
-                                                                                    <div ng-message="required">This field is required.</div>
+                                                                                    <div ng-message="required">This field is required</div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -992,7 +992,7 @@
                                                                                             </div>                                                                        
                                                                                         </div>
                                                                                         <div ng-show="sbtBtn2" ng-messages="remarkForm.email_content.$error" class="help-block">
-                                                                                            <div ng-message="required">This field is required.</div>
+                                                                                            <div ng-message="required">This field is required</div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </span>
@@ -1048,7 +1048,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div ng-show="csbtBtn" ng-messages="customerForm.title_id.$error">
-                                            <div ng-message="required" style="color: red !important;">This field is required.</div>
+                                            <div ng-message="required" style="color: red !important;">This field is required</div>
                                         </div> 
                                     </span>
                                 </div>
@@ -1060,7 +1060,7 @@
                                         <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" maxlength="15" required>
                                         <i class="fa fa-user"></i>
                                         <div ng-show="csbtBtn" ng-messages="customerForm.first_name.$error" class="help-block">
-                                            <div ng-message="required" style="color: red !important;">This field is required.</div>
+                                            <div ng-message="required" style="color: red !important;">This field is required</div>
                                         </div> 
                                     </span>
                                 </div>
@@ -1081,7 +1081,7 @@
                                         <input type="text" class="form-control" ng-model="customerData.last_name" name="last_name" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" maxlength="15" required>
                                         <i class="fa fa-user"></i>
                                         <div ng-show="csbtBtn" ng-messages="customerForm.last_name.$error" class="help-block">
-                                            <div ng-message="required" style="color: red !important;">This field is required.</div>
+                                            <div ng-message="required" style="color: red !important;">This field is required</div>
                                         </div> 
                                     </span>
                                 </div>
@@ -1099,7 +1099,7 @@
                                         <i class="fa fa-sort-desc"></i>
                                         <div ng-if="gender_id" class="errMsg">{{gender_id}}</div>
                                         <div ng-show="csbtBtn" ng-messages="customerForm.gender_id.$error" class="help-block">
-                                            <div ng-message="required" style="color: red !important;">This field is required.</div>
+                                            <div ng-message="required" style="color: red !important;">This field is required</div>
                                         </div> 
                                     </span>
                                 </div>
@@ -1116,7 +1116,7 @@
                                         </p>
                                     </div>             
                                     <div ng-show="csbtBtn" ng-messages="customerForm.birth_date.$error" class="help-block">
-                                        <div ng-message="required" style="color: red !important;">This field is required.</div>
+                                        <div ng-message="required" style="color: red !important;">This field is required</div>
                                     </div> 
                                 </div>
                             </div>                        
@@ -1143,7 +1143,7 @@
                                         </select>                
                                         <i class="fa fa-sort-desc"></i>
                                         <div ng-show="csbtBtn" ng-messages="customerForm.profession_id.$error" class="help-block">
-                                            <div ng-message="required" style="color: red !important;">This field is required.</div>
+                                            <div ng-message="required" style="color: red !important;">This field is required</div>
                                         </div> 
                                     </span>
                                 </div>
