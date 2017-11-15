@@ -61,8 +61,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         
         $scope.listRecords = function(id,moduelswisehisory,init){
-            alert('hi')
-//         $rootScope.$broadcast("listHistory", {id, moduelswisehisory,init});
+           $rootScope.$broadcast("listHistory", {id, moduelswisehisory,init});
 //         $scope.$broadcast("listHistory");
          $scope.$broadcast("pixelcolor");
         }
@@ -787,8 +786,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         
         $scope.addProjectRow = function (projectId)
         {
-            alert(projectId);
-            console.log($scope.enquiryData.block_id.length);
             if (projectId !== "" && typeof projectId !=="undefined" && $scope.enquiryData.block_id.length > 0)
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
