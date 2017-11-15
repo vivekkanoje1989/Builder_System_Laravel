@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-            <input type="hidden" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
+            <input type="text" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
             <!--
             enqType ==  1 -> Quick Enquiry
             enqType ==  0 -> detailed enquiry
@@ -112,7 +112,7 @@
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.max_budget.$error" class="help-block enqFormBtn">
                                <div ng-message="minlength">Budget should be equal to or more than 6 digit.</div>
                                <div ng-message="required">This field is required.</div>
-                               <span ng-show="enquiryForm.max_budget.$error.pattern">Please enter valid max budget</span>
+                               <span ng-message="pattern">Please enter valid max budget</span>
                            </div>
                             </div>
                         </div>
@@ -133,7 +133,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
-                    <div class="col-sm-3 col-xs-6" ng-if="enqType != 0">
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType != 0 || (enquiryData.id =='' && enqType == 0 )">
                         <div class="form-group">
                             <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
@@ -145,7 +145,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6" ng-if="enqType == 0">
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType == 0 && enquiryData.id !='' ">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
                             <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">

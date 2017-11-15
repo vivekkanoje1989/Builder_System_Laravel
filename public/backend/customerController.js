@@ -267,7 +267,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
-
+            $scope.custSubmitBtn = true;
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");
@@ -775,7 +775,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         
         $scope.addProjectRow = function (projectId)
         {
-            if ((projectId !== ""))
+            alert(projectId);
+            if (projectId !== "" && typeof projectId !=="undefined")
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
                 var totalBlocks = $scope.enquiryData.block_id.length;
