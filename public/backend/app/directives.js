@@ -94,7 +94,14 @@ var compareTo = function () {
         }
     };
 };
+
+
 app.directive("compareTo", compareTo);
+
+
+
+
+
 
 app.directive('checkLoginCredentials', function ($timeout, $q, Data, $http) {
     return {
@@ -251,12 +258,12 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }, 200);
                             $scope.hideloader();
                         } else { //enquiry list of customer //customer and enquiry is exist
-
                             var url = $location.path();
                             if (url === "/sales/enquiry" || url === "/sales/quickEnquiry") {
                                 $scope.showDiv = true;
                                 $scope.showDivCustomer = false;
                                 $scope.backBtn = false;
+                                $scope.emailField = true;
                                 $scope.listsIndex = response;
                             } else {
                                 $rootScope.newEnqFlag = 0; //update existing data
@@ -333,22 +340,22 @@ app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
 });
 
 
-var checkForSameEmails = function ($scope) {
+var checkForSameEmails = function () {
     return {
         require: "ngModel",
         scope: {
-            otherModelValue: "=SameEmails"
+            otherModelValue: "=checkForSameEmails"
         },
         link: function (scope, element, attributes, ngModel) {
-            ngModel.$validators.sameEmail = function (office_email_id) {
-                var personal_email1 = $scope.userContact.personal_email1;
-                if ((typeof personal_email1 !== 'undefined') && office_email_id !== '') {
-                    return personal_email1 == office_email_id;
+            ngModel.$validators.checkForSameEmails = function (modelValue) {
+//                alert(modelValue)
+//                alert(scope.otherModelValue)
+                if ((typeof modelValue !== 'undefined') && modelValue !== '') {
+                    return modelValue != scope.otherModelValue;
                 }
-
             };
-            scope.$watch("SameEmails", function (office_email_id) {
-                if ((typeof office_email_id !== 'undefined') && office_email_id !== '') {
+            scope.$watch("otherModelValue", function (modelValue) {
+                if ((typeof modelValue !== 'undefined') && modelValue !== '') {
                     ngModel.$validate();
                 }
             });
