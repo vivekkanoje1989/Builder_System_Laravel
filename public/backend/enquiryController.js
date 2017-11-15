@@ -46,7 +46,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.todayremarkTimeChange = function (selectedDate)
         {
-            var currentDate = new Date();
+            
+             if (typeof selectedDate == 'undefined') {
+               $scope.timeList = [];
+           } else {
+               var currentDate = new Date();
             $scope.currentDate = (currentDate.getFullYear() + '-' + ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + currentDate.getDate());
             var selectedDate = new Date(selectedDate);
             $scope.selectedDate = (selectedDate.getFullYear() + '-' + ("0" + (selectedDate.getMonth() + 1)).slice(-2) + '-' + selectedDate.getDate());
@@ -59,6 +63,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.timeList = response.records;
                 }
             });
+           }
+           
         }
         $scope.cloudCallingLog = function (modules, employee_id, enquire_id, customer_id, sequence) {
             Data.post('cloudcallinglogs/outboundCalltrigger', {
@@ -372,6 +378,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
+                    $scope.outBoundCall = response.outBoundCall;
+                    $scope.displayMobile = response.displayMobile;
+                    $scope.Emailpermissions = response.displayMobile;
                 } else
                 {
                     $scope.enquiries = '';
@@ -1351,7 +1360,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.remarkData = angular.copy(response.enquiryDetails[0]);
                         $scope.remarkData.customerId = angular.copy(response.enquiryDetails[0].customerId);
                         $scope.userpermissions = angular.copy(response.userpermissions);
-                        $scope.displayCallBtn = $scope.userpermissions.indexOf("01403");
+                       
                         $("#custId").val(response.enquiryDetails[0].customerId);
 
                         if (response.enquiryDetails[0].title_id == 0 || response.enquiryDetails[0].title_id == null) {
@@ -1360,11 +1369,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
                         $scope.useremail = angular.copy(response.useremail);
                         $scope.userpermissions = angular.copy(response.userpermissions);
-                        $scope.displaymobile = $scope.userpermissions.indexOf("01406");
+                        $scope.displayCallBtn = response.outBoundCall;
                         $scope.displayemail = $scope.userpermissions.indexOf("01406");
+                         $scope.displaymobile=  response.displayMobile;
                         $scope.mobileList = response.enquiryDetails.mobileNumber;
                         $scope.emailList = response.enquiryDetails.emailId;
-
                         if ($scope.emailList == 'null') {
                             $scope.emailList = '';
                         }

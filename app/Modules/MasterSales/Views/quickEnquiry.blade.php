@@ -168,7 +168,7 @@
                                                     <br/>
                                                     <b>By followup : {{enquiry.owner_fname}} {{enquiry.owner_lname}} : </b>{{enquiry.remarks}} 
                                                     <hr class="enq-hr-line">
-                                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})">View History</a>
+                                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)">View History</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -176,81 +176,118 @@
 
                                 </div>
                                 <!-- Modal -->
-                                <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
-                                    <div class="modal-dialog modal-lg">
+                                
+                                <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1' >
+                                    <div class="modal-dialog modal-lg" >
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header navbar-inner">
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 <h4 class="modal-title" align="center">Enquiry History</h4>
                                             </div>
-                                            <div class="modal-body">
-                                                <table class="table table-hover table-striped table-bordered" at-config="config">
-                                                    <thead class="bord-bot">
-                                                        <tr>
-                                                            <th style="width:5%">Sr. No.</th>
-                                                            <th style="width: 10%">
-                                                                <a href="javascript:void(0);" ng-click="orderByField = 'first_name'; reverseSort = !reverseSort">FollowUp By 
-                                                                    <span ng-show="orderByField == 'first_name'">
-                                                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                                                    </span>
-                                                                </a>
-                                                            </th>
-                                                            <th style="width: 10%">
-                                                                <a href="javascript:void(0);" ng-click="orderByField = 'designation'; reverseSort = !reverseSort">Last FollowUp Date & Time 
-                                                                    <span ng-show="orderByField == 'designation'">
-                                                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                                                    </span>
-                                                                </a>
-                                                            </th>
-                                                            <th style="width: 10%">
-                                                                <a href="javascript:void(0);" ng-click="orderByField = 'reporting_to_id'; reverseSort = !reverseSort">Remark
-                                                                    <span ng-show="orderByField == 'reporting_to_id'">
-                                                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                                                    </span>
-                                                                </a>
-                                                            </th>
-                                                            <th style="width: 10%">
-                                                                <a href="javascript:void(0);" ng-click="orderByField = 'team_lead_id'; reverseSort = !reverseSort">Next FollowUp Date & Time
-                                                                    <span ng-show="orderByField == 'team_lead_id'">
-                                                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                                                    </span>
-                                                                </a>
-                                                            </th>
-                                                            <th style="width: 10%">
-                                                                <a href="javascript:void(0);" ng-click="orderByField = 'department_name'; reverseSort = !reverseSort">Enquiry Status
-                                                                    <span ng-show="orderByField == 'department_name'">
-                                                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                                                    </span>
-                                                                </a>
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr role="row" dir-paginate="history in historyList | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                                                            <td>{{ $index + 1}}</td>
-                                                            <td>
-                                                                {{ history.first_name}} {{ history.last_name}}
-                                                            </td>
-                                                            <td>
-                                                                {{ history.last_followup_date}}
-                                                            </td>
-                                                            <td>
-                                                                {{history.remarks}}
-                                                            </td>
-                                                            <td>
-                                                                {{ history.next_followup_date}} at {{ history.next_followup_time}}
-                                                            </td>
-                                                            <td>
-                                                                {{history.sales_status}}
-                                                            </td>
-                                                        </tr>
-                                                        <tr ng-if="!historyList.length" align="center"><td colspan="6"> Records Not Found</td>
+                                            <div class="modal-body"> 
+                                                <div>
+                                                    <label>
+                                                        <input type="checkbox" name="chk_enquiry_history_list" ng-click="getModulesWiseHist_list(history_enquiryId, 1, 'listFlag')" checked  class="chk_enquiry_history_list">
+                                                        <span class="text">All</span>
+                                                    </label>
+                                                    &nbsp;&nbsp;
+                                                    <label>
+                                                        <input type="checkbox"  ng-click="getModulesWiseHist_list(history_enquiryId, 0, 'listFlag')" data-id="1" checked class="chk_followup_history_all_list" class="chk_presales_list">
+                                                        <span class="text">Pre Sales</span>
+                                                    </label>
+                                                    &nbsp;&nbsp;
+                                                    <label>
+                                                        <input type="checkbox"  ng-click="getModulesWiseHist_list(history_enquiryId, 0, 'listFlag')" data-id="2" checked  class="chk_followup_history_all_list" class="chk_Customer_Care_list">
+                                                        <span class="text">Customer Care</span>
+                                                    </label>
+                                                    <hr class="enq-hr-line">           
+                                                    1) <span>PS = Pre Sales</span> &nbsp;&nbsp;2) <span>CC = Customer Care</span>            
+                                                    <hr class="enq-hr-line">    
+                                                </div>
 
-                                                        </tr>
+                                                <div style="height: auto;max-height: 605px;margin-top: 0px; overflow-x: hidden;overflow-y: scroll;">
+                                                    <table class="table table-hover table-striped table-bordered" at-config="config" >
+                                                        <thead class="bord-bot">
+                                                            <tr>
+                                                                <th class="enq-table-th" style="width:3%">SR</th>
+                                                                <th class="enq-table-th" style="width: 13%;">
+                                                                    Followup By 
+                                                                </th>
+                                                                <th class="enq-table-th" style="width: 13%">
+                                                                    Last  
+                                                                </th>
+                                                                <th class="enq-table-th" style="width: 13%">
+                                                                    Next
+                                                                </th>
+                                                                <th class="enq-table-th" style="width: 20%">
+                                                                    Status
+                                                                </th>
+                                                                <th class="enq-table-th" style="width: 38%">
+                                                                    Remarks
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody ng-repeat="history in historyList track by $index  | orderBy:orderByField:reverseSort">
+                                                            <tr role="row" >
+                                                                <td style="width:4%" rowspan="2">
+                                                                    {{ $index + 1}}
+                                                                </td>
+                                                                <td style="width: 10%;">
+                                                                    <div>
+                                                                        {{ history.first_name}}  {{ history.last_name}}    
+                                                                        <span>
+                                                                            <b>({{history.short_name}})</b>
+                                                                        </span>
+                                                                    </div>
 
-                                                    </tbody>
-                                                </table>
+                                                                </td>
+                                                                <td style="width: 10%">
+                                                                    {{ history.last_followup_date | split:'@':0}}<br/> @ {{ history.last_followup_date | split:'@':1 }}
+                                                                </td>
+
+
+                                                                <td style="width: 10%">
+                                                                    <span ng-if="history.next_followup_date != null && history.next_followup_date != '00-00-0000'">
+                                                                        {{ history.next_followup_date}} <br/>@ {{ history.next_followup_time}}
+                                                                    </span>
+                                                                    <span ng-if="history.next_followup_date == null || history.next_followup_date == '00-00-0000'">
+                                                                        <center>  -</center>
+                                                                    </span>
+
+                                                                </td>
+                                                                <td style="width: 8%">
+                                                                    <div ng-show="history.cc_presales_status != null">
+                                                                        {{history.cc_presales_status}} <span ng-if="history.cc_presales_substatus != null">/<br/></span>
+                                                                        {{history.cc_presales_substatus}}
+                                                                    </div>
+                                                                    <div ng-show="history.sales_status != null">
+                                                                        {{history.sales_status}} <span ng-if="history.enquiry_sales_substatus != null">/<br/></span>
+                                                                        {{history.enquiry_sales_substatus}}
+                                                                    </div>
+                                                                    <div ng-show="history.cc_presales_status == null && history.sales_status == null">
+                                                                        N/A
+                                                                    </div>
+
+                                                                </td>              
+                                                               <td style="width: 16%">
+                                                                    <span data-toggle="tooltip" title="{{history.remarks| removeHTMLTags}}">{{history.remarks| removeHTMLTags | limitTo : 150 }} </span>  
+                                                                    <span ng-if="history.remarks.length > 150" data-toggle="tooltip" title="{{history.remarks| removeHTMLTags}}">...</span>
+                                                                </td>
+                                                            </tr>
+                                                           <tr ng-if="history.call_recording_url != '' && history.call_recording_url != 'None' && history.call_recording_url != None">
+                                                                <td colspan="7">
+                                                                    <audio style="width: 600px;" id="recording_{{ history.id}}" controls></audio>
+                                                                </td>
+                                                            </tr>            
+                                                        </tbody>
+                                                         <tr ng-if="historyList.length == 0">
+                                                            <td colspan="6" class="text-align-center">
+                                                                --Record Not Found--
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </div>
                                             <div class="modal-footer" align="center">
                                             </div>
