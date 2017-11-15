@@ -143,14 +143,6 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
             $scope.enquiryData.property_possession_date = '';
         }
 
-        $scope.listRecords = function (id, moduelswisehisory, init) {
-            alert('hi')
-//         $rootScope.$broadcast("listHistory", {id, moduelswisehisory,init});
-//         $scope.$broadcast("listHistory");
-            $scope.$broadcast("pixelcolor");
-        }
-
-
         $scope.showAddress = function () {
             $scope.showaddress = false;
             $scope.hideaddress = true;
@@ -359,7 +351,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
-
+            $scope.custSubmitBtn = true;
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");
@@ -586,6 +578,10 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
                         $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
+                        $scope.enquiryData.four_wheeler_parkings_required = (response.enquiryDetails[0].four_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].four_wheeler_parkings_required;
+                        $scope.enquiryData.two_wheeler_parkings_required = (response.enquiryDetails[0].two_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].two_wheeler_parkings_required;
+                        $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : response.enquiryDetails[0].max_budget;
+                        $scope.enquiryData.next_followup_date = (response.enquiryDetails[0].next_followup_date == '0000-00-00') ? '' : response.enquiryDetails[0].next_followup_date
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
 
@@ -867,7 +863,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
 
         $scope.addProjectRow = function (projectId)
         {
-            if ((projectId !== ""))
+            if (projectId !== "" && typeof projectId !=="undefined" && $scope.enquiryData.block_id.length > 0)
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
                 var totalBlocks = $scope.enquiryData.block_id.length;
