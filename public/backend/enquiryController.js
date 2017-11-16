@@ -1486,6 +1486,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.bookingId = '';
         $scope.disableRemarkSbt = false;
         $scope.insertTodayRemark = function (modalData, sharedemployee) {
+            console.log($scope.remarkSt);            
             if ($scope.editableCustInfo == true) {
                 if (modalData.customer_fname == '' && modalData.customer_lname == '') {
                     toaster.pop('error', 'Required', 'Please update customer name');
@@ -1518,6 +1519,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 email_content: modalData.email_content,
                 subject: modalData.subject,
                 editExistingFollowup: $scope.editExistingFollowup,
+                prevRemarkStatus: $scope.remarkSt,
                 booking: {project_id: $("#project_id").val(),
                     block_id: $("#block_id").val(),
                     sub_block_id: $("#sub_block_id").val(),

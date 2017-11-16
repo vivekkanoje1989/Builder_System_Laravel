@@ -13,6 +13,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.blockTypeList = [];
         $scope.contacts = [];
         $scope.enqType = '';
+        $scope.modalForm = {};
+
 
         $scope.initmoduelswisehisory = [1, 2];
         $scope.errMobile = '';

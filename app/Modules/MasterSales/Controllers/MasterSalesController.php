@@ -1058,6 +1058,9 @@ class MasterSalesController extends Controller {
                     $input['next_followup_date'] = "0000-00-00";
                     $input['next_followup_time'] = "00:00:00";
                 } else { //open & future
+                    if($input['prevRemarkStatus'] == 'lost'){
+                        $input['sales_lost_reason_id'] = $input['sales_lost_sub_reason_id'] = '';
+                    }
                     $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
                     $input['next_followup_time'] = date('H:i:s', strtotime($input['next_followup_time']));
                 }
