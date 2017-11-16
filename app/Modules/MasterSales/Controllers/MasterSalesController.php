@@ -1578,7 +1578,7 @@ Regards,<br>
 
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-
+            
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId'])) {
                     $login_id = $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -1590,6 +1590,7 @@ Regards,<br>
                         $loggedInUserId = Auth::guard('admin')->user()->id;
                     }
                 } else {
+                    $login_id = $request['empId'];
                     $loggedInUserId = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_today_followups";
@@ -1607,11 +1608,6 @@ Regards,<br>
                         $loggedInUserId = Auth::guard('admin')->user()->id;
                     }
                     $login_id = $employees->alluser;
-//                    $login_id = Auth::guard('admin')->user()->id;
-//                    $loggedInUserId = Auth::guard('admin')->user()->id;
-//                    $this->allusers = array();
-//                    $this->getTeamIds($loggedInUserId);
-//                    $loggedInUserId = implode(',', $this->allusers);
                 } else {
                     $login_id = $request['empId'];
                     $loggedInUserId = $request['empId'];
