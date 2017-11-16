@@ -2159,6 +2159,7 @@ class MasterHrController extends Controller {
 
         $employee = new Employee();
         $employee->title_id = $request['data']['title_id'];
+       
         $employee->employee_status = $request['data']['employee_status'];
         $employee->first_name = $request['data']['first_name'];
         $employee->last_name = $request['data']['last_name'];
@@ -2241,7 +2242,8 @@ class MasterHrController extends Controller {
         else
             $employee->employee_submenus = '["0101","0102","0103","0104","0105","0106","0107"]';
 
-        $employee->client_id = config('global.client_id');
+//        $employee->client_id = config('global.client_id');
+        $employee->client_id = 1;
 
         $employee->client_role_id = 1;
         $employee->high_security_password_type = 1;

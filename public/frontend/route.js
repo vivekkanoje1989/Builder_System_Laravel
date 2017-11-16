@@ -94,6 +94,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.contact = {};
         $scope.career = {};
         $scope.projectsdata = [];
+        $scope.invalidImage = '';
         //$scope.aminities = $scope.availble = $scope.projects = [];        
         var baseUrl = 'website/';
 
@@ -672,3 +673,5 @@ app.filter('htmlToPlaintext', function () {
         return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
     };
 });
+
+

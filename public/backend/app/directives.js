@@ -94,7 +94,14 @@ var compareTo = function () {
         }
     };
 };
+
+
 app.directive("compareTo", compareTo);
+
+
+
+
+
 
 app.directive('checkLoginCredentials', function ($timeout, $q, Data, $http) {
     return {
@@ -138,13 +145,13 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
             else {
                 //$scope.showloader();
                 return Data.post('master-sales/getCustomerDetails', {
-                    data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId,customerCallingCode:customerCallingCode},
-                }).then(function (response) {  
+                    data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId, customerCallingCode: customerCallingCode},
+                }).then(function (response) {
                     if (response.success) { //response true
                         if (response.flag === 0)//if customer exist, enquiry is empty
-                        {   
+                        {
                             $scope.disableText = true;
-                            $(".countryClass").find(".country-list").css("display","none");
+                            $(".countryClass").find(".country-list").css("display", "none");
                             $scope.company_list = [];
                             var result = '';
                             $scope.showDiv = false;
@@ -264,14 +271,14 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 $scope.resetBtn = true;
                                 $scope.backBtn = true;
                                 $scope.disableSource = true;
-                                console.log($(".countryClass").find(".country-list"));
-                                $(".countryClass").find(".country-list").css("display","none");
+
+                                $(".countryClass").find(".country-list").css("display", "none");
+
                                 return false;
                             }
                             $scope.hideloader();
                         }
-                    } else {//response false    //initialise variable for new customer   
-                         
+                    } else {
                         $scope.locations = [];
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
@@ -279,13 +286,13 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                         if ($scope.searchData.searchWithMobile === undefined) {
                             $scope.searchData.searchWithMobile = '';
                         }
-                        $scope.callingCode =$("#mobile_calling_code").val();
+                        $scope.callingCode = $("#mobile_calling_code").val();
                         $scope.searchData.customerId = '';
-                        $scope.contacts = [{"mobile_calling_code": $scope.callingCode, "mobile_number": $scope.searchData.searchWithMobile, "email_id_lable": 1, "email_id": $scope.searchData.searchWithEmail, "mobile_number_lable": 1, "landline_calling_code" : "+91", "landline_lable": 1, "landline_number": ''}];
-                     
-                    $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
+                        $scope.contacts = [{"mobile_calling_code": $scope.callingCode, "mobile_number": $scope.searchData.searchWithMobile, "email_id_lable": 1, "email_id": $scope.searchData.searchWithEmail, "mobile_number_lable": 1, "landline_calling_code": "+91", "landline_lable": 1, "landline_number": ''}];
+
+                        $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
                         $scope.customerData.title_id = $scope.customerData.first_name = $scope.customerData.middle_name =
-                                $scope.customerData.last_name = 
+                                $scope.customerData.last_name =
                                 $scope.customerData.marriage_date = $scope.customerData.monthly_income =
                                 $scope.customerData.source_description = $scope.customerData.source_id = $scope.customerData.subsource_id =
                                 $scope.contactData.house_number = $scope.contactData.building_house_name =
@@ -294,9 +301,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 $scope.contactData.country_id = $scope.contactData.pin =
                                 $scope.contactData.state_id = $scope.contactData.city_id =
                                 $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
-                                var date = new Date($scope.customerData.birth_date);
-                                $scope.customerData.birth_date = ((date.getFullYear() - 100) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
-                                $scope.customerData.birth_date = "1990-01-01";
+                        var date = new Date($scope.customerData.birth_date);
+                        $scope.customerData.birth_date = ((date.getFullYear() - 100) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+                        $scope.customerData.birth_date = "1990-01-01";
                         $scope.hideloader();
                     }
                 });
@@ -332,6 +339,32 @@ app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
     }
 });
 
+
+var checkForSameEmails = function () {
+    return {
+        require: "ngModel",
+        scope: {
+            otherModelValue: "=checkForSameEmails"
+        },
+        link: function (scope, element, attributes, ngModel) {
+            ngModel.$validators.checkForSameEmails = function (modelValue) {
+//                alert(modelValue)
+//                alert(scope.otherModelValue)
+                if ((typeof modelValue !== 'undefined') && modelValue !== '') {
+                    return modelValue != scope.otherModelValue;
+                }
+            };
+            scope.$watch("otherModelValue", function (modelValue) {
+                if ((typeof modelValue !== 'undefined') && modelValue !== '') {
+                    ngModel.$validate();
+                }
+            });
+        }
+    };
+};
+
+
+app.directive("checkForSameEmails", checkForSameEmails);
 
 app.directive('ngConfirmClick', [
     function () {
@@ -489,7 +522,7 @@ app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
                 return Data.post('checkUniqueMobile1', {
                     data: {mobileData: personal_mobile1, id: employeeId},
                 }).then(function (response) {
-           
+
                     $timeout(function () {
                         model.$setValidity('uniqueMobile', !!response.success);
                     }, 1000);

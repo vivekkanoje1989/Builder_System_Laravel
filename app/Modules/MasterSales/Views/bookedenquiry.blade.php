@@ -101,8 +101,8 @@
                                     <strong ng-if="key === 'parking_required'" data-toggle="tooltip" title="Parking Required"> <strong ng-if="value == 1">Parking Required:Yes</strong>
                                         <strong ng-if="value == 0">Parking Required:No</strong>
                                     </strong>
-                                    <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
-                                    <strong ng-if="key === 'bookingFromDate'"  data-toggle="tooltip" title="Booking Date"><strong>Booking Date:</strong>{{ showFilterData.bookingFromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.bookingToDate |date:'dd-MMM-yyyy' }}</strong>
+                                    <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }}<span ng-if="showFilterData.toDate"> To</span> {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
+                                    <strong ng-if="key === 'bookingFromDate'"  data-toggle="tooltip" title="Booking Date"><strong>Booking Date:</strong>{{ showFilterData.bookingFromDate | date:'dd-MMM-yyyy' }}<span ng-if="showFilterData.bookingToDate"> To</span> {{ showFilterData.bookingToDate |date:'dd-MMM-yyyy' }}</strong>
                                     <!--<strong ng-if="key != 'channel_id' && key != 'city_id' && key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>-->
                                     <strong ng-if="key == 'max_budget' || key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key}}">{{ value}}</strong>
                                 </div>
@@ -176,7 +176,7 @@
                                         <span  ng-show="displayMobileN != '1'" class="text">{{mobile_obj}}</span>
                                     </span>
                                 </p>
-                                <p ng-if="displayEmailID" ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
+                                <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
                                     <i class="fa fa-envelope" aria-hidden="true" ng-show="all_email_list.length > 0"></i>
                                     <span ng-repeat="emailobj in all_email_list| limitTo:2">
                                         <span class="text" ng-if="emailobj!='null'">{{emailobj}}</span>

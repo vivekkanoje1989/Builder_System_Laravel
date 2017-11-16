@@ -195,223 +195,230 @@
                                                                     <label>Education Details</label>
                                                                     <input type="text" ng-model="userData.education_details" name="education_details" capitalization placeholder="Education Details"  oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')"  maxlength="50" class="form-control">
                                                                 </div>	
-                                                                <div class="col-sm-4 form-group">
+                                                                <div class="col-sm-4 col-xs-6">
                                                                     <label for="">Employee Photo ( W 105 X H 120 )</label>
-                                                                    <input type="file"ngf-select ng-model="userData.employee_photo_file_name" name="employee_photo_file_name"  ng-change="checkImageExtension(userData.employee_photo_file_name)"   ng-model-options="{ allowInvalid: true, debounce: 300 }"  id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" accept="image/x-png,image/gif,image/jpeg" >
-                                                                        <div class="img-div2" ng-show="invalidImage == ''" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
-                                                                            <img ng-src="{{list}}" style="width:100px;height: 70px" class="thumb photoPreview">
-                                                                        </div>
-                                                                        <div ng-show="sbtBtn || invalidImage" class="error_msg" ng-messages="userData.employee_photo_file_name.$error" class="help-block">
-                                                                            <div ng-if="invalidImage">{{invalidImage}}</div>
-                                                                        </div>
-                                                                </div>	
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12 clol-xs-12">
-                                                                    <h3>Contact Information</h3>							
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-4 form-group">
-                                                                    <label>Personal Mobile No. <span class="error_msg">*</span></label>
-                                                                    <input type="text"  ng-model="userData.personal_mobile1" name="personal_mobile1" ng-disabled="true" placeholder="Mobile Number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  ng-pattern="/^[0-9]{10}$/" maxlength="10" required>
-                                                                        <div ng-show="sbtBtn && frmRegistration.personal_mobile1.$invalid" ng-messages="frmRegistration.personal_mobile1.$error" class="help-block">
-                                                                            <div ng-message="required" class="error_msg">This field is required</div>
-                                                                            <div ng-message="pattern" class="error_msg">Mobile number should be valid & 10 digits</div>
-                                                                            <div ng-message="maxlength" class="error_msg">Maximum 10 digit are Allowed</div> 
-                                                                        </div>
-                                                                </div>
-                                                                <div class="col-sm-4 form-group">
-                                                                    <label>Office Mobile No. </label>
-                                                                    <input type="text"  ng-model="userData.office_mobile_no" name="office_mobile_no" placeholder="Mobile Number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  ng-pattern="/^[7-9][0-9]{9}$/" maxlength="10">
-                                                                        <div ng-show="sbtBtn && frmRegistration.office_mobile_no.$invalid" ng-messages="frmRegistration.office_mobile_no.$error" class="help-block">
-                                                                            <div ng-message="pattern" class="error_msg">Mobile number should be valid & 10 digits</div>
-                                                                        </div>
-                                                                </div>	
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-4 form-group">
-                                                                    <label>Personal Email  <span class="error_msg">*</span></label>
-                                                                    <input type="text" ng-model="userData.personal_email1" ng-disabled="true" name="personal_email1" ng-disabled="true" class="form-control" check-unique-email ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"  ng-disabled="true" maxlength="45" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
-                                                                        <i class="fa fa-envelope"></i>
-                                                                        <div ng-show="sbtBtn && frmRegistration.personal_email1.$invalid" ng-messages="userForm.personal_email1.$error" class="help-block">
-                                                                            <div ng-message="required" class="error_msg">This field is required</div>
-                                                                            <div ng-message="pattern" class="error_msg">Invalid email address</div>                                                                               
-                                                                            <div ng-message="maxlength" class="error_msg">Maximum 45 Character are Allowed</div> 
-                                                                        </div>
-                                                                </div>	
-                                                                <div class="col-sm-4 form-group">
-                                                                    <label>Office Email</label>
-                                                                    <input type="text" ng-model="userData.office_email_id"  placeholder="Office Email" name="office_email_id" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" maxlength="45" >
-                                                                        <i class="fa fa-envelope"></i>
-                                                                        <div ng-show="sbtBtn && frmRegistration.office_email_id.$invalid" ng-messages="userForm.personal_email1.$error" class="help-block">
+                                                                    <span class="input-icon icon-right">
+                                                                        <input type="file" ngf-select ng-model="userData.employee_photo_file_name" id="employee_photo_file_name" value="Select photo" ng-change="checkImageExtension(userData.employee_photo_file_name)" name="employee_photo_file_name"   ng-model-options="{ allowInvalid: true, debounce: 300 }"  id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"   accept="image/x-png,image/gif,image/jpeg,image/bmp" >
+                                                                            <div ng-show="step3 || invalidImage" ng-messages="frmRegistration.employee_photo_file_name.$error" class="help-block step5">
+                                                                                <div ng-if="invalidImage">{{invalidImage}}</div>
+                                                                            </div>
+                                                                            <img ng-src="{{image_source}}" class="thumb photoPreview"> 
+                                                                                <div ng-if="imgUrl" > <img ng-if="employee_photo_file_name_preview.length != 1"  ng-src="[[ Config('global.s3Path') ]]/employee-photos/{{ imgUrl}}"  alt="{{ altName}}"  class="thumb photoPreview"/></div>
 
-                                                                            <div ng-message="pattern" class="error_msg">Invalid email address</div>                                                                               
-                                                                            <div ng-message="maxlength" class="error_msg">Maximum 45 Character are Allowed</div> 
-                                                                        </div>
-                                                                </div>			
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12 clol-xs-12">
-                                                                    <h3>Correspondence Address </h3>
-                                                                </div>
+                                                                                </span> 
+                                                                                <div class="img-div2" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
+                                                                                    <img ng-src="{{list}}" class="thumb photoPreview">
+                                                                                </div>
+                                                                                </div>	
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12 clol-xs-12">
+                                                                                        <h3>Contact Information</h3>							
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-4 form-group">
+                                                                                        <label>Personal Mobile No. <span class="error_msg">*</span></label>
+                                                                                        <input type="text"  ng-model="userData.personal_mobile1" name="personal_mobile1" ng-disabled="true" placeholder="Mobile Number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  ng-pattern="/^[0-9]{10}$/" maxlength="10" required>
+                                                                                            <div ng-show="sbtBtn && frmRegistration.personal_mobile1.$invalid" ng-messages="frmRegistration.personal_mobile1.$error" class="help-block">
+                                                                                                <div ng-message="required" class="error_msg">This field is required</div>
+                                                                                                <div ng-message="pattern" class="error_msg">Mobile number should be valid & 10 digits</div>
+                                                                                                <div ng-message="maxlength" class="error_msg">Maximum 10 digit are Allowed</div> 
+                                                                                            </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-4 form-group">
+                                                                                        <label>Office Mobile No. </label>
+                                                                                        <input type="text"  ng-model="userData.office_mobile_no" name="office_mobile_no" placeholder="Mobile Number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  ng-pattern="/^[7-9][0-9]{9}$/" maxlength="10">
+                                                                                            <div ng-show="sbtBtn && frmRegistration.office_mobile_no.$invalid" ng-messages="frmRegistration.office_mobile_no.$error" class="help-block">
+                                                                                                <div ng-message="pattern" class="error_msg">Mobile number should be valid & 10 digits</div>
+                                                                                            </div>
+                                                                                    </div>	
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-4 form-group">
+                                                                                        <label>Personal Email  <span class="error_msg">*</span></label>
+                                                                                        <input type="text" ng-model="userData.personal_email1" ng-disabled="true" name="personal_email1"  ng-change="checkForSameEmails" ng-disabled="true" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"  ng-disabled="true" maxlength="45" required >
+                                                                                            <i class="fa fa-envelope"></i>
+                                                                                            <div ng-show="sbtBtn && frmRegistration.personal_email1.$invalid" ng-messages="userForm.personal_email1.$error" class="help-block">
+                                                                                                <div ng-message="required" class="error_msg">This field is required</div>
+                                                                                                <div ng-message="pattern" class="error_msg">Invalid email address</div>                                                                               
+                                                                                                <div ng-message="maxlength" class="error_msg">Maximum 45 Character are Allowed</div> 
+                                                                                                <div ng-message="checkForSameEmails">Email address must not be same.</div>
+                                                                                            </div>
+                                                                                    </div>	
+                                                                                    <div class="col-sm-4 form-group">
+                                                                                        <label>Office Email</label>
+                                                                                        <!--check-for-same-emails="userData.personal_email1"-->
+                                                                                        <input type="text" ng-model="userData.office_email_id"     ng-model-options="{ allowInvalid: true, debounce: 300 }"  placeholder="Office Email" name="office_email_id" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" maxlength="45" >
+                                                                                            <i class="fa fa-envelope"></i>
+                                                                                            <div ng-show="sbtBtn && frmRegistration.office_email_id.$invalid" ng-messages="userForm.office_email_id.$error" class="help-block">
+                                                                                                <div ng-message="pattern" class="error_msg">Invalid email address</div>                                                                               
+                                                                                                <div ng-message="maxlength" class="error_msg">Maximum 45 Character are Allowed</div> 
+<!--                                                                                                <div ng-message="checkForSameEmails">Email address must not be same.</div>-->
+                                                                                            </div>
+                                                                                    </div>			
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12 clol-xs-12">
+                                                                                        <h3>Correspondence Address </h3>
+                                                                                    </div>
 
-                                                                <div class="col-md-12 clol-xs-12">
-                                                                    <hr>	
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>Address <span class="error_msg">*</span></label>
-                                                                <textarea rows="3" class="form-control" ng-model="userData.current_address" name="current_address" class="form-control" maxlength="250" oninput="if (/[^A-Za-z 0-9.,]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z 0-9.,]/g,'')" required></textarea>
-                                                                <div ng-show="sbtBtn && frmRegistration.current_address.$invalid" ng-messages="frmRegistration.current_address.$error" class="help-block">
-                                                                    <div ng-message="required" class="error_msg">This field is required</div>
-                                                                    <div ng-message="maxlength" class="error_msg">Maximum 250 Character are Allowed</div> 
-                                                                </div>
-                                                            </div>	
-                                                            <div class="row" ng-controller="currentCountryListCtrl">
-                                                                <div class="col-sm-4 form-group">
-                                                                    <label>Country <span class="error_msg">*</span></label>
+                                                                                    <div class="col-md-12 clol-xs-12">
+                                                                                        <hr>	
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label>Address <span class="error_msg">*</span></label>
+                                                                                    <textarea rows="3" class="form-control" ng-model="userData.current_address" name="current_address" class="form-control" maxlength="250" oninput="if (/[^A-Za-z 0-9.,]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z 0-9.,]/g,'')" required></textarea>
+                                                                                    <div ng-show="sbtBtn && frmRegistration.current_address.$invalid" ng-messages="frmRegistration.current_address.$error" class="help-block">
+                                                                                        <div ng-message="required" class="error_msg">This field is required</div>
+                                                                                        <div ng-message="maxlength" class="error_msg">Maximum 250 Character are Allowed</div> 
+                                                                                    </div>
+                                                                                </div>	
+                                                                                <div class="row" ng-controller="currentCountryListCtrl">
+                                                                                    <div class="col-sm-4 form-group">
+                                                                                        <label>Country <span class="error_msg">*</span></label>
 
-                                                                    <select ng-change="onCountryChange()" ng-model="userData.current_country_id" name="current_country_id" id="current_country_id" class="form-control" required>
-                                                                        <option value="">Select Country</option>
-                                                                        <option ng-repeat="country in countryList track by $index" value="{{country.id}}" data-sortname ="{{country.sortname}}" data-phonecode="{{country.phonecode}}" ng-selected="{{ country.id == userData.current_country_id}}">{{country.name}}</option>
-                                                                    </select>
-                                                                    <div ng-show="sbtBtn && frmRegistration.current_country_id.$invalid" ng-messages="frmRegistration.current_country_id.$error" class="help-block">
-                                                                        <div ng-message="required" class="error_msg">This field is required</div>
-                                                                    </div>
-                                                                </div>	
-                                                                <div class="col-sm-4 form-group">
-                                                                    <label>State <span class="error_msg">*</span></label>                                                                        
-                                                                    <select ng-model="userData.current_state_id" ng-change="onStateChange()" name="current_state_id" id="current_state_id" class="form-control" required>
-                                                                        <option value="">Select State</option>
-                                                                        <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == userData.current_state_id}}">{{state.name}}</option>
-                                                                    </select>
-                                                                    <div ng-show="sbtBtn && frmRegistration.current_state_id.$invalid" ng-messages="frmRegistration.current_state_id.$error" class="help-block">
-                                                                        <div ng-message="required" class="error_msg">This field is required</div>
-                                                                    </div>
-                                                                </div>	
-                                                                <div class="col-sm-4 form-group">
-                                                                    <label>City <span class="error_msg">*</span></label>
-                                                                    <select ng-model="userData.current_city_id" name="current_city_id" class="form-control" required>
-                                                                        <option value="">Select City</option>
-                                                                        <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == userData.current_city_id}}">{{city.name}}</option>
-                                                                    </select>
-                                                                    <div ng-show="sbtBtn && frmRegistration.current_city_id.$invalid" ng-messages="frmRegistration.current_city_id.$error" class="help-block">
-                                                                        <div ng-message="required" class="error_msg">This field is required</div>
-                                                                    </div>
-                                                                </div>		
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-4 form-group">								
-                                                                    <label>Pin code <span class="error_msg">*</span></label>
-                                                                    <input type="text" ng-model="userData.current_pin" name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  minlength="6"  maxlength="6" required>
-                                                                        <div ng-show="sbtBtn && frmRegistration.current_pin.$invalid" ng-messages="frmRegistration.current_pin.$error" class="help-block">
-                                                                            <div ng-message="required" class="error_msg">This field is required</div>
-                                                                            <div ng-message="minlength" class="error_msg">Too short (Minimum length is 6 digit)</div>
-                                                                            <div ng-message="maxlength" class="error_msg">Too short (Maximum length is 6 digit)</div>
-                                                                        </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12 clol-xs-12">
-                                                                    <h3>Permanent Address</h3>	
-                                                                </div>
-                                                                <div class="col-md-12 clol-xs-12">
-                                                                    <hr>	
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>Address <span class="error_msg">*</span></label>
-                                                                <textarea rows="3" class="form-control" ng-model="userData.permenent_address" name="permenent_address" class="form-control" maxlength="250" oninput="if (/[^A-Za-z 0-9.,]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z 0-9.,]/g,'')" required></textarea>
-                                                                <div ng-show="sbtBtn && frmRegistration.permenent_address.$invalid" ng-messages="frmRegistration.permenent_address.$error" class="help-block">
-                                                                    <div ng-message="required" class="error_msg">This field is required.</div>
-                                                                    <div ng-message="maxlength" class="error_msg">Maximum 250 Character are Allowed.</div> 
-                                                                </div>
-                                                            </div>	
-                                                            <div class="row" ng-controller="permanentCountryListCtrl">
-                                                                <div class="col-sm-4 form-group">
-                                                                    <label>Country <span class="error_msg">*</span></label>
+                                                                                        <select ng-change="onCountryChange()" ng-model="userData.current_country_id" name="current_country_id" id="current_country_id" class="form-control" required>
+                                                                                            <option value="">Select Country</option>
+                                                                                            <option ng-repeat="country in countryList track by $index" value="{{country.id}}" data-sortname ="{{country.sortname}}" data-phonecode="{{country.phonecode}}" ng-selected="{{ country.id == userData.current_country_id}}">{{country.name}}</option>
+                                                                                        </select>
+                                                                                        <div ng-show="sbtBtn && frmRegistration.current_country_id.$invalid" ng-messages="frmRegistration.current_country_id.$error" class="help-block">
+                                                                                            <div ng-message="required" class="error_msg">This field is required</div>
+                                                                                        </div>
+                                                                                    </div>	
+                                                                                    <div class="col-sm-4 form-group">
+                                                                                        <label>State <span class="error_msg">*</span></label>                                                                        
+                                                                                        <select ng-model="userData.current_state_id" ng-change="onStateChange()" name="current_state_id" id="current_state_id" class="form-control" required>
+                                                                                            <option value="">Select State</option>
+                                                                                            <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == userData.current_state_id}}">{{state.name}}</option>
+                                                                                        </select>
+                                                                                        <div ng-show="sbtBtn && frmRegistration.current_state_id.$invalid" ng-messages="frmRegistration.current_state_id.$error" class="help-block">
+                                                                                            <div ng-message="required" class="error_msg">This field is required</div>
+                                                                                        </div>
+                                                                                    </div>	
+                                                                                    <div class="col-sm-4 form-group">
+                                                                                        <label>City <span class="error_msg">*</span></label>
+                                                                                        <select ng-model="userData.current_city_id" name="current_city_id" class="form-control" required>
+                                                                                            <option value="">Select City</option>
+                                                                                            <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == userData.current_city_id}}">{{city.name}}</option>
+                                                                                        </select>
+                                                                                        <div ng-show="sbtBtn && frmRegistration.current_city_id.$invalid" ng-messages="frmRegistration.current_city_id.$error" class="help-block">
+                                                                                            <div ng-message="required" class="error_msg">This field is required</div>
+                                                                                        </div>
+                                                                                    </div>		
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-4 form-group">								
+                                                                                        <label>Pin code <span class="error_msg">*</span></label>
+                                                                                        <input type="text" ng-model="userData.current_pin" name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  minlength="6"  maxlength="6" required>
+                                                                                            <div ng-show="sbtBtn && frmRegistration.current_pin.$invalid" ng-messages="frmRegistration.current_pin.$error" class="help-block">
+                                                                                                <div ng-message="required" class="error_msg">This field is required</div>
+                                                                                                <div ng-message="minlength" class="error_msg">Too short (Minimum length is 6 digit)</div>
+                                                                                                <div ng-message="maxlength" class="error_msg">Too short (Maximum length is 6 digit)</div>
+                                                                                            </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12 clol-xs-12">
+                                                                                        <h3>Permanent Address</h3>	
+                                                                                    </div>
+                                                                                    <div class="col-md-12 clol-xs-12">
+                                                                                        <hr>	
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label>Address <span class="error_msg">*</span></label>
+                                                                                    <textarea rows="3" class="form-control" ng-model="userData.permenent_address" name="permenent_address" class="form-control" maxlength="250" oninput="if (/[^A-Za-z 0-9.,]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z 0-9.,]/g,'')" required></textarea>
+                                                                                    <div ng-show="sbtBtn && frmRegistration.permenent_address.$invalid" ng-messages="frmRegistration.permenent_address.$error" class="help-block">
+                                                                                        <div ng-message="required" class="error_msg">This field is required.</div>
+                                                                                        <div ng-message="maxlength" class="error_msg">Maximum 250 Character are Allowed.</div> 
+                                                                                    </div>
+                                                                                </div>	
+                                                                                <div class="row" ng-controller="permanentCountryListCtrl">
+                                                                                    <div class="col-sm-4 form-group">
+                                                                                        <label>Country <span class="error_msg">*</span></label>
 
-                                                                    <select ng-change="onPCountryChange()" ng-model="userData.permenent_country_id" name="permenent_country_id" id="permenent_country_id" class="form-control" required>
-                                                                        <option value="">Select Country</option>
-                                                                        <option ng-repeat="country in countryList track by $index" value="{{country.id}}" data-sortname ="{{country.sortname}}" data-phonecode="{{country.phonecode}}" ng-selected="{{ country.id == userData.permenent_country_id}}">{{country.name}}</option>
-                                                                    </select>
-                                                                    <div ng-show="sbtBtn && frmRegistration.permenent_country_id.$invalid" ng-messages="frmRegistration.permenent_country_id.$error" class="help-block">
-                                                                        <div ng-message="required" class="error_msg">This field is required</div>
-                                                                    </div>
-                                                                </div>	
-                                                                <div class="col-sm-4 form-group">
-                                                                    <label>State <span class="error_msg">*</span></label>                                                                        
-                                                                    <select ng-model="userData.permenent_state_id" ng-change="onPStateChange()" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
-                                                                        <option value="">Select State</option>
-                                                                        <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == userData.permenent_state_id}}">{{state.name}}</option>
-                                                                    </select>
-                                                                    <div ng-show="sbtBtn && frmRegistration.permenent_state_id.$invalid" ng-messages="frmRegistration.permenent_state_id.$error" class="help-block">
-                                                                        <div ng-message="required" class="error_msg">This field is required</div>
-                                                                    </div>
-                                                                </div>	
-                                                                <div class="col-sm-4 form-group">
-                                                                    <label>City <span class="error_msg">*</span></label>
-                                                                    <select ng-model="userData.permenent_city_id" name="permenent_city_id" class="form-control" required>
-                                                                        <option value="">Select City</option>
-                                                                        <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == userData.permenent_city_id}}">{{city.name}}</option>
-                                                                    </select>
-                                                                    <div ng-show="sbtBtn && frmRegistration.permenent_city_id.$invalid" ng-messages="frmRegistration.permenent_city_id.$error" class="help-block">
-                                                                        <div ng-message="required" class="error_msg">This field is required</div>
-                                                                    </div>
-                                                                </div>		
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-4 form-group">								
-                                                                    <label>Pin code <span class="error_msg">*</span></label>
-                                                                    <input type="text" ng-model="userData.permenent_pin" name="permenent_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  minlength="6"  maxlength="6" required>
-                                                                        <div ng-show="sbtBtn && frmRegistration.permenent_pin.$invalid" ng-messages="frmRegistration.permenent_pin.$error" class="help-block">
-                                                                            <div ng-message="required" class="error_msg">This field is required</div>
-                                                                            <div ng-message="minlength" class="error_msg">Too short (Minimum length is 6 digit)</div>
-                                                                            <div ng-message="maxlength" class="error_msg">Too short (Maximum length is 6 digit)</div>
-                                                                        </div>
-                                                                </div>
-                                                            </div>		
-                                                            <br>
-                                                                <p ng-show="pls_wait" style="color:green">Please wait...</p>
-                                                                <button type="submit" ng-disabled="isDisabled" class="btn btn-lg btn-info" ng-click="sbtBtn = true">Submit</button>
-                                                        </div>
-                                                    </form> 
-                                                </div>
+                                                                                        <select ng-change="onPCountryChange()" ng-model="userData.permenent_country_id" name="permenent_country_id" id="permenent_country_id" class="form-control" required>
+                                                                                            <option value="">Select Country</option>
+                                                                                            <option ng-repeat="country in countryList track by $index" value="{{country.id}}" data-sortname ="{{country.sortname}}" data-phonecode="{{country.phonecode}}" ng-selected="{{ country.id == userData.permenent_country_id}}">{{country.name}}</option>
+                                                                                        </select>
+                                                                                        <div ng-show="sbtBtn && frmRegistration.permenent_country_id.$invalid" ng-messages="frmRegistration.permenent_country_id.$error" class="help-block">
+                                                                                            <div ng-message="required" class="error_msg">This field is required</div>
+                                                                                        </div>
+                                                                                    </div>	
+                                                                                    <div class="col-sm-4 form-group">
+                                                                                        <label>State <span class="error_msg">*</span></label>                                                                        
+                                                                                        <select ng-model="userData.permenent_state_id" ng-change="onPStateChange()" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
+                                                                                            <option value="">Select State</option>
+                                                                                            <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == userData.permenent_state_id}}">{{state.name}}</option>
+                                                                                        </select>
+                                                                                        <div ng-show="sbtBtn && frmRegistration.permenent_state_id.$invalid" ng-messages="frmRegistration.permenent_state_id.$error" class="help-block">
+                                                                                            <div ng-message="required" class="error_msg">This field is required</div>
+                                                                                        </div>
+                                                                                    </div>	
+                                                                                    <div class="col-sm-4 form-group">
+                                                                                        <label>City <span class="error_msg">*</span></label>
+                                                                                        <select ng-model="userData.permenent_city_id" name="permenent_city_id" class="form-control" required>
+                                                                                            <option value="">Select City</option>
+                                                                                            <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == userData.permenent_city_id}}">{{city.name}}</option>
+                                                                                        </select>
+                                                                                        <div ng-show="sbtBtn && frmRegistration.permenent_city_id.$invalid" ng-messages="frmRegistration.permenent_city_id.$error" class="help-block">
+                                                                                            <div ng-message="required" class="error_msg">This field is required</div>
+                                                                                        </div>
+                                                                                    </div>		
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-4 form-group">								
+                                                                                        <label>Pin code <span class="error_msg">*</span></label>
+                                                                                        <input type="text" ng-model="userData.permenent_pin" name="permenent_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  minlength="6"  maxlength="6" required>
+                                                                                            <div ng-show="sbtBtn && frmRegistration.permenent_pin.$invalid" ng-messages="frmRegistration.permenent_pin.$error" class="help-block">
+                                                                                                <div ng-message="required" class="error_msg">This field is required</div>
+                                                                                                <div ng-message="minlength" class="error_msg">Too short (Minimum length is 6 digit)</div>
+                                                                                                <div ng-message="maxlength" class="error_msg">Too short (Maximum length is 6 digit)</div>
+                                                                                            </div>
+                                                                                    </div>
+                                                                                </div>		
+                                                                                <br>
+                                                                                    <p ng-show="pls_wait" style="color:green">Please wait...</p>
+                                                                                    <button type="submit" ng-disabled="isDisabled" class="btn btn-lg btn-info" ng-click="sbtBtn = true">Submit</button>
+                                                                                    </div>
+                                                                                    </form> 
+                                                                                    </div>
 
-                                            </div>
-                                        </div>
-                                        <script src="/frontend/common/assets/jquery.min.js"></script>
-                                        <script src="/frontend/common/assets/bootstrap.min.js"></script>
-                                        <script src="/frontend/common/assets/jquery-ui.js"></script>	
-                                        <script src="/frontend/common/assets/intlTelInput.js"></script>
-                                        <script>
-                                                                    $(function() {
-                                                                    $("#birthdate").datepicker({
-                                                                    yearRange: '1950:2017',
-                                                                            changeYear: true,
-                                                                            changeMonth: true
-                                                                    });
-//                                                                        $("#marriagedate").datepicker({
-//                                                                        yearRange: '1950:2017',
-//                                                                                changeYear: true,
-//                                                                                changeMonth: true
-//                                                                        });
-                                                                    $("#date_of_birth").datepicker({ yearRange: '-80:-16', dateFormat: "dd-mm-yy", defaultDate:'-16y', changeMonth: true, changeYear: true});
-                                                                    $("#marriagedate").datepicker({yearRange: '-40:-0', dateFormat: "dd-mm-yy", changeMonth: true, changeYear: true, maxDate: 0, });
-                                                                    $("#perMob").intlTelInput({
-                                                                    utilsScript: "build/js/utils.js"
-                                                                    });
-                                                                    $("#officeMob").intlTelInput({
-                                                                    utilsScript: "build/js/utils.js"
-                                                                    });
-                                                                    $("#altMob").intlTelInput({
-                                                                    utilsScript: "build/js/utils.js"
-                                                                    });
-                                                                    });
-                                        </script>
-                                </body>
-                                </html>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    <script src="/frontend/common/assets/jquery.min.js"></script>
+                                                                                    <script src="/frontend/common/assets/bootstrap.min.js"></script>
+                                                                                    <script src="/frontend/common/assets/jquery-ui.js"></script>	
+                                                                                    <script src="/frontend/common/assets/intlTelInput.js"></script>
+                                                                                    <script>
+                                                                                        $(function() {
+                                                                                        $("#birthdate").datepicker({
+                                                                                        yearRange: '1950:2017',
+                                                                                                changeYear: true,
+                                                                                                changeMonth: true
+                                                                                        });
+                                                                                        //                                                                        $("#marriagedate").datepicker({
+                                                                                        //                                                                        yearRange: '1950:2017',
+                                                                                        //                                                                                changeYear: true,
+                                                                                        //                                                                                changeMonth: true
+                                                                                        //                                                                        });
+                                                                                        $("#date_of_birth").datepicker({ yearRange: '-80:-16', dateFormat: "dd-mm-yy", defaultDate:'-16y', changeMonth: true, changeYear: true});
+                                                                                        $("#marriagedate").datepicker({yearRange: '-40:-0', dateFormat: "dd-mm-yy", changeMonth: true, changeYear: true, maxDate: 0, });
+                                                                                        $("#perMob").intlTelInput({
+                                                                                        utilsScript: "build/js/utils.js"
+                                                                                        });
+                                                                                        $("#officeMob").intlTelInput({
+                                                                                        utilsScript: "build/js/utils.js"
+                                                                                        });
+                                                                                        $("#altMob").intlTelInput({
+                                                                                        utilsScript: "build/js/utils.js"
+                                                                                        });
+                                                                                        });
+                                                                                    </script>
+                                                                                    </body>
+                                                                                    </html>
 
 
 
