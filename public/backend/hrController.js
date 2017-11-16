@@ -52,8 +52,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $rootScope.roleMenuList = [];
         $scope.searchDetails = {};
         $scope.searchData = {};
-
-
         $scope.stateTwoPermanentList = [];
 
         $scope.filterDetails = function (search) {
