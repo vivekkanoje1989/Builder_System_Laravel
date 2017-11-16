@@ -38,6 +38,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.sendDocDisable = false;
         $rootScope.newEnqFlag1 = 0;
         $scope.hideOnTodayRemark = false;
+        $scope.documentExist = true;
 
         $scope.$on("pixelcolor", function (event, args) {
            alert("Manoj")
@@ -865,11 +866,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     if ($scope.documentListData.location_map_images != null && $scope.documentListData.floor_plan_images != null && $scope.documentListData.layout_plan_images != null && $scope.documentListData.amenities_images != null && $scope.documentListData.project_brochure != null && $scope.documentListData.specification_images != null && $scope.documentListData.video_link != null)
                     {
                         $scope.sendDocDisable = false;
+                        $scope.documentExist = false;
+                    }else{
+                        $scope.documentExist = true;
                     }
                 } else
                 {
                     $scope.documentListData = {};
                     $scope.sendDocDisable = true;
+                    $scope.documentExist = false;
                 }
             });
         }

@@ -85,7 +85,7 @@
                                     <div class="col-sm-12 col-xs-12 col-md-12">
                                         <div class="col-sm-4 col-xs-6">  
                                             <div class="form-group">
-                                                <label>Projects<span class="sp-err">*</span></label>
+                                                <label>Projects<span class="sp-err">*</span></label>{{documentExist}}
                                                 <span class="input-icon icon-right" ng-controller="projectCtrl">
                                                     <select ng-model="documentData.project_id"  name="project_id" class="form-control" ng-change="documentList(documentData.project_id)" required>
                                                         <option value="0">Select Project</option>
@@ -99,10 +99,10 @@
                                             </div>
                                         </div>  
                                     </div>
-                                    <div class="col-sm-12 col-xs-12 col-md-12">
+                                    <div class="col-sm-12 col-xs-12 col-md-12" >
                                         <div class="col-sm-12 col-xs-12"  ng-show="(documentListData |    json) !=    '{}'">
                                             <label> Select Documents</label><br>
-                                            <label> 
+                                            <label ng-if='documentExist'> 
                                                 &nbsp;&nbsp;&nbsp;<input type="checkbox" name="allselect" id="allselect" ng-click="chkallDocuments()">
                                                 <span class="text">Select All</span>
                                             </label>
