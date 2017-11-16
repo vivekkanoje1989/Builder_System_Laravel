@@ -187,7 +187,7 @@ class MasterSalesController extends Controller {
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
-            $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "";
+            $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "0000-00-00";
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
 
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -310,6 +310,11 @@ class MasterSalesController extends Controller {
                 $getCityID = lstEnquiryLocations::select("city_id")->where('id', '=', $getEnquiryDetails[0]['enquiry_locations'])->get();
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getEnquiryDetails[0]['customer_id'])->get();
                 $getCustomerContacts = CustomersContact::where('customer_id', '=', $getEnquiryDetails[0]['customer_id'])->get();
+                $data = Customer::select('mlc.id', 'mlc.company_name')
+                    ->where('mlc.id', '=', $getCustomerPersonalDetails[0]['company_id'])
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_companies as mlc', 'mlc.id', '=', 'customers.company_id')
+                    ->get();
+                $getCustomerPersonalDetails[0]['company_name']= $data[0]['company_name'];
                 if (count($getCustomerContacts) > 0) {
                     unset($getCustomerPersonalDetails[0]['pan_number']);
                     unset($getCustomerPersonalDetails[0]['aadhar_number']);
@@ -579,6 +584,7 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
+           // print_r($request);exit;
             unset($request['enquiryData']['mobile_calling_code']);
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;

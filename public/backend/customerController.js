@@ -386,6 +386,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
             customerPhoto.upload.then(function (response) {
                 $timeout(function () {
                     if (!response.data.success) {
+                        $scope.custSubmitBtn = false;
                         var obj = response.data.message;
                         var selector = [];
                         var sessionAttribute = $window.sessionStorage.getItem("sessionAttribute");

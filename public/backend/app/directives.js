@@ -272,14 +272,13 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 $scope.backBtn = true;
                                 $scope.disableSource = true;
 
-                                $(".countryClass").find(".country-list").css("display","none");
+                                $(".countryClass").find(".country-list").css("display", "none");
 
                                 return false;
                             }
                             $scope.hideloader();
                         }
-                    } else {//response false    //initialise variable for new customer   
-
+                    } else {
                         $scope.locations = [];
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
