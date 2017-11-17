@@ -721,7 +721,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
 
 
                             Data.post('master-sales/getCustomerDetails', {
-                                data: {customerMobileNo: $scope.searchData.searchWithMobile, customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
+                                data: {customerMobileNo: $scope.searchData.searchWithMobile, customerCallingCode:$scope.searchData.mobile_calling_code.trim(), customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
                             }).then(function (response) {
                                 $scope.showDiv = false;
                                 $scope.showDivCustomer = true;
