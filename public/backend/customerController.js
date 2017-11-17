@@ -56,7 +56,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             }
         }
 
-$scope.getModulesWiseHist_list = function (enquiry_id, opt, flag)
+        $scope.getModulesWiseHist_list = function (enquiry_id, opt, flag)
         {
             if (opt == 1)
             {
@@ -87,7 +87,7 @@ $scope.getModulesWiseHist_list = function (enquiry_id, opt, flag)
             $scope.initHistoryDataModal(enquiry_id, mhistory1, 0, flag);
         };
 
-$scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, flag)
+        $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, flag)
         {
             if (flag === 'todayremarkFlag') {
                 if (init === 1)
@@ -95,14 +95,13 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                     $('.chk_followup_history_all_remark').prop('checked', true);
                     $('.chk_enquiry_history_remark').prop('checked', true);
                 }
-            }
-             else if (flag === 'listFlag') {
+            } else if (flag === 'listFlag') {
                 if (init === 1)
                 {
                     $('.chk_followup_history_all_list').prop('checked', true);
                     $('.chk_enquiry_history_list').prop('checked', true);
                 }
-            }else {
+            } else {
                 if (init === 1)
                 {
                     $(':checkbox.chk_followup_history_all').prop('checked', true);
@@ -132,7 +131,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                 }
             });
         }
-        
+
 
         $scope.manageQuickEnquiry = function (id) {
             $scope.searchData.mobile_calling_code = '+91';
@@ -890,7 +889,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
 
         $scope.addProjectRow = function (projectId)
         {
-            if (projectId !== "" && typeof projectId !=="undefined" && $scope.enquiryData.block_id.length > 0)
+            if (projectId !== "" && typeof projectId !== "undefined" && $scope.enquiryData.block_id.length > 0)
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
                 var totalBlocks = $scope.enquiryData.block_id.length;

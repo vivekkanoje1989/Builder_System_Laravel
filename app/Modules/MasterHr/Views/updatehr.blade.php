@@ -201,8 +201,9 @@
             <div class="step-pane" id="wiredstep2" ng-show="stepId == 2">	
                 <form name="userContactForm" novalidate ng-submit="userContactForm.$valid && contact && createContactForm(userContact, [[$empId]])"   >
                     <div class="form-title">
-                        Contact Information  of {{fullName}}
+                        Contact Information  of {{fullName}} 
                     </div>
+                   
                     <div class="row">
                         <div class="col-sm-6 col-xs-12">
                             <div class="row">
@@ -318,24 +319,24 @@
                                             <!--                                            check-unique-email -->
                                             <div ng-show="step2" ng-messages="userContactForm.personal_email1.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
-                                                <div ng-message="email">Invalid email address.</div>
-                                                <div ng-message="pattern">Invalid email address.</div>
-                                                <div ng-message="uniqueEmail">Email address exist. Please enter another email address!</div>
+                                                <div ng-message="email">Invalid email id.</div>
+                                                <div ng-message="pattern">Invalid email id.</div>
+                                                <div ng-message="uniqueEmail">Email id exist. Please enter another email id!</div>
                                             </div>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
-                                    <div class="form-group">{{checkForSameEmails}}
+                                    <div class="form-group">
                                         <label for=""> Office Email</label>
                                         <span class="input-icon icon-right">
                                             <!---->
                                             <input type="email" ng-model="userContact.office_email_id"  check-for-same-emails="userContact.personal_email1"  name="office_email_id" ng-change="sameEmail" id="office_email_id" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"  class="form-control" ng-model-options="{ allowInvalid: true, debounce: 300 }">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.office_email_id.$error" class="help-block step2">
-                                                <div ng-message="email">Invalid email address.</div>
-                                                <div ng-message="pattern">Invalid email address.</div>
-                                                <div ng-message="checkForSameEmails">Email address must not be same.</div>
+                                                <div ng-message="email">Invalid email id.</div>
+                                                <div ng-message="pattern">Invalid email id.</div>
+                                                <div ng-message="checkForSameEmails">Email id must not be same.</div>
                                             </div>
                                         </span>
                                     </div>
@@ -346,12 +347,12 @@
                                     <div class="form-group">
                                         <label for=""> Alternate Email</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userContact.personal_email2" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"  check-for-same-emails="userContact.personal_email1"   name="personal_email2" class="form-control">
+                                            <input type="email" ng-model="userContact.personal_email2" check-for-same-emails="userContact.personal_email1"  ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"    name="personal_email2" class="form-control">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.personal_email2.$error"  class="help-block step2">
-                                                <div ng-message="email">Invalid email address.</div>
-                                                <div ng-message="pattern">Invalid email address.</div>
-                                                <div ng-message="checkForSameEmails">Email address must not be same.</div>
+                                                <div ng-message="email">Invalid email id.</div>
+                                                <div ng-message="pattern">Invalid email id.</div>
+                                                <div ng-message="checkForSameEmails">Email id must not be same.</div>
                                             </div>
                                         </span>
                                     </div>
