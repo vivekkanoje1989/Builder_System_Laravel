@@ -38,10 +38,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.sendDocDisable = false;
         $rootScope.newEnqFlag1 = 0;
         $scope.hideOnTodayRemark = false;
-
+        
         $scope.todayremarkTimeChange = function (selectedDate)
         {
-
             if (typeof selectedDate == 'undefined') {
                 $scope.timeList = [];
                 $scope.remarkData.next_followup_time = '';
@@ -61,8 +60,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     }
                 });
             }
-
-        }
+        };
+        
         $scope.cloudCallingLog = function (modules, employee_id, enquire_id, customer_id, sequence) {
             Data.post('cloudcallinglogs/outboundCalltrigger', {
                 modules: modules, employee_id: employee_id, enquire_id: enquire_id, customer_id: customer_id, sequence: sequence
@@ -178,7 +177,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }
             $scope.initHistoryDataModal(enquiry_id, mhistory1, 0, flag);
         };
-
+        
         $scope.getModulesWiseHist_list = function (enquiry_id, opt, flag)
         {
             if (opt == 1)

@@ -339,10 +339,10 @@ app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
     }
 });
 
-
-var checkForSameEmails = function () {
+app.directive("checkForSameEmails", function () {
     return {
         require: "ngModel",
+        restrict: 'AE',
         scope: {
             otherModelValue: "=checkForSameEmails"
         },
@@ -361,10 +361,7 @@ var checkForSameEmails = function () {
             });
         }
     };
-};
-
-
-app.directive("checkForSameEmails", checkForSameEmails);
+});
 
 app.directive('ngConfirmClick', [
     function () {

@@ -834,7 +834,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                         var selector = [];
                         for (var key in obj) {
                             var model = $parse(key);// Get the model
-                            model.assign($scope, obj[key][0]);// Assigns a value to it
+//                            model.assign($scope, obj[key][0]);// Assigns a value to it
                             selector.push(key);
                         }
                     }

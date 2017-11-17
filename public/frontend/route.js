@@ -95,6 +95,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         $scope.career = {};
         $scope.projectsdata = [];
         $scope.invalidImage = '';
+        $scope.checkForSameEmails = '';
         //$scope.aminities = $scope.availble = $scope.projects = [];        
         var baseUrl = 'website/';
 
@@ -274,7 +275,6 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
             {
                 userdata.marriage_date = "";
             }
-
             if (typeof userdata.employee_photo_file_name == "undefined" || typeof userdata.employee_photo_file_name == "string")
             {
                 userdata.employee_photo_is_available = 0;
@@ -512,6 +512,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         }
 
         $scope.checkImageExtension = function (employeePhoto) {
+            alert(typeof employeePhoto)
             if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
                 var ext = employeePhoto.name.match(/\.(.+)$/)[1];
                 if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {

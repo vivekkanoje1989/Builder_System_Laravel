@@ -136,7 +136,6 @@ class UserController extends Controller {
         if ($userdata['marital_status'] == 2 && !empty($userdata['marriage_date'])) {
             $userdata['marriage_date'] = date('Y-m-d', strtotime($userdata['marriage_date']));
         }
-
         if (!empty($userdata['date_of_birth'])) {
             $userdata['date_of_birth'] = date('Y-m-d', strtotime($userdata['date_of_birth']));
         }
