@@ -211,16 +211,22 @@
 
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <div ng-show ="displaymobile != '1'">
+                                                <div>
                                                     <span ng-if="displaymobile != '1'" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
                                                         <a ng-show="displayCallBtn == '1'"> <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img"></a>
                                                         <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">{{value}}</span>
+                                                    </span> 
+                                                </div>
+                                                <div class="col-sm-12" ng-if="displaymobile == '1'">
+                                                    <span ng-if="displaymobile == '1' && mobileList" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
+                                                        <img ng-if="displayCallBtn == '1'" src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
+                                                        <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">+91-xxxxxx{{  value.substring(value.length - 4, value.length)}}</span>
                                                     </span> 
                                                     <div class="col-sm-12"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
                                                     <span class="input-icon icon-right" ng-if="addMob">
                                                         <div style="float: left;margin-left: 15px;width: 66%;">
                                                             <span class="input-icon icon-right">
-                                                                <input type="text && uniqueMobile" ng-model="remarkData.mobile_number" placeholder="Enter Mobile Number" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" id="mobile_number" name="mobile_number" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 500 }"
+                                                                <input type="text" ng-model="remarkData.mobile_number" placeholder="Enter Mobile Number" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" id="mobile_number" name="mobile_number" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 500 }"
                                                                        ng-change="addInfo(remarkData.customerId, remarkData.mobile_calling_code1, remarkData.mobile_number, 'mobile_number')">
                                                                 <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeMobText()"></i>
                                                             </span>
@@ -234,10 +240,7 @@
                                                     </span>
                                                     <input type="hidden" ng-mode="prevMob" name="prevMob" id="prevMob"><br>
                                                 </div>
-                                                <span ng-if="displaymobile == '1' && mobileList" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
-                                                    <img ng-if="displayCallBtn == '1'" src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
-                                                    <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">+91-xxxxxx{{  value.substring(value.length - 4, value.length)}}</span>
-                                                </span> 
+                                                
                                                 <div class="col-sm-12" ng-if ="displayemail != '-1'">
                                                     <span ng-if="emailList.length > 0" ng-repeat="(key, value) in emailList track by $index" style="float: left;  margin: 7px 20px 5px 0px;">    
                                                         <i class="fa fa-envelope" aria-hidden="true" ng-if="value != 'null'"></i>
@@ -307,7 +310,7 @@
                                             <span class="input-icon icon-right">
                                                 <select class="form-control" ng-model="remarkData.sales_status_id" name="sales_status_id" id="sales_status_id" ng-change="getSubStatus(remarkData.sales_status_id)" ng-click="hideIcon(remarkData.sales_status_id)" required ng-disabled="!booked">
                                                     <option value="">Select Status</option>
-                                                    <option ng-repeat="list in salesEnqStatusList" ng-if="list.id != 1" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>          
+                                                    <option ng-repeat="list in salesEnqStatusList" ng-if="remarkSt='lost' ? (list.id == 2 || list.id == 4) : (list.id != 1)" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.sales_status_id.$error" class="help-block errMsg">
@@ -898,11 +901,12 @@
                                                                     <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label for="">Select mobile number <span class="sp-err">*</span></label>
-                                                                            <div class="control-group" ng-style="{'overflow-y': mobileList.length > 2 ? 'scroll' : 'none'}" style="min-height: 75px;">                                                            
+                                                                            <div class="control-group" ng-style="{'overflow-y': mobileList.length > 2 ? 'scroll' : 'none'}" style="min-height: 75px;"> 
                                                                                 <div class="checkbox" ng-repeat="mlist in mobileList track by $index">
                                                                                     <label>
                                                                                         <input type="checkbox" ng-model="mobile_number" name="mobile_number" ng-change="checkedMobileNo(mlist, $index)" value="{{mlist}}" id="mob_{{$index}}" class="clsMobile" ng-required="divSms">
-                                                                                        <span class="text">{{mlist}}</span>
+                                                                                        <span class="text" ng-if="displaymobile == '1'">xxxxxx{{ mlist.substring(mlist.length - 4, mlist.length) }}</span>
+                                                                                        <span class="text" ng-if="displaymobile != '1'">{{ mlist }}</span>
                                                                                     </label>
                                                                                 </div>
                                                                             </div>

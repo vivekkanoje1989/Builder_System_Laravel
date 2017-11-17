@@ -411,6 +411,7 @@
                                 <option value="">Select status </option>
                                 <option value="1">Active </option>
                                 <option value="2">Temporary Suspended </option>
+                                <option value="3">Permanent Suspended </option>
                             </select>
 
                         </span>    

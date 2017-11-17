@@ -297,9 +297,12 @@
                                 <span ng-if="enquiry.sub_reason != null && enquiry.sub_reason != ''" data-toggle="tooltip" title="{{enquiry.sub_reason}}">
                                     -{{ enquiry.sub_reason | limitTo : 45 }}                                        
                                 </span>
-                                <span ng-if="enquiry.reason > 45" data-toggle="tooltip" title="{{enquiry.reason}}">...</span>                                                                        
-                                <hr class="enq-hr-line">
+                                <span ng-if="enquiry.reason > 45" data-toggle="tooltip" title="{{enquiry.reason}}">...</span>
                             </span> 
+                            <hr class="enq-hr-line">
+                            <div>
+                                <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'',sharedemployee)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Today's Remark</a>
+                            </div>
                         </td>
                         </tr>
                         <tr ng-show="(enquiries|filter:search).length == 0 || enquiriesLength == 0 ">
@@ -328,6 +331,21 @@
                                 <h4 class="modal-title" align="center">Enquiry History</h4>
                             </div>
                             <div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
+                            <div class="modal-footer" align="center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Today remark model =============================================================================-->
+                <div class="modal fade modal-primary" id="todayremarkDataModal" role="dialog" tabindex='-1'>
+                    <div class="modal-dialog modal-lg">
+                        <!-- Modal content-->
+                        <div class="modal-content" ng-init="remarkSt='lost'">
+                            <div class="modal-header navbar-inner">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" align="center">Today's Remarks</h4>
+                            </div>
+                            <div data-ng-include=" '/MasterSales/todaysRemark'"></div>
                             <div class="modal-footer" align="center">
                             </div>
                         </div>
