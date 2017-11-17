@@ -1406,12 +1406,12 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         if ($scope.editExistingFollowup == true) {
                             $scope.remarkData.textRemark = response.enquiryDetails[0].remarks;
                         }
-                        if (response.enquiryDetails[0].sales_status_id == 1) {
+                        if (response.enquiryDetails[0].sales_status_id == 1 || response.enquiryDetails[0].sales_status_id == 0) {
                             $scope.remarkData.sales_status_id = "";
                         } else {
                             $scope.remarkData.sales_status_id = response.enquiryDetails[0].sales_status_id;
                         }
-                        if (response.enquiryDetails[0].sales_category_id == 1) {
+                        if (response.enquiryDetails[0].sales_category_id == 1 || response.enquiryDetails[0].sales_category_id == 0) {
                             $scope.remarkData.sales_category_id = "";
                         } else {
                             $scope.remarkData.sales_category_id = response.enquiryDetails[0].sales_category_id;
@@ -1495,7 +1495,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.bookingId = '';
         $scope.disableRemarkSbt = false;
         $scope.insertTodayRemark = function (modalData, sharedemployee) {
-            console.log($scope.remarkSt);            
             if ($scope.editableCustInfo == true) {
                 if (modalData.customer_fname == '' && modalData.customer_lname == '') {
                     toaster.pop('error', 'Required', 'Please update customer name');
