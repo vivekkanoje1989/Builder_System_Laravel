@@ -176,7 +176,7 @@
                             </div>                            
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6">
+                    <div class="col-sm-3 col-xs-6">------------------------------{{ enquiryData.next_followup_time}}
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_time.$dirty && enquiryForm.next_followup_time.$invalid)}">
                             <label for="">Time<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
