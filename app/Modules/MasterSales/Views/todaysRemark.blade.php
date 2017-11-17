@@ -310,7 +310,7 @@
                                                 <select class="form-control" ng-model="remarkData.sales_status_id" name="sales_status_id" id="sales_status_id" ng-change="getSubStatus(remarkData.sales_status_id)" ng-click="hideIcon(remarkData.sales_status_id)" required ng-disabled="!booked">
                                                     <option value="">Select Status</option>
                                                     <option ng-repeat="list in salesEnqStatusList" ng-if="remarkSt == '' && (list.id != 1)" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>
-                                                    <option ng-repeat="list in salesEnqStatusList" ng-if="remarkSt == 'lost' && (list.id == 2) || (list.id == 4)" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>
+                                                    <option ng-repeat="list in salesEnqStatusList" ng-if="remarkSt == 'lost' && ((list.id == 2) || (list.id == 4))" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.sales_status_id.$error" class="help-block errMsg">
@@ -901,7 +901,7 @@
                                                                     <div class="col-sm-3">
                                                                         <div class="form-group">
                                                                             <label for="">Select mobile number <span class="sp-err">*</span></label>
-                                                                            <div class="control-group" ng-style="{'overflow-y': mobileList.length > 2 ? 'scroll' : 'none'}" style="min-height: 75px;"> 
+                                                                            <div class="control-group" ng-style="{'overflow-y': mobileList.length > 2 ? 'scroll' : 'none'}" style="height: 75px;"> 
                                                                                 <div class="checkbox" ng-repeat="mlist in mobileList track by $index">
                                                                                     <label>
                                                                                         <input type="checkbox" ng-model="mobile_number" name="mobile_number" ng-change="checkedMobileNo(mlist, $index)" value="{{mlist}}" id="mob_{{$index}}" class="clsMobile" ng-required="divSms">
