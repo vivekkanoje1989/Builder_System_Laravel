@@ -187,7 +187,7 @@ class MasterSalesController extends Controller {
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
-            $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "";
+            $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "0000-00-00";
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
 
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -302,14 +302,27 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
+            
             $enquiryId = !empty($request['data']['enquiryId']) ? $request['data']['enquiryId'] : "0";
             $customerId = !empty($request['data']['customerId']) ? $request['data']['customerId'] : "0";
             $getEnquiryDetails = DB::select('CALL proc_get_enquiry_details(' . $customerId . ',' . $enquiryId . ')');
+            
+            $getEnquiryDetails= json_decode(json_encode($getEnquiryDetails),true);
+            //
             if (count($getEnquiryDetails) > 0) {
-                $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails), true);
                 $getCityID = lstEnquiryLocations::select("city_id")->where('id', '=', $getEnquiryDetails[0]['enquiry_locations'])->get();
+                
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getEnquiryDetails[0]['customer_id'])->get();
+                
                 $getCustomerContacts = CustomersContact::where('customer_id', '=', $getEnquiryDetails[0]['customer_id'])->get();
+                
+                $data = Customer::select('mlc.id', 'mlc.company_name')
+                    ->where('mlc.id', '=', $getCustomerPersonalDetails[0]['company_id'])
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_companies as mlc', 'mlc.id', '=', 'customers.company_id')
+                    ->get();
+                if(count($data) > 0){
+                    $getCustomerPersonalDetails[0]['company_name']= $data[0]['company_name'];
+                }
                 if (count($getCustomerContacts) > 0) {
                     unset($getCustomerPersonalDetails[0]['pan_number']);
                     unset($getCustomerPersonalDetails[0]['aadhar_number']);
@@ -329,6 +342,7 @@ class MasterSalesController extends Controller {
                             unset($projectDetails[$i]);
                         }
                     }
+                    if(!empty($getCityID))
                     $cityId = !empty(json_decode(json_encode($getCityID), true)) ? $getCityID[0]["city_id"] : '';
 
                     $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, "enquiryDetails" => $getEnquiryDetails, "projectDetails" => $projectDetails, "city_id" => $cityId];
@@ -579,6 +593,7 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
+           // print_r($request);exit;
             unset($request['enquiryData']['mobile_calling_code']);
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -1058,6 +1073,9 @@ class MasterSalesController extends Controller {
                     $input['next_followup_date'] = "0000-00-00";
                     $input['next_followup_time'] = "00:00:00";
                 } else { //open & future
+                    if($input['prevRemarkStatus'] == 'lost'){
+                        $input['sales_lost_reason_id'] = $input['sales_lost_sub_reason_id'] = '';
+                    }
                     $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
                     $input['next_followup_time'] = date('H:i:s', strtotime($input['next_followup_time']));
                 }

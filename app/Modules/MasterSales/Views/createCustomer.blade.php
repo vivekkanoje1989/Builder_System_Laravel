@@ -211,14 +211,13 @@
                     <div class="col-sm-3 col-md-3 col-xs-12" >
                         <div class="form-group" ng-if="companyInput">
                             <label for="">Company Name<span class="sp-err">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Company name"  ng-minlength="5" maxlength="50"  name="company_name" ng-model="customerData.company_name" ng-keyup="getCompanyList(customerData.company_name)" ng-required="companyInput == '1'">
+                            <input type="text" class="form-control" placeholder="Enter Company name" maxlength="50"  name="company_name" ng-model="customerData.company_name" ng-keyup="getCompanyList(customerData.company_name)" ng-required="companyInput == '1'">
                             <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList">
                                 <li ng-repeat="company in company_list| filter : customerData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
                             </ul> 
                             <div ng-show="formButton" ng-messages="customerForm.company_name.$error" class="help-block">
                                 <div ng-message="required" style="color: red !important;">This field is required</div>
                                 <div ng-message="maxlength" style="color: red !important;">Maximum 50 Characters Allowed</div>
-                                <div ng-message="minlength" style="color: red !important;">Minimum 5 and maximum 50 Characters Allowed</div>
                             </div>
                         </div>
                     </div>

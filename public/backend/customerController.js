@@ -13,6 +13,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.blockTypeList = [];
         $scope.contacts = [];
         $scope.enqType = '';
+        $scope.modalForm = {};
+
 
         $scope.initmoduelswisehisory = [1, 2];
         $scope.errMobile = '';
@@ -35,7 +37,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         {
             if (typeof selectedDate == 'undefined') {
                 $scope.timeList = [];
-                $scope.remarkData.next_followup_time = '';
+                $scope.enquiryData.next_followup_time = '';
             } else {
                 var currentDate = new Date();
                 $scope.currentDate = (currentDate.getFullYear() + '-' + ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + currentDate.getDate());
@@ -48,7 +50,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.errorMsg = response.message;
                     } else {
                         $scope.timeList = response.records;
-                        $scope.remarkData.next_followup_time = '';
+                        $scope.enquiryData.next_followup_time = '';
                     }
                 });
             }
@@ -384,6 +386,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
             customerPhoto.upload.then(function (response) {
                 $timeout(function () {
                     if (!response.data.success) {
+                        $scope.custSubmitBtn = false;
                         var obj = response.data.message;
                         var selector = [];
                         var sessionAttribute = $window.sessionStorage.getItem("sessionAttribute");

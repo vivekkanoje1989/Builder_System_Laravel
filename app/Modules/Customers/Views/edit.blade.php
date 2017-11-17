@@ -44,7 +44,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.first_name.$dirty && customerForm.first_name.$invalid)}">
                                         <label for="">First Name <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="customerData.first_name" name="first_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15"  required>
+                                            <input type="text" ng-model="customerData.first_name"  maxlength="20" name="first_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15"  required>
                                             <i class="fa fa-user"></i>
                                             <div ng-show="sbtBtn" ng-messages="customerForm.first_name.$error" class="help-block">
                                                 <div ng-message="required">This field is required.</div>
@@ -58,7 +58,7 @@
                                     <div class="form-group">
                                         <label for="">Middle Name</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="customerData.middle_name" name="middle_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" >
+                                            <input type="text" ng-model="customerData.middle_name"  maxlength="20" name="middle_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" >
                                             <i class="fa fa-user"></i>
                                         </span>
                                     </div>
@@ -67,7 +67,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.last_name.$dirty && customerForm.last_name.$invalid)}">
                                         <label for="">Last Name <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="customerData.last_name" name="last_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15"  required>
+                                            <input type="text" ng-model="customerData.last_name"  maxlength="20" name="last_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15"  required>
                                             <i class="fa fa-user"></i>
                                             <div ng-show="sbtBtn" ng-messages="customerForm.last_name.$error" class="help-block">
                                                 <div ng-message="required">This field is required.</div>
@@ -96,33 +96,25 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-xs-6">
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.profession_id.$dirty && customerForm.profession_id.$invalid)}">
-                                        <label for="">Profession <span class="sp-err">*</span></label>
+                                    <div class="form-group" >
+                                        <label for="">Profession </label>
                                         <span class="input-icon icon-right">
-                                            <select ng-controller="professionCtrl" ng-model="customerData.profession_id" name="profession_id" class="form-control" required>
+                                            <select ng-controller="professionCtrl" ng-model="customerData.profession_id" name="profession_id" class="form-control">
                                                 <option value="">Select Title</option>
                                                 <option ng-repeat="profession in professions" ng-selected="customerData.profession_id == profession.id"  value="{{profession.id}}">{{profession.profession}}</option>
                                             </select>
-                                            <i class="fa fa-sort-desc"></i>
-                                            <div ng-show="sbtBtn" ng-messages="customerForm.profession_id.$error" class="help-block">
-                                                <div ng-message="required">This field is required.</div>
-                                            </div>
-                                            <div ng-if="profession_id" class="sp-err profession_id">{{profession_id}}</div>
+                                            <i class="fa fa-sort-desc"></i>                                            
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-xs-6">
                                     <div class="form-group">
-                                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.monthly_income.$dirty && customerForm.monthly_income.$invalid)}">
-                                            <label for="">Monthly Income<span class="sp-err">*</span></label>
+                                        <div class="form-group" >
+                                            <label for="">Monthly Income</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>                                    
+                                                <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
                                                 <i class="fa fa-money"></i>
-                                            </span>
-                                            <div ng-show="sbtBtn" ng-messages="customerForm.monthly_income.$error" class="help-block">
-                                                <div ng-message="required">This field is required.</div>
-                                            </div>
-                                            <div ng-if="monthly_income" class="sp-err monthly_income">{{monthly_income}}</div>
+                                            </span>                                            
                                         </div>
                                     </div>
                                 </div>                        
@@ -132,7 +124,7 @@
                                         <div class="form-group">
                                             <label for="">Aadhar Card Number<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" ng-maxlength="12" ng-minlength="12" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
+                                                <input type="text" ng-model="customerData.aadhar_number" maxlength="12" name="aadhar_number" ng-maxlength="12" ng-minlength="12" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                                                 <i class="fa fa-credit-card" aria-hidden="true"></i>
                                                 <div ng-show="sbtBtn" ng-messages="customerForm.aadhar_number.$error" class="help-block">
                                                     <div ng-message="required">This field is required.</div>
@@ -151,7 +143,7 @@
                                         <div class="form-group">
                                             <label for="">Pan Card Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control">
+                                                <input type="text" ng-model="customerData.pan_number" name="pan_number" maxlength="20" class="form-control">
                                            <i class="fa fa-credit-card" aria-hidden="true"></i>
                                             </span>
                                         </div>
@@ -252,7 +244,7 @@
 
                                 <div class="col-sm-3 col-xs-12">
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.source_description.$dirty && requestLeave.source_description.$invalid) }">
-                                        <label>Source Description</label>
+                                        <label>Source Description<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <textarea ng-model="customerData.source_description" name="source_description" class="form-control" maxlength="300"></textarea>
                                         </span>

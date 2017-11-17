@@ -38,7 +38,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.sendDocDisable = false;
         $rootScope.newEnqFlag1 = 0;
         $scope.hideOnTodayRemark = false;
-        
+        $scope.documentExist = true;
         $scope.todayremarkTimeChange = function (selectedDate)
         {
             if (typeof selectedDate == 'undefined') {
@@ -871,53 +871,63 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     if ($scope.documentListData.location_map_images != null && $scope.documentListData.floor_plan_images != null && $scope.documentListData.layout_plan_images != null && $scope.documentListData.amenities_images != null && $scope.documentListData.project_brochure != null && $scope.documentListData.specification_images != null && $scope.documentListData.video_link != null)
                     {
                         $scope.sendDocDisable = false;
+                        $scope.documentExist = true;
+                    }else{
+                        $scope.documentExist = false;
                     }
                 } else
                 {
                     $scope.documentListData = {};
                     $scope.sendDocDisable = true;
+                    $scope.documentExist = false;
                 }
             });
         }
 
         $scope.insertSendDocument = function (documentdata)
         {
-            var flag = [];
-            $(".chkDocList").each(function (key, value) {
-                if ($(this).is(':checked')) {
-                    var str = $(this).val();
-                    flag.push(str);
-                } else {
-                }
-            });
-            $scope.sendDocDisable = true;
-            $scope.SelectedDocs = flag;
-            Data.post('master-sales/insertSendDocument', {documentData: documentdata, isUpdate: $scope.editableCustInfo, sendDocument: $scope.SelectedDocs, enquiry_id: $rootScope.enquiryId, }).then(function (response) {
-                $scope.sendDocDisable = false;
-                if (response.success)
-                {
-                    toaster.pop('success', 'Sent Documents', "Document Sent successfully");
-                    $("#sendDocumentDataModal").toggle('fast');
-                    //$('#sendDocumentDataModal').modal('toggle');
-                    $state.transitionTo($state.current, $stateParams, {
-                        reload: true, //reload current page
-                        inherit: false, //if set to true, the previous param values are inherited
-                        notify: true //reinitialise object
-                    });
-                    $(".modal-backdrop").hide();
-                } else
-                {
-                    toaster.pop('error', 'Sent Documents', "Error While Document Sent");
-                    $('#sendDocumentDataModal').modal('hide');
-                    $state.transitionTo($state.current, $stateParams, {
-                        reload: true, //reload current page
-                        inherit: false, //if set to true, the previous param values are inherited
-                        notify: true //reinitialise object
-                    });
-                    $(".modal-backdrop").hide();
-                }
-                $("body").removeClass("modal-open");
-            });
+            if($('input[class="chkDocList"]:checked').length > 0)
+            {
+                var flag = [];
+                $(".chkDocList").each(function (key, value) {
+                    if ($(this).is(':checked')) {
+                        var str = $(this).val();
+                        flag.push(str);
+                    } else {
+                    }
+                });
+                $scope.sendDocDisable = true;
+                $scope.SelectedDocs = flag;
+                Data.post('master-sales/insertSendDocument', {documentData: documentdata, isUpdate: $scope.editableCustInfo, sendDocument: $scope.SelectedDocs, enquiry_id: $rootScope.enquiryId, }).then(function (response) {
+                    $scope.sendDocDisable = false;
+                    if (response.success)
+                    {
+                        toaster.pop('success', 'Sent Documents', "Document Sent successfully");
+                        $("#sendDocumentDataModal").toggle('fast');
+                        //$('#sendDocumentDataModal').modal('toggle');
+                        $state.transitionTo($state.current, $stateParams, {
+                            reload: true, //reload current page
+                            inherit: false, //if set to true, the previous param values are inherited
+                            notify: true //reinitialise object
+                        });
+                        $(".modal-backdrop").hide();
+                    } else
+                    {
+                        toaster.pop('error', 'Sent Documents', "Error While Document Sent");
+                        $('#sendDocumentDataModal').modal('hide');
+                        $state.transitionTo($state.current, $stateParams, {
+                            reload: true, //reload current page
+                            inherit: false, //if set to true, the previous param values are inherited
+                            notify: true //reinitialise object
+                        });
+                        $(".modal-backdrop").hide();
+                    }
+                    $("body").removeClass("modal-open");
+                });
+            }
+            else{
+                alert("Select documents for send");
+            }            
         }
         $scope.sendingList = function ()
         {
@@ -1485,6 +1495,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.bookingId = '';
         $scope.disableRemarkSbt = false;
         $scope.insertTodayRemark = function (modalData, sharedemployee) {
+            console.log($scope.remarkSt);            
             if ($scope.editableCustInfo == true) {
                 if (modalData.customer_fname == '' && modalData.customer_lname == '') {
                     toaster.pop('error', 'Required', 'Please update customer name');
@@ -1517,6 +1528,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 email_content: modalData.email_content,
                 subject: modalData.subject,
                 editExistingFollowup: $scope.editExistingFollowup,
+                prevRemarkStatus: $scope.remarkSt,
                 booking: {project_id: $("#project_id").val(),
                     block_id: $("#block_id").val(),
                     sub_block_id: $("#sub_block_id").val(),
