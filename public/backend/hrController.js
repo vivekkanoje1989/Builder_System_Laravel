@@ -829,8 +829,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 } else {
                     $scope.errorMsg = response.message;
                 }
-                console.log("Manoj");
-                console.log($scope.menuItems);
             });
 
         }
@@ -846,15 +844,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             });
         }
 
-//        $scope.parentfunc = function(index){
-//            alert(index)
-//            $scope.parentId =index;
-//        }
-//        $scope.childfunc = function(index){
-//            alert(index)
-//            $scope.childId =index;
-//        }
-//        
         $scope.removeEmpID = function (empId, parentId, submenuId, allChild2Id, allChild3Id, index) {
             SweetAlert.swal({
                 title: "Are you sure?", //Bold text
@@ -1189,8 +1178,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             Data.post('master-hr/updateUserRole', {
                 data: {roleId: roleId, masterRole: $rootScope.roleMenuList.menuId, role_name: role_name}
             }).then(function (response) {
-                console.log("manoj")
-                console.log(response)
                 if (response.success) {
                     toaster.pop('success', 'Role Permissions', 'Record updated successfully');
                     $state.go('manageRoles');

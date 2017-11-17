@@ -91,7 +91,7 @@
                             </div>
                         
                             <div class="col-sm-12">
-                                <div class="form-group multi-sel-div" ng-class="{ 'has-error' : modalSbtBtn && (!modalForm.floors.$dirty && modalForm.floors.$invalid)}">
+                                <div class="form-group multi-sel-div" ng-class="{ 'has-error' : (modalSbtBtn && (!modalForm.floors.$dirty && modalForm.floors.$invalid))}">
                                     <label for="">Floors<span class="sp-err">*</span></label>	
                                     <ui-select multiple ng-model="modalData.floors" name="floors" theme="select2" ng-required="required">
                                         <ui-select-match>{{$item.floorName}}</ui-select-match>
@@ -99,9 +99,7 @@
                                             {{flist.floorName}} 
                                         </ui-select-choices>
                                     </ui-select>
-                                    <div ng-show="modalSbtBtn" ng-messages="modalForm.floors.$error" class="help-block">
-                                        <div ng-message="required">This field is required</div>
-                                    </div>
+                                    <div ng-show="emptyFloorId && floorList.length > 0" class="help-block {{ applyClassFloor}}">This field is required</div>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +124,7 @@
                         </div>  
                     </div>
                 <div class="modal-footer" align="left">
-                    <button type="submit" class="btn btn-primary" ng-click="modalSbtBtn=true" ng-disabled="sbtbtnmodal">Add</button>
+                    <button type="submit" class="btn btn-primary" ng-click="modalSbtBtn=true; emptyFloorId = true;" ng-disabled="sbtbtnmodal">Add</button>
                 </div>
             </div>
         </form>

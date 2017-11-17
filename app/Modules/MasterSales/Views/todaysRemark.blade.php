@@ -302,7 +302,6 @@
                                     <div class="col-sm-6"></div>                            
                                 </div>
                                 <br/>
-
                                 <div class="row" ng-controller="salesEnqStatusCtrl">
                                     <div class="col-sm-6">
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!remarkForm.sales_status_id.$dirty && remarkForm.sales_status_id.$invalid)}">
@@ -310,7 +309,8 @@
                                             <span class="input-icon icon-right">
                                                 <select class="form-control" ng-model="remarkData.sales_status_id" name="sales_status_id" id="sales_status_id" ng-change="getSubStatus(remarkData.sales_status_id)" ng-click="hideIcon(remarkData.sales_status_id)" required ng-disabled="!booked">
                                                     <option value="">Select Status</option>
-                                                    <option ng-repeat="list in salesEnqStatusList" ng-if="remarkSt='lost' ? (list.id == 2 || list.id == 4) : (list.id != 1)" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>
+                                                    <option ng-repeat="list in salesEnqStatusList" ng-if="remarkSt == '' && (list.id != 1)" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>
+                                                    <option ng-repeat="list in salesEnqStatusList" ng-if="remarkSt == 'lost' && (list.id == 2) || (list.id == 4)" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-show="sbtBtn" ng-messages="remarkForm.sales_status_id.$error" class="help-block errMsg">
