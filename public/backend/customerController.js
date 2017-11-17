@@ -208,17 +208,22 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         
         $scope.checkEmailValue = function(){                        
-            if (typeof $scope.searchData.searchWithEmail === 'undefined' || $scope.searchData.searchWithEmail === '' || $scope.searchData.searchWithEmail === '') {
+            if (typeof $scope.searchData.searchWithEmail === 'undefined' || $scope.searchData.searchWithEmail === '') {
                 $scope.showDiv = false;
-                $scope.errMobile = false;
+                $scope.errEmail = false;
                 $scope.showDivCustomer = false;
             } else {
-                var reg = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+//                var reg = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                 if (!reg.test($scope.searchData.searchWithEmail)) {
                     $scope.errEmail = true;
+                    $scope.showDiv = false;
+                    $scope.showDivCustomer = false;
                 } else {
                     $scope.errEmail = "";
                     $scope.errEmail = false;
+                    $scope.showDiv = true;
+                    $scope.showDivCustomer = true;
                 }
             }
         }
@@ -462,6 +467,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             {
                 $state.go("salesCreate");
                 $timeout(function () {
+                    alert("if");
                     if (mobileNo !== '') {
                         $("input[name='searchWithMobile']").val(mobileNo);
                         $("input[name='searchWithMobile']").trigger("change");
@@ -472,6 +478,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }, 500);
             } else
             {
+                alert("else");
                 $window.history.back();
             }
         }

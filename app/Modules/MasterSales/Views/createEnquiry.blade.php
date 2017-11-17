@@ -182,7 +182,7 @@
                             <span class="input-icon icon-right">
                                 <select ng-model="enquiryData.next_followup_time" name="next_followup_time" id="next_followup_time" class="form-control" required="required">
                                     <option value=""> Select Time </option>
-                                    <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="time.value == enquiryData.next_followup_time">{{time.label}}</option>
+                                    <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="{{ time.value == enquiryData.next_followup_time}}">{{time.label}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="enqFormBtn"  ng-messages="enquiryForm.next_followup_time.$error" class="help-block enqFormBtn">

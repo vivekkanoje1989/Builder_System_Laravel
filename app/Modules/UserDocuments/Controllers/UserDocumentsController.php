@@ -27,8 +27,8 @@ class UserDocumentsController extends Controller {
                 ->Join('employees as db2', 'db1.id', '=', 'db2.designation_id')
                 ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
                 ->where('db2.id', '!=', $loggedInUserId)
+                ->where('db2.employee_status','=', 1)
                 ->get();
-
         if (!empty($employees)) {
             $result = ['success' => true, 'records' => $employees];
         } else {
