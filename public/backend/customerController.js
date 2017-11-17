@@ -20,7 +20,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.errMobile = '';
         $scope.customerData.sms_privacy_status = $scope.customerData.email_privacy_status = 1;
         resetContactDetails();
-        //$scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
         $scope.showDiv = $scope.enquiryList = $scope.disableSource = $scope.showDivCustomer = false;
         $scope.searchData.customerId = 0;
         $scope.hstep = 1;
@@ -50,6 +49,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.errorMsg = response.message;
                     } else {
                         $scope.timeList = response.records;
+                        if($scope.enquiryData.next_followup_time == '')
                         $scope.enquiryData.next_followup_time = '';
                     }
                 });
@@ -206,9 +206,30 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.changeEmailPrivacyStatus = function (val) {
             $scope.customerData.email_privacy_status = val;
         }
-
+        
+        $scope.checkEmailValue = function(){                        
+            if (typeof $scope.searchData.searchWithEmail === 'undefined' || $scope.searchData.searchWithEmail === '') {
+                $scope.showDiv = false;
+                $scope.errEmail = false;
+                $scope.showDivCustomer = false;
+            } else {
+//                var reg = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                if (!reg.test($scope.searchData.searchWithEmail)) {
+                    $scope.errEmail = true;
+                    $scope.showDiv = false;
+                    $scope.showDivCustomer = false;
+                } else {
+                    $scope.errEmail = "";
+                    $scope.errEmail = false;
+                    $scope.showDiv = true;
+                    $scope.showDivCustomer = true;
+                }
+            }
+        }
 
         $scope.checkValue = function () {
+           
             if (typeof $scope.searchData.searchWithMobile === 'undefined' || $scope.searchData.searchWithMobile === '' || $scope.searchData.searchWithEmail === '') {
                 $scope.showDiv = false;
                 $scope.errMobile = false;
@@ -354,7 +375,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
-            $scope.custSubmitBtn = true;
+           $scope.custSubmitBtn = true;
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");
@@ -446,6 +467,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             {
                 $state.go("salesCreate");
                 $timeout(function () {
+                    alert("if");
                     if (mobileNo !== '') {
                         $("input[name='searchWithMobile']").val(mobileNo);
                         $("input[name='searchWithMobile']").trigger("change");
@@ -456,6 +478,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }, 500);
             } else
             {
+                alert("else");
                 $window.history.back();
             }
         }
@@ -467,7 +490,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.modal = {};
         }
         $scope.manageForm = function (customerId, enquiryId, enqType) {
-
+            
             $scope.enqType = enqType;
             var date = new Date();
             $scope.enquiryData.sales_enquiry_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
@@ -506,6 +529,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
+                        $scope.searchData.searchWithEmail = response.customerPersonalDetails.get_customer_contacts[0].email_id;
                         $scope.searchData.mobile_calling_code = "+" + response.customerPersonalDetails.get_customer_contacts[0].mobile_calling_code;
 
                         if (response.customerPersonalDetails[0].monthly_income == "0")
@@ -585,7 +609,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.enquiryData.four_wheeler_parkings_required = (response.enquiryDetails[0].four_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].four_wheeler_parkings_required;
                         $scope.enquiryData.two_wheeler_parkings_required = (response.enquiryDetails[0].two_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].two_wheeler_parkings_required;
                         $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : response.enquiryDetails[0].max_budget;
-                        $scope.enquiryData.next_followup_date = (response.enquiryDetails[0].next_followup_date == '0000-00-00') ? '' : response.enquiryDetails[0].next_followup_date
+                        $scope.enquiryData.next_followup_date = (response.enquiryDetails[0].next_followup_date == '0000-00-00') ? '' : response.enquiryDetails[0].next_followup_date;
+                        $scope.enquiryData.next_followup_time = response.enquiryDetails[0].next_followup_time;
+                        $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00') ? '' : response.enquiryDetails[0].property_possession_date;
+                        
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
 
@@ -605,6 +632,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.contacts = angular.copy(response.customerContactDetails);
                         $scope.contactData = angular.copy(response.customerContactDetails);
                         $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
+                        $scope.searchData.searchWithEmail = response.customerContactDetails[0].email_id;
                         $scope.searchData.mobile_calling_code = "+" + response.customerContactDetails[0].mobile_calling_code;
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
@@ -697,6 +725,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 }
                             });
                             $rootScope.newEnqFlag = 1;
+                            if(response.customerPersonalDetails[0].gender_id === 0){
+                                $scope.customerData.gender_id = "";
+                            }
                         }, 1000);
                     }
                 });
@@ -720,7 +751,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
 
                             Data.post('master-sales/getCustomerDetails', {
-                                data: {customerMobileNo: $scope.searchData.searchWithMobile, customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
+                                data: {customerMobileNo: $scope.searchData.searchWithMobile, customerCallingCode:$scope.searchData.mobile_calling_code.trim(), customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
                             }).then(function (response) {
                                 $scope.showDiv = false;
                                 $scope.showDivCustomer = true;
@@ -919,13 +950,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             } else {
                 if (projectId == "") {
                     $scope.emptyProjectId = true;
-                }
-                if (blockId == "") {
-                    $scope.emptyBlockId = true;
-                }
-                if (subBlockId == "") {
-                    $scope.emptySubBlockId = true;
-                }
+                }                
             }
         }
         $scope.removeRow = function (rowId, enquiryDetailId) {

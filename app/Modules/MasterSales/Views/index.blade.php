@@ -67,7 +67,7 @@
                     <div class="row col-lg-12 col-sm-12 col-xs-12" >
                         <div class="col-lg-12 col-sm-12 col-xs-12">
                             <div class="form-title">
-                                Customer Details  
+                                Customer Details
                             </div>
                             <div class="row">
                                 <div class="col-sm-1 col-xs-1">
@@ -82,7 +82,7 @@
                                     <div class="form-group">
                                         <label for="">Mobile Number</label>
                                         <span class="input-icon icon-right">                                    
-                                            <input type="text" class="form-control" ng-disabled="disableText" ng-model="searchData.searchWithMobile" get-customer-details-directive minlength="10" maxlength="10" id="searchWithMobile"  ng-pattern="/^[789][0-9]{9,10}$/" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
+                                            <input type="text" class="form-control" ng-disabled="disableText" ng-model="searchData.searchWithMobile" get-customer-details-directive minlength="10" maxlength="10" id="searchWithMobile"  ng-pattern="/^[789][0-9]{9,10}$/" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(searchData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
                                             <i class="glyphicon glyphicon-phone"></i>
                                             <div ng-messages="searchData.searchWithMobile.$error" class="help-block">
                                                 <div ng-message="minlength">Invalid mobile no.</div>
@@ -97,8 +97,12 @@
                                     <div class="form-group">
                                         <label for="">Email ID</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" class="form-control" ng-disabled="disableText || emailField" get-customer-details-directive ng-model="searchData.searchWithEmail" name="searchWithEmail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkValue(customerData.searchWithEmail)">
+                                            <input type="email" class="form-control" ng-disabled="disableText || emailField" get-customer-details-directive ng-model="searchData.searchWithEmail" name="searchWithEmail" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkEmailValue(searchData.searchWithEmail)"  value="{{ searchData.searchWithEmail}}">
                                             <i class="glyphicon glyphicon-envelope"></i>
+                                            <div ng-messages="searchData.searchWithEmail.$error" class="help-block">
+                                                <div ng-message="pattern" >Invalid Email Id</div>
+                                            </div>                                            
+                                            <div ng-show="errEmail" class="sp-err">Invalid email id!</div>
                                         </span>
                                     </div>
                                     <input type="hidden" ng-model="customer_id" name="customer_id">
@@ -305,96 +309,12 @@
                                                     </table>
                                                 </div>
                                             </div>
-
-
-
-
-                                            <!--                                            <div class="modal-body">
-                                                                                            <table class="table table-hover table-striped table-bordered" at-config="config">
-                                                                                                <thead class="bord-bot">
-                                                                                                    <tr>
-                                                                                                        <th style="width:5%">Sr. No.</th>
-                                                                                                        <th style="width: 10%">
-                                                                                                            <a href="javascript:void(0);" ng-click="orderByField = 'first_name'; reverseSort = !reverseSort">FollowUp By 
-                                                                                                                <span ng-show="orderByField == 'first_name'">
-                                                                                                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                                                                                                </span>
-                                                                                                            </a>
-                                                                                                        </th>
-                                                                                                        <th style="width: 10%">
-                                                                                                            <a href="javascript:void(0);" ng-click="orderByField = 'designation'; reverseSort = !reverseSort">Last FollowUp Date & Time 
-                                                                                                                <span ng-show="orderByField == 'designation'">
-                                                                                                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                                                                                                </span>
-                                                                                                            </a>
-                                                                                                        </th>
-                                                                                                        <th style="width: 10%">
-                                                                                                            <a href="javascript:void(0);" ng-click="orderByField = 'reporting_to_id'; reverseSort = !reverseSort">Remark
-                                                                                                                <span ng-show="orderByField == 'reporting_to_id'">
-                                                                                                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                                                                                                </span>
-                                                                                                            </a>
-                                                                                                        </th>
-                                                                                                        <th style="width: 10%">
-                                                                                                            <a href="javascript:void(0);" ng-click="orderByField = 'team_lead_id'; reverseSort = !reverseSort">Next FollowUp Date & Time
-                                                                                                                <span ng-show="orderByField == 'team_lead_id'">
-                                                                                                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                                                                                                </span>
-                                                                                                            </a>
-                                                                                                        </th>
-                                                                                                        <th style="width: 10%">
-                                                                                                            <a href="javascript:void(0);" ng-click="orderByField = 'department_name'; reverseSort = !reverseSort">Enquiry Status
-                                                                                                                <span ng-show="orderByField == 'department_name'">
-                                                                                                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                                                                                                </span>
-                                                                                                            </a>
-                                                                                                        </th>
-                                                                                                    </tr>
-                                                                                                </thead>
-                                                                                                <tbody>
-                                                                                                    <tr role="row" dir-paginate="history in historyList | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                                                                                                        <td>{{ $index + 1}}</td>
-                                                                                                        <td>
-                                                                                                            {{ history.first_name}} {{ history.last_name}}
-                                                                                                        </td>
-                                                                                                        <td>
-                                                                                                            {{ history.last_followup_date}}
-                                                                                                        </td>
-                                                                                                        <td>
-                                                                                                            {{history.remarks}}
-                                                                                                        </td>
-                                                                                                        <td>
-                                                                                                            {{ history.next_followup_date}} at {{ history.next_followup_time}}
-                                                                                                        </td>
-                                                                                                        <td>
-                                                                                                            {{history.sales_status}}
-                                                                                                        </td>
-                                                                                                    </tr>
-                                                                                                    <tr ng-if="!historyList.length" align="center"><td colspan="6"> Records Not Found</td>
-                                            
-                                                                                                    </tr>
-                                            
-                                                                                                </tbody>
-                                                                                            </table>                                                
-                                                                                        </div>-->
-                                            <div class="modal-footer" align="center">
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-<!--                        <div class="DTTTFooter">
-                            <div class="col-sm-6">
-                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                                    <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
-                                </div>
-                            </div>
-                        </div>-->
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="enqType == 0"><br>
                             <div class="form-group" align="center">
                                 <button type="submit" class="btn btn-primary" ng-click="createEnquiry()">Create New Enquiry</button>
@@ -414,7 +334,7 @@
                                 <button type="button" class="close" id="closeModal" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title" align="center">Contact Details</h4>
                             </div>
-                            <!--<input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">-->
+                            <input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">
                             <div class="modal-body">
                                 <div class="col-lg-12 col-sm-12 col-xs-12">
                                     <div class="row">
@@ -451,7 +371,6 @@
                                                 <div ng-show="modalSbtBtn && modalForm.mobile_number.$invalid" ng-messages="modalForm.mobile_number.$error" class="help-block">
                                                     <div ng-message="required">This field is required</div> 
                                                     <div ng-message="uniqueMobile">Mobile number already exist</div>
-                                                    <!--<div ng-message="pattern">Invalid mobile number!</div>-->
                                                 </div>
                                                 <div ng-show="errMobileNo" class="sp-err">Invalid mobile number!</div>
                                             </div>

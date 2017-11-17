@@ -182,7 +182,7 @@
                             <span class="input-icon icon-right">
                                 <select ng-model="enquiryData.next_followup_time" name="next_followup_time" id="next_followup_time" class="form-control" required="required">
                                     <option value=""> Select Time </option>
-                                    <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="time.value == enquiryData.next_followup_time">{{time.label}}</option>
+                                    <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="{{ time.value == enquiryData.next_followup_time}}">{{time.label}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="enqFormBtn"  ng-messages="enquiryForm.next_followup_time.$error" class="help-block enqFormBtn">
@@ -400,10 +400,10 @@
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-6">
-                    <div class="form-group multi-sel-div" ng-class="{ 'has-error' : addProBtn && (!enquiryForm.block_id.$dirty && enquiryForm.block_id.$invalid)}">
+                    <div class="form-group multi-sel-div">
                         <label for="">Blocks</label>
                         <span class="input-icon icon-right">
-                        <ui-select ng-change="checkBlockLength(enquiryData.block_id)" multiple ng-model="enquiryData.block_id"  name="block_id" theme="select2" ng-disabled="disabled" required="required">
+                        <ui-select ng-change="checkBlockLength(enquiryData.block_id)" multiple ng-model="enquiryData.block_id"  name="block_id" theme="select2" ng-disabled="disabled" required="required" style="width: 350px !important;">
                             <ui-select-match placeholder='Select blocks'>{{$item.block_name}}</ui-select-match>
                             <ui-select-choices repeat="list in blockTypeList | filter:$select.search">
                                 {{list.block_name}} 

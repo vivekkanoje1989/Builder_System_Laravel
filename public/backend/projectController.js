@@ -32,7 +32,15 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         };
         /*******************Add Multiple Block Specification For Web********************/
 
-
+         $scope.checkFloor = function () {
+            if ($scope.modalData.floors.length === 0) {
+                $scope.emptyFloorId = true;
+                $scope.applyClassFloor = 'ng-active';
+            } else {
+                $scope.emptyFloorId = false;
+                $scope.applyClassFloor = 'ng-inactive';
+            }
+        };
 
         $scope.showHelpManageProject = function () {
             $scope.optionModal = $modal.open({
@@ -215,6 +223,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
             } else { //for insert or update
                 $scope.btnLabel = "Add";
                 $scope.sbtbtnFiles = true;
+                console.log(typeof uploadData+"=="+uploadData);
                 if (typeof uploadData === 'undefined') {
                     uploadData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
                 }

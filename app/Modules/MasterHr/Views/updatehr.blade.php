@@ -52,7 +52,7 @@
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.title_id.$error" class="help-block step1">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </span>
                             </div>
@@ -64,8 +64,8 @@
                                     <input type="text" ng-model="userPersonalData.first_name" name="first_name" class="form-control"  capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')"    maxlength="15" required>
                                     <i class="fa fa-user"></i>
                                     <div ng-show="step1" ng-messages="userForm.first_name.$error" class="help-block step1">
-                                        <div ng-message="required">This field is required.</div>
-                                        <div ng-message="maxlength">Maximum 15 Character are Allowed.</div> 
+                                        <div ng-message="required">This field is required</div>
+                                        <div ng-message="maxlength">Maximum 15 character are allowed</div> 
                                     </div>
                                 </span>                                
                             </div>
@@ -86,8 +86,8 @@
                                     <input type="text" ng-model="userPersonalData.last_name" name="last_name" class="form-control"  maxlength="15" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')"  maxlength="15"  required>
                                     <i class="fa fa-user"></i>
                                     <div ng-show="step1" ng-messages="userForm.last_name.$error" class="help-block step1">
-                                        <div ng-message="required">This field is required.</div>
-                                        <div ng-message="maxlength">Maximum 15 Character are Allowed.</div>
+                                        <div ng-message="required">This field is required</div>
+                                        <div ng-message="maxlength">Maximum 15 character are allowed</div>
                                     </div>
                                 </span>
                             </div>
@@ -115,7 +115,7 @@
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.gender_id.$error" class="help-block step1">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </span>
                             </div>
@@ -131,7 +131,7 @@
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.physic_status.$error" class="help-block step1">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>                                
                                 </span>
                             </div>
@@ -169,7 +169,7 @@
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.marital_status.$error" class="help-block step1">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </span>
                             </div>
@@ -223,7 +223,7 @@
                                             <input type="text" ng-model="userContact.personal_mobile1" ng-minlength="10" style="margin-left: -24px;" maxlength="10"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile1" check-unique-mobiles id="personal_mobile1" class="form-control"  ng-model-options="{ allowInvalid: true, debounce: 300 }" ng-change="copyToUsername(userContact.personal_mobile1); validateMobile(userContact.personal_mobile1); uniqueMobile" required>
                                             <i class="fa fa-phone hrMargin"></i>
                                             <div ng-show="step2 || errPersonalMobile1  || uniqueMobile" ng-messages="userContactForm.personal_mobile1.$error" class="help-block step2 {{ applyClassPMobile}}">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                                 <div ng-message="minlength">Personal mobile no. must be 10 digits</div>
                                                 <div ng-message="uniqueMobile">Number already exists enter different number</div>
                                                 <div>{{ errPersonalMobile1}}</div>
@@ -318,9 +318,9 @@
                                             <i class="fa fa-envelope"></i>
                                             <!--                                            check-unique-email -->
                                             <div ng-show="step2" ng-messages="userContactForm.personal_email1.$error" class="help-block step2">
-                                                <div ng-message="required">This field is required.</div>
-                                                <div ng-message="email">Invalid email id.</div>
-                                                <div ng-message="pattern">Invalid email id.</div>
+                                                <div ng-message="required">This field is required</div>
+                                                <div ng-message="email">Invalid email id</div>
+                                                <div ng-message="pattern">Invalid email id</div>
                                                 <div ng-message="uniqueEmail">Email id exist. Please enter another email id!</div>
                                             </div>
                                         </span>
@@ -334,8 +334,8 @@
                                             <input type="email" ng-model="userContact.office_email_id"  check-for-same-emails="userContact.personal_email1"  name="office_email_id" ng-change="sameEmail" id="office_email_id" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"  class="form-control" ng-model-options="{ allowInvalid: true, debounce: 300 }">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.office_email_id.$error" class="help-block step2">
-                                                <div ng-message="email">Invalid email id.</div>
-                                                <div ng-message="pattern">Invalid email id.</div>
+                                                <div ng-message="email">Invalid email id</div>
+                                                <div ng-message="pattern">Invalid email id</div>
                                                 <div ng-message="checkForSameEmails">Email id must not be same.</div>
                                             </div>
                                         </span>
@@ -350,8 +350,8 @@
                                             <input type="email" ng-model="userContact.personal_email2" check-for-same-emails="userContact.personal_email1"  ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"    name="personal_email2" class="form-control">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.personal_email2.$error"  class="help-block step2">
-                                                <div ng-message="email">Invalid email id.</div>
-                                                <div ng-message="pattern">Invalid email id.</div>
+                                                <div ng-message="email">Invalid email id</div>
+                                                <div ng-message="pattern">Invalid email id</div>
                                                 <div ng-message="checkForSameEmails">Email id must not be same.</div>
                                             </div>
                                         </span>
@@ -375,7 +375,7 @@
                                             <textarea ng-model="userContact.current_address" name="current_address" ng-change="changePermanentAddress()" class="form-control" maxlength="255" required></textarea>
                                             <i class="fa fa-map-marker"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.current_address.$error" class="help-block step2">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                         </span>
                                     </div>
@@ -392,7 +392,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.current_country_id.$error" class="help-block step2">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                         </span>
                                     </div>
@@ -407,7 +407,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.current_state_id.$error" class="help-block step2">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                         </span>
                                     </div>
@@ -424,7 +424,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.current_city_id.$error" class="help-block step2">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                         </span>
                                     </div>
@@ -436,7 +436,7 @@
                                             <input type="text" name="current_pin" ng-model-options="{ updateOn: 'blur' }" ng-change="changePermanentAddress(); pinCodeValidation(userContact.current_pin, errCurrentPin)" ng-model="userContact.current_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
                                             <i class="fa fa-map-pin"></i>
                                             <div ng-show="step2 || errPin"  ng-messages="userContactForm.current_pin.$error" class="help-block step2 {{applyClasspin}}">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                                 <div>{{errPin}}</div>
                                             </div>
                                         </span>
@@ -462,7 +462,7 @@
                                             <textarea ng-model="userContact.permenent_address" name="permenent_address" ng-disabled="permanentAdd" class="form-control" maxlength="250" required></textarea>
                                             <i class="fa fa-map-marker"></i>                                            
                                             <div ng-show="step2" ng-messages="userContactForm.permenent_address.$error" class="help-block step2">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                         </span>
                                     </div>
@@ -479,7 +479,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>                                            
                                             <div ng-show="step2" ng-messages="userContactForm.permenent_country_id.$error" class="help-block step2">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                         </span>
                                     </div>
@@ -494,7 +494,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.permenent_state_id.$error" class="help-block step2">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                         </span>
                                     </div>
@@ -511,7 +511,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userContactForm.permenent_city_id.$error" class="help-block step2">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                         </span>
                                     </div>
@@ -523,7 +523,7 @@
                                             <input type="text" name="permenent_pin" ng-model-options="{ updateOn: 'blur' }"  ng-disabled="permanentPin"  ng-change="pinPCodeValidation(userContact.permenent_pin, errPermanentPin)" ng-model="userContact.permenent_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
                                             <i class="fa fa-map-pin"></i>
                                             <div ng-show="step2 || errPPin"  ng-messages="userContactForm.permenent_pin.$error" class="help-block step2 {{applyClassppin}}">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                                 <div>{{errPPin}}</div>
                                             </div>
                                         </span>
@@ -558,7 +558,7 @@
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step3" ng-messages="usereducationForm.highest_education_id.$error" class="help-block step3">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </span>
                             </div>
@@ -613,7 +613,7 @@
                                     </ui-select-choices>
                                 </ui-select>
                                 <div ng-show="emptyDepartmentId" class="help-block department step4 {{ applyClassDepartment}}">
-                                    This field is required.
+                                    This field is required
                                 </div>
                             </div>
                         </div>
@@ -627,7 +627,7 @@
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step4" ng-messages="userJobForm.designation_id.$error" class="help-block step4">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </span>
                             </div>
@@ -642,7 +642,7 @@
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step4" ng-messages="userJobForm.reporting_to_id.$error" class="help-block step4">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </span>	
                             </div>
@@ -658,7 +658,7 @@
                                         </span>
                                     </p>
                                     <div ng-show="step4" ng-messages="userJobForm.joining_date.$error" class="help-block step4">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </div>
                             </div>
@@ -675,7 +675,7 @@
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step4" ng-messages="userJobForm.team_lead_id.$error" class="help-block step4">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </span>                            
                             </div>
@@ -730,7 +730,7 @@
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step5" ng-messages="userStatusForm.show_on_homepage.$error" class="help-block step5">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </span>
                             </div>
@@ -746,7 +746,7 @@
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step5" ng-messages="userStatusForm.high_security_password_type.$error" class="help-block step5">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </span>
                             </div>
@@ -758,7 +758,7 @@
                                     <input type="text" ng-model="userStatus.high_security_password" name="high_security_password" class="form-control" minlength="4" maxlength="4" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-required='userStatus.high_security_password_type == 1'>
                                     <i class="fa fa-lock"></i>
                                     <div ng-show="step5" ng-messages="userStatusForm.high_security_password.$error" class="help-block step5">
-                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="required">This field is required</div>
                                     </div>
                                 </span>
                             </div>

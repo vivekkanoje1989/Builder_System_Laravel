@@ -150,7 +150,7 @@ class ProjectsController extends Controller {
             /*************getSpecifiction**************/
                       
             if (!empty($input['projectImages'])) {
-                unset($input["projectImages"]["prid"],$input["projectImages"]["csrfToken"]);
+//                unset($input["projectImages"]["prid"],$input["projectImages"]["csrfToken"]);
                 if (count($input['projectImages']) > 1) {
                     unset($input['projectImages']['upload']); 
                    

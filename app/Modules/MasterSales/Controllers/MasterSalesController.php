@@ -187,9 +187,8 @@ class MasterSalesController extends Controller {
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
-            $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "0000-00-00";
-            $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
-
+            $input['customerData']['marriage_date'] = (!empty($input['customerData']['marriage_date']) && $input['customerData']['marriage_date'] != 'null')  ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
+            $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));            
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
 
@@ -684,9 +683,8 @@ class MasterSalesController extends Controller {
 
     public function getFinanceEmployees() {
         try {
-            $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id', 'department_id')->where("department_id", 'like', '%,11%')
-                            ->orWhere("department_id", 'like', '%11%')
-                            ->orWhere("department_id", 'like', '%11,%')->get();
+            $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id', 'department_id')->
+                            where("employee_status",1)->whereRaw('FIND_IN_SET(11,department_id)')->get();
             if (!empty($getEmployees)) {
                 $result = ['success' => true, 'records' => $getEmployees];
             } else {
