@@ -90,9 +90,9 @@ class MasterHrController extends Controller {
         $department_id = [];
         $export = '';
         if (!empty($request['empId']) && $request['empId'] !== "0") { // for edit
-            $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ')');
+            $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ')',0);
         } else if ($request['empId'] == "") { // for index
-            $manageData = DB::select('CALL proc_manage_users(0,0)');
+            $manageData = DB::select('CALL proc_manage_users(0,0,1)');
             $cnt = DB::select('select FOUND_ROWS() totalCount');
             $totalCount = $cnt[0]->totalCount;
             $manageUser = json_decode(json_encode($manageData), true);
@@ -103,6 +103,9 @@ class MasterHrController extends Controller {
             }
 
             for ($i = 0; $i < count($manageUser); $i++) {
+                
+//                print_r($manageUser[$i]);
+//                exit;
                 $blogData['id'] = $manageUser[$i]['id'];
                 $blogData['employee_id'] = $manageUser[$i]['id'];
                 $blogData['first_name'] = $manageUser[$i]['first_name'];
@@ -283,10 +286,10 @@ class MasterHrController extends Controller {
     }
 
     public function getSharedEmployees() {
+        
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
-
         $result = Employee::where('id', '=', $request['data']['employee_id'])->select('presale_shared_employee', 'postsale_shared_employee')->first();
         if (!empty($result->presale_shared_employee)) {
             $arr = explode(",", $result->presale_shared_employee);
@@ -330,7 +333,7 @@ class MasterHrController extends Controller {
     public function hrDetailsExporToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
-            $manageData = DB::select('CALL proc_manage_users(0,0)');
+            $manageData = DB::select('CALL proc_manage_users(0,0,1)');
             $cnt = DB::select('select FOUND_ROWS() totalCount');
             $getCount = $cnt[0]->totalCount;
             $manageUser = json_decode(json_encode($manageData), true);
