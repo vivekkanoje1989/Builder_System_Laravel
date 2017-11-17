@@ -34,7 +34,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="sbtBtn" ng-messages="customerForm.title_id.$error" class="help-block">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                             <div ng-if="title_id" class="sp-err title_id">{{title_id}}</div>
                                         </span>
@@ -47,7 +47,7 @@
                                             <input type="text" ng-model="customerData.first_name"  maxlength="20" name="first_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15"  required>
                                             <i class="fa fa-user"></i>
                                             <div ng-show="sbtBtn" ng-messages="customerForm.first_name.$error" class="help-block">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                                 <div ng-message="maxlength">First name not more than 15 characters long.</div>
                                             </div>
                                              <div ng-if="first_name" class="sp-err first_name">{{first_name}}</div>
@@ -70,7 +70,7 @@
                                             <input type="text" ng-model="customerData.last_name"  maxlength="20" name="last_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15"  required>
                                             <i class="fa fa-user"></i>
                                             <div ng-show="sbtBtn" ng-messages="customerForm.last_name.$error" class="help-block">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                                 <div ng-message="maxlength">First name not more than 15 characters long.</div>
                                             </div>
                                             <div ng-if="last_name" class="sp-err first_name">{{last_name}}</div>
@@ -89,7 +89,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="sbtBtn" ng-messages="customerForm.gender.$error" class="help-block">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                             <div ng-if="gender_id" class="sp-err gender_id">{{gender_id}}</div>
                                         </span>
@@ -127,7 +127,7 @@
                                                 <input type="text" ng-model="customerData.aadhar_number" maxlength="12" name="aadhar_number" ng-maxlength="12" ng-minlength="12" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                                                 <i class="fa fa-credit-card" aria-hidden="true"></i>
                                                 <div ng-show="sbtBtn" ng-messages="customerForm.aadhar_number.$error" class="help-block">
-                                                    <div ng-message="required">This field is required.</div>
+                                                    <div ng-message="required">This field is required</div>
                                                     <div ng-message="minlength">Aadhar card number must be 12 digits.</div>
                                                     <div ng-message="maxlength">Aadhar card number must be 12 digits.</div>
                                                 </div>
@@ -160,7 +160,7 @@
                                             </span>
                                         </p>
                                         <div ng-show="sbtBtn" ng-messages="customerForm.birth_date.$error" class="help-block">
-                                            <div ng-message="required">This field is required.</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                          <div ng-if="birth_date" class="sp-err birth_date">{{birth_date}}</div>
                                     </div>
@@ -189,7 +189,7 @@
                                             <i class="fa fa-sort-desc"></i>
                                         </p>
                                         <div ng-show="sbtBtn" ng-messages="customerForm.sms_privacy_status.$error" class="help-block">
-                                            <div ng-message="required">This field is required.</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                         <div ng-if="sms_privacy_status" class="sp-err sms_privacy_status">{{sms_privacy_status}}</div>
                                     </div>
@@ -208,7 +208,7 @@
                                             <i class="fa fa-sort-desc"></i>
                                         </p>
                                         <div ng-show="sbtBtn" ng-messages="customerForm.email_privacy_status.$error" class="help-block">
-                                            <div ng-message="required">This field is required.</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                         <div ng-if="email_privacy_status" class="sp-err email_privacy_status">{{email_privacy_status}}</div>
                                     </div>
@@ -223,7 +223,7 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="sbtBtn" ng-messages="customerForm.source_id.$error" class="help-block">
-                                                <div ng-message="required">This field is required.</div>
+                                                <div ng-message="required">This field is required</div>
                                             </div>
                                             <div ng-if="source_id" class="sp-err source_id">{{source_id}}</div>
                                         </span>
@@ -249,7 +249,7 @@
                                             <textarea ng-model="customerData.source_description" name="source_description" class="form-control" maxlength="300"></textarea>
                                         </span>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.source_description.$error">
-                                            <div ng-message="required">Source Description is required.</div>
+                                            <div ng-message="required">Source Description is required</div>
                                         </div>
                                          <div ng-if="source_description" class="sp-err source_description">{{source_description}}</div>
                                         <br/>
