@@ -683,9 +683,8 @@ class MasterSalesController extends Controller {
 
     public function getFinanceEmployees() {
         try {
-            $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id', 'department_id')->where("department_id", 'like', '%,11%')
-                            ->orWhere("department_id", 'like', '%11%')
-                            ->orWhere("department_id", 'like', '%11,%')->get();
+            $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id', 'department_id')->
+                            where("employee_status",1)->whereRaw('FIND_IN_SET(11,department_id)')->get();
             if (!empty($getEmployees)) {
                 $result = ['success' => true, 'records' => $getEmployees];
             } else {

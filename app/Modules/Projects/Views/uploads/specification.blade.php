@@ -70,7 +70,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" align="center">Specification Details</h4>
             </div>
-            <form novalidate name="modalForm" id="modalForm" ng-submit="specicationRow(projectData.prid,modalData,modalImages,'specificationData')">
+            <form novalidate name="modalForm" id="modalForm" ng-submit="modalData.$valid && specicationRow(projectData.prid,modalData,modalImages,'specificationData')">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="row" ng-init="wings()">
@@ -84,6 +84,9 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                     </span>
+                                    <div ng-show="modalSbtBtn" ng-messages="modalForm.wing.$error" class="help-block">
+                                        <div ng-message="required">This field is required</div>
+                                    </div>
                                 </div>
                             </div>
                         
@@ -96,6 +99,9 @@
                                             {{flist.floorName}} 
                                         </ui-select-choices>
                                     </ui-select>
+                                    <div ng-show="modalSbtBtn" ng-messages="modalForm.floors.$error" class="help-block">
+                                        <div ng-message="required">This field is required</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -107,6 +113,9 @@
                                         <input type="file" ngf-select ng-model="modalImages.specification_images" name="specification_images" id="specification_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" required>
                                     </span>    
                                     <span class="help-block">{{specification_images_err}}</span>
+                                    <div ng-show="modalSbtBtn" ng-messages="modalForm.specification_images.$error" class="help-block">
+                                        <div ng-message="required">This field is required</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-xs-12">
