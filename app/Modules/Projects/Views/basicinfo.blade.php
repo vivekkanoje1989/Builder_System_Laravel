@@ -141,7 +141,7 @@
                     </div>
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
-                            <label>Contact Numbers</label>
+                            <label>Contact Numbers (Comma separated contact numbers)</label>
                             <textarea class="form-control" ng-model="contactData.project_contact_numbers" name="project_contact_numbers"></textarea>
                         </div>
                     </div>

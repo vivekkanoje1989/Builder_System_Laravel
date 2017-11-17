@@ -1584,7 +1584,6 @@ class MasterHrController extends Controller {
         } else {
 
             if (count($teams) == 0) {
-                print_r($getMenu[4]['submenu'][1]['submenu'][9]);exit;
                 unset($getMenu[4]['submenu'][1]['submenu'][9]);
             }
             ksort($getMenu);

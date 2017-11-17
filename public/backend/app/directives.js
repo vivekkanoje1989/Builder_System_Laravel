@@ -342,23 +342,26 @@ app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
 app.directive("checkForSameEmails", function () {
     return {
         require: "ngModel",
-        restrict: 'AE',
         scope: {
             otherModelValue: "=checkForSameEmails"
         },
         link: function (scope, element, attributes, ngModel) {
             ngModel.$validators.checkForSameEmails = function (modelValue) {
-//                alert(modelValue)
-//                alert(scope.otherModelValue)
-                if ((typeof modelValue !== 'undefined') && modelValue !== '') {
-                    return modelValue != scope.otherModelValue;
+                if (modelValue !== '') {
+                    if ((typeof modelValue !== 'undefined') && modelValue !== '') {
+                        var newvari = modelValue != scope.otherModelValue;
+                        return newvari;
+                    }
+                }else{
+                    return true;
                 }
             };
             scope.$watch("otherModelValue", function (modelValue) {
-                if ((typeof modelValue !== 'undefined') && modelValue !== '') {
+                if ((typeof modelValue !== 'undefined')) {
                     ngModel.$validate();
                 }
             });
+
         }
     };
 });
