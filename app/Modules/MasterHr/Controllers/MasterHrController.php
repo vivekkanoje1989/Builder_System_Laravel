@@ -1584,7 +1584,6 @@ class MasterHrController extends Controller {
         } else {
 
             if (count($teams) == 0) {
-                print_r($getMenu[4]['submenu'][1]['submenu'][9]);exit;
                 unset($getMenu[4]['submenu'][1]['submenu'][9]);
             }
             ksort($getMenu);
@@ -1903,7 +1902,7 @@ class MasterHrController extends Controller {
     }
 
     public function getTeamLead($id) {
-        $employee = Employee::with('designationName')->select("id", "first_name", "last_name", 'designation_id')->where("id", "<>", $id)->orderBy("first_name", "ASC")->get();
+        $employee = Employee::with('designationName')->select("id", "first_name", "last_name", 'designation_id')->where("id", "<>", $id)->where(["employee_status" => 1])->orderBy("first_name", "ASC")->get();
         if (!empty($employee)) {
             $result = ['success' => true, 'records' => $employee];
             return json_encode($result);
@@ -1938,7 +1937,7 @@ class MasterHrController extends Controller {
 
     public function getProfileInfo() {
         $id = Auth::guard('admin')->user()->id;
-        $employee = Employee::select('title_id', 'first_name', 'last_name', 'employee_photo_file_name', 'username')->where('id', $id)->first();
+        $employee = Employee::select('title_id', 'first_name', 'last_name', 'employee_photo_file_name', 'username')->where('id', $id)->where(["employee_status" => 1])->first();
         $old_profile_photo = '';
         if (!empty($employee)) {
 

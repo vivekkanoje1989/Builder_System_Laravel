@@ -21,6 +21,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.currentPin = false;
         $scope.isDisabled = false;
         $scope.passwordBtn = false;
+        
         $scope.roleData = {};
         $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
                 $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
@@ -121,8 +122,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
-         $scope.validateMobile = function (mobNo, label) {
+
+        $scope.validateMobile = function (mobNo, label) {
             var firstDigit = mobNo.substring(0, 1);
             var regex = /^[789]/;
             if (!regex.test(mobNo)) {
@@ -182,7 +183,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.validateMobileNumber = function (mobNo) {
-            
+
             var firstDigit = mobNo.substring(0, 1);
             var regex = /^[789]/;
             if (!regex.test(mobNo)) {
@@ -219,7 +220,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     } else {
                         $scope.errLandline = "";
                         $scope.applyClass = 'ng-inactive';
-                         $scope.contact = true;
+                        $scope.contact = true;
                     }
                 }
             } else {
@@ -235,8 +236,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.errOfficeMobile = "Mobile number should be 10 digits and pattern should be for ex. 9999999999";
                 $scope.applyOfficeClassMobile = 'ng-active';
                 $scope.contact = false;
-            } 
-            else if (value != '') {
+            } else if (value != '') {
                 if (value == '1234567890' || value == '0000000000' || value[0] == "0") {
                     $scope.errOfficeMobile = "Invalid Mobile number";
                     $scope.applyOfficeClassMobile = 'ng-active';
@@ -298,7 +298,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.checkImageExtension = function (employeePhoto) {
-            
+
             if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
                 var ext = employeePhoto.name.match(/\.(.+)$/)[1];
 
@@ -314,7 +314,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
 
 
-       
+
 
         $scope.copyToUsername = function (value) {
             if (typeof value !== "undefined") {
@@ -815,6 +815,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             Data.post('master-hr/getMenuLists', {
                 data: getData,
             }).then(function (response) {
+
                 if (response.success) {
                     $scope.menuItems = response.getMenu;
                     var array = $.map(response.menuId, function (value, index) {
@@ -828,7 +829,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 } else {
                     $scope.errorMsg = response.message;
                 }
+                console.log("Manoj");
+                console.log($scope.menuItems);
             });
+
         }
 
         $scope.showPermissions = function () { //permission wise employees
@@ -1185,6 +1189,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             Data.post('master-hr/updateUserRole', {
                 data: {roleId: roleId, masterRole: $rootScope.roleMenuList.menuId, role_name: role_name}
             }).then(function (response) {
+                console.log("manoj")
+                console.log(response)
                 if (response.success) {
                     toaster.pop('success', 'Role Permissions', 'Record updated successfully');
                     $state.go('manageRoles');

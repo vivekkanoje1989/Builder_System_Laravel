@@ -157,7 +157,7 @@
                                                             <div class="row">
                                                                 <div class="col-sm-4 form-group">
                                                                     <label>Birth Date</label>
-                                                                    <input type="text" ng-model="userData.date_of_birth" name="date_of_birth" id="date_of_birth" class="form-control">	
+                                                                    <input type="date" ng-model="userData.date_of_birth" name="date_of_birth" id="date_of_birth" class="form-control">	
                                                                 </div>
                                                                 <div class="col-sm-4 form-group">
                                                                     <label>Marriage Status <span class="error_msg">*</span></label>
@@ -198,16 +198,15 @@
                                                                 <div class="col-sm-4 col-xs-6">
                                                                     <label for="">Employee Photo ( W 105 X H 120 )</label>
                                                                     <span class="input-icon icon-right">
-                                                                        <input type="file" ngf-select ng-model="userData.employee_photo_file_name" id="employee_photo_file_name" value="Select photo" ng-change="checkImageExtension(userData.employee_photo_file_name)" name="employee_photo_file_name"   ng-model-options="{ allowInvalid: true, debounce: 300 }"  id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"   accept="image/x-png,image/gif,image/jpeg,image/bmp" >
+                                                                        <input type="file" ngf-select ng-model="userData.employee_photo_file_name" id="employee_photo_file_name" value="Select photo" ng-change="checkImageExtension(userData.employee_photo_file_name)" accept="image/*" ngf-max-size="2MB" name="employee_photo_file_name"  ngf-model-invalid="errorFile" accept="image/x-png,image/gif,image/jpeg"  ng-model-options="{ allowInvalid: true, debounce: 300 }"  id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"   accept="image/x-png,image/gif,image/jpeg,image/bmp" >
                                                                             <div ng-show="step3 || invalidImage" ng-messages="frmRegistration.employee_photo_file_name.$error" class="help-block step5">
                                                                                 <div ng-if="invalidImage">{{invalidImage}}</div>
                                                                             </div>
                                                                             <img ng-src="{{image_source}}" class="thumb photoPreview"> 
-                                                                                <div ng-if="imgUrl" > <img ng-if="employee_photo_file_name_preview.length != 1"  ng-src="[[ Config('global.s3Path') ]]/employee-photos/{{ imgUrl}}"  alt="{{ altName}}"  class="thumb photoPreview"/></div>
-
+                                                                                <div ng-if="imgUrl" > <img ng-if="employee_photo_file_name_preview.length != 1"  height="80px" width="80px" ng-src="[[ Config('global.s3Path') ]]/employee-photos/{{ imgUrl}}"  alt="{{ altName}}"  class="thumb photoPreview"/></div>
                                                                                 </span> 
                                                                                 <div class="img-div2" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
-                                                                                    <img ng-src="{{list}}" class="thumb photoPreview">
+                                                                                    <img ng-src="{{list}}"  height="80px" width="80px"  class="thumb photoPreview">
                                                                                 </div>
                                                                                 </div>	
                                                                                 </div>

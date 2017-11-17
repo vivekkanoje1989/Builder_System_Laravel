@@ -339,8 +339,7 @@ app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
     }
 });
 
-
-var checkForSameEmails = function () {
+app.directive("checkForSameEmails", function () {
     return {
         require: "ngModel",
         scope: {
@@ -348,23 +347,24 @@ var checkForSameEmails = function () {
         },
         link: function (scope, element, attributes, ngModel) {
             ngModel.$validators.checkForSameEmails = function (modelValue) {
-//                alert(modelValue)
-//                alert(scope.otherModelValue)
-                if ((typeof modelValue !== 'undefined') && modelValue !== '') {
-                    return modelValue != scope.otherModelValue;
+                if (modelValue !== '') {
+                    if ((typeof modelValue !== 'undefined') && modelValue !== '') {
+                        var newvari = modelValue != scope.otherModelValue;
+                        return newvari;
+                    }
+                }else{
+                    return true;
                 }
             };
             scope.$watch("otherModelValue", function (modelValue) {
-                if ((typeof modelValue !== 'undefined') && modelValue !== '') {
+                if ((typeof modelValue !== 'undefined')) {
                     ngModel.$validate();
                 }
             });
+
         }
     };
-};
-
-
-app.directive("checkForSameEmails", checkForSameEmails);
+});
 
 app.directive('ngConfirmClick', [
     function () {

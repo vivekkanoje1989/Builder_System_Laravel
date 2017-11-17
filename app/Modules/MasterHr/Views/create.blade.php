@@ -262,7 +262,6 @@
                                         </span>                               
                                     </div> 
                                 </div> 
-
                                 <div class="col-sm-4 col-xs-4">
                                     <div class="form-group">
                                         <label for="">Family Member Mobile Number</label>
@@ -278,7 +277,6 @@
                                         </span>                               
                                     </div> 
                                 </div> 
-
                                 <div class="col-sm-2 col-xs-2">
                                     <div class="form-group">
                                         <label for="">Country code</label>
