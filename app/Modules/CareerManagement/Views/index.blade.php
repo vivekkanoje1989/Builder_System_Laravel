@@ -119,8 +119,8 @@
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{list.job_title}}</td> 
                                 <td>{{list.job_eligibility}}</td> 
-                                <td>{{list.application_start_date}}</td> 
-                                <td>{{list.application_close_date}}</td>
+                                <td>{{list.application_start_date | date : "dd-MM-yyyy"}}</td> 
+                                <td>{{list.application_close_date | date : "dd-MM-yyyy"}}</td>
                                 <td><a href="[[ config('global.backendUrl') ]]#/career/show/{{ list.id}}" class="btn-primary btn-xs"><i class="fa fa-eye"></i>View Applications</a></td>
                                 <td class="">	
                                     <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/career/update/{{ list.id}}" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
