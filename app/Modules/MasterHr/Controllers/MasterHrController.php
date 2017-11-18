@@ -286,7 +286,6 @@ class MasterHrController extends Controller {
     }
 
     public function getSharedEmployees() {
-        
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
