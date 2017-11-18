@@ -163,19 +163,9 @@ class AdminController extends Controller {
         return view('backend.sessiontimeout');
     }
 
-    public function getMenuItems() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-
-        if (!empty($request['data']['loggedInUserId'])) { //for mobile app
-            $employeeSubmenus = Employee::select("employee_submenus")->where("id", json_decode($request['data']['loggedInUserId']))->get();
-            $permission = json_decode($employeeSubmenus[0]->employee_submenus, true);
-        } else {//for web app
-            $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus, true);
-//            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get(); 
-//            session(['submenus' => Auth()->guard('admin')->user()->employee_submenus]); 
-//            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
-        }
+     public function getMenuItems() {
+       
+        $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus, true);
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();
         foreach ($getMenu as $key => $menu) {
@@ -230,7 +220,7 @@ class AdminController extends Controller {
         $mergedMmenu = $merged->all();
         return json_encode($mergedMmenu);
     }
-
+    
     public function getTitle() {
         $getTitle = MlstTitle::where("status", 1)->get();
         if (!empty($getTitle)) {
