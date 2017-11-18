@@ -60,6 +60,7 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
         {
             Data.post('customers/getcustomerData', {'id': custId}).then(function (response) {
                 $scope.customerRow = response.result;
+                 $scope.customerRow.monthly_income = ($scope.customerRow.monthly_income == 0) ? '' : $scope.customerRow.monthly_income;
                 $scope.customerData = angular.copy($scope.customerRow);
                 $scope.image = $scope.customerData.image_file;
                 $scope.$broadcast("myEvent", {source_id: $scope.customerData.source_id});

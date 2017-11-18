@@ -763,6 +763,7 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                                 $scope.contacts = angular.copy(response.customerContactDetails);
                                 $scope.contactData = angular.copy(response.customerContactDetails);
+                               
                                 if (response.customerPersonalDetails[0].monthly_income == "0")
                                     $scope.customerData.monthly_income = "";
                                 else

@@ -277,6 +277,9 @@ class MasterSalesController extends Controller {
 
             if (count($getCustomerContacts) > 0) {
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
+               if($getCustomerPersonalDetails[0]['birth_date']=='1970-01-01' || $getCustomerPersonalDetails[0]['birth_date']=='0000-00-00' ||$getCustomerPersonalDetails[0]['birth_date']=='01-01-1970'){
+                   $getCustomerPersonalDetails[0]['birth_date'] = '' ;
+               }
                 unset($getCustomerPersonalDetails[0]['pan_number']);
                 unset($getCustomerPersonalDetails[0]['aadhar_number']);
                 unset($getCustomerPersonalDetails[0]['image_file']);

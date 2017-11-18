@@ -258,6 +258,17 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }, 200);
                             $scope.hideloader();
                         } else { //enquiry list of customer //customer and enquiry is exist
+                              if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
+                                $scope.customerData.birth_date = "";
+                            } else {
+                                var bdt = new Date(response.customerPersonalDetails[0].birth_date);
+                                if (bdt.getDate() < 10) {
+                                    $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
+                                } else {
+                                    $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
+                                }
+                                $scope.customerData.birth_date = response.customerPersonalDetails[0].birth_date;
+                            }
                             var url = $location.path();
                             if (url === "/sales/enquiry" || url === "/sales/quickEnquiry") {
                                 $scope.showDiv = true;
@@ -301,9 +312,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 $scope.contactData.country_id = $scope.contactData.pin =
                                 $scope.contactData.state_id = $scope.contactData.city_id =
                                 $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
-                        var date = new Date($scope.customerData.birth_date);
-                        $scope.customerData.birth_date = ((date.getFullYear() - 100) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
-                        $scope.customerData.birth_date = "1990-01-01";
+//                        var date = new Date($scope.customerData.birth_date);
+//                        $scope.customerData.birth_date = ((date.getFullYear() - 100) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+//                        $scope.customerData.birth_date = "1990-01-01";
                         $scope.hideloader();
                     }
                 });
