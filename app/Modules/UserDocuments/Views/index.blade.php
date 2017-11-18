@@ -81,9 +81,10 @@
                                         <div class="form-group">
                                             <label for="">Document Number <span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="userData.document_number" name="document_number" required maxlength="15"  >
+                                                <input type="text" class="form-control" ng-model="userData.document_number" name="document_number" ng-pattern="^[a-zA-Z0-9]" required maxlength="15"  >
                                                 <div ng-show="sbtBtn" ng-messages="userForm.document_number.$error" class="help-block errMsg">
                                                     <div ng-message="required" class="sp-err">This field is required.</div>
+                                                    <div ng-message="pattern" class="sp-err">Invalid document number entered</div>
                                                 </div>
                                                  <div ng-if="document_number" class="errMsg status sp-err">{{document_number}}</div>
                                             </span>
