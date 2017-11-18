@@ -958,30 +958,32 @@ class MasterSalesController extends Controller {
                 $recUpdate['company_location_id'] = 1;
                 $recUpdate = Customer::where('id', $customerId)->update($recUpdate);
             }
-            /*             * ***************EDIT CUSTOMER INFO******************* */
-            if (!empty($request['custInfo'])) {
-                $custInfo = $request['custInfo'];
+            /*****************EDIT CUSTOMER INFO******************* */
+            
+            if (isset($input['custInfo'])) {
+                $custInfo = $input['custInfo'];
                 if (!empty($custInfo['title_id']) && (!empty($custInfo['customer_fname']) || !empty($custInfo['customer_lname']))) {
                     $custUpdate = Customer::where('id', $customerId)->update(["title_id" => $custInfo['title_id'], "first_name" => $custInfo['customer_fname'], "last_name" => $custInfo['customer_lname']]);
                 }
 
                 /*                 * ***************************Mobile / Email Update [For Mobile App Only]**************************** */
-                if (!empty($request['custInfo']['sms_privacy_status'])) {
-                    Customer::where('id', $customerId)->update(["sms_privacy_status" => $request['custInfo']['sms_privacy_status']]);
+                if (!empty($custInfo['sms_privacy_status'])) {
+                    Customer::where('id', $customerId)->update(["sms_privacy_status" => $custInfo['sms_privacy_status']]);
                 }
-                if (!empty($request['custInfo']['email_privacy_status'])) {
-                    Customer::where('id', $customerId)->update(["email_privacy_status" => $request['custInfo']['email_privacy_status']]);
+                if (!empty($custInfo['email_privacy_status'])) {
+                    Customer::where('id', $customerId)->update(["email_privacy_status" => $custInfo['email_privacy_status']]);
                 }
 
-                if (!empty($request['custInfo']['mobile_number']) || !empty($request['custInfo']['email_id'])) {
+                if (!empty($custInfo['mobile_number']) || !empty($custInfo['email_id'])) {
                     $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number', 'email_id')->where('customer_id', $customerId)->get();
 
-                    if (!empty($request['custInfo']['mobile_number'])) {
+                    if (!empty($custInfo['mobile_number'])) {
                         $contacts = $contacts1 = array();
                         $contacts['customer_id'] = $customerId;
-                        $contacts['mobile_calling_code'] = $request['custInfo']['mobile_calling_code'];
-                        $contacts['mobile_number'] = $request['custInfo']['mobile_number'];
-                        $contacts['client_id'] = $request['custInfo']['client_id'];
+                        $contacts['mobile_calling_code'] = $custInfo['mobile_calling_code'];
+                        $contacts['mobile_number'] = $custInfo['mobile_number'];
+                        $contacts['client_id'] = $custInfo['client_id'];
+                        
                         if (!empty($checkCustomerExist[0]['customer_id']) && empty($checkCustomerExist[0]['mobile_number'])) {
                             $contacts1 = $contacts;
                             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -997,12 +999,12 @@ class MasterSalesController extends Controller {
                             CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
                         }
                     }
-                    if (!empty($request['custInfo']['email_id'])) {
+                    if (!empty($custInfo['email_id'])) {
 
                         $email = $email1 = array();
                         $email['customer_id'] = $customerId;
-                        $email['email_id'] = $request['custInfo']['email_id'];
-                        $email['client_id'] = $request['custInfo']['client_id'];
+                        $email['email_id'] = $custInfo['email_id'];
+                        $email['client_id'] = $custInfo['client_id'];
                         if (!empty($checkCustomerExist[0]['customer_id']) && empty($checkCustomerExist[0]['email_id'])) {
                             $email1 = $email;
                             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -1022,17 +1024,14 @@ class MasterSalesController extends Controller {
                 /*                 * ***************************Mobile / Email Update [For Mobile App Only]**************************** */
             }
 
-            /*             * ***************EDIT SOURCE INFO******************* */
-            if (!empty($request['sourceInfo'])) {
-                $sourceInfo = $request['sourceInfo'];
-                $custUpdate = Customer::where('id', $customerId)->update(["source_id" => $sourceInfo['source_id'], "subsource_id" => $sourceInfo['sales_subsource_id'], "source_description" => $sourceInfo['sales_source_description']]);
-                $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_source_id" => $sourceInfo['source_id'], "sales_subsource_id" => $sourceInfo['sales_subsource_id'], "sales_source_description" => $sourceInfo['sales_source_description']]);
-            }
+            /*****************EDIT SOURCE INFO********************/
+            
 
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
 
             $getFollowupId = Enquiry::select('sales_employee_id')->where('id', $enquiryId)->get();
             $reassignEnq = "";
+            
             if ($getFollowupId[0]['sales_employee_id'] != $input['followup_by_employee_id']['id']) {
                 $oldSalesEmployee = Employee::select("first_name", "last_name")->where('id', $getFollowupId[0]['sales_employee_id'])->get();
                 $newSalesEmployee = Employee::select("first_name", "last_name")->where('id', $input['followup_by_employee_id']['id'])->get();
@@ -1159,7 +1158,8 @@ Regards,<br>
 
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $editExistingFollowup = $input['editExistingFollowup'];
-                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'], $input['followup_by_employee_id']);
+                
+                unset($input['prevRemarkStatus'],$input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'], $input['followup_by_employee_id']);
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);

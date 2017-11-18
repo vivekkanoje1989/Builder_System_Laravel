@@ -126,7 +126,7 @@
                         <tbody>
                             <tr role="row" dir-paginate="list in projectRow| filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
-                                <td>{{list.created_at}}</td>
+                                <td>{{list.created_at | date:"dd-mm-yyyy"}}</td>
                                 <td>{{list.fullName}}</td>
                                 <td>{{list.project_name}}</td>
                                 <td>{{list.projectType}}</td>

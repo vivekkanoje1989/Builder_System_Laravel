@@ -99,7 +99,7 @@
                                             {{flist.floorName}} 
                                         </ui-select-choices>
                                     </ui-select>
-                                    <div ng-show="emptyFloorId && floorList.length > 0" class="help-block {{ applyClassFloor}}">This field is required</div>
+                                    <div ng-show="emptyFloorId && floorList.length > 0 && modalData.floors == ''" class="help-block {{ applyClassFloor}}">This field is required</div>
                                 </div>
                             </div>
                         </div>
