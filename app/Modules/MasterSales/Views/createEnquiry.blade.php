@@ -176,7 +176,7 @@
                             </div>                            
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6">------------------------------{{ enquiryData.next_followup_time}}
+                    <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_time.$dirty && enquiryForm.next_followup_time.$invalid)}">
                             <label for="">Time<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
@@ -344,10 +344,8 @@
                                 <ui-select-choices repeat="list in locations | filter:$select.search">
                                     {{list.location}} 
                                 </ui-select-choices>
-                            </ui-select>         
-                            <div ng-show="enqFormBtn" ng-messages="enquiryForm.enquiry_locations.$valid" class="help-block enqFormBtn">
-                                <div ng-message="required">This field is required</div>
-                            </div>
+                            </ui-select>    
+                            <div ng-show="enqFormBtn" class="sp-err" ng-if="enquiryData.enquiry_locations.length == 0 || enquiryData.enquiry_locations.length == null">This field is required</div>
                             <div ng-if="enquiry_locations" class="sp-err blog_title">{{enquiry_locations}}</div>
                         </div>
                     </div>                    
@@ -368,15 +366,19 @@
                     </div>
                     <div class="col-sm-3 col-xs-6" ng-if="enquiryData.property_possession_type == 0 && enqType != 1">
                         <div class="form-group">
-                            <label for="">Tentative Possession Date</label>
+                            <label for="">Tentative Possession Date<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="enquiryData.property_possession_date" name="property_possession_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly>
+                                    <input type="text" ng-model="enquiryData.property_possession_date" name="property_possession_date" class="form-control" datepicker-popup="dd-MM-yyyy" required is-open="opened" min-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>                                    
+                                    </span>
+                                    <div ng-show="enqFormBtn" ng-messages="enquiryForm.property_possession_date.$error" class="help-block errMsg">
+                                        <div ng-message="required">This field is required</div>
+                                    </div>
+                                    <div ng-if="property_possession_date"class="errMsg birth_date">{{property_possession_date}}</div>
                                 </p>
-                            </div>                               
+                            </div>
                         </div> 
                     </div>                        
                 </div>

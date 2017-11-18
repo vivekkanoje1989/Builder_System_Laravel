@@ -380,6 +380,7 @@ class CommonFunctions {
             $customer_contact = \App\Models\CustomersContact::where('customer_id', $customer_id)->first();
 
             $customer_data = \App\Modules\Customers\Models\Customers::where('id', $customer_id)->first();
+            
             $search = array('[#customerName#]', '[#customerMobile#]', '[#customerEmail#]');
 
             if (!empty($customer_data->first_name)) {
@@ -457,7 +458,7 @@ class CommonFunctions {
         }
         if (!empty($customer_id > 0)) {
             if (!empty($template_settings_customer)) {
-                if ($template_settings_customer->email_status == 1 && !empty($customer_email_to)) {
+                if ($template_settings_customer->email_status == 1 && !empty($customer_email_to) && $customer_data->email_privacy_status == 1) {
                     $subject = $cust_email_subject;
                     if (!empty($subject)) {
                         $data = ['mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_email_to, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile];
@@ -465,7 +466,7 @@ class CommonFunctions {
                         $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
                     }
                 }
-                if ($template_settings_customer->sms_status == 1 && !empty($customer_mobile_to) && !empty($cust_smsTemplate)) {
+                if ($template_settings_customer->sms_status == 1 && !empty($customer_mobile_to) && !empty($cust_smsTemplate) && $customer_data->sms_privacy_status == 1 ) {
                     $mobile = $customer_mobile_number;
                     $customer = "Yes";
                     $customerId = $customer_contact->customer_id;

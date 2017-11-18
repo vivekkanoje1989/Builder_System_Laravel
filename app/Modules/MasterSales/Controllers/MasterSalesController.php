@@ -441,7 +441,7 @@ class MasterSalesController extends Controller {
 
     // insert new enquiry 
     public function saveEnquiry() {
-        try {
+        try {            
             $validationRules = Enquiry::validationRules();
             $validationMessages = Enquiry::validationMessages();
             $postdata = file_get_contents("php://input");
@@ -501,7 +501,8 @@ class MasterSalesController extends Controller {
             $request['enquiryData']['sales_channel_id'] = !empty($request['enquiryData']['sales_channel_id']) ? $request['enquiryData']['sales_channel_id'] : 3;
             $request['enquiryData']['property_possession_date'] = !empty($request['enquiryData']['property_possession_date'] && $request['enquiryData']['property_possession_date'] != 'NaN-aN-NaN') ? $request['enquiryData']['property_possession_date'] : '0000-00-00';
             $request['enquiryData']['sales_enquiry_date'] = date('Y-m-d', strtotime($request['enquiryData']['sales_enquiry_date']));
-
+            $request['enquiryData']['sales_source_id'] = !empty($request['enquiryData']['source_id']) ? $request['enquiryData']['source_id'] : '';
+            
             if (!empty($request['enquiryData']['enquiry_locations'])) {
                 $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
                             return $el['id'];

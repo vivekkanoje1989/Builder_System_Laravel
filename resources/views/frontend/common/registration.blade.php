@@ -217,7 +217,7 @@
                                                                                 </div>
                                                                                 <div class="row">
                                                                                     <div class="col-sm-4 form-group">
-                                                                                        <label>Personal Mobile No. <span class="error_msg">*</span></label>
+                                                                                        <label>Personal Mobile Number <span class="error_msg">*</span></label>
                                                                                         <input type="text"  ng-model="userData.personal_mobile1" name="personal_mobile1" ng-disabled="true" placeholder="Mobile Number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  ng-pattern="/^[0-9]{10}$/" maxlength="10" required>
                                                                                             <div ng-show="sbtBtn && frmRegistration.personal_mobile1.$invalid" ng-messages="frmRegistration.personal_mobile1.$error" class="help-block">
                                                                                                 <div ng-message="required" class="error_msg">This field is required</div>
@@ -226,7 +226,7 @@
                                                                                             </div>
                                                                                     </div>
                                                                                     <div class="col-sm-4 form-group">
-                                                                                        <label>Office Mobile No. </label>
+                                                                                        <label>Office Mobile Number </label>
                                                                                         <input type="text"  ng-model="userData.office_mobile_no" name="office_mobile_no" placeholder="Mobile Number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  ng-pattern="/^[7-9][0-9]{9}$/" maxlength="10">
                                                                                             <div ng-show="sbtBtn && frmRegistration.office_mobile_no.$invalid" ng-messages="frmRegistration.office_mobile_no.$error" class="help-block">
                                                                                                 <div ng-message="pattern" class="error_msg">Mobile number should be valid & 10 digits</div>
@@ -247,13 +247,11 @@
                                                                                     </div>	
                                                                                     <div class="col-sm-4 form-group">
                                                                                         <label>Office Email</label>
-                                                                                        <!--check-for-same-emails="userData.personal_email1"-->
                                                                                         <input type="text" ng-model="userData.office_email_id"     ng-model-options="{ allowInvalid: true, debounce: 300 }"  placeholder="Office Email" name="office_email_id" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" maxlength="45" >
                                                                                             <i class="fa fa-envelope"></i>
                                                                                             <div ng-show="sbtBtn && frmRegistration.office_email_id.$invalid" ng-messages="userForm.office_email_id.$error" class="help-block">
                                                                                                 <div ng-message="pattern" class="error_msg">Invalid email address</div>                                                                               
                                                                                                 <div ng-message="maxlength" class="error_msg">Maximum 45 Character are Allowed</div> 
-<!--                                                                                                <div ng-message="checkForSameEmails">Email address must not be same.</div>-->
                                                                                             </div>
                                                                                     </div>			
                                                                                 </div>
