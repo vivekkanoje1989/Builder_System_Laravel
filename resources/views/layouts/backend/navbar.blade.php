@@ -226,7 +226,7 @@
                     <li>
                         <a chat-link class="wave in" title="Chat"></a>
                     </li>-->
-                    <li>{{imageUrl}}
+                    <li>
                         <a class="login-area dropdown-toggle" data-toggle="dropdown" ng-controller="hrController">
                             <div class="avatar" title="View your public profile">
                                 <img ng-if="!imageUrl" src="[[ config('global.s3Path').'/employee-photos/'.Auth::guard('admin')->user()->employee_photo_file_name;]]">
