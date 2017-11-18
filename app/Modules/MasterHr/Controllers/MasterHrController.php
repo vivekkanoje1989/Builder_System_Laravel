@@ -90,8 +90,9 @@ class MasterHrController extends Controller {
         $department_id = [];
         $export = '';
         if (!empty($request['empId']) && $request['empId'] !== "0") { // for edit
-            $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ')',0);
-        } else if ($request['empId'] == "") { // for index
+            $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ',0)');
+            
+        } else if ($request['empId'] == "") {  // for index
             $manageData = DB::select('CALL proc_manage_users(0,0,1)');
             $cnt = DB::select('select FOUND_ROWS() totalCount');
             $totalCount = $cnt[0]->totalCount;
@@ -286,7 +287,6 @@ class MasterHrController extends Controller {
     }
 
     public function getSharedEmployees() {
-        
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;

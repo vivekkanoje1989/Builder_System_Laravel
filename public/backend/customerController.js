@@ -31,10 +31,11 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.showaddress = true;
         $scope.hideaddress = false;
         $scope.customerAddress = false;
-
         $scope.todayremarkTimeChange = function (selectedDate)
         {
-            //$scope.enquiryData.next_followup_time = '';
+            if($scope.enquiryData.id <= 0){
+            $scope.enquiryData.next_followup_time = '';    
+            }            
             if (typeof selectedDate == 'undefined') {
                 $scope.timeList = [];
                 $scope.enquiryData.next_followup_time = '';
@@ -56,7 +57,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 });
             }
         }
-
         $scope.getModulesWiseHist_list = function (enquiry_id, opt, flag)
         {
             if (opt == 1)
@@ -500,7 +500,7 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
             $scope.enquiryData.parking_required = $scope.enquiryData.finance_required = "0";
             date.setHours("10");
             date.setMinutes("00");
-            $scope.enquiryData.next_followup_time = date;
+            //$scope.enquiryData.next_followup_time = date;
             if (customerId !== 0 && enquiryId === 0) {
                 $scope.showloader();
                 Data.post('master-sales/getCustomerDataWithId', {
@@ -612,7 +612,8 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                         $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : response.enquiryDetails[0].max_budget;
                         $scope.enquiryData.next_followup_date = (response.enquiryDetails[0].next_followup_date == '0000-00-00') ? '' : response.enquiryDetails[0].next_followup_date;
                         $scope.enquiryData.next_followup_time = response.enquiryDetails[0].next_followup_time;
-                        $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00') ? '' : response.enquiryDetails[0].property_possession_date;
+                        alert(response.enquiryDetails[0].property_possession_date);
+                        $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00' || response.enquiryDetails[0].property_possession_date == '1970-01-01') ? '' : response.enquiryDetails[0].property_possession_date;
                         
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;

@@ -7,15 +7,8 @@
     }
 </style>
 <div>
-    <div id="tabbedwizard" class="wizard wizard-tabbed" data-target="#tabbedwizardsteps" ui-jq="wizard">
-        <ul class="steps">
-            <li data-target="#tabbedwizardstep1" class="active"><span class="step">1</span>Project Basic Information<span class="chevron"></span></li>
-            <li data-target="#tabbedwizardstep2"><span class="step">2</span>Project Contact Details<span class="chevron"></span></li>
-            <li data-target="#tabbedwizardstep3"><span class="step">3</span>Project Seo Setting<span class="chevron"></span></li>
-        </ul>
-    </div>
-    <div class="step-content" id="tabbedwizardsteps">
-        <div class="step-pane active" id="tabbedwizardstep1">
+    <tabset>
+        <tab heading="Project Basic Information" id="basicInfoTab">
             <form role="form" name="basicInfoForm" ng-submit="webpageSettings(projectData.prid,projectData)">
                 <input type="hidden" ng-model="projectData.csrfToken" name="csrftoken" id="csrftoken" ng-init="projectData.csrfToken = '[[ csrf_token() ]]'"/>
                 <div class="row">
@@ -78,8 +71,8 @@
                     </div>
                 </div>
             </form>
-        </div>
-        <div class="step-pane" id="tabbedwizardstep2">
+        </tab>
+        <tab heading="Project Contact Details" id="contactInfoTab">
             <form role="form" name="contactInfoForm" ng-submit="webpageSettings(projectData.prid,contactData)">
                 <input type="hidden" ng-model="prid" name="prid" id="prid" />
                 <div class="row" ng-controller="currentCountryListCtrl">
@@ -155,8 +148,8 @@
                     </div>
                 </div>
             </form>
-        </div>
-        <div class="step-pane" id="tabbedwizardstep3">
+        </tab>
+        <tab heading="Project Seo Setting" id="seoTab">
             <form role="form" name="seoInfoForm" ng-submit="webpageSettings(projectData.prid,seoData)">
                 <input type="hidden" ng-model="prid" name="prid" id="prid" />
                 <div class="row">
@@ -208,12 +201,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
-    <div class="actions actions-footer" id="tabbedwizard-actions">
-        <div class="btn-group">
-            <button type="button" class="btn btn-default btn-sm btn-prev"> <i class="fa fa-angle-left"></i>Prev</button>
-            <button type="button" class="btn btn-default btn-sm btn-next" data-last="Finish">Next<i class="fa fa-angle-right"></i></button>
-        </div>
-    </div>
+        </tab>
+    </tabset>    
 </div>

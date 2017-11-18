@@ -75,14 +75,13 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-sm-3 col-xs-6">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">{{btnLabel}}</button>
-                    <button type="button" class="btn btn-primary" ng-click="cancel_uploads()">Cancel</button>
-                </div>
+            <div class=""><hr></div>
+            <div class="form-group" align="center">
+                <button type="submit" class="btn btn-primary">{{btnLabel}}</button>
+                <button type="button" class="btn btn-primary" ng-click="cancel_uploads()">Cancel</button>
             </div>
-        </div>
+        </div>        
     </form>
 </div>

@@ -22,16 +22,15 @@
 <div class="row">
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="userDocumentController" ng-init="getEmployees(); manageEmployeeDocuments();" >
-            <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>User Documents</h5>-->
             <div class="widget-header bordered-bottom bordered-themeprimary ">
                 <span class="widget-caption">User Documents</span>
-                   <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
-              </div>
+                <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
+            </div>
             <div class="widget-body col-lg-12 col-sm-12 col-xs-12">
                 <div id="user-form">
                     <form role="form" name="userForm" method="post"  ng-submit="userForm.$valid && createUserDocuments(userData.documentUrl, userData)"   novalidate enctype="multipart/form-data">
                         <input type="hidden" ng-model="userData.csrfToken" name="csrftoken" id="csrftoken" ng-init="userData.csrfToken = '[[ csrf_token() ]]'">
-                        <input type="hidden" ng-model="searchData.userId" name="userId" id="custId" value="{{searchData.userId}}">
+                        <input type="hidden" ng-model="searchData.userId"  name="userId"    id="custId"    value="{{searchData.userId}}">
                         <div class="row col-lg-12 col-sm-12 col-xs-12">
                             <div class="col-lg-6 col-sm-6 col-xs-12">
                                 <div class="row">
@@ -61,7 +60,7 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <label for="">Document <span class="sp-err">*</span></label>
+                                            <label for="">Document Name <span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
                                                 <select ng-model="userData.document_id"  name="document_id" class="form-control"  required ng-change="changeErrorMsg()">
                                                     <option value="">Select Document</option>
@@ -69,10 +68,10 @@
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i> 
                                                 <div ng-show="sbtBtn" ng-messages="userForm.document_id.$error" class="help-block errMsg">
-                                                    <div ng-message="required" class="sp-err">This field is required.</div>
+                                                    <div ng-message="required" class="sp-err">This field is required</div>
                                                     <div ng-if="errorMsgg">{{errorMsgg}}</div>
                                                 </div>
-                                                 <div ng-if="document_id" class="errMsg status sp-err">{{document_id}}</div>
+                                                <div ng-if="document_id" class="errMsg status sp-err">{{document_id}}</div>
                                             </span>
 
                                         </div>     
@@ -81,17 +80,18 @@
                                         <div class="form-group">
                                             <label for="">Document Number <span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="userData.document_number" name="document_number" required maxlength="15"  >
+                                                <input type="text" class="form-control" ng-model="userData.document_number" name="document_number" ng-pattern="/^[a-zA-Z0-9]*$/" required maxlength="15"  >
                                                 <div ng-show="sbtBtn" ng-messages="userForm.document_number.$error" class="help-block errMsg">
-                                                    <div ng-message="required" class="sp-err">This field is required.</div>
+                                                    <div ng-message="required" class="sp-err">This field is required</div>
+                                                    <div ng-message="pattern" class="sp-err">Invalid document number</div>
                                                 </div>
-                                                 <div ng-if="document_number" class="errMsg status sp-err">{{document_number}}</div>
+                                                <div ng-if="document_number" class="errMsg status sp-err">{{document_number}}</div>
                                             </span>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <label for="">Upload document</label>
+                                            <label for="">Upload Document</label>
                                             <span class="input-icon icon-right">
                                                 <input type="file" ngf-select ng-model="userData.documentUrl" name="documentUrl" id="documentUrl" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ><br/>
                                             </span>
@@ -122,7 +122,7 @@
                                             <tr>
                                                 <th>Sr. No. </th>
                                                 <th>Document name</th>
-                                                <th>Number</th>
+                                                <th>Document Number</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -147,20 +147,20 @@
     </div>
     <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
         <div class="modal-dialog">
-           
+
             <div class="modal-content helpModal" >
                 <div class="modal-header helpModalHeader bordered-bottom bordered-themeprimary" >
                     <button type="button" class="close" data-dismiss="modal">×</button>
                     <h4 class="modal-title" align="center">Task Priority Help Info</h4>
                 </div>                
                 <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group col-sm-12">
-                                <label class="helpContent">- After selecting the user showing the documents information about that user. </label>
-                                
-                            </div>                            
-                        </div>
-                    </div>  
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label class="helpContent">- After selecting the user showing the documents information about that user. </label>
+
+                        </div>                            
+                    </div>
+                </div>  
             </div>
         </div>
     </div>
