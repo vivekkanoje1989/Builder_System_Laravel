@@ -366,15 +366,19 @@
                     </div>
                     <div class="col-sm-3 col-xs-6" ng-if="enquiryData.property_possession_type == 0 && enqType != 1">
                         <div class="form-group">
-                            <label for="">Tentative Possession Date</label>
+                            <label for="">Tentative Possession Date<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="enquiryData.property_possession_date" name="property_possession_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly>
+                                    <input type="text" ng-model="enquiryData.property_possession_date" name="property_possession_date" class="form-control" datepicker-popup="dd-MM-yyyy" required is-open="opened" min-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>                                    
+                                    </span>
+                                    <div ng-show="enqFormBtn" ng-messages="enquiryForm.property_possession_date.$error" class="help-block errMsg">
+                                        <div ng-message="required">This field is required</div>
+                                    </div>
+                                    <div ng-if="property_possession_date"class="errMsg birth_date">{{property_possession_date}}</div>
                                 </p>
-                            </div>                               
+                            </div>
                         </div> 
                     </div>                        
                 </div>
