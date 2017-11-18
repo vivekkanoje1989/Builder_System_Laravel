@@ -17,8 +17,8 @@
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Contact Us</span>  
-                 <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
-             </div>
+                <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
+            </div>
 
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
@@ -237,7 +237,10 @@
                                 <div class="form-group">
                                     <label>Contact Number</label> 
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="contact_number1" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  name="contact_number1"  maxlength="10" minlength="10">
+                                        <input type="text" class="form-control" ng-model="contact_number1" ng-change="checkValue1(contact_number1)"   oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"   name="contact_number1"  maxlength="10" minlength="10">
+                                     <div ng-show="sbtBtn && contactUsForm.contact_number1.$invalid" ng-messages="contactUsForm.contact_number1.$error" class="help-block">
+                                        <div ng-show="errMobile" class="sp-err">Invalid mobile number!</div>
+                                     </div>
                                     </span>
                                 </div>
                             </div>
@@ -247,7 +250,8 @@
                                 <div class="form-group">
                                     <label>Alternate Number1</label>  
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="contact_number2" name="contact_number2" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  maxlength="10" minlength="10">
+                                        <input type="text" class="form-control" ng-model="contact_number2" ng-change="checkValue2(contact_number2)" name="contact_number2" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  maxlength="10" minlength="10">
+                                     <div ng-show="errMobile2" class="sp-err">Invalid mobile number!</div>
                                     </span>
                                 </div>
                             </div>
@@ -255,7 +259,8 @@
                                 <div class="form-group">
                                     <label>Alternate Number2</label>   
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="contact_number3" name="contact_number3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="10" minlength="10">
+                                        <input type="text" class="form-control" ng-model="contact_number3"   ng-change="checkValue3(contact_number3)"name="contact_number3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="10"  minlength="10">
+                                     <div ng-show="errMobile3" class="sp-err">Invalid mobile number!</div>
                                     </span>
                                 </div>
                             </div>
@@ -288,7 +293,10 @@
                                 <div class="form-group">
                                     <label>Email Address</label>  
                                     <span class="input-icon icon-right">
-                                        <input type="email" class="form-control" ng-model="email" name="email">
+                                        <input type="email" class="form-control" ng-model="email" name="email"  ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/">
+                                        <div ng-show="sbtBtn" ng-messages="contactUsForm.email.$error" class="help-block">
+                                            <div ng-message="pattern">Please enter valid email id</div>
+                                        </div>
                                     </span>
                                 </div>
                             </div>
@@ -373,23 +381,23 @@
     <!-- Filter Form End-->
     <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
         <div class="modal-dialog">
-           
+
             <div class="modal-content helpModal" >
                 <div class="modal-header helpModalHeader bordered-bottom bordered-themeprimary" >
                     <button type="button" class="close" data-dismiss="modal">×</button>
                     <h4 class="modal-title" align="center">Task Priority Help Info</h4>
                 </div>                
                 <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group col-sm-12">
-                                <label class="helpContent">-  Using this listing showing the contact us information.</label>
-                                <label class="helpContent">-  After click on 'Edit' button you can update the contact us information.</label>
-                                <span class="input-icon icon-right">                                    
-                                    
-                                </span>
-                            </div>                            
-                        </div>
-                    </div>  
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label class="helpContent">-  Using this listing showing the contact us information.</label>
+                            <label class="helpContent">-  After click on 'Edit' button you can update the contact us information.</label>
+                            <span class="input-icon icon-right">                                    
+
+                            </span>
+                        </div>                            
+                    </div>
+                </div>  
             </div>
         </div>
     </div>
