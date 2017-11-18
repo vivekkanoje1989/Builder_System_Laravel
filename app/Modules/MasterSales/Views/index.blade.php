@@ -55,8 +55,7 @@
 </style>
 <div class="row"> 
     <div class="widget flat radius-bordered ">
-        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController" ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]],[[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]],0);manageQuickEnquiry()">
-            <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>-->
+        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController" ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]], [[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]], 0); manageQuickEnquiry()">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">{{pageHeading}}</span>
             </div>
@@ -128,185 +127,186 @@
                     </div>
                     <div class="widget-body table-responsive" style="box-shadow:none;">
                         <div class="row" >
-                        <div class="col-xs-12 col-md-12">
-                            <div class="widget">
-                                <div  class="widget-body">
-                                    <table class="table table-hover table-striped table-bordered" at-config="config">
-                                        <thead class="bord-bot">
-                                            <tr>
-                                                <th style="width:5%">
-                                                    Sr. No.
-                                                </th>
-                                                <th style="width: 30%">
-                                                    Customer 
-                                                </th>
-                                                <th style="width: 30%">
-                                                    Enquiry
-                                                </th>
-                                                <th style="width: 30%">
-                                                    History 
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr role="row" dir-paginate="enquiry in listsIndex.CustomerEnquiryDetails | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                                                <td>{{ $index + 1}}</td>
-                                                <td> 
-                                                    {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}
-                                                    <div ng-if="enquiry.mobile_number != ''" ng-init="mobile_number = enquiry.mobile_number.split(',')" class="ng-scope">
-                                                        <span ng-repeat="mobile_obj in mobile_number| limitTo:2" class="ng-binding ng-scope">
-                                                            <a style="cursor: pointer;" class="Linkhref ng-scope" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1,<?php echo Auth::guard('admin')->user()->id; ?>,{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
-                                                                <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;">
-                                                            </a>
-                                                            {{mobile_obj}}
-                                                        </span>
-                                                    </div>
-                                                    <p ng-if="enquiry.email_id != '' && enquiry.email_id !='null' ">{{enquiry.email_id}}</p>
-                                                    <hr class="enq-hr-line">
-                                                    <div>
-                                                        <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}" class="ng-binding"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{ enquiry.customer_id}})</a>
-                                                    </div>
-                                                    <hr class="enq-hr-line">
-                                                    <p>Company :{{enquiry.company_name}}</p>
-                                                    <p>Source  : {{enquiry.sales_source_name}}</p>
-                                                </td>
-                                                <td>
-                                                    Status : {{enquiry.sales_status}}
-                                                     <hr class="enq-hr-line">
-                                                    Category :  {{enquiry.enquiry_category}}
-                                                     <hr class="enq-hr-line">
-<!--                                                    Project : {{enquiry.project_name}} 
-                                                     <hr class="enq-hr-line">-->
-                                                    <div>
-                                                        <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id }}/eid/{{ enquiry.id}}" class="ng-binding"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <b> Enquiry Owner  :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}
-                                                    <hr class="enq-hr-line">
-<!--                                                    <b>Test Drive : </b>{{enquiry.testdrive_list}}
-                                                    <hr class="enq-hr-line">-->
-                                                    <b>Last followup :</b> {{enquiry.last_followup_date}}
-                                                    <br/>
-                                                    <b>By followup : {{enquiry.owner_fname}} {{enquiry.owner_lname}} : </b>{{enquiry.remarks}} 
-                                                    <hr class="enq-hr-line">
-                                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)">View History</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>                                    
-                                </div>
-                                <!-- Modal -->
-                                <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1' >
-                                    <div class="modal-dialog modal-lg" >
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header navbar-inner">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h4 class="modal-title" align="center">Enquiry History</h4>
-                                            </div>
-                                            <div class="modal-body"> 
-                                                <div>
-                                                    <label>
-                                                        <input type="checkbox" name="chk_enquiry_history_list" ng-click="getModulesWiseHist_list(history_enquiryId, 1, 'listFlag')" checked  class="chk_enquiry_history_list">
-                                                        <span class="text">All</span>
-                                                    </label>
-                                                    &nbsp;&nbsp;
-                                                    <label>
-                                                        <input type="checkbox"  ng-click="getModulesWiseHist_list(history_enquiryId, 0, 'listFlag')" data-id="1" checked class="chk_followup_history_all_list" class="chk_presales_list">
-                                                        <span class="text">Pre Sales</span>
-                                                    </label>
-                                                    &nbsp;&nbsp;
-                                                    <label>
-                                                        <input type="checkbox"  ng-click="getModulesWiseHist_list(history_enquiryId, 0, 'listFlag')" data-id="2" checked  class="chk_followup_history_all_list" class="chk_Customer_Care_list">
-                                                        <span class="text">Customer Care</span>
-                                                    </label>
-                                                    <hr class="enq-hr-line">           
-                                                    1) <span>PS = Pre Sales</span> &nbsp;&nbsp;2) <span>CC = Customer Care</span>            
-                                                    <hr class="enq-hr-line">    
+                            <div class="col-xs-12 col-md-12">
+                                <div class="widget">
+                                    <div  class="widget-body">
+                                        <table class="table table-hover table-striped table-bordered" at-config="config">
+                                            <thead class="bord-bot">
+                                                <tr>
+                                                    <th style="width:5%">
+                                                        Sr. No.
+                                                    </th>
+                                                    <th style="width: 30%">
+                                                        Customer 
+                                                    </th>
+                                                    <th style="width: 30%">
+                                                        Enquiry
+                                                    </th>
+                                                    <th style="width: 30%">
+                                                        History 
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr role="row" dir-paginate="enquiry in listsIndex.CustomerEnquiryDetails | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                                                    <td>{{ $index + 1}}</td>
+                                                    <td> 
+                                                        {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}
+                                                        <div ng-if="enquiry.mobile_number != ''" ng-init="mobile_number = enquiry.mobile_number.split(',')" class="ng-scope">
+                                                            <span ng-repeat="mobile_obj in mobile_number| limitTo:2" class="ng-binding ng-scope">
+                                                                <a style="cursor: pointer;" class="Linkhref ng-scope" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1,<?php echo Auth::guard('admin')->user()->id; ?>,{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
+                                                                    <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;">
+                                                                </a>
+                                                                {{mobile_obj}}
+                                                            </span>
+                                                        </div>
+                                                        <p ng-if="enquiry.email_id != '' && enquiry.email_id != 'null'">{{enquiry.email_id}}</p>
+                                                        <hr class="enq-hr-line">
+                                                        <div>
+                                                            <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}" class="ng-binding"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{ enquiry.customer_id}})</a>
+                                                        </div>
+                                                        <hr class="enq-hr-line">
+                                                        <p>Company :{{enquiry.company_name}}</p>
+                                                        <p>Source  : {{enquiry.sales_source_name}}</p>
+                                                    </td>
+                                                    <td>
+                                                        Status : {{enquiry.sales_status}}
+                                                        <hr class="enq-hr-line">
+                                                        Category :  {{enquiry.enquiry_category}}
+                                                        <hr class="enq-hr-line">
+                                                        <!--                                                    Project : {{enquiry.project_name}} 
+                                                                                                             <hr class="enq-hr-line">-->
+                                                        <div>
+                                                            <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}/eid/{{ enquiry.id}}" class="ng-binding"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <b> Enquiry Owner  :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}
+                                                        <hr class="enq-hr-line">
+                                                        <!--                                                    <b>Test Drive : </b>{{enquiry.testdrive_list}}
+                                                                                                            <hr class="enq-hr-line">-->
+                                                        <b>Last followup :</b> {{enquiry.last_followup_date}}
+                                                        <br/>
+                                                        <b>By followup : {{enquiry.owner_fname}} {{enquiry.owner_lname}} : </b>{{enquiry.remarks}} 
+                                                        <hr class="enq-hr-line">
+                                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)">View History</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>                                    
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1' >
+                                        <div class="modal-dialog modal-lg" >
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header navbar-inner">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title" align="center">Enquiry History</h4>
                                                 </div>
+                                                <div class="modal-body"> 
+                                                    <div>
+                                                        <label>
+                                                            <input type="checkbox" name="chk_enquiry_history_list" ng-click="getModulesWiseHist_list(history_enquiryId, 1, 'listFlag')" checked  class="chk_enquiry_history_list">
+                                                            <span class="text">All</span>
+                                                        </label>
+                                                        &nbsp;&nbsp;
+                                                        <label>
+                                                            <input type="checkbox"  ng-click="getModulesWiseHist_list(history_enquiryId, 0, 'listFlag')" data-id="1" checked class="chk_followup_history_all_list" class="chk_presales_list">
+                                                            <span class="text">Pre Sales</span>
+                                                        </label>
+                                                        &nbsp;&nbsp;
+                                                        <label>
+                                                            <input type="checkbox"  ng-click="getModulesWiseHist_list(history_enquiryId, 0, 'listFlag')" data-id="2" checked  class="chk_followup_history_all_list" class="chk_Customer_Care_list">
+                                                            <span class="text">Customer Care</span>
+                                                        </label>
+                                                        <hr class="enq-hr-line">           
+                                                        1) <span>PS = Pre Sales</span> &nbsp;&nbsp;2) <span>CC = Customer Care</span>            
+                                                        <hr class="enq-hr-line">    
+                                                    </div>
 
-                                                <div style="height: auto;max-height: 605px;margin-top: 0px; overflow-x: hidden;overflow-y: scroll;">
-                                                    <table class="table table-hover table-striped table-bordered" at-config="config" >
-                                                        <thead class="bord-bot">
-                                                            <tr>
-                                                                <th class="enq-table-th" style="width:3%">SR</th>
-                                                                <th class="enq-table-th" style="width: 13%;">
-                                                                    Followup By 
-                                                                </th>
-                                                                <th class="enq-table-th" style="width: 13%">
-                                                                    Last  
-                                                                </th>
-                                                                <th class="enq-table-th" style="width: 13%">
-                                                                    Next
-                                                                </th>
-                                                                <th class="enq-table-th" style="width: 20%">
-                                                                    Status
-                                                                </th>
-                                                                <th class="enq-table-th" style="width: 38%">
-                                                                    Remarks
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody ng-repeat="history in historyList track by $index | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                                                            <tr role="row" >
-                                                                <td style="width:4%" rowspan="2">
-                                                                    {{ $index + 1}}
-                                                                </td>
-                                                                <td style="width: 10%;">
-                                                                    <div>
-                                                                        {{ history.first_name}}  {{ history.last_name}}    
-                                                                        <span>
-                                                                            <b>({{history.short_name}})</b>
+                                                    <div style="height: auto;max-height: 605px;margin-top: 0px; overflow-x: hidden;overflow-y: scroll;">
+                                                        <table class="table table-hover table-striped table-bordered" at-config="config" >
+                                                            <thead class="bord-bot">
+                                                                <tr>
+                                                                    <th class="enq-table-th" style="width:3%">SR</th>
+                                                                    <th class="enq-table-th" style="width: 13%;">
+                                                                        Followup By 
+                                                                    </th>
+                                                                    <th class="enq-table-th" style="width: 13%">
+                                                                        Last  
+                                                                    </th>
+                                                                    <th class="enq-table-th" style="width: 13%">
+                                                                        Next
+                                                                    </th>
+                                                                    <th class="enq-table-th" style="width: 20%">
+                                                                        Status
+                                                                    </th>
+                                                                    <th class="enq-table-th" style="width: 38%">
+                                                                        Remarks
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody ng-repeat="history in historyList track by $index | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                                                                <tr role="row" >
+                                                                    <td style="width:4%" rowspan="2">
+                                                                        {{ $index + 1}}
+                                                                    </td>
+                                                                    <td style="width: 10%;">
+                                                                        <div>
+                                                                            {{ history.first_name}}  {{ history.last_name}}    
+                                                                            <span>
+                                                                                <b>({{history.short_name}})</b>
+                                                                            </span>
+                                                                        </div>
+
+                                                                    </td>
+                                                                    <td style="width: 10%">
+                                                                        {{ history.last_followup_date | split:'@':0}}<br/> @ {{ history.last_followup_date | split:'@':1 }}
+                                                                    </td>
+
+
+                                                                    <td style="width: 10%">
+                                                                        <span ng-if="history.next_followup_date != null && history.next_followup_date != '00-00-0000'">
+                                                                            {{ history.next_followup_date}} <br/>@ {{ history.next_followup_time}}
                                                                         </span>
-                                                                    </div>
+                                                                        <span ng-if="history.next_followup_date == null || history.next_followup_date == '00-00-0000'">
+                                                                            <center>  -</center>
+                                                                        </span>
 
-                                                                </td>
-                                                                <td style="width: 10%">
-                                                                    {{ history.last_followup_date | split:'@':0}}<br/> @ {{ history.last_followup_date | split:'@':1 }}
-                                                                </td>
+                                                                    </td>
+                                                                    <td style="width: 8%">
+                                                                        <div ng-show="history.cc_presales_status != null">
+                                                                            {{history.cc_presales_status}} <span ng-if="history.cc_presales_substatus != null">/<br/></span>
+                                                                            {{history.cc_presales_substatus}}
+                                                                        </div>
+                                                                        <div ng-show="history.sales_status != null">
+                                                                            {{history.sales_status}} <span ng-if="history.enquiry_sales_substatus != null">/<br/></span>
+                                                                            {{history.enquiry_sales_substatus}}
+                                                                        </div>
+                                                                        <div ng-show="history.cc_presales_status == null && history.sales_status == null">
+                                                                            N/A
+                                                                        </div>
 
-
-                                                                <td style="width: 10%">
-                                                                    <span ng-if="history.next_followup_date != null && history.next_followup_date != '00-00-0000'">
-                                                                        {{ history.next_followup_date}} <br/>@ {{ history.next_followup_time}}
-                                                                    </span>
-                                                                    <span ng-if="history.next_followup_date == null || history.next_followup_date == '00-00-0000'">
-                                                                        <center>  -</center>
-                                                                    </span>
-
-                                                                </td>
-                                                                <td style="width: 8%">
-                                                                    <div ng-show="history.cc_presales_status != null">
-                                                                        {{history.cc_presales_status}} <span ng-if="history.cc_presales_substatus != null">/<br/></span>
-                                                                        {{history.cc_presales_substatus}}
-                                                                    </div>
-                                                                    <div ng-show="history.sales_status != null">
-                                                                        {{history.sales_status}} <span ng-if="history.enquiry_sales_substatus != null">/<br/></span>
-                                                                        {{history.enquiry_sales_substatus}}
-                                                                    </div>
-                                                                    <div ng-show="history.cc_presales_status == null && history.sales_status == null">
-                                                                        N/A
-                                                                    </div>
-
-                                                                </td>               
-                                                                <td style="width: 16%">
-                                                                    <span data-toggle="tooltip" title="{{history.remarks| removeHTMLTags}}">{{history.remarks| removeHTMLTags | limitTo : 150 }} </span>  
-                                                                    <span ng-if="history.remarks.length > 150" data-toggle="tooltip" title="{{history.remarks| removeHTMLTags}}">...</span>
+                                                                    </td>               
+                                                                    <td style="width: 16%">
+                                                                        <span data-toggle="tooltip" title="{{history.remarks| removeHTMLTags}}">{{history.remarks| removeHTMLTags | limitTo : 150 }} </span>  
+                                                                        <span ng-if="history.remarks.length > 150" data-toggle="tooltip" title="{{history.remarks| removeHTMLTags}}">...</span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-if="history.call_recording_url != '' && history.call_recording_url != 'None' && history.call_recording_url != None">
+                                                                    <td colspan="7">
+                                                                        <audio style="width: 600px;" id="recording_{{ history.id}}" controls></audio>
+                                                                    </td>
+                                                                </tr>            
+                                                            </tbody>
+                                                            <tr ng-if="historyList.length == 0">
+                                                                <td colspan="6" class="text-align-center">
+                                                                    --Record Not Found--
                                                                 </td>
                                                             </tr>
-                                                            <tr ng-if="history.call_recording_url != '' && history.call_recording_url != 'None' && history.call_recording_url != None">
-                                                                <td colspan="7">
-                                                                    <audio style="width: 600px;" id="recording_{{ history.id}}" controls></audio>
-                                                                </td>
-                                                            </tr>            
-                                                        </tbody>
-                                                         <tr ng-if="historyList.length == 0">
-                                                            <td colspan="6" class="text-align-center">
-                                                                --Record Not Found--
-                                                            </td>
-                                                        </tr>
-                                                    </table>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -314,7 +314,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="enqType == 0"><br>
                             <div class="form-group" align="center">
                                 <button type="submit" class="btn btn-primary" ng-click="createEnquiry()">Create New Enquiry</button>
@@ -439,152 +438,152 @@
                                     <span class="custAdress" ng-show="showaddress" ng-click="showAddress()"> <i class="fa fa-plus-square fa-2" aria-hidden="true"></i></span>&nbsp;
                                     <span ng-show="hideaddress" ng-click="hideAddress()" class="custAdress"><i class="fa fa-minus-square fa-2" aria-hidden="true"></i></span>
                                     <div class="col-lg-12 col-sm-12 col-xs-12" ng-show="customerAddress" ng-controller="currentCountryListCtrl">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Address</label>		
-                                                <span class="input-icon icon-right">
-                                                    <select ng-model="contactData.address_type" name="address_type" class="form-control">
-                                                        <option value="1">Personal</option>
-                                                        <option value="2">Office</option>
-                                                    </select>
-                                                    <i class="fa fa-sort-desc"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">House Number</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.house_number" maxlength="10" name="house_number" class="form-control date-picker">
-                                                    <i class="fa fa-home"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Building House Name</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.building_house_name" maxlength="20" name="building_house_name" class="form-control">
-                                                    <i class="fa fa-building-o"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <span class="input-icon icon-right">
-                                                    <label for="">Wing Name</label>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="">Address</label>		
                                                     <span class="input-icon icon-right">
-                                                        <input type="text" ng-model="contactData.wing_name" maxlength="20" name="wing_name" class="form-control">
+                                                        <select ng-model="contactData.address_type" name="address_type" class="form-control">
+                                                            <option value="1">Personal</option>
+                                                            <option value="2">Office</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="">House Number</label>
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" ng-model="contactData.house_number" maxlength="10" name="house_number" class="form-control date-picker">
+                                                        <i class="fa fa-home"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="">Building House Name</label>
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" ng-model="contactData.building_house_name" maxlength="20" name="building_house_name" class="form-control">
                                                         <i class="fa fa-building-o"></i>
-                                                    </span> 
-                                                </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <span class="input-icon icon-right">
+                                                        <label for="">Wing Name</label>
+                                                        <span class="input-icon icon-right">
+                                                            <input type="text" ng-model="contactData.wing_name" maxlength="20" name="wing_name" class="form-control">
+                                                            <i class="fa fa-building-o"></i>
+                                                        </span> 
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Area Name</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.area_name" maxlength="30" name="area_name" class="form-control date-picker">
-                                                    <i class="fa fa-building-o"></i>
-                                                </span>                                      
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="">Area Name</label>
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" ng-model="contactData.area_name" maxlength="30" name="area_name" class="form-control date-picker">
+                                                        <i class="fa fa-building-o"></i>
+                                                    </span>                                      
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">                                            
+                                                    <label for="">Lane Name</label>
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" ng-model="contactData.lane_name" maxlength="30"  name="lane_name" class="form-control date-picker">
+                                                        <i class="fa fa-building-o"></i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">                                            
-                                                <label for="">Lane Name</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.lane_name" maxlength="30"  name="lane_name" class="form-control date-picker">
-                                                    <i class="fa fa-building-o"></i>
-                                                </span>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="">Landmark</label>
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" ng-model="contactData.landmark" name="landmark" maxlength="30" class="form-control date-picker">
+                                                        <i class="fa fa-building-o"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="">Pin Code</label>
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" ng-model="contactData.pin" name="pin" maxlength="6" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                                        <i class="fa fa-compass" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Landmark</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.landmark" name="landmark" maxlength="30" class="form-control date-picker">
-                                                    <i class="fa fa-building-o"></i>
-                                                </span>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="">Country</label>
+                                                    <span class="input-icon icon-right">
+                                                        <select ng-change="onCountryChange()" ng-model="contactData.country_id" name="country_id" id="current_country_id" class="form-control">
+                                                            <option value="">Select Country</option>
+                                                            <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == contactData.country_id}}">{{country.name}}</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="">State</label>                                                
+                                                    <span class="input-icon icon-right">
+                                                        <select ng-model="contactData.state_id" ng-change="onStateChange()" name="state_id" id="current_state_id" class="form-control">
+                                                            <option value="">Select State</option>
+                                                            <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == contactData.state_id}}">{{state.name}}</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Pin Code</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.pin" name="pin" maxlength="6" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-                                                    <i class="fa fa-compass" aria-hidden="true"></i>
-                                                </span>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="">City</label>
+                                                    <span class="input-icon icon-right">
+                                                        <select ng-model="contactData.city_id" name="city_id" class="form-control">
+                                                            <option value="">Select City</option>
+                                                            <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == contactData.city_id}}">{{city.name}}</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="">Google Map Link</label>
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" ng-model="contactData.google_map_link" name="google_map_link" class="form-control">
+                                                        <i class="fa fa-compass" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Country</label>
-                                                <span class="input-icon icon-right">
-                                                    <select ng-change="onCountryChange()" ng-model="contactData.country_id" name="country_id" id="current_country_id" class="form-control">
-                                                        <option value="">Select Country</option>
-                                                        <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == contactData.country_id}}">{{country.name}}</option>
-                                                    </select>
-                                                    <i class="fa fa-sort-desc"></i>
-                                                </span>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="">Remarks</label>
+                                                    <span class="input-icon icon-right">
+                                                        <textarea ng-model="contactData.other_lists" name="other_lists" class="form-control" maxlength="300"></textarea>
+                                                        <i class="fa fa-building-o"></i>
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">State</label>                                                
-                                                <span class="input-icon icon-right">
-                                                    <select ng-model="contactData.state_id" ng-change="onStateChange()" name="state_id" id="current_state_id" class="form-control">
-                                                        <option value="">Select State</option>
-                                                        <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == contactData.state_id}}">{{state.name}}</option>
-                                                    </select>
-                                                    <i class="fa fa-sort-desc"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">City</label>
-                                                <span class="input-icon icon-right">
-                                                    <select ng-model="contactData.city_id" name="city_id" class="form-control">
-                                                        <option value="">Select City</option>
-                                                        <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == contactData.city_id}}">{{city.name}}</option>
-                                                    </select>
-                                                    <i class="fa fa-sort-desc"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Google Map Link</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.google_map_link" name="google_map_link" class="form-control">
-                                                    <i class="fa fa-compass" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="">Remarks</label>
-                                                <span class="input-icon icon-right">
-                                                    <textarea ng-model="contactData.other_lists" name="other_lists" class="form-control" maxlength="300"></textarea>
-                                                    <i class="fa fa-building-o"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>                                
-                                </div>   
+                                        </div>                                
+                                    </div>   
                                 </div>
                             </div>
                             <div class="modal-footer" align="center">
@@ -602,10 +601,9 @@
 </div>
 
 <script>
-   $(document).ready(function(){
-       $("#closeModal").click(function(){
-           $("#subbtn").trigger("click");
-       });
-   });
-   $("#mobile_calling_code,#landline_calling_code,#mobile_calling_code1").intlTelInput();
-</script>
+    $(document).ready(function(){
+    $("#closeModal").click(function(){
+    $("#subbtn").trigger("click");
+    });
+    });
+    $("#mobile_calling_code,#landline_calling_code,#mobile_calling_code1").intlTelInput();</script>
