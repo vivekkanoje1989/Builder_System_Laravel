@@ -21,7 +21,32 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
                 }
             });
         };
-
+        $scope.checkMobileValue = function () {
+            if (typeof $scope.testimonial.mobile_number === 'undefined' || $scope.testimonial.mobile_number === '') {
+                $scope.mobileNoErr = false;
+            } else {
+                var regMobile = /^[789]/;
+                if (!regMobile.test($scope.testimonial.mobile_number)) {
+                    $scope.mobileNoErr = true;
+                } else {
+                    $scope.mobileNoErr = "";
+                    $scope.mobileNoErr = false;
+                }
+            }
+        }
+        $scope.checkMobileValue1 = function () {
+            if (typeof $scope.testimonial.mobile_number === 'undefined' || $scope.testimonial.mobile_number === '') {
+                $scope.mobileNoErr = false;
+            } else {
+                var regMobile = /^[789]/;
+                if (!regMobile.test($scope.testimonial.mobile_number)) {
+                    $scope.mobileNoErr = true;
+                } else {
+                    $scope.mobileNoErr = "";
+                    $scope.mobileNoErr = false;
+                }
+            }
+        }
         $scope.showHelpManageTestimonial = function () {
             $scope.optionModal = $modal.open({
                 template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Manage Testimonials</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
@@ -152,22 +177,21 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
                 data: data
             });
             photo_url.upload.then(function (response) {
-
                 if (response.data.success) {
                     $scope.testimonialsBtn = false;
                     if ($scope.testimonial_id == 0) {
                         toaster.pop('success', 'Testimonials', 'Record successfully created');
                         if (response.data.records.approve_status == '1') {
-                            $state.go('testimonialsIndex');
-                        } else {
                             $state.go('testimonialsManage');
+                        } else {
+                            $state.go('testimonialsIndex');
                         }
                     } else {
                         toaster.pop('success', 'Testimonials', 'Record successfully updated');
                         if (response.data.records.approve_status == '1') {
-                            $state.go('testimonialsIndex');
-                        } else {
                             $state.go('testimonialsManage');
+                        } else {
+                            $state.go('testimonialsIndex');
                         }
                     }
                 }
