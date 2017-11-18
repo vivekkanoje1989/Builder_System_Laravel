@@ -34,6 +34,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
         $scope.todayremarkTimeChange = function (selectedDate)
         {
+            //$scope.enquiryData.next_followup_time = '';
             if (typeof selectedDate == 'undefined') {
                 $scope.timeList = [];
                 $scope.enquiryData.next_followup_time = '';

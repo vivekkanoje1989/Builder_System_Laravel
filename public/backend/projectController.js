@@ -151,7 +151,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.projectData.project_id = prid;
                         $scope.projectData.prid = prid;
                         $scope.showAllTabs = true;
-                        $scope.btnLabel = "Add";
+                        $scope.btnLabel = "Save";
                     }
                     $scope.getWings();
                     $scope.getBlocks();
@@ -169,9 +169,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.uploadsData = function (prid, uploadData, otherData) {
-//            $('#fade-in2').toggleClass('show'); 
-//            $scope.mainPanel = false;
-//            $scope.content_uploads = true;
+            
             $scope.moduleName = ": Upload Documents And Images";
             if (uploadData === "" && otherData === "") { //for display data
                 $scope.getWings();
@@ -187,6 +185,8 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                         if (!responseAList.success) {
                             $scope.errorMsg = responseAList.message;
                         } else {
+                            
+                            console.log(response.uploadData);
                             $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_brochure = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
                             //$scope.projectImages = response.uploadData;
                             $scope.mapData.google_map_iframe = (response.uploadData.google_map_iframe !== null && response.uploadData.google_map_iframe !== "null") ? response.uploadData.google_map_iframe : "";
@@ -216,14 +216,19 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                                 var array = response.getProjectStatusRecords[i].images.split(',');
                                 $scope.statusImages.push(array);
                             }
+                            
+                            if($scope.project_logo.length == 0 || $scope.project_thumbnail.length == 0 || $scope.project_favicon.length == 0 || $scope.project_banner_images.length == 0 || $scope.project_background_images.length == 0 || $scope.project_brochure.length == 0){
+                                $scope.btnLabel = "Save";
+                            }else{
+                                $scope.btnLabel = "Update";
+                            }
                         }
                     });
                 });
-                $scope.btnLabel = "Update";
+                
             } else { //for insert or update
-                $scope.btnLabel = "Add";
+                
                 $scope.sbtbtnFiles = true;
-                console.log(typeof uploadData+"=="+uploadData);
                 if (typeof uploadData === 'undefined') {
                     uploadData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
                 }
@@ -238,7 +243,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                     } else {
                         $scope.sbtbtnFiles = false;
                         $scope.uploadData = otherData = "";
-                        toaster.pop('success', 'Project', response.data.message);
+                        toaster.pop('success', 'Project', response.data.message);                            
                     }
                 }, function (response) {
                     if (response.data.status !== 200) {
