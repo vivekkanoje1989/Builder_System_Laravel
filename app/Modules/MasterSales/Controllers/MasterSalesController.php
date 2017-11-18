@@ -162,7 +162,7 @@ class MasterSalesController extends Controller {
             $originalContactValues = CustomersContact::where('customer_id', $id)->get();
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
-           
+
             if (empty($input)) {
                 $input = Input::all();
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -181,15 +181,14 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['loggedInUserId']);
                 unset($input['customerData']['id']);
                 unset($input['customerData']['company_name']);
-            } 
-            
+            }
+
             $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
-            $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "";
-            $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
-
+            $input['customerData']['marriage_date'] = (!empty($input['customerData']['marriage_date']) && $input['customerData']['marriage_date'] != 'null')  ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
+            $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));            
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
 
@@ -302,14 +301,27 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
+
             $enquiryId = !empty($request['data']['enquiryId']) ? $request['data']['enquiryId'] : "0";
             $customerId = !empty($request['data']['customerId']) ? $request['data']['customerId'] : "0";
             $getEnquiryDetails = DB::select('CALL proc_get_enquiry_details(' . $customerId . ',' . $enquiryId . ')');
+
+            $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails), true);
+            //
             if (count($getEnquiryDetails) > 0) {
-                $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails), true);
                 $getCityID = lstEnquiryLocations::select("city_id")->where('id', '=', $getEnquiryDetails[0]['enquiry_locations'])->get();
+
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getEnquiryDetails[0]['customer_id'])->get();
+
                 $getCustomerContacts = CustomersContact::where('customer_id', '=', $getEnquiryDetails[0]['customer_id'])->get();
+
+                $data = Customer::select('mlc.id', 'mlc.company_name')
+                        ->where('mlc.id', '=', $getCustomerPersonalDetails[0]['company_id'])
+                        ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_companies as mlc', 'mlc.id', '=', 'customers.company_id')
+                        ->get();
+                if (count($data) > 0) {
+                    $getCustomerPersonalDetails[0]['company_name'] = $data[0]['company_name'];
+                }
                 if (count($getCustomerContacts) > 0) {
                     unset($getCustomerPersonalDetails[0]['pan_number']);
                     unset($getCustomerPersonalDetails[0]['aadhar_number']);
@@ -329,7 +341,8 @@ class MasterSalesController extends Controller {
                             unset($projectDetails[$i]);
                         }
                     }
-                    $cityId = !empty(json_decode(json_encode($getCityID), true)) ? $getCityID[0]["city_id"] : '';
+                    if (!empty($getCityID))
+                        $cityId = !empty(json_decode(json_encode($getCityID), true)) ? $getCityID[0]["city_id"] : '';
 
                     $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, "enquiryDetails" => $getEnquiryDetails, "projectDetails" => $projectDetails, "city_id" => $cityId];
                 }
@@ -457,14 +470,12 @@ class MasterSalesController extends Controller {
                 $request['enquiryData']['sales_subsource_id'] = $customerInfo[0]['subsource_id'];
                 $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];
             } else {
-                /*  fill customer detail if Quick Enquiry */
 
                 $request['customerDetails']['first_name'] = !empty($request['enquiryData']['first_name']) ? $request['enquiryData']['first_name'] : '';
                 $request['customerDetails']['last_name'] = !empty($request['enquiryData']['last_name']) ? $request['enquiryData']['last_name'] : '';
                 $request['customerDetails']['title_id'] = !empty($request['enquiryData']['title_id']) ? $request['enquiryData']['title_id'] : '';
                 $request['customerDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
                 $request['customerDetails']['source_id'] = !empty($request['enquiryData']['source_id']) ? $request['enquiryData']['source_id'] : '';
-
                 $request['customerDetails'] = array_merge($request['customerDetails'], $create);
                 $insertCustomer = Customer::create($request['customerDetails']);
                 $customer_id = $insertCustomer->id;
@@ -579,6 +590,7 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
+            // print_r($request);exit;
             unset($request['enquiryData']['mobile_calling_code']);
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -671,9 +683,8 @@ class MasterSalesController extends Controller {
 
     public function getFinanceEmployees() {
         try {
-            $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id', 'department_id')->where("department_id", 'like', '%,11%')
-                            ->orWhere("department_id", 'like', '%11%')
-                            ->orWhere("department_id", 'like', '%11,%')->get();
+            $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id', 'department_id')->
+                            where("employee_status",1)->whereRaw('FIND_IN_SET(11,department_id)')->get();
             if (!empty($getEmployees)) {
                 $result = ['success' => true, 'records' => $getEmployees];
             } else {
@@ -866,8 +877,8 @@ class MasterSalesController extends Controller {
 
             $getBookingId = Booking::select("id")->where("enquiry_id", $enquiryId)->get();
             $bookingId = empty($getBookingId[0]) ? "0" : $getBookingId;
-            
-              $outBoundCall = $displayMobile = '';
+
+            $outBoundCall = $displayMobile = '';
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
                 $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
@@ -879,7 +890,7 @@ class MasterSalesController extends Controller {
                 }
             }
 
-            $result = ['success' => true, 'enquiryDetails' => $decodeRemarkDetails, 'useremail' => $useremail, "reassignData" => $reassignData, 'bookingId' => $bookingId, 'userpermissions' => $userpermissions,'displayMobile'=>$displayMobile,'outBoundCall'=>$outBoundCall];
+            $result = ['success' => true, 'enquiryDetails' => $decodeRemarkDetails, 'useremail' => $useremail, "reassignData" => $reassignData, 'bookingId' => $bookingId, 'userpermissions' => $userpermissions, 'displayMobile' => $displayMobile, 'outBoundCall' => $outBoundCall];
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
@@ -888,10 +899,12 @@ class MasterSalesController extends Controller {
 
     public function insertTodayRemark() {
         try {
+            
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-
+            $request['data']['prevRemarkStatus'] = '';
             $input = $request['data'];
+         
             if (empty($input['userData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
                 $getTitle = MlstTitle::select("title")->where("id", Auth::guard('admin')->user()->title_id)->get();
@@ -919,7 +932,7 @@ class MasterSalesController extends Controller {
             $input['followup_entered_through'] = 1;
             $corporate_customer = $input['corporate_customer'];
             $company_id = $input['company_id'];
-
+                                
             if (!empty($corporate_customer) && $company_id == 0) { //checked checkbox and new value in textbox
                 $companyId = MlstBmsbCompany::select('id', 'company_name')->where('company_name', $input['company_name'])->get();
 
@@ -1051,13 +1064,17 @@ class MasterSalesController extends Controller {
                         $msgs = 'Remark updated successfully';
                     }
                     $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
-                } else if ($input['sales_status_id'] == 4) {//lost                    
+                } else if ($input['sales_status_id'] == 4) {//lost  
                     $lostReason = $input['sales_lost_reason_id'];
                     $lostSubReason = !empty($input['sales_lost_sub_reason_id']) ? $input['sales_lost_sub_reason_id'] : "0";
                     $sales_substatus_id = 0;
                     $input['next_followup_date'] = "0000-00-00";
                     $input['next_followup_time'] = "00:00:00";
                 } else { //open & future
+                  
+                    if ($input['prevRemarkStatus'] == 'lost') {
+                        $input['sales_lost_reason_id'] = $input['sales_lost_sub_reason_id'] = '';
+                    }
                     $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
                     $input['next_followup_time'] = date('H:i:s', strtotime($input['next_followup_time']));
                 }
@@ -1343,7 +1360,7 @@ Regards,<br>
                 }
             }
             if (count($getTotalEnquiryDetails) > 0) {
-                $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'totalCount' => $cnt[0]->totalCount, 'displayMobile' => $displayMobile,'outBoundCall' => $outBoundCall];
+                $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'totalCount' => $cnt[0]->totalCount, 'displayMobile' => $displayMobile, 'outBoundCall' => $outBoundCall];
             } else {
                 $result = ['success' => false, 'records' => 'No Records Found'];
             }
@@ -1420,7 +1437,7 @@ Regards,<br>
 
     public function getTeamSharedEmployee() {
         $loggedInUserId = Auth::guard('admin')->user()->id;
-        $this->tuserid($loggedInUserId);
+        $this->getTeamIds($loggedInUserId);
         $sharedEmployees = '';
         $alluser = $this->allusers;
         $allEmpresult = Employee::whereIn('id', $alluser)->select('presale_shared_employee', 'postsale_shared_employee')->get();
@@ -1444,7 +1461,7 @@ Regards,<br>
         return json_encode($result);
     }
 
-    public function tuserid($id) {
+    public function getTeamIds($id) {
 
         $admin = \App\Models\backend\Employee::where(['team_lead_id' => $id])->get();
         if (!empty($admin)) {
@@ -1453,7 +1470,7 @@ Regards,<br>
 
                 $this->allusers[$item->id] = $item->id;
 
-                $this->tuserid($item->id);
+                $this->getTeamIds($item->id);
             }
         } else {
             return;
@@ -1590,6 +1607,7 @@ Regards,<br>
                         $loggedInUserId = Auth::guard('admin')->user()->id;
                     }
                 } else {
+                    $login_id = $request['empId'];
                     $loggedInUserId = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_today_followups";
@@ -1607,11 +1625,6 @@ Regards,<br>
                         $loggedInUserId = Auth::guard('admin')->user()->id;
                     }
                     $login_id = $employees->alluser;
-//                    $login_id = Auth::guard('admin')->user()->id;
-//                    $loggedInUserId = Auth::guard('admin')->user()->id;
-//                    $this->allusers = array();
-//                    $this->getTeamIds($loggedInUserId);
-//                    $loggedInUserId = implode(',', $this->allusers);
                 } else {
                     $login_id = $request['empId'];
                     $loggedInUserId = $request['empId'];
@@ -1984,18 +1997,6 @@ Regards,<br>
     }
 
     /*     * ******************** TEAM ENQUIRIES **************************** */
-
-    public function getTeamIds($id) {
-        $admin = \App\Models\backend\Employee::where(['team_lead_id' => $id])->get();
-        if (!empty($admin)) {
-            foreach ($admin as $item) {
-                $this->allusers[$item->id] = $item->id;
-                $this->getTeamIds($item->id);
-            }
-        } else {
-            return;
-        }
-    }
 
     public function exportToExcel() {
         $postdata = file_get_contents("php://input");

@@ -338,7 +338,7 @@
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <div class="modal-header navbar-inner">
+                        <div class="modal-header" ng-init="remarkSt=''">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title" align="center">Today's Remarks</h4>
                         </div>

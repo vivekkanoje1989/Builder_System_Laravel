@@ -421,23 +421,7 @@
     </div>
 </form>
 
-<div class="modal fade modal-primary" id="projectDataModal" role="dialog" tabindex='-1'>
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" align="center">Project Details</h4>
-            </div>
-            <form novalidate name="modalForm" ng-submit="modalForm.$valid && addRow(projectEnquiryData)">
-                <input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">
-                <div class="modal-body">
 
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <script>
     $(document).ready(function () {
     $(".btn-nxt1").mouseup(function (e) {

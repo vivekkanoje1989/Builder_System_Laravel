@@ -385,7 +385,7 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
 //        projectId = $scope.enquiryData.project_id.split('_')[0];
         projectId = $("#project_id").val().split('_')[0];
         Data.post('getBlockTypes', {projectId: projectId}).then(function (response) {
-            if (!response.success) {
+                if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
                 $scope.blockTypeList = response.records;

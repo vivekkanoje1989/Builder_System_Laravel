@@ -25,8 +25,8 @@ if (empty($_SESSION[$domain]['client_info']) || empty($_SESSION[$domain]['aws_bu
         $result = mysqli_query($connetion, $sql);
         $result_row = mysqli_fetch_assoc($result);
         $GLOBALS['client_info'] = json_encode($result_row);
-
         $GLOBALS['client_id'] = $result_row['master_client_id'];
+        
         $GLOBALS['brand_id'] = $result_row['brand_id'];
         $_SESSION[$domain]['client_info'] = $result_row;
         $_SESSION[$domain]['client_id'] = $result_row['master_client_id'];

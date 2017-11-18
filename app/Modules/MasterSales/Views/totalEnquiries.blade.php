@@ -356,7 +356,7 @@
             <div class="modal fade modal-primary" id="todayremarkDataModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
-                    <div class="modal-content">
+                    <div class="modal-content" ng-init="remarkSt=''">
                         <div class="modal-header navbar-inner">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title" align="center">Today's Remarks</h4>

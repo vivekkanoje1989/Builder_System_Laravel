@@ -21,6 +21,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.currentPin = false;
         $scope.isDisabled = false;
         $scope.passwordBtn = false;
+        
         $scope.roleData = {};
         $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
                 $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
@@ -52,8 +53,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $rootScope.roleMenuList = [];
         $scope.searchDetails = {};
         $scope.searchData = {};
-
-
         $scope.stateTwoPermanentList = [];
 
         $scope.filterDetails = function (search) {
@@ -124,15 +123,90 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             $scope.searchData = {};
         }
 
-        $scope.validateMobileNumber = function (value) {
+        $scope.validateMobile = function (mobNo, label) {
+            var firstDigit = mobNo.substring(0, 1);
             var regex = /^[789]/;
-            if (!regex.test(value)) {
-     
-                $scope.errMobile = "Mobile number should be 10 digits and pattern should be for ex. 9999999999";
+            if (!regex.test(mobNo)) {
+                $scope.errPersonalMobile1 = "Mobile number should be start with 7,8,9";
                 $scope.applyClassMobile = 'ng-active';
+                $scope.contact = false;
+            } else
+            if (mobNo === "0000000000") {
+                $scope.errPersonalMobile1 = "Mobile number should be 10 digits and pattern should be for ex. 9999999999";
+                $scope.applyClassMobile = 'ng-active';
+                $scope.contact = false;
+            } else if (firstDigit === "0") {
+                $scope.errPersonalMobile1 = "First digit of mobile number should not be 0";
+                $scope.applyClassMobile = 'ng-active';
+                $scope.contact = false;
+            } else if (mobNo == "1234567890") {
+                $scope.errPersonalMobile1 = "Invalid mobile number";
+                $scope.applyClassMobile = 'ng-active';
+                $scope.contact = false;
+            } else {
+                $scope.errPersonalMobile1 = "";
+                $scope.applyClassMobile = 'ng-inactive';
+                $scope.contact = true;
+            }
+        }
+
+        $scope.validatePMobile = function (mobNoSplit) {
+
+            var firstDigit = mobNoSplit.substring(0, 1);
+            var regex = /^[789]/;
+            if (!regex.test(mobNoSplit)) {
+                $scope.errPersonalMobile = "Mobile number should be start with 7,8,9";
+                $scope.applyClassPMobile = 'ng-active';
+                $scope.contact = false;
+            } else
+            if (firstDigit == "0") {
+                $scope.errPersonalMobile = "First digit of mobile number should not be 0";
+                $scope.applyClassPMobile = 'ng-active';
+                $scope.contact = false;
+            }
+            if (mobNoSplit == "0000000000") {
+                $scope.errPersonalMobile = "Invalid mobile number";
+                $scope.applyClassMobile = 'ng-active';
+                $scope.contact = false;
+            } else if (mobNoSplit == "1234567890") {
+                $scope.errPersonalMobile = "Invalid mobile number";
+                $scope.applyClassPMobile = 'ng-active';
+                $scope.contact = false;
+            } else
+            {
+                $scope.errPersonalMobile = "";
+                $scope.applyClassPMobile = 'ng-inactive';
+                $scope.contact = true;
+            }
+
+
+        }
+
+        $scope.validateMobileNumber = function (mobNo) {
+
+            var firstDigit = mobNo.substring(0, 1);
+            var regex = /^[789]/;
+            if (!regex.test(mobNo)) {
+                $scope.errPersonalMobile = "Mobile number should be start with 7,8,9";
+                $scope.applyClassPMobile = 'ng-active';
+                $scope.contact = false;
+            } else
+            if (mobNo === "0000000000") {
+                $scope.errMobile = "Mobile number should be 10 digits and pattern should be for ex. 9999999999";
+                $scope.applyClassMobile2 = 'ng-active';
+                $scope.contact = false;
+            } else if (firstDigit === "0") {
+                $scope.errMobile = "First digit of mobile number should not be 0";
+                $scope.applyClassMobile2 = 'ng-active';
+                $scope.contact = false;
+            } else if (mobNo == "1234567890") {
+                $scope.errMobile = "Invalid mobile number";
+                $scope.applyClassMobile2 = 'ng-active';
+                $scope.contact = false;
             } else {
                 $scope.errMobile = "";
-                $scope.applyClassMobile = 'ng-inactive';
+                $scope.applyClassMobile2 = 'ng-inactive';
+                $scope.contact = true;
             }
         };
 
@@ -142,38 +216,40 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     if (validLandline === "12345678" || validLandline === "00000000" || validLandline['0'] === "0") {
                         $scope.errLandline = "Invalid Landline number";
                         $scope.applyClass = 'ng-active';
-                        $scope.userContactForm.$valid = false;
+                        $scope.contact = false;
                     } else {
                         $scope.errLandline = "";
                         $scope.applyClass = 'ng-inactive';
+                        $scope.contact = true;
                     }
                 }
             } else {
                 $scope.errLandline = "";
                 $scope.applyClass = 'ng-inactive';
+                $scope.contact = true;
             }
         };
-        
+
         $scope.validateOfficeMobileNumber = function (value) {
-             var regex = /^[789]/;
+            var regex = /^[789]/;
             if (!regex.test(value)) {
-     
                 $scope.errOfficeMobile = "Mobile number should be 10 digits and pattern should be for ex. 9999999999";
                 $scope.applyOfficeClassMobile = 'ng-active';
-                $scope.userContactForm.$valid = false;
-            } else
-            if (value != '') {
+                $scope.contact = false;
+            } else if (value != '') {
                 if (value == '1234567890' || value == '0000000000' || value[0] == "0") {
                     $scope.errOfficeMobile = "Invalid Mobile number";
                     $scope.applyOfficeClassMobile = 'ng-active';
-                    $scope.userContactForm.$valid = false;
+                    $scope.contact = false;
                 } else {
                     $scope.errOfficeMobile = "";
                     $scope.applyClassMobile = 'ng-inactive';
+                    $scope.contact = true;
                 }
             } else {
                 $scope.errOfficeMobile = "";
                 $scope.applyOfficeClassMobile = 'ng-inactive';
+                $scope.contact = true;
             }
         };
 
@@ -238,51 +314,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
 
 
-        $scope.validateMobile = function (mobNo, label) {
-            var firstDigit = mobNo.substring(0, 1);
-            if (mobNo === "0000000000") {
-                $scope.errPersonalMobile1 = "Mobile number should be 10 digits and pattern should be for ex. 9999999999";
-                $scope.applyClassMobile = 'ng-active';
-            } else if (firstDigit === "0") {
-                $scope.errPersonalMobile1 = "First digit of mobile number should not be 0";
-                $scope.applyClassMobile = 'ng-active';
-            } else {
 
-                $scope.errPersonalMobile = "";
-                $scope.applyClassMobile = 'ng-inactive';
-            }
-        }
-
-        $scope.validatePMobile = function (mobNoSplit) {
-
-            var firstDigit = mobNoSplit.substring(0, 1);
-
-            if (firstDigit == "0") {
-                $scope.errPersonalMobile = "First digit of mobile number should not be 0";
-                $scope.applyClassPMobile = 'ng-active';
-//                $scope.userContactForm.$valid = false;
-                $scope.contact = false;
-
-            }
-            if (mobNoSplit == "0000000000") {
-
-                $scope.errPersonalMobile = "Invalid mobile number";
-                $scope.applyClassMobile = 'ng-active';
-                $scope.contact = false;
-//                $scope.userContactForm = false;
-            } else if (mobNoSplit == "1234567890") {
-                $scope.errPersonalMobile = "Invalid mobile number";
-                $scope.applyClassPMobile = 'ng-active';
-                $scope.contact = false;
-            } else
-            {
-                $scope.errPersonalMobile = "";
-                $scope.applyClassPMobile = 'ng-inactive';
-                $scope.contact = true;
-            }
-
-
-        }
 
         $scope.copyToUsername = function (value) {
             if (typeof value !== "undefined") {
@@ -783,6 +815,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             Data.post('master-hr/getMenuLists', {
                 data: getData,
             }).then(function (response) {
+
                 if (response.success) {
                     $scope.menuItems = response.getMenu;
                     var array = $.map(response.menuId, function (value, index) {
@@ -797,6 +830,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     $scope.errorMsg = response.message;
                 }
             });
+
         }
 
         $scope.showPermissions = function () { //permission wise employees
@@ -810,15 +844,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             });
         }
 
-//        $scope.parentfunc = function(index){
-//            alert(index)
-//            $scope.parentId =index;
-//        }
-//        $scope.childfunc = function(index){
-//            alert(index)
-//            $scope.childId =index;
-//        }
-//        
         $scope.removeEmpID = function (empId, parentId, submenuId, allChild2Id, allChild3Id, index) {
             SweetAlert.swal({
                 title: "Are you sure?", //Bold text
@@ -1062,7 +1087,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         type: "warning", //type -- adds appropiriate icon
                         showCancelButton: true, // displays cancel btton
                         confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Yes, suspend it!",
+                        confirmButtonText: "permanently suspend it!",
                         closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
                         closeOnCancel: false
                     },
@@ -1910,7 +1935,6 @@ app.controller('permanentCountryListCtrl', function ($scope, $rootScope, $timeou
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.stateTwoPermanentList = response.records;
-                    alert($scope.userContact.current_state_id)
                     if ($scope.userContact.current_state_id != undefined) {
                         Data.post('getCities', {
                             data: {stateId: $scope.userContact.current_state_id},

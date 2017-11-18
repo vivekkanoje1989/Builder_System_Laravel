@@ -70,7 +70,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" align="center">Specification Details</h4>
             </div>
-            <form novalidate name="modalForm" id="modalForm" ng-submit="specicationRow(projectData.prid,modalData,modalImages,'specificationData')">
+            <form novalidate name="modalForm" id="modalForm" ng-submit="modalData.$valid && specicationRow(projectData.prid,modalData,modalImages,'specificationData')">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="row" ng-init="wings()">
@@ -84,11 +84,14 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                     </span>
+                                    <div ng-show="modalSbtBtn" ng-messages="modalForm.wing.$error" class="help-block">
+                                        <div ng-message="required">This field is required</div>
+                                    </div>
                                 </div>
                             </div>
                         
                             <div class="col-sm-12">
-                                <div class="form-group multi-sel-div" ng-class="{ 'has-error' : modalSbtBtn && (!modalForm.floors.$dirty && modalForm.floors.$invalid)}">
+                                <div class="form-group multi-sel-div" ng-class="{ 'has-error' : (modalSbtBtn && (!modalForm.floors.$dirty && modalForm.floors.$invalid))}">
                                     <label for="">Floors<span class="sp-err">*</span></label>	
                                     <ui-select multiple ng-model="modalData.floors" name="floors" theme="select2" ng-required="required">
                                         <ui-select-match>{{$item.floorName}}</ui-select-match>
@@ -96,6 +99,7 @@
                                             {{flist.floorName}} 
                                         </ui-select-choices>
                                     </ui-select>
+                                    <div ng-show="emptyFloorId && floorList.length > 0" class="help-block {{ applyClassFloor}}">This field is required</div>
                                 </div>
                             </div>
                         </div>
@@ -107,6 +111,9 @@
                                         <input type="file" ngf-select ng-model="modalImages.specification_images" name="specification_images" id="specification_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" required>
                                     </span>    
                                     <span class="help-block">{{specification_images_err}}</span>
+                                    <div ng-show="modalSbtBtn" ng-messages="modalForm.specification_images.$error" class="help-block">
+                                        <div ng-message="required">This field is required</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-xs-12">
@@ -117,7 +124,7 @@
                         </div>  
                     </div>
                 <div class="modal-footer" align="left">
-                    <button type="submit" class="btn btn-primary" ng-click="modalSbtBtn=true" ng-disabled="sbtbtnmodal">Add</button>
+                    <button type="submit" class="btn btn-primary" ng-click="modalSbtBtn=true; emptyFloorId = true;" ng-disabled="sbtbtnmodal">Add</button>
                 </div>
             </div>
         </form>

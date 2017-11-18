@@ -90,9 +90,9 @@ class MasterHrController extends Controller {
         $department_id = [];
         $export = '';
         if (!empty($request['empId']) && $request['empId'] !== "0") { // for edit
-            $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ')');
+            $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ')',0);
         } else if ($request['empId'] == "") { // for index
-            $manageData = DB::select('CALL proc_manage_users(0,0)');
+            $manageData = DB::select('CALL proc_manage_users(0,0,1)');
             $cnt = DB::select('select FOUND_ROWS() totalCount');
             $totalCount = $cnt[0]->totalCount;
             $manageUser = json_decode(json_encode($manageData), true);
@@ -103,6 +103,9 @@ class MasterHrController extends Controller {
             }
 
             for ($i = 0; $i < count($manageUser); $i++) {
+                
+//                print_r($manageUser[$i]);
+//                exit;
                 $blogData['id'] = $manageUser[$i]['id'];
                 $blogData['employee_id'] = $manageUser[$i]['id'];
                 $blogData['first_name'] = $manageUser[$i]['first_name'];
@@ -283,10 +286,10 @@ class MasterHrController extends Controller {
     }
 
     public function getSharedEmployees() {
+        
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
-
         $result = Employee::where('id', '=', $request['data']['employee_id'])->select('presale_shared_employee', 'postsale_shared_employee')->first();
         if (!empty($result->presale_shared_employee)) {
             $arr = explode(",", $result->presale_shared_employee);
@@ -330,7 +333,7 @@ class MasterHrController extends Controller {
     public function hrDetailsExporToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
-            $manageData = DB::select('CALL proc_manage_users(0,0)');
+            $manageData = DB::select('CALL proc_manage_users(0,0,1)');
             $cnt = DB::select('select FOUND_ROWS() totalCount');
             $getCount = $cnt[0]->totalCount;
             $manageUser = json_decode(json_encode($manageData), true);
@@ -1584,7 +1587,6 @@ class MasterHrController extends Controller {
         } else {
 
             if (count($teams) == 0) {
-                print_r($getMenu[4]['submenu'][1]['submenu'][9]);exit;
                 unset($getMenu[4]['submenu'][1]['submenu'][9]);
             }
             ksort($getMenu);
@@ -1903,7 +1905,7 @@ class MasterHrController extends Controller {
     }
 
     public function getTeamLead($id) {
-        $employee = Employee::with('designationName')->select("id", "first_name", "last_name", 'designation_id')->where("id", "<>", $id)->orderBy("first_name", "ASC")->get();
+        $employee = Employee::with('designationName')->select("id", "first_name", "last_name", 'designation_id')->where("id", "<>", $id)->where(["employee_status" => 1])->orderBy("first_name", "ASC")->get();
         if (!empty($employee)) {
             $result = ['success' => true, 'records' => $employee];
             return json_encode($result);
@@ -1938,7 +1940,7 @@ class MasterHrController extends Controller {
 
     public function getProfileInfo() {
         $id = Auth::guard('admin')->user()->id;
-        $employee = Employee::select('title_id', 'first_name', 'last_name', 'employee_photo_file_name', 'username')->where('id', $id)->first();
+        $employee = Employee::select('title_id', 'first_name', 'last_name', 'employee_photo_file_name', 'username')->where('id', $id)->where(["employee_status" => 1])->first();
         $old_profile_photo = '';
         if (!empty($employee)) {
 
@@ -2159,6 +2161,7 @@ class MasterHrController extends Controller {
 
         $employee = new Employee();
         $employee->title_id = $request['data']['title_id'];
+       
         $employee->employee_status = $request['data']['employee_status'];
         $employee->first_name = $request['data']['first_name'];
         $employee->last_name = $request['data']['last_name'];
@@ -2241,7 +2244,8 @@ class MasterHrController extends Controller {
         else
             $employee->employee_submenus = '["0101","0102","0103","0104","0105","0106","0107"]';
 
-        $employee->client_id = config('global.client_id');
+//        $employee->client_id = config('global.client_id');
+        $employee->client_id = 1;
 
         $employee->client_role_id = 1;
         $employee->high_security_password_type = 1;

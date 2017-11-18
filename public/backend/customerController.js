@@ -13,12 +13,13 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.blockTypeList = [];
         $scope.contacts = [];
         $scope.enqType = '';
+        $scope.modalForm = {};
+
 
         $scope.initmoduelswisehisory = [1, 2];
         $scope.errMobile = '';
         $scope.customerData.sms_privacy_status = $scope.customerData.email_privacy_status = 1;
         resetContactDetails();
-        //$scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
         $scope.showDiv = $scope.enquiryList = $scope.disableSource = $scope.showDivCustomer = false;
         $scope.searchData.customerId = 0;
         $scope.hstep = 1;
@@ -33,8 +34,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
         $scope.todayremarkTimeChange = function (selectedDate)
         {
+            //$scope.enquiryData.next_followup_time = '';
             if (typeof selectedDate == 'undefined') {
                 $scope.timeList = [];
+                $scope.enquiryData.next_followup_time = '';
             } else {
                 var currentDate = new Date();
                 $scope.currentDate = (currentDate.getFullYear() + '-' + ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + currentDate.getDate());
@@ -47,12 +50,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.errorMsg = response.message;
                     } else {
                         $scope.timeList = response.records;
+                        if($scope.enquiryData.next_followup_time == '')
+                        $scope.enquiryData.next_followup_time = '';
                     }
                 });
             }
         }
 
-$scope.getModulesWiseHist_list = function (enquiry_id, opt, flag)
+        $scope.getModulesWiseHist_list = function (enquiry_id, opt, flag)
         {
             if (opt == 1)
             {
@@ -83,7 +88,7 @@ $scope.getModulesWiseHist_list = function (enquiry_id, opt, flag)
             $scope.initHistoryDataModal(enquiry_id, mhistory1, 0, flag);
         };
 
-$scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, flag)
+        $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, flag)
         {
             if (flag === 'todayremarkFlag') {
                 if (init === 1)
@@ -91,14 +96,13 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                     $('.chk_followup_history_all_remark').prop('checked', true);
                     $('.chk_enquiry_history_remark').prop('checked', true);
                 }
-            }
-             else if (flag === 'listFlag') {
+            } else if (flag === 'listFlag') {
                 if (init === 1)
                 {
                     $('.chk_followup_history_all_list').prop('checked', true);
                     $('.chk_enquiry_history_list').prop('checked', true);
                 }
-            }else {
+            } else {
                 if (init === 1)
                 {
                     $(':checkbox.chk_followup_history_all').prop('checked', true);
@@ -128,7 +132,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                 }
             });
         }
-        
+
 
         $scope.manageQuickEnquiry = function (id) {
             $scope.searchData.mobile_calling_code = '+91';
@@ -203,9 +207,30 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
         $scope.changeEmailPrivacyStatus = function (val) {
             $scope.customerData.email_privacy_status = val;
         }
-
+        
+        $scope.checkEmailValue = function(){                        
+            if (typeof $scope.searchData.searchWithEmail === 'undefined' || $scope.searchData.searchWithEmail === '') {
+                $scope.showDiv = false;
+                $scope.errEmail = false;
+                $scope.showDivCustomer = false;
+            } else {
+//                var reg = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                if (!reg.test($scope.searchData.searchWithEmail)) {
+                    $scope.errEmail = true;
+                    $scope.showDiv = false;
+                    $scope.showDivCustomer = false;
+                } else {
+                    $scope.errEmail = "";
+                    $scope.errEmail = false;
+                    $scope.showDiv = true;
+                    $scope.showDivCustomer = true;
+                }
+            }
+        }
 
         $scope.checkValue = function () {
+           
             if (typeof $scope.searchData.searchWithMobile === 'undefined' || $scope.searchData.searchWithMobile === '' || $scope.searchData.searchWithEmail === '') {
                 $scope.showDiv = false;
                 $scope.errMobile = false;
@@ -351,7 +376,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
-            $scope.custSubmitBtn = true;
+           $scope.custSubmitBtn = true;
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");
@@ -382,6 +407,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
             customerPhoto.upload.then(function (response) {
                 $timeout(function () {
                     if (!response.data.success) {
+                        $scope.custSubmitBtn = false;
                         var obj = response.data.message;
                         var selector = [];
                         var sessionAttribute = $window.sessionStorage.getItem("sessionAttribute");
@@ -442,6 +468,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
             {
                 $state.go("salesCreate");
                 $timeout(function () {
+                    alert("if");
                     if (mobileNo !== '') {
                         $("input[name='searchWithMobile']").val(mobileNo);
                         $("input[name='searchWithMobile']").trigger("change");
@@ -452,6 +479,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                 }, 500);
             } else
             {
+                alert("else");
                 $window.history.back();
             }
         }
@@ -463,7 +491,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
             $scope.modal = {};
         }
         $scope.manageForm = function (customerId, enquiryId, enqType) {
-
+            
             $scope.enqType = enqType;
             var date = new Date();
             $scope.enquiryData.sales_enquiry_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
@@ -502,6 +530,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                         $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
+                        $scope.searchData.searchWithEmail = response.customerPersonalDetails.get_customer_contacts[0].email_id;
                         $scope.searchData.mobile_calling_code = "+" + response.customerPersonalDetails.get_customer_contacts[0].mobile_calling_code;
 
                         if (response.customerPersonalDetails[0].monthly_income == "0")
@@ -581,7 +610,10 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                         $scope.enquiryData.four_wheeler_parkings_required = (response.enquiryDetails[0].four_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].four_wheeler_parkings_required;
                         $scope.enquiryData.two_wheeler_parkings_required = (response.enquiryDetails[0].two_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].two_wheeler_parkings_required;
                         $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : response.enquiryDetails[0].max_budget;
-                        $scope.enquiryData.next_followup_date = (response.enquiryDetails[0].next_followup_date == '0000-00-00') ? '' : response.enquiryDetails[0].next_followup_date
+                        $scope.enquiryData.next_followup_date = (response.enquiryDetails[0].next_followup_date == '0000-00-00') ? '' : response.enquiryDetails[0].next_followup_date;
+                        $scope.enquiryData.next_followup_time = response.enquiryDetails[0].next_followup_time;
+                        $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00') ? '' : response.enquiryDetails[0].property_possession_date;
+                        
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
 
@@ -601,6 +633,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                         $scope.contacts = angular.copy(response.customerContactDetails);
                         $scope.contactData = angular.copy(response.customerContactDetails);
                         $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
+                        $scope.searchData.searchWithEmail = response.customerContactDetails[0].email_id;
                         $scope.searchData.mobile_calling_code = "+" + response.customerContactDetails[0].mobile_calling_code;
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
@@ -610,7 +643,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                         else
                             $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
 
-                        if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
+                        if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN' || response.customerPersonalDetails[0].birth_date === '0000-00-00') {
                             $scope.customerData.birth_date = "";
                         } else {
                             var bdt = new Date(response.customerPersonalDetails[0].birth_date);
@@ -693,6 +726,9 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
                                 }
                             });
                             $rootScope.newEnqFlag = 1;
+                            if(response.customerPersonalDetails[0].gender_id === 0){
+                                $scope.customerData.gender_id = "";
+                            }
                         }, 1000);
                     }
                 });
@@ -716,7 +752,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
 
 
                             Data.post('master-sales/getCustomerDetails', {
-                                data: {customerMobileNo: $scope.searchData.searchWithMobile, customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
+                                data: {customerMobileNo: $scope.searchData.searchWithMobile, customerCallingCode:$scope.searchData.mobile_calling_code.trim(), customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
                             }).then(function (response) {
                                 $scope.showDiv = false;
                                 $scope.showDivCustomer = true;
@@ -863,7 +899,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
 
         $scope.addProjectRow = function (projectId)
         {
-            if (projectId !== "" && typeof projectId !=="undefined" && $scope.enquiryData.block_id.length > 0)
+            if (projectId !== "" && typeof projectId !== "undefined" && $scope.enquiryData.block_id.length > 0)
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
                 var totalBlocks = $scope.enquiryData.block_id.length;
@@ -915,13 +951,7 @@ $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init, fla
             } else {
                 if (projectId == "") {
                     $scope.emptyProjectId = true;
-                }
-                if (blockId == "") {
-                    $scope.emptyBlockId = true;
-                }
-                if (subBlockId == "") {
-                    $scope.emptySubBlockId = true;
-                }
+                }                
             }
         }
         $scope.removeRow = function (rowId, enquiryDetailId) {
