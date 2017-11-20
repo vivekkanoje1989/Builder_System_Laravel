@@ -470,7 +470,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             {
                 $state.go("salesCreate");
                 $timeout(function () {
-                    alert("if");
                     if (mobileNo !== '') {
                         $("input[name='searchWithMobile']").val(mobileNo);
                         $("input[name='searchWithMobile']").trigger("change");
@@ -481,7 +480,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }, 500);
             } else
             {
-                alert("else");
                 $window.history.back();
             }
         }
@@ -615,6 +613,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.enquiryData.next_followup_date = (response.enquiryDetails[0].next_followup_date == '0000-00-00') ? '' : response.enquiryDetails[0].next_followup_date;
                         $scope.enquiryData.next_followup_time = response.enquiryDetails[0].next_followup_time;
                         $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00') ? '' : response.enquiryDetails[0].property_possession_date;
+
 
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
@@ -765,6 +764,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                                 $scope.contacts = angular.copy(response.customerContactDetails);
                                 $scope.contactData = angular.copy(response.customerContactDetails);
+                               
                                 if (response.customerPersonalDetails[0].monthly_income == "0")
                                     $scope.customerData.monthly_income = "";
                                 else

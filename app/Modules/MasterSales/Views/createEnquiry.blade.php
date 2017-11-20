@@ -2,7 +2,7 @@
     <div class="row" ng-controller="customerController">
         <div class="col-lg-12 col-sm-12 col-xs-12" >
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-            <input type="hidden" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
+            <input type="text" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
             <!--
             enqType ==  1 -> Quick Enquiry
             enqType ==  0 -> detailed enquiry
@@ -128,7 +128,7 @@
                         </div>
                     </div> 
                 </div>
-            </div>
+            </div>{{enqType}}================{{ enquiryData.id }}
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6" ng-if="enqType != 0 || (enquiryData.id == '' && enqType == 0)">
@@ -366,15 +366,19 @@
                     </div>
                     <div class="col-sm-3 col-xs-6" ng-if="enquiryData.property_possession_type == 0 && enqType != 1">
                         <div class="form-group">
-                            <label for="">Tentative Possession Date</label>
+                            <label for="">Tentative Possession Date<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="enquiryData.property_possession_date" name="property_possession_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly>
+                                    <input type="text" ng-model="enquiryData.property_possession_date" name="property_possession_date" class="form-control" datepicker-popup="dd-MM-yyyy" required is-open="opened" min-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>                                    
+                                    </span>
+                                    <div ng-show="enqFormBtn" ng-messages="enquiryForm.property_possession_date.$error" class="help-block errMsg">
+                                        <div ng-message="required">This field is required</div>
+                                    </div>
+                                    <div ng-if="property_possession_date"class="errMsg birth_date">{{property_possession_date}}</div>
                                 </p>
-                            </div>                               
+                            </div>
                         </div> 
                     </div>                        
                 </div>
@@ -481,7 +485,7 @@
             <div class="row">
                 <div class="col-md-12 col-xs-12" align="center">
                     <button type="submit" class="btn btn-primary btn-nxt3" ng-click="enqFormBtn = true" ng-disabled="disableFinishButton">{{btnLabelE}}</button>
-                    <button class="btn btn-primary" ng-show="backBtn" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')">Cancel</button>
+                    <button class="btn btn-primary" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')">Cancel</button>
                 </div>
             </div>
         </div>

@@ -28,8 +28,8 @@ class CustomersController extends Controller {
 //        $result = Customers::select('*')->with('getTitle', 'getProfession', 'getSource')->orderBy('id', 'ASC')->get();
 
         $result = Customers::select('id', 'first_name', 'last_name', 'sms_privacy_status', 'email_privacy_status', 'title_id', 'source_id', 'profession_id')->with('getTitle', 'getProfession', 'getSource')
-                ->where('deleted_status', '!=', 1)
-                ->orderBy('id', 'ASC')->get();
+                        ->where('deleted_status', '!=', 1)
+                        ->orderBy('id', 'ASC')->get();
         $customerDetails = array();
         for ($i = 0; $i < count($result); $i++) {
             $customerData['id'] = $result[$i]['id'];
@@ -53,14 +53,14 @@ class CustomersController extends Controller {
             $deleteBtn = '';
         }
         if (!empty($customerDetails)) {
-            return json_encode(['result' => $customerDetails, 'status' => true,'exportData'=>$export,'delete'=>$deleteBtn]);
+            return json_encode(['result' => $customerDetails, 'status' => true, 'exportData' => $export, 'delete' => $deleteBtn]);
         } else {
             return json_encode(['mssg' => 'No records found', 'status' => false]);
         }
     }
 
     public function deleteCustomer() {
-         $postdata = file_get_contents('php://input');
+        $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
@@ -69,15 +69,14 @@ class CustomersController extends Controller {
         $result = ['success' => true, 'result' => $bloodGrps];
         return json_encode($result);
     }
-    
-    
+
     public function customerDetailsExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $result = Customers::select('id', 'first_name', 'last_name', 'sms_privacy_status', 'email_privacy_status', 'title_id', 'source_id', 'profession_id')->with('getTitle', 'getProfession', 'getSource')->orderBy('id', 'ASC')->get();
             $customerDetails = array();
             $result = json_decode(json_encode($result), true);
-            $j=1;
+            $j = 1;
             for ($i = 0; $i < count($result); $i++) {
                 $customerData['id'] = $j++;
                 $customerData['Title'] = $result[$i]['get_title']['title'];
@@ -117,6 +116,25 @@ class CustomersController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $result = Customers::where('id', $request['id'])->first();
+        if ($result['birth_date'] = '0000-00-00') {
+            $result['birth_date'] = '';
+        }
+        if ($result['marriage_date'] = '0000-00-00') {
+            $result['marriage_date'] = '';
+        }
+        if ($result['pan_number'] == 'null') {
+            $result['pan_number'] = '';
+        }else{
+            $result['pan_number'] = $result['pan_number'] ;
+           
+        }
+        if ($result['aadhar_number'] == 'null') {
+            $result['aadhar_number'] = '';
+        }else{
+            $result['aadhar_number'] = $result['aadhar_number'] ;
+           
+        }
+//            print_r($result);
         if (!empty($result)) {
             return json_encode(['result' => $result, 'status' => true]);
         } else {
@@ -142,6 +160,7 @@ class CustomersController extends Controller {
                 return json_encode($result, true);
             }
         }
+       
         if (!empty($input['cust_image_file'])) {
             $originalName = $input['cust_image_file']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {

@@ -85,10 +85,10 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th>                       
                                 <th style="width:15%">
-                                    <a href="javascript:void(0);" ng-click="orderByField('created_at')">Registration Date & Time
-                                        <span ><img ng-hide="(sortKey == 'created_at' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
-                                        <span ng-show="(sortKey == 'created_at' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
-                                        <span ng-show="(sortKey == 'created_at' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('created_date')">Registration Date
+                                        <span ><img ng-hide="(sortKey == 'created_date' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'created_date' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'created_date' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
 
@@ -126,7 +126,7 @@
                         <tbody>
                             <tr role="row" dir-paginate="list in projectRow| filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
-                                <td>{{list.created_at}}</td>
+                                <td>{{list.created_date}}</td>
                                 <td>{{list.fullName}}</td>
                                 <td>{{list.project_name}}</td>
                                 <td>{{list.projectType}}</td>

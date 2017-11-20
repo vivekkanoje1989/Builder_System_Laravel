@@ -76,6 +76,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             });
         }
 
+$scope.reloadphoto = function () {
+            location.reload();
+        }
+        
         $scope.preSalesEnquiry = function (presales, employee_id) {
             $("#presalesbtn").attr("disabled", "disabled");
             Data.post('master-hr/preSalesEnquiry', {employee_id: presales, empId: employee_id}).then(function (response) {

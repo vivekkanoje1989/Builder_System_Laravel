@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="col-sm-3 col-xs-6">
                                     <div class="form-group" >
-                                        <label for="">Profession </label>
+                                        <label for="">Profession</label>
                                         <span class="input-icon icon-right">
                                             <select ng-controller="professionCtrl" ng-model="customerData.profession_id" name="profession_id" class="form-control">
                                                 <option value="">Select Title</option>
@@ -122,16 +122,16 @@
                                 <div class="col-sm-3 col-xs-6">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="">Aadhar Card Number<span class="sp-err">*</span></label>
+                                            <label for="">Aadhar Card Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.aadhar_number" maxlength="12" name="aadhar_number" ng-maxlength="12" ng-minlength="12" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
+                                                <input type="text" ng-model="customerData.aadhar_number" maxlength="12" name="aadhar_number" ng-maxlength="12" ng-minlength="12" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                                 <i class="fa fa-credit-card" aria-hidden="true"></i>
                                                 <div ng-show="sbtBtn" ng-messages="customerForm.aadhar_number.$error" class="help-block">
                                                     <div ng-message="required">This field is required</div>
                                                     <div ng-message="minlength">Aadhar card number must be 12 digits.</div>
                                                     <div ng-message="maxlength">Aadhar card number must be 12 digits.</div>
                                                 </div>
-                                                <div ng-if="aadhar_number" class="sp-err aadhar_number">{{aadhar_number}}</div>
+                                             
                                             </span>
                                         </div>
                                     </div>
@@ -143,26 +143,25 @@
                                         <div class="form-group">
                                             <label for="">Pan Card Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.pan_number" name="pan_number" maxlength="20" class="form-control">
+                                                <input type="text" ng-model="customerData.pan_number" ng-pattern="/[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}/"  maxlength="10" name="pan_number" class="form-control">
                                            <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.pan_number.$error" class="help-block">
+                                                    <div ng-message="pattern">Invalid PAN card No.</div>
+                                                </div>
                                             </span>
                                         </div>
                                     </div>
                                 </div> 
 
                                 <div class="col-sm-3 col-xs-6">
-                                    <label>Birth Date <span class="sp-err">*</span></label>
+                                    <label>Birth Date </label>
                                     <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.birth_date.$dirty && customerForm.birth_date.$invalid)}">
                                         <p class="input-group">
-                                            <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                            <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
                                         </p>
-                                        <div ng-show="sbtBtn" ng-messages="customerForm.birth_date.$error" class="help-block">
-                                            <div ng-message="required">This field is required</div>
-                                        </div>
-                                         <div ng-if="birth_date" class="sp-err birth_date">{{birth_date}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-xs-6">
@@ -243,16 +242,11 @@
                                 </div>
 
                                 <div class="col-sm-3 col-xs-12">
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.source_description.$dirty && requestLeave.source_description.$invalid) }">
-                                        <label>Source Description<span class="sp-err">*</span></label>
+                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.source_description.$dirty && customerForm.source_description.$invalid) }">
+                                        <label>Source Description</label>
                                         <span class="input-icon icon-right">
                                             <textarea ng-model="customerData.source_description" name="source_description" class="form-control" maxlength="300"></textarea>
                                         </span>
-                                        <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.source_description.$error">
-                                            <div ng-message="required">Source Description is required</div>
-                                        </div>
-                                         <div ng-if="source_description" class="sp-err source_description">{{source_description}}</div>
-                                        <br/>
                                     </div>
                                 </div>
                             </div>
