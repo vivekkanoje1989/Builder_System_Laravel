@@ -230,7 +230,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
 
         $scope.checkValue = function () {
-
             if (typeof $scope.searchData.searchWithMobile === 'undefined' || $scope.searchData.searchWithMobile === '' || $scope.searchData.searchWithEmail === '') {
                 $scope.showDiv = false;
                 $scope.errMobile = false;
