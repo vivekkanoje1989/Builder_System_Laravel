@@ -40,8 +40,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/createQuickEnquiry', 'MasterSalesController@createQuickEnquiry')->middleware("permission:040101");
 
     Route::get('/master-sales/import', ['middleware' => 'permission:040502', function () {
-        return View::make('MasterSales::import');
-    }]);
+            return View::make('MasterSales::import');
+        }]);
 
     /*     * ********************************************************* */
     Route::get('/master-sales/updateCustomer/{id}', 'MasterSalesController@updateCustomer'); //update customer data
@@ -124,5 +124,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
 
 
     Route::get('/master-sales/sharedEnquiriesEmployee', 'MasterSalesController@sharedEnquiriesEmployee');
-    Route::post('/master-sales/preSalesShareEnquiry', 'MasterSalesController@preSalesShareEnquiry');    
+    Route::post('/master-sales/preSalesShareEnquiry', 'MasterSalesController@preSalesShareEnquiry');
+
+
+    Route::post('/master-sales/getBlockTypes', 'MasterSalesController@getBlockTypes');
+    Route::post('/master-sales/getSubBlocks', 'MasterSalesController@getSubBlocks'); 
 });

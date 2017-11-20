@@ -678,7 +678,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $("#customerfilter div").removeClass("accordion-toggle collapsed").addClass("accordion-toggle");
                 $(".accordion.panel-group .panel .collapse").css("background-color", "#eee");
             }
-
             $scope.getProcName = angular.copy(procedureName);
             $scope.getFunctionName = angular.copy(functionName);
             $scope.shared = shared;
@@ -1141,6 +1140,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.remarkData.corporateCust = false; //hide checkbox
             }
         }
+        
+       
+        
         $scope.isChecked = function (corporateCust) {
             if (corporateCust == true) {
                 $scope.companyInput = true;
