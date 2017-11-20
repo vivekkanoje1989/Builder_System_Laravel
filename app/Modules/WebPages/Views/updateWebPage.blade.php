@@ -60,7 +60,7 @@
                                             <div class="form-group">
                                                 <label for="">Seo Url<span class="sp-err"></span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contentPage.seo_url" name="seo_url" class="form-control" maxlength="250">                                                             
+                                                    <input type="text" ng-model="contentPage.seo_url" capitalizeFirst name="seo_url" class="form-control" maxlength="250">                                                             
                                                 </span>
                                             </div>
                                         </div> 
@@ -68,7 +68,7 @@
                                             <div class="form-group">
                                                 <label for="">Seo Page Title<span class="sp-err"></span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contentPage.seo_page_title" name="seo_page_title" class="form-control" maxlength="250">
+                                                    <input type="text" ng-model="contentPage.seo_page_title" capitalizeFirst name="seo_page_title" class="form-control" maxlength="250">
                                                 </span>
                                             </div>
                                         </div> 
@@ -80,7 +80,7 @@
                                             <div class="form-group">
                                                 <label for="">Canonical Tag<span class="sp-err"></span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contentPage.canonical_tag" name="canonical_tag" class="form-control" maxlength="150">                                                             
+                                                    <input type="text" ng-model="contentPage.canonical_tag" name="canonical_tag" capitalizeFirst class="form-control" maxlength="150">                                                             
                                                 </span>
                                             </div>
                                         </div>   
@@ -213,7 +213,7 @@
                                             <div class="form-group">
                                                 <label for="">Seo Page Title<span class="sp-err"></span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="subcontentPage.seo_page_title" name="seo_page_title" class="form-control">                                                             
+                                                    <input type="text" ng-model="subcontentPage.seo_page_title" capitalizeFirst name="seo_page_title" class="form-control">                                                             
                                                 </span>
                                             </div>
                                         </div> 
@@ -221,7 +221,7 @@
                                             <div class="form-group">
                                                 <label for="">Seo Url<span class="sp-err"></span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="subcontentPage.seo_url" name="seo_url" class="form-control">                                                             
+                                                    <input type="text" ng-model="subcontentPage.seo_url" name="seo_url" capitalizeFirst class="form-control">                                                             
                                                 </span>
                                             </div>
                                         </div> 
@@ -233,7 +233,7 @@
                                             <div class="form-group">
                                                 <label for="">Meta Description<span class="sp-err"></span></label>
                                                 <span class="input-icon icon-right">
-                                                    <textarea rows="3" cols="30" ng-model="subcontentPage.meta_description" name="meta_description" class="form-control"></textarea>
+                                                    <textarea rows="3" cols="30" ng-model="subcontentPage.meta_description" name="meta_description" class="form-control capitalize"></textarea>
                                                 </span>
                                             </div>
                                         </div>
@@ -241,7 +241,7 @@
                                             <div class="form-group">
                                                 <label for="">Meta Keywords<span class="sp-err"></span></label>
                                                 <span class="input-icon icon-right">
-                                                    <textarea rows="3" cols="30" ng-model="subcontentPage.meta_keywords" name="meta_keywords" class="form-control"></textarea>
+                                                    <textarea rows="3" cols="30" ng-model="subcontentPage.meta_keywords" name="meta_keywords" class="form-control capitalize"></textarea>
                                                 </span>
                                             </div>
                                         </div>
@@ -249,7 +249,7 @@
                                             <div class="form-group">
                                                 <label for="">Canonical Tag<span class="sp-err"></span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="subcontentPage.canonical_tag" name="canonical_tag" class="form-control">                                                             
+                                                    <input type="text" ng-model="subcontentPage.canonical_tag" capitalizeFirst name="canonical_tag" class="form-control">                                                             
                                                 </span>
                                             </div>
                                         </div>   
@@ -297,7 +297,7 @@
                                                 </div>
                                                 <div class="widget-body no-padding">
                                                     <div ng-controller="TextAngularCtrl">
-                                                        <div text-angular ng-model="subcontentPage.page_content" name="page_content" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                                                        <div text-angular ng-model="subcontentPage.page_content" class="capitalize"  name="page_content" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
                                                     </div>
                                                 </div>
                                             </div>

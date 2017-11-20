@@ -169,7 +169,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.country_id.$error">
-                                            <div ng-message="required">This field is required.</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                     </span>
                                 </div>
@@ -184,7 +184,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.state_id.$error">
-                                            <div ng-message="required">This field is required.</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                     </span>
                                 </div>
@@ -201,7 +201,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.city_id.$error">
-                                            <div ng-message="required">This field is required.</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                     </span>
                                 </div>
@@ -215,7 +215,7 @@
                                         </select>
                                         <i class="fa fa-sort-desc"></i>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.location_id.$error">
-                                            <div ng-message="required">This field is required.</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                     </span>
                                 </div>
@@ -228,7 +228,7 @@
                                     <span class="input-icon icon-right">
                                         <textarea col="50" row="2" class="form-control" ng-model="address" name="address" maxlength="250" required></textarea>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.address.$error">
-                                            <div ng-message="required">This field is required.</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                     </span>
                                 </div>
@@ -237,9 +237,9 @@
                                 <div class="form-group">
                                     <label>Contact Number</label> 
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="contact_number1" ng-change="checkValue1(contact_number1)"   oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"   name="contact_number1"  maxlength="10" minlength="10">
+                                        <input type="text" class="form-control" ng-model="contact_number1"  ng-pattern="/^[789][0-9]{9,10}$/"   oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"   name="contact_number1"  maxlength="10" minlength="10">
                                      <div ng-show="sbtBtn && contactUsForm.contact_number1.$invalid" ng-messages="contactUsForm.contact_number1.$error" class="help-block">
-                                        <div ng-show="errMobile" class="sp-err">Invalid mobile number!</div>
+                                        <div ng-message="pattern">Invalid mobile number!</div>
                                      </div>
                                     </span>
                                 </div>
@@ -250,8 +250,10 @@
                                 <div class="form-group">
                                     <label>Alternate Number1</label>  
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="contact_number2" ng-change="checkValue2(contact_number2)" name="contact_number2" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  maxlength="10" minlength="10">
-                                     <div ng-show="errMobile2" class="sp-err">Invalid mobile number!</div>
+                                        <input type="text" class="form-control" ng-model="contact_number2" ng-pattern="/^[789][0-9]{9,10}$/"  name="contact_number2" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  maxlength="10" minlength="10">
+                                    <div ng-show="sbtBtn && contactUsForm.contact_number2.$invalid" ng-messages="contactUsForm.contact_number2.$error" class="help-block">
+                                        <div ng-message="pattern">Invalid mobile number!</div>
+                                     </div>
                                     </span>
                                 </div>
                             </div>
@@ -259,8 +261,10 @@
                                 <div class="form-group">
                                     <label>Alternate Number2</label>   
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="contact_number3"   ng-change="checkValue3(contact_number3)"name="contact_number3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="10"  minlength="10">
-                                     <div ng-show="errMobile3" class="sp-err">Invalid mobile number!</div>
+                                        <input type="text" class="form-control" ng-model="contact_number3"   ng-pattern="/^[789][0-9]{9,10}$/"  name="contact_number3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="10"  minlength="10">
+                                    <div ng-show="sbtBtn && contactUsForm.contact_number3.$invalid" ng-messages="contactUsForm.contact_number3.$error" class="help-block">
+                                        <div ng-message="pattern">Invalid mobile number!</div>
+                                     </div>
                                     </span>
                                 </div>
                             </div>
@@ -280,7 +284,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="pin_code" name="pin_code"  maxlength="6" minlength="6" required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.pin_code.$error">
-                                            <div ng-message="required">This field is required.</div>
+                                            <div ng-message="required">This field is required</div>
                                             <div ng-message="minlength">Pin code must be 6 digits</div>
                                             <div ng-message="maxlength">Pin code must be 6 digits</div>
                                         </div>
@@ -306,7 +310,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="google_map_url" name="google_map_url"  required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.google_map_url.$error">
-                                            <div ng-message="required">This field is required.</div>
+                                            <div ng-message="required">This field is required</div>
                                         </div>
                                     </span>  
                                 </div>
