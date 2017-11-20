@@ -2,6 +2,8 @@
 app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams, $timeout) {
     $scope.registration = {};
     $scope.errorMsg = '';
+    
+   
     $scope.sessiontimeout = function () {
         $scope.logout("logout");
         //alert("Session expired. Redirected to login");
@@ -20,6 +22,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
             }
         });
     }
+    
     $scope.getEmployeeData = function () {
         $scope.extNumber = [];
         Data.get('getEmployeeData').then(function (response) {
@@ -392,6 +395,7 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
             }
         });
     }
+    
     $scope.checkBlockLength = function (blockId) {
         var blockTypeId = [];
         var projectId = $("#project_id").val().split('_')[0];
