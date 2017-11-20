@@ -24,18 +24,19 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.addNewData = function () {
             
-            if (($scope.otherDataMultiple[0].other_label == null && $scope.otherDataMultiple[0].area_in_sqft == null && $scope.otherDataMultiple[0].area_in_sqmtr == null) || $scope.otherDataMultiple[0].area_in_sqft == 'NaN')
+            if (($scope.otherDataMultiple[0].other_label == null || $scope.otherDataMultiple[0].area_in_sqft == null || $scope.otherDataMultiple[0].area_in_sqmtr == null) || ($scope.otherDataMultiple[0].area_in_sqft === 'NaN' || $scope.otherDataMultiple[0].area_in_sqmtr === 'NaN'))
             {
-                $timeout(function () {
-                    $('input[name=area_in_sqft]').val('');
-                    $('input[name=area_in_sqmtr]').val('');
-                }, 200);
+                if(($scope.otherDataMultiple[0].area_in_sqft == null || $scope.otherDataMultiple[0].area_in_sqmtr == null) || ($scope.otherDataMultiple[0].area_in_sqft === 'NaN' || $scope.otherDataMultiple[0].area_in_sqmtr === 'NaN')){
+                    $timeout(function () {
+                        $("#area_in_sqft0").trigger("click");
+                    }, 200);
+                }
                 $scope.reqField = true;
             } else {
                 $scope.reqField = false;
                 var newItemNo = $scope.otherDataMultiple.length + 1;
                 $scope.otherDataMultiple.push({'id': newItemNo});
-            }console.log($scope.otherDataMultiple[0].area_in_sqmtr);
+            }
         };
 
         $scope.removeRow = function (inx) {
@@ -113,9 +114,6 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.webpageSettings = function (prid, settingData) {
-//            $('#fade-in1').toggleClass('show'); 
-//            $scope.mainPanel = false;
-//            $scope.content_website_settings = true;
             if (settingData === '') { //for data
                 Data.post('projects/webpageSettings', {
                     getDataByPrid: prid,
@@ -154,6 +152,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                                 });
                             }
                         });
+                        console.log(response.settingData);
                         $scope.projectName = response.settingData.project_name;
 
                         $scope.showAllTabs = false;
@@ -196,10 +195,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                         if (!responseAList.success) {
                             $scope.errorMsg = responseAList.message;
                         } else {
-
-                            console.log(response.uploadData);
                             $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_brochure = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
-                            //$scope.projectImages = response.uploadData;
                             $scope.mapData.google_map_iframe = (response.uploadData.google_map_iframe !== null && response.uploadData.google_map_iframe !== "null") ? response.uploadData.google_map_iframe : "";
                             $scope.mapData.google_map_short_url = (response.uploadData.google_map_short_url !== null && response.uploadData.google_map_short_url !== "null") ? response.uploadData.google_map_short_url : "";
                             $scope.galleryData.video_link = (response.uploadData.video_link !== null && response.uploadData.video_link !== "null") ? response.uploadData.video_link : "";
@@ -301,6 +297,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
         $scope.getWingData = function (inventoryList, idataId, wingId, wingName) {
+            $scope.inventoryInfoForm.$pristine;
             $scope.wingId = $scope.inventoryData.wing_id;
             $scope.idata = [];
             $scope.otherDataMultiple = [{id: 1}];
@@ -321,8 +318,6 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                     }
                 });
                 $scope.otherDataMultiple = $scope.idata;
-                console.log($scope.inventoryData);
-                console.log($scope.otherDataMultiple);
             }
         }
         /*$scope.sqFeetToSqMeter = function(sqft){alert(sqft);
