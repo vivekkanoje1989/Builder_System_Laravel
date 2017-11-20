@@ -14,6 +14,7 @@ use App\Models\MlstBmsbBlockType;
 use App\Modules\MasterSales\Models\EnquiryDetail;
 use App\Modules\MasterSales\Models\EnquiryFollowup;
 use Validator;
+use App\Models\ProjectBlock;
 use DB;
 use Auth;
 use App\Models\MlstTitle;
@@ -187,8 +188,8 @@ class MasterSalesController extends Controller {
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
-            $input['customerData']['marriage_date'] = (!empty($input['customerData']['marriage_date']) && $input['customerData']['marriage_date'] != 'null')  ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
-            $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));            
+            $input['customerData']['marriage_date'] = (!empty($input['customerData']['marriage_date']) && $input['customerData']['marriage_date'] != 'null') ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
+            $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
 
@@ -444,7 +445,7 @@ class MasterSalesController extends Controller {
 
     // insert new enquiry 
     public function saveEnquiry() {
-        try {            
+        try {
             $validationRules = Enquiry::validationRules();
             $validationMessages = Enquiry::validationMessages();
             $postdata = file_get_contents("php://input");
@@ -505,7 +506,7 @@ class MasterSalesController extends Controller {
             $request['enquiryData']['property_possession_date'] = !empty($request['enquiryData']['property_possession_date'] && $request['enquiryData']['property_possession_date'] != 'NaN-aN-NaN') ? $request['enquiryData']['property_possession_date'] : '0000-00-00';
             $request['enquiryData']['sales_enquiry_date'] = date('Y-m-d', strtotime($request['enquiryData']['sales_enquiry_date']));
             $request['enquiryData']['sales_source_id'] = !empty($request['enquiryData']['source_id']) ? $request['enquiryData']['source_id'] : '';
-            
+
             if (!empty($request['enquiryData']['enquiry_locations'])) {
                 $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
                             return $el['id'];
@@ -684,7 +685,7 @@ class MasterSalesController extends Controller {
     public function getFinanceEmployees() {
         try {
             $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id', 'department_id')->
-                            where("employee_status",1)->whereRaw('FIND_IN_SET(11,department_id)')->get();
+                            where("employee_status", 1)->whereRaw('FIND_IN_SET(11,department_id)')->get();
             if (!empty($getEmployees)) {
                 $result = ['success' => true, 'records' => $getEmployees];
             } else {
@@ -899,12 +900,12 @@ class MasterSalesController extends Controller {
 
     public function insertTodayRemark() {
         try {
-            
+
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $request['data']['prevRemarkStatus'] = '';
             $input = $request['data'];
-         
+
             if (empty($input['userData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
                 $getTitle = MlstTitle::select("title")->where("id", Auth::guard('admin')->user()->title_id)->get();
@@ -932,7 +933,7 @@ class MasterSalesController extends Controller {
             $input['followup_entered_through'] = 1;
             $corporate_customer = $input['corporate_customer'];
             $company_id = $input['company_id'];
-                                
+
             if (!empty($corporate_customer) && $company_id == 0) { //checked checkbox and new value in textbox
                 $companyId = MlstBmsbCompany::select('id', 'company_name')->where('company_name', $input['company_name'])->get();
 
@@ -1070,7 +1071,6 @@ class MasterSalesController extends Controller {
                     $input['next_followup_date'] = "0000-00-00";
                     $input['next_followup_time'] = "00:00:00";
                 } else { //open & future
-                  
                     if ($input['prevRemarkStatus'] == 'lost') {
                         $input['sales_lost_reason_id'] = $input['sales_lost_sub_reason_id'] = '';
                     }
@@ -2958,6 +2958,110 @@ Regards,<br>
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
         return response()->json($result);
+    }
+
+    public function getBlockTypes() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        if (!empty($request['blockId'])) {
+            $blockId = explode(',', $request['blockId']);
+        } else {
+            $blockId = array();
+        }
+
+        if (!empty($blockId)) {
+            $blockList = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')
+                    ->where('project_id', $request['projectId'])
+                    ->whereNotIn('id', $blockId)
+                    ->get();
+            $getBlockTypeId = array();
+            if (!empty($blockList)) {
+                foreach ($blockList as $key => $value) {
+                    $getBlockTypeId[] = $value['block_type_id'];
+                }
+            }
+            $blockTypeId = implode(",", $getBlockTypeId);
+            $blockTypeList = MlstBmsbBlockType::select('id', 'block_name')->whereIn('id', $getBlockTypeId)->get();
+
+
+
+
+            $blockList1 = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')
+                    ->where('project_id', $request['projectId'])
+                    ->whereIn('id', $blockId)
+                    ->get();
+            $getBlockTypeId1 = array();
+            if (!empty($blockList1)) {
+                foreach ($blockList1 as $key => $value) {
+                    $getBlockTypeId1[] = $value['block_type_id'];
+                }
+            }
+            $blockTypeId1 = implode(",", $getBlockTypeId1);
+            $blockTypeList1 = MlstBmsbBlockType::select('id', 'block_name')->whereIn('id', $getBlockTypeId1)->get();
+        }else{
+            $blockList = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')
+                    ->where('project_id', $request['projectId'])
+                    ->whereNotIn('id', $blockId)
+                    ->get();
+            $getBlockTypeId = array();
+            if (!empty($blockList)) {
+                foreach ($blockList as $key => $value) {
+                    $getBlockTypeId[] = $value['block_type_id'];
+                }
+            }
+            $blockTypeId = implode(",", $getBlockTypeId);
+            $blockTypeList = MlstBmsbBlockType::select('id', 'block_name')->whereIn('id', $getBlockTypeId)->get();
+            
+            $blockTypeList1 = [];
+        }
+        if (!empty($blockTypeList) || !empty($blockTypeList1)) {
+            $result = ['success' => true, 'records' => $blockTypeList, 'records1' => $blockTypeList1];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
+    public function getSubBlocks() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        if (!empty($request['data']['subBlockId'])) {
+            $subBlockId = explode(',', $request['data']['subBlockId']);
+        } else {
+            $subBlockId = array();
+        }
+        if (!is_array($request['data']['blockId'])) {
+
+            $block_type_id = explode(',', $request['data']['blockId']);
+        } else {
+            $block_type_id = json_decode($request['data']['myJsonString']);
+        }
+        if (!empty($subBlockId)) {
+            $subBlocksList = ProjectBlock::select("id", "block_sub_type")
+                    ->where("project_id", $request['data']['projectId'])
+                    ->whereIn("block_type_id", $block_type_id)
+                    ->whereNotIn('id', $subBlockId)
+                    ->get();
+
+            $subBlocksList1 = ProjectBlock::select("id", "block_sub_type")
+                    ->where("project_id", $request['data']['projectId'])
+                    ->whereIn("block_type_id", $block_type_id)
+                    ->whereIn('id', $subBlockId)
+                    ->get();
+        } else {
+            $subBlocksList = ProjectBlock::select("id", "block_sub_type")
+                    ->where("project_id", $request['data']['projectId'])
+                    ->whereIn("block_type_id", json_decode($request['data']['myJsonString']))
+                    ->get();
+            $subBlocksList1 = [];
+        }
+        if (!empty($subBlocksList) || !empty($subBlocksList1)) {
+            $result = ['success' => true, 'records' => $subBlocksList, 'records1' => $subBlocksList1];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
     }
 
     public function BulkReasignEmployee() {

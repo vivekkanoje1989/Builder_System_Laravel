@@ -14,6 +14,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.contacts = [];
         $scope.enqType = '';
         $scope.modalForm = {};
+        $scope.editProBtnn = false;
+        $scope.addProBtnn = true;
 
 
         $scope.initmoduelswisehisory = [1, 2];
@@ -33,9 +35,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.customerAddress = false;
         $scope.todayremarkTimeChange = function (selectedDate)
         {
-            if($scope.enquiryData.id <= 0){
-            $scope.enquiryData.next_followup_time = '';    
-            }            
+            if ($scope.enquiryData.id <= 0) {
+                $scope.enquiryData.next_followup_time = '';
+            }
             if (typeof selectedDate == 'undefined') {
                 $scope.timeList = [];
                 $scope.enquiryData.next_followup_time = '';
@@ -51,8 +53,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.errorMsg = response.message;
                     } else {
                         $scope.timeList = response.records;
-                        if($scope.enquiryData.next_followup_time == '')
-                        $scope.enquiryData.next_followup_time = '';
+                        if ($scope.enquiryData.next_followup_time == '')
+                            $scope.enquiryData.next_followup_time = '';
                     }
                 });
             }
@@ -207,15 +209,15 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.changeEmailPrivacyStatus = function (val) {
             $scope.customerData.email_privacy_status = val;
         }
-        
-        $scope.checkEmailValue = function(){                        
+
+        $scope.checkEmailValue = function () {
             if (typeof $scope.searchData.searchWithEmail === 'undefined' || $scope.searchData.searchWithEmail === '') {
                 $scope.showDiv = false;
                 $scope.errEmail = false;
                 $scope.showDivCustomer = false;
             } else {
 //                var reg = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                 if (!reg.test($scope.searchData.searchWithEmail)) {
                     $scope.errEmail = true;
                     $scope.showDiv = false;
@@ -375,7 +377,7 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
-           $scope.custSubmitBtn = true;
+            $scope.custSubmitBtn = true;
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");
@@ -466,20 +468,17 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
             if ($rootScope.newEnqFlag !== 0)
             {
                 $state.go("salesCreate");
-//                $timeout(function () {                    
-//                    if (mobileNo !== '') {alert("if");
-//                        //$("input[name='searchWithMobile']").val(mobileNo);
-//                        $("#searchWithMobile").val(mobileNo);
-//                        $("#searchWithMobile").trigger("change");
-//                    } else {alert("else");
-//                        //$("input[name='searchWithEmail']").val(emailId);
-//                        $("#searchWithEmail").val(emailId);
-//                        $("#searchWithEmail").trigger("change");
-//                    }
-//                }, 500);
+                $timeout(function () {
+                    if (mobileNo !== '') {
+                        $("input[name='searchWithMobile']").val(mobileNo);
+                        $("input[name='searchWithMobile']").trigger("change");
+                    } else {
+                        $("input[name='searchWithEmail']").val(emailId);
+                        $("input[name='searchWithEmail']").trigger("change");
+                    }
+                }, 500);
             } else
             {
-                alert("else");
                 $window.history.back();
             }
         }
@@ -491,7 +490,7 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
             $scope.modal = {};
         }
         $scope.manageForm = function (customerId, enquiryId, enqType) {
-            alert($scope.enquiryData.id);
+
             $scope.enqType = enqType;
             var date = new Date();
             $scope.enquiryData.sales_enquiry_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
@@ -612,9 +611,9 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                         $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : response.enquiryDetails[0].max_budget;
                         $scope.enquiryData.next_followup_date = (response.enquiryDetails[0].next_followup_date == '0000-00-00') ? '' : response.enquiryDetails[0].next_followup_date;
                         $scope.enquiryData.next_followup_time = response.enquiryDetails[0].next_followup_time;
-                        alert(response.enquiryDetails[0].property_possession_date);
-                        $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00' || response.enquiryDetails[0].property_possession_date == '1970-01-01') ? '' : response.enquiryDetails[0].property_possession_date;
-                        
+                        $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00') ? '' : response.enquiryDetails[0].property_possession_date;
+
+
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
 
@@ -727,7 +726,7 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                                 }
                             });
                             $rootScope.newEnqFlag = 1;
-                            if(response.customerPersonalDetails[0].gender_id === 0){
+                            if (response.customerPersonalDetails[0].gender_id === 0) {
                                 $scope.customerData.gender_id = "";
                             }
                         }, 1000);
@@ -753,7 +752,7 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
 
                             Data.post('master-sales/getCustomerDetails', {
-                                data: {customerMobileNo: $scope.searchData.searchWithMobile, customerCallingCode:$scope.searchData.mobile_calling_code.trim(), customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
+                                data: {customerMobileNo: $scope.searchData.searchWithMobile, customerCallingCode: $scope.searchData.mobile_calling_code.trim(), customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
                             }).then(function (response) {
                                 $scope.showDiv = false;
                                 $scope.showDivCustomer = true;
@@ -926,6 +925,8 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                         block_id: $scope.block_id.toString(),
                         sub_block_id: $scope.sub_block_id.toString()
                     }).then(function (response) {
+
+
                         $scope.projectsDetails.push({
                             'id': response.enqId,
                             'project_id': $scope.enquiryData.project_id.split('_')[0],
@@ -935,6 +936,7 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                             'sub_block_id': $scope.sub_block_id.toString(),
                             'subblocks': $scope.subblockname.toString(),
                         })
+
                     });
                 } else {
                     $scope.projectsDetails.push({
@@ -953,9 +955,60 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
             } else {
                 if (projectId == "") {
                     $scope.emptyProjectId = true;
-                }                
+                }
             }
         }
+
+
+
+
+
+        $scope.editProjectRow = function (projectId)
+        {
+            $scope.projects_id = $scope.enquiryData.project_id.split('_')[0];
+            $scope.projects_name = $scope.enquiryData.project_id.split('_')[1];
+            var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
+            var totalBlocks = $scope.enquiryData.block_id.length;
+            $scope.subblockname = [];
+            $scope.sub_block_id = [];
+            $scope.blockname = [];
+            $scope.block_id = [];
+            
+            for (var i = 0; i < totalSubBlocks; i++)
+            {
+                $scope.subblockname.push($scope.enquiryData.sub_block_id[i].block_sub_type);
+                $scope.sub_block_id.push($scope.enquiryData.sub_block_id[i].id);
+            }
+            for (var j = 0; j < totalBlocks; j++)
+            {
+                $scope.blockname.push($scope.enquiryData.block_id[j].block_name);
+                $scope.block_id.push($scope.enquiryData.block_id[j].id);
+            }
+            Data.post('master-sales/addEnquiryDetailRow', {
+                enquiry_id: $scope.enquiryData.id,
+                project_id: $scope.enquiryData.project_id.split('_')[0],
+                block_id: $scope.block_id.toString(),
+                sub_block_id: $scope.sub_block_id.toString()
+            }).then(function (response) {
+                alert($scope.enquiryData.project_id.split('_')[1])
+                $scope.projectsDetails.splice($scope.index, 1);
+                    $scope.projectsDetails.splice($scope.index, 0, {
+                        'id': response.enqId,
+                        'project_id': $scope.projects_id,
+                        'project_name': $scope.projects_name,
+                        'blocks': $scope.blockname.toString(),
+                        'block_id': $scope.block_id.toString(),
+                        'sub_block_id': $scope.sub_block_id.toString(),
+                        'subblocks': $scope.subblockname.toString(),
+                    })
+            });
+            $("#projectBody").hide();
+            $scope.enquiryData.block_id = {};
+            $scope.enquiryData.sub_block_id = {};
+            $scope.enquiryData.project_id = '';
+        }
+
+
         $scope.removeRow = function (rowId, enquiryDetailId) {
             if (enquiryDetailId !== '') {
                 Data.post('master-sales/delEnquiryDetailRow', {
@@ -971,8 +1024,65 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                 }
             }
             $scope.projectsDetails.splice(index, 1);
-
         }
+
+        $scope.editRow = function (list, index) {
+            $scope.enquiryData.project_id = list.project_id +"_"+ list.project_name;
+            $scope.getBlockTypes(list.project_id, list.block_id);
+            $timeout(function () {
+                $scope.checkBlockLength(list.block_id, list.sub_block_id);
+            }, 1600);
+            $scope.index = index;
+            $scope.addProBtnn = false;
+            $scope.editProBtnn = true;
+        }
+
+
+        $scope.blockTypeList = [];
+        $scope.subBlockList = [];
+
+        $scope.getBlockTypes = function (projectId, blockId) {
+            Data.post('master-sales/getBlockTypes', {projectId: projectId, blockId: blockId}).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.blockTypeList = response.records;
+                    $scope.enquiryData.block_id = response.records1;
+                }
+            });
+        }
+
+
+        $scope.checkBlockLength = function (blockId, subBlockId) {
+
+            var blockTypeId = [];
+            var projectId = $("#project_id").val().split('_')[0];
+            angular.forEach(blockId, function (value, key) {
+                blockTypeId.push(value.id);
+            });
+
+            var myJsonString = JSON.stringify(blockTypeId);
+            if (blockId.length === 0) {
+                $scope.emptyBlockId = true;
+                $scope.applyClassBlock = 'ng-active';
+                $scope.subBlockList = [];
+            } else {
+                $scope.emptyBlockId = false;
+                $scope.applyClassBlock = 'ng-inactive';
+                Data.post('master-sales/getSubBlocks/', {
+                    data: {myJsonString, projectId: projectId, subBlockId: subBlockId, blockId: blockId}
+                }).then(function (response) {
+                    if (!response.success) {
+                        $scope.errorMsg = response.message;
+                    } else {
+                        $scope.subBlockList = response.records;
+                        $scope.enquiryData.sub_block_id = response.records1;
+                    }
+                });
+            }
+        };
+
+
         $scope.editproject_details = function (list) {
             $scope.enquiryData.project_id = angular.copy(list.project_id);
             $scope.enquiryData.block_id = angular.copy(list.block_id);

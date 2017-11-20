@@ -50,12 +50,7 @@ class Customers extends Eloquent {
             'first_name.required' => 'Please enter first name',
             'last_name.required' => 'Please enter last name',
             'gender_id.required' => 'Please enter gender',
-//            'profession_id.required' => 'Please enter profession',
-//            'monthly_income' => ['required' => 'Please enter monthly income', 'numeric' => 'Monthly income must be numbers'],
-//            'birth_date.required' => 'Please select birth date',
             'source_id.required' => 'Please select source',
-//            'source_description.required' => 'Please enter source description',
-//            'aadhar_number.required' => 'Please enter aadhar number',
             'sms_privacy_status.required' => 'Please enter aadhar number',
             'email_privacy_status.required' => 'Please enter aadhar number'
         );
@@ -69,13 +64,8 @@ class Customers extends Eloquent {
             'middle_name' => 'max:15',
             'last_name' => 'required|max:15',
             'gender_id' => 'required',
-//            'profession_id' => 'required',
-//            'monthly_income' => 'required|numeric|max:999999',
-//            'birth_date' => 'required|date',
             'source_id' => 'required|numeric',
             'subsource_id' => 'numeric',
-//            'source_description' => 'required',
-//            'aadhar_number' => 'required',
             'email_privacy_status' => 'required',
             'sms_privacy_status' => 'required'
         );

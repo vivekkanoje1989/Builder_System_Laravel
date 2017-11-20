@@ -70,7 +70,7 @@ class Project extends Eloquent {
         'deleted_mac_id' => 'int'
     ];
     protected $dates = [
-        'created_date',
+        //'created_date',
         'updated_date',
         'deleted_date'
     ];

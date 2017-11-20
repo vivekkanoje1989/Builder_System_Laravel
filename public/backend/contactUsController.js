@@ -20,51 +20,7 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope','$mod
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
-        $scope.checkValue1 = function () {
-            if (typeof $scope.contact_number1 === 'undefined' || $scope.contact_number1 === '' ) {
-//                $scope.showDiv = false;
-                $scope.errMobile = false;
-//                $scope.showDivCustomer = false;
-            } else {
-                var regMobile = /^[789]/;
-                if (!regMobile.test($scope.contact_number1)) {
-                    $scope.errMobile = true;
-                } else {
-                    $scope.errMobile = "";
-                    $scope.errMobile = false;
-                }
-            }
-        }
-        $scope.checkValue2 = function () {
-            if (typeof $scope.contact_number2 === 'undefined' || $scope.contact_number2 === '' ) {
-//                $scope.showDiv = false;
-                $scope.errMobile2 = false;
-//                $scope.showDivCustomer = false;
-            } else {
-                var regMobile = /^[789]/;
-                if (!regMobile.test($scope.contact_number2)) {
-                    $scope.errMobile2 = true;
-                } else {
-                    $scope.errMobile2 = "";
-                    $scope.errMobile2 = false;
-                }
-            }
-        }
-        $scope.checkValue3 = function () {
-            if (typeof $scope.contact_number3 === 'undefined' || $scope.contact_number3 === '' ) {
-//                $scope.showDiv = false;
-                $scope.errMobile3 = false;
-//                $scope.showDivCustomer = false;
-            } else {
-                var regMobile = /^[789]/;
-                if (!regMobile.test($scope.contact_number3)) {
-                    $scope.errMobile3 = true;
-                } else {
-                    $scope.errMobile3 = "";
-                    $scope.errMobile3 = false;
-                }
-            }
-        }
+       
         
          $scope.showHelpContactUs = function () {
             $scope.optionModal = $modal.open({
