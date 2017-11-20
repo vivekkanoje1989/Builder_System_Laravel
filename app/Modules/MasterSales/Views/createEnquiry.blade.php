@@ -133,7 +133,7 @@
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6" ng-if="enqType != 0 || (enquiryData.id === undefined && enqType == 0 )">
                         <div class="form-group">
-                            <label for="">Reassign To1 <span class="sp-err">*</span></label>
+                            <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id">
                                     <!--<option value="">Select Employee</option>-->
@@ -145,7 +145,7 @@
                     </div>
                     <div class="col-sm-3 col-xs-6" ng-if="enqType == 0 && enquiryData.id > 0">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
-                            <label for="">Reassign To2 <span class="sp-err">*</span></label>
+                            <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id" required>
                                     <option value="">Select Employee</option>
