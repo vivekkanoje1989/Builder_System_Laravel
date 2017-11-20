@@ -736,6 +736,10 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             {
                 delete $scope.filterData.bookingToDate;
             }
+            if (keyvalue == 'fromDate')
+            {
+                delete $scope.filterData.toDate;
+            }
             delete $scope.filterData[keyvalue];
             $scope.getFilteredData($scope.filterData, 1, 30);
             $('#slideout').toggleClass('on');
