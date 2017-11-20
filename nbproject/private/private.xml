@@ -5,10 +5,27 @@
 <<<<<<< HEAD
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
+=======
+<<<<<<< HEAD
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+>>>>>>> 8bcf60601e8fa1e392ade5c9e5b2a70ccb1f39cc
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/sendDocument.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/updateCustomer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createCustomer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Customers/Models/Customers.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysRemark.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Customers/Views/edit.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+=======
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/quickEnquiry.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/countryController.js</file>
 =======
@@ -27,6 +44,7 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createCustomer.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/bookedenquiry.blade.php</file>
 >>>>>>> 4f90dec16aba9c6828ec0622518f2f8cf57dc50c
+>>>>>>> 8bcf60601e8fa1e392ade5c9e5b2a70ccb1f39cc
         </group>
 =======
         <group/>
