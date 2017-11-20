@@ -172,11 +172,12 @@ use AuthenticatesUsers;
                     $affectedRows = Employee::where('id', '=', $empId)->update([
                         'mobile_remember_token' => $authkey, 'menu_change_status' => 0]);
                 }
+                $profilePhoto = Auth::guard('admin')->user()->employee_photo_file_name;
                $res =  CommonFunctions::insertLoginLog($username, $password, $empId, 2, 0, $platformType);
  //loginStatus = 2(login), loginFailureReason = 0
 //            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get();
 //            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']);                
-                $result = ['success' => true, 'message' => 'Successfully logged in', 'loggedInUserId' => $empId];
+                $result = ['success' => true, 'message' => 'Successfully logged in', 'loggedInUserId' => $empId,'profileImage' => $profilePhoto];
             } else {
                 if ($employee_status === 2) {
                     $loginFailureReason = 2;

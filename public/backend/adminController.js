@@ -2,6 +2,7 @@
 app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams, $timeout) {
     $scope.registration = {};
     $scope.errorMsg = '';
+  
     $scope.sessiontimeout = function () {
         $scope.logout("logout");
         //alert("Session expired. Redirected to login");
@@ -45,6 +46,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
                 $rootScope.authenticated = true;
                 $rootScope.id = response.loggedInUserId;
                 $rootScope.loginFullName = response.fullname;
+                $rootScope.profileImage = response.profileImage;
                 $scope.errlMsg = false;               
                 $state.go('dashboard');
                 window.location.reload(true);
