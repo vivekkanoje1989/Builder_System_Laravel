@@ -230,7 +230,6 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         }
 
         $scope.checkValue = function () {
-           
             if (typeof $scope.searchData.searchWithMobile === 'undefined' || $scope.searchData.searchWithMobile === '' || $scope.searchData.searchWithEmail === '') {
                 $scope.showDiv = false;
                 $scope.errMobile = false;
@@ -467,16 +466,17 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
             if ($rootScope.newEnqFlag !== 0)
             {
                 $state.go("salesCreate");
-                $timeout(function () {
-                    alert("if");
-                    if (mobileNo !== '') {
-                        $("input[name='searchWithMobile']").val(mobileNo);
-                        $("input[name='searchWithMobile']").trigger("change");
-                    } else {
-                        $("input[name='searchWithEmail']").val(emailId);
-                        $("input[name='searchWithEmail']").trigger("change");
-                    }
-                }, 500);
+//                $timeout(function () {                    
+//                    if (mobileNo !== '') {alert("if");
+//                        //$("input[name='searchWithMobile']").val(mobileNo);
+//                        $("#searchWithMobile").val(mobileNo);
+//                        $("#searchWithMobile").trigger("change");
+//                    } else {alert("else");
+//                        //$("input[name='searchWithEmail']").val(emailId);
+//                        $("#searchWithEmail").val(emailId);
+//                        $("#searchWithEmail").trigger("change");
+//                    }
+//                }, 500);
             } else
             {
                 alert("else");
@@ -491,7 +491,7 @@ var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
             $scope.modal = {};
         }
         $scope.manageForm = function (customerId, enquiryId, enqType) {
-            
+            alert($scope.enquiryData.id);
             $scope.enqType = enqType;
             var date = new Date();
             $scope.enquiryData.sales_enquiry_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());

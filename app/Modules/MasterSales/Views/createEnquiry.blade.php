@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-            <input type="text" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
+            <input type="hidden" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
             <!--
             enqType ==  1 -> Quick Enquiry
             enqType ==  0 -> detailed enquiry
@@ -23,7 +23,7 @@
                                 <div ng-message="required">This field is required</div>
                             </div>
                         </div>                        
-                    </div>                    
+                    </div>
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.first_name.$dirty && enquiryForm.first_name.$invalid)}">
                             <label for="">First Name <span class="sp-err">*</span></label>
@@ -34,7 +34,7 @@
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.first_name.$error" class="help-block enqFormBtn">
                                 <div ng-message="required">This field is required</div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.last_name.$dirty && enquiryForm.last_name.$invalid)}">
@@ -128,24 +128,24 @@
                         </div>
                     </div> 
                 </div>
-            </div>{{enqType}}================{{ enquiryData.id }}
+            </div>
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
-                    <div class="col-sm-3 col-xs-6" ng-if="enqType != 0 || (enquiryData.id =='' && enqType == 0 )">
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType != 0 || (enquiryData.id === undefined && enqType == 0 )">
                         <div class="form-group">
-                            <label for="">Reassign To <span class="sp-err">*</span></label>
+                            <label for="">Reassign To1 <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id">
                                     <!--<option value="">Select Employee</option>-->
                                     <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="list.id == [[ Auth::guard('admin')->user()->id ]]">{{list.first_name}} {{list.last_name}}</option>
                                 </select>
-                                <i class="fa fa-sort-desc"></i>                                                                
+                                <i class="fa fa-sort-desc"></i>
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6" ng-if="enqType == 0 && enquiryData.id !='' ">
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType == 0 && enquiryData.id > 0">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
-                            <label for="">Reassign To <span class="sp-err">*</span></label>
+                            <label for="">Reassign To2 <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id" required>
                                     <option value="">Select Employee</option>
