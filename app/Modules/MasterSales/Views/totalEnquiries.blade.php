@@ -120,7 +120,7 @@
                     </div>
                     <div class="dataTables_length" ng-if="enquiriesLength != 0" >
                         <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" ng-change="noOfrecords(pageNumber,itemsPerPage,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee)">
                                 <option value="30">30</option>
                                 <option value="100">100</option>
                                 <option value="200">200</option>

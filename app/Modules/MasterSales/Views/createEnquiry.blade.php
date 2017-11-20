@@ -1,6 +1,6 @@
 <form name="enquiryForm" role="form" novalidate ng-submit=" projectsDetails.length > 0 && enquiryForm.$valid && saveEnquiryData(enquiryData)">
-    <div class="row">
-        <div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="row" ng-controller="customerController">
+        <div class="col-lg-12 col-sm-12 col-xs-12" >
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
             <input type="text" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
             <!--
@@ -70,19 +70,19 @@
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.sales_enquiry_date.$dirty && enquiryForm.sales_enquiry_date.$invalid)}">
-                        <label for="">Date of enquiry <span class="sp-err">*</span></label>
-                        <div ng-controller="DatepickerDemoCtrl" class="form-group">
-                            <p class="input-group">
-                                <input type="text" ng-model="enquiryData.sales_enquiry_date" name="sales_enquiry_date" id="sales_enquiry_date" class="form-control" datepicker-popup="dd-M-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
+                            <label for="">Date of enquiry <span class="sp-err">*</span></label>
+                            <div ng-controller="DatepickerDemoCtrl" class="form-group">
+                                <p class="input-group">
+                                    <input type="text" ng-model="enquiryData.sales_enquiry_date" name="sales_enquiry_date" id="sales_enquiry_date" class="form-control" datepicker-popup="dd-M-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_enquiry_date.$error" class="help-block">
                                     <div ng-message="required">This field is required</div>
                                 </div>
                                 <div ng-if="sales_enquiry_date" class="sp-err blog_title">{{sales_enquiry_date}}</div>
-                            </p>
-                        </div>
+                                </p>
+                            </div>
                         </div>                        
                     </div>
                     <div class="col-sm-3 col-xs-6">
@@ -131,19 +131,19 @@
             </div>{{enqType}}================{{ enquiryData.id }}
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
-                    <div class="col-sm-3 col-xs-6" ng-if="enqType != 0 || (enquiryData.id =='' && enqType == 0 )">
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType != 0 || (enquiryData.id == '' && enqType == 0)">
                         <div class="form-group">
                             <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id">
                                     <!--<option value="">Select Employee</option>-->
-                                    <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="list.id == [[ Auth::guard('admin')->user()->id ]]">{{list.first_name}} {{list.last_name}}</option>
+                                    <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="list.id == [[ Auth::guard('admin') -> user() -> id ]]">{{list.first_name}} {{list.last_name}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>                                                                
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6" ng-if="enqType == 0 && enquiryData.id !='' ">
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType == 0 && enquiryData.id != ''">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
                             <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
@@ -243,7 +243,7 @@
                     <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_type == 1 && enquiryData.parking_required == 1">
                         <div class="form-group">
                             <label for="">Number of 4 wheeler parkings required</label>
-                            <span class="input-icon icon-right" ng-init="enquiryData.four_wheeler_parkings_required > 0 ? enquiryData.four_wheeler_parkings_required : '' ">
+                            <span class="input-icon icon-right" ng-init="enquiryData.four_wheeler_parkings_required > 0 ? enquiryData.four_wheeler_parkings_required : ''">
                                 <input class="form-control" type="text" ng-model="enquiryData.four_wheeler_parkings_required" maxlength="5" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="four_wheeler_parkings_required">
                                 <i class="fa fa-car"></i>
                             </span>
@@ -384,14 +384,14 @@
                 </div>
             </div>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="form-title">Interested Projects</div>
-            <div ng-controller="blockTypeCtrl">
+            <div>
                 <div class="col-sm-3 col-xs-6">
                     <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.project_id.$dirty && enquiryForm.project_id.$invalid)}">
                         <label for="">Project</label>
                         <span class="input-icon icon-right">
                             <select ng-controller="projectCtrl" ng-model="enquiryData.project_id" name="project_id"  id ="project_id" class="form-control" ng-change="getBlockTypes(enquiryData.project_id)">
                                 <option value="">Select Project</option>
-                                <option ng-repeat="plist in projectList" value="{{plist.id}}_{{plist.project_name}}">{{plist.project_name}}</option>
+                                <option ng-repeat="plist in projectList" value="{{plist.id}}_{{plist.project_name}}" ng-selected="projects_id == plist.id">{{plist.project_name}}</option>
                             </select>
                             <i class="fa fa-sort-desc"></i>
                             <div ng-show="enqFormBtn" class="help-block enqFormBtn">
@@ -405,18 +405,18 @@
                     <div class="form-group multi-sel-div">
                         <label for="">Blocks</label>
                         <span class="input-icon icon-right">
-                        <ui-select ng-change="checkBlockLength(enquiryData.block_id)" multiple ng-model="enquiryData.block_id"  name="block_id" theme="select2" ng-disabled="disabled" required="required" style="width: 350px !important;">
-                            <ui-select-match placeholder='Select blocks'>{{$item.block_name}}</ui-select-match>
-                            <ui-select-choices repeat="list in blockTypeList | filter:$select.search">
-                                {{list.block_name}} 
-                            </ui-select-choices>
-                        </ui-select>
-                        <div ng-show="enqFormBtn" class="help-block enqFormBtn">
-                            <div ng-if="projectsDetails.length == 0">This field is required</div>
-                        </div>
-                        <div ng-show="addProBtn" ng-messages="enquiryForm.block_id.$valid" class="help-block addProBtn">
-                            <div ng-message="required">This field is required</div>
-                        </div>
+                            <ui-select ng-change="checkBlockLength(enquiryData.block_id)" multiple ng-model="enquiryData.block_id"  name="block_id" theme="select2" ng-disabled="disabled" required="required" style="width: 350px !important;">
+                                <ui-select-match placeholder='Select blocks'>{{$item.block_name}}</ui-select-match>
+                                <ui-select-choices repeat="list in blockTypeList | filter:$select.search">
+                                    {{list.block_name}} 
+                                </ui-select-choices>
+                            </ui-select>
+                            <div ng-show="enqFormBtn" class="help-block enqFormBtn">
+                                <div ng-if="projectsDetails.length == 0">This field is required</div>
+                            </div>
+                            <div ng-show="addProBtn" ng-messages="enquiryForm.block_id.$valid" class="help-block addProBtn">
+                                <div ng-message="required">This field is required</div>
+                            </div>
                         </span>
                     </div>
                 </div>
@@ -437,7 +437,8 @@
                 <div class="col-sm-3 col-xs-6">
                     <div class="form-group"><label for=""></label>
                         <span class="input-icon icon-right">
-                            <button type="button" class="btn btn-primary" ng-click="addProBtn = true && addProjectRow(enquiryData.project_id)" style="padding: 7px 5px;">Add Project</button>
+                            <button type="button" ng-if="addProBtnn" class="btn btn-primary" ng-click="addProBtn = true && addProjectRow(enquiryData.project_id)" style="padding: 7px 5px;">Add Project</button>
+                            <button type="button" ng-if="editProBtnn" class="btn btn-primary" ng-click="editProjectRow(enquiryData.project_id,enquiryData)" style="padding: 7px 5px;">Edit Project</button>
                         </span> 
                     </div>
                 </div>                   
@@ -468,7 +469,7 @@
                                         <td>
                                             <div class="fa-hover" style="display: block;">
                                                 <a href   ng-click="removeRow('{{ $index}}','{{ list.id}}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
-                                                <!--<a href tooltip-html-unsafe="Edit Project" ng-click="editproject_details('{{list}}')"><i class="fa fa-pencil" aria-hidden="true"></i></a> &nbsp;&nbsp;-->
+                                                <a href   ng-click="editRow({{list}},'{{ $index}}')"><i class="fa fa-edit" aria-hidden="true"></i></a> &nbsp;&nbsp;
                                             </div>
                                         </td>
                                     </tr>

@@ -8,7 +8,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.tempFilterData = {};
         $scope.listsIndex = {};
         $scope.documentData.project_id = 0;
-        $scope.itemsPerPage = 3;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.historyList = {};
         $scope.ct_presalesemployee = [];
@@ -352,6 +352,24 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }
             $scope.pageNumber = pageNo;
         }
+        
+        $scope.noOfrecords = function (pageNo,itemsPerPage, functionName, id, type, newpage, listType, sharedemployee, presalesemployee) {
+     
+            $('#all_chk_reassign_enq').prop('checked', false);
+            $scope.BulkReasign = false;
+            $(".chk_reassign_enq").prop('checked', false);
+            $scope.flagForChange++;
+            if ($scope.flagForChange == 1)
+            {
+                if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
+                    $scope.getFilteredData($scope.filterData, pageNo, itemsPerPage);
+                    $('#slideout').toggleClass('on');
+                } else {
+                    $scope[functionName](id, type, pageNo, itemsPerPage, listType, sharedemployee, presalesemployee);
+                }
+            }
+            $scope.pageNumber = pageNo;
+        }
         $scope.reassignEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared)
         {
             $scope.itemsPerPage = itemPerPage;
@@ -660,7 +678,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $("#customerfilter div").removeClass("accordion-toggle collapsed").addClass("accordion-toggle");
                 $(".accordion.panel-group .panel .collapse").css("background-color", "#eee");
             }
-
             $scope.getProcName = angular.copy(procedureName);
             $scope.getFunctionName = angular.copy(functionName);
             $scope.shared = shared;
@@ -1123,6 +1140,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.remarkData.corporateCust = false; //hide checkbox
             }
         }
+        
+       
+        
         $scope.isChecked = function (corporateCust) {
             if (corporateCust == true) {
                 $scope.companyInput = true;
