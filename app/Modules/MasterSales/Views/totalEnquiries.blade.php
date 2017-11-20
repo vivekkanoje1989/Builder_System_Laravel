@@ -88,7 +88,7 @@
                         <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate'">                         
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}" ng-if="value != ''">
                                 <div class="alert alert-info fade in">
-                                    <button class="close toggleForm" ng-click=" removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
+                                    <button class="close" ng-click=" removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
                                     <strong ng-if="key === 'channel_id' || key === 'city_id' || key === 'category_id' || key === 'source_id' || key == 'status_id'"><strong>{{  key.substring(0, key.indexOf('_'))}} :</strong>{{  value.substring(value.indexOf("_") + 1)}}</strong>
                                     <strong ng-if="key === 'employee_id'" ng-repeat='emp in value track by $index'> {{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}} </strong>
                                     <strong ng-if="key === 'subcategory_id'" ng-repeat='subcat in value track by $index'> {{ $index + 1}}){{   subcat.enquiry_sales_subcategory}}</strong>
@@ -419,7 +419,7 @@
             </div>            
         </div>
     </div>
-    <div data-ng-include="'/MasterSales/showFilter'"></div>  
+    <div data-ng-include="'/MasterSales/showFilter'"></div>
      <!--model Help-->
     <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
         <div class="modal-dialog">
@@ -443,3 +443,4 @@
         </div>
     </div>
 </div>
+ 
