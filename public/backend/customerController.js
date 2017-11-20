@@ -16,8 +16,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.modalForm = {};
         $scope.editProBtnn = false;
         $scope.addProBtnn = true;
-
-
         $scope.initmoduelswisehisory = [1, 2];
         $scope.errMobile = '';
         $scope.customerData.sms_privacy_status = $scope.customerData.email_privacy_status = 1;
@@ -312,6 +310,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     angular.forEach($scope.contacts, function (data, index) {
                         if (index === i) {
                             $scope.contactData.mobile_calling_code = $("#mobile_calling_code1").val();
+                            $scope.contactData.landline_calling_code = $("#landline_calling_code").val();
                             $scope.contacts.splice(index, 1); //Remove index
                             $scope.contacts.splice(index, 0, contactData);  //Update new value and returns array
                             $scope.contactData = {};
@@ -322,7 +321,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         'mobile_calling_code': $("#mobile_calling_code1").val(),
                         'mobile_number_lable': $scope.contactData.mobile_number_lable,
                         'mobile_number': $scope.contactData.mobile_number,
-                        'landline_calling_code': $scope.contactData.landline_calling_code,
+                        'landline_calling_code':  $("#landline_calling_code").val(),
                         'landline_lable': $scope.contactData.landline_lable,
                         'landline_number': $scope.contactData.landline_number,
                         'email_id_lable': $scope.contactData.email_id_lable,
@@ -554,7 +553,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
                             }
                         }
-
                         for (var i = 0; i < response.customerPersonalDetails.get_customer_contacts.length; i++) {
                             if (response.customerPersonalDetails.get_customer_contacts[i].mobile_number === '0' || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === '' || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === null || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === "null") {
                                 $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
@@ -564,6 +562,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             }
                             if (response.customerPersonalDetails.get_customer_contacts[i].landline_number === '0' || response.customerPersonalDetails.get_customer_contacts[i].landline_number === '' || response.customerPersonalDetails.get_customer_contacts[i].landline_number === null || response.customerPersonalDetails.get_customer_contacts[i].landline_number === "null") {
                                 $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
+                                 $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+'+response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code;
+                               
+                                 
                             } else {
                                 $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_number);
                                 $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code);
@@ -990,7 +991,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 block_id: $scope.block_id.toString(),
                 sub_block_id: $scope.sub_block_id.toString()
             }).then(function (response) {
-                alert($scope.enquiryData.project_id.split('_')[1])
+            
                 $scope.projectsDetails.splice($scope.index, 1);
                     $scope.projectsDetails.splice($scope.index, 0, {
                         'id': response.enqId,
