@@ -48,9 +48,9 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Actions</a>
-                        <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                        <ul class="dropdown-menu">
+                        <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn">Actions</a>
+                        <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
+                        <ul class="dropdown-menu" ng-disabled="disableBtn">
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
                                 <li ng-if="enquiriesLength != 0">
                                     <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
@@ -67,7 +67,7 @@
                     </div>                    
                     <div  class="dataTables_filter">                        
                         <label>
-                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                            <input type="search" class="form-control input-sm" ng-model="search" name="search" ng-disabled="disableBtn">
                         </label>
                         <label ng-if="type == 0" style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="reassignEnquiries('', [[ $type ]], 1, [[config('global.recordsPerPage')]], 6, sharedemployee)" ><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
                     </div>
@@ -76,7 +76,7 @@
                         <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate'">                         
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}" ng-if="value != ''">
                                 <div class="alert alert-info fade in">
-                                    <button class="close toggleForm" ng-click=" removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
+                                    <button class="close" ng-click=" removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
                                     <strong ng-if="key === 'channel_id' || key === 'city_id' || key === 'category_id' || key === 'source_id' || key == 'status_id'"><strong>{{  key.substring(0, key.indexOf('_'))}} :</strong>{{  value.substring(value.indexOf("_") + 1)}}</strong>
                                     <strong ng-if="key === 'employee_id'" ng-repeat='emp in value track by $index'> {{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}} </strong>
                                     <strong ng-if="key === 'subcategory_id'" ng-repeat='subcat in value track by $index'> {{ $index + 1}}){{   subcat.enquiry_sales_subcategory}}</strong>
@@ -108,7 +108,7 @@
                     </div>
                     <div class="dataTables_length" >
                         <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage"  ng-change="noOfrecords(pageNumber,itemsPerPage,'reassignEnquiries','',[[ $type ]], newPageNumber,listType, sharedemployee, presalesemployee)">
+                            <select class="form-control" ng-model="itemsPerPage" ng-disabled="disableBtn" name="itemsPerPage"  ng-change="noOfrecords(pageNumber,itemsPerPage,'reassignEnquiries','',[[ $type ]], newPageNumber,listType, sharedemployee, presalesemployee)">
                                 <option value="30">30</option>
                                 <option value="100">100</option>
                                 <option value="200">200</option>

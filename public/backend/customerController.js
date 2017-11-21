@@ -321,7 +321,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         'mobile_calling_code': $("#mobile_calling_code1").val(),
                         'mobile_number_lable': $scope.contactData.mobile_number_lable,
                         'mobile_number': $scope.contactData.mobile_number,
-                        'landline_calling_code':  $("#landline_calling_code").val(),
+                        'landline_calling_code': $("#landline_calling_code").val(),
                         'landline_lable': $scope.contactData.landline_lable,
                         'landline_number': $scope.contactData.landline_number,
                         'email_id_lable': $scope.contactData.email_id_lable,
@@ -376,7 +376,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
-            $scope.custSubmitBtn = true;           
+            $scope.custSubmitBtn = true;
             if ($window.sessionStorage.getItem("sessionContactData") != '') {
                 sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
                 if (sessionContactData === null || sessionContactData === '') {
@@ -385,7 +385,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 } else {
                     sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
                 }
-            }else{
+            } else {
                 sessionContactData = '';
             }
             var customerData = {};
@@ -452,10 +452,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         }
                         $scope.customer_id = response.data.customerId;
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
+                            alert('if')
                             toaster.pop('success', 'Customer', 'Record successfully created');
                             $scope.custSubmitBtn = true;
                         } else {
                             toaster.pop('success', 'Customer', 'Record successfully updated');
+                            $scope.custSubmitBtn = false;
                         }
                     }
                 });
@@ -564,9 +566,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             }
                             if (response.customerPersonalDetails.get_customer_contacts[i].landline_number === '0' || response.customerPersonalDetails.get_customer_contacts[i].landline_number === '' || response.customerPersonalDetails.get_customer_contacts[i].landline_number === null || response.customerPersonalDetails.get_customer_contacts[i].landline_number === "null") {
                                 $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
-                                 $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+'+response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code;
-                               
-                                 
+                                $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code;
+
+
                             } else {
                                 $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_number);
                                 $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code);
@@ -606,7 +608,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.showDiv = true;
                         $scope.enquiryformDiv = true;
                     } else {
-                        
+
                         $scope.enquiryData.max_budget = '555556';
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
@@ -621,11 +623,11 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.enquiryData.max_budget = '555556';
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
-                        
+
                         var d = new Date();
                         d.setHours(setTime[0]);
                         d.setMinutes(setTime[1]);
-                        
+
                         if ($scope.enquiryData.next_followup_date !== "" && $scope.enquiryData.next_followup_date !== null)
                         {
                             $scope.todayremarkTimeChange($scope.enquiryData.next_followup_date);
@@ -640,6 +642,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
                         $scope.searchData.searchWithEmail = response.customerContactDetails[0].email_id;
                         $scope.searchData.mobile_calling_code = "+" + response.customerContactDetails[0].mobile_calling_code;
+//                        $scope.searchData.landline_calling_code = "+" + response.customerContactDetails[0].landline_calling_code;
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
 
@@ -680,7 +683,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             }
                             if (response.customerContactDetails[i].landline_number === '0' || response.customerContactDetails[i].landline_number === '' || response.customerContactDetails[i].landline_number === null || response.customerContactDetails[i].landline_number === "null") {
                                 $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
-                                $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = "";
+                                $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = "+" + response.customerContactDetails[i].landline_calling_code;
                             } else {
                                 $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerContactDetails[i].landline_number);
                                 $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerContactDetails[i].landline_calling_code);
@@ -978,7 +981,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
         $scope.editProjectRow = function (projectId)
         {
-            alert($scope.index)
             $scope.projects_id = $scope.enquiryData.project_id.split('_')[0];
             $scope.projects_name = $scope.enquiryData.project_id.split('_')[1];
             var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
@@ -988,15 +990,15 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.blockname = [];
             $scope.block_id = [];
 
-            for (var i = 0; i < totalSubBlocks; i++)
-            {
-                $scope.subblockname.push($scope.enquiryData.sub_block_id[i].block_sub_type);
-                $scope.sub_block_id.push($scope.enquiryData.sub_block_id[i].id);
-            }
             for (var j = 0; j < totalBlocks; j++)
             {
                 $scope.blockname.push($scope.enquiryData.block_id[j].block_name);
                 $scope.block_id.push($scope.enquiryData.block_id[j].id);
+            }
+            for (var i = 0; i < totalSubBlocks; i++)
+            {
+                $scope.subblockname.push($scope.enquiryData.sub_block_id[i].block_sub_type);
+                $scope.sub_block_id.push($scope.enquiryData.sub_block_id[i].id);
             }
             Data.post('master-sales/addEnquiryDetailRow', {
                 enquiry_id: $scope.enquiryData.id,
@@ -1004,7 +1006,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 block_id: $scope.block_id.toString(),
                 sub_block_id: $scope.sub_block_id.toString()
             }).then(function (response) {
-            
+
                 $scope.projectsDetails.splice($scope.index, 1);
                 $scope.projectsDetails.splice($scope.index, 0, {
                     'id': response.enqId,
@@ -1047,7 +1049,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.checkBlockLength(list.block_id, list.sub_block_id);
             }, 1600);
             $scope.index = index;
-            alert($scope.index)
             $scope.addProBtnn = false;
             $scope.editProBtnn = true;
         }
@@ -1057,11 +1058,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.subBlockList = [];
 
         $scope.getBlockTypes = function (projectId, blockId) {
+
             Data.post('master-sales/getBlockTypes', {projectId: projectId, blockId: blockId}).then(function (response) {
+                console.log(response)
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.blockTypeList = response.records;
+                    console.log($scope.blockTypeList)
                     $scope.enquiryData.block_id = response.records1;
                 }
             });
@@ -1131,7 +1135,7 @@ app.directive('checkMobileExist', function ($timeout, $q, Data) {
                     $timeout(function () {
                         model.$setValidity('uniqueMobile', !!response.success);
                         $scope.contacts.mobile_number = modelValue;
-                    }, 1000);
+                    }, 100);
                 });
             };
         }
@@ -1154,7 +1158,7 @@ app.directive('checkEmailExist', function ($timeout, $q, Data) {
                     }).then(function (response) {
                         $timeout(function () {
                             model.$setValidity('uniqueEmail', !!response.success);
-                        }, 1000);
+                        }, 100);
                     });
 
                 }

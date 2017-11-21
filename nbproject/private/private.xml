@@ -2,6 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
 <<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
@@ -48,5 +51,6 @@
 >>>>>>> f3949da9274b317b4c1f1fdec663d64bc98f9cc2
 >>>>>>> 7a31ebc40b156691a18028c1dd0bf1a0b69c9d33
         </group>
+>>>>>>> 81df085844840cc5fbf0fbd3eb4ae0667eb79309
     </open-files>
 </project-private>
