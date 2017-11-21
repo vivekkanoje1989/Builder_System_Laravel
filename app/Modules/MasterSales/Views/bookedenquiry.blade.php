@@ -42,10 +42,10 @@
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                    <div class="DTTT btn-group" ng-if="enquiriesLength != 0">
-                        <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Actions</a>
-                        <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                        <ul class="dropdown-menu">
+                    <div class="DTTT btn-group">
+                        <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn">Actions</a>
+                        <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
+                        <ul class="dropdown-menu" ng-disabled="disableBtn">
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
                                 <li ng-if="enquiriesLength != 0">
                                     <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
@@ -71,7 +71,7 @@
                     </div>                    
                     <div  class="dataTables_filter">                        
                         <label>
-                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                            <input type="search" class="form-control input-sm" ng-model="search" name="search" ng-disabled="disableBtn">
                         </label>
                         @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
                             <label  style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries</span></label>
@@ -113,9 +113,9 @@
                     <div>
                         <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
                     </div>
-                    <div class="dataTables_length" ng-if="enquiriesLength != 0">
+                    <div class="dataTables_length" >
                         <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage"  ng-change="noOfrecords(pageNumber,itemsPerPage,'bookedEnquiries','', [[$type]], newPageNumber, listType,sharedemployee,presalesemployee)">
+                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" ng-disabled="disableBtn" ng-change="noOfrecords(pageNumber,itemsPerPage,'bookedEnquiries','', [[$type]], newPageNumber, listType,sharedemployee,presalesemployee)">
                                 <option value="30">30</option>
                                 <option value="100">100</option>
                                 <option value="200">200</option>

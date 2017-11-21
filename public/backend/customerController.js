@@ -453,10 +453,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         }
                         $scope.customer_id = response.data.customerId;
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
+                            alert('if')
                             toaster.pop('success', 'Customer', 'Record successfully created');
                             $scope.custSubmitBtn = true;
                         } else {
                             toaster.pop('success', 'Customer', 'Record successfully updated');
+                            $scope.custSubmitBtn = false;
                         }
                     }
                 });
@@ -612,7 +614,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
                         $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
-                        console.log($scope.enquiryData)
                         $scope.enquiryData.four_wheeler_parkings_required = (response.enquiryDetails[0].four_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].four_wheeler_parkings_required;
                         $scope.enquiryData.two_wheeler_parkings_required = (response.enquiryDetails[0].two_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].two_wheeler_parkings_required;
                         $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : response.enquiryDetails[0].max_budget;
@@ -642,6 +643,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
                         $scope.searchData.searchWithEmail = response.customerContactDetails[0].email_id;
                         $scope.searchData.mobile_calling_code = "+" + response.customerContactDetails[0].mobile_calling_code;
+//                        $scope.searchData.landline_calling_code = "+" + response.customerContactDetails[0].landline_calling_code;
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
 
@@ -682,7 +684,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             }
                             if (response.customerContactDetails[i].landline_number === '0' || response.customerContactDetails[i].landline_number === '' || response.customerContactDetails[i].landline_number === null || response.customerContactDetails[i].landline_number === "null") {
                                 $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
-                                $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = "";
+                                $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = "+" + response.customerContactDetails[i].landline_calling_code;
                             } else {
                                 $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerContactDetails[i].landline_number);
                                 $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerContactDetails[i].landline_calling_code);
@@ -1125,7 +1127,7 @@ app.directive('checkMobileExist', function ($timeout, $q, Data) {
                     $timeout(function () {
                         model.$setValidity('uniqueMobile', !!response.success);
                         $scope.contacts.mobile_number = modelValue;
-                    }, 1000);
+                    }, 100);
                 });
             };
         }
@@ -1148,7 +1150,7 @@ app.directive('checkEmailExist', function ($timeout, $q, Data) {
                     }).then(function (response) {
                         $timeout(function () {
                             model.$setValidity('uniqueEmail', !!response.success);
-                        }, 1000);
+                        }, 100);
                     });
 
                 }

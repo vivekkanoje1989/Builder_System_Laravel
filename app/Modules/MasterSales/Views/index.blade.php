@@ -364,14 +364,17 @@
                                             <div class="form-group">
                                                 <label for="">Mobile Number<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number"  id="mobile_number" class="form-control" maxlength="10" ng-change="checkMobileValue(contactData.mobile_calling_code)" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  check-mobile-exist ng-model-options="{ allowInvalid: true, debounce: 300 }" required>
+                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number"  id="mobile_number" ng-pattern="/^[789][0-9]{9,10}$/" class="form-control" maxlength="10"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  check-mobile-exist ng-model-options="{ allowInvalid: true, debounce: 300 }" required>
                                                     <i class="glyphicon glyphicon-phone"></i>
                                                 </span>
                                                 <div ng-show="modalSbtBtn && modalForm.mobile_number.$invalid" ng-messages="modalForm.mobile_number.$error" class="help-block">
                                                     <div ng-message="required">This field is required</div> 
-                                                    <div ng-message="uniqueMobile">Mobile number already exist</div>
                                                 </div>
-                                                <div ng-show="errMobileNo" class="sp-err">Invalid mobile number!</div>
+                                                <div ng-show="modalForm.mobile_number.$invalid" ng-messages="modalForm.mobile_number.$error" class="help-block">
+                                                    <div ng-message="uniqueMobile">Mobile number already exist</div>
+                                                    <div ng-message="pattern">Invalid mobile number!</div> 
+                                                </div>
+                                                <!--<div ng-show="errMobileNo" class="sp-err">Invalid mobile number!</div>-->
                                             </div>
                                         </div>
                                     </div>
