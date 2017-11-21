@@ -12,7 +12,7 @@
                         <div class="col-sm-3 col-xs-12 ">
                             <div class="form-group">
                                 <label>Job Title <span class="sp-err">*</span></label>
-                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_title.$dirty && jobPosting.job_title.$invalid) }">
+                                <div class="form-group">
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="career.job_title" name="job_title" capitalizeFirst ng-change="errorMsg = null" required oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_title.$error">
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-12 ">
-                            <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_locations.$dirty && jobPosting.job_locations.$invalid) }">
+                            <div class="form-group">
                                 <label>Job Location <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="text" class="form-control" ng-model="career.job_locations" name="job_locations" capitalizeFirst required oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-12 ">
-                            <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_eligibility.$dirty && jobPosting.job_eligibility.$invalid) }">
+                            <div class="form-group">
                                 <label>Job Eligibility <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <textarea ng-model="career.job_eligibility" name="job_eligibility" class="form-control capitalize ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
@@ -53,7 +53,7 @@
                             </div> 
                         </div>
                         <div class="col-sm-3 col-xs-12 ">
-                            <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_role.$dirty && jobPosting.job_role.$invalid) }">
+                            <div class="form-group" ">
                                 <label>Job Role <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="text" class="form-control" ng-model="career.job_role" name="job_role" capitalizeFirst required>
@@ -70,7 +70,7 @@
                         <div class="col-sm-3 col-xs-12 ">
                             <div class="form-group">
                                 <label>job Responsibilities<span class="sp-err">*</span></label>
-                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_responsibilities.$dirty && jobPosting.job_responsibilities.$invalid) }">
+                                <div class="form-group">
                                     <span class="input-icon icon-right">
                                         <textarea ng-model="career.job_responsibilities" name="job_responsibilities" class="form-control capitalize ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_responsibilities.$error">
@@ -83,7 +83,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-12 ">
-                            <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.application_start_date.$dirty || jobPosting.application_start_date.$invalid)}">
+                            <div ng-controller="DatepickerDemoCtrl" class="form-group" >
                                 <label>Application start date<span class="sp-err">*</span></label>
                                 <p class="input-group">
                                     <input type="text" ng-model="career.application_start_date" name="application_start_date" id="application_start_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
@@ -99,7 +99,7 @@
                         </div>
 
                         <div class="col-sm-3 col-xs-12 ">
-                            <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.application_close_date.$dirty || jobPosting.application_close_date.$invalid)}">
+                            <div ng-controller="DatepickerDemoCtrl" class="form-group" >
                                 <label>Application End Date<span class="sp-err">*</span></label>
                                 <p class="input-group">
                                     <input type="text" ng-model="career.application_close_date"  min-date="career.application_start_date"  min-date="model.application_start_date" name="application_close_date" id="application_close_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"   datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
@@ -115,7 +115,7 @@
                         </div>
 
                         <div class="col-sm-3 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.number_of_positions.$dirty && jobPosting.number_of_positions.$invalid) }">
+                            <div class="form-group">
                                 <label>Number of positions<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="text" class="form-control" ng-model="career.number_of_positions" name="number_of_positions" required  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
