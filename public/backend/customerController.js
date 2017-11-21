@@ -377,15 +377,18 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
             $scope.custSubmitBtn = true;
-            sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
-            if (sessionContactData === null || sessionContactData === '') {
-                $('#errContactDetails').text(" - Please add contact details");
-                return false;
-            } else {
+           
+            if ($window.sessionStorage.getItem("sessionContactData") != '') {
                 sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
+                if (sessionContactData === null || sessionContactData === '') {
+                    $('#errContactDetails').text(" - Please add contact details");
+                    return false;
+                } else {
+                    sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
+                }
+            }else{
+                sessionContactData = '';
             }
-
-
             var customerData = {};
             customerData = (angular.toJson(enteredData));
             if (typeof customerPhoto === 'string' || typeof customerPhoto === 'undefined') {
@@ -604,9 +607,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.showDiv = true;
                         $scope.enquiryformDiv = true;
                     } else {
+                        
+                        $scope.enquiryData.max_budget = '555556';
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
                         $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
+                        console.log($scope.enquiryData)
                         $scope.enquiryData.four_wheeler_parkings_required = (response.enquiryDetails[0].four_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].four_wheeler_parkings_required;
                         $scope.enquiryData.two_wheeler_parkings_required = (response.enquiryDetails[0].two_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].two_wheeler_parkings_required;
                         $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : response.enquiryDetails[0].max_budget;
@@ -614,14 +620,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.enquiryData.next_followup_time = response.enquiryDetails[0].next_followup_time;
                         $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00') ? '' : response.enquiryDetails[0].property_possession_date;
 
-
+                        $scope.enquiryData.max_budget = '555556';
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
-
-
+                        
                         var d = new Date();
                         d.setHours(setTime[0]);
                         d.setMinutes(setTime[1]);
+                        
                         if ($scope.enquiryData.next_followup_date !== "" && $scope.enquiryData.next_followup_date !== null)
                         {
                             $scope.todayremarkTimeChange($scope.enquiryData.next_followup_date);
@@ -764,7 +770,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                                 $scope.contacts = angular.copy(response.customerContactDetails);
                                 $scope.contactData = angular.copy(response.customerContactDetails);
-                               
+
                                 if (response.customerPersonalDetails[0].monthly_income == "0")
                                     $scope.customerData.monthly_income = "";
                                 else
@@ -966,6 +972,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
         $scope.editProjectRow = function (projectId)
         {
+            alert($scope.index)
             $scope.projects_id = $scope.enquiryData.project_id.split('_')[0];
             $scope.projects_name = $scope.enquiryData.project_id.split('_')[1];
             var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
@@ -974,7 +981,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.sub_block_id = [];
             $scope.blockname = [];
             $scope.block_id = [];
-            
+
             for (var i = 0; i < totalSubBlocks; i++)
             {
                 $scope.subblockname.push($scope.enquiryData.sub_block_id[i].block_sub_type);
@@ -993,15 +1000,15 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             }).then(function (response) {
             
                 $scope.projectsDetails.splice($scope.index, 1);
-                    $scope.projectsDetails.splice($scope.index, 0, {
-                        'id': response.enqId,
-                        'project_id': $scope.projects_id,
-                        'project_name': $scope.projects_name,
-                        'blocks': $scope.blockname.toString(),
-                        'block_id': $scope.block_id.toString(),
-                        'sub_block_id': $scope.sub_block_id.toString(),
-                        'subblocks': $scope.subblockname.toString(),
-                    })
+                $scope.projectsDetails.splice($scope.index, 0, {
+                    'id': response.enqId,
+                    'project_id': $scope.projects_id,
+                    'project_name': $scope.projects_name,
+                    'blocks': $scope.blockname.toString(),
+                    'block_id': $scope.block_id.toString(),
+                    'sub_block_id': $scope.sub_block_id.toString(),
+                    'subblocks': $scope.subblockname.toString(),
+                })
             });
             $("#projectBody").hide();
             $scope.enquiryData.block_id = {};
@@ -1028,12 +1035,13 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
 
         $scope.editRow = function (list, index) {
-            $scope.enquiryData.project_id = list.project_id +"_"+ list.project_name;
+            $scope.enquiryData.project_id = list.project_id + "_" + list.project_name;
             $scope.getBlockTypes(list.project_id, list.block_id);
             $timeout(function () {
                 $scope.checkBlockLength(list.block_id, list.sub_block_id);
             }, 1600);
             $scope.index = index;
+            alert($scope.index)
             $scope.addProBtnn = false;
             $scope.editProBtnn = true;
         }

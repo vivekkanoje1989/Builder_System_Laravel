@@ -5,8 +5,7 @@ $(document).ready(function(){
               $(".wrap-filter-form").addClass('abc');
 //              $(".wrap-filter-form").css("overflow-y","scroll");  
 //              $(".wrap-filter-form").css("height","650");  
-          }
-         
+          }         
         $('#slideout').toggleClass('on');
         if ($(".wrap-filter-form").hasClass("on")) {
             $(".mainDiv").css("opacity","0.2");

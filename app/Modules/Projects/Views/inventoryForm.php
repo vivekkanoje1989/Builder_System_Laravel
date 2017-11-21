@@ -154,7 +154,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="otherData.area_in_sqft" name="area_in_sqft" maxlength="10" oninput="if (/[^0-9.]/g.test(this.value)) this.value = this.value.replace(/[^0-9.]/g,'')"
                                                ng-change="otherData.area_in_sqmtr = (otherData.area_in_sqft*0.092903).toFixed(3)" ng-required="reqField || ({{$index}} != 0)">
-                                        <i class="fa fa-times" ng-click="otherData.area_in_sqft='';otherData.area_in_sqmtr=''"></i>
+                                        <i class="fa fa-times" id="area_in_sqft{{$index}}" ng-click="otherData.area_in_sqft='';otherData.area_in_sqmtr=''"></i>
                                         <div ng-show="reqField || (sbtBtn && {{$index}} != 0)" ng-messages="inventoryInfoForm.area_in_sqft.$error" class="help-block">
                                             <div ng-message="required">Please enter area in square feet</div>
                                         </div>
@@ -190,7 +190,7 @@
                                 <div class="form-group">
                                     <label for=""></label>
                                     <span class="input-icon icon-right">
-                                        <button type="button" class="btn-primary btn-xs" ng-if="$last" ng-click="addNewData()">Add</button>
+                                        <button type="button" class="btn-primary btn-xs" ng-if="$last" ng-click="addNewData(); sbtBtn = true;">Add</button>
                                         <button type="button" class="btn-primary btn-xs" ng-show="!$first" ng-click="removeRow($index)">Remove</button>                                        
                                     </span>
                                 </div>
@@ -200,7 +200,6 @@
                 </div>
             </div>
         </div>
-{{$scope.otherDataMultiple}}{{otherData.area_in_sqmtr}}
         <div class="row">
             <div class="row col-lg-12 col-sm-12 col-xs-12">
                 <div class="form-group" align="right">
