@@ -190,7 +190,6 @@ class MasterSalesController extends Controller {
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
             $input['customerData']['marriage_date'] = (!empty($input['customerData']['marriage_date']) && $input['customerData']['marriage_date'] != 'null') ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
-            print_r($input['customerData']);exit;
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
 
@@ -276,18 +275,23 @@ class MasterSalesController extends Controller {
             $customerCallingCode = !empty($request['data']['customerCallingCode']) ? $request['data']['customerCallingCode'] : "0";
             $customerCallingCode = str_replace('+', '', $customerCallingCode);
             $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '","' . $customerCallingCode . '")');
-
+             
             if (count($getCustomerContacts) > 0) {
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
                if($getCustomerPersonalDetails[0]['birth_date']=='1970-01-01' || $getCustomerPersonalDetails[0]['birth_date']=='0000-00-00' ||$getCustomerPersonalDetails[0]['birth_date']=='01-01-1970'){
                    $getCustomerPersonalDetails[0]['birth_date'] = '' ;
                }
+              
                 unset($getCustomerPersonalDetails[0]['pan_number']);
                 unset($getCustomerPersonalDetails[0]['aadhar_number']);
                 unset($getCustomerPersonalDetails[0]['image_file']);
                 $getCustomerEnquiryDetails = DB::select('CALL proc_get_customer_open_enquiries(' . $getCustomerContacts[0]->customer_id . ')');
                 $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
-
+                $data = Customer::select('customers.company_id','mlc.company_name')
+                    ->where('customers.id', '=', $getCustomerPersonalDetails[0]->id)
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_companies as mlc', 'mlc.id', '=', 'customers.company_id')
+                    ->get();
+                $getCustomerPersonalDetails[0]['company_name'] = $data[0]['company_name'];
                 if (count($getCustomerEnquiryDetails) == 0 || isset($request['data']['showCustomer'])) {
                     $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, 'flag' => 0];
                 } else {
@@ -3233,35 +3237,35 @@ Regards,<br>
             $templatedata['cust_attached_file'] = !empty($doc['project_brochure']) ? 'https://storage.googleapis.com/bkt_bms_laravel/project/project_brochure/' . $doc['project_brochure'] : '';
             $layoutPlan = $locationMap = $floorPlan = $amenities = $videoLink = $specific = '';
             if (!empty($doc['layout_plan_images']) && count($doc['layout_plan_images']) > 0) {
-                $layoutPlan = "<b>Layout Images</b><br>";
+                $layoutPlan = "<b>Layout Images</b><br><br>";
                 foreach ($doc['layout_plan_images'] as $layout) {
-                    $layoutPlan = $layoutPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/layout_plan_images/" . $layout['layout_plan_images'] . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/layout_plan_images/" . $layout['layout_plan_images'] . "' height='80px' width='80px'></a>";
+                    $layoutPlan = $layoutPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/layout_plan_images/" . $layout['layout_plan_images'] . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/layout_plan_images/" . $layout['layout_plan_images'] . "' style='margin-right:8px;height:120px;width:120px;'></a>";
                 }
             }
             if (!empty($doc['floor_plan_images']) && count($doc['floor_plan_images']) > 0) {
-                $floorPlan = "<br><b>Floor Images</b><br>";
+                $floorPlan = "<br><b>Floor Images</b><br><br>";
                 foreach ($doc['floor_plan_images'] as $floor) {
-                    $floorPlan = $floorPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/" . $floor['floor_plan_images'] . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/" . $floor['floor_plan_images'] . "' height='80px' width='80px'></a>";
+                    $floorPlan = $floorPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/" . $floor['floor_plan_images'] . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/" . $floor['floor_plan_images'] . "' style='margin-right:8px;height:120px;width:120px;'></a>";
                 }
             }
             if (!empty($doc['specification_images']) && count($doc['specification_images']) > 0) {
-                $specific = "<br><b>Specification Images</b><br>";
+                $specific = "<br><b>Specification Images</b><br><br>";
                 foreach ($doc['specification_images'] as $spec) {
-                    $specific = $specific . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/" . $spec['image'] . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/" . $spec['image'] . "' height='80px' width='80px'></a>";
+                    $specific = $specific . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/" . $spec['image'] . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/" . $spec['image'] . "' style='margin-right:8px;height:120px;width:120px;'></a>";
                 }
             }
             if (!empty($doc['location_map_images'])) {
                 $locarr = explode(',', $doc['location_map_images']);
-                $locationMap = '<br><b>Location Map</b><br>';
+                $locationMap = '<br><b>Location Map</b><br><br>';
                 foreach ($locarr as $loc => $val) {
-                    $locationMap = $locationMap . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/" . $val . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/" . $val . "' height='80px' width='80px'></a>";
+                    $locationMap = $locationMap . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/" . $val . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/" . $val . "' style='margin-right:8px;height:120px;width:120px;'></a>";
                 }
             }
             if (!empty($doc['amenities_images'])) {
                 $amenity = explode(',', $doc['amenities_images']);
-                $amenities = '<br><b>Amenities:</b><br>';
+                $amenities = '<br><b>Amenities:</b><br><br>';
                 foreach ($amenity as $k => $v) {
-                    $amenities = $amenities . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/" . $v . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/" . $v . "' height='80px' width='80px'></a>";
+                    $amenities = $amenities . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/" . $v . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/" . $v . "' style='margin-right:8px;height:120px;width:120px;'></a>";
                 }
             }
             if (!empty($doc['video_link'])) {

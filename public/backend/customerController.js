@@ -376,8 +376,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
-            $scope.custSubmitBtn = true;
-           
+            $scope.custSubmitBtn = true;           
             if ($window.sessionStorage.getItem("sessionContactData") != '') {
                 sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
                 if (sessionContactData === null || sessionContactData === '') {
@@ -612,7 +611,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
                         $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
-                        console.log($scope.enquiryData)
                         $scope.enquiryData.four_wheeler_parkings_required = (response.enquiryDetails[0].four_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].four_wheeler_parkings_required;
                         $scope.enquiryData.two_wheeler_parkings_required = (response.enquiryDetails[0].two_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].two_wheeler_parkings_required;
                         $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : response.enquiryDetails[0].max_budget;
@@ -756,8 +754,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             },
                     function (isConfirm) { //Function that triggers on user action.
                         if (isConfirm) {
-
-
                             Data.post('master-sales/getCustomerDetails', {
                                 data: {customerMobileNo: $scope.searchData.searchWithMobile, customerCallingCode: $scope.searchData.mobile_calling_code.trim(), customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
                             }).then(function (response) {
@@ -770,7 +766,17 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                                 $scope.contacts = angular.copy(response.customerContactDetails);
                                 $scope.contactData = angular.copy(response.customerContactDetails);
-
+                                $scope.customerData.company_name = (response.customerPersonalDetails[0].company_name !== ''  && response.customerPersonalDetails[0].company_name !== 'null') ? angular.copy(response.customerPersonalDetails[0].company_name) : '';
+//                                $scope.customerData.corporate_customer = angular.copy(response.customerPersonalDetails[0].corporate_customer);
+                                if (response.customerPersonalDetails[0].corporate_customer === 1) {
+                                    $scope.customerData.corporate_customer = true;
+                                    $scope.isChecked(true);
+                                } else {
+                                    $scope.customerData.corporate_customer = false;
+                                    $scope.companyInput = false;
+                                    $scope.customerData.company_id = 0;
+                                    $scope.customerData.company_name = "";
+                                }
                                 if (response.customerPersonalDetails[0].monthly_income == "0")
                                     $scope.customerData.monthly_income = "";
                                 else
