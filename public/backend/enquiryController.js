@@ -397,6 +397,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.Emailpermissions = response.displayMobile;
                 } else
                 {
+                      $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -439,7 +440,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.displayMobilePermission = response.displayMobilePermission;
                     $scope.displayEmailPermission = response.displayMobilePermission;
                 } else
-                {
+                {     $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -482,6 +483,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.Emailpermissions = response.MobileNopermissions;
                 } else
                 {
+                      $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -522,6 +524,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.displayEmailId = response.displayMobile;
                 } else
                 {
+                      $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -563,6 +566,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.emailPermission = response.emailPermission;
                 } else
                 {
+                    $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -605,6 +609,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.displayEmail = response.displayMobile;
                 } else
                 {
+                      $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -653,6 +658,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.displayEmailID = response.displayMobileN;
                 } else
                 {
+                      $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -691,22 +697,22 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             });
             $scope.showloader();
-            if (typeof filterData.fromDate !== 'undefined') {
-                var fdate = new Date(filterData.fromDate);
-                $scope.filterData.fromDate = (fdate.getDate() + '-' + ("0" + (fdate.getMonth() + 1)).slice(-2) + '-' + fdate.getFullYear());
-            }
-            if (typeof filterData.toDate !== 'undefined') {
-                var tdate = new Date(filterData.toDate);
-                $scope.filterData.toDate = (tdate.getDate() + '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getFullYear());
-            }
-            if (typeof filterData.bookingFromDate !== 'undefined') {
-                var fbdate = new Date(filterData.bookingFromDate);
-                $scope.filterData.bookingFromDate = (fbdate.getFullYear() + '-' + ("0" + (fbdate.getMonth() + 1)).slice(-2) + '-' + fbdate.getDate());
-            }
-            if (typeof filterData.bookingToDate !== 'undefined') {
-                var tbdate = new Date(filterData.tbdate);
-                $scope.filterData.bookingToDate = (tbdate.getFullYear() + '-' + ("0" + (tbdate.getMonth() + 1)).slice(-2) + '-' + tbdate.getDate());
-            }
+//            if (typeof filterData.fromDate !== 'undefined') {
+//                var fdate = new Date(filterData.fromDate);
+//                $scope.filterData.fromDate = (fdate.getDate() + '-' + ("0" + (fdate.getMonth() + 1)).slice(-2) + '-' + fdate.getFullYear());
+//            }
+//            if (typeof filterData.toDate !== 'undefined') {
+//                var tdate = new Date(filterData.toDate);
+//                $scope.filterData.toDate = (tdate.getDate() + '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getFullYear());
+//            }
+//            if (typeof filterData.bookingFromDate !== 'undefined') {
+//                var fbdate = new Date(filterData.bookingFromDate);
+//                $scope.filterData.bookingFromDate = (fbdate.getFullYear() + '-' + ("0" + (fbdate.getMonth() + 1)).slice(-2) + '-' + fbdate.getDate());
+//            }
+//            if (typeof filterData.bookingToDate !== 'undefined') {
+//                var tbdate = new Date(filterData.tbdate);
+//                $scope.filterData.bookingToDate = (tbdate.getFullYear() + '-' + ("0" + (tbdate.getMonth() + 1)).slice(-2) + '-' + tbdate.getDate());
+//            }
 
             Data.post('master-sales/filteredData', {filterData: filterData, pageNumber: page, itemPerPage: $scope.itemsPerPage, getProcName: $scope.getProcName, teamType: $scope.type, shared: $scope.shared}).then(function (response) {
                 if (response.success) {

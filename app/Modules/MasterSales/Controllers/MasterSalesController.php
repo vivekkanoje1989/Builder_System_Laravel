@@ -183,13 +183,14 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['id']);
                 unset($input['customerData']['company_name']);
             }
-
+            
             $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
             $input['customerData']['marriage_date'] = (!empty($input['customerData']['marriage_date']) && $input['customerData']['marriage_date'] != 'null') ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
+            print_r($input['customerData']);exit;
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
 
@@ -2963,18 +2964,21 @@ Regards,<br>
     public function getBlockTypes() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+       
         if (!empty($request['blockId'])) {
             $blockId = explode(',', $request['blockId']);
         } else {
             $blockId = array();
         }
+         
 
         if (!empty($blockId)) {
             $blockList = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')
                     ->where('project_id', $request['projectId'])
-                    ->whereNotIn('id', $blockId)
+                    ->whereNotIn('block_type_id', $blockId)
                     ->get();
             $getBlockTypeId = array();
+           
             if (!empty($blockList)) {
                 foreach ($blockList as $key => $value) {
                     $getBlockTypeId[] = $value['block_type_id'];
@@ -2982,13 +2986,13 @@ Regards,<br>
             }
             $blockTypeId = implode(",", $getBlockTypeId);
             $blockTypeList = MlstBmsbBlockType::select('id', 'block_name')->whereIn('id', $getBlockTypeId)->get();
-
+            
 
 
 
             $blockList1 = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')
                     ->where('project_id', $request['projectId'])
-                    ->whereIn('id', $blockId)
+                    ->whereIn('block_type_id', $blockId)
                     ->get();
             $getBlockTypeId1 = array();
             if (!empty($blockList1)) {
@@ -3246,7 +3250,7 @@ Regards,<br>
             if (!empty($doc['specification_images']) && count($doc['specification_images']) > 0) {
                 $specific = "<br><b>Specification Images</b><br>";
                 foreach ($doc['specification_images'] as $spec) {
-                    $specific = $specific . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/" . $spec['specification_images'] . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/" . $spec['specification_images'] . "' height='80px' width='80px'></a>";
+                    $specific = $specific . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/" . $spec['image'] . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/" . $spec['image'] . "' height='80px' width='80px'></a>";
                 }
             }
             if (!empty($doc['location_map_images'])) {

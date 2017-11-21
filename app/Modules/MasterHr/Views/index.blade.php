@@ -17,7 +17,6 @@
     .hrbtn a{   
         width: 118px;
         display: block;
-        text-align: center;
         margin-bottom:4px !important;
     }
 </style>

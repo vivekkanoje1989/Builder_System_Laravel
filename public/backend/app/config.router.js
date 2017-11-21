@@ -4984,8 +4984,10 @@ angular.module('app')
                                     templateUrl: '/pushapi/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                      label: 'BMS / BMS Settings / API Management / New  API',
-                                      title: 'New API',  
+                                        parent:'apilist',
+                                      label: 'Add Push API',
+                                      title: 'Add Push API', 
+                                      
                                   
                                     },
                                     resolve: {

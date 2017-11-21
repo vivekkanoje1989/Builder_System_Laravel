@@ -55,13 +55,14 @@
                                     <div class="col-sm-3 col-xs-12 ">
                                         <div class="form-group">
                                             <label>Mobile number<span class="sp-err">*</span></label>
-                                            <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.mobile_number.$dirty && testimonialsForm.mobile_number.$invalid) }" >
+                                            <div class="form-group" >
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" class="form-control" ng-model="testimonial.mobile_number" name="mobile_number" maxlength="10" minlength="10" required ng-change="checkMobileValue(testimonial.mobile_number)" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                                    <input type="text" class="form-control" ng-model="testimonial.mobile_number" ng-pattern="/^[789][0-9]{9,10}$/" name="mobile_number" maxlength="10" minlength="10" required oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                                     <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.mobile_number.$error">
                                                         <div ng-message="required">This field is required.</div>
                                                         <div ng-message="maxlength">Mobile no must be 10 digit</div>
                                                         <div ng-message="minlength">Mobile no must be 10 digit</div>
+                                                        <div ng-message="pattern">Invalid mobile number!</div>
                                                     </div>
                                                     <div ng-show="mobileNoErr" class="sp-err">Invalid mobile number!</div>
                                                     <br/>

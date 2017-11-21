@@ -1,5 +1,6 @@
 <div id="customer-form">
     <form novalidate role="form" name="customerForm" ng-submit="customerForm.$valid && createCustomer(customerData, customerData.image_file, contactData)">
+        <input type="text" ng-model="customerData.id" name="id" value="{{customerData.id}}">
         <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDivCustomer">
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="form-title">
@@ -258,7 +259,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="list in contacts">
+                            <tr ng-repeat="list in contacts track by $index">
                                 <td>{{$index + 1}}</td>
                                 <td><span ng-if="list.mobile_calling_code != '+NaN' ">{{list.mobile_calling_code}}</span> {{list.mobile_number}}</td>
                                 <td>{{list.landline_calling_code}} {{list.landline_number}}</td>

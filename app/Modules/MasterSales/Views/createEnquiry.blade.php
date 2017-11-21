@@ -1,12 +1,9 @@
 <form name="enquiryForm" role="form" novalidate ng-submit=" projectsDetails.length > 0 && enquiryForm.$valid && saveEnquiryData(enquiryData)">
-    <div class="row" ng-controller="customerController">
+    <div class="row" " >
         <div class="col-lg-12 col-sm-12 col-xs-12" >
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
             <input type="hidden" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
-            <!--
-            enqType ==  1 -> Quick Enquiry
-            enqType ==  0 -> detailed enquiry
-            -->
+
             <div class="row" ng-if="enqType == 1">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6">
@@ -461,7 +458,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="list in projectsDetails| unique:'project_id'">
+                                    <tr ng-repeat="list in projectsDetails| unique:'project_name'">
                                         <td>{{ $index + 1}}</td>                                    
                                         <td>{{ list.project_name}}</td>
                                         <td>{{ list.blocks}}</td>
