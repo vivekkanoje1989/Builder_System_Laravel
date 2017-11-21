@@ -458,7 +458,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="list in projectsDetails| unique:'project_id'">
+                                    <tr ng-repeat="list in projectsDetails| unique:'project_name'">
                                         <td>{{ $index + 1}}</td>                                    
                                         <td>{{ list.project_name}}</td>
                                         <td>{{ list.blocks}}</td>
