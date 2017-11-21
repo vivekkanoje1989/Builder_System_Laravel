@@ -23,8 +23,20 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.otherDataMultiple = [{id: 1}];
 
         $scope.addNewData = function () {
-            var newItemNo = $scope.otherDataMultiple.length + 1;
-            $scope.otherDataMultiple.push({'id': newItemNo});
+            
+            if (($scope.otherDataMultiple[0].other_label == null || $scope.otherDataMultiple[0].area_in_sqft == null || $scope.otherDataMultiple[0].area_in_sqmtr == null) || ($scope.otherDataMultiple[0].area_in_sqft === 'NaN' || $scope.otherDataMultiple[0].area_in_sqmtr === 'NaN'))
+            {
+                if(($scope.otherDataMultiple[0].area_in_sqft == null || $scope.otherDataMultiple[0].area_in_sqmtr == null) || ($scope.otherDataMultiple[0].area_in_sqft === 'NaN' || $scope.otherDataMultiple[0].area_in_sqmtr === 'NaN')){
+                    $timeout(function () {
+                        $("#area_in_sqft0").trigger("click");
+                    }, 200);
+                }
+                $scope.reqField = true;
+            } else {
+                $scope.reqField = false;
+                var newItemNo = $scope.otherDataMultiple.length + 1;
+                $scope.otherDataMultiple.push({'id': newItemNo});
+            }
         };
 
         $scope.removeRow = function (inx) {
@@ -32,7 +44,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         };
         /*******************Add Multiple Block Specification For Web********************/
 
-         $scope.checkFloor = function () {
+        $scope.checkFloor = function () {
             if ($scope.modalData.floors.length === 0) {
                 $scope.emptyFloorId = true;
                 $scope.applyClassFloor = 'ng-active';
@@ -102,9 +114,6 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.webpageSettings = function (prid, settingData) {
-//            $('#fade-in1').toggleClass('show'); 
-//            $scope.mainPanel = false;
-//            $scope.content_website_settings = true;
             if (settingData === '') { //for data
                 Data.post('projects/webpageSettings', {
                     getDataByPrid: prid,
@@ -143,6 +152,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                                 });
                             }
                         });
+                        console.log(response.settingData);
                         $scope.projectName = response.settingData.project_name;
 
                         $scope.showAllTabs = false;
@@ -169,7 +179,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.uploadsData = function (prid, uploadData, otherData) {
-            
+
             $scope.moduleName = ": Upload Documents And Images";
             if (uploadData === "" && otherData === "") { //for display data
                 $scope.getWings();
@@ -185,10 +195,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                         if (!responseAList.success) {
                             $scope.errorMsg = responseAList.message;
                         } else {
-                            
-                            console.log(response.uploadData);
                             $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_brochure = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
-                            //$scope.projectImages = response.uploadData;
                             $scope.mapData.google_map_iframe = (response.uploadData.google_map_iframe !== null && response.uploadData.google_map_iframe !== "null") ? response.uploadData.google_map_iframe : "";
                             $scope.mapData.google_map_short_url = (response.uploadData.google_map_short_url !== null && response.uploadData.google_map_short_url !== "null") ? response.uploadData.google_map_short_url : "";
                             $scope.galleryData.video_link = (response.uploadData.video_link !== null && response.uploadData.video_link !== "null") ? response.uploadData.video_link : "";
@@ -216,18 +223,18 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                                 var array = response.getProjectStatusRecords[i].images.split(',');
                                 $scope.statusImages.push(array);
                             }
-                            
-                            if($scope.project_logo.length == 0 || $scope.project_thumbnail.length == 0 || $scope.project_favicon.length == 0 || $scope.project_banner_images.length == 0 || $scope.project_background_images.length == 0 || $scope.project_brochure.length == 0){
+
+                            if ($scope.project_logo.length == 0 || $scope.project_thumbnail.length == 0 || $scope.project_favicon.length == 0 || $scope.project_banner_images.length == 0 || $scope.project_background_images.length == 0 || $scope.project_brochure.length == 0) {
                                 $scope.btnLabel = "Save";
-                            }else{
+                            } else {
                                 $scope.btnLabel = "Update";
                             }
                         }
                     });
                 });
-                
+
             } else { //for insert or update
-                
+
                 $scope.sbtbtnFiles = true;
                 if (typeof uploadData === 'undefined') {
                     uploadData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
@@ -243,7 +250,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                     } else {
                         $scope.sbtbtnFiles = false;
                         $scope.uploadData = otherData = "";
-                        toaster.pop('success', 'Project', response.data.message);                            
+                        toaster.pop('success', 'Project', response.data.message);
                     }
                 }, function (response) {
                     if (response.data.status !== 200) {
@@ -290,6 +297,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
         $scope.getWingData = function (inventoryList, idataId, wingId, wingName) {
+            $scope.inventoryInfoForm.$pristine;
             $scope.wingId = $scope.inventoryData.wing_id;
             $scope.idata = [];
             $scope.otherDataMultiple = [{id: 1}];
@@ -310,8 +318,6 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                     }
                 });
                 $scope.otherDataMultiple = $scope.idata;
-                console.log($scope.inventoryData);
-                console.log($scope.otherDataMultiple);
             }
         }
         /*$scope.sqFeetToSqMeter = function(sqft){alert(sqft);

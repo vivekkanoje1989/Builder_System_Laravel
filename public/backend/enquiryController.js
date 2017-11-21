@@ -8,7 +8,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.tempFilterData = {};
         $scope.listsIndex = {};
         $scope.documentData.project_id = 0;
-        $scope.itemsPerPage = 3;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.historyList = {};
         $scope.ct_presalesemployee = [];
@@ -348,6 +348,24 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $('#slideout').toggleClass('on');
                 } else {
                     $scope[functionName](id, type, pageNo, $scope.itemsPerPage, listType, sharedemployee, presalesemployee);
+                }
+            }
+            $scope.pageNumber = pageNo;
+        }
+        
+        $scope.noOfrecords = function (pageNo,itemsPerPage, functionName, id, type, newpage, listType, sharedemployee, presalesemployee) {
+     
+            $('#all_chk_reassign_enq').prop('checked', false);
+            $scope.BulkReasign = false;
+            $(".chk_reassign_enq").prop('checked', false);
+            $scope.flagForChange++;
+            if ($scope.flagForChange == 1)
+            {
+                if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
+                    $scope.getFilteredData($scope.filterData, pageNo, itemsPerPage);
+                    $('#slideout').toggleClass('on');
+                } else {
+                    $scope[functionName](id, type, pageNo, itemsPerPage, listType, sharedemployee, presalesemployee);
                 }
             }
             $scope.pageNumber = pageNo;
@@ -717,6 +735,10 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             if (keyvalue == 'bookingFromDate')
             {
                 delete $scope.filterData.bookingToDate;
+            }
+            if (keyvalue == 'fromDate')
+            {
+                delete $scope.filterData.toDate;
             }
             delete $scope.filterData[keyvalue];
             $scope.getFilteredData($scope.filterData, 1, 30);

@@ -626,7 +626,6 @@ class MasterSalesController extends Controller {
 
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $request['enquiryData'] = array_merge($request['enquiryData'], $update);
-
 //            unset($request['enquiryData']['project_id'],$request['enquiryData']['block_id'],$request['enquiryData']['sub_block_id'],
 //                    $request['enquiryData']['enquiry_category_id'],$request['enquiryData']['city_id'],$request['enquiryData']['csrfToken'],
 //                    $request['enquiryData']['next_followup_date'],$request['enquiryData']['next_followup_time'],
@@ -634,9 +633,6 @@ class MasterSalesController extends Controller {
 //                    $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks'],$request['enquiryData']['enqdetails_id'],$request['enquiryData']['loggedInUserId']);
 
             $update = Enquiry::where('id', $request['enquiryData']['id'])->update($request['enquiryData']);
-
-
-
             if (!empty($request['projectEnquiryDetails'])) {
                 foreach ($request['projectEnquiryDetails'] as $projectDetail) {
                     $getProjectId = EnquiryDetail::select("id")->where(['enquiry_id' => $request['enquiryData']['id'], 'project_id' => $projectDetail['project_id'], 'block_id' => $projectDetail['block_id'], 'sub_block_id' => $projectDetail['sub_block_id']])->get();

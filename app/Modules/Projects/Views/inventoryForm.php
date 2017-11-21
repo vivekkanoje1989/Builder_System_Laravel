@@ -137,12 +137,12 @@
                         <div class="">
                             <div class="col-sm-4 col-sx-6">
                                 <div class="form-group">
-                                    <label for="">Label<span class="sp-err" ng-show="{{$index}} != 0">*</span></label>
+                                    <label for="">Label<span class="sp-err" ng-show="reqField || ({{$index}} != 0)">*</span></label>
                                     <span class="input-icon icon-right"> 
                                         <input type="hidden" ng-model="otherData.other_block_id" name="other_block_id" value="{{otherData.id}}">
-                                        <input type="text" class="form-control" ng-model="otherData.other_label" name="other_label" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" ng-required="{{$index}} != 0">
+                                        <input type="text" class="form-control" ng-model="otherData.other_label" name="other_label" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" ng-required="reqField || ({{$index}} != 0)">
                                         <i class="fa fa-align-justify"></i>
-                                        <div ng-show="sbtBtn && {{$index}} != 0" ng-messages="inventoryInfoForm.other_label.$error" class="help-block">
+                                        <div ng-show="reqField || (sbtBtn && {{$index}} != 0)" ng-messages="inventoryInfoForm.other_label.$error" class="help-block">
                                             <div ng-message="required">Please enter block label</div>
                                         </div>
                                     </span>
@@ -150,12 +150,12 @@
                             </div>
                             <div class="col-sm-2 col-sx-6">
                                 <div class="form-group">
-                                    <label for="">Value in Sq Ft<span class="sp-err" ng-show="{{$index}} != 0">*</span></label>
+                                    <label for="">Value in Sq Ft<span class="sp-err" ng-show="reqField || ({{$index}} != 0)">*</span></label>
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="otherData.area_in_sqft" name="area_in_sqft" maxlength="10" oninput="if (/[^0-9.]/g.test(this.value)) this.value = this.value.replace(/[^0-9.]/g,'')"
-                                               ng-change="otherData.area_in_sqmtr = (otherData.area_in_sqft*0.092903).toFixed(3)" ng-required="{{$index}} != 0">
-                                        <i class="fa fa-times" ng-click="otherData.area_in_sqft='';otherData.area_in_sqmtr=''"></i>
-                                        <div ng-show="sbtBtn && {{$index}} != 0" ng-messages="inventoryInfoForm.area_in_sqft.$error" class="help-block">
+                                               ng-change="otherData.area_in_sqmtr = (otherData.area_in_sqft*0.092903).toFixed(3)" ng-required="reqField || ({{$index}} != 0)">
+                                        <i class="fa fa-times" id="area_in_sqft{{$index}}" ng-click="otherData.area_in_sqft='';otherData.area_in_sqmtr=''"></i>
+                                        <div ng-show="reqField || (sbtBtn && {{$index}} != 0)" ng-messages="inventoryInfoForm.area_in_sqft.$error" class="help-block">
                                             <div ng-message="required">Please enter area in square feet</div>
                                         </div>
                                     </span>
@@ -164,12 +164,12 @@
                             </div>
                             <div class="col-sm-2 col-sx-6">
                                 <div class="form-group">
-                                    <label for="">Value in Sqm<span class="sp-err" ng-show="{{$index}} != 0">*</span></label>
+                                    <label for="">Value in Sqm<span class="sp-err" ng-show="reqField || ({{$index}} != 0)">*</span></label>
                                     <span class="input-icon icon-right">                                        
                                         <input type="text" class="form-control"  ng-model="otherData.area_in_sqmtr" name="area_in_sqmtr" maxlength="10" oninput="if (/[^0-9.]/g.test(this.value)) this.value = this.value.replace(/[^0-9.]/g,'')"
-                                               ng-change="otherData.area_in_sqft = (otherData.area_in_sqft ==null || otherData.area_in_sqft == '') ? (otherData.area_in_sqmtr/0.092903).toFixed(3) : otherData.area_in_sqft" ng-required="{{$index}} != 0">
+                                               ng-change="otherData.area_in_sqft = (otherData.area_in_sqft == null || otherData.area_in_sqft == '') ? (otherData.area_in_sqmtr/0.092903).toFixed(3) : otherData.area_in_sqft" ng-required="reqField || ({{$index}} != 0)">
                                         <i class="fa fa-times" ng-click="otherData.area_in_sqmtr=''"></i>
-                                        <div ng-show="sbtBtn && {{$index}} != 0" ng-messages="inventoryInfoForm.area_in_sqmtr.$error" class="help-block">
+                                        <div ng-show="reqField || (sbtBtn && {{$index}} != 0)" ng-messages="inventoryInfoForm.area_in_sqmtr.$error" class="help-block">
                                             <div ng-message="required">Please enter area in square meter</div>
                                         </div>
                                     </span>                                    
@@ -190,7 +190,7 @@
                                 <div class="form-group">
                                     <label for=""></label>
                                     <span class="input-icon icon-right">
-                                        <button type="button" class="btn-primary btn-xs" ng-if="$last" ng-click="addNewData()">Add</button>
+                                        <button type="button" class="btn-primary btn-xs" ng-if="$last" ng-click="addNewData(); sbtBtn = true;">Add</button>
                                         <button type="button" class="btn-primary btn-xs" ng-show="!$first" ng-click="removeRow($index)">Remove</button>                                        
                                     </span>
                                 </div>
@@ -200,7 +200,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="row col-lg-12 col-sm-12 col-xs-12">
                 <div class="form-group" align="right">

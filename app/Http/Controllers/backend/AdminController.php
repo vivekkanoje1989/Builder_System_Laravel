@@ -387,6 +387,7 @@ class AdminController extends Controller {
         $getEnquirySubSource = EnquirySalesSubSource::select('id', 'sub_source_status', 'enquiry_sales_source_id', 'sub_source', 'client_id')->where([["sub_source_status", "=", "1"], ['deleted_status', '<>', 1]])->get();
         $getMlstProfession = MlstProfession::select('id', 'status', 'profession')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
         $getMlstBmsbDesignation = MlstBmsbDesignation::select('id', 'status', 'designation')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
+        $getCountry = MlstCountry::select('id', 'name')->where(['deleted_status', '<>', 1])->get();
         $getStates = MlstState::select('id', 'name', 'country_id')->where([["country_id", "=", 101], ['deleted_status', '<>', 1]])->get();
         $getEmployees = Employee::select('id', 'first_name', 'last_name', 'department_id', 'employee_id', 'designation_id', 'employee_status')->where("employee_status", 1)->get();
         $blockTypeList = MlstBmsbBlockType::select("id", "project_type_id", "block_name")->where('deleted_status', '!=', 1)->get();
@@ -420,7 +421,7 @@ class AdminController extends Controller {
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource,
-                'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation, 'states' => $getStates,
+                'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation, 'country' => $getCountry,'states' => $getStates,
                 "blocks" => $blockTypeList, "projects" => $projectList, 'subblocks' => $subBlocksList, 'agencyList' => $enquiryFinanceTieup,
                 'salesEnqCategoryList' => $salesEnqCategoryList, 'salesEnqSubCategoryList' => $salesEnqSubCategoryList,
                 'salesEnqStatusList' => $salesEnqStatusList, 'salesEnqSubStatusList' => $salesEnqSubStatusList, 'channelList' => $channelList, "getCompanyList" => $getCompanyList,
