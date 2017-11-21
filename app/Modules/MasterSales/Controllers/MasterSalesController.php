@@ -2963,18 +2963,21 @@ Regards,<br>
     public function getBlockTypes() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+       
         if (!empty($request['blockId'])) {
             $blockId = explode(',', $request['blockId']);
         } else {
             $blockId = array();
         }
+         
 
         if (!empty($blockId)) {
             $blockList = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')
                     ->where('project_id', $request['projectId'])
-                    ->whereNotIn('id', $blockId)
+                    ->whereNotIn('block_type_id', $blockId)
                     ->get();
             $getBlockTypeId = array();
+           
             if (!empty($blockList)) {
                 foreach ($blockList as $key => $value) {
                     $getBlockTypeId[] = $value['block_type_id'];
@@ -2982,13 +2985,13 @@ Regards,<br>
             }
             $blockTypeId = implode(",", $getBlockTypeId);
             $blockTypeList = MlstBmsbBlockType::select('id', 'block_name')->whereIn('id', $getBlockTypeId)->get();
-
+            
 
 
 
             $blockList1 = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')
                     ->where('project_id', $request['projectId'])
-                    ->whereIn('id', $blockId)
+                    ->whereIn('block_type_id', $blockId)
                     ->get();
             $getBlockTypeId1 = array();
             if (!empty($blockList1)) {
