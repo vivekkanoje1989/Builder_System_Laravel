@@ -138,7 +138,7 @@ class MasterSalesController extends Controller {
     public function delEnquiryDetailRow() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        EnquiryDetail::where('id', $request['enquiryDetailId'])->delete();
+        EnquiryDetail::where(['enquiry_id'=> $request['enquiry_id'],'project_id'=>$request['project_id']])->delete();
         $result = ['success' => true];
         return response()->json($result);
     }
@@ -148,6 +148,7 @@ class MasterSalesController extends Controller {
     }
 
     public function editEnquiry($cid, $eid) {
+   
         return view("MasterSales::index")->with(["editCustomerId" => $cid, "editEnquiryId" => $eid]);
     }
 

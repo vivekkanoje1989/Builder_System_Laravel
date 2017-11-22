@@ -1519,6 +1519,10 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.bookingId = '';
         $scope.disableRemarkSbt = false;
         $scope.insertTodayRemark = function (modalData, sharedemployee) {
+            
+             $('.firstDiv').css('opacity', '0.1').css("pointer-events", "none");
+            $('.pleaseWait').css("display", "block").css("z-index", "9999");
+            
             if ($scope.editableCustInfo == true) {
                 if (modalData.customer_fname == '' && modalData.customer_lname == '') {
                     toaster.pop('error', 'Required', 'Please update customer name');
@@ -1569,7 +1573,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.sbtbtndis = true;
             $scope.disableRemarkSbt = true;
 
-            $scope.showloader();
+ 
             Data.post('master-sales/insertTodayRemark', {
                 data: data, custInfo: custInfo
             }).then(function (response) {
