@@ -1521,7 +1521,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                        $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1627,7 +1627,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                       $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1708,7 +1708,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                      $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1791,7 +1791,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                      $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1877,7 +1877,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                       $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1959,7 +1959,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                       $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -3162,7 +3162,7 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            $query = DB::select('select c.id as customer_id,c.first_name as customer_fname,c.last_name as customer_lname,ed.project_id,title,c.title_id,(SELECT GROUP_CONCAT(distinct cc.mobile_number) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_mobile_no,(SELECT GROUP_CONCAT(distinct cc.email_id) FROM 
+            $query = DB::select('select c.id as customer_id,c.first_name as customer_fname,c.last_name as customer_lname,c.email_privacy_status,ed.project_id,title,c.title_id,(SELECT GROUP_CONCAT(distinct cc.mobile_number) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_mobile_no,(SELECT GROUP_CONCAT(distinct cc.email_id) FROM 
                     `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_email_id,(SELECT GROUP_CONCAT(cc.area_name) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_area_name, 
                     (SELECT GROUP_CONCAT(cc.house_number," ",cc.building_house_name," ",cc.wing_name," ",cc.area_name," ",cc.lane_name," ",cc.landmark,cc.pin) FROM `customers_contacts`as cc WHERE c.`id` = cc.customer_id limit 1) AS customer_address
                     from `enquiries` as `enq` LEFT JOIN `enquiry_details` as `ed` on `ed`.`enquiry_id` = `enq`.`id` LEFT JOIN `customers` as c ON c.id = enq.customer_id  LEFT JOIN laravel_developement_master_edynamics.`mlst_titles` as mt ON mt.id = c.title_id

@@ -205,7 +205,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
 
         $scope.changeEmailPrivacyStatus = function (val) {
-            $scope.customerData.email_privacy_status = val;
+            $scope.customerData.email_privacy_status = val;            
         }
 
         $scope.checkEmailValue = function () {

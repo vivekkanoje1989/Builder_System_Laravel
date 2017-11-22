@@ -3,7 +3,6 @@
         <div class="col-lg-12 col-sm-12 col-xs-12" >
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
             <input type="hidden" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
-
             <div class="row" ng-if="enqType == 1">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6">
@@ -161,7 +160,7 @@
                             <label for="">Next Followup Date & Time<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="enquiryData.next_followup_date" name="next_followup_date"  id="next_followup_date" class="form-control" datepicker-popup="dd-M-yyyy" is-open="opened" ng-change="todayremarkTimeChange(enquiryData.next_followup_date)"  min-date=enquiryData.sales_enquiry_date  datepicker-options="dateOptions" close-text="Close" readonly required />
+                                    <input type="text" ng-model="enquiryData.next_followup_date" name="next_followup_date"  id="next_followup_date" class="form-control" datepicker-popup="dd-M-yyyy" is-open="opened" ng-change="todayremarkTimeChange(enquiryData.next_followup_date)"  min-date=minDate datepicker-options="dateOptions" close-text="Close" readonly required />
                                     <span class="input-group-btn" >
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
