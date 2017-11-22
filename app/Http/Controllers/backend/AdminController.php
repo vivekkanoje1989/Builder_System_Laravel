@@ -510,7 +510,6 @@ class AdminController extends Controller {
     public function checkUniqueEmail() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
         $id = $request['data']['id'];
         if ($id == 0) {
             $checkEmail = Employee::getRecords(["personal_email1"], ["personal_email1" => $request['data']['emailData']]);

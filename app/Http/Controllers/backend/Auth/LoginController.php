@@ -248,9 +248,8 @@ use AuthenticatesUsers;
         $username = Auth()->guard('admin')->user()->username;
         CommonFunctions::insertLoginLog($username, "-", $empId, 3, 0, $platformType = 1); //loginStatus = 3(logout)
         Auth()->guard('admin')->logout();
-        //\Session::flush();
         $result = ['success' => true, 'message' => 'Successfully logged out'];
-        echo json_encode($result);
+        return json_encode($result);
     }
 
 }

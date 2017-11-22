@@ -121,7 +121,7 @@
                             <td>{{ list.api_name}}</td>
                             <td>{{ list.key}}</td>
                             <td>{{ list.empName}}</td>
-                            <td><p ng-if="list.pdf_name"> <a target="_blank" href="<?php echo config('global.s3Path') . "/Push-Apis/"; ?>{{ list.pdf_name}}">Download</a></p></td>
+                            <td><p ng-if="list.pdf_name"> <a target="_blank" href="<?php echo config('global.s3Path') . "/Push-Apis/"; ?>{{ list.pdf_name}}" class="btn-primary btn-xs"><i class="fa fa-download" aria-hidden="true"></i>Download</a></p></td>
                             <td ng-if="list.status == 1">Active</td>
                             <td ng-if="list.status == 2">Deactive</td>
                             <td class="">

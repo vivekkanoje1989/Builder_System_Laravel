@@ -11,14 +11,13 @@
         padding: 5px;
     }
 </style>
-
 <div class="row" ng-controller="enquiryController" ng-init="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, '', ''); getAllEmployeeData();" >
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">{{pagetitle}}</span>   
-                 <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
-             </div>
+                <span data-toggle="modal" data-target="#help" class="helpDescription">Help <i class="fa fa-question-circle" aria-hidden="true"></i></span>
+            </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
                     <div class="row col-sm-2">
@@ -47,11 +46,11 @@
                         <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu" ng-disabled="disableBtn">
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
-                                <li ng-if="enquiriesLength != 0">
-                                    <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
-                                       Export
-                                    </a> 
-                                </li>
+                            <li ng-if="enquiriesLength != 0">
+                                <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
+                                    Export
+                                </a> 
+                            </li>
                             @endif
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01407"'))                            
                             <li>
@@ -74,7 +73,7 @@
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" ng-disabled="disableBtn">
                         </label>
                         @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
-                            <label  style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries</span></label>
+                        <label  style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries</span></label>
                         @endif 
                     </div>
                     <!-- filter data--> 
@@ -116,6 +115,7 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" ng-disabled="disableBtn" ng-change="noOfrecords(pageNumber,itemsPerPage,'bookedEnquiries','', [[$type]], newPageNumber, listType,sharedemployee,presalesemployee)">
+
                                 <option value="30">30</option>
                                 <option value="100">100</option>
                                 <option value="200">200</option>
@@ -179,8 +179,8 @@
                                 <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
                                     <i class="fa fa-envelope" aria-hidden="true" ng-show="all_email_list.length > 0"></i>
                                     <span ng-repeat="emailobj in all_email_list| limitTo:2">
-                                        <span class="text" ng-if="emailobj!='null'">{{emailobj}}</span>
-                                        <span ng-if="$index == 0 && all_email_list.length >= 2 && emailobj!='null'">
+                                        <span class="text" ng-if="emailobj != 'null'">{{emailobj}}</span>
+                                        <span ng-if="$index == 0 && all_email_list.length >= 2 && emailobj != 'null'">
                                             /
                                         </span>
                                     </span>
@@ -283,7 +283,7 @@
                                 </span></div>
                             <hr class="enq-hr-line">
                             <div>
-                                <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal('{{ enquiry.id}}','{{initmoduelswisehisory}}',1,'enquiryhistoryFlag')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                                <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal('{{ enquiry.id}}','{{initmoduelswisehisory}}', 1, 'enquiryhistoryFlag')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
                             </div>
 
                         </td>
@@ -294,7 +294,7 @@
                             <span ng-if="enquiry.email.split(',').length > 0"><br/></span>
                         </td>
                         </tr>
-                        <tr ng-if="enquiriesLength == 0 ||(enquiries|filter:search).length == 0">
+                        <tr ng-if="enquiriesLength == 0 || (enquiries | filter:search).length == 0">
                             <td colspan="5" align="center">No Enquiries Found</td>   
                         </tr>
                         </tbody>              
@@ -366,31 +366,28 @@
                         </div>
                     </div>
                 </div> 
-                <!--<div data-ng-include="'/MasterSales/bulkreassign'"></div>--> 
-                <!--<div data-ng-include="'/MasterSales/collectionDetails'"></div>--> 
             </div>
         </div>
     </div>
     <div data-ng-include="'/MasterSales/showFilter'"></div>
-     <!--model Help-->
     <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
         <div class="modal-dialog">
-           
+
             <div class="modal-content helpModal" >
                 <div class="modal-header helpModalHeader bordered-bottom bordered-themeprimary" >
                     <button type="button" class="close" data-dismiss="modal">×</button>
                     <h4 class="modal-title" align="center">Task Priority Help Info</h4>
                 </div>                
                 <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group col-sm-12">
-                                <label class="helpContent">Priority </label>
-                                <span class="input-icon icon-right">                                    
-                                    
-                                </span>
-                            </div>                            
-                        </div>
-                    </div>  
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label class="helpContent">Priority </label>
+                            <span class="input-icon icon-right">                                    
+
+                            </span>
+                        </div>                            
+                    </div>
+                </div>  
             </div>
         </div>
     </div>

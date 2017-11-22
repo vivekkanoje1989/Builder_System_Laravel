@@ -20,14 +20,14 @@
 </style>
 <div class="row" ng-controller="smsController" ng-init="smsLogsLists([[$loggedInUserId]], 1, [[config('global.recordsPerPage')]])">
     <div class="col-xs-12 col-md-12 mainDiv">
-       <div class="widget flat radius-bordered">
+        <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">SMS Logs</span>                
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" href="" ng-hide="disableBtn"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" href="" ng-hide="disableBtn" data-modal='showSmsFilterModal'><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -51,14 +51,14 @@
                     <!-- filter data-->
                     <div class="row" style="border:2px;" id="filter-show">
                         <div class="col-sm-12 col-xs-12">
-                            <b ng-repeat="(key, value) in searchData" ng-if="value != 0 && key != 'toDate'">
+                            <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate'">
                                 <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                     <div class="alert alert-info fade in">
-                                        <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
+                                        <button class="close" ng-click="removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
                                         <strong ng-if="key === 'externalId1'" data-toggle="tooltip" title="Transaction Id"><strong>Transaction Id : </strong> {{ value}}</strong>
                                         <strong ng-if="key === 'sms_type'" data-toggle="tooltip" title="SMS Type"><strong>SMS Type : </strong> {{ value}}</strong>
                                         <strong ng-if="key === 'mobileNo'"><strong>Mobile Number : </strong>{{ value}}</strong>
-                                        <!--<strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Log Date"><strong>SMS Date : </strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>-->
+                                        <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Log Date"><strong>SMS Date : </strong>{{ showFilterData.fromDate | date:'dd-MM-yyyy' }} <span ng-if="showFilterData.toDate">To</span> {{ showFilterData.toDate |date:'dd-MM-yyyy' }}</strong>
                                     </div>
                                 </div>
                             </b>                        
@@ -68,7 +68,7 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-disabled="disableBtn" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                             <option value="30">30</option>
+                                <option value="30">30</option>
                                 <option value="100">100</option>
                                 <option value="200">200</option>
                                 <option value="300">300</option>
@@ -121,86 +121,113 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="smslog" dir-paginate="smsLog in smsLogsList | filter:search |filter:searchData| itemsPerPage: itemsPerPage| orderBy:sortKey:reverseSort" >
-                                <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
-                                <td>{{ smsLog.dateTime}}</td>
-                                <td><a target="_blank" href="[[ config('global.backendUrl') ]]#/bmsConsumption/smsLogDetails/{{smsLog.externalId1}}">{{ smsLog.externalId1}}</a></td>
-                                <td>{{ smsLog.sms_body}}</td>
-                                <td>{{ smsLog.sms_type}}</td>
-                                <td>{{ smsLog.smsDetails.successSms}}</td>
-                                <td>{{ smsLog.smsDetails.failSms}}</td>
-                                <td>{{ smsLog.smsDetails.totalSms}}</td>
-                                <td>{{ smsLog.smsDetails.credits}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="9"  ng-show="(smsLogsList|filter:search | filter:searchData ).length == 0" align="center">Record Not Found</td>   
-                                <td colspan="9"  ng-show="totalCount== 0" align="center">Record Not Found</td>   
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="DTTTFooter">
-                        <div class="col-sm-6">
-                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                                <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
-                            </div>
-                        </div>
-                    </div>
-                    <div data-ng-include="'/BmsConsumption/showSmsLogFilter'"></div>
+                            <tr dir-paginate="smsLog in filtered=(smsLogsList | filter:search) | itemsPerPage: itemsPerPage| orderBy:sortKey:reverseSort" total-items="{{ smsLogLength}}">
+                        <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
+                        <td>{{ smsLog.dateTime}}</td>
+                        <td><a target="_blank" href="[[ config('global.backendUrl') ]]#/bmsConsumption/smsLogDetails/{{smsLog.externalId1}}">{{ smsLog.externalId1}}</a></td>
+                        <td>{{ smsLog.sms_body}}</td>
+                        <td>{{ smsLog.sms_type}}</td>
+                        <td>{{ smsLog.smsDetails.successSms}}</td>
+                        <td>{{ smsLog.smsDetails.failSms}}</td>
+                        <td>{{ smsLog.smsDetails.totalSms}}</td>
+                        <td>{{ smsLog.smsDetails.credits}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="9"  ng-show="(smsLogsList|filter:search | filter:searchData ).length == 0" align="center">Record Not Found</td>   
+                        <td colspan="9"  ng-show="totalCount == 0" align="center">Record Not Found</td>   
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="DTTTFooter">
+                <div class="col-sm-6">
+                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{pageNumber}}</div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                        <dir-pagination-controls class="pagination" on-page-change="pageChanged(newPageNumber,'smsLogsLists', [[$loggedInUserId]])" max-size="5" direction-links="true" boundary-links="true" ng-if="smsLogLength"></dir-pagination-controls>
+                    </div>  
+                </div>
+            </div>
+<!--
+            <div data-ng-include="'/BmsConsumption/showSmsLogFilter'"></div>-->
+        </div>
+    </div>
+</div>
+</div>
+<!-- Filter Form Start-->
+<div class="wrap-filter-form show-widget" id="slideout">
+    <form name="calllogsFilter"  role="form" ng-submit="filteredData(filterData, 1, [[ config('global.recordsPerPage') ]])" class="embed-contact-form">
+        <strong>Filter</strong>   
+        <button type="button" class="close toggleForm" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button><hr>
+        <!--<form name="calllogsFilter" role="form" ng-submit="filteredData(filterData, 1, [[ config('global.recordsPerPage') ]])">-->
+        <div class="row">
+                                <div class="col-sm-12 col-xs-12" ng-controller="DatepickerDemoCtrl">
+                                    <div class="form-group">
+                                        <label for="">From Date</label>
+                                        <span class="input-icon icon-right">
+                                            <p class="input-group">
+                                                <input type="text" ng-model="filterData.fromDate" placeholder="select from date" name="fromDate" id="fromDate" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly/>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-xs-12" ng-controller="DatepickerDemoCtrl">
+                                    <div class="form-group">
+                                        <label for="">To Date</label>
+                                        <span class="input-icon icon-right">
+                                            <p class="input-group">
+                                                <input type="text" ng-model="filterData.toDate"  placeholder="select to date" min-date="filterData.fromDate" name="toDate" id="toDate" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </span>
+                                    </div>
+                                </div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="">Sms Type</label>
+                    <span class="input-icon icon-right">
+                        <select ng-model="filterData.sms_type" name="sms_type" class="form-control">
+                            <option value=""> Sms Type</option>
+                            <option value="P_sms">P_SMS</option>
+                            <option value="T_SMS">T_SMS</option>
+                        </select>
+                        <i class="fa fa-sort-desc"></i>
+                    </span>
+                </div>
+            </div>
+            <!--                            </div>
+                                        <div class="row">-->
+            <div class="col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="">Transaction Id</label>
+                    <span class="input-icon icon-right">
+                        <input type="text" name="externalId1" ng-model="filterData.externalId1" class="form-control">
+                    </span>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Filter Form Start-->
-    <div class="wrap-filter-form show-widget" id="slideout">
-        <form name="calllogsFilter"  role="form" ng-submit="filterDetails(searchDetails)" class="embed-contact-form">
-            <strong>Filter</strong>   
-            <button type="button" class="close toggleForm" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button><hr>
-            <!--<form name="calllogsFilter" role="form" ng-submit="filteredData(filterData, 1, [[ config('global.recordsPerPage') ]])">-->
-            <div class="row">
-
-                <div class="col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="">Sms Type</label>
-                        <span class="input-icon icon-right">
-                            <select ng-model="searchDetails.sms_type" name="sms_type" class="form-control">
-                                <option value=""> Sms Type</option>
-                                <option value="P_sms">P_SMS</option>
-                                <option value="T_SMS">T_SMS</option>
-                            </select>
-                            <i class="fa fa-sort-desc"></i>
-                        </span>
-                    </div>
-                </div>
-                <!--                            </div>
-                                            <div class="row">-->
-                <div class="col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="">Transaction Id</label>
-                        <span class="input-icon icon-right">
-                            <input type="text" name="externalId1" ng-model="searchDetails.externalId1" class="form-control">
-                        </span>
-                    </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12" >
+                <div class="form-group">
+                    <span class="input-icon icon-right" >
+                        <button type="submit" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                    </span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12" >
-                    <div class="form-group">
-                        <span class="input-icon icon-right" >
-                            <button type="submit" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </form>
+        </div>
+    </form>
 
-    </div>
-    <script src="/js/filterSlider.js"></script>
-    <!-- Filter Form End-->
+</div>
+<script src="/js/filterSlider.js"></script>
+<!-- Filter Form End-->
 </div>
 
 

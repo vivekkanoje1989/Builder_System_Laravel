@@ -70,7 +70,6 @@ class BmsConsumptionController extends Controller {
                 ->whereMonth('created_at', '=', $currentMonth)
                 ->where('employee_id', '=', $emp_id)
                 ->get();
-
         $successSms = SmsLog::whereYear('created_at', '=', $currentYear)
                 ->whereMonth('created_at', '=', $currentMonth)
                 ->where('employee_id', '=', $emp_id)
@@ -100,6 +99,7 @@ class BmsConsumptionController extends Controller {
     public function allSmsLogs() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+//        print_r($request);exit;
         if (!empty($request["employee_id"])) {
             $emp_id = $request["employee_id"];
             if ($request['filterFlag'] == 1) {
@@ -289,9 +289,6 @@ class BmsConsumptionController extends Controller {
 
                 $smsLogsdata[] = $smsLogs;
             }
-
-
-
             if ($getCount < 1) {
                 return false;
             } else {
@@ -339,7 +336,6 @@ class BmsConsumptionController extends Controller {
     public function filteredData() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
         $filterData = $request['filterData'];
         $ids = [];
 
@@ -368,46 +364,50 @@ class BmsConsumptionController extends Controller {
         $filterData["mobile_number"] = !empty($filterData['mobile_number']) ? ($filterData['mobile_number']) : "";
         $filterData["externalId1"] = !empty($filterData['externalId1']) ? ($filterData['externalId1']) : "";
         $filterData["sms_type"] = !empty($filterData['sms_type']) ? ($filterData['sms_type']) : "";
-
-
+        $request["getProcName"] = "proc_sms_logs";
+        if (empty($filterData["fromDate"])) {
+            $filterData["toDate"] = '';
+        }
 
         $getSmsLogs = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fromDate"] . '","' .
-                        $filterData["toDate"] . '","' . $filterData["externalId1"] . '","' . $filterData["sms_type"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
+                        $filterData["toDate"] . '","' . $filterData["sms_type"] . '","' . $filterData["externalId1"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
+
         $enqCnt = DB::select("select FOUND_ROWS() totalCount");
         $enqCnt = $enqCnt[0]->totalCount;
-//        print_r(count($getSmsLogs));
-        for ($i = 0; $i < count($getSmsLogs); $i++) {
-            $transactionId[] = $getSmsLogs[$i]->externalId1;
-            $getSmsLogs[$i]->dateTime = date('d-m-Y h:i A', strtotime($getSmsLogs[$i]->sent_date_time));
-        }
-
-        for ($k = 0; $k < count($transactionId); $k++) {
-            $getSmslist = SmsLog::where('externalId1', $transactionId[$k])->get();
-            $getListcnt = count($getSmslist);
-            $sum = 0;
-            $count = 0;
-            for ($j = 0; $j < $getListcnt; $j++) {
-                if (trim($getSmslist[$j]['status']) == "success") {
-                    $count++;
-                }
-                $credit = $getSmslist[$j]['credits_deducted'];
-                $sum = $sum + $credit;
+        if (!empty($getSmsLogs)) {
+            for ($i = 0; $i < count($getSmsLogs); $i++) {
+                $transactionId[] = $getSmsLogs[$i]->externalId1;
+                $getSmsLogs[$i]->dateTime = date('d-m-Y h:i A', strtotime($getSmsLogs[$i]->sent_date_time));
             }
-            $data['successSms'] = $count;
-            $data['credits'] = $sum;
-            $data['failSms'] = count($getSmslist) - $data['successSms'];
-            $data['totalSms'] = count($getSmslist);
-            $getDetails[] = $data;
-        }
 
-        for ($m = 0; $m < count($getDetails); $m++) {
-            $getSmsLogs[$m]->smsDetails = $getDetails[$m];
-        }
+            for ($k = 0; $k < count($transactionId); $k++) {
+                $getSmslist = SmsLog::where('externalId1', $transactionId[$k])->get();
+                $getListcnt = count($getSmslist);
+                $sum = 0;
+                $count = 0;
+                for ($j = 0; $j < $getListcnt; $j++) {
+                    if (trim($getSmslist[$j]['status']) == "success") {
+                        $count++;
+                    }
+                    $credit = $getSmslist[$j]['credits_deducted'];
+                    $sum = $sum + $credit;
+                }
+                $data['successSms'] = $count;
+                $data['credits'] = $sum;
+                $data['failSms'] = count($getSmslist) - $data['successSms'];
+                $data['totalSms'] = count($getSmslist);
+                $getDetails[] = $data;
+            }
 
-        $i = 0;
+            for ($m = 0; $m < count($getDetails); $m++) {
+                $getSmsLogs[$m]->smsDetails = $getDetails[$m];
+            }
+
+            $i = 0;
+        }
 
         if (!empty($getSmsLogs)) {
-            $result = ['success' => true, 'records' => $getSmsLogs, 'totalCount' => count($getSmsLogs)];
+            $result = ['success' => true, 'records' => $getSmsLogs, 'totalCount' => $enqCnt];
         } else {
             $result = ['success' => false, 'records' => $getSmsLogs, 'totalCount' => count($getSmsLogs)];
         }
@@ -417,7 +417,6 @@ class BmsConsumptionController extends Controller {
     public function filterReportData() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
         $filterData = $request['filterData'];
         $ids = [];
         if (empty($request['employee_id'])) { // For Web
@@ -446,7 +445,7 @@ class BmsConsumptionController extends Controller {
         $filterData["sms_type"] = !empty($filterData['sms_type']) ? ($filterData['sms_type']) : "";
         $filterData["toDate"] = $toDate;
         $getSmsReportLogs = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fromDate"] . '","' .
-                        $filterData["toDate"] . '","' . $filterData["sms_type"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
+                        $filterData["toDate"] . '","' . $filterData["sms_type"] . '")');
 
         $totalRecords = count($getSmsReportLogs);
         $reportFilterData = [];
