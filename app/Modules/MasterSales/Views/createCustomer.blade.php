@@ -1,6 +1,6 @@
 <div id="customer-form">
     <form novalidate role="form" name="customerForm" ng-submit="customerForm.$valid && createCustomer(customerData, customerData.image_file, contactData)">
-        <input type="text" ng-model="customerData.id" name="id" value="{{customerData.id}}">
+        <input type="hidden" ng-model="customerData.id" name="id" value="{{customerData.id}}">
         <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDivCustomer">
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="form-title">

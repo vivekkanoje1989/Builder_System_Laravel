@@ -96,7 +96,7 @@
                                     <div class="form-group">
                                         <label for="">Email ID</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" class="form-control" ng-disabled="disableText || emailField" get-customer-details-directive ng-model="searchData.searchWithEmail" name="searchWithEmail" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkEmailValue(searchData.searchWithEmail)"  value="{{ searchData.searchWithEmail}}">
+                                            <input type="email" class="form-control" ng-disabled="disableText || emailField" get-customer-details-directive maxlength="50" ng-model="searchData.searchWithEmail" name="searchWithEmail" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkEmailValue(searchData.searchWithEmail)"  value="{{ searchData.searchWithEmail}}">
                                             <i class="glyphicon glyphicon-envelope"></i>
                                             <div ng-messages="searchData.searchWithEmail.$error" class="help-block">
                                                 <div ng-message="pattern" >Invalid Email Id</div>
