@@ -171,24 +171,22 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 $scope.galleryImage_preview = arraydata1;
             });
         }
-        $scope.editBlogData = function (list, index, pageId)
-        {
-
-
-            $scope.blogData = list;
-            if (list.blog_images != '') {
-                var blog = list.blog_images.split(',');
-
-            }
-            if (list.blog_banner_images != '') {
-                var blog_banner = list.blog_banner_images.split(',');
-            }
-            $scope.bannerImage_preview = (blog_banner);
-
-            $scope.galleryImage_preview = (blog);
-            $scope.index = index;
-
-        }
+//        $scope.editBlogData = function (list, index, pageId)
+//        {console.log(list)
+//            $scope.blogData = list;
+////            if (list.blog_images != '') {
+////                var blog = list.blog_images.split(',');
+////
+////            }
+//            if (list.blog_banner_images != '') {
+//                var blog_banner = list.blog_banner_images.split(',');
+//            }
+//            $scope.bannerImage_preview = (blog_banner);
+//
+//            $scope.galleryImage_preview = (blog);
+//            $scope.index = index;
+//
+//        }
 
         $scope.checkImageExtension = function (galleryImage) {
             if (typeof galleryImage !== 'undefined' || typeof galleryImage !== 'object') {

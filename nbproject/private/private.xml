@@ -3,7 +3,51 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+=======
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/apiController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/previousFollowup.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/showSmsLogFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/bookedenquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/pendingFollowup.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysfollowups.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/smsConsumptionController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/lostenquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Controllers/BmsConsumptionController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Api/Views/manage.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/manageBlogController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Api/Views/new.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/directives.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/reassignEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createCustomer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/smsLogs.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Api/Views/update.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Views/update.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/backendApp.blade.php</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/requestsforme.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createCustomer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Customers/Models/Customers.php</file>
+>>>>>>> 815a90cf52504f47240297a4e74810cf0a001035
+>>>>>>> dc3a25e956d0729f512ebc9a66a604b927e5a20f
         </group>
     </open-files>
 </project-private>
