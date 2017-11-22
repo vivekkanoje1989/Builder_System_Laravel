@@ -79,6 +79,14 @@
                                                     <b>Email : </b><span ng-repeat="emailobj in documentData.customer_email_id | limitTo:2" ng-if="emailobj !== '' && emailobj !== 'null' ">{{ emailobj}}<br></span>{{emailobj}}                                                
                                             </div>
                                         </div>
+<!--                                        <div class="col-sm-6 col-xs-6">
+                                            <div class="form-group">
+                                                <label for="">Email Privacy Status</label>
+                                                <span class="fa fa-toggle-on toggleClassActive" ng-if="documentData.email_privacy_status === 1" ></span>
+                                                <span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-if="documentData.email_privacy_status === 0"></span>
+                                            </div>
+                                            {{ documentData.email_privacy_status}}
+                                        </div>-->
                                     </div>
                                 </div><hr>
                                 <div class="row">

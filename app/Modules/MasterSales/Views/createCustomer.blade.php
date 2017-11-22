@@ -259,7 +259,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="list in contacts track by $index">
+                            <tr ng-repeat="list in contacts">
                                 <td>{{$index + 1}}</td>
                                 <td><span ng-if="list.mobile_calling_code != '+NaN' ">{{list.mobile_calling_code}}</span> {{list.mobile_number}}</td>
                                 <td>{{list.landline_calling_code}} {{list.landline_number}}</td>

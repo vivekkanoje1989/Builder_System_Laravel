@@ -184,8 +184,7 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['id']);
                 unset($input['customerData']['company_name']);
             }
-            
-            $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
+          $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
@@ -212,8 +211,9 @@ class MasterSalesController extends Controller {
                 foreach ($input['customerContacts'] as $contacts) {
 
                     if (!empty($contacts['$hashKey']) || !empty($contacts['$$hashKey']) || !empty($contacts['index']))
-                        unset($contacts['$hashKey'], $contacts['$$hashKey'], $contacts['index']);
-                        unset($contacts['index']);
+                        unset($contacts['$hashKey'], $contacts['$$hashKey']);
+                    unset($contacts['index']);
+
 //                    $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] = $contacts['email_optin_status'] = $contacts['email_verification_status'] = 0;
 //                    $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] = $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;
 //                    $contacts['mobile_alerts_status'] = $contacts['landline_alerts_status'] = $contacts['email_alerts_status'] = 1;
@@ -278,6 +278,12 @@ class MasterSalesController extends Controller {
             $customerCallingCode = str_replace('+', '', $customerCallingCode);
             $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '","' . $customerCallingCode . '")');
              
+//            print_r($getCustomerContacts[0]->house_number);
+            
+            if($getCustomerContacts[0]->house_number ='null')
+            {
+                $getCustomerContacts[0]->house_number = '';
+            }
             if (count($getCustomerContacts) > 0) {
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
                if($getCustomerPersonalDetails[0]['birth_date']=='1970-01-01' || $getCustomerPersonalDetails[0]['birth_date']=='0000-00-00' ||$getCustomerPersonalDetails[0]['birth_date']=='01-01-1970'){
@@ -1523,7 +1529,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                        $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1629,7 +1635,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                       $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1710,7 +1716,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                      $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1793,7 +1799,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                      $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1879,7 +1885,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                       $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1961,7 +1967,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                       $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -3164,7 +3170,7 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            $query = DB::select('select c.id as customer_id,c.first_name as customer_fname,c.last_name as customer_lname,ed.project_id,title,c.title_id,(SELECT GROUP_CONCAT(distinct cc.mobile_number) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_mobile_no,(SELECT GROUP_CONCAT(distinct cc.email_id) FROM 
+            $query = DB::select('select c.id as customer_id,c.first_name as customer_fname,c.last_name as customer_lname,c.email_privacy_status,ed.project_id,title,c.title_id,(SELECT GROUP_CONCAT(distinct cc.mobile_number) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_mobile_no,(SELECT GROUP_CONCAT(distinct cc.email_id) FROM 
                     `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_email_id,(SELECT GROUP_CONCAT(cc.area_name) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_area_name, 
                     (SELECT GROUP_CONCAT(cc.house_number," ",cc.building_house_name," ",cc.wing_name," ",cc.area_name," ",cc.lane_name," ",cc.landmark,cc.pin) FROM `customers_contacts`as cc WHERE c.`id` = cc.customer_id limit 1) AS customer_address
                     from `enquiries` as `enq` LEFT JOIN `enquiry_details` as `ed` on `ed`.`enquiry_id` = `enq`.`id` LEFT JOIN `customers` as c ON c.id = enq.customer_id  LEFT JOIN laravel_developement_master_edynamics.`mlst_titles` as mt ON mt.id = c.title_id
