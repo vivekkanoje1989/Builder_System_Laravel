@@ -4,8 +4,9 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
         $scope.btnExport = true;
         $scope.dnExcelSheet = false;
         $scope.report_name;
+        $scope.flagForChange = 0;
         $scope.filterData = {};
-
+        $scope.smsLogsList = [];
 
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
@@ -13,12 +14,21 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
         }
 
         $scope.pageChanged = function (pageNo, functionName, id) {
-            $scope[functionName](id, pageNo, $scope.itemsPerPage);
-            $scope.pageNumber = pageNo;
-        };
+            $scope.flagForChange++;
+            if ($scope.flagForChange === 1)
+            {
+                if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
+                    $scope.filteredData($scope.filterData, pageNo, $scope.itemsPerPage);
+
+                } else {
+                    $scope[functionName](id, pageNo, $scope.itemsPerPage);
+                }
+            }
+            $scope.noOfRows = pageNo;
+        }
+
         $scope.searchDetails = {};
         $scope.searchData = {};
-
         $scope.filterDetails = function (search) {
 //            $scope.searchDetails = {};
             $scope.searchData = search;
@@ -39,6 +49,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
 
         $scope.smsLogsLists = function (empId, pageNumber, itemPerPage) {
             $scope.showloader();
+            $scope.itemPerPage = itemPerPage;
             Data.post('bmsConsumption/allSmsLogs', {
                 id: empId, pageNumber: pageNumber, itemPerPage: itemPerPage,
             }).then(function (response) {
@@ -53,6 +64,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     $scope.disableBtn = true;
                 }
                 $scope.hideloader();
+                $scope.flagForChange = 0;
             });
         };
 
@@ -102,37 +114,38 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
             $scope.type = angular.copy(isTeam);
         }
 
-//
-//        $scope.filterData = {};
-//        $scope.filterReportData = {};
-//        $scope.data = {};
 
-//        $scope.filteredData = function (data, page, noOfRecords) {
-//            $scope.showloader();
-//            page = noOfRecords * (page - 1);
-//            Data.post('bmsConsumption/filteredData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
-//                if (response.success)
-//                {
-//                    $scope.smsLogsList = response.records;
-//                    $scope.smsLogLength = response.totalCount;
-//                } else
-//                {
-//                    $scope.smsLogsList = response.records;
-//                    $scope.smsLogLength = 0;
-//                }
-//                $('#showSmsFilterModal').modal('hide');
-//                $scope.showFilterData = $scope.filterData;
-//                $scope.hideloader();
-//                return false;
-//
-//            });
-//        }
-//
-//        $scope.removeDataFromFilter = function (keyvalue)
-//        {
-//            delete $scope.filterData[keyvalue];
-//            $scope.filteredData($scope.filterData, 1, 30);
-//        }
+        $scope.filterData = {};
+        $scope.filterReportData = {};
+        $scope.data = {};
+
+        $scope.filteredData = function (data, page, noOfRecords) {
+            $scope.showloader();
+            page = noOfRecords * (page - 1);
+            Data.post('bmsConsumption/filteredData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
+                if (response.success)
+                {
+                    $scope.smsLogsList = response.records;
+                    $scope.smsLogLength = response.totalCount;
+                } else
+                {
+                    $scope.smsLogsList = response.records;
+                    $scope.smsLogLength = 0;
+                }
+                $('#showSmsFilterModal').modal('hide');
+                $scope.showFilterData = $scope.filterData;
+                $scope.hideloader();
+                $scope.flagForChange = 0;
+                return false;
+
+            });
+        }
+
+        $scope.removeDataFromFilter = function (keyvalue)
+        {
+            delete $scope.filterData[keyvalue];
+            $scope.filteredData($scope.filterData, 1, 30);
+        }
 
         $scope.removeReportDataFromFilter = function (keyvalue)
         {
