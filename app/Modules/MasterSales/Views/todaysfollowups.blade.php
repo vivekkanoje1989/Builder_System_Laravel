@@ -47,12 +47,14 @@
                             <a class="btn btn-default toggleForm" ng-click="procName('proc_get_today_followups', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                         </div>
                     </div>
-                    <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                        <div class="DTTT btn-group" ng-if="enquiriesLength != 0">
-                            <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Actions</a>
-                            <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu">
-                                @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
+
+                </div>
+                <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                    <div class="DTTT btn-group" >
+                        <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn">Actions</a>
+                        <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
+                        <ul class="dropdown-menu" ng-disabled="disableBtn">
+                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
                                 <li ng-if="enquiriesLength != 0">
                                     <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
                                         Export
@@ -80,6 +82,22 @@
                                 <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                             </label>
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
+<<<<<<< HEAD
+=======
+                            <li>
+                                <a href ng-model="shareWith"  data-toggle="modal" data-target="#shareWith" ng-click="initBulkModal();" ng-if="shareWith" >
+                                    Share Enquiry                               
+                                </a>
+                            </li>
+                            @endif 
+                        </ul>
+                    </div>                    
+                    <div  class="dataTables_filter">                        
+                        <label>
+                            <input type="search" class="form-control input-sm" ng-model="search" name="search" ng-disabled="disableBtn">
+                        </label>
+                         @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
+>>>>>>> 6045cc3710b071aad6d401d4a88a4ba4211c1c25
                             <label  style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="todaysFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 1, sharedemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries</span></label>                    
                             @endif 
                         </div>
@@ -112,6 +130,7 @@
                                         <strong ng-if="key == 'max_budget' || key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key}}">{{ value}}</strong>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                             </b>
                         </div> 
                         <!-- filter data-->
@@ -158,6 +177,38 @@
                                 <label>
 
                                     <input type="checkbox" name="chk_reassign_enq" ng-click="singleSelect()" ng-model="chk_reassign_enq"  value="{{enquiry.id}}" class="chk_reassign_enq form-control" id="chk_reassign_enq">   
+=======
+                            </div>
+                        </b>
+                    </div> 
+                    <!-- filter data-->
+                    <div>
+                        <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
+                    </div>
+                    <div class="dataTables_length">
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" ng-disabled="disableBtn" ng-change="noOfrecords(pageNumber,itemsPerPage,'todaysFollowups','', [[$type]],newPageNumber,listType,sharedemployee)">
+                                <option value="30">30</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
+                            </select>
+                        </label>
+                    </div><br>
+                <table class="table table-hover table-striped table-bordered tableHeader" at-config="config" >
+                    <thead>
+                        <tr>
+                            <th class="enq-table-th">SR 
+                                <label  ng-if="enquiriesLength">  /
+                                    <input type="checkbox"  ng-click='checkAll(all_chk_reassign[pageNumber])' ng-model="all_chk_reassign[pageNumber]" name="all_chk_reassign_enq" id="all_chk_reassign_enq">
+>>>>>>> 6045cc3710b071aad6d401d4a88a4ba4211c1c25
                                     <span class="text"></span>
                                 </label>                                
                             </center>

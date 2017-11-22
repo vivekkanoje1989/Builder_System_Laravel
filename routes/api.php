@@ -32,5 +32,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('/getProjects', 'backend\AdminController@getProjects'); // manoj
     Route::post('/getsalesEmployees', 'backend\AdminController@getsalesEmployees'); //uma    
     Route::post('/getforgotpassword', 'backend\Auth\LoginController@getforgotpassword');
+    Route::post('/getSalesEnqSubStatus', 'backend\AdminController@getSalesEnqSubStatus'); //geeta
+    Route::get('/getCountries', 'backend\AdminController@getCountries');
 });
 

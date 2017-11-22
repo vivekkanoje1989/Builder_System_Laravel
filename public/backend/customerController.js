@@ -377,7 +377,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
             $scope.custSubmitBtn = true;
-
             if ($window.sessionStorage.getItem("sessionContactData") != '') {
                 sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
                 if (sessionContactData === null || sessionContactData === '') {
@@ -453,10 +452,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         }
                         $scope.customer_id = response.data.customerId;
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
+                            alert('if')
                             toaster.pop('success', 'Customer', 'Record successfully created');
                             $scope.custSubmitBtn = true;
                         } else {
                             toaster.pop('success', 'Customer', 'Record successfully updated');
+                            $scope.custSubmitBtn = false;
                         }
                     }
                 });
@@ -641,6 +642,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
                         $scope.searchData.searchWithEmail = response.customerContactDetails[0].email_id;
                         $scope.searchData.mobile_calling_code = "+" + response.customerContactDetails[0].mobile_calling_code;
+//                        $scope.searchData.landline_calling_code = "+" + response.customerContactDetails[0].landline_calling_code;
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
 
@@ -681,7 +683,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             }
                             if (response.customerContactDetails[i].landline_number === '0' || response.customerContactDetails[i].landline_number === '' || response.customerContactDetails[i].landline_number === null || response.customerContactDetails[i].landline_number === "null") {
                                 $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
-                                $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = "";
+                                $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = "+" + response.customerContactDetails[i].landline_calling_code;
                             } else {
                                 $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerContactDetails[i].landline_number);
                                 $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerContactDetails[i].landline_calling_code);
@@ -754,8 +756,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             },
                     function (isConfirm) { //Function that triggers on user action.
                         if (isConfirm) {
-
-
                             Data.post('master-sales/getCustomerDetails', {
                                 data: {customerMobileNo: $scope.searchData.searchWithMobile, customerCallingCode: $scope.searchData.mobile_calling_code.trim(), customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
                             }).then(function (response) {
@@ -768,7 +768,17 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                                 $scope.contacts = angular.copy(response.customerContactDetails);
                                 $scope.contactData = angular.copy(response.customerContactDetails);
-
+                                $scope.customerData.company_name = (response.customerPersonalDetails[0].company_name !== ''  && response.customerPersonalDetails[0].company_name !== 'null') ? angular.copy(response.customerPersonalDetails[0].company_name) : '';
+//                                $scope.customerData.corporate_customer = angular.copy(response.customerPersonalDetails[0].corporate_customer);
+                                if (response.customerPersonalDetails[0].corporate_customer === 1) {
+                                    $scope.customerData.corporate_customer = true;
+                                    $scope.isChecked(true);
+                                } else {
+                                    $scope.customerData.corporate_customer = false;
+                                    $scope.companyInput = false;
+                                    $scope.customerData.company_id = 0;
+                                    $scope.customerData.company_name = "";
+                                }
                                 if (response.customerPersonalDetails[0].monthly_income == "0")
                                     $scope.customerData.monthly_income = "";
                                 else
@@ -1111,7 +1121,7 @@ app.directive('checkMobileExist', function ($timeout, $q, Data) {
                     $timeout(function () {
                         model.$setValidity('uniqueMobile', !!response.success);
                         $scope.contacts.mobile_number = modelValue;
-                    }, 1000);
+                    }, 100);
                 });
             };
         }
@@ -1134,7 +1144,7 @@ app.directive('checkEmailExist', function ($timeout, $q, Data) {
                     }).then(function (response) {
                         $timeout(function () {
                             model.$setValidity('uniqueEmail', !!response.success);
-                        }, 1000);
+                        }, 100);
                     });
 
                 }

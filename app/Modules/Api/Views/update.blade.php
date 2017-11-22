@@ -5,6 +5,9 @@
 </style>
 <div class="row" >
     <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="apiController" ng-init="getapiData('[[$apiId]]')">
+        <div class="widget-header  bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">Edit Push API</span>
+            </div>
         <div class="step-content" id="WiredWizardsteps"  >
             <div class="step-pane active" id="wiredstep1" >
                 <form name="pushApiForm" novalidate ng-submit="pushApiForm.$valid && pushApiData.employee_id.length != 0 && pushApiData.employee_id.length != null && updateApi(pushApiData)"  ng-init="updateApis([[ !empty($apiId) ?  $apiId : '0' ]]);">

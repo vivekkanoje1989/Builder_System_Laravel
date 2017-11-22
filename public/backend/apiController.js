@@ -3,7 +3,7 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
 
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
-        $scope.btnheading = 'Create';
+        $scope.btnheading = 'Add';
         $scope.employees1 = [];
         $scope.pushApiData = {};
         $scope.employeesDatas = [];
@@ -11,6 +11,9 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
             Data.get('pushapi/listApis').then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
+                     $scope.hideloader();
+                    $scope.totalCount = 0;
+                    $scope.disableBtn = true;
                 } else {
                     $scope.listApis = response.records;
                     $scope.exportData = response.export;
@@ -83,7 +86,7 @@ app.controller('apiController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
 
             $scope.employeeId = id;
             Data.post('pushapi/getapiData', {id: id}).then(function (response) {
-
+console.log(response);
                 $scope.pushApiData = angular.copy(response.result);
                 $scope.pushApiData.employee_id = [];
                 $scope.pushApiData.first_name_mandatory = response.result.first_name_mandatory == '1' ? true : false;

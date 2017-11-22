@@ -45,12 +45,14 @@
                             <a ng-if="enquiriesLength != 0" class="btn btn-default toggleForm" ng-click="procName('proc_get_lost_enquiries', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                         </div>
                     </div>
-                    <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                        <div class="DTTT btn-group" ng-if="enquiriesLength != 0">
-                            <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Actions</a>
-                            <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu">
-                                @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
+                </div>
+                <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                    <div class="DTTT btn-group">
+                        <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn">Actions</a>
+                        <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
+                        <ul class="dropdown-menu" ng-disabled="disableBtn">
+                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
+
                                 <li ng-if="enquiriesLength != 0">
                                     <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
                                         Export
@@ -78,6 +80,19 @@
                                 <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                             </label>
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
+                            <li>
+                                <a href ng-model="shareWith"  data-toggle="modal" data-target="#shareWith" ng-click="initBulkModal();" ng-if="shareWith" >
+                                    Share Enquiry                               
+                                </a>
+                            </li>
+                            @endif 
+                        </ul>
+                    </div>                    
+                    <div  class="dataTables_filter" >                        
+                        <label>
+                            <input type="search" class="form-control input-sm" ng-model="search" name="search" ng-disabled="disableBtn">
+                        </label>
+                        @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
                             <label  style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="lostEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 7, sharedemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries</span></label>
                             @endif 
                         </div>
@@ -112,28 +127,28 @@
                                 </div>
                             </b>
                         </div> 
-                        <!-- filter data-->
-                        <div>
-                            <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
-                        </div>
-                        <div class="dataTables_length" ng-if="enquiriesLength != 0">
-                            <label>
-                                <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" ng-change="noOfrecords(pageNumber, itemsPerPage, 'lostEnquiries', '', [[$type]], newPageNumber, listType, sharedemployee)">
-                                    <option value="30">30</option>
-                                    <option value="100">100</option>
-                                    <option value="200">200</option>
-                                    <option value="300">300</option>
-                                    <option value="400">400</option>
-                                    <option value="500">500</option>
-                                    <option value="600">600</option>
-                                    <option value="700">700</option>
-                                    <option value="800">800</option>
-                                    <option value="900">900</option>
-                                    <option value="999">999</option>
-                                </select>
-                            </label>
-                        </div><br>    
-
+                       
+                    <!-- filter data-->
+                    <div>
+                        <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
+                    </div>
+                    <div class="dataTables_length" >
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" ng-disabled="disableBtn" name="itemsPerPage" ng-change="noOfrecords(pageNumber,itemsPerPage,'lostEnquiries','', [[$type]], newPageNumber,listType,sharedemployee)">
+                                <option value="30">30</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
+                            </select>
+                        </label>
+                    </div><br>   
                         <table class="table table-hover table-striped table-bordered tableHeader" at-config="config" >
                             <thead>
                                 <tr>

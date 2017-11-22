@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12"> 
-                            <span><a class="sample-link" href="http://52.66.17.45/import_enquiries.xls"><i class="fa fa-external-link" aria-hidden="true"></i>Download Import Enquiries Sample</a></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span><a class="sample-link" href="/sample_import_enquiries.xls"><i class="fa fa-external-link" aria-hidden="true"></i>Download Import Enquiries Sample</a></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <span><a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="ShowimportHistory()"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Show Import History</a></span>
                             <br><br><br><span><strong> Note :</strong></span><br>
                             <span>1. You can upload enquiries in excel sheet upto 1000 enquiries in one attempt.</span><br>

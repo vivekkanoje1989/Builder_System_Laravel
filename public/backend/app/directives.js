@@ -170,9 +170,8 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 $scope.customerData.monthly_income = "";
                             else
                                 $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
-
-                            if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
-                                $scope.customerData.birth_date = "";
+                            if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN' || response.customerPersonalDetails[0].birth_date === '') {
+                            $scope.customerData.birth_date = '';
                             } else {
                                 var bdt = new Date(response.customerPersonalDetails[0].birth_date);
                                 if (bdt.getDate() < 10) {
@@ -182,7 +181,6 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 }
                                 $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                             }
-
                             if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00") {
                                 $scope.customerData.marriage_date = "";
                             } else {

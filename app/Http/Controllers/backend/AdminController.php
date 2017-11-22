@@ -164,8 +164,18 @@ class AdminController extends Controller {
     }
 
      public function getMenuItems() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
        
+        if (!empty($request['data']['loggedInUserId'])) { //for mobile app
+            $employeeSubmenus = Employee::select("employee_submenus")->where("id", json_decode($request['data']['loggedInUserId']))->get();
+            $permission = json_decode($employeeSubmenus[0]->employee_submenus, true);
+        } else {//for web app
         $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus, true);
+//            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get(); 
+//            session(['submenus' => Auth()->guard('admin')->user()->employee_submenus]); 
+//            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
+        }
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();
         foreach ($getMenu as $key => $menu) {
@@ -387,7 +397,7 @@ class AdminController extends Controller {
         $getEnquirySubSource = EnquirySalesSubSource::select('id', 'sub_source_status', 'enquiry_sales_source_id', 'sub_source', 'client_id')->where([["sub_source_status", "=", "1"], ['deleted_status', '<>', 1]])->get();
         $getMlstProfession = MlstProfession::select('id', 'status', 'profession')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
         $getMlstBmsbDesignation = MlstBmsbDesignation::select('id', 'status', 'designation')->where([["status", "=", "1"], ['deleted_status', '<>', 1]])->get();
-        $getCountry = MlstCountry::select('id', 'name')->where(['deleted_status', '<>', 1])->get();
+//        $getCountry = MlstCountry::select('id', 'name')->where('deleted_status', '<>', 1)->get();
         $getStates = MlstState::select('id', 'name', 'country_id')->where([["country_id", "=", 101], ['deleted_status', '<>', 1]])->get();
         $getEmployees = Employee::select('id', 'first_name', 'last_name', 'department_id', 'employee_id', 'designation_id', 'employee_status')->where("employee_status", 1)->get();
         $blockTypeList = MlstBmsbBlockType::select("id", "project_type_id", "block_name")->where('deleted_status', '!=', 1)->get();
@@ -436,7 +446,7 @@ class AdminController extends Controller {
     }
 
     public function getCountries() {
-        $getCountires = MlstCountry::all();
+        $getCountires = MlstCountry::select('id','name','phonecode')->get();
         if (!empty($getCountires)) {
             $result = ['success' => true, 'records' => $getCountires];
         } else {
@@ -460,7 +470,7 @@ class AdminController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $countryId = $request['data']['countryId'];
-        $getStates = MlstState::where("country_id", $countryId)->get();
+        $getStates = MlstState::select('id','name','country_id','state_code')->where("country_id", $countryId)->get();
         if (!empty($getStates)) {
             $result = ['success' => true, 'records' => $getStates];
         } else {
@@ -473,7 +483,7 @@ class AdminController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $stateId = $request['data']['stateId'];
-        $getCities = MlstCity::where("state_id", $stateId)->get();
+        $getCities = MlstCity::select('id','name','state_id')->where("state_id", $stateId)->get();
         if (!empty($getCities)) {
             $result = ['success' => true, 'records' => $getCities];
         } else {

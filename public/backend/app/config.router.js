@@ -906,7 +906,7 @@ angular.module('app')
                                                             return $ocLazyLoad.load(['ui.select', {
                                                                     serie: true,
                                                                     files: [
-                                                                        '/backend/smsConsumptionController.js',
+//                                                                        '/backend/smsConsumptionController.js',
                                                                         '/backend/app/controllers/select.js',
                                                                         '/backend/app/controllers/datepicker.js',
                                                                     ]
@@ -936,7 +936,7 @@ angular.module('app')
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
-                                                                            '/backend/smsConsumptionController.js',
+//                                                                            '/backend/smsConsumptionController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/select.js',
                                                                         ]
@@ -1001,7 +1001,7 @@ angular.module('app')
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
-                                                                            '/backend/smsConsumptionController.js',
+//                                                                            '/backend/smsConsumptionController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/select.js',
                                                                         ]
@@ -1029,7 +1029,7 @@ angular.module('app')
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
-                                                                            '/backend/smsConsumptionController.js',
+//                                                                            '/backend/smsConsumptionController.js',
                                                                         ]
                                                                     }
                                                                     );
@@ -4984,8 +4984,10 @@ angular.module('app')
                                     templateUrl: '/pushapi/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                      label: 'BMS / BMS Settings / API Management / New  API',
-                                      title: 'New API',  
+                                        parent:'apilist',
+                                      label: 'Add Push API',
+                                      title: 'Add Push API', 
+                                      
                                   
                                     },
                                     resolve: {

@@ -11,7 +11,7 @@
     }
 </style>
 <div class="row" ng-controller="enquiryController" ng-init="previousFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 3, ''); getAllEmployeeData();" >
-    <div class="firstDiv"> 
+    <div class="firstDiv">
         <div class="mainDiv col-xs-12 col-md-12">
             <div class="widget flat radius-bordered">
                 <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -45,10 +45,10 @@
                         </div>
                     </div>
                     <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                        <div class="DTTT btn-group" ng-if="enquiriesLength != 0">
-                            <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);">Actions</a>
-                            <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu">
+                        <div class="DTTT btn-group" >
+                            <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn">Actions</a>
+                            <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu" ng-disabled="disableBtn">
                                 @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
                                 <li ng-if="enquiriesLength != 0">
                                     <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
@@ -74,7 +74,7 @@
                         </div>                    
                         <div  class="dataTables_filter" >
                             <label>
-                                <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                                <input type="search" class="form-control input-sm" ng-model="search" name="search" ng-disabled="disableBtn">
                             </label>
                             <label  style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="previousFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 3, sharedemployee)" ><span  class="text">&nbsp;&nbsp;Shared Enquiries</span></label>
                         </div>
@@ -112,9 +112,9 @@
                         <div>
                             <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
                         </div>
-                        <div class="dataTables_length" ng-if="enquiriesLength != 0">
+                        <div class="dataTables_length">
                             <label>
-                                <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage"  ng-change="noOfrecords(pageNumber, itemsPerPage, 'previousFollowups', '', [[$type]], newPageNumber, listType, sharedemployee)">
+                                <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" ng-disabled="disableBtn"  ng-change="noOfrecords(pageNumber, itemsPerPage, 'previousFollowups', '', [[$type]], newPageNumber, listType, sharedemployee)">
                                     <option value="30">30</option>
                                     <option value="100">100</option>
                                     <option value="200">200</option>
@@ -145,10 +145,10 @@
                                     <td width="4%">{{ itemsPerPage * (pageNumber - 1) + $index + 1}} </td>
                                     <td width="20%">
                                         <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
-                                        <div ng-if="[[Auth::guard('admin') -> user() -> customer_contact_numbers]] == 1" ng-init="mobile_list = enquiry.mobile.split(',')">  
-                                            <span ng-repeat="mobile_obj in mobile_list | limitTo:2">
+                                        <div ng-if="[[Auth::guard('admin') - > user() - > customer_contact_numbers]] == 1" ng-init="mobile_list = enquiry.mobile.split(',')">  
+                                            <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                                 <a ng-if="callBtnPermission == '1'" style="cursor: pointer;" class="Linkhref"
-                                                   ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') -> user() -> id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
+                                                   ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') - > user() - > id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                                     <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                                 </a>
                                                 <span  ng-if="displayMobileN == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
@@ -157,13 +157,13 @@
                                             </span>
                                         </div>
                                         <div>
-                                            <p ng-if="[[ Auth::guard('admin') -> user() -> customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
+                                            <p ng-if="[[ Auth::guard('admin') - > user() - > customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
                                                 <span  ng-if="displayMobileN == '1'" class="text">+91-xxxxxx{{enquiry.mobile.substring(enquiry.mobile.length - 4, enquiry.mobile_number.length)}}</span>
                                                 <span  ng-if="displayMobileN != '1'" class="text">{{enquiry.mobile}}</span>
                                             </p>
                                             <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
                                                 <i class="fa fa-envelope" aria-hidden="true" ng-show="all_email_list.length > 0"></i>
-                                                <span ng-repeat="emailobj in all_email_list | limitTo:2">
+                                                <span ng-repeat="emailobj in all_email_list| limitTo:2">
                                                     <span class="text" ng-if="emailobj != 'null'">{{emailobj}}</span>
                                                     <span ng-if="$index == 0 && all_email_list.length >= 2 && emailobj != 'null'">
                                                         /
@@ -264,7 +264,7 @@
                                             </span></div>
                                         <hr class="enq-hr-line">
                                         <div>
-                                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}}, 1, 'enquiryhistoryFlag')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>                                    
+                                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1, 'enquiryhistoryFlag')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>                                    
                                         </div>
 
                                     </td>
@@ -275,7 +275,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="7"  ng-show="enquiriesLength == 0 || (enquiries | filter:search).length == 0" align="center">No Enquiries Found</td>   
+                                    <td colspan="7"  ng-show="enquiriesLength== 0 || (enquiries|filter:search).length == 0" align="center">No Enquiries Found</td>   
                                 </tr>
                             </tbody>
                         </table>
@@ -364,4 +364,3 @@
         <h2 class="sending "><i class="fa fa-spinner fa-spin" style="font-size:48px"></i>Please Wait......</h2>
     </div>
 </div>
-
