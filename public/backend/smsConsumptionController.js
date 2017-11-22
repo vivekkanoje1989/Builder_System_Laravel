@@ -7,7 +7,6 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
         $scope.flagForChange = 0;
         $scope.filterData = {};
         $scope.smsLogsList = [];
-
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;

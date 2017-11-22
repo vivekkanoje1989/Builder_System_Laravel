@@ -58,7 +58,7 @@
                                         <strong ng-if="key === 'externalId1'" data-toggle="tooltip" title="Transaction Id"><strong>Transaction Id : </strong> {{ value}}</strong>
                                         <strong ng-if="key === 'sms_type'" data-toggle="tooltip" title="SMS Type"><strong>SMS Type : </strong> {{ value}}</strong>
                                         <strong ng-if="key === 'mobileNo'"><strong>Mobile Number : </strong>{{ value}}</strong>
-                                        <!--<strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Log Date"><strong>SMS Date : </strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>-->
+                                        <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Log Date"><strong>SMS Date : </strong>{{ showFilterData.fromDate | date:'dd-MM-yyyy' }} <span ng-if="showFilterData.toDate">To</span> {{ showFilterData.toDate |date:'dd-MM-yyyy' }}</strong>
                                     </div>
                                 </div>
                             </b>                        
@@ -164,7 +164,32 @@
         </button><hr>
         <!--<form name="calllogsFilter" role="form" ng-submit="filteredData(filterData, 1, [[ config('global.recordsPerPage') ]])">-->
         <div class="row">
-
+                                <div class="col-sm-12 col-xs-12" ng-controller="DatepickerDemoCtrl">
+                                    <div class="form-group">
+                                        <label for="">From Date</label>
+                                        <span class="input-icon icon-right">
+                                            <p class="input-group">
+                                                <input type="text" ng-model="filterData.fromDate" placeholder="select from date" name="fromDate" id="fromDate" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly/>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-xs-12" ng-controller="DatepickerDemoCtrl">
+                                    <div class="form-group">
+                                        <label for="">To Date</label>
+                                        <span class="input-icon icon-right">
+                                            <p class="input-group">
+                                                <input type="text" ng-model="filterData.toDate"  placeholder="select to date" min-date="filterData.fromDate" name="toDate" id="toDate" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </span>
+                                    </div>
+                                </div>
             <div class="col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label for="">Sms Type</label>

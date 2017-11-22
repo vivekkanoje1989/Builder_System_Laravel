@@ -183,8 +183,7 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['id']);
                 unset($input['customerData']['company_name']);
             }
-            
-            $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
+          $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
@@ -212,6 +211,7 @@ class MasterSalesController extends Controller {
 
                     if (!empty($contacts['$hashKey']) || !empty($contacts['$$hashKey']) || !empty($contacts['index']))
                         unset($contacts['$hashKey'], $contacts['$$hashKey'], $contacts['index']);
+                    unset($contacts['index']);
 //                    $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] = $contacts['email_optin_status'] = $contacts['email_verification_status'] = 0;
 //                    $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] = $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;
 //                    $contacts['mobile_alerts_status'] = $contacts['landline_alerts_status'] = $contacts['email_alerts_status'] = 1;
@@ -276,6 +276,12 @@ class MasterSalesController extends Controller {
             $customerCallingCode = str_replace('+', '', $customerCallingCode);
             $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '","' . $customerCallingCode . '")');
              
+//            print_r($getCustomerContacts[0]->house_number);
+            
+            if($getCustomerContacts[0]->house_number ='null')
+            {
+                $getCustomerContacts[0]->house_number = '';
+            }
             if (count($getCustomerContacts) > 0) {
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
                if($getCustomerPersonalDetails[0]['birth_date']=='1970-01-01' || $getCustomerPersonalDetails[0]['birth_date']=='0000-00-00' ||$getCustomerPersonalDetails[0]['birth_date']=='01-01-1970'){
