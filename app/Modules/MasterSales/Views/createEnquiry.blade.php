@@ -465,7 +465,7 @@
                                         <td>{{ list.subblocks}}</td>                                               
                                         <td>
                                             <div class="fa-hover" style="display: block;">
-                                                <a href   ng-click="removeRow('{{ $index}}','{{ list.id}}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
+                                                <a href   ng-click="removeRow('{{ $index}}','{{ list.id}}',{{ list}},getUrlenquiryId)"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
                                                 <a href   ng-click="editRow({{list}},'{{ $index}}')"><i class="fa fa-edit" aria-hidden="true"></i></a> &nbsp;&nbsp;
                                             </div>
                                         </td>

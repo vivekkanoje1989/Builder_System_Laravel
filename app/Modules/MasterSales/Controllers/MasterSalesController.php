@@ -138,7 +138,7 @@ class MasterSalesController extends Controller {
     public function delEnquiryDetailRow() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        EnquiryDetail::where('id', $request['enquiryDetailId'])->delete();
+        EnquiryDetail::where(['enquiry_id'=> $request['enquiry_id'],'project_id'=>$request['project_id']])->delete();
         $result = ['success' => true];
         return response()->json($result);
     }
@@ -148,6 +148,7 @@ class MasterSalesController extends Controller {
     }
 
     public function editEnquiry($cid, $eid) {
+   
         return view("MasterSales::index")->with(["editCustomerId" => $cid, "editEnquiryId" => $eid]);
     }
 
@@ -210,8 +211,9 @@ class MasterSalesController extends Controller {
                 foreach ($input['customerContacts'] as $contacts) {
 
                     if (!empty($contacts['$hashKey']) || !empty($contacts['$$hashKey']) || !empty($contacts['index']))
-                        unset($contacts['$hashKey'], $contacts['$$hashKey'], $contacts['index']);
+                        unset($contacts['$hashKey'], $contacts['$$hashKey']);
                     unset($contacts['index']);
+
 //                    $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] = $contacts['email_optin_status'] = $contacts['email_verification_status'] = 0;
 //                    $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] = $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;
 //                    $contacts['mobile_alerts_status'] = $contacts['landline_alerts_status'] = $contacts['email_alerts_status'] = 1;

@@ -290,11 +290,11 @@
                                     <div class="form-group">
                                         <label for="">Landline Number</label>
                                         <span class="input-icon icon-right1">
-                                            <input type="text" ng-model="userContact.personal_landline_no" ng-minlength="6" ng-minlength="8" maxlength="8" style="margin: 0px 0 0 -25px;"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_landline_no" id="personal_landline_no" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(userContact.personal_landline_no)">
+                                            <input type="text" ng-model="userContact.personal_landline_no" ng-minlength="6" ng-maxlength="12" maxlength="12" style="margin: 0px 0 0 -25px;"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_landline_no" id="personal_landline_no" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(userContact.personal_landline_no)">
                                             <i class="fa fa-phone hrMargin"></i>
                                             <div ng-show="step2 || errLandline" ng-messages="userContactForm.personal_landline_no.$error" class="help-block step2 {{applyClass}}">
                                                 <div ng-message="minlength">Landline number must be 6 digits</div>
-                                                <div ng-message="maxlength">Landline number must be 8 digits</div>
+                                                <div ng-message="maxlength">Landline number must be 12 digits</div>
                                                 <div ng-if="errLandline">{{ errLandline}}</div>
                                             </div>
                                         </span>                               
@@ -305,17 +305,16 @@
                         <div class="col-sm-6 col-xs-12">
                             <div class="row">  
                                 <div class="col-sm-6 col-xs-6">
-                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.personal_email1.$dirty && userContactForm.personal_email1.$invalid)}">
+                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.personal_email1.$dirty && userContactForm.personal_email1.$invalid)}">
                                         <label for="">Personal Email <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userContact.personal_email1" check-unique-emails name="personal_email1" ng-change="uniqueEmail" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
+                                            <input type="email" ng-model="userContact.personal_email1" check-unique-email name="personal_email1" ng-change="uniqueEmail" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
                                             <i class="fa fa-envelope"></i>
-                                            <!--                                            check-unique-email -->
                                             <div ng-show="step2" ng-messages="userContactForm.personal_email1.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required</div>
                                                 <div ng-message="email">Invalid email id</div>
                                                 <div ng-message="pattern">Invalid email id</div>
-                                                <div ng-message="uniqueEmail">Email id exist. Please enter another email id!</div>
+                                                <div ng-message="uniqueEmail">Email id already exist.</div>
                                             </div>
                                         </span>
                                     </div>
