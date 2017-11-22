@@ -163,9 +163,9 @@
                             </td>
                             <td width="20%">
                                 <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
-                                <div ng-if="[[Auth::guard('admin') - > user() - > customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
+                                <div ng-if="[[Auth::guard('admin')->user()->customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
                                     <a ng-show="callBtnPermissions == '1'" style="cursor: pointer;" class="Linkhref"
-                                       ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') - > user() - > id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
+                                       ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin')->user()->id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                         <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                     </a>
                                     <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
@@ -177,7 +177,7 @@
                                     </span>
                                 </div>
                                 <div ng-init="mobile_list = enquiry.mobile.split(',')">
-                                    <p ng-if="[[ Auth::guard('admin') - > user() - > customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
+                                    <p ng-if="[[ Auth::guard('admin')->user()->customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
                                         <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                             <span  ng-if="displayMobile == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
                                             <span  ng-show="displayMobile != '1'" class="text">{{mobile_obj}}</span>
@@ -299,7 +299,8 @@
                                         -{{ enquiry.sub_reason | limitTo : 45 }}                                        
                                     </span>
                                     <span ng-if="enquiry.reason > 45" data-toggle="tooltip" title="{{enquiry.reason}}">...</span>
-                                </span> 
+                                </span>
+                                <span ng-if="enquiry.reason == null || enquiry.reason == ''">-</span>
                                 <hr class="enq-hr-line">
                                 <div>
                                     <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'', sharedemployee)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Today's Remark</a>
@@ -323,7 +324,7 @@
                         </div>                
                     </div>
                     <!-- Today history model =============================================================================-->
-                    <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
+                    <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
                         <div class="modal-dialog modal-lg">
                             <!-- Modal content-->
                             <div class="modal-content">
@@ -338,7 +339,7 @@
                         </div>
                     </div>
                     <!-- Today remark model =============================================================================-->
-                    <div class="modal fade modal-primary" id="todayremarkDataModal" role="dialog" tabindex='-1'>
+                    <div class="modal fade modal-primary" id="todayremarkDataModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
                         <div class="modal-dialog modal-lg">
                             <!-- Modal content-->
                             <div class="modal-content" ng-init="remarkSt = 'lost'">
@@ -353,7 +354,7 @@
                         </div>
                     </div>
                     <!-- reassign ===============================================================================================   -->
-                    <div class="modal fade modal-primary" id="BulkModal" role="dialog" tabindex='-1'>
+                    <div class="modal fade modal-primary" id="BulkModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
                         <div class="modal-dialog modal-md" >
                             <div class="modal-content">
                                 <div class="modal-header navbar-inner">
@@ -367,10 +368,7 @@
 
                         </div>
                     </div>
-
-
-
-                    <div class="modal fade modal-primary" id="shareWith" role="dialog" tabindex='-1'>
+                    <div class="modal fade modal-primary" id="shareWith" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
                         <div class="modal-dialog modal-md" >
                             <div class="modal-content">
                                 <div class="modal-header navbar-inner">

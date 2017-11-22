@@ -24,6 +24,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.subSourceList = [];
         $scope.salesEnqSubStatusList = [];
         $scope.salesEnqSubCategoryList = [];
+        $scope.salessublostreasons = [];
         $scope.getProcName = $scope.type = $scope.getFunctionName = '';
         $scope.flagForChange = 0;
         $scope.report_name;
@@ -1396,7 +1397,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.remarkData = angular.copy(response.enquiryDetails[0]);
                         $scope.remarkData.customerId = angular.copy(response.enquiryDetails[0].customerId);
                         $scope.userpermissions = angular.copy(response.userpermissions);
-
+                       
                         $("#custId").val(response.enquiryDetails[0].customerId);
 
                         if (response.enquiryDetails[0].title_id == 0 || response.enquiryDetails[0].title_id == null) {
@@ -1476,7 +1477,19 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                                 }
                             }
                         });
-
+                        if(response.enquiryDetails[0].sales_lost_reason_id !== ''){
+                            var lostfollowupdate = new Date(response.enquiryDetails[0].followup_date_time);
+                            if (d.getDate() < 10) {
+                                $scope.remarkData.followup_date_time = (("0" + lostfollowupdate.getDate()) + '-' + ("0" + (lostfollowupdate.getMonth() + 1)).slice(-2) + '-' + lostfollowupdate.getFullYear() + getHours() + getMinutes());
+                            }else{
+                                $scope.remarkData.followup_date_time = ((lostfollowupdate.getDate()) + '-' + ("0" + (lostfollowupdate.getMonth() + 1)).slice(-2) + '-' + lostfollowupdate.getFullYear() + getHours() + getMinutes() + 'a');
+                            }
+                            
+                            
+                            $timeout(function () {
+                                $("#sales_lost_reason_id").trigger("change");
+                            }, 200);
+                        }
                         if (response.enquiryDetails[0].sales_category_id !== 1) {
                             Data.post('getSalesEnqSubCategory', {
                                 categoryId: response.enquiryDetails[0].sales_category_id
