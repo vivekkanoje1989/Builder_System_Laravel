@@ -452,7 +452,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         }
                         $scope.customer_id = response.data.customerId;
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
-                            alert('if')
                             toaster.pop('success', 'Customer', 'Record successfully created');
                             $scope.custSubmitBtn = true;
                         } else {
@@ -725,7 +724,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 city_id: response.city_id,
                             }).then(function (response) {
                                 $scope.locations = response.records;
-                                //console.log($scope.locations);
                                 for (var i = 0; i < $scope.locations.length; i++) {
                                     if ($scope.locations[i]['id'] == location) {
                                         selectedLocations.push($scope.locations[i]);
@@ -1060,12 +1058,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.getBlockTypes = function (projectId, blockId) {
 
             Data.post('master-sales/getBlockTypes', {projectId: projectId, blockId: blockId}).then(function (response) {
-                console.log(response)
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.blockTypeList = response.records;
-                    console.log($scope.blockTypeList)
                     $scope.enquiryData.block_id = response.records1;
                 }
             });

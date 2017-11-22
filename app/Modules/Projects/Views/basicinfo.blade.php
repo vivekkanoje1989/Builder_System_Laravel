@@ -9,7 +9,7 @@
 <div>
     <tabset>
         <tab heading="Project Basic Information" id="basicInfoTab">
-            <form role="form" name="basicInfoForm" ng-submit="webpageSettings(projectData.prid,projectData)">
+            <form role="form" name="basicInfoForm" ng-submit="basicInfoForm.$dirty && webpageSettings(projectData.prid,projectData)">
                 <input type="hidden" ng-model="projectData.csrfToken" name="csrftoken" id="csrftoken" ng-init="projectData.csrfToken = '[[ csrf_token() ]]'"/>
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
@@ -73,7 +73,7 @@
             </form>
         </tab>
         <tab heading="Project Contact Details" id="contactInfoTab">
-            <form role="form" name="contactInfoForm" ng-submit="webpageSettings(projectData.prid,contactData)">
+            <form role="form" name="contactInfoForm" ng-submit="contactInfoForm.$dirty && webpageSettings(projectData.prid,contactData)">
                 <input type="hidden" ng-model="prid" name="prid" id="prid" />
                 <div class="row" ng-controller="currentCountryListCtrl">
                     <div class="col-sm-3 col-xs-6">  
@@ -150,7 +150,7 @@
             </form>
         </tab>
         <tab heading="Project Seo Setting" id="seoTab">
-            <form role="form" name="seoInfoForm" ng-submit="webpageSettings(projectData.prid,seoData)">
+            <form role="form" name="seoInfoForm" ng-submit="seoInfoForm.$pristine && webpageSettings(projectData.prid,seoData)">
                 <input type="hidden" ng-model="prid" name="prid" id="prid" />
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
