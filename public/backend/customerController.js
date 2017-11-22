@@ -911,7 +911,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             }
         }
 
-
         $scope.addProjectRow = function (projectId)
         {
             if (projectId !== "" && typeof projectId !== "undefined" && $scope.enquiryData.block_id.length > 0)
@@ -973,10 +972,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             }
         }
 
-
-
-
-
         $scope.editProjectRow = function (projectId)
         {
             $scope.projects_id = $scope.enquiryData.project_id.split('_')[0];
@@ -1004,7 +999,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 block_id: $scope.block_id.toString(),
                 sub_block_id: $scope.sub_block_id.toString()
             }).then(function (response) {
-
                 $scope.projectsDetails.splice($scope.index, 1);
                 $scope.projectsDetails.splice($scope.index, 0, {
                     'id': response.enqId,
@@ -1019,25 +1013,26 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $("#projectBody").hide();
             $scope.enquiryData.block_id = {};
             $scope.enquiryData.sub_block_id = {};
-            $scope.enquiryData.project_id = '';
+            $scope.enquiryData.project_id = "";
+            $scope.editProBtnn = false;
+            $scope.addProBtnn = true;
         }
 
-
-        $scope.removeRow = function (rowId, enquiryDetailId) {
+        $scope.removeRow = function (rowId, enquiryDetailId, list,enquiry_id) {
+        $scope.temp = [];
             if (enquiryDetailId !== '') {
                 Data.post('master-sales/delEnquiryDetailRow', {
-                    enquiryDetailId: enquiryDetailId,
+                    enquiryDetailId: enquiryDetailId,project_id :list.project_id,enquiry_id:enquiry_id
                 }).then(function () {});
             }
             var index = -1;
             var comArr = eval($scope.projectsDetails);
             for (var i = 0; i < comArr.length; i++) {
-                if (comArr[i].name === rowId) {
-                    index = i;
-                    break;
+                if (comArr[i].project_id != list.project_id) {
+                   $scope.temp.push(comArr[i]);
                 }
             }
-            $scope.projectsDetails.splice(index, 1);
+            $scope.projectsDetails = $scope.temp;
         }
 
         $scope.editRow = function (list, index) {
@@ -1051,12 +1046,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.editProBtnn = true;
         }
 
-
         $scope.blockTypeList = [];
         $scope.subBlockList = [];
 
         $scope.getBlockTypes = function (projectId, blockId) {
-
             Data.post('master-sales/getBlockTypes', {projectId: projectId, blockId: blockId}).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
@@ -1066,7 +1059,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             });
         }
-
 
         $scope.checkBlockLength = function (blockId, subBlockId) {
 
@@ -1097,7 +1089,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             }
         };
 
-
         $scope.editproject_details = function (list) {
             $scope.enquiryData.project_id = angular.copy(list.project_id);
             $scope.enquiryData.block_id = angular.copy(list.block_id);
@@ -1113,8 +1104,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.locations = response.records;
             });
         }
-
-
     }]);
 
 app.directive('checkMobileExist', function ($timeout, $q, Data) {

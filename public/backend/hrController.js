@@ -217,7 +217,7 @@ $scope.reloadphoto = function () {
         $scope.validateLandlineNumber = function (validLandline) {
             if (validLandline != undefined) {
                 if (validLandline.length > 0) {
-                    if (validLandline === "12345678" || validLandline === "00000000" || validLandline['0'] === "0") {
+                    if (validLandline === "12345678" || validLandline === "00000000" ) {
                         $scope.errLandline = "Invalid Landline number";
                         $scope.applyClass = 'ng-active';
                         $scope.contact = false;

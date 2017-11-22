@@ -9,7 +9,7 @@
                     <div class="col-sm-6 col-lg-2">
                         <div class="form-group">
                             <span>
-                                <label>Role type</label>
+                                <label>Role type{{roleData.roleId}}</label>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="control-group">
@@ -39,7 +39,7 @@
                             <span class="input-icon icon-right">                                
                                 <select class="form-control" ng-model="roleData.roleId" name="roleId" ng-init="manageRoles()" ng-change="updatePermissions([[ $empId ]], roleData.roleId)">
                                     <option value="">Select Role</option>
-                                    <option ng-repeat="list in roleList track by $index" value="{{list.id}}">{{list.role_name}}</option>  
+                                    <option ng-repeat="list in roleList track by $index" value="{{list.id}}" ng-selected="roleData.roleId = list.id">{{list.role_name}}</option>  
                                 </select>
                                 <i class="fa fa-sort-desc"></i>                 
                             </span>

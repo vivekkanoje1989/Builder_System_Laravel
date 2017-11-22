@@ -4,6 +4,23 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
 <<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createCustomer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/other.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysRemark.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/assets/css/beyond.min.css</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/myrequest.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/dashBoardController.js</file>
+=======
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
 =======
 <<<<<<< HEAD
@@ -48,6 +65,7 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Customers/Models/Customers.php</file>
 >>>>>>> 815a90cf52504f47240297a4e74810cf0a001035
 >>>>>>> dc3a25e956d0729f512ebc9a66a604b927e5a20f
+>>>>>>> 6045cc3710b071aad6d401d4a88a4ba4211c1c25
         </group>
     </open-files>
 </project-private>
