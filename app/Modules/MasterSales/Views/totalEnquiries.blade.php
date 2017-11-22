@@ -10,15 +10,6 @@
         color: black;
         padding: 5px;
     }  
-    
-      .pleaseWait{
-        display:none;
-    }
-    .sending{
-        margin-top: 17%;
-        position: absolute;
-        margin-left: 34%;
-    }
 </style>
 <div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4, '', ''); getAllEmployeeData()">
     <div class="firstDiv">
@@ -54,39 +45,39 @@
                             <a ng-if="enquiriesLength != 0" class="btn btn-default toggleForm" ng-click="procName('proc_get_total_enquiries', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                         </div>
                     </div>
-                <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                    <div class="DTTT btn-group" >
-                        <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn">Actions</a>
-                        <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
-                        <ul class="dropdown-menu" ng-disabled="disableBtn">
-                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
+                    <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                        <div class="DTTT btn-group" >
+                            <a class="btn btn-default DTTT_button_collection "  data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn">Actions</a>
+                            <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);" ng-disabled="disableBtn"><i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu" ng-disabled="disableBtn">
+                                @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01401"'))
                                 <li ng-if="enquiriesLength != 0">
                                     <a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
-                                       Export
+                                        Export
                                     </a> 
                                 </li>
-                            @endif
-                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01407"'))                            
-                            <li>
-                                <a href ng-model="BulkReasign"  id="BulkReasign"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >
-                                    Reassign                                    
-                                </a>
-                            </li>
-                            @endif 
+                                @endif
+                                @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01407"'))                            
+                                <li>
+                                    <a href ng-model="BulkReasign"  id="BulkReasign"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >
+                                        Reassign                                    
+                                    </a>
+                                </li>
+                                @endif 
+                                @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
+                                <li>
+                                    <a href ng-model="shareWith"  data-toggle="modal" data-target="#shareWith" ng-click="initBulkModal();" ng-if="shareWith" >
+                                        Share Enquiry                               
+                                    </a>
+                                </li>
+                                @endif 
+                            </ul>
+                        </div>                    
+                        <div  class="dataTables_filter" >                        
+                            <label>
+                                <input type="search" class="form-control input-sm" ng-model="search" name="search" ng-disabled="disableBtn">
+                            </label>
                             @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
-                            <li>
-                                <a href ng-model="shareWith"  data-toggle="modal" data-target="#shareWith" ng-click="initBulkModal();" ng-if="shareWith" >
-                                    Share Enquiry                               
-                                </a>
-                            </li>
-                            @endif 
-                        </ul>
-                    </div>                    
-                    <div  class="dataTables_filter" >                        
-                        <label>
-                            <input type="search" class="form-control input-sm" ng-model="search" name="search" ng-disabled="disableBtn">
-                        </label>
-                        @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"01501"'))
                             <label  style="left:2%">
                                 <input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="getTotalEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 4, sharedemployee)" >
                                 <span  class="text">&nbsp;&nbsp;Shared Enquiries</span>
@@ -122,48 +113,62 @@
                                         <strong ng-if="key == 'max_budget' || key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key}}">{{ value}}</strong>
                                     </div>
                                 </div>
-                            </div>
-                        </b>   
-                    </div> 
-                    <!-- filter data-->
-                    <div>
-                        <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
-                    </div>
-                    <div class="dataTables_length" >
-                        <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" ng-disabled="disableBtn" ng-change="noOfrecords(pageNumber,itemsPerPage,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee)">
-                                <option value="30">30</option>
-                                <option value="100">100</option>
-                                <option value="200">200</option>
-                                <option value="300">300</option>
-                                <option value="400">400</option>
-                                <option value="500">500</option>
-                                <option value="600">600</option>
-                                <option value="700">700</option>
-                                <option value="800">800</option>
-                                <option value="900">900</option>
-                                <option value="999">999</option>
-                            </select>
-                        </label>
-                    </div>
-                    <br>
-                <table class="table table-hover table-striped table-bordered tableHeader">
-                    <thead>
-                        <tr>
-                            <th class="enq-table-th">SR
-                                <label  ng-if="enquiriesLength">  /
-                                    <input type="checkbox" ng-click='checkAll(all_chk_reassign[pageNumber])' ng-model="all_chk_reassign[pageNumber]" name="all_chk_reassign_enq" id="all_chk_reassign_enq">
-
+                            </b>   
+                        </div> 
+                        <!-- filter data-->
+                        <div>
+                            <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
+                        </div>
+                        <div class="dataTables_length" >
+                            <label>
+                                <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" ng-disabled="disableBtn" ng-change="noOfrecords(pageNumber, itemsPerPage, 'getTotalEnquiries', '', [[$type]], newPageNumber, listType, sharedemployee)">
+                                    <option value="30">30</option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="300">300</option>
+                                    <option value="400">400</option>
+                                    <option value="500">500</option>
+                                    <option value="600">600</option>
+                                    <option value="700">700</option>
+                                    <option value="800">800</option>
+                                    <option value="900">900</option>
+                                    <option value="999">999</option>
+                                </select>
+                            </label>
+                        </div>
+                        <br>
+                        <table class="table table-hover table-striped table-bordered tableHeader">
+                            <thead>
+                                <tr>
+                                    <th class="enq-table-th">SR
+                                        <label  ng-if="enquiriesLength">  /
+                                            <input type="checkbox" ng-click='checkAll(all_chk_reassign[pageNumber])' ng-model="all_chk_reassign[pageNumber]" name="all_chk_reassign_enq" id="all_chk_reassign_enq">
+                                            <span class="text"></span>
+                                        </label>
+                                    </th>
+                                    <th class="enq-table-th">Customer</th>
+                                    <th class="enq-table-th">Enquiry</th>
+                                    <th class="enq-table-th">History</th>
+                                    <th class="enq-table-th">Next</th>
+                                </tr>
+                            </thead>
+                            <tbody>                        
+                                <tr dir-paginate="enquiry in filtered=( enquiries | filter:search)  | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" total-items="{{ enquiriesLength}}">
+                                    <td width="6%" style="vertical-align:middle">
+                            <center>
+                                {{itemsPerPage * (pageNumber - 1) + $index + 1}}<br> 
+                                <label> 
+                                    <input type="checkbox" name="chk_reassign_enq" ng-click="singleSelect()" ng-model="enquiry.chk_reassign_enq"  value="{{enquiry.id}}" class="chk_reassign_enq form-control" id="chk_reassign_enq_{{enquiry.id}}">
                                     <span class="text"></span>
                                 </label>                                
                             </center>
                             </td>
                             <td width="20%">
                                 <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
-                                <div ng-if="[[Auth::guard('admin') -> user() -> customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
+                                <div ng-if="[[Auth::guard('admin') - > user() - > customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
                                     <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                         <a ng-show="callBtnPermission == '1'" style="cursor: pointer;" class="Linkhref"
-                                           ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') -> user() -> id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
+                                           ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') - > user() - > id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                             <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                         </a>
                                         <span  ng-if="displayMobilePermission == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
@@ -172,7 +177,7 @@
                                     </span>
                                 </div>
                                 <div ng-init="mobile_list = enquiry.mobile.split(',')">
-                                    <p ng-if="[[ Auth::guard('admin') -> user() -> customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
+                                    <p ng-if="[[ Auth::guard('admin') - > user() - > customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
                                         <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                             <span  ng-if="displayMobilePermission == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
                                             <span  ng-if="displayMobilePermission != '1'" class="text">{{  mobile_obj}}</span>
@@ -438,7 +443,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div class="pleaseWait">
         <h2 class="sending "><i class="fa fa-spinner fa-spin" style="font-size:48px"></i>Please Wait......</h2>
