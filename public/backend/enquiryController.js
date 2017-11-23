@@ -1326,7 +1326,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             if (typeof customerPhoto === 'string' || typeof customerPhoto === 'undefined') {
                 customerPhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
-            var url = '/master-sales/' + customerId;
+            var url = '/master-sales/update/' + customerId;
             var data = {_method: "PUT", customerData: customerData, customerContacts: contactArr, image_file: customerPhoto};
 
             customerPhoto.upload = Upload.upload({
@@ -1335,11 +1335,12 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 data: data,
             });
             customerPhoto.upload.then(function (response) {
-                if (!response.success) {
+                if (!response.data.success) {
                     $scope.errorMsg = response.message;
                 } else {
                     toaster.pop('success', 'Customer Details', "Record updated successfully");
                     $('#contactDataModal').modal('toggle');
+                    $('#todayremarkDataModal').modal('toggle');
                     return false;
                 }
             });
@@ -1488,12 +1489,10 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         if(response.enquiryDetails[0].sales_lost_reason_id !== ''){
                             var lostfollowupdate = new Date(response.enquiryDetails[0].followup_date_time);
                             if (d.getDate() < 10) {
-                                $scope.remarkData.followup_date_time = (("0" + lostfollowupdate.getDate()) + '-' + ("0" + (lostfollowupdate.getMonth() + 1)).slice(-2) + '-' + lostfollowupdate.getFullYear() + getHours() + getMinutes());
+                                $scope.remarkData.followup_date_time = (("0" + lostfollowupdate.getDate()) + '-' + ("0" + (lostfollowupdate.getMonth() + 1)).slice(-2) + '-' + lostfollowupdate.getFullYear());
                             }else{
-                                $scope.remarkData.followup_date_time = ((lostfollowupdate.getDate()) + '-' + ("0" + (lostfollowupdate.getMonth() + 1)).slice(-2) + '-' + lostfollowupdate.getFullYear() + getHours() + getMinutes() + 'a');
-                            }
-                            
-                            
+                                $scope.remarkData.followup_date_time = ((lostfollowupdate.getDate()) + '-' + ("0" + (lostfollowupdate.getMonth() + 1)).slice(-2) + '-' + lostfollowupdate.getFullYear());
+                            }                            
                             $timeout(function () {
                                 $("#sales_lost_reason_id").trigger("change");
                             }, 200);
