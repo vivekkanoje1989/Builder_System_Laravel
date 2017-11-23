@@ -1,6 +1,6 @@
 <form name="enquiryForm" role="form" novalidate ng-submit=" projectsDetails.length > 0 && enquiryForm.$valid && saveEnquiryData(enquiryData)">
-    <div class="row" " >
-        <div class="col-lg-12 col-sm-12 col-xs-12" >
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
             <input type="hidden" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
             <div class="row" ng-if="enqType == 1">
@@ -133,7 +133,7 @@
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id">
                                     <!--<option value="">Select Employee</option>-->
-                                    <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="list.id == [[ Auth::guard('admin') -> user() -> id ]]">{{list.first_name}} {{list.last_name}}</option>
+                                    <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="list.id == [[ Auth::guard('admin')->user()->id ]]">{{list.first_name}} {{list.last_name}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                             </span>
