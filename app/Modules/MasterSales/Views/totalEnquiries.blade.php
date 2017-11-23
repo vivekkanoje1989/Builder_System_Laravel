@@ -236,7 +236,6 @@
                                         <span ng-if="enquiry_status_length > 45" data-toggle="tooltip" title="{{enquiry_status}}">...</span>
                                         <hr class="enq-hr-line">
                                     </span>
-
                                 </div>        
                                 <div> 
                                     <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory == null" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">

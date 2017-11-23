@@ -340,7 +340,7 @@
                                                 <label for="">Lost Followup Date & Time</label>
                                                 <span class="input-icon icon-right">
                                                     <input type="text" class="form-control" disabled name="followup_date_time" value="{{remarkData.followup_date_time}}"/>
-                                                    <span ng-bind="remarkData.followup_date_time | date:'dd/MM/yyyy'"></span>
+                                                    <span ng-bind="remarkData.followup_date_time"></span>
                                                 </span>
                                             </div>
                                         </div>
@@ -1070,7 +1070,7 @@
                             <div class="form-title">
                                 Personal Details
                             </div>
-                        </div>
+                        </div>{{customerForm}}
                         <form novalidate role="form" ng-submit="customerForm.$valid && updateTodayRemarkCustomerModal(customerData, customerContacts, remarkData.customerId, '')" name="customerForm">
                             <div class="row">
                                 <div class="col-sm-2">
