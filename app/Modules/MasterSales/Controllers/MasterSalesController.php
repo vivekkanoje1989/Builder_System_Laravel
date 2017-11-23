@@ -686,7 +686,7 @@ class MasterSalesController extends Controller {
     /* get all listing controler data */
 
     public function getEmployees() {
-        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id')->get();
+        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id')->where('employee_status',1)->get();
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
         } else {

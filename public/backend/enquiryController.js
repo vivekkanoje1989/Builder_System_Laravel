@@ -834,7 +834,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     inherit: false, //if set to true, the previous param values are inherited
                     notify: true //reinitialise object
                 });
-
+                $("body").removeClass("modal-open");
             });
         }
         $scope.dropevent = function (e)
