@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12">
-                                <input type="hidden" ng-model="id" >
+                                <input type="hidden" ng-model="id" class="form-control">
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="form-group">
