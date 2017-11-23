@@ -10,6 +10,8 @@
         color: black;
         padding: 5px;
     }
+    
+    
 </style>
 <div class="row" ng-controller="enquiryController" ng-init="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, '', ''); getAllEmployeeData();" >
     <div class="mainDiv col-xs-12 col-md-12">
@@ -383,7 +385,6 @@
                         <div class="form-group col-sm-12">
                             <label class="helpContent">Priority </label>
                             <span class="input-icon icon-right">                                    
-
                             </span>
                         </div>                            
                     </div>
