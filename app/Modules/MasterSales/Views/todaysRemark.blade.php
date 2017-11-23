@@ -1070,7 +1070,7 @@
                             <div class="form-title">
                                 Personal Details
                             </div>
-                        </div>
+                        </div>{{customerForm}}
                         <form novalidate role="form" ng-submit="customerForm.$valid && updateTodayRemarkCustomerModal(customerData, customerContacts, remarkData.customerId, '')" name="customerForm">
                             <div class="row">
                                 <div class="col-sm-2">

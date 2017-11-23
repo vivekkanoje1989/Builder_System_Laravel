@@ -276,13 +276,7 @@ class MasterSalesController extends Controller {
             $customerCallingCode = !empty($request['data']['customerCallingCode']) ? $request['data']['customerCallingCode'] : "0";
             $customerCallingCode = str_replace('+', '', $customerCallingCode);
             $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '","' . $customerCallingCode . '")');
-             
-//            print_r($getCustomerContacts[0]->house_number);
-            
-            if($getCustomerContacts[0]->house_number ='null')
-            {
-                $getCustomerContacts[0]->house_number = '';
-            }
+           
             if (count($getCustomerContacts) > 0) {
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
                if($getCustomerPersonalDetails[0]['birth_date']=='1970-01-01' || $getCustomerPersonalDetails[0]['birth_date']=='0000-00-00' ||$getCustomerPersonalDetails[0]['birth_date']=='01-01-1970'){
@@ -3084,7 +3078,7 @@ Regards,<br>
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $ressigndate = date('d-m-Y');
-            $ressigntime = date('H:i:s');
+            $ressigntime = date('H:i A');
 
             if (!empty($request)) {
                 $employee_id = $request['employee_id'];
