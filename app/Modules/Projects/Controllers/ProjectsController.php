@@ -90,7 +90,7 @@ class ProjectsController extends Controller {
                 $actionProject = ProjectWebPage::where('project_id', $input["getDataByPrid"])->update($input['settingData']);
                 $msg = "Basic information updated successfully";
             }
-        }echo "<pre>";print_r($getProjectDetails);exit;
+        }
         if (!empty($getProjectDetails[0])) {
             $result = ['success' => true, 'settingData' => $getProjectDetails[0], 'message' => $msg];
         } else {

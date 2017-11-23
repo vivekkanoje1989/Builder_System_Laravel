@@ -231,7 +231,8 @@
                                                         <span ng-if="displaymobile == '1' && mobileList" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
                                                             <img ng-if="displayCallBtn == '1'" src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
                                                             <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">+91-xxxxxx{{  value.substring(value.length - 4, value.length)}}</span>
-                                                        </span> 
+                                                        </span>
+                                                        @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
                                                         <div class="col-sm-12"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
                                                         <span class="input-icon icon-right" ng-if="addMob">
                                                             <div style="float: left;margin-left: 15px;width: 66%;">
@@ -248,6 +249,7 @@
                                                                 <div ng-if="mobErr" style="color: red;">{{mobErr}}</div>
                                                             </div>
                                                         </span>
+                                                        @endif
                                                         <input type="hidden" ng-mode="prevMob" name="prevMob" id="prevMob"><br>
                                                     </div>
 
@@ -256,13 +258,15 @@
                                                             <i class="fa fa-envelope" aria-hidden="true" ng-if="value != 'null'"></i>
                                                             <span class="text" ng-click="manageEmailText(key, value)" ng-if="value != 'null'">{{value}}</span>
                                                         </span>
+                                                        @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
                                                         <div class="col-sm-12" style=" margin-left: -13px;"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
                                                         <span class="input-icon icon-right" ng-if="addEmail">
                                                             <input type="email" ng-model="remarkData.email_id" name="email_id" placeholder="Enter Email Address" class="form-control" maxlength="40" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" ng-model-options="{ allowInvalid: true, debounce: 550 }"
                                                                    ng-change="addInfo(remarkData.customerId, '', remarkData.email_id, 'email_id')">
                                                             <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeEmailText()"></i>
                                                             <div ng-if="emailErr" style="color: red;">{{emailErr}}</div>
-                                                        </span>   
+                                                        </span>
+                                                        @endif
                                                         <input type="hidden" ng-mode="prevEmail" name="prevEmail" id="prevEmail">
                                                         <input type="hidden" ng-mode="pkid" name="pkid" id="pkid">
                                                     </div>
@@ -292,6 +296,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <strong ng-if="customer_address">Address:</strong> <span>{{customer_address}}</span><br>
@@ -299,6 +304,7 @@
                                                     <a href ng-if="!customer_address" ng-click="gotoCustomerTab()">Add Address</a>
                                                 </div>
                                             </div>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -326,6 +332,15 @@
                                                     <div ng-show="sbtBtn" ng-messages="remarkForm.sales_status_id.$error" class="help-block errMsg">
                                                         <div ng-message="required">This field is required</div>
                                                     </div>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6" ng-if="remarkData.sales_status_id == 4">
+                                            <div class="form-group">
+                                                <label for="">Lost Followup Date & Time</label>
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" class="form-control" disabled name="followup_date_time" value="{{remarkData.followup_date_time}}"/>
+                                                    <span ng-bind="remarkData.followup_date_time | date:'dd/MM/yyyy'"></span>
                                                 </span>
                                             </div>
                                         </div>
@@ -369,7 +384,7 @@
                                                 <span class="input-icon icon-right">
                                                     <select class="form-control" ng-model="remarkData.sales_lost_reason_id" name="sales_lost_reason_id" id="sales_lost_reason_id" ng-required="remarkData.sales_status_id == 4" ng-change="getlostsubreason(remarkData.sales_lost_reason_id)">
                                                         <option value="">Select Lost Reason</option>
-                                                        <option ng-repeat="list in saleslostreasons" value="{{list.id}}">({{list.id}}) {{list.reason}}</option>          
+                                                        <option ng-repeat="list in saleslostreasons" ng-selected="{{ list.id == remarkData.sales_lost_reason_id}}" value="{{list.id}}">({{list.id}}) {{list.reason}}</option>          
                                                     </select>
                                                     <i class="fa fa-sort-desc"></i>
                                                 </span>
@@ -384,7 +399,7 @@
                                                 <span class="input-icon icon-right">
                                                     <select class="form-control" ng-model="remarkData.sales_lost_sub_reason_id" name="sales_lost_sub_reason_id" ng-required="remarkData.sales_status_id == 4 && salessublostreasons.length > 0">
                                                         <option value="">Select Lost Sub Reason</option>
-                                                        <option ng-repeat="list in salessublostreasons" value="{{list.id}}">({{list.listing_position}}) {{list.sub_reason}}</option>
+                                                        <option ng-repeat="list in salessublostreasons" ng-selected="{{ list.id == remarkData.sales_lost_sub_reason_id}}" value="{{list.id}}">({{list.listing_position}}) {{list.sub_reason}}</option>
                                                     </select>
                                                     <i class="fa fa-sort-desc"></i>
                                                 </span>
@@ -429,12 +444,10 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-6" ng-if="remarkData.sales_status_id != 3">
+                                        <div class="col-sm-6" ng-if="remarkData.sales_status_id != 3 && remarkData.sales_status_id != 4">
                                             <div class="form-group">
-                                                <label for="" ng-if="remarkData.sales_status_id != 4">Next Followup Date & Time<span class="sp-err">*</span></label>
-                                                <label for="" ng-if="remarkData.sales_status_id == 4">Lost Date<span class="sp-err">*</span></label>
+                                                <label for="">Next Followup Date & Time<span class="sp-err">*</span></label>                                               
                                                 <div ng-controller="DatepickerDemoCtrl" class="form-group">
-
                                                     <p class="input-group">
                                                         <input type="text" ng-model="remarkData.next_followup_date" name="next_followup_date" class="form-control followupdate" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" ng-change="todayremarkTimeChange(remarkData.next_followup_date)" readonly required/>
                                                         <span class="input-group-btn" >
@@ -448,7 +461,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-xs-6" >  
-                                            <div class="form-group" ng-if="remarkData.sales_status_id != 3">
+                                            <div class="form-group" ng-if="remarkData.sales_status_id != 3 && remarkData.sales_status_id != 4">
                                                 <label for="">Time<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
                                                     <select ng-model="remarkData.next_followup_time" name="next_followup_time" id="next_followup_time" class="form-control" required>
@@ -884,7 +897,8 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-12">                       
+                                                            <div class="col-sm-12">   
+                                                                @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group" style="float: left;margin-right: 30px;">
                                                                         <label for="">SMS Privacy Status</label>    
@@ -897,6 +911,7 @@
                                                                         <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-show="remarkData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
                                                                     </div>
                                                                 </div>
+                                                                @endif
                                                                 <div class="col-sm-6">
                                                                     <button type="submit" class="btn btn-primary custom-btn" ng-click="sbtBtn = true" ng-disabled="disableRemarkSbt">Submit</button>
                                                                 </div> 
@@ -940,7 +955,8 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-12">                       
+                                                            <div class="col-sm-12"> 
+                                                                @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group" style="float: left;margin-right: 30px;">
                                                                         <label for="">SMS Privacy Status</label>
@@ -953,11 +969,13 @@
                                                                         <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="remarkData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
                                                                     </div>
                                                                 </div>
+                                                                @endif
                                                                 <div class="col-sm-6">
                                                                     <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]" ng-disabled="disableRemarkSbt">Schedule For Later</button>
                                                                     <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]" ng-disabled="disableRemarkSbt">Send Now</button>
                                                                 </div> 
-                                                            </div>  
+                                                            </div> 
+                                                            
                                                         </div>
 
                                                         <div class="row mod-sh-div" ng-show="divEmail">
@@ -1016,7 +1034,8 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-12">                       
+                                                            <div class="col-sm-12"> 
+                                                                @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group" style="float: left;margin-right: 30px;">
                                                                         <label for="">SMS Privacy Status</label>
@@ -1029,6 +1048,7 @@
                                                                         <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="remarkData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
                                                                     </div>
                                                                 </div>
+                                                                @endif
                                                                 <div class="col-sm-6">
                                                                     <button type="submit" class="btn btn-primary custom-btn" ng-disabled="disableRemarkSbt">Schedule For Later</button>
                                                                     <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn2 = true, sbtBtn = true]" ng-disabled="disableRemarkSbt">Send Now</button>
@@ -1044,6 +1064,7 @@
                             </div>
                         </div>
                     </tab>
+                    @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
                     <tab heading="Customer Details" ng-click="getTodayRemarkCustomerModal(remarkData.customerId)" id="customerTab">
                         <div class="col-lg-12 col-sm-12 col-xs-12">
                             <div class="form-title">
@@ -1316,6 +1337,7 @@
                             </div>  
                         </form>
                     </tab>
+                    @endif
                     <tab heading="Enquiry History" ng-click="initHistoryDataModal(remarkData.enquiryId,{{initmoduelswisehisory}}, 1)" id="historyTab">
 
                         <div class="modal-body"> 

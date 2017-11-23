@@ -205,7 +205,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
 
         $scope.changeEmailPrivacyStatus = function (val) {
-            $scope.customerData.email_privacy_status = val;
+            $scope.customerData.email_privacy_status = val;            
         }
 
         $scope.checkEmailValue = function () {
@@ -459,7 +459,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         }
                         $scope.customer_id = response.data.customerId;
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
-                            alert('if')
                             toaster.pop('success', 'Customer', 'Record successfully created');
                             $scope.custSubmitBtn = true;
                         } else {

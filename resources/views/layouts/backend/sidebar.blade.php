@@ -13,7 +13,7 @@
             <span class="menu-text"> {{ parent.name }} </span>
             <i class="menu-expand"></i>
         </a>
-        <a  ng-if='parent.has_submenu' href="#" class="{{ parent.anchorClass }} abcd" >
+        <a  ng-if='parent.has_submenu' href="[[config('global.backendUrl')]]#/dashboard" class="{{ parent.anchorClass }} abcd" >
             <p class="{{ parent.icon }}" ></p>
             <span class="menu-text"> {{ parent.name }} </span>
             <i class="menu-expand"></i>
@@ -23,7 +23,7 @@
                 <a ui-sref="{{ child1.slug }}" class="{{ child1.anchorClass }}" ng-if='!child1.has_submenu'>
                     <span class="menu-text"> {{ child1.name }} </span>
                 </a>
-                <a href="#" class="{{ child1.anchorClass }}" ng-if='child1.has_submenu'>
+                <a href="[[config('global.backendUrl')]]#/dashboard" class="{{ child1.anchorClass }}" ng-if='child1.has_submenu'>
                     <span class="menu-text"> {{ child1.name }} </span>
                     <i class="menu-expand"></i>
                 </a>
@@ -32,7 +32,7 @@
                         <a ng-if='!child2.has_submenu' ui-sref="{{ child2.slug }}" class="{{ child2.anchorClass }}">
                             <span class="menu-text"> {{ child2.name }} </span>
                         </a>
-                        <a ng-if='child2.has_submenu' href="#" class="{{ child2.anchorClass }}">
+                        <a ng-if='child2.has_submenu' href="[[config('global.backendUrl')]]#/dashboard" class="{{ child2.anchorClass }}">
                             <span class="menu-text"> {{ child2.name }} </span>
                             <i class="menu-expand"></i>
                         </a>
@@ -41,7 +41,7 @@
                                 <a ng-if='!child3.has_submenu' ui-sref="{{ child3.slug }}" class="{{ child3.anchorClass }}">
                                     <span class="menu-text"> {{ child3.name }} </span>
                                 </a>
-                                <a ng-if='child3.has_submenu' href="#" class="{{ child3.anchorClass }}">
+                                <a ng-if='child3.has_submenu' href="[[config('global.backendUrl')]]#/dashboard" class="{{ child3.anchorClass }}">
                                     <span class="menu-text"> {{ child3.name }} </span>
                                     <i class="menu-expand"></i>
                                 </a>

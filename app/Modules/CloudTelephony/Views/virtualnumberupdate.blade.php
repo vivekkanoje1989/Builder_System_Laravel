@@ -325,7 +325,7 @@
                        
                         <div class="row"><br>
                             <div class="col-md-12 col-sm-12 col-xs-12" align="right">
-                             <button type="submit" class="btn btn-primary" ng-click="step1 = true">update and Continue</button>
+                             <button type="submit" class="btn btn-primary" ng-click="step1 = true">Update And Continue</button>
                               <a href="[[ config('global.backendUrl') ]]#/virtualnumber/index" class="btn btn-primary">Cancel</a>
                             </div>
                         </div>

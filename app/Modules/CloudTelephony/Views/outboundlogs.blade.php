@@ -139,7 +139,7 @@
                             </tr>
                             <tr>
                                 <td colspan="8"  ng-show="(outboundList|filter:search | filter:searchData).length == 0" align="center">Records Not Found</td>   
-                                <td colspan="8"  ng-if="teamoutboundLength == 0" align="center">Records Not Found</td>   
+                                <td colspan="8"  ng-if="outboundLength == 0" align="center">Records Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
