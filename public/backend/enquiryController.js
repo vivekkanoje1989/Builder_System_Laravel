@@ -396,6 +396,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.outBoundCall = response.outBoundCall;
                     $scope.displayMobile = response.displayMobile;
                     $scope.Emailpermissions = response.displayMobile;
+                      $scope.disableBtn = false;
                 } else
                 {
                       $scope.disableBtn = true;
@@ -440,8 +441,10 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.callBtnPermission = response.callBtnPermission;
                     $scope.displayMobilePermission = response.displayMobilePermission;
                     $scope.displayEmailPermission = response.displayMobilePermission;
+                     $scope.disableBtn = false;
                 } else
-                {     $scope.disableBtn = true;
+                {   
+                    $scope.disableBtn = true;
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
@@ -482,6 +485,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.displayCallBtn = response.displayCallBtn;
                     $scope.MobileNopermissions = response.MobileNopermissions;
                     $scope.Emailpermissions = response.MobileNopermissions;
+                      $scope.disableBtn = false;
                 } else
                 {
                       $scope.disableBtn = true;
@@ -523,6 +527,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.outBoundCallBtn = response.outBoundCall;
                     $scope.displayMobileNo = response.displayMobile;
                     $scope.displayEmailId = response.displayMobile;
+                      $scope.disableBtn = false;
                 } else
                 {
                       $scope.disableBtn = true;
@@ -565,6 +570,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.displayMobileN = response.displayMobileN;
                     $scope.callBtnPermission = response.callBtnPermission;
                     $scope.emailPermission = response.emailPermission;
+                      $scope.disableBtn = false;
                 } else
                 {
                     $scope.disableBtn = true;
@@ -608,6 +614,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.callBtnPermissions = response.callBtnPermissions;
                     $scope.displayMobile = response.displayMobile;
                     $scope.displayEmail = response.displayMobile;
+                      $scope.disableBtn = false;
                 } else
                 {
                       $scope.disableBtn = true;
@@ -657,6 +664,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.callBtnPermission = response.callBtnPermission;
                     $scope.displayMobileN = response.displayMobileN;
                     $scope.displayEmailID = response.displayMobileN;
+                      $scope.disableBtn = false;
                 } else
                 {
                       $scope.disableBtn = true;

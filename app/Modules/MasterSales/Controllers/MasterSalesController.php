@@ -3078,7 +3078,7 @@ Regards,<br>
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $ressigndate = date('d-m-Y');
-            $ressigntime = date('H:i A');
+            $ressigntime = date('h:i a');
 
             if (!empty($request)) {
                 $employee_id = $request['employee_id'];
