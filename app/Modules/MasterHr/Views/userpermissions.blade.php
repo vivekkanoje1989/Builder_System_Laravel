@@ -9,7 +9,7 @@
                     <div class="col-sm-6 col-lg-2">
                         <div class="form-group">
                             <span>
-                                <label>Role type{{roleData.roleId}}</label>
+                                <label>Role type</label>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="control-group">
