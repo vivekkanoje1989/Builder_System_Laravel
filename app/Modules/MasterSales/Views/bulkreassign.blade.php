@@ -30,7 +30,7 @@
                 </div> 
             </div>
             <div class="col-sm-3" style="margin-top:22px;">
-                <button  type="submit" ng-click="sbtBtn = true" class="btn btn-primary">Reassign To</button>                    
+                <button  type="submit" ng-click="sbtBtn = true" class="btn btn-primary" ng-disabled="reassignBtn">Reassign To</button>                    
             </div>
         </div>
     </form>
