@@ -383,7 +383,6 @@
             </div>
         </div>
         <div data-ng-include="'/MasterSales/showFilter'"></div>
-        <!--model Help-->
         <div class="modal fade" id="help" role="dialog" tabindex="-1" >    
             <div class="modal-dialog">
 
