@@ -1070,7 +1070,7 @@
                             <div class="form-title">
                                 Personal Details
                             </div>
-                        </div>{{customerForm}}
+                        </div>
                         <form novalidate role="form" ng-submit="customerForm.$valid && updateTodayRemarkCustomerModal(customerData, customerContacts, remarkData.customerId, '')" name="customerForm">
                             <div class="row">
                                 <div class="col-sm-2">
@@ -1139,7 +1139,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4">{{customerData.birth_date}}
                                     <div class="form-group" ng-class="{ 'has-error' : csbtBtn && (!customerForm.birth_date.$dirty && customerForm.birth_date.$invalid)}">
                                         <label for="">Birth Date<span class="sp-err">*</span></label>
                                         <div ng-controller="DatepickerDemoCtrl" class="form-group">

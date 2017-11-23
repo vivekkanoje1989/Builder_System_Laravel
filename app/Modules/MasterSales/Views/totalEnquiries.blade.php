@@ -286,7 +286,7 @@
                             <td width="30%">
                                 <div><b>Enquiry Owner :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}</div>
                                 <hr class="enq-hr-line">
-                                <div >
+                                <div>
                                     <b>Last followup : </b>{{ enquiry.last_followup_date}}
                                 </div>
                                 <div><b>By {{enquiry.followupby_fname}} {{enquiry.followupby_lname}} : </b>
