@@ -21,7 +21,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.currentPin = false;
         $scope.isDisabled = false;
         $scope.passwordBtn = false;
-        
+
         $scope.roleData = {};
         $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
                 $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
@@ -76,10 +76,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             });
         }
 
-$scope.reloadphoto = function () {
+        $scope.reloadphoto = function () {
             location.reload();
         }
-        
+
         $scope.preSalesEnquiry = function (presales, employee_id) {
             $("#presalesbtn").attr("disabled", "disabled");
             Data.post('master-hr/preSalesEnquiry', {employee_id: presales, empId: employee_id}).then(function (response) {
@@ -217,7 +217,7 @@ $scope.reloadphoto = function () {
         $scope.validateLandlineNumber = function (validLandline) {
             if (validLandline != undefined) {
                 if (validLandline.length > 0) {
-                    if (validLandline === "12345678" || validLandline === "00000000" ) {
+                    if (validLandline === "12345678" || validLandline === "00000000") {
                         $scope.errLandline = "Invalid Landline number";
                         $scope.applyClass = 'ng-active';
                         $scope.contact = false;
@@ -458,20 +458,38 @@ $scope.reloadphoto = function () {
                             }
                             $scope.Total = $scope.Total + first_name + personal_email1 + highest_education_id + department_id + username;
 
+
+
                             if ($scope.Total < 6) {
-                                $("#step" + $scope.Total).addClass('active');
-                                $("#step" + $scope.Total).removeClass('complete');
+                                if (highest_education_id != 0) {
+                                    $("#step" + $scope.Total).addClass('active');
+                                    $("#step" + $scope.Total).removeClass('complete');
+                                    $scope.getStepDiv(1, $rootScope.steps, 2, 1);
+                                } else {
+                                    $scope.getStepDiv(1, {first_name: first_name, personal_email1: personal_email1,
+                                        highest_education_id: highest_education_id, deptId: department_id,
+                                        username: username
+                                    }, 1, 1);
+                                    $(".wiredstep2").removeClass('complete');
+                                    $(".wiredstep4").removeClass('complete');
+                                    personal_email1 = 0;
+                                    department_id = 0;
+                                    username = 0;
+                                }
                             } else {
                                 $("#step5").addClass('active');
                                 $("#step5").removeClass('complete');
+                                $scope.getStepDiv(1, $rootScope.steps, 2, 1);
                             }
-
 
                             $rootScope.steps = {first_name: first_name, personal_email1: personal_email1,
                                 highest_education_id: highest_education_id, deptId: department_id,
                                 username: username
                             };
-                            $scope.getStepDiv(1, $rootScope.steps, 2, 1);
+
+
+
+
                             if (response.records.data[0].current_address != '') {
                                 if (response.records.data[0].current_address == response.records.data[0].permenent_address && response.records.data[0].current_city_id == response.records.data[0].permenent_city_id && response.records.data[0].current_country_id == response.records.data[0].permenent_country_id && response.records.data[0].current_pin == response.records.data[0].permenent_pin && response.records.data[0].current_state_id == response.records.data[0].permenent_state_id)
                                 {
@@ -487,7 +505,7 @@ $scope.reloadphoto = function () {
                             $scope.buttonLabel = 'Update';
                             $scope.userPersonalData.title_id = response.records.data[0].title_id;
                             $scope.userPersonalData.first_name = response.records.data[0].first_name;
-                            $scope.userPersonalData.middle_name = response.records.data[0].middle_name;
+                            $scope.userPersonalData.middle_name = response.records.data[0].middle_name == null ? '' : response.records.data[0].middle_name;
                             $scope.userPersonalData.last_name = response.records.data[0].last_name;
                             $scope.userPersonalData.gender_id = response.records.data[0].gender_id;
                             if (response.records.data[0].physic_status == '') {
@@ -508,13 +526,13 @@ $scope.reloadphoto = function () {
 
 
                             $scope.fullName = $scope.userPersonalData.first_name + ' ' + $scope.userPersonalData.last_name;
-                            if (response.records.data[0].date_of_birth == '0000-00-00') {
+                            if (response.records.data[0].date_of_birth == '0000-00-00' || response.records.data[0].date_of_birth == '1970-01-01') {
                                 $scope.userPersonalData.birth_date = '';
                             } else {
                                 $scope.userPersonalData.birth_date = response.records.data[0].date_of_birth;
                             }
 
-                            if (response.records.data[0].marriage_date == '0000-00-00' || response.records.data[0].marriage_date == 'NaN-aN-NaN') {
+                            if (response.records.data[0].marriage_date == '0000-00-00' || response.records.data[0].marriage_date == 'NaN-aN-NaN' || response.records.data[0].marriage_date == '1970-01-01') {
                                 $scope.userPersonalData.marriage_date = '';
                             } else {
                                 $scope.userPersonalData.marriage_date = response.records.data[0].marriage_date;
@@ -1729,6 +1747,8 @@ $scope.reloadphoto = function () {
 
         $scope.getStepDiv = function (stepId, steps, uniqueId, classCheck)
         {
+            alert(steps)
+            alert(classCheck)
             if (classCheck == 1) {
                 if (uniqueId == 1) {
                     $("#wiredstep1").addClass('ng-hide');

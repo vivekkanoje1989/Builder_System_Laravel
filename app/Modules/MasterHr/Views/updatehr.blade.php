@@ -22,16 +22,15 @@
 <div class="row"  ng-controller="hrController">
     <input type="hidden" name="employeeId" id="employeeId"  value="[[$empId]]" ng-cloak="" >
     <div class="col-lg-12 col-sm-12 col-xs-12">
-        <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Edit User</h5>-->
         <div class="widget-header bordered-bottom bordered-themeprimary ">
             <span class="widget-caption">Edit User</span>
         </div>
         <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
             <ul class="steps">
-                <li   ng-click="getStepDiv(1, steps, 1, steps.first_name)" id="step1" ng-class="{'complete':steps.first_name == 1}" class="user_steps wiredstep1"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
-                <li   ng-click="getStepDiv(2, steps, 1, steps.personal_email1)" id="step2" ng-class="{'complete':steps.personal_email1 == 1}" class="user_steps wiredstep2"><span class="step btn-nxt1">2</span><span class="title">Contact Information</span> <span class="chevron"></span></li>
-                <li   ng-click="getStepDiv(3, steps, 1, steps.highest_education_id)" id="step3" ng-class="{'complete':steps.highest_education_id == 1}" class="user_steps wiredstep3"><span class="step btn-nxt2">3</span></span><span class="title">Educational & Other Details</span> <span class="chevron"></span></li>
-                <li   ng-click="getStepDiv(4, steps, 1, steps.deptId)" ng-class="{'complete':steps.deptId == 1}" id="step4" class="user_steps wiredstep4"><span class="step btn-nxt3">4</span><span class="title">Job Offer Details</span> <span class="chevron"></span></li>
+                <li   ng-click="getStepDiv(1, steps, 1, steps.first_name);"  id="step1" ng-class="{'complete':steps.first_name == 1}" class="user_steps wiredstep1"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
+                <li   ng-click="getStepDiv(2, steps, 1, steps.personal_email1);" id="step2" ng-class="{'complete':steps.personal_email1 == 1}" class="user_steps wiredstep2"><span class="step btn-nxt1">2</span><span class="title">Contact Information</span> <span class="chevron"></span></li>
+                <li   ng-click="getStepDiv(3, steps, 1, steps.highest_education_id);" id="step3" ng-class="{'complete':steps.highest_education_id == 1}" class="user_steps wiredstep3"><span class="step btn-nxt2">3</span></span><span class="title">Educational & Other Details</span> <span class="chevron"></span></li>
+                <li   ng-click="getStepDiv(4, steps, 1, steps.deptId);"   ng-class="{'complete':steps.deptId == 1}" id="step4" class="user_steps wiredstep4"><span class="step btn-nxt3">4</span><span class="title">Job Offer Details</span> <span class="chevron"></span></li>
                 <li   ng-click="getStepDiv(5, steps, 1, steps.username);" ng-class="{'complete':steps.username == 1}" id="step5" class="user_steps step5 wiredstep5"><span class="step btn-nxt4">5</span><span class="title">User status</span> <span class="chevron"></span></li>
             </ul>
         </div>
