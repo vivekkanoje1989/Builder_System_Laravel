@@ -114,8 +114,7 @@
                         <tab heading="Customer Information" id="custDiv">
                             <div data-ng-include=" '/MasterSales/createCustomer'"></div>
                         </tab>
-                        <tab heading="Enquiry Information" active="enquiry_div" id="enquiryDiv" style="display: none;" ng-init="getUrlenquiryId = [[$editEnquiryId]]">
-                            
+                        <tab heading="Enquiry Information" active="enquiry_div" id="enquiryDiv" style="display: none;" ng-init="getUrlenquiryId = '[[!empty($editEnquiryId) ?  $editEnquiryId : '']]'">
                             <div data-ng-include=" '/MasterSales/createEnquiry'"></div>
                         </tab>
                     </tabset>

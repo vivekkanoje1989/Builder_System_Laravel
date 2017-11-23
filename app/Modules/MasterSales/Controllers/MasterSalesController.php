@@ -981,10 +981,10 @@ class MasterSalesController extends Controller {
                 }
 
                 /*                 * ***************************Mobile / Email Update [For Mobile App Only]**************************** */
-                if (!empty($custInfo['sms_privacy_status'])) {
+                if (isset($custInfo['sms_privacy_status'])) {
                     Customer::where('id', $customerId)->update(["sms_privacy_status" => $custInfo['sms_privacy_status']]);
                 }
-                if (!empty($custInfo['email_privacy_status'])) {
+                if (isset($custInfo['email_privacy_status'])) {
                     Customer::where('id', $customerId)->update(["email_privacy_status" => $custInfo['email_privacy_status']]);
                 }
 
