@@ -17,7 +17,6 @@ return [
     'themeName' => '',
     'backendUrl' => 'office.php',
     'recordsPerPage' =>30,
-//    'client_id' =>$GLOBALS['client_id'],
-    'client_id' =>1,
+    'client_id' =>$GLOBALS['client_id'],
     'client_info'=>$GLOBALS['client_info'],
 ];

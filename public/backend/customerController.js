@@ -473,8 +473,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             }, function (evt, response) {});
         };
-        $scope.backToListing = function (mobileNo, emailId) {
-            if ($rootScope.newEnqFlag !== 0)
+        $scope.backToListing = function (mobileNo, emailId, extraParam='1') {
+            if(extraParam == '0')
+                $rootScope.newEnqFlag = extraParam;
+            if ($rootScope.newEnqFlag !== '0')
             {
                 $state.go("salesCreate");
                 $timeout(function () {
@@ -486,8 +488,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $("input[name='searchWithEmail']").trigger("change");
                     }
                 }, 500);
-            } else
-            {
+            } else {
                 $window.history.back();
             }
         }

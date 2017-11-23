@@ -193,7 +193,7 @@
 
                                 <hr class="enq-hr-line">
                                 <div>
-                                    <a  ng-click="updateCustInfo({{ enquiry.customer_id}})" style="cursor:pointer;"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
+                                    <a  ng-click="'<?php echo strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"');?>' && updateCustInfo({{ enquiry.customer_id}})" style="cursor:pointer;"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
                                 </div>                        
                                 <hr class="enq-hr-line">
                                 <div>

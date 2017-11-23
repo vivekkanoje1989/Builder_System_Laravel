@@ -481,7 +481,7 @@
             <div class="row">
                 <div class="col-md-12 col-xs-12" align="center">
                     <button type="submit" class="btn btn-primary btn-nxt3" ng-click="enqFormBtn = true" ng-disabled="disableFinishButton">{{btnLabelE}}</button>
-                    <button class="btn btn-primary" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')">Cancel</button>
+                    <button class="btn btn-primary" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}','0')">Cancel</button>
                 </div>
             </div>
         </div>
