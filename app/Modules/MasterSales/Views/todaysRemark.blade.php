@@ -1139,7 +1139,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">{{customerData.birth_date}}
+                                <div class="col-sm-4">
                                     <div class="form-group" ng-class="{ 'has-error' : csbtBtn && (!customerForm.birth_date.$dirty && customerForm.birth_date.$invalid)}">
                                         <label for="">Birth Date<span class="sp-err">*</span></label>
                                         <div ng-controller="DatepickerDemoCtrl" class="form-group">
@@ -1160,7 +1160,7 @@
                                         <label for="">Marriage Date</label>
                                         <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                             <p class="input-group">
-                                                <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly />
+                                                <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly />
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" ng-click="open($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                 </span>

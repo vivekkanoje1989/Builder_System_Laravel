@@ -1747,8 +1747,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.getStepDiv = function (stepId, steps, uniqueId, classCheck)
         {
-            alert(steps)
-            alert(classCheck)
             if (classCheck == 1) {
                 if (uniqueId == 1) {
                     $("#wiredstep1").addClass('ng-hide');
