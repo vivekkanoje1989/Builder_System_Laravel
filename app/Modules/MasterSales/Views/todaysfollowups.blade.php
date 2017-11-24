@@ -70,7 +70,7 @@
                                 <li>
                                     <a href ng-model="shareWith"  data-toggle="modal" data-target="#shareWith" ng-click="initBulkModal();" ng-if="shareWith" >
                                         Share Enquiry                               
-                                    </a>
+                                    </a>                                   
                                 </li>
                                 @endif 
                             </ul>
