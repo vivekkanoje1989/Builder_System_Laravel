@@ -27,7 +27,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         var today = new Date();
         today.setYear(today.getFullYear() - 20);
         $scope.maxDates = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
+        $scope.todaydate= new Date();
         $scope.showaddress = true;
         $scope.hideaddress = false;
         $scope.customerAddress = false;

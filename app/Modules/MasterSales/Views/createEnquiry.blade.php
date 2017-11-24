@@ -157,7 +157,7 @@
                     </div>   
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_date.$dirty && enquiryForm.next_followup_date.$invalid)}">
-                            <label for="">Next Followup Date & Time<span class="sp-err">*</span></label>
+                            <label for="">Next Followup Date & Time---{{ todaydate }}====={{ enquiryData.next_followup_date }}<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
                                     <input type="text" ng-model="enquiryData.next_followup_date" name="next_followup_date"  id="next_followup_date" class="form-control" datepicker-popup="dd-M-yyyy" is-open="opened" ng-change="todayremarkTimeChange(enquiryData.next_followup_date)"  min-date=minDate datepicker-options="dateOptions" close-text="Close" readonly required />
@@ -166,6 +166,7 @@
                                     </span>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.next_followup_date.$error" class="help-block">
                                     <div ng-message="required">This field is required</div>
+                                    <div ng-if="enquiryData.next_followup_date < todaydate">Select valid date</div>
                                 </div>
                                 <div ng-if="next_followup_date" class="sp-err blog_title">{{next_followup_date}}</div>
                                 </p>
