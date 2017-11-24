@@ -27,13 +27,16 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         var today = new Date();
         today.setYear(today.getFullYear() - 20);
         $scope.maxDates = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
+        var tdate= new Date();
+        $scope.todaydate = (tdate.getFullYear()+ '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getDate() );
         $scope.showaddress = true;
         $scope.hideaddress = false;
         $scope.customerAddress = false;
         $scope.todayremarkTimeChange = function (selectedDate)
         {
+            alert($scope.enquiryData.id);
             if ($scope.enquiryData.id <= 0) {
+                alert("if");
                 $scope.enquiryData.next_followup_time = '';
             }
             if (typeof selectedDate == 'undefined') {

@@ -217,7 +217,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.validateLandlineNumber = function (validLandline) {
             if (validLandline != undefined) {
                 if (validLandline.length > 0) {
-                    if (validLandline === "12345678" || validLandline === "00000000") {
+                    if (validLandline === "12345678") {
                         $scope.errLandline = "Invalid Landline number";
                         $scope.applyClass = 'ng-active';
                         $scope.contact = false;
@@ -302,17 +302,22 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.checkImageExtension = function (employeePhoto) {
-
-            if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
-                var ext = employeePhoto.name.match(/\.(.+)$/)[1];
-
-                if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
-                    $scope.invalidImage = "";
-                } else {
-                    $(".imageFile").val("");
-
-                    $scope.invalidImage = "Invalid file format. File type should be jpg,jpeg,gif,png,bmp format only";
+            if (employeePhoto != null) {
+                if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
+                    var ext = employeePhoto.name.match(/\.(.+)$/)[1];
+                    if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
+                        $scope.invalidImage = "";
+                        $scope.imgstatus = true;
+                    } else {
+                        $(".imageFile").val("");
+                        $scope.invalidImage = "Invalid file format. File type should be jpg,jpeg,gif,png,bmp format only";
+                        $scope.imgstatus = false;
+                    }
                 }
+            } else {
+                $(".imageFile").val("");
+                $scope.invalidImage = "Invalid file format. File type should be jpg,jpeg,gif,png,bmp format only";
+                $scope.imgstatus = false;
             }
         }
 
@@ -479,7 +484,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                             } else {
                                 $("#step5").addClass('active');
                                 $("#step5").removeClass('complete');
-                                $scope.getStepDiv(1, $rootScope.steps, 2, 1);
+                                $scope.getStepDiv(1, {first_name: first_name, personal_email1: personal_email1,
+                                        highest_education_id: highest_education_id, deptId: department_id,
+                                        username: username
+                                    }, 2, 1);
                             }
 
                             $rootScope.steps = {first_name: first_name, personal_email1: personal_email1,

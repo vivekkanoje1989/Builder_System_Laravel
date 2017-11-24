@@ -27,7 +27,7 @@ class UserDocumentsController extends Controller {
                 ->Join('employees as db2', 'db1.id', '=', 'db2.designation_id')
                 ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
                 ->where('db2.id', '!=', $loggedInUserId)
-                ->where('db2.employee_status','=', 1)
+                ->where('db2.employee_status', '=', 1)
                 ->get();
         if (!empty($employees)) {
             $result = ['success' => true, 'records' => $employees];
@@ -108,40 +108,35 @@ class UserDocumentsController extends Controller {
 
     public function edit() {
         $input = Input::all();
+        $cnt = EmployeeDocuments::where(['document_id' => $input['document_id']])->where('employee_id','=', $input['employee_id'])->get()->count();
+      
+        if ($cnt > 1) {
+            $result = ['success' => false, 'errorMsgg' => 'Document already exists'];
+            return json_encode($result);
+        } else {
+            if (!empty($input['documentUrl']['documentUrl'])) {
+                $originalName = $input['documentUrl']['documentUrl']->getClientOriginalName();
+                if ($originalName !== 'fileNotSelected') {
 
-//        $cnt = EmployeeDocuments::where(['document_id' => $input['document_id']])->where(['employee_id' => $input['employee_id']])->get()->count();
-//        if ($cnt > 0) {
-//            $result = ['success' => false, 'errorMsgg' => 'Document already exists'];
-//            return json_encode($result);
-//        } else {
-        if (!empty($input['documentUrl']['documentUrl'])) {
-            $originalName = $input['documentUrl']['documentUrl']->getClientOriginalName();
-            if ($originalName !== 'fileNotSelected') {
-
-                $s3FolderName = 'Employee-Documents';
-                $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['documentUrl']['documentUrl']->getClientOriginalExtension();
-                S3::s3FileUpload($input['documentUrl']['documentUrl']->getPathName(), $imageName, $s3FolderName);
-                $document_url = $imageName;
-            } else {
-                unset($input['documentUrl']);
-                $document_url = '';
+                    $s3FolderName = 'Employee-Documents';
+                    $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['documentUrl']['documentUrl']->getClientOriginalExtension();
+                    S3::s3FileUpload($input['documentUrl']['documentUrl']->getPathName(), $imageName, $s3FolderName);
+                    $document_url = $imageName;
+                } else {
+                    unset($input['documentUrl']);
+                    $document_url = '';
+                }
             }
+            $doc = MlstEmployeeDocuments::where('id', $input['document_id'])->first();
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
+            $create = array_merge($input, $common);
+            $create['client_id'] = $loggedInUserId;
+            $create['document_url'] = $document_url;
+            unset($create['documentUrl']);
+            $results = EmployeeDocuments::where('id', '=', $input['id'])->update($create);
+            return json_encode(['result' => $results, 'doc' => $doc->document_name, 'document_url' => $document_url, 'success' => true]);
         }
-
-//        }
-
-        $doc = MlstEmployeeDocuments::where('id', $input['document_id'])->first();
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
-        $create = array_merge($input, $common);
-        $create['client_id'] = $loggedInUserId;
-        $create['document_url'] = $document_url;
-        unset($create['documentUrl']);
-
-        $results = EmployeeDocuments::where('id', '=', $input['id'])->update($create);
-        return json_encode(['result' => $results, 'doc' => $doc->document_name, 'document_url' => $document_url, 'success' => true]);
-
-        //}
     }
 
     public function userDocumentLists() {
