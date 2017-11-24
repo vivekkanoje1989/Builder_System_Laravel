@@ -163,15 +163,15 @@ class AdminController extends Controller {
         return view('backend.sessiontimeout');
     }
 
-     public function getMenuItems() {
+    public function getMenuItems() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-       
+
         if (!empty($request['data']['loggedInUserId'])) { //for mobile app
             $employeeSubmenus = Employee::select("employee_submenus")->where("id", json_decode($request['data']['loggedInUserId']))->get();
             $permission = json_decode($employeeSubmenus[0]->employee_submenus, true);
         } else {//for web app
-        $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus, true);
+            $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus, true);
 //            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get(); 
 //            session(['submenus' => Auth()->guard('admin')->user()->employee_submenus]); 
 //            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
@@ -230,7 +230,7 @@ class AdminController extends Controller {
         $mergedMmenu = $merged->all();
         return json_encode($mergedMmenu);
     }
-    
+
     public function getTitle() {
         $getTitle = MlstTitle::where("status", 1)->get();
         if (!empty($getTitle)) {
@@ -426,7 +426,7 @@ class AdminController extends Controller {
         $getsubCategory = \App\Models\CcPresalesSubcategory::select('id', 'listing_position', 'cc_presales_subcategory')
                         ->where('deleted_status', '!=', 1)
                         ->orderBy('listing_position')->get();
-        
+
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource,
@@ -445,7 +445,7 @@ class AdminController extends Controller {
     }
 
     public function getCountries() {
-        $getCountires = MlstCountry::select('id','name','phonecode')->get();
+        $getCountires = MlstCountry::select('id', 'name', 'phonecode')->get();
         if (!empty($getCountires)) {
             $result = ['success' => true, 'records' => $getCountires];
         } else {
@@ -469,7 +469,7 @@ class AdminController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $countryId = $request['data']['countryId'];
-        $getStates = MlstState::select('id','name','country_id','state_code')->where("country_id", $countryId)->get();
+        $getStates = MlstState::select('id', 'name', 'country_id', 'state_code')->where("country_id", $countryId)->get();
         if (!empty($getStates)) {
             $result = ['success' => true, 'records' => $getStates];
         } else {
@@ -482,7 +482,7 @@ class AdminController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $stateId = $request['data']['stateId'];
-        $getCities = MlstCity::select('id','name','state_id')->where("state_id", $stateId)->get();
+        $getCities = MlstCity::select('id', 'name', 'state_id')->where("state_id", $stateId)->get();
         if (!empty($getCities)) {
             $result = ['success' => true, 'records' => $getCities];
         } else {
@@ -509,13 +509,21 @@ class AdminController extends Controller {
     public function checkUniqueEmail() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $id = $request['data']['id'];
-        if ($id == 0) {
-            $checkEmail = Employee::getRecords(["personal_email1"], ["personal_email1" => $request['data']['emailData']]);
+       
+        if (!empty($request['data']['id'])) {
+             $id = $request['data']['id'];
+            if ($id == 0) {
+                $checkEmail = Employee::getRecords(["personal_email1"], ["personal_email1" => $request['data']['emailData']]);
+            } else {
+                $checkEmail = Employee::select('personal_email1')->where([
+                            ['personal_email1', '=', $request['data']['emailData']],
+                            ['id', '<>', $id],
+                        ])->get();
+                $checkEmail = json_decode($checkEmail);
+            }
         } else {
             $checkEmail = Employee::select('personal_email1')->where([
                         ['personal_email1', '=', $request['data']['emailData']],
-                        ['id', '<>', $id],
                     ])->get();
             $checkEmail = json_decode($checkEmail);
         }
@@ -559,7 +567,7 @@ class AdminController extends Controller {
     public function checkUniqueMobile1() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-       
+
         if (!empty($request['data']['mobileData'])) {
             $mobileData = $request['data']['mobileData'];
             $id = $request['data']['id'];
@@ -920,8 +928,8 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
-    
-        public function getSalesStatus() {
+
+    public function getSalesStatus() {
         $getSalesStatus = \App\Models\MlstEnquirySalesStatus::all();
         if (!empty($getSalesStatus)) {
             $result = ['success' => true, 'records' => $getSalesStatus];
@@ -964,7 +972,7 @@ class AdminController extends Controller {
     /*     * *************************MANDAR******************************** */
 
     public function getEmployeesDetails() {
-        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id','personal_email1')->where("employee_status", 1)->get();
+        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id', 'personal_email1')->where("employee_status", 1)->get();
         $i = 0;
         foreach ($getEmployees as $ctEmployeesExt) {
             $getEmployees[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] . '(' . $ctEmployeesExt['designation'] . ')';

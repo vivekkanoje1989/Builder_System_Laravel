@@ -10,6 +10,8 @@
         color: black;
         padding: 5px;
     }
+    
+    
 </style>
 <div class="row" ng-controller="enquiryController" ng-init="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, '', ''); getAllEmployeeData();" >
     <div class="mainDiv col-xs-12 col-md-12">
@@ -189,7 +191,7 @@
 
                             <hr class="enq-hr-line">
                             <div>
-                                <a  ng-click="updateCustInfo({{ enquiry.customer_id}})" style="cursor:pointer;"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
+                                <a  ng-click="'<?php echo strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"');?>' && updateCustInfo({{ enquiry.customer_id}})" style="cursor:pointer;"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
                             </div>
                             <hr class="enq-hr-line">
                             <div>
@@ -383,7 +385,6 @@
                         <div class="form-group col-sm-12">
                             <label class="helpContent">Priority </label>
                             <span class="input-icon icon-right">                                    
-
                             </span>
                         </div>                            
                     </div>

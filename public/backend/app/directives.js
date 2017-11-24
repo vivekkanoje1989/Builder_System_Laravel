@@ -349,6 +349,30 @@ app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
     }
 });
 
+app.directive('checkQuickUserUniqueEmail', function ($timeout, $q, Data) {
+    return {
+        restrict: 'AE',
+        require: 'ngModel',
+        link: function ($scope, element, attributes, model) {
+            model.$asyncValidators.uniqueEmail = function () {
+               
+                var personal_email1 = $scope.userData.personal_email1;
+                if (typeof personal_email1 == 'undefined') {
+                    var personal_email1 = $("#personal_email1").val();
+                }
+                var employeeId = (typeof $scope.userData.id === "undefined" || $scope.userData.id === "0") ? "0" : $scope.userData.id;
+                return Data.post('checkUniqueEmail', {
+                    data: {emailData: personal_email1},
+                }).then(function (response) {
+                    $timeout(function () {
+                        model.$setValidity('uniqueEmail', !!response.success);
+                    }, 1000);
+                });
+            };
+        }
+    }
+});
+
 app.directive("checkForSameEmails", function () {
     return {
         require: "ngModel",

@@ -165,6 +165,7 @@
                             </td>
                             <td width="20%">
                                 <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
+
                                 <div ng-if="[[Auth::guard('admin')->user()->customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
                                     <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                         <a ng-show="callBtnPermission == '1'" style="cursor: pointer;" class="Linkhref"
@@ -235,7 +236,6 @@
                                         <span ng-if="enquiry_status_length > 45" data-toggle="tooltip" title="{{enquiry_status}}">...</span>
                                         <hr class="enq-hr-line">
                                     </span>
-
                                 </div>        
                                 <div> 
                                     <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory == null" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">
@@ -286,7 +286,7 @@
                             <td width="30%">
                                 <div><b>Enquiry Owner :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}</div>
                                 <hr class="enq-hr-line">
-                                <div >
+                                <div>
                                     <b>Last followup : </b>{{ enquiry.last_followup_date}}
                                 </div>
                                 <div><b>By {{enquiry.followupby_fname}} {{enquiry.followupby_lname}} : </b>

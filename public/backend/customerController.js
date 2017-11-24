@@ -276,6 +276,13 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.editContactDetails = function (index) {
             $scope.contactData.index = index;
             $scope.contactData = $scope.contacts[index];
+            $scope.contactData.house_number = $scope.contactData.address_type == 'null' ? '':$scope.contactData.address_type;
+            $scope.contactData.house_number = $scope.contactData.house_number == 'null' ? '':$scope.contactData.house_number;
+            $scope.contactData.building_house_name = $scope.contactData.building_house_name == 'null' ? '':$scope.contactData.building_house_name;
+            $scope.contactData.wing_name = $scope.contactData.wing_name == 'null' ? '':$scope.contactData.wing_name;
+            $scope.contactData.lane_name = $scope.contactData.lane_name == 'null' ? '':$scope.contactData.lane_name;
+            $scope.contactData.landmark = $scope.contactData.landmark == 'null' ? '':$scope.contactData.landmark;
+            $scope.contactData.google_map_link = $scope.contactData.google_map_link == 'null' ? '':$scope.contactData.google_map_link;
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
             $scope.contactData.index = index;
         }
@@ -469,8 +476,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             }, function (evt, response) {});
         };
-        $scope.backToListing = function (mobileNo, emailId) {
-            if ($rootScope.newEnqFlag !== 0)
+        $scope.backToListing = function (mobileNo, emailId, extraParam='1') {
+            if(extraParam == '0')
+                $rootScope.newEnqFlag = extraParam;
+            if ($rootScope.newEnqFlag !== '0')
             {
                 $state.go("salesCreate");
                 $timeout(function () {
@@ -482,8 +491,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $("input[name='searchWithEmail']").trigger("change");
                     }
                 }, 500);
-            } else
-            {
+            } else {
                 $window.history.back();
             }
         }

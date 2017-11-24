@@ -84,7 +84,7 @@
                                     <div class="form-group">
                                         <label for=""> Personal Email<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" maxlength="45" ng-model="userData.personal_email1" check-unique-email name="personal_email1" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 300 }" required>
+                                            <input type="email" maxlength="45" ng-model="userData.personal_email1" check-quick-user-unique-email name="personal_email1" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 300 }" required>
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="btnQukEmp" ng-messages="frmQuickEmp.personal_email1.$error"  class="help-block" >
                                                 <div ng-message="required" class="sp-err">This field is required.</div>
