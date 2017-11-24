@@ -1,4 +1,4 @@
-app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster', '$window','$parse','$modal', function ($scope, Data, Upload, toaster, $window,$parse, $modal) {
+app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster', '$window', '$parse', '$modal', function ($scope, Data, Upload, toaster, $window, $parse, $modal) {
 
         $scope.action = 'Submit';
         $scope.id = 0;
@@ -20,7 +20,7 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                 });
             }
         };
-        
+
         $scope.showHelpUserDocument = function () {
             $scope.optionModal = $modal.open({
                 template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">User Documents</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
@@ -33,7 +33,7 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                 ]
             });
         }
-        
+
         $scope.updateDocument = function (list, index)
         {
             $scope.action = 'Update';
@@ -49,7 +49,6 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                 documentUrl = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
             $scope.empId = userData.employee_id;
-
             if ($scope.id == 0) {
                 var url = '/user-document/';
                 var data = {
@@ -58,7 +57,6 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                 var url = '/user-document/edit';
                 var data = {
                     'id': $scope.id, 'employee_id': userData.employee_id, 'document_id': userData.document_id, 'document_number': userData.document_number, 'documentUrl': {'documentUrl': documentUrl}}
-
             }
             documentUrl.upload = Upload.upload({
                 url: url,
@@ -89,6 +87,7 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                     $scope.sbtBtn = false;
                     $scope.userForm.$submitted = false;
                     $scope.userData.employee_id = $scope.empId;
+                    $scope.errorMsgg = '';
                 } else {
                     var obj = response.data.message;
                     var selector = [];
@@ -99,7 +98,6 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                     }
                     $scope.errorMsgg = response.data.errorMsgg;
                 }
-
             }, function (response) {
                 if (response.success !== 200) {
                     $scope.err_msg = "Please Select image for upload";

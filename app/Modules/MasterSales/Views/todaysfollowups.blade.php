@@ -376,7 +376,18 @@
                                 <div class="modal-footer" align="center">
                                 </div>
                             </div>
-
+                        </div>
+                    </div>
+                    <!-- Enquiry Shared With ====================================================================   -->
+                    <div class="modal fade modal-primary" id="shareWith" role="dialog" tabindex='-1'>
+                        <div class="modal-dialog modal-md" >
+                            <div class="modal-content">
+                                <div class="modal-header navbar-inner">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title" align="center">Enquiry Sharing</h4>
+                                </div>
+                                <div data-ng-include="'/MasterSales/enquirySheredWith'"></div> 
+                            </div>
                         </div>
                     </div>
                 </div>
