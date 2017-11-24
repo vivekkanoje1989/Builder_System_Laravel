@@ -1110,8 +1110,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         showCancelButton: true, // displays cancel btton
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "permanently suspend it!",
-                        closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
-                        closeOnCancel: false
+                        closeOnConfirm: true, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
+                        closeOnCancel: true
                     },
                             function (isConfirm) { //Function that triggers on user action.
                                 if (isConfirm) {
@@ -1119,10 +1119,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                                         empId: emp_id
                                     }).then(function (response) {
                                         $("tr#" + emp_id + "").remove();
+                                        toaster.pop('success', 'HR', 'Employee Permanently suspend successfully');
                                     });
-                                    SweetAlert.swal("Deleted!");
+//                                    SweetAlert.swal("Deleted!");
                                 } else {
-                                    SweetAlert.swal("Your Employee is safe!");
+//                                    SweetAlert.swal("Your Employee is safe!");
                                 }
                             });
 
@@ -1132,7 +1133,18 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             });
         }
 
-
+// $("#close_account").on("click", function(e) {
+//    var buttons = $('<div>')
+//    .append(createButton('Ok', function() {
+//       swal.close();
+//       console.log('ok'); 
+//    })).append(createButton('Later', function() {
+//       swal.close();
+//       console.log('Later'); 
+//    })).append(createButton('Cancel', function() {
+//       swal.close();
+//       console.log('Cancel');
+//    }));
         $scope.getpresalesEmployees = function (emp_id) {
 
             $scope.presalesemployeeList = [];

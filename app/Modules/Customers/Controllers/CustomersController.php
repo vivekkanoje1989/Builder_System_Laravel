@@ -66,7 +66,10 @@ class CustomersController extends Controller {
         $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
         $input['bloodGrpData'] = array_merge($request, $create);
         $bloodGrps = Customers::where('id', $request['id'])->update($input['bloodGrpData']);
-        $result = ['success' => true, 'result' => $bloodGrps];
+         $customerData = Customers::select('id', 'first_name', 'last_name', 'sms_privacy_status', 'email_privacy_status', 'title_id', 'source_id', 'profession_id')->with('getTitle', 'getProfession', 'getSource')
+                        ->where('deleted_status', '!=', 1)
+                        ->orderBy('id', 'ASC')->get();
+        $result = ['success' => true, 'result' => $bloodGrps,'customerData'=>$customerData];
         return json_encode($result);
     }
 
@@ -116,10 +119,10 @@ class CustomersController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $result = Customers::where('id', $request['id'])->first();
-        if ($result['birth_date'] = '0000-00-00') {
+        if ($result['birth_date'] == '0000-00-00' || $result['birth_date'] == '') {
             $result['birth_date'] = '';
         }
-        if ($result['marriage_date'] = '0000-00-00') {
+        if ($result['marriage_date'] == '0000-00-00' || $result['marriage_date'] == '') {
             $result['marriage_date'] = '';
         }
         if ($result['pan_number'] == 'null') {
@@ -134,7 +137,6 @@ class CustomersController extends Controller {
             $result['aadhar_number'] = $result['aadhar_number'] ;
            
         }
-//            print_r($result);
         if (!empty($result)) {
             return json_encode(['result' => $result, 'status' => true]);
         } else {
@@ -160,7 +162,6 @@ class CustomersController extends Controller {
                 return json_encode($result, true);
             }
         }
-       
         if (!empty($input['cust_image_file'])) {
             $originalName = $input['cust_image_file']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {

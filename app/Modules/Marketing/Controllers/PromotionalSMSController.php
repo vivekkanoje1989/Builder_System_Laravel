@@ -168,11 +168,14 @@ class PromotionalSMSController extends Controller {
             $getsmsLogs = DB::select('CALL proc_smslogs("' . $loggedInUserId . '",' . $startFrom . ',' . $input['itemPerPage'] . ',"","","")');
             $getCount = DB::select("select FOUND_ROWS() totalCount");
             $getsmsCount = $getCount[0]->totalCount;
+               print_R($loggedInUserId);
         } else if ($input['isTeam'] == 0) {
             $getsmsLogs = DB::select('CALL proc_smslogs("' . $loggedInUserId . '",' . $startFrom . ',' . $input['itemPerPage'] . ',"","","")');
             $getCount = DB::select("select FOUND_ROWS() totalCount");
             $getsmsCount = $getCount[0]->totalCount;
+          
         }
+       
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
