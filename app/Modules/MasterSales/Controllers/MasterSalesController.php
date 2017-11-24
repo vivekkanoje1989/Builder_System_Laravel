@@ -471,17 +471,17 @@ class MasterSalesController extends Controller {
             } else {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
+            
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $request['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
-            if ($request['customer_id'] <> '') {
+            if ($request['customer_id'] <> '') {                
                 $customer_id = $request['customer_id'];
                 $customerInfo = Customer::select('source_id', 'subsource_id', 'source_description')->where('id', $request['customer_id'])->get();
                 $request['enquiryData']['sales_source_id'] = $customerInfo[0]['source_id'];
                 $request['enquiryData']['sales_subsource_id'] = $customerInfo[0]['subsource_id'];
                 $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];
-            } else {
-
-                $request['customerDetails']['first_name'] = !empty($request['enquiryData']['first_name']) ? $request['enquiryData']['first_name'] : '';
+            } else {              
+                $request['customerDetails']['first_name'] = !empty($request['enquiryData']['first_name']) ? $request['enquiryData']['first_name'] : '';                
                 $request['customerDetails']['last_name'] = !empty($request['enquiryData']['last_name']) ? $request['enquiryData']['last_name'] : '';
                 $request['customerDetails']['title_id'] = !empty($request['enquiryData']['title_id']) ? $request['enquiryData']['title_id'] : '';
                 $request['customerDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
@@ -493,6 +493,7 @@ class MasterSalesController extends Controller {
                     //insert customer contacts
                     $request['customer_id'] = $insertCustomer->id;
                     $request['customerContactDetails']['mobile_calling_code'] = !empty($request['enquiryData']['mobile_calling_code']) ? str_replace('+', '', $request['enquiryData']['mobile_calling_code']) : '';
+                    $request['customerContactDetails']['landline_calling_code'] = !empty($request['enquiryData']['landline_calling_code']) ? str_replace('+', '', $request['enquiryData']['landline_calling_code']) : '91';
                     $request['customerContactDetails']['mobile_number'] = !empty($request['MobileNo']) ? $request['MobileNo'] : '';
                     $request['customerContactDetails']['email_id'] = !empty($request['EmailId']) ? $request['EmailId'] : '';
                     $request['customerContactDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
@@ -502,6 +503,7 @@ class MasterSalesController extends Controller {
                     $insertCustomerContact = CustomersContact::create($request['customerContactDetails']);
                 }
             }
+           
             /*  insert enquiry  */
             $request['enquiryData'] = array_merge($request['enquiryData'], $create);
             $request['enquiryData']['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
@@ -3078,7 +3080,7 @@ Regards,<br>
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $ressigndate = date('d-m-Y');
-            $ressigntime = date('h:i a');
+            $ressigntime = date('h:i A');
 
             if (!empty($request)) {
                 $employee_id = $request['employee_id'];
