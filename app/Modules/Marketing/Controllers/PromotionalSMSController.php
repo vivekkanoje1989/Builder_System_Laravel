@@ -168,7 +168,6 @@ class PromotionalSMSController extends Controller {
             $getsmsLogs = DB::select('CALL proc_smslogs("' . $loggedInUserId . '",' . $startFrom . ',' . $input['itemPerPage'] . ',"","","")');
             $getCount = DB::select("select FOUND_ROWS() totalCount");
             $getsmsCount = $getCount[0]->totalCount;
-               print_R($loggedInUserId);
         } else if ($input['isTeam'] == 0) {
             $getsmsLogs = DB::select('CALL proc_smslogs("' . $loggedInUserId . '",' . $startFrom . ',' . $input['itemPerPage'] . ',"","","")');
             $getCount = DB::select("select FOUND_ROWS() totalCount");

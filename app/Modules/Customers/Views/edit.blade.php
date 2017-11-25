@@ -80,7 +80,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-3 col-xs-6">
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.gender_id.$dirty && customerForm.gender_id.$invalid)}">
+                                    <div class="form-group">
                                         <label for="">Gender <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <select ng-controller="genderCtrl" ng-model="customerData.gender_id" name="gender_id" class="form-control" required>
@@ -88,7 +88,7 @@
                                                 <option ng-repeat="gender in genders" ng-selected="customerData.gender_id == gender.id"  value="{{gender.id}}">{{gender.gender}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
-                                            <div ng-show="sbtBtn" ng-messages="customerForm.gender.$error" class="help-block">
+                                            <div ng-show="sbtBtn" ng-messages="customerForm.gender_id.$error" class="help-block">
                                                 <div ng-message="required">This field is required</div>
                                             </div>
                                             <div ng-if="gender_id" class="sp-err gender_id">{{gender_id}}</div>
@@ -252,7 +252,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12 col-xs-12" align="right">
-                                    <button type="submit" class="btn btn-primary" ng-click="sbtBtn = true">Update</button>
+                                    <button type="submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="customerUpdate">Update</button>
                                     <a href="[[ config('global.backendUrl') ]]#/customers/index" class="btn btn-primary">Cancel</a>
                                 </div>
                             </div>

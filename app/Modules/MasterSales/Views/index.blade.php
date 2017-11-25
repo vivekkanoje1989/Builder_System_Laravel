@@ -189,7 +189,7 @@
                                                         <br/>
                                                         <b>By followup : {{enquiry.owner_fname}} {{enquiry.owner_lname}} : </b>{{enquiry.remarks}} 
                                                         <hr class="enq-hr-line">
-                                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)">View History</a>
+                                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}}, 1)">View History</a>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -599,6 +599,7 @@
             <!-- Enquiry History Modal -->
             <!--<div data-ng-include=" '/MasterSales/enquiryHistory'"></div>-->
             <!--<div data-ng-include="'/MasterSales/todaysRemark'"></div>-->
+            
         </div>
     </div>
 </div>
