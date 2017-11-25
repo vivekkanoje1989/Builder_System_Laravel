@@ -858,6 +858,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         {
             $rootScope.enquiryId = id;
             $scope.documentData.project_id = '0';
+            document.getElementById("docselect").innerHTML = "";
             $timeout(function () {
                 $("li#historyTab").removeClass('active');
                 $("li#documentTab").addClass('active');
@@ -962,7 +963,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 });
             }
             else{
-                alert("Select documents for send");
+                //var atLeastOneIsChecked = $('.chkDocList:checkbox:checked').length;                
+                document.getElementById("docselect").innerHTML = "Select documents for send";
             }            
         }
         $scope.sendingList = function ()
@@ -988,6 +990,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         $scope.chkallDocuments = function ()
         {
+             document.getElementById("docselect").innerHTML = "";
             if ($("#allselect").is(':checked'))
             {
                 $(':checkbox.chkDocList').prop('checked', true);
@@ -995,8 +998,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             {
                 $(':checkbox.chkDocList').prop('checked', false);
             }
-        }
-
+        }        
+       
         $scope.updateCustInfo = function (custId)
         {
             $state.go("salesUpdateCustomer", {'customerId': custId, 'onlyupdate': 1});

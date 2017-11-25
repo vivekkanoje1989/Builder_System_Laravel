@@ -163,7 +163,7 @@ class MasterSalesController extends Controller {
             $originalContactValues = CustomersContact::where('customer_id', $id)->get();
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
-
+            
             if (empty($input)) {
                 $input = Input::all();
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -191,7 +191,7 @@ class MasterSalesController extends Controller {
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
-
+            
             $updateCustomer = Customer::where('id', $id)->update($input['customerData']); //insert data into employees table
             $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['customerData']);
             $implodeArr = implode(",", array_keys($getResult));
@@ -448,11 +448,9 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-
     // insert new enquiry 
     public function saveEnquiry() {
-        try {
-       
+        try {       
             $validationRules = Enquiry::validationRules();
             $validationMessages = Enquiry::validationMessages();
             $postdata = file_get_contents("php://input");
@@ -471,7 +469,7 @@ class MasterSalesController extends Controller {
             } else {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
-            
+            //$data['get_customer_contacts'] = CustomersContact::where('customer_id', $request['data']['customerId'])->get();
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $request['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
             if ($request['customer_id'] <> '') {                
@@ -479,7 +477,7 @@ class MasterSalesController extends Controller {
                 $customerInfo = Customer::select('source_id', 'subsource_id', 'source_description')->where('id', $request['customer_id'])->get();
                 $request['enquiryData']['sales_source_id'] = $customerInfo[0]['source_id'];
                 $request['enquiryData']['sales_subsource_id'] = $customerInfo[0]['subsource_id'];
-                $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];
+                $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];                
             } else {              
                 $request['customerDetails']['first_name'] = !empty($request['enquiryData']['first_name']) ? $request['enquiryData']['first_name'] : '';                
                 $request['customerDetails']['last_name'] = !empty($request['enquiryData']['last_name']) ? $request['enquiryData']['last_name'] : '';
@@ -489,6 +487,9 @@ class MasterSalesController extends Controller {
                 $request['customerDetails'] = array_merge($request['customerDetails'], $create);
                 $insertCustomer = Customer::create($request['customerDetails']);
                 $customer_id = $insertCustomer->id;
+                //$data = DB::table('laravel_developement_master_edynamics.mlst_bmsb_companies')->select('id')->where('company_name','')
+                //    ->get();
+           // print_r($data);exit;
                 if ($insertCustomer) {
                     //insert customer contacts
                     $request['customer_id'] = $insertCustomer->id;
@@ -537,6 +538,7 @@ class MasterSalesController extends Controller {
                 /* fill  follow up details */
                 $request['followupDetails']['enquiry_id'] = $insertEnquiry->id;
                 $request['followupDetails']['followup_date_time'] = date('Y-m-d H:i:s');
+                //print_r($request['followupDetails']['followup_by_employee_id']);exit;
                 $request['followupDetails']['followup_by_employee_id'] = $request['enquiryData']['followup_by_employee_id'];
                 $request['followupDetails']['followup_entered_through'] = "0";
                 $request['followupDetails']['remarks'] = $request['enquiryData']['remarks'];
