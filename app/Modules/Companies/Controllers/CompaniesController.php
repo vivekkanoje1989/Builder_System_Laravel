@@ -74,7 +74,8 @@ class CompaniesController extends Controller {
         $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
         $input['companiesData'] = array_merge($request, $create);
         $companyData = companies::where('id', $request['id'])->update($input['companiesData']);
-        $result = ['success' => true, 'result' => $companyData];
+         $data = companies::select('punch_line', 'legal_name', 'id')->where('deleted_status', '!=', 1)->get();
+        $result = ['success' => true, 'result' => $companyData,'companyData'=>$data];
         return json_encode($result);
     }
 

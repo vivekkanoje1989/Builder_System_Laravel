@@ -65,7 +65,6 @@ class Customers extends Eloquent {
             'last_name' => 'required|max:15',
             'gender_id' => 'required',
             'source_id' => 'required|numeric',
-            'subsource_id' => 'numeric',
             'email_privacy_status' => 'required',
             'sms_privacy_status' => 'required'
         );

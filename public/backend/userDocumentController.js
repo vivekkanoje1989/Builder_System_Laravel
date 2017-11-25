@@ -36,6 +36,7 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
 
         $scope.updateDocument = function (list, index)
         {
+            $scope.errorMsgg = '';
             $scope.action = 'Update';
             $scope.id = list.id;
             $scope.userData.document_number = list.document_number;

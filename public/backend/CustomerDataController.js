@@ -1,4 +1,4 @@
-app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload', '$state','$parse', function ($scope, Data, $timeout, toaster, Upload, $state, $parse) {
+app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload', '$state', '$parse', function ($scope, Data, $timeout, toaster, Upload, $state, $parse) {
 
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
@@ -9,14 +9,14 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
                 $scope.deleteBtn = response.delete;
             });
         };
-        
+
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
         }
-        
-        
-         $scope.customerDetailsExportToxls = function () {
+
+
+        $scope.customerDetailsExportToxls = function () {
             $scope.getexcel = window.location = "customers/customerDetailsExportToxls";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
@@ -24,19 +24,21 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
-        
+
         $scope.deleteCustomer = function (id, index) {
             Data.post('customers/deleteCustomer', {
                 'id': id}).then(function (response) {
-//                toaster.pop('success', 'Manage Customer', 'Customer deleted successfully');
-                $scope.customerDataRow.splice(index, 1);
+                toaster.pop('success', 'Customer\'s Management', 'Customer deleted successfully');
+//                $scope.customerDataRow.splice(index, 1);
+                $("tr#" + id + "").remove();
+                   $scope.customerDataRow = response.customerData;
             });
         }
-        
+
         $scope.$on("deleteRecords", function (event, args) {
             $scope.deleteCustomer(args['id'], args['index']);
         });
-        
+
         $scope.searchDetails = {};
         $scope.searchData = {};
 
@@ -51,8 +53,8 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
-           $scope.pageChangeHandler = function (num) {
+
+        $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
@@ -60,7 +62,7 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
         {
             Data.post('customers/getcustomerData', {'id': custId}).then(function (response) {
                 $scope.customerRow = response.result;
-                 $scope.customerRow.monthly_income = ($scope.customerRow.monthly_income == 0) ? '' : $scope.customerRow.monthly_income;
+                $scope.customerRow.monthly_income = ($scope.customerRow.monthly_income == 0) ? '' : $scope.customerRow.monthly_income;
                 $scope.customerData = angular.copy($scope.customerRow);
                 $scope.image = $scope.customerData.image_file;
                 $scope.$broadcast("myEvent", {source_id: $scope.customerData.source_id});
