@@ -34,12 +34,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.customerAddress = false;
         $scope.todayremarkTimeChange = function (selectedDate)
         {
-            alert($scope.enquiryData.id);
             if ($scope.enquiryData.id <= 0) {
-                alert("if");
                 $scope.enquiryData.next_followup_time = '';
             }
-            if (typeof selectedDate == 'undefined') {
+            if (typeof selectedDate === 'undefined') {
                 $scope.timeList = [];
                 $scope.enquiryData.next_followup_time = '';
             } else {
@@ -410,7 +408,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 var url = '/master-sales/update/' + $scope.searchData.customerId;
                 var data = {_method: "PUT", customerData: enteredData, image_file: customerPhoto, customerContacts: sessionContactData};
             }
-
             customerPhoto.upload = Upload.upload({
                 url: url,
                 headers: {enctype: 'multipart/form-data'},
