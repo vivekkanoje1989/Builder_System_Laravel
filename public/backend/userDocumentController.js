@@ -1,4 +1,4 @@
-app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster', '$window', '$parse', '$modal', function ($scope, Data, Upload, toaster, $window, $parse, $modal) {
+app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster', '$window', '$parse', '$modal','$timeout', function ($scope, Data, Upload, toaster, $window, $parse, $modal,$timeout) {
 
         $scope.action = 'Submit';
         $scope.id = 0;
@@ -44,8 +44,11 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
             $scope.userData.document_id = list.user_documents.id;
             $scope.index = index;
         }
+        
         $scope.createUserDocuments = function (documentUrl, userData)
         {
+            $scope.userdisables = false;
+
             if (typeof documentUrl === 'undefined') {
                 documentUrl = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
@@ -67,6 +70,9 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
             documentUrl.upload.then(function (response) {
                 if (response.data.success)
                 {
+                    $timeout(function () {
+                        $scope.userdisables = false;
+                    }, 2000);
                     if ($scope.documentRow == undefined)
                     {
                         $scope.documentRow = [];
@@ -89,7 +95,14 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                     $scope.userForm.$submitted = false;
                     $scope.userData.employee_id = $scope.empId;
                     $scope.errorMsgg = '';
+
+
                 } else {
+
+                    $timeout(function () {
+                        $scope.userdisables = false;
+                    }, 2000);
+
                     var obj = response.data.message;
                     var selector = [];
                     for (var key in obj) {
