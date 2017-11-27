@@ -91,7 +91,6 @@ class MasterHrController extends Controller {
         $export = '';
         if (!empty($request['empId']) && $request['empId'] !== "0") { // for edit
             $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ',0)');
-            
         } else if ($request['empId'] == "") {  // for index
             $manageData = DB::select('CALL proc_manage_users(0,0,1)');
             $cnt = DB::select('select FOUND_ROWS() totalCount');
@@ -104,7 +103,7 @@ class MasterHrController extends Controller {
             }
 
             for ($i = 0; $i < count($manageUser); $i++) {
-                
+
 //                print_r($manageUser[$i]);
 //                exit;
                 $blogData['id'] = $manageUser[$i]['id'];
@@ -1025,7 +1024,7 @@ class MasterHrController extends Controller {
     public function suspendEmployee() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-      
+
         if (!empty($input['loggedInUserId'])) {
             $loggedInUserId = $input['loggedInUserId'];
         } else {
@@ -1035,11 +1034,19 @@ class MasterHrController extends Controller {
         $this->tuserid($input['empId']);
         $alluser = $this->allusers;
         $employee = Employee::where('id', '=', $input['empId'])->select('team_lead_id')->first();
-     
+
         foreach ($alluser as $team) {
             $employee = Employee::where('id', '=', $team)->update(['team_lead_id' => $employee->team_lead_id]);
         }
-        $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
+         $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
+//        if ($input['status'] == 2) {
+//              $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 2]);
+//              $suspendStatus = 2;
+//        } else if ($input['status'] == 3) {
+//            $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
+//            $suspendStatus = 3;
+//        }
+//        $result = ['success' => true, 'result' => $suspend,'suspendStatus'=>$suspendStatus];
         $result = ['success' => true, 'result' => $suspend];
         return json_encode($result);
     }
@@ -2161,7 +2168,7 @@ class MasterHrController extends Controller {
 
         $employee = new Employee();
         $employee->title_id = $request['data']['title_id'];
-       
+
         $employee->employee_status = $request['data']['employee_status'];
         $employee->first_name = $request['data']['first_name'];
         $employee->last_name = $request['data']['last_name'];

@@ -29,8 +29,8 @@ class MenuItems {
                             6 => array('id' => '020106', 'name' => 'Blogs Management', 'icon' => '', 'micon' => 'img/dashboard.png','url' => '/manageblog/index', 'slug' => 'manageblogIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             7 => array('id' => '020107', 'name' => 'Website Themes', 'icon' => '', 'micon' => 'img/dashboard.png','url' => '/website/themes', 'slug' => 'webThemesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
-                    2 => array('id' => '0202', 'name' => 'BMS Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 11,
-                        'submenu_ids' => '020201,020202,020203,020204,020205,020206,020207,020208,020209,0202010,0202011', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open',
+                    2 => array('id' => '0202', 'name' => 'BMS Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 12,
+                        'submenu_ids' => '020201,020202,020203,020204,020205,020206,020207,020208,020209,0202010,0202011,0202012', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open',
                         'api_submenu_ids' => '02020101,02020102,02020103,02020201,02020202,02020203,02020204,02020205,02020206,02020207,02020208,02020209,02020210,02020211,02020212,02020213,02020214,02020215,02020216,02020217,02020218,02020219,02020301,02020401,02020501,02020601,02020701,02020702,02020801,02020901,02020902,020201001,020301,020302,020303',
                         'submenu' => array(
                             1 => array('id' => '020201', 'name' => 'SMS & Email Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'micon' => 'img/smsNmail.png', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
@@ -97,6 +97,10 @@ class MenuItems {
                             91 => array('id' => '0202011', 'name' => 'Bank Accounts', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                                 'submenu_ids' => '020201101', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '020201101', 'name' => 'Manage Bank Accounts', 'icon' => '', 'url' => '/bank-accounts/index', 'slug' => 'bankAccountsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                )),
+                            92 => array('id' => '0202012', 'name' => 'Project Wings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
+                                'submenu_ids' => '020201201', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                                    1 => array('id' => '020201201', 'name' => 'Manage Wings', 'icon' => '', 'url' => '/wings/index', 'slug' => 'wingsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
                         )),
                     3 => array('id' => '0203', 'name' => 'BMS Consumption', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,

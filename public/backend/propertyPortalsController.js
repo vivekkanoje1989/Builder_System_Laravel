@@ -157,7 +157,6 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
                 }
             } else
             {
-                alert("Project alredy Add");
             }
             $("#projectModal").modal('toggle');
             document.getElementById('portalaliastable').style.display = 'block';
@@ -207,7 +206,6 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
         }
         $scope.getUpdatePropertAlias = function (id, portaltypeid, portalid)
         {
-            alert(id + ":" + portaltypeid + ":" + portalid);
             Data.post('propertyportals/getProperyAlias', {
                 Data: {portalId: portalid, portalTypeId: portaltypeid, id: id}
             }).then(function (response) {

@@ -139,15 +139,12 @@ angular.module('app')
                         showCancelButton: true, // displays cancel btton
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "Yes, delete it!",
-                        closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
-                        closeOnCancel: false
+                        closeOnConfirm: true, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
+                        closeOnCancel: true
                     },
                     function (isConfirm) { //Function that triggers on user action.
                         if (isConfirm) {
                             $scope.$broadcast("deleteRecords", {id, index});
-                            SweetAlert.swal("Deleted!");
-                        } else {
-                            SweetAlert.swal("Your record is safe!");
                         }
                     });
                 }
@@ -160,15 +157,12 @@ angular.module('app')
                         showCancelButton: true, // displays cancel btton
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "Yes, delete it!",
-                        closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
-                        closeOnCancel: false
+                        closeOnConfirm: true, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
+                        closeOnCancel: true
                     },
                             function (isConfirm) { //Function that triggers on user action.
                                 if (isConfirm) {
                                     $scope.$broadcast("deleteItems", {id, index});
-                                    SweetAlert.swal("Deleted!");
-                                } else {
-                                    SweetAlert.swal("Your record is safe!");
                                 }
                             });
                 }
