@@ -68,7 +68,6 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
             });
         }
         $scope.jobPostingApplicationExportToxls = function () {
-//            alert($scope.careerId);
             $scope.getexcel = window.location = "/manage-job/jobPostingApplicationExportToxls/" + $scope.careerId;
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
@@ -81,7 +80,6 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-//            $scope.searchDetails = {};
             if (search.application_start_date != undefined) {
                 var today = new Date(search.application_start_date);
                 var day = today.getDate().toString();
