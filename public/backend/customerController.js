@@ -892,8 +892,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.disableFinishButton = true;
                         toaster.pop('success', 'Enquiry', response.message);
                         $state.reload();
-                    } else
-                    {
+                    } else {
                         $scope.disableFinishButton = false;
                         var obj = response.message;
                         var selector = [];

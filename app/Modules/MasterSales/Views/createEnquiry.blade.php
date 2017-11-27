@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-sm-3 col-md-3 col-xs-12"  ng-controller="enquirySourceCtrl">
                         <div class="form-group">
-                            <label for="">Source<span class="sp-err">*</span></label>
+                            <label for="">Sourcessssssssssssss<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select ng-change="onEnquirySourceChange(enquiryData.source_id)" class="form-control" ng-model="enquiryData.source_id" name="source_id"  id="source_id" required>
                                     <option value="">Select Source</option>
@@ -66,12 +66,15 @@
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.sales_enquiry_date.$dirty && enquiryForm.sales_enquiry_date.$invalid)}">
-                            <label for="">Date of enquiry <span class="sp-err">*</span></label>
+                            <label for="">Date of enquiry<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
                                     <input type="text" ng-model="enquiryData.sales_enquiry_date" name="sales_enquiry_date" id="sales_enquiry_date" class="form-control" datepicker-popup="dd-M-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required>
-                                    <span class="input-group-btn">
+                                    <span class="input-group-btn" ng-if="enquiryData.id === undefined && enquiryData.id!='' ">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                    <span class="input-group-btn" ng-if="enquiryData.id != undefined && enquiryData.id > 0 ">
+                                        <button type="button" class="btn btn-default" ng-click="open($event)" disabled><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_enquiry_date.$error" class="help-block">
                                     <div ng-message="required">This field is required</div>
@@ -450,7 +453,7 @@
                             <table class="table table-hover table-striped table-bordered" at-config="config">
                                 <thead class="bord-bot">
                                     <tr>
-                                        <th style="width: 5%;">Sr. No.</th>
+                                        <th style="width: 5%;">Sr.No.</th>
                                         <th style="width: 20%;">Project</th>
                                         <th style="width: 20%;">Blocks</th>
                                         <th style="width: 35%;">Sub Blocks</th>
@@ -465,8 +468,8 @@
                                         <td>{{ list.subblocks}}</td>                                               
                                         <td>
                                             <div class="fa-hover" style="display: block;">
-                                                <a href   ng-click="removeRow('{{ $index}}','{{ list.id}}',{{ list}},getUrlenquiryId)"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
-                                                <a href   ng-click="editRow({{list}},'{{ $index}}')"><i class="fa fa-edit" aria-hidden="true"></i></a> &nbsp;&nbsp;
+                                                <a href  data-tooltip="Delete Project" ng-click="removeRow('{{ $index}}','{{ list.id}}',{{ list}},getUrlenquiryId)"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
+                                                <a href  data-tooltip="Edit Project" ng-click="editRow({{list}},'{{ $index}}')"><i class="fa fa-edit" aria-hidden="true"></i></a> &nbsp;&nbsp;
                                             </div>
                                         </td>
                                     </tr>

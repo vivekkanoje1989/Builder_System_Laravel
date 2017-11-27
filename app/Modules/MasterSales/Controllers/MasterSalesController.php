@@ -339,10 +339,7 @@ class MasterSalesController extends Controller {
                         ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_companies as mlc', 'mlc.id', '=', 'customers.company_id')
                         ->get();
                 $getCustomerPersonalDetails[0]['company_name'] = $data[0]['company_name'];
-//                if ($getCustomerPersonalDetails[0]['gender_id'] == '0') {
-//                    $getCustomerPersonalDetails[0]['gender_id'] = '';
-//                }
-//                print_r($getCustomerPersonalDetails);
+
                 if (count($getCustomerEnquiryDetails) == 0 || isset($request['data']['showCustomer'])) {
                     $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, 'flag' => 0];
                 } else {
@@ -514,13 +511,16 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
+            
             unset($request['$$hashKey']);
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
-            //$data['get_customer_contacts'] = CustomersContact::where('customer_id', $request['data']['customerId'])->get();
+
+            $getCustomerDetails = Customer::select("source_id")->where("id",$request['customer_id'])->get();
+
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $request['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
             if ($request['customer_id'] <> '') {
@@ -534,13 +534,11 @@ class MasterSalesController extends Controller {
                 $request['customerDetails']['last_name'] = !empty($request['enquiryData']['last_name']) ? $request['enquiryData']['last_name'] : '';
                 $request['customerDetails']['title_id'] = !empty($request['enquiryData']['title_id']) ? $request['enquiryData']['title_id'] : '';
                 $request['customerDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
-                $request['customerDetails']['source_id'] = !empty($request['enquiryData']['source_id']) ? $request['enquiryData']['source_id'] : '';
+                $request['customerDetails']['source_id'] = !empty($request['enquiryData']['source_id']) ? $request['enquiryData']['source_id'] : $getCustomerDetails[0]['source_id'];
                 $request['customerDetails'] = array_merge($request['customerDetails'], $create);
                 $insertCustomer = Customer::create($request['customerDetails']);
                 $customer_id = $insertCustomer->id;
-                //$data = DB::table('laravel_developement_master_edynamics.mlst_bmsb_companies')->select('id')->where('company_name','')
-                //    ->get();
-                // print_r($data);exit;
+                
                 if ($insertCustomer) {
                     //insert customer contacts
                     $request['customer_id'] = $insertCustomer->id;
@@ -555,7 +553,8 @@ class MasterSalesController extends Controller {
                     $insertCustomerContact = CustomersContact::create($request['customerContactDetails']);
                 }
             }
-
+            
+            
             /*  insert enquiry  */
             $request['enquiryData'] = array_merge($request['enquiryData'], $create);
             $request['enquiryData']['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
@@ -565,7 +564,7 @@ class MasterSalesController extends Controller {
             $request['enquiryData']['sales_channel_id'] = !empty($request['enquiryData']['sales_channel_id']) ? $request['enquiryData']['sales_channel_id'] : 3;
             $request['enquiryData']['property_possession_date'] = !empty($request['enquiryData']['property_possession_date'] && $request['enquiryData']['property_possession_date'] != 'NaN-aN-NaN') ? $request['enquiryData']['property_possession_date'] : '0000-00-00';
             $request['enquiryData']['sales_enquiry_date'] = date('Y-m-d', strtotime($request['enquiryData']['sales_enquiry_date']));
-            $request['enquiryData']['sales_source_id'] = !empty($request['enquiryData']['source_id']) ? $request['enquiryData']['source_id'] : '';
+            $request['enquiryData']['sales_source_id'] = !empty($request['enquiryData']['source_id']) ? $request['enquiryData']['source_id'] : $getCustomerDetails[0]['source_id'];
 
             if (!empty($request['enquiryData']['enquiry_locations'])) {
                 $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
@@ -589,7 +588,6 @@ class MasterSalesController extends Controller {
                 /* fill  follow up details */
                 $request['followupDetails']['enquiry_id'] = $insertEnquiry->id;
                 $request['followupDetails']['followup_date_time'] = date('Y-m-d H:i:s');
-                //print_r($request['followupDetails']['followup_by_employee_id']);exit;
                 $request['followupDetails']['followup_by_employee_id'] = $request['enquiryData']['followup_by_employee_id'];
                 $request['followupDetails']['followup_entered_through'] = "0";
                 $request['followupDetails']['remarks'] = $request['enquiryData']['remarks'];
@@ -656,7 +654,6 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
-            // print_r($request);exit;
             unset($request['enquiryData']['mobile_calling_code']);
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -687,11 +684,6 @@ class MasterSalesController extends Controller {
 
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $request['enquiryData'] = array_merge($request['enquiryData'], $update);
-//            unset($request['enquiryData']['project_id'],$request['enquiryData']['block_id'],$request['enquiryData']['sub_block_id'],
-//                    $request['enquiryData']['enquiry_category_id'],$request['enquiryData']['city_id'],$request['enquiryData']['csrfToken'],
-//                    $request['enquiryData']['next_followup_date'],$request['enquiryData']['next_followup_time'],
-//                    $request['enquiryData']['project_name'],$request['enquiryData']['block_name'],$request['enquiryData']['block_sub_type'],
-//                    $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks'],$request['enquiryData']['enqdetails_id'],$request['enquiryData']['loggedInUserId']);
 
             $update = Enquiry::where('id', $request['enquiryData']['id'])->update($request['enquiryData']);
             if (!empty($request['projectEnquiryDetails'])) {
@@ -1038,14 +1030,13 @@ class MasterSalesController extends Controller {
 
                 if (!empty($custInfo['mobile_number']) || !empty($custInfo['email_id'])) {
                     $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number', 'email_id')->where('customer_id', $customerId)->get();
-
+                    $custInfo['client_id'] = config('global.client_id');
                     if (!empty($custInfo['mobile_number'])) {
                         $contacts = $contacts1 = array();
                         $contacts['customer_id'] = $customerId;
                         $contacts['mobile_calling_code'] = $custInfo['mobile_calling_code'];
                         $contacts['mobile_number'] = $custInfo['mobile_number'];
-                        $contacts['client_id'] = $custInfo['client_id'];
-
+                        
                         if (!empty($checkCustomerExist[0]['customer_id']) && empty($checkCustomerExist[0]['mobile_number'])) {
                             $contacts1 = $contacts;
                             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -1224,7 +1215,7 @@ Regards,<br>
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
-                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo']);
+                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo'],$input['sales_lost_reason_id'],$input['sales_lost_sub_reason_id']);
                 $input['followup_by_employee_id'] = $loggedInUserId;
 
                 EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDateTime]);
@@ -1307,7 +1298,7 @@ Regards,<br>
             $filterData["status_id"] = !empty($filterData['status_id']) ? $filterData["status_id"] : "";
             $filterData["lostReason_id"] = !empty($filterData['lostReason_id']) ? $filterData['lostReason_id'] : "";
         }
-        //$filterData["project_id"] = !empty($filterData['project_id']) ? implode(',', array_column($filterData['project_id'], 'id')) : "";
+       
         if (isset($filterData['employee_id']) && !empty($filterData['employee_id'])) {
             $loggedInUserId = implode(',', array_map(function($el) {
                         return $el['id'];
@@ -1331,7 +1322,6 @@ Regards,<br>
         $filterData["site_visited"] = !empty($filterData['site_visited']) ? $filterData['site_visited'] : "";
         $filterData["channel_id"] = !empty($filterData['channel_id']) ? $filterData['channel_id'] : "";
         $filterData["max_budget"] = !empty($filterData["max_budget"]) ? $filterData["max_budget"] : 0;
-        //$filterData["minbudget"] = !empty($request['minBudget']) ? $request['minBudget'] : 0;
         $filterData["mobileNumber"] = !empty($filterData['mobileNumber']) ? $filterData['mobileNumber'] : "";
         $filterData["verifiedMobNo"] = !empty($filterData['verifiedMobNo']) ? $filterData['verifiedMobNo'] : "";
         $filterData["verifiedEmailId"] = !empty($filterData['verifiedEmailId']) ? $filterData['verifiedEmailId'] : "";
