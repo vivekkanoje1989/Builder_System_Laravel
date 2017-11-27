@@ -8,8 +8,14 @@ app.controller('wingsController', ['$scope', '$state', 'Data', 'toaster', functi
             Data.post('wings/getWingList', {id: id}).then(function (response) {
                 if (id < 0)
                 { // For Index
-                    $scope.listWings = response.records;
-                    console.log($scope.listWings);
+                    if (response.success) {
+                        $scope.listWings = response.records;
+                        $scope.exportData = response.exportData;
+                        $scope.deleteBtn = response.deletePermission;
+                    }else{
+                        $scope.totalCount = 0;
+                    }
+
                 }
                 if (id > 0)
                 { // For Update
@@ -25,6 +31,53 @@ app.controller('wingsController', ['$scope', '$state', 'Data', 'toaster', functi
             })
 
         }
+         $scope.deleteWing = function (id, index) {
+            Data.post('wings/deleteWing', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Careers', 'Project wing deleted successfully');
+                $scope.listWings.splice(index, 1);
+            });
+        }
+        
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteWing(args['id'], args['index']);
+        });
+        
+        
+         $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+            $scope.searchData = search;
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+        
+        
+        $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
+        
+           $scope.projectWingsExportToxls = function () {
+            $scope.getexcel = window.location = "/wings/projectWingsExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+
         $scope.saveWingsInfo = function (wingData, id) {
             wingData.wing_status = (typeof wingData.wing_status === 'undefined') ? 2 : wingData.wing_status;
             wingData.wing_status_for_enquiries = (typeof wingData.wing_status_for_enquiries === 'undefined') ? 2 : wingData.wing_status_for_enquiries;
@@ -43,7 +96,7 @@ app.controller('wingsController', ['$scope', '$state', 'Data', 'toaster', functi
                 })
             } else
             { // For Update 
-                Data.put('wings/'+id, {wingData: wingData}).then(function (response) {
+                Data.put('wings/' + id, {wingData: wingData}).then(function (response) {
                     if (!response.success)
                     {
                         toaster.pop('error', 'Project Wings', 'Something Went Wrong');
