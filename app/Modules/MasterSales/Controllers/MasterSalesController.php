@@ -72,7 +72,6 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
-//            print_r($input['customerData']['corporate_customer']);exit;
             $corporate_customer = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $company_id = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '';
             if (!empty($corporate_customer) && $company_id == 0) { //checked checkbox and new value in textbox
@@ -91,8 +90,8 @@ class MasterSalesController extends Controller {
             } elseif ($company_id == 0) { //uncheck checkbox
                 $corporate_customer = 0;
             }
-           
-             unset($input['customerData']['company_name']);
+
+            unset($input['customerData']['company_name']);
             $input['customerData']['pan_number'] = '';
             $input['customerData']['aadhar_number'] = '';
             $input['customerData']['client_id'] = config('global.client_id');
@@ -205,7 +204,7 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['id']);
 //                unset($input['customerData']['company_name']);
             }
-            
+
             $corporate_customer = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $company_id = $input['customerData']['company_id'];
             if (!empty($corporate_customer) && $company_id == 0) { //checked checkbox and new value in textbox
@@ -224,8 +223,8 @@ class MasterSalesController extends Controller {
             } elseif ($company_id == 0) { //uncheck checkbox
                 $corporate_customer = 0;
             }
-           
-             unset($input['customerData']['company_name']);
+
+            unset($input['customerData']['company_name']);
             $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = $company_id;
@@ -246,15 +245,9 @@ class MasterSalesController extends Controller {
                 $input['customerData']['record_restore_status'] = 1;
                 CustomersLog::create($input['customerData']);
             }
-
-
-
-
             if (!empty($input['customerContacts'])) {
                 $i = 0;
-
                 foreach ($input['customerContacts'] as $contacts) {
-
                     if (!empty($contacts['$hashKey']) || !empty($contacts['$$hashKey']) || !empty($contacts['index']))
                         unset($contacts['$hashKey'], $contacts['$$hashKey']);
                     unset($contacts['index']);
@@ -364,7 +357,7 @@ class MasterSalesController extends Controller {
             $getEnquiryDetails = DB::select('CALL proc_get_enquiry_details(' . $customerId . ',' . $enquiryId . ')');
 
             $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails), true);
-            //
+
             if (count($getEnquiryDetails) > 0) {
                 $getCityID = lstEnquiryLocations::select("city_id")->where('id', '=', $getEnquiryDetails[0]['enquiry_locations'])->get();
 
@@ -511,7 +504,7 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
-            
+
             unset($request['$$hashKey']);
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -519,7 +512,7 @@ class MasterSalesController extends Controller {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
 
-            $getCustomerDetails = Customer::select("source_id")->where("id",$request['customer_id'])->get();
+            $getCustomerDetails = Customer::select("source_id")->where("id", $request['customer_id'])->get();
 
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $request['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
@@ -538,7 +531,7 @@ class MasterSalesController extends Controller {
                 $request['customerDetails'] = array_merge($request['customerDetails'], $create);
                 $insertCustomer = Customer::create($request['customerDetails']);
                 $customer_id = $insertCustomer->id;
-                
+
                 if ($insertCustomer) {
                     //insert customer contacts
                     $request['customer_id'] = $insertCustomer->id;
@@ -553,8 +546,8 @@ class MasterSalesController extends Controller {
                     $insertCustomerContact = CustomersContact::create($request['customerContactDetails']);
                 }
             }
-            
-            
+
+
             /*  insert enquiry  */
             $request['enquiryData'] = array_merge($request['enquiryData'], $create);
             $request['enquiryData']['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
@@ -1036,7 +1029,7 @@ class MasterSalesController extends Controller {
                         $contacts['customer_id'] = $customerId;
                         $contacts['mobile_calling_code'] = $custInfo['mobile_calling_code'];
                         $contacts['mobile_number'] = $custInfo['mobile_number'];
-                        
+
                         if (!empty($checkCustomerExist[0]['customer_id']) && empty($checkCustomerExist[0]['mobile_number'])) {
                             $contacts1 = $contacts;
                             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -1215,7 +1208,7 @@ Regards,<br>
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
-                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo'],$input['sales_lost_reason_id'],$input['sales_lost_sub_reason_id']);
+                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo'], $input['sales_lost_reason_id'], $input['sales_lost_sub_reason_id']);
                 $input['followup_by_employee_id'] = $loggedInUserId;
 
                 EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDateTime]);
@@ -1298,7 +1291,7 @@ Regards,<br>
             $filterData["status_id"] = !empty($filterData['status_id']) ? $filterData["status_id"] : "";
             $filterData["lostReason_id"] = !empty($filterData['lostReason_id']) ? $filterData['lostReason_id'] : "";
         }
-       
+
         if (isset($filterData['employee_id']) && !empty($filterData['employee_id'])) {
             $loggedInUserId = implode(',', array_map(function($el) {
                         return $el['id'];

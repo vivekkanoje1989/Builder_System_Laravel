@@ -233,7 +233,7 @@
                                                             <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">+91-xxxxxx{{  value.substring(value.length - 4, value.length)}}</span>
                                                         </span>
                                                         @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
-                                                        <div class="col-sm-12"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
+                                                        <div class="col-sm-12" ng-if="mobileList.length < 4"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
                                                         <span class="input-icon icon-right" ng-if="addMob">
                                                             <div style="float: left;margin-left: 15px;width: 66%;">
                                                                 <span class="input-icon icon-right">
@@ -259,7 +259,7 @@
                                                             <span class="text" ng-click="manageEmailText(key, value)" ng-if="value != 'null'">{{value}}</span>
                                                         </span>
                                                         @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
-                                                        <div class="col-sm-12" style=" margin-left: -13px;"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
+                                                        <div class="col-sm-12" style=" margin-left: -13px;" ng-if="emailList.length < 4"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
                                                         <span class="input-icon icon-right" ng-if="addEmail">
                                                             <input type="email" ng-model="remarkData.email_id" name="email_id" placeholder="Enter Email Address" class="form-control" maxlength="40" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" ng-model-options="{ allowInvalid: true, debounce: 550 }"
                                                                    ng-change="addInfo(remarkData.customerId, '', remarkData.email_id, 'email_id')">
