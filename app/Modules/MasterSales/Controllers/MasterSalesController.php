@@ -474,7 +474,9 @@ class MasterSalesController extends Controller {
             } else {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
+
             $getCustomerDetails = Customer::select("source_id")->where("id",$request['customer_id'])->get();
+
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $request['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
             if ($request['customer_id'] <> '') {
@@ -1169,7 +1171,7 @@ Regards,<br>
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
-                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo']);
+                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo'],$input['sales_lost_reason_id'],$input['sales_lost_sub_reason_id']);
                 $input['followup_by_employee_id'] = $loggedInUserId;
 
                 EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDateTime]);

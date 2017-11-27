@@ -7,6 +7,8 @@
 =======
         <group>
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/FirmsAndPartnersController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/directives.js</file>
@@ -24,6 +26,7 @@
 =======
 <<<<<<< HEAD
 >>>>>>> b91634967f9237b04f83a6124bb919ff4ed52fa6
+>>>>>>> 1081d6daa268c41b593b98c42d704b6158de0f53
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
@@ -40,6 +43,8 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysfollowups.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/requestsforme.blade.php</file>
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
 =======
 =======
@@ -62,6 +67,7 @@
 >>>>>>> cc8b838e63830224051f6456811d293389e5384e
 >>>>>>> b91634967f9237b04f83a6124bb919ff4ed52fa6
 >>>>>>> a4d9471a58102a492951d357e5c1586d70e1ae52
+>>>>>>> 1081d6daa268c41b593b98c42d704b6158de0f53
         </group>
 >>>>>>> 053011362fa126702f48cf7ae455f442349f011e
     </open-files>
