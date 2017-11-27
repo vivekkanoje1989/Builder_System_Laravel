@@ -469,6 +469,7 @@ class MasterSalesController extends Controller {
             } else {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
+           // print_r($request);exit;
             //$data['get_customer_contacts'] = CustomersContact::where('customer_id', $request['data']['customerId'])->get();
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $request['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
@@ -987,7 +988,7 @@ class MasterSalesController extends Controller {
 
                 if (!empty($custInfo['mobile_number']) || !empty($custInfo['email_id'])) {
                     $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number', 'email_id')->where('customer_id', $customerId)->get();
-
+                    $custInfo['client_id'] = config('global.client_id');
                     if (!empty($custInfo['mobile_number'])) {
                         $contacts = $contacts1 = array();
                         $contacts['customer_id'] = $customerId;
@@ -1173,7 +1174,7 @@ Regards,<br>
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
-                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo']);
+                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking'], $input['userData'], $input['custInfo'],$input['sales_lost_reason_id'],$input['sales_lost_sub_reason_id']);
                 $input['followup_by_employee_id'] = $loggedInUserId;
 
                 EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDateTime]);
