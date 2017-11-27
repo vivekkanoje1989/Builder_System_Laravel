@@ -167,7 +167,7 @@
                                 </div>
                             </td>
                             <td width="20%">
-                                <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
+                                <div>{{enquiry.title}} {{ enquiry.customer_fname |capitalize}} {{ enquiry.customer_lname|capitalize}}</div>
                                 <div ng-if="[[Auth::guard('admin') -> user() -> customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
                                     <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                         <a ng-show="outBoundCallBtn == '1'" style="cursor: pointer;" class="Linkhref"

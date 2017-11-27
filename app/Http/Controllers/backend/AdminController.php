@@ -540,7 +540,6 @@ class AdminController extends Controller {
         $request = json_decode($postdata, true);
         $id = $request['data']['id'];
         $mobileData = $request['data']['mobileData'];
-
         if ($id == 0) {
             $checkMobile = Employee::select('personal_mobile1', 'office_mobile_no')
                     ->where('personal_mobile1', $mobileData)
@@ -557,7 +556,6 @@ class AdminController extends Controller {
                     ->where('employee_status', '!=', 3)
                     ->first();
         }
-
         if (empty($checkMobile)) {
             $result = ['success' => true];
         } else {

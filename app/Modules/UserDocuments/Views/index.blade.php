@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 col-xs-12 col-md-12" align="left">
-                                        <button type="submit" class="btn btn-primary"  ng-click="sbtBtn = true">{{action}}</button>
+                                        <button type="submit" class="btn btn-primary" ng-disabled="userdisables"  ng-click="sbtBtn = true">{{action}}</button>
                                     </div>
                                 </div><br>
                             </div>   
