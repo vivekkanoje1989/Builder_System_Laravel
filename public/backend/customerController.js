@@ -549,9 +549,11 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
                         if (response.customerPersonalDetails[0].birth_date === '0000-00-00' || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
                             $scope.customerData.birth_date = '';
+                           
                         } else {
                             $scope.customerData.birth_date = response.customerPersonalDetails[0].birth_date;
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
+                            
                         }
 
                         if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === "0000-00-00") {
@@ -626,9 +628,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.enquiryData.next_followup_time = response.enquiryDetails[0].next_followup_time;
 //                        $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00' || response.enquiryDetails[0].property_possession_date == undefined) ? '' : response.enquiryDetails[0].property_possession_date;
                         if (response.enquiryDetails[0].property_possession_date === null || response.enquiryDetails[0].property_possession_date === "-0001-11-30 00:00:00" || response.enquiryDetails[0].property_possession_date === "0000-00-00" || response.enquiryDetails[0].property_possession_date == undefined) {
-                           alert('if');
+                          
                             $scope.enquiryData.property_possession_date = "";
-                        } else {alert('else');
+                        } else {
                             $scope.enquiryData.property_possession_date = response.enquiryDetails[0].property_possession_date;
                         }
                        
@@ -672,6 +674,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             } else {
                                 $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
                             }
+                          
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                         }
 

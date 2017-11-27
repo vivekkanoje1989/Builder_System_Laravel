@@ -266,8 +266,8 @@
                                 <td>{{list.email_id}}</td>
                                 <td>{{list.pin}}</td>
                                 <td>
-                                    <div class="fa-hover" tooltip-html-unsafe="Edit Contact" style="display: block;">
-                                        <a href data-toggle="modal" data-target="#contactDataModal" ng-click="editContactDetails({{$index}})"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;
+                                    <div class="fa-hover"  >
+                                        <a href data-toggle="modal" data-target="#contactDataModal" ng-click="editContactDetails({{$index}})" tooltip-html-unsafe="Edit Contact"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;
                                     </div>
                                 </td>
                             </tr>                                            

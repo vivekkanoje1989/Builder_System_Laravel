@@ -162,7 +162,8 @@
                             </td>
                             <td width="7%"> 
                                 <div style="color: #f73131">
-                                    <?php echo "Pending from \n"; ?>  {{enquiry.pending_from}}  <?php echo "\n days"; ?>
+                                    <?php //echo "Pending from \n"; ?>  <!--{{enquiry.pending_from}}-->  <?php //echo "\n days"; ?>
+                                    <span>Pending from <span ng-if="enquiry.pending_from == '1'">{{enquiry.pending_from}} day</span><span ng-if="enquiry.pending_from > '1'">{{enquiry.pending_from}} days</span></span>
                                 </div>
                             </td>
                             <td width="20%">
