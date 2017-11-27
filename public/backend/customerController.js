@@ -27,7 +27,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         var today = new Date();
         today.setYear(today.getFullYear() - 20);
         $scope.maxDates = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
+        var tdate= new Date();
+        $scope.todaydate = (tdate.getFullYear()+ '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getDate() );
         $scope.showaddress = true;
         $scope.hideaddress = false;
         $scope.customerAddress = false;
@@ -36,7 +37,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             if ($scope.enquiryData.id <= 0) {
                 $scope.enquiryData.next_followup_time = '';
             }
-            if (typeof selectedDate == 'undefined') {
+            if (typeof selectedDate === 'undefined') {
                 $scope.timeList = [];
                 $scope.enquiryData.next_followup_time = '';
             } else {
@@ -205,7 +206,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
 
         $scope.changeEmailPrivacyStatus = function (val) {
-            $scope.customerData.email_privacy_status = val;            
+            $scope.customerData.email_privacy_status = val;
         }
 
         $scope.checkEmailValue = function () {
@@ -273,13 +274,13 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.editContactDetails = function (index) {
             $scope.contactData.index = index;
             $scope.contactData = $scope.contacts[index];
-            $scope.contactData.house_number = $scope.contactData.address_type == 'null' ? '':$scope.contactData.address_type;
-            $scope.contactData.house_number = $scope.contactData.house_number == 'null' ? '':$scope.contactData.house_number;
-            $scope.contactData.building_house_name = $scope.contactData.building_house_name == 'null' ? '':$scope.contactData.building_house_name;
-            $scope.contactData.wing_name = $scope.contactData.wing_name == 'null' ? '':$scope.contactData.wing_name;
-            $scope.contactData.lane_name = $scope.contactData.lane_name == 'null' ? '':$scope.contactData.lane_name;
-            $scope.contactData.landmark = $scope.contactData.landmark == 'null' ? '':$scope.contactData.landmark;
-            $scope.contactData.google_map_link = $scope.contactData.google_map_link == 'null' ? '':$scope.contactData.google_map_link;
+            $scope.contactData.house_number = $scope.contactData.address_type == 'null' ? '' : $scope.contactData.address_type;
+            $scope.contactData.house_number = $scope.contactData.house_number == 'null' ? '' : $scope.contactData.house_number;
+            $scope.contactData.building_house_name = $scope.contactData.building_house_name == 'null' ? '' : $scope.contactData.building_house_name;
+            $scope.contactData.wing_name = $scope.contactData.wing_name == 'null' ? '' : $scope.contactData.wing_name;
+            $scope.contactData.lane_name = $scope.contactData.lane_name == 'null' ? '' : $scope.contactData.lane_name;
+            $scope.contactData.landmark = $scope.contactData.landmark == 'null' ? '' : $scope.contactData.landmark;
+            $scope.contactData.google_map_link = $scope.contactData.google_map_link == 'null' ? '' : $scope.contactData.google_map_link;
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
             $scope.contactData.index = index;
         }
@@ -407,7 +408,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 var url = '/master-sales/update/' + $scope.searchData.customerId;
                 var data = {_method: "PUT", customerData: enteredData, image_file: customerPhoto, customerContacts: sessionContactData};
             }
-
             customerPhoto.upload = Upload.upload({
                 url: url,
                 headers: {enctype: 'multipart/form-data'},
@@ -473,8 +473,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             }, function (evt, response) {});
         };
-        $scope.backToListing = function (mobileNo, emailId, extraParam='1') {
-            if(extraParam == '0')
+        $scope.backToListing = function (mobileNo, emailId, extraParam = '1') {
+            if (extraParam == '0')
                 $rootScope.newEnqFlag = extraParam;
             if ($rootScope.newEnqFlag !== '0')
             {
@@ -490,7 +490,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }, 500);
             } else {
                 $window.history.back();
-            }
+        }
         }
 
         $scope.resetForm = function () {
@@ -549,9 +549,11 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
                         if (response.customerPersonalDetails[0].birth_date === '0000-00-00' || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
                             $scope.customerData.birth_date = '';
+                           
                         } else {
                             $scope.customerData.birth_date = response.customerPersonalDetails[0].birth_date;
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
+                            
                         }
 
                         if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === "0000-00-00") {
@@ -615,7 +617,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.showDiv = true;
                         $scope.enquiryformDiv = true;
                     } else {
-
                         $scope.enquiryData.max_budget = '555556';
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
@@ -625,8 +626,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : response.enquiryDetails[0].max_budget;
                         $scope.enquiryData.next_followup_date = (response.enquiryDetails[0].next_followup_date == '0000-00-00') ? '' : response.enquiryDetails[0].next_followup_date;
                         $scope.enquiryData.next_followup_time = response.enquiryDetails[0].next_followup_time;
-                        $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00') ? '' : response.enquiryDetails[0].property_possession_date;
-
+//                        $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00' || response.enquiryDetails[0].property_possession_date == undefined) ? '' : response.enquiryDetails[0].property_possession_date;
+                        if (response.enquiryDetails[0].property_possession_date === null || response.enquiryDetails[0].property_possession_date === "-0001-11-30 00:00:00" || response.enquiryDetails[0].property_possession_date === "0000-00-00" || response.enquiryDetails[0].property_possession_date == undefined) {
+                          
+                            $scope.enquiryData.property_possession_date = "";
+                        } else {
+                            $scope.enquiryData.property_possession_date = response.enquiryDetails[0].property_possession_date;
+                        }
+                       
                         $scope.enquiryData.max_budget = '555556';
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
@@ -667,6 +674,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             } else {
                                 $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
                             }
+                          
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                         }
 
@@ -775,7 +783,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                                 $scope.contacts = angular.copy(response.customerContactDetails);
                                 $scope.contactData = angular.copy(response.customerContactDetails);
-                                $scope.customerData.company_name = (response.customerPersonalDetails[0].company_name !== ''  && response.customerPersonalDetails[0].company_name !== 'null') ? angular.copy(response.customerPersonalDetails[0].company_name) : '';
+                                $scope.customerData.company_name = (response.customerPersonalDetails[0].company_name !== '' && response.customerPersonalDetails[0].company_name !== 'null') ? angular.copy(response.customerPersonalDetails[0].company_name) : '';
 //                                $scope.customerData.corporate_customer = angular.copy(response.customerPersonalDetails[0].corporate_customer);
                                 if (response.customerPersonalDetails[0].corporate_customer === 1) {
                                     $scope.customerData.corporate_customer = true;
@@ -1026,18 +1034,18 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.addProBtnn = true;
         }
 
-        $scope.removeRow = function (rowId, enquiryDetailId, list,enquiry_id) {
-        $scope.temp = [];
+        $scope.removeRow = function (rowId, enquiryDetailId, list, enquiry_id) {
+            $scope.temp = [];
             if (enquiryDetailId !== '') {
                 Data.post('master-sales/delEnquiryDetailRow', {
-                    enquiryDetailId: enquiryDetailId,project_id :list.project_id,enquiry_id:enquiry_id
+                    enquiryDetailId: enquiryDetailId, project_id: list.project_id, enquiry_id: enquiry_id
                 }).then(function () {});
             }
             var index = -1;
             var comArr = eval($scope.projectsDetails);
             for (var i = 0; i < comArr.length; i++) {
                 if (comArr[i].project_id != list.project_id) {
-                   $scope.temp.push(comArr[i]);
+                    $scope.temp.push(comArr[i]);
                 }
             }
             $scope.projectsDetails = $scope.temp;

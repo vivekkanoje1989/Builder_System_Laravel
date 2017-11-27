@@ -128,6 +128,7 @@
                                     </div>
                                 </div><hr>
                                 <div class="row" style="float:right;margin-right: 0px;">
+                                    <span id="docselect" class="sp-err"></span>
                                     <input type="submit" class="btn btn-primary" name="sendbtn" ng-click="sendbtn = true" id="sendbtn" ng-disabled="(documentListData | json) == '{}' || sendDocDisable" value="Send">
                                 </div>                                
                             </form>

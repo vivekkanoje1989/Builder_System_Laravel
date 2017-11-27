@@ -1,4 +1,4 @@
-app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', '$parse', '$timeout', '$window', 'SweetAlert','$modal', function ($scope, Data, Upload, toaster, $state, $parse, $timeout, $window, SweetAlert,$modal) {
+app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', '$parse', '$timeout', '$window', 'SweetAlert', '$modal', function ($scope, Data, Upload, toaster, $state, $parse, $timeout, $window, SweetAlert, $modal) {
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
@@ -17,19 +17,19 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         $scope.manageCompany = function () {
             Data.get('manage-companies/manageCompany').then(function (response) {
-                if(response.status){
-                $scope.CompanyRow = response.result;
-                $scope.exportData = response.exportData;
-                $scope.deleteBtn = response.delete;
-                 } else {
+                if (response.status) {
+                    $scope.CompanyRow = response.result;
+                    $scope.exportData = response.exportData;
+                    $scope.deleteBtn = response.delete;
+                } else {
                     $scope.hideloader();
                     $scope.totalCount = 0;
                     $scope.disableBtn = true;
                 }
             });
         };
-        
-            $scope.showHelpFirmandPartners= function () {
+
+        $scope.showHelpFirmandPartners = function () {
             $scope.optionModal = $modal.open({
                 template: '<div class="modal-header" ng-mouseleave="close()"><h3 class="modal-title" style="text-align:center;">Welcome to the BMS Help Center<i class="fa fa-close" style="float:right; color: #ccc;" ng-click="closeModal()"></i></h3></div><div class="modal-body">Firm and Partners</div><div class="modal-footer"> <button ng-click="closeModal()" class="btn btn-primary" style="float:right;">Close</button></div>',
                 controller: [
@@ -41,7 +41,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 ]
             });
         }
-        
+
 
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
@@ -71,11 +71,11 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         $scope.manageStateCode = function (state_id) {
             for (var i = 0; i < $scope.statesRow.length; i++) {
-                
+
                 if ($scope.statesRow[i]['id'] == state_id) {
-                   
+
                     $scope.CompanyData.state_code = $scope.statesRow[i]['state_code'];
-                } 
+                }
             }
 
         }
@@ -95,9 +95,11 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.deleteCompany = function (id, index) {
             Data.post('manage-companies/deleteCompany', {
                 'id': id}).then(function (response) {
-//                toaster.pop('success', 'Firms and partners', 'Company deleted successfully');
+                toaster.pop('success', 'Firms and partners', 'Company deleted successfully');
 //                $scope.CompanyRow.splice(index, 1);
-                $("tr#" + id + "").remove();
+//                $state.go('companiesIndex');
+//                $("tr#" + id + "").remove();
+                 $scope.CompanyRow = response.companyData;
             });
         }
 
@@ -158,14 +160,14 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 $scope.stationaryBtn = false;
                 if (response.data.status) {
                     if ($scope.stationaryid == 0) {
-                        
+
                         toaster.pop('success', 'Manage Stationary', 'Record successfully created');
                         $scope.stationaryDetails.push({'stationary_set_name': response.data.records.stationary_set_name, 'stationaryId': response.data.lastInsertedId, 'estimate_letterhead_file': response.data.records.estimate_letterhead_file, 'receipt_letterhead_file': response.data.records.receipt_letterhead_file, 'rubber_stamp_file': response.data.records.rubber_stamp_file, 'estimate_logo_file': response.data.records.estimate_logo_file, 'demandletter_letterhead_file': response.data.records.demandletter_letterhead_file, 'demandletter_logo_file': response.data.records.demandletter_logo_file, 'receipt_logo_file': response.data.records.receipt_logo_file});
 
                     } else {
                         toaster.pop('success', 'Manage Stationary', 'Record successfully Updated');
                         $scope.stationaryDetails.splice($scope.index, 1);
-                        $scope.stationaryDetails.splice($scope.index,0, {'stationary_set_name': response.data.records.stationary_set_name, 'stationaryId': $scope.id, 'estimate_letterhead_file': response.data.records.estimate_letterhead_file, 'receipt_letterhead_file': response.data.records.receipt_letterhead_file, 'rubber_stamp_file': response.data.records.rubber_stamp_file, 'estimate_logo_file': response.data.records.estimate_logo_file, 'demandletter_letterhead_file': response.data.records.demandletter_letterhead_file, 'demandletter_logo_file': response.data.records.demandletter_logo_file, 'receipt_logo_file': response.data.records.receipt_logo_file});
+                        $scope.stationaryDetails.splice($scope.index, 0, {'stationary_set_name': response.data.records.stationary_set_name, 'stationaryId': $scope.id, 'estimate_letterhead_file': response.data.records.estimate_letterhead_file, 'receipt_letterhead_file': response.data.records.receipt_letterhead_file, 'rubber_stamp_file': response.data.records.rubber_stamp_file, 'estimate_logo_file': response.data.records.estimate_logo_file, 'demandletter_letterhead_file': response.data.records.demandletter_letterhead_file, 'demandletter_logo_file': response.data.records.demandletter_logo_file, 'receipt_logo_file': response.data.records.receipt_logo_file});
 
 //                        $state.reload();
                         $timeout(function () {
@@ -386,7 +388,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 }
                 var url = '/manage-companies/updateCompany';
                 var data = {
-                    
+
                     'id': $scope.id,
                     'CompanyData': CompanyData,
                     'Fevicon': {'Fevicon': Fevicon},

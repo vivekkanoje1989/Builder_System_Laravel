@@ -431,10 +431,11 @@
                                     <label for="">Pin code <span class="sp-err">*</span></label>
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.current_pin.$dirty && userContactForm.current_pin.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <input type="text" name="current_pin" ng-model-options="{ updateOn: 'blur' }" ng-change="changePermanentAddress(); pinCodeValidation(userContact.current_pin, errCurrentPin)" ng-model="userContact.current_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
+                                            <input type="text" name="current_pin"  ng-minlength="6" maxlength="6" ng-model-options="{ updateOn: 'blur' }" ng-change="changePermanentAddress(); pinCodeValidation(userContact.current_pin, errCurrentPin)" ng-model="userContact.current_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
                                             <i class="fa fa-map-pin"></i>
                                             <div ng-show="step2 || errPin"  ng-messages="userContactForm.current_pin.$error" class="help-block step2 {{applyClasspin}}">
                                                 <div ng-message="required">This field is required</div>
+                                                <div ng-message="minlength">Pin code must be 6 digit</div>
                                                 <div>{{errPin}}</div>
                                             </div>
                                         </span>
@@ -518,10 +519,11 @@
                                     <label for="">Pin code <span class="sp-err">*</span></label>
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.permenent_pin.$dirty && userContactForm.permenent_pin.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <input type="text" name="permenent_pin" ng-model-options="{ updateOn: 'blur' }"  ng-disabled="permanentPin"  ng-change="pinPCodeValidation(userContact.permenent_pin, errPermanentPin)" ng-model="userContact.permenent_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
+                                            <input type="text" name="permenent_pin" ng-minlength="6" maxlength="6" ng-model-options="{ updateOn: 'blur' }"  ng-disabled="permanentPin"  ng-change="pinPCodeValidation(userContact.permenent_pin, errPermanentPin)" ng-model="userContact.permenent_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
                                             <i class="fa fa-map-pin"></i>
                                             <div ng-show="step2 || errPPin"  ng-messages="userContactForm.permenent_pin.$error" class="help-block step2 {{applyClassppin}}">
                                                 <div ng-message="required">This field is required</div>
+                                                <div ng-message="minlength">Pin code must be 6 digit</div>
                                                 <div>{{errPPin}}</div>
                                             </div>
                                         </span>
@@ -578,10 +580,11 @@
                                     <div ng-if="invalidImage">{{invalidImage}}</div>
                                 </div>
                                 <img ng-src="{{image_source}}" class="thumb photoPreview"> 
-                                <div ng-if="imgUrl" > <img ng-if="employee_photo_file_name_preview.length != 1"  ng-src="[[ Config('global.s3Path') ]]/employee-photos/{{ imgUrl}}"  alt="{{ altName}}"  class="thumb photoPreview"/></div>
-
+                                <div ng-if="imgUrl" >
+                                    <img ng-if="employee_photo_file_name_preview.length != 1 && imgstatus"  ng-src="[[ Config('global.s3Path') ]]/employee-photos/{{ imgUrl}}"  alt="{{ altName}}"  class="thumb photoPreview"/>
+                                </div>
                             </span> 
-                            <div class="img-div2" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
+                            <div class="img-div2" ng-if='imgstatus' data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
                                 <img ng-src="{{list}}" class="thumb photoPreview">
                             </div>
                         </div>

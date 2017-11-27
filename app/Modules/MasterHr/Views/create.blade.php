@@ -101,7 +101,7 @@
                                 </p>
                             </div>
                         </div>
-                        
+
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.gender_id.$dirty && userForm.gender_id.$invalid)}">
                                 <label for="">Gender <span class="sp-err">*</span></label>
@@ -218,7 +218,7 @@
                                         <span class="input-icon icon-right1"> 
                                             <input type="text" ng-model="userContact.personal_mobile1" ng-minlength="10" style="margin-left: -24px;" maxlength="10"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile1" check-unique-mobiles id="personal_mobile1" class="form-control"  ng-model-options="{ allowInvalid: true, debounce: 300 }" ng-change="copyToUsername(userContact.personal_mobile1); validateMobile(userContact.personal_mobile1); uniqueMobile" required>
                                             <i class="fa fa-phone hrMargin"></i>
-                                            <div ng-show="step2 || errPersonalMobile1  || uniqueMobile" ng-messages="userContactForm.personal_mobile1.$error" class="help-block step2 {{ applyClassPMobile}}">
+                                            <div ng-show="step2 || errPersonalMobile1 || uniqueMobile" ng-messages="userContactForm.personal_mobile1.$error" class="help-block step2 {{ applyClassPMobile}}">
                                                 <div ng-message="required">This field is required</div>
                                                 <div ng-message="minlength">Personal mobile no. must be 10 digits</div>
                                                 <div ng-message="uniqueMobile">Number already exists enter different number</div>
@@ -305,7 +305,7 @@
                         <div class="col-sm-6 col-xs-12">
                             <div class="row">  
                                 <div class="col-sm-6 col-xs-6">
-                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.personal_email1.$dirty && userContactForm.personal_email1.$invalid)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.personal_email1.$dirty && userContactForm.personal_email1.$invalid)}">
                                         <label for="">Personal Email <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <input type="email" ng-model="userContact.personal_email1" check-unique-email name="personal_email1" ng-change="uniqueEmail" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
@@ -423,10 +423,11 @@
                                     <label for="">Pin code <span class="sp-err">*</span></label>
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.current_pin.$dirty && userContactForm.current_pin.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <input type="text" name="current_pin" ng-model-options="{ updateOn: 'blur' }" ng-disabled="permanentPin" ng-change="changePermanentAddress(); pinCodeValidation(userContact.current_pin, errCurrentPin)" ng-model="userContact.current_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
+                                            <input type="text" name="current_pin" ng-minlength="6" maxlength="6" ng-model-options="{ updateOn: 'blur' }" ng-disabled="permanentPin" ng-change="changePermanentAddress(); pinCodeValidation(userContact.current_pin, errCurrentPin)" ng-model="userContact.current_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
                                             <i class="fa fa-map-pin"></i>
                                             <div ng-show="step2 || errPin"  ng-messages="userContactForm.current_pin.$error" class="help-block step2 {{applyClasspin}}">
                                                 <div ng-message="required">This field is required</div>
+                                                <div ng-message="minlength">Pin code must be 6 digit</div>
                                                 <div>{{errPin}}</div>
                                             </div>
                                         </span>
@@ -510,10 +511,11 @@
                                     <label for="">Pin code <span class="sp-err">*</span></label>
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userContactForm.permenent_pin.$dirty && userContactForm.permenent_pin.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <input type="text" name="permenent_pin" ng-model-options="{ updateOn: 'blur' }" ng-change="pinPCodeValidation(userContact.permenent_pin, errPermanentPin)" ng-model="userContact.permenent_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
+                                            <input type="text" name="permenent_pin" ng-minlength="6" maxlength="6" ng-model-options="{ updateOn: 'blur' }" ng-change="pinPCodeValidation(userContact.permenent_pin, errPermanentPin)" ng-model="userContact.permenent_pin"  name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
                                             <i class="fa fa-map-pin"></i>
                                             <div ng-show="step2 || errPPin"  ng-messages="userContactForm.permenent_pin.$error" class="help-block step2 {{applyClassppin}}">
                                                 <div ng-message="required">This field is required</div>
+                                                <div ng-message="minlength">Pin code must be 6 digit</div>
                                                 <div>{{errPPin}}</div>
                                             </div>
                                         </span>

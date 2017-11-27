@@ -157,7 +157,10 @@
                                                             <div class="row">
                                                                 <div class="col-sm-4 form-group">
                                                                     <label>Birth Date</label>
-                                                                    <input type="date" ng-model="userData.date_of_birth" name="date_of_birth" id="date_of_birth" class="form-control">	
+                                                                    <input type="date"  name="date_of_birth" ng-model="userData.date_of_birth" ng-pattern='/(([0-2]?\d{1})|([3][0,1]{1}))/^[0,1]?\d{1}/(([1]{1}[9]{1}[9]{1}\d{1})|([2-9]{1}\d{3}))$/' name="date_of_birth" id="date_of_birth" class="form-control">	
+                                                                    <div ng-show="sbtBtn && frmRegistration.date_of_birth.$invalid" ng-messages="frmRegistration.date_of_birth.$error" class="help-block">
+                                                                        <div ng-message="pattern" class="error_msg">&nbsp;This field is Required</div>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="col-sm-4 form-group">
                                                                     <label>Marriage Status <span class="error_msg">*</span></label>
@@ -172,7 +175,7 @@
                                                                 </div>
                                                                 <div class="col-sm-4 form-group" ng-show="userData.marital_status == 2">
                                                                     <label>Marriage Date</label>
-                                                                    <input type="text" ng-model="userData.marriage_date" name="marriage_date" class="form-control" id="marriagedate">
+                                                                    <input type="date" ng-model="userData.marriage_date" name="marriage_date" class="form-control" id="marriagedate">
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -401,8 +404,8 @@
                                                                                         //                                                                                changeYear: true,
                                                                                         //                                                                                changeMonth: true
                                                                                         //                                                                        });
-                                                                                        $("#date_of_birth").datepicker({ yearRange: '-80:-16', dateFormat: "dd-mm-yy", defaultDate:'-16y', changeMonth: true, changeYear: true});
-                                                                                        $("#marriagedate").datepicker({yearRange: '-40:-0', dateFormat: "dd-mm-yy", changeMonth: true, changeYear: true, maxDate: 0, });
+                                                                                        $("#date_of_birth").datepicker({ yearRange: '-80:-16', dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true,maxDate: 0,});
+                                                                                        $("#marriagedate").datepicker({yearRange: '-40:-0', dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true, maxDate: 0, });
                                                                                         $("#perMob").intlTelInput({
                                                                                         utilsScript: "build/js/utils.js"
                                                                                         });

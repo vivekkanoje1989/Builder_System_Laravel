@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Modules\MasterSales\Controllers;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -71,6 +72,7 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
+
             $input['customerData']['pan_number'] = '';
             $input['customerData']['aadhar_number'] = '';
             $input['customerData']['client_id'] = config('global.client_id');
@@ -137,17 +139,17 @@ class MasterSalesController extends Controller {
     public function delEnquiryDetailRow() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        EnquiryDetail::where(['enquiry_id'=> $request['enquiry_id'],'project_id'=>$request['project_id']])->delete();
+        EnquiryDetail::where(['enquiry_id' => $request['enquiry_id'], 'project_id' => $request['project_id']])->delete();
         $result = ['success' => true];
         return response()->json($result);
     }
 
     public function editCustomer($cid) {
-        return view("MasterSales::index")->with(["editCustomerId" => $cid,"editEnquiryId" => '']);
+        return view("MasterSales::index")->with(["editCustomerId" => $cid, "editEnquiryId" => '']);
     }
 
     public function editEnquiry($cid, $eid) {
-   
+
         return view("MasterSales::index")->with(["editCustomerId" => $cid, "editEnquiryId" => $eid]);
     }
 
@@ -183,7 +185,7 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['id']);
                 unset($input['customerData']['company_name']);
             }
-          $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
+            $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
@@ -276,23 +278,27 @@ class MasterSalesController extends Controller {
             $customerCallingCode = !empty($request['data']['customerCallingCode']) ? $request['data']['customerCallingCode'] : "0";
             $customerCallingCode = str_replace('+', '', $customerCallingCode);
             $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '","' . $customerCallingCode . '")');
-           
+
             if (count($getCustomerContacts) > 0) {
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
-               if($getCustomerPersonalDetails[0]['birth_date']=='1970-01-01' || $getCustomerPersonalDetails[0]['birth_date']=='0000-00-00' ||$getCustomerPersonalDetails[0]['birth_date']=='01-01-1970'){
-                   $getCustomerPersonalDetails[0]['birth_date'] = '' ;
-               }
-              
+                if ($getCustomerPersonalDetails[0]['birth_date'] == '1970-01-01' || $getCustomerPersonalDetails[0]['birth_date'] == '0000-00-00' || $getCustomerPersonalDetails[0]['birth_date'] == '01-01-1970') {
+                    $getCustomerPersonalDetails[0]['birth_date'] = '';
+                }
+
                 unset($getCustomerPersonalDetails[0]['pan_number']);
                 unset($getCustomerPersonalDetails[0]['aadhar_number']);
                 unset($getCustomerPersonalDetails[0]['image_file']);
                 $getCustomerEnquiryDetails = DB::select('CALL proc_get_customer_open_enquiries(' . $getCustomerContacts[0]->customer_id . ')');
                 $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
-                $data = Customer::select('customers.company_id','mlc.company_name')
-                    ->where('customers.id', '=', $getCustomerPersonalDetails[0]->id)
-                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_companies as mlc', 'mlc.id', '=', 'customers.company_id')
-                    ->get();
+                $data = Customer::select('customers.company_id', 'mlc.company_name')
+                        ->where('customers.id', '=', $getCustomerPersonalDetails[0]->id)
+                        ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_companies as mlc', 'mlc.id', '=', 'customers.company_id')
+                        ->get();
                 $getCustomerPersonalDetails[0]['company_name'] = $data[0]['company_name'];
+//                if ($getCustomerPersonalDetails[0]['gender_id'] == '0') {
+//                    $getCustomerPersonalDetails[0]['gender_id'] = '';
+//                }
+//                print_r($getCustomerPersonalDetails);
                 if (count($getCustomerEnquiryDetails) == 0 || isset($request['data']['showCustomer'])) {
                     $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, 'flag' => 0];
                 } else {
@@ -452,7 +458,6 @@ class MasterSalesController extends Controller {
     // insert new enquiry 
     public function saveEnquiry() {
         try {
-       
             $validationRules = Enquiry::validationRules();
             $validationMessages = Enquiry::validationMessages();
             $postdata = file_get_contents("php://input");
@@ -471,6 +476,7 @@ class MasterSalesController extends Controller {
             } else {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
+            //$data['get_customer_contacts'] = CustomersContact::where('customer_id', $request['data']['customerId'])->get();
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $request['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
             if ($request['customer_id'] <> '') {
@@ -480,7 +486,6 @@ class MasterSalesController extends Controller {
                 $request['enquiryData']['sales_subsource_id'] = $customerInfo[0]['subsource_id'];
                 $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];
             } else {
-
                 $request['customerDetails']['first_name'] = !empty($request['enquiryData']['first_name']) ? $request['enquiryData']['first_name'] : '';
                 $request['customerDetails']['last_name'] = !empty($request['enquiryData']['last_name']) ? $request['enquiryData']['last_name'] : '';
                 $request['customerDetails']['title_id'] = !empty($request['enquiryData']['title_id']) ? $request['enquiryData']['title_id'] : '';
@@ -489,10 +494,14 @@ class MasterSalesController extends Controller {
                 $request['customerDetails'] = array_merge($request['customerDetails'], $create);
                 $insertCustomer = Customer::create($request['customerDetails']);
                 $customer_id = $insertCustomer->id;
+                //$data = DB::table('laravel_developement_master_edynamics.mlst_bmsb_companies')->select('id')->where('company_name','')
+                //    ->get();
+                // print_r($data);exit;
                 if ($insertCustomer) {
                     //insert customer contacts
                     $request['customer_id'] = $insertCustomer->id;
                     $request['customerContactDetails']['mobile_calling_code'] = !empty($request['enquiryData']['mobile_calling_code']) ? str_replace('+', '', $request['enquiryData']['mobile_calling_code']) : '';
+                    $request['customerContactDetails']['landline_calling_code'] = !empty($request['enquiryData']['landline_calling_code']) ? str_replace('+', '', $request['enquiryData']['landline_calling_code']) : '91';
                     $request['customerContactDetails']['mobile_number'] = !empty($request['MobileNo']) ? $request['MobileNo'] : '';
                     $request['customerContactDetails']['email_id'] = !empty($request['EmailId']) ? $request['EmailId'] : '';
                     $request['customerContactDetails']['client_id'] = !empty($request['client_id']) ? $request['client_id'] : config('global.client_id');
@@ -502,6 +511,7 @@ class MasterSalesController extends Controller {
                     $insertCustomerContact = CustomersContact::create($request['customerContactDetails']);
                 }
             }
+
             /*  insert enquiry  */
             $request['enquiryData'] = array_merge($request['enquiryData'], $create);
             $request['enquiryData']['customer_id'] = !empty($request['customer_id']) ? $request['customer_id'] : '';
@@ -535,6 +545,7 @@ class MasterSalesController extends Controller {
                 /* fill  follow up details */
                 $request['followupDetails']['enquiry_id'] = $insertEnquiry->id;
                 $request['followupDetails']['followup_date_time'] = date('Y-m-d H:i:s');
+                //print_r($request['followupDetails']['followup_by_employee_id']);exit;
                 $request['followupDetails']['followup_by_employee_id'] = $request['enquiryData']['followup_by_employee_id'];
                 $request['followupDetails']['followup_entered_through'] = "0";
                 $request['followupDetails']['remarks'] = $request['enquiryData']['remarks'];
@@ -679,7 +690,7 @@ class MasterSalesController extends Controller {
     /* get all listing controler data */
 
     public function getEmployees() {
-        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id')->where('employee_status',1)->get();
+        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id')->where('employee_status', 1)->get();
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
         } else {
@@ -965,8 +976,8 @@ class MasterSalesController extends Controller {
                 $recUpdate['company_location_id'] = 1;
                 $recUpdate = Customer::where('id', $customerId)->update($recUpdate);
             }
-            /*****************EDIT CUSTOMER INFO******************* */
-            
+            /*             * ***************EDIT CUSTOMER INFO******************* */
+
             if (isset($input['custInfo'])) {
                 $custInfo = $input['custInfo'];
                 if (!empty($custInfo['title_id']) && (!empty($custInfo['customer_fname']) || !empty($custInfo['customer_lname']))) {
@@ -990,7 +1001,7 @@ class MasterSalesController extends Controller {
                         $contacts['mobile_calling_code'] = $custInfo['mobile_calling_code'];
                         $contacts['mobile_number'] = $custInfo['mobile_number'];
                         $contacts['client_id'] = $custInfo['client_id'];
-                        
+
                         if (!empty($checkCustomerExist[0]['customer_id']) && empty($checkCustomerExist[0]['mobile_number'])) {
                             $contacts1 = $contacts;
                             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -1031,14 +1042,14 @@ class MasterSalesController extends Controller {
                 /*                 * ***************************Mobile / Email Update [For Mobile App Only]**************************** */
             }
 
-            /*****************EDIT SOURCE INFO********************/
-            
+            /*             * ***************EDIT SOURCE INFO******************* */
+
 
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
 
             $getFollowupId = Enquiry::select('sales_employee_id')->where('id', $enquiryId)->get();
             $reassignEnq = "";
-            
+
             if ($getFollowupId[0]['sales_employee_id'] != $input['followup_by_employee_id']['id']) {
                 $oldSalesEmployee = Employee::select("first_name", "last_name")->where('id', $getFollowupId[0]['sales_employee_id'])->get();
                 $newSalesEmployee = Employee::select("first_name", "last_name")->where('id', $input['followup_by_employee_id']['id'])->get();
@@ -1164,8 +1175,8 @@ Regards,<br>
 
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $editExistingFollowup = $input['editExistingFollowup'];
-                
-                unset($input['prevRemarkStatus'],$input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'], $input['followup_by_employee_id']);
+
+                unset($input['prevRemarkStatus'], $input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'], $input['followup_by_employee_id']);
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
@@ -1628,7 +1639,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                       $loggedInUserId = $employees->alluser;
+                        $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1709,7 +1720,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                      $loggedInUserId = $employees->alluser;
+                        $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1792,7 +1803,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                      $loggedInUserId = $employees->alluser;
+                        $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1878,7 +1889,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                       $loggedInUserId = $employees->alluser;
+                        $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -1960,7 +1971,7 @@ Regards,<br>
                     } else if (empty($employees->teamshared) && $request['shared'] == '1') {
                         $loggedInUserId = '';
                     } else {
-                       $loggedInUserId = $employees->alluser;
+                        $loggedInUserId = $employees->alluser;
                     }
                     $login_id = $employees->alluser;
                 } else {
@@ -2969,13 +2980,13 @@ Regards,<br>
     public function getBlockTypes() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-       
+
         if (!empty($request['blockId'])) {
             $blockId = explode(',', $request['blockId']);
         } else {
             $blockId = array();
         }
-         
+
 
         if (!empty($blockId)) {
             $blockList = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')
@@ -2983,7 +2994,7 @@ Regards,<br>
                     ->whereNotIn('block_type_id', $blockId)
                     ->get();
             $getBlockTypeId = array();
-           
+
             if (!empty($blockList)) {
                 foreach ($blockList as $key => $value) {
                     $getBlockTypeId[] = $value['block_type_id'];
@@ -2991,7 +3002,7 @@ Regards,<br>
             }
             $blockTypeId = implode(",", $getBlockTypeId);
             $blockTypeList = MlstBmsbBlockType::select('id', 'block_name')->whereIn('id', $getBlockTypeId)->get();
-            
+
 
 
 
@@ -3007,7 +3018,7 @@ Regards,<br>
             }
             $blockTypeId1 = implode(",", $getBlockTypeId1);
             $blockTypeList1 = MlstBmsbBlockType::select('id', 'block_name')->whereIn('id', $getBlockTypeId1)->get();
-        }else{
+        } else {
             $blockList = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')
                     ->where('project_id', $request['projectId'])
                     ->whereNotIn('id', $blockId)
@@ -3020,7 +3031,7 @@ Regards,<br>
             }
             $blockTypeId = implode(",", $getBlockTypeId);
             $blockTypeList = MlstBmsbBlockType::select('id', 'block_name')->whereIn('id', $getBlockTypeId)->get();
-            
+
             $blockTypeList1 = [];
         }
         if (!empty($blockTypeList) || !empty($blockTypeList1)) {

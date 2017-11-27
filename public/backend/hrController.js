@@ -217,7 +217,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.validateLandlineNumber = function (validLandline) {
             if (validLandline != undefined) {
                 if (validLandline.length > 0) {
-                    if (validLandline === "12345678" || validLandline === "00000000") {
+                    if (validLandline === "12345678") {
                         $scope.errLandline = "Invalid Landline number";
                         $scope.applyClass = 'ng-active';
                         $scope.contact = false;
@@ -302,17 +302,22 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.checkImageExtension = function (employeePhoto) {
-
-            if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
-                var ext = employeePhoto.name.match(/\.(.+)$/)[1];
-
-                if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
-                    $scope.invalidImage = "";
-                } else {
-                    $(".imageFile").val("");
-
-                    $scope.invalidImage = "Invalid file format. File type should be jpg,jpeg,gif,png,bmp format only";
+            if (employeePhoto != null) {
+                if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
+                    var ext = employeePhoto.name.match(/\.(.+)$/)[1];
+                    if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
+                        $scope.invalidImage = "";
+                        $scope.imgstatus = true;
+                    } else {
+                        $(".imageFile").val("");
+                        $scope.invalidImage = "Invalid file format. File type should be jpg,jpeg,gif,png,bmp format only";
+                        $scope.imgstatus = false;
+                    }
                 }
+            } else {
+                $(".imageFile").val("");
+                $scope.invalidImage = "Invalid file format. File type should be jpg,jpeg,gif,png,bmp format only";
+                $scope.imgstatus = false;
             }
         }
 
@@ -479,7 +484,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                             } else {
                                 $("#step5").addClass('active');
                                 $("#step5").removeClass('complete');
-                                $scope.getStepDiv(1, $rootScope.steps, 2, 1);
+                                $scope.getStepDiv(1, {first_name: first_name, personal_email1: personal_email1,
+                                    highest_education_id: highest_education_id, deptId: department_id,
+                                    username: username
+                                }, 2, 1);
                             }
 
                             $rootScope.steps = {first_name: first_name, personal_email1: personal_email1,
@@ -1103,6 +1111,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     $('#BulkModal').modal('show');
                     $scope.salesemployeeList = response.employees;
                 } else {
+
+//                    $('.suspendDiv').css('display', 'block');
+//                    $('.mainDiv').addClass('opacitycss');
+//                    $scope.suspendEmpId = emp_id;
                     SweetAlert.swal({
                         title: "Are you sure?", //Bold text
                         text: "Your will not be able to recover this employee!", //light text
@@ -1110,8 +1122,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         showCancelButton: true, // displays cancel btton
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "permanently suspend it!",
-                        closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
-                        closeOnCancel: false
+                        closeOnConfirm: true, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
+                        closeOnCancel: true
                     },
                             function (isConfirm) { //Function that triggers on user action.
                                 if (isConfirm) {
@@ -1119,20 +1131,47 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                                         empId: emp_id
                                     }).then(function (response) {
                                         $("tr#" + emp_id + "").remove();
+                                        toaster.pop('success', 'HR', 'Employee Permanently suspend successfully');
                                     });
-                                    SweetAlert.swal("Deleted!");
-                                } else {
-                                    SweetAlert.swal("Your Employee is safe!");
-                                }
+                                } 
                             });
-
-
                 }
 
             });
         }
 
+//        $scope.suspendCancel = function () {
+//            $('.suspendDiv').css('display', 'none');
+//            $('.mainDiv').removeClass('opacitycss');
+//        }
+//        $scope.suspendEmployee = function (status) {
+//            Data.post('/master-hr/suspendEmployee', {
+//                empId: $scope.suspendEmpId, status: status
+//            }).then(function (response) {
+//                  $('.suspendDiv').css('display', 'none');
+//            $('.mainDiv').removeClass('opacitycss');
+//                if(response.suspendStatus == 2){
+//                    toaster.pop('success', 'HR', 'Employee Temporary suspend successfully');
+//                }else{
+//                    toaster.pop('success', 'HR', 'Employee Permanently suspend successfully');
+//                     $("tr#" + $scope.suspendEmpId + "").remove();
+//                }
+//                location.reload();
+//            })
+//        }
 
+// $("#close_account").on("click", function(e) {
+//    var buttons = $('<div>')
+//    .append(createButton('Ok', function() {
+//       swal.close();
+//       console.log('ok'); 
+//    })).append(createButton('Later', function() {
+//       swal.close();
+//       console.log('Later'); 
+//    })).append(createButton('Cancel', function() {
+//       swal.close();
+//       console.log('Cancel');
+//    }));
         $scope.getpresalesEmployees = function (emp_id) {
 
             $scope.presalesemployeeList = [];

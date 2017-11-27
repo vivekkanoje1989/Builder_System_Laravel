@@ -123,7 +123,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in customerDataRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
+                            <tr role="row" dir-paginate="list in customerDataRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" id='{{list.id}}'>
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{list.title}}</td>
                                 <td>{{list.firstName}}</td>     
@@ -133,12 +133,14 @@
                                 <td>{{(list.sms_privacy_status == 1) ? "Yes" : "No"}}</td>     
                                 <td class="">
                                     <!--tooltip-placement="bottom"-->
-                                    <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/customers/update/{{ list.id}}" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                    <span ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit Customer" ><a href="[[ config('global.backendUrl') ]]#/customers/update/{{ list.id}}" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <!--<span ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>-->
 
                                 </td>
                             </tr>
-                        </tbody>
+                              <td colspan="8"  ng-show="(customerDataRow|filter:search | filter:searchData ).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="8"  ng-show="totalCount == 0" align="center">Record Not Found</td>   
+                    </tbody>
                     </table>
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
@@ -255,5 +257,7 @@
         </div>
     </div>
 </div>
+
+
 
 
