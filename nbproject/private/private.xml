@@ -12,6 +12,8 @@
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/FirmsAndPartnersController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/directives.js</file>
@@ -21,11 +23,16 @@
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
+>>>>>>> 4bebc6fa14f4509c71f43c6522d4dcea23fe2721
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/userDocumentController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/create.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/UserDocuments/Controllers/UserDocumentsController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/UserDocuments/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/common/registration.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/updatehr.blade.php</file>
+<<<<<<< HEAD
+=======
 =======
 <<<<<<< HEAD
 >>>>>>> b91634967f9237b04f83a6124bb919ff4ed52fa6
@@ -71,6 +78,7 @@
 >>>>>>> b91634967f9237b04f83a6124bb919ff4ed52fa6
 >>>>>>> a4d9471a58102a492951d357e5c1586d70e1ae52
 >>>>>>> 1081d6daa268c41b593b98c42d704b6158de0f53
+>>>>>>> 4bebc6fa14f4509c71f43c6522d4dcea23fe2721
         </group>
 >>>>>>> 053011362fa126702f48cf7ae455f442349f011e
 >>>>>>> 12bcc7dc2dc9f08c60df9facba57867e5b65f599

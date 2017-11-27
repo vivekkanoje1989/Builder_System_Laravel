@@ -509,9 +509,9 @@ class AdminController extends Controller {
     public function checkUniqueEmail() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-       
+
         if (!empty($request['data']['id'])) {
-             $id = $request['data']['id'];
+            $id = $request['data']['id'];
             if ($id == 0) {
                 $checkEmail = Employee::getRecords(["personal_email1"], ["personal_email1" => $request['data']['emailData']]);
             } else {
@@ -545,6 +545,7 @@ class AdminController extends Controller {
             $checkMobile = Employee::select('personal_mobile1', 'office_mobile_no')
                     ->where('personal_mobile1', $mobileData)
                     ->orWhere('office_mobile_no', $mobileData)
+                    ->where('employee_status', '!=', 3)
                     ->first();
         } else {
             $checkMobile = Employee::select('personal_mobile1', 'office_mobile_no')
@@ -553,6 +554,7 @@ class AdminController extends Controller {
                         ->orWhere('office_mobile_no', $mobileData);
                     })
                     ->where('id', '<>', $id)
+                    ->where('employee_status', '!=', 3)
                     ->first();
         }
 
@@ -575,6 +577,7 @@ class AdminController extends Controller {
                 $checkMobile = Employee::select('personal_mobile1', 'office_mobile_no')
                         ->where('personal_mobile1', $mobileData)
                         ->orWhere('office_mobile_no', $mobileData)
+                        ->where('employee_status', '!=', 3)
                         ->first();
             } else {
                 $checkMobile = Employee::select('personal_mobile1', 'office_mobile_no')
@@ -583,6 +586,7 @@ class AdminController extends Controller {
                             ->orWhere('office_mobile_no', $mobileData);
                         })
                         ->where('id', '<>', $id)
+                        ->where('employee_status', '!=', 3)        
                         ->first();
             }
             if (empty($checkMobile)) {
