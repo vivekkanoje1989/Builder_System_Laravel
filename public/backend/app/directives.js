@@ -149,7 +149,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                 }).then(function (response) {
                     if (response.success) { //response true
                         if (response.flag === 0)//if customer exist, enquiry is empty
-                        {alert('1')
+                        {
                             $scope.disableText = true;
                             $(".countryClass").find(".country-list").css("display", "none");
                             $scope.company_list = [];

@@ -296,7 +296,6 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         {
             if (window.confirm("Are you sure want to remove this image?"))
             {
-                alert(imgname);
                 if (indeximg > -1) {
                     $scope.subimgs.splice(indeximg, 1);
                     Data.post('web-pages/removeSubWebPageImage', {

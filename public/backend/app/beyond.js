@@ -145,9 +145,6 @@ angular.module('app')
                     function (isConfirm) { //Function that triggers on user action.
                         if (isConfirm) {
                             $scope.$broadcast("deleteRecords", {id, index});
-//                            SweetAlert.swal("Record Deleted successfully!");
-                        } else {
-//                            SweetAlert.swal("Your record is safe!");
                         }
                     });
                 }
@@ -166,9 +163,6 @@ angular.module('app')
                             function (isConfirm) { //Function that triggers on user action.
                                 if (isConfirm) {
                                     $scope.$broadcast("deleteItems", {id, index});
-//                                    SweetAlert.swal("Deleted!");
-                                } else {
-                                    SweetAlert.swal("Your record is safe!");
                                 }
                             });
                 }

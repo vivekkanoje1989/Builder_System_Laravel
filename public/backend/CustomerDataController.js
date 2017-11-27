@@ -4,7 +4,6 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
         $scope.noOfRows = 1;
         $scope.manageCustomer = function () {
             Data.get('customers/manageCustomer').then(function (response) {
-                console.log(response);
                 if(response.status){
                 $scope.customerDataRow = response.result;
                 $scope.exportBtn = response.exportData;

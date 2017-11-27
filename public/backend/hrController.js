@@ -1160,18 +1160,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 //            })
 //        }
 
-// $("#close_account").on("click", function(e) {
-//    var buttons = $('<div>')
-//    .append(createButton('Ok', function() {
-//       swal.close();
-//       console.log('ok'); 
-//    })).append(createButton('Later', function() {
-//       swal.close();
-//       console.log('Later'); 
-//    })).append(createButton('Cancel', function() {
-//       swal.close();
-//       console.log('Cancel');
-//    }));
         $scope.getpresalesEmployees = function (emp_id) {
 
             $scope.presalesemployeeList = [];
