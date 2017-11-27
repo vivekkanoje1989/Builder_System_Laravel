@@ -208,6 +208,7 @@ class MasterSalesController extends Controller {
             
             $corporate_customer = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $company_id = $input['customerData']['company_id'];
+//            print_R($company_id);
             if (!empty($corporate_customer) && $company_id == 0) { //checked checkbox and new value in textbox
                 $companyId = MlstBmsbCompany::select('id', 'company_name')->where('company_name', $input['customerData']['company_name'])->get();
 
@@ -223,6 +224,17 @@ class MasterSalesController extends Controller {
                 }
             } elseif ($company_id == 0) { //uncheck checkbox
                 $corporate_customer = 0;
+            }elseif(!empty($corporate_customer) && $company_id > 0){
+//                print_r($input['customerData']['company_name']);exit;
+                $companyId = MlstBmsbCompany::select('id', 'company_name')->where('company_name', $input['customerData']['company_name'])->get();
+             if (empty($companyId[0])) {
+               $createCompany['corporate_customer'] = $corporate_customer;
+                    $createCompany['company_name'] = $input['customerData']['company_name'];
+                    $createC = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                    $insertCompany = array_merge($createCompany, $createC);
+                    $insertcompany = MlstBmsbCompany::create($insertCompany);
+                    $company_id = $insertcompany->id;
+             }
             }
            
              unset($input['customerData']['company_name']);

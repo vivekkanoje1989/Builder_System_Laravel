@@ -406,6 +406,9 @@
                                                     <input type="text" ng-model="contactData.landline_number" name="landline_number" id="landline_number" minlength="6" maxlength="10" class="form-control" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                                     <i class="glyphicon glyphicon-phone"></i>
                                                 </span>
+                                                <div ng-show="modalForm.landline_number.$invalid" ng-messages="modalForm.landline_number.$error" class="help-block">
+                                                    <div ng-message="minlength">Invalid Landline Number</div> 
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
