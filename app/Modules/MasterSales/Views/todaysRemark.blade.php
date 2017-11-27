@@ -1140,8 +1140,8 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="form-group" ng-class="{ 'has-error' : csbtBtn && (!customerForm.birth_date.$dirty && customerForm.birth_date.$invalid)}">
-                                        <label for="">Birth Date<span class="sp-err">*</span></label>
+                                    <div class="form-group">
+                                        <label for="">Birth Date</label>
                                         <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                             <p class="input-group">
                                                 <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" readonly/>
@@ -1149,10 +1149,7 @@
                                                     <button type="button" class="btn btn-default" ng-click="open($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                 </span>
                                             </p>
-                                        </div>             
-                                        <div ng-show="csbtBtn" ng-messages="customerForm.birth_date.$error" class="help-block">
-                                            <div ng-message="required" style="color: red !important;">This field is required</div>
-                                        </div> 
+                                        </div>     
                                     </div>
                                 </div>                        
                                 <div class="col-sm-3">
@@ -1169,29 +1166,28 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <div class="form-group" ng-class="{ 'has-error' : csbtBtn && (!customerForm.profession_id.$dirty && customerForm.profession_id.$invalid)}">
-                                        <label for="">Profession<span class="sp-err">*</span></label>
+                                    <div class="form-group">
+                                        <label for="">Profession</label>
                                         <span class="input-icon icon-right">
-                                            <select class="form-control" ng-model="customerData.profession_id" name="profession_id" ng-controller="professionCtrl" required>
+                                            <select class="form-control" ng-model="customerData.profession_id" name="profession_id" ng-controller="professionCtrl">
                                                 <option value="">Select Profession</option>
                                                 <option ng-repeat="t in professions track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.profession_id}}">{{t.profession}}</option>
                                             </select>                
                                             <i class="fa fa-sort-desc"></i>
-                                            <div ng-show="csbtBtn" ng-messages="customerForm.profession_id.$error" class="help-block">
-                                                <div ng-message="required" style="color: red !important;">This field is required</div>
-                                            </div> 
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group">
+                                    <div class="form-group" ng-class="{ 'has-error' : csbtBtn && (!customerForm.pan_number.$dirty && customerForm.pan_number.$invalid)}">
                                         <label for="">PAN Number</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control" maxlength="10" ng-pattern="/[a-zA-z]{5}\d{4}[a-zA-Z]{1}$/">
-                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                        </span>
+                                            <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control" maxlength="10" ng-pattern="/^([A-Z]{5}\d{4}[A-Z]{1})+$/">
+                                        </span>{{customerForm.pan_number.$error}}
+                                        <div ng-show="csbtBtn" ng-messages="customerForm.pan_number.$error" class="help-block">
+                                            <div ng-message="pattern" style="color: red !important;">Invalid pan number</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -1199,7 +1195,6 @@
                                         <label for="">Aadhar Number</label>
                                         <span class="input-icon icon-right">
                                             <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" class="form-control" maxlength="12" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
                                         </span>
                                     </div>
                                 </div>

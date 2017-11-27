@@ -33,21 +33,22 @@ app.controller('DatepickerDemoCtrl', function ($scope, $filter) {
         $event.preventDefault();
         $event.stopPropagation();
         $scope.opened = true;
-        
         if (type == 3) {
-            if ($scope.customerData.birth_date !== null || $scope.customerData.birth_date !== "-0001-11-30 00:00:00" || $scope.customerData.birth_date !== "NaN-aN-NaN") {
-                if(typeof $scope.customerData.birth_date === 'undefined'){
-                    $scope.customerData.birth_date = '';
-                }else{
-                    $scope.maxDates = new Date($scope.customerData.birth_date);
-                    if ($scope.maxDates.getDate() < 10) {
-                        var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + ("0" + $scope.maxDates.getDate()));
-                    } else {
-                        var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + $scope.maxDates.getDate());
-                    }
-                    $scope.customerData.birth_date = date_of_birth;
+
+            if (typeof $scope.customerData.birth_date == "undefined" || $scope.customerData.birth_date == '' || $scope.customerData.birth_date == null || $scope.customerData.birth_date == "-0001-11-30 00:00:00" || $scope.customerData.birth_date == "NaN-aN-NaN") {
+                $scope.customerData.birth_date = '';
+            }else{
+                $scope.maxDates = new Date($scope.customerData.birth_date);
+                if ($scope.maxDates.getDate() < 10) {
+                    var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + ("0" + $scope.maxDates.getDate()));
+                } else {
+                    var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + $scope.maxDates.getDate());
                 }
-            } else {
+                $scope.customerData.birth_date = date_of_birth;
+            } 
+            if (typeof $scope.customerData.marriage_date == "undefined" || $scope.customerData.marriage_date == '' || $scope.customerData.marriage_date !== null || $scope.customerData.marriage_date !== "-0001-11-30 00:00:00" || $scope.customerData.marriage_date !== "NaN-aN-NaN") {
+                 $scope.customerData.marriage_date = '';
+            }else{
                 $scope.maxDates = new Date($scope.customerData.marriage_date);
                 if ($scope.maxDates.getDate() < 10) {
                     var marriage_date = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + ("0" + $scope.maxDates.getDate()));
