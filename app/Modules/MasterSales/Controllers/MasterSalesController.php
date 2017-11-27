@@ -72,12 +72,32 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
+//            print_r($input['customerData']['corporate_customer']);exit;
+            $corporate_customer = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
+            $company_id = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '';
+            if (!empty($corporate_customer) && $company_id == 0) { //checked checkbox and new value in textbox
+                $companyId = MlstBmsbCompany::select('id', 'company_name')->where('company_name', $input['customerData']['company_name'])->get();
 
+                if (!empty($companyId[0])) {
+                    $company_id = $companyId[0]['id'];
+                } else {
+                    $createCompany['corporate_customer'] = $corporate_customer;
+                    $createCompany['company_name'] = $input['customerData']['company_name'];
+                    $createC = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                    $insertCompany = array_merge($createCompany, $createC);
+                    $insertcompany = MlstBmsbCompany::create($insertCompany);
+                    $company_id = $insertcompany->id;
+                }
+            } elseif ($company_id == 0) { //uncheck checkbox
+                $corporate_customer = 0;
+            }
+           
+             unset($input['customerData']['company_name']);
             $input['customerData']['pan_number'] = '';
             $input['customerData']['aadhar_number'] = '';
             $input['customerData']['client_id'] = config('global.client_id');
-            $input['customerData']['corporate_customer'] = !empty($input['customerData']['corporate_customer']) ? $input['customerData']['corporate_customer'] : '0';
-            $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '';
+            $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
+            $input['customerData']['company_id'] = $company_id;
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : '';
             $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : '';
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
@@ -178,22 +198,42 @@ class MasterSalesController extends Controller {
                         return json_encode($result, true);
                     }
                 }
-                unset($input['customerData']['company_name']);
+//                unset($input['customerData']['company_name']);
             } else {
                 $loggedInUserId = $input['customerData']['loggedInUserId'];
                 unset($input['customerData']['loggedInUserId']);
                 unset($input['customerData']['id']);
-                unset($input['customerData']['company_name']);
+//                unset($input['customerData']['company_name']);
             }
+            
+            $corporate_customer = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
+            $company_id = $input['customerData']['company_id'];
+            if (!empty($corporate_customer) && $company_id == 0) { //checked checkbox and new value in textbox
+                $companyId = MlstBmsbCompany::select('id', 'company_name')->where('company_name', $input['customerData']['company_name'])->get();
+
+                if (!empty($companyId[0])) {
+                    $company_id = $companyId[0]['id'];
+                } else {
+                    $createCompany['corporate_customer'] = $corporate_customer;
+                    $createCompany['company_name'] = $input['customerData']['company_name'];
+                    $createC = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                    $insertCompany = array_merge($createCompany, $createC);
+                    $insertcompany = MlstBmsbCompany::create($insertCompany);
+                    $company_id = $insertcompany->id;
+                }
+            } elseif ($company_id == 0) { //uncheck checkbox
+                $corporate_customer = 0;
+            }
+           
+             unset($input['customerData']['company_name']);
             $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
-            $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
+            $input['customerData']['company_id'] = $company_id;
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "0000-00-00";
             $input['customerData']['marriage_date'] = (!empty($input['customerData']['marriage_date']) && $input['customerData']['marriage_date'] != 'null') ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
-
             $updateCustomer = Customer::where('id', $id)->update($input['customerData']); //insert data into employees table
             $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['customerData']);
             $implodeArr = implode(",", array_keys($getResult));
@@ -206,6 +246,10 @@ class MasterSalesController extends Controller {
                 $input['customerData']['record_restore_status'] = 1;
                 CustomersLog::create($input['customerData']);
             }
+
+
+
+
             if (!empty($input['customerContacts'])) {
                 $i = 0;
 

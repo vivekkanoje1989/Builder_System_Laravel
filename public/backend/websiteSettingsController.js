@@ -141,7 +141,6 @@ app.controller('contentPagesCtrl', ['$scope', '$state', 'Data', 'Upload', '$time
                 imageData.upload.then(function (response) {
                     $timeout(function () {
                         if (!response.data.success) {
-                            alert("wrong");
                         }
                     });
                 }, function (response) {
