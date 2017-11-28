@@ -34,7 +34,7 @@ class Gupshup {
                             } elseif ($sendingType == 2) {
                                 $msgType = "FLASH";
                             }
-                            $mask = "LMSATO";
+                            $mask = "BMSSYS";
                             $smsType = "P_sms";
                             $userId = "2000161530";
                             $password = "Nextedge@2016#";
@@ -47,7 +47,7 @@ class Gupshup {
                             if ($customer == 'Yes') {
                                 $mask = $sender_id;
                             } else {
-                                $mask = "LMSATO";
+                                $mask = "BMSSYS";
                             }
                         }
 

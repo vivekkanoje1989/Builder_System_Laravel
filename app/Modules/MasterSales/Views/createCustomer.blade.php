@@ -85,14 +85,10 @@
                             <label for="">Birth Date</label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="dd-MM-yyyy"  is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
+                                    <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="dd-MM-yyyy"  is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
-<!--                                <div ng-show="formButton" ng-messages="customerForm.birth_date.$error" class="help-block errMsg">
-                                    <div ng-message="required">This field is required</div>
-                                </div>
-                                <div ng-if="birth_date"class="errMsg birth_date">{{birth_date}}</div>-->
                                 </p>
                             </div>                                           
                         </div>

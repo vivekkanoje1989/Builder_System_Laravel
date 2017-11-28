@@ -1129,7 +1129,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-model="customerData.gender_id" name="gender_id" ng-controller="genderCtrl" class="form-control" required>
                                                 <option value="">Select</option>
-                                                <option ng-repeat="genderList in genders" value="{{genderList.id}}" ng-selected="{{ genderList.id == customerData.gender_id}}">{{genderList.gender}}</option>
+                                                    <option ng-repeat="genderList in genders" value="{{genderList.id}}" ng-selected="{{ genderList.id == customerData.gender_id}}">{{genderList.gender}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-if="gender_id" class="errMsg">{{gender_id}}</div>
@@ -1180,12 +1180,13 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group" ng-class="{ 'has-error' : csbtBtn && (!customerForm.pan_number.$dirty && customerForm.pan_number.$invalid)}">
+                                    <div class="form-group">
                                         <label for="">PAN Number</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control" maxlength="10" ng-pattern="/^([A-Z]{5}\d{4}[A-Z]{1})+$/">
-                                        </span>{{customerForm.pan_number.$error}}
-                                        <div ng-show="csbtBtn" ng-messages="customerForm.pan_number.$error" class="help-block">
+                                            <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control" maxlength="10" ng-pattern="/^[A-Za-z]{5}\d{4}[A-Za-z]{1}$/">
+                                        </span>
+                                        <span ng-show="customerForm.pan_number.$error.pattern">Invalid pan number</span>
+                                        <div ng-if="csbtBtn" ng-messages="customerForm.pan_number.$error" class="help-block">
                                             <div ng-message="pattern" style="color: red !important;">Invalid pan number</div>
                                         </div>
                                     </div>
@@ -1324,7 +1325,7 @@
                                         <div class="form-group">
                                             <label for=""></label>
                                             <span class="input-icon icon-right">
-                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="csbtBtn = true">Update</button>
+                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="csbtBtn = true;">Update</button>
                                             </span>
                                         </div>
                                     </div>
@@ -1334,7 +1335,6 @@
                     </tab>
                     @endif
                     <tab heading="Enquiry History" ng-click="initHistoryDataModal(remarkData.enquiryId,{{initmoduelswisehisory}}, 1)" id="historyTab">
-
                         <div class="modal-body"> 
                             <div>
                                 <label>
