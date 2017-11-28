@@ -69,7 +69,7 @@
                             <label for="">Date of enquiry<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="enquiryData.sales_enquiry_date" name="sales_enquiry_date" id="sales_enquiry_date" class="form-control" datepicker-popup="dd-M-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required>
+                                    <input type="text" ng-model="enquiryData.sales_enquiry_date" name="sales_enquiry_date" id="sales_enquiry_date" class="form-control" datepicker-popup="dd-M-yyyy" is-open="opened" min-date=enqCreationDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required>
                                     <span class="input-group-btn" ng-if="enquiryData.id === undefined && enquiryData.id!='' ">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>

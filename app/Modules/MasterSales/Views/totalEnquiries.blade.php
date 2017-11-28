@@ -153,7 +153,7 @@
                                 </tr>
                             </thead>
                             <tbody>                        
-                                <tr dir-paginate="enquiry in filtered=( enquiries | filter:search)  | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" total-items="{{ enquiriesLength}}">
+                                <tr dir-paginate="enquiry in filtered=( enquiries | filter:search)  | itemsPerPage: itemsPerPage" total-items="{{ enquiriesLength}}">
                                     <td width="6%" style="vertical-align:middle">
                             <center>
                                 {{itemsPerPage * (pageNumber - 1) + $index + 1}}<br> 

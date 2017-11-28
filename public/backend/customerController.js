@@ -499,11 +499,20 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.addContactDetails = function () {
             $scope.modal = {};
         }
-        $scope.manageForm = function (customerId, enquiryId, enqType) {
-
+        $scope.manageForm = function (customerId, enquiryId, enqType) {            
+            if(enquiryId === 0)
+            {
+                Data.post('operational-setting/getOperationalSettings').then(function (response) {
+                   //set enquiry creation date 
+                    var date = new Date();
+                   $scope.enqCreationDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - response.records[0].data);
+                   //
+                   
+                })
+            }
             $scope.enqType = enqType;
             var date = new Date();
-            $scope.enquiryData.sales_enquiry_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+            
             $scope.enquiryData.sales_category_id = $scope.enquiryData.property_possession_type = "1";
             $scope.enquiryData.city_id = $scope.enquiryData.followup_by_employee_id = "";
             $scope.enquiryData.parking_required = $scope.enquiryData.finance_required = "0";
@@ -521,7 +530,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     $scope.showDivCustomer = true;
                     $scope.enquiryList = true;
                     $scope.disableDataOnEnqUpdate = true;
-
 
                     Data.post('getEnquirySubSource', {
                         data: {sourceId: response.customerPersonalDetails[0].source_id}}).then(function (response) {
@@ -541,7 +549,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
                         $scope.searchData.searchWithEmail = response.customerPersonalDetails.get_customer_contacts[0].email_id;
                         $scope.searchData.mobile_calling_code = "+" + response.customerPersonalDetails.get_customer_contacts[0].mobile_calling_code;
-
                         if (response.customerPersonalDetails[0].monthly_income == "0")
                             $scope.customerData.monthly_income = "";
                         else
