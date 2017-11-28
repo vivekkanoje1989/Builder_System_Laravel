@@ -410,7 +410,7 @@ class CtSetting extends Eloquent {
     }
 
     public function sourceName() {
-        return $this->belongsTo('App\Models\MlstLmsaEnquirySalesSource', 'source_id'); //(customer model name, primary of customer model) 
+        return $this->belongsTo('App\Models\MlstBmsbEnquirySalesSource', 'source_id'); //(customer model name, primary of customer model) 
     }
 
     public function subsourceName() {

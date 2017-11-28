@@ -555,8 +555,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                             
                         }
-
-                        if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === "0000-00-00") {
+                        if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === "0000-00-00" || response.customerPersonalDetails[0].marriage_date === 'NaN-aN-NaN') {
                             $scope.customerData.marriage_date = "";
                         } else {
                             var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
@@ -1127,16 +1126,24 @@ app.directive('checkMobileExist', function ($timeout, $q, Data) {
         require: 'ngModel',
         link: function ($scope, element, attributes, model) {
             model.$asyncValidators.uniqueMobile = function (modelValue) {
-                var mobileNumber = modelValue;
-                var customerId = $scope.searchData.customerId;
-                return Data.post('master-sales/checkMobileExist', {
-                    data: {mobileNumber: mobileNumber, customerId: customerId},
-                }).then(function (response) {
-                    $timeout(function () {
-                        model.$setValidity('uniqueMobile', !!response.success);
-                        $scope.contacts.mobile_number = modelValue;
-                    }, 100);
-                });
+                 if (model.$isEmpty(modelValue))
+                    return $q.when();
+                else {
+                    var mobileNumber = modelValue;
+                    var customerId = ($scope.searchData.customerId) ? $scope.searchData.customerId : $scope.remarkData.customerId;
+                    return Data.post('master-sales/checkMobileExist', {
+                        data: {mobileNumber: mobileNumber, customerId: customerId},
+                    }).then(function (response) {
+                        $timeout(function () {
+                            $scope.numNotExist = response.success;
+                            model.$setValidity('uniqueMobile', !!response.success);
+                            if($scope.remarkData.customerId != '')
+                                $scope.remarkData.mobile_number = modelValue;
+                            else
+                                $scope.contacts.mobile_number = modelValue;
+                        }, 100);
+                    });
+                }
             };
         }
     }
@@ -1152,11 +1159,12 @@ app.directive('checkEmailExist', function ($timeout, $q, Data) {
                 else {
                     //if(typeof modelValue !== 'undefined' || modelValue !== ''){
                     var emailid = modelValue;
-                    var customerId = $scope.searchData.customerId;
+                    var customerId = ($scope.searchData.customerId) ? $scope.searchData.customerId : $scope.remarkData.customerId;
                     return Data.post('master-sales/checkEmailExist', {
                         data: {emailid: emailid, customerId: customerId},
                     }).then(function (response) {
                         $timeout(function () {
+                            $scope.emNotExist = response.success;
                             model.$setValidity('uniqueEmail', !!response.success);
                         }, 100);
                     });
