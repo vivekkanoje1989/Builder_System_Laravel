@@ -1257,7 +1257,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $timeout(function () {
                         $scope.customerData = response.customerPersonalDetails[0];
                         $scope.customerContacts = response.customerPersonalDetails.get_customer_contacts[0];
-
+console.log(response.customerPersonalDetails[0]);
+                        $scope.customerData.gender_id = response.customerPersonalDetails[0].gender_id;
                         if (response.customerPersonalDetails[0].aadhar_number === "null" || response.customerPersonalDetails[0].aadhar_number === 0) {
                             $scope.customerData.aadhar_number = "";
                         }
