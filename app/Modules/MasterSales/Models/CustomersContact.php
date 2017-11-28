@@ -115,14 +115,14 @@ class CustomersContact extends Eloquent
 	];
 
 	protected $dates = [
-		'mobile_verification_timestamp',
-		'mobile_alerts_inactivation_timestamp',
-		'landline_verification_timestamp',
-		'landline_alerts_inactivation_timestamp',
-		'email_verification_timestamp',
-		'email_alerts_inactivation_timestamp',
-		'created_date',
-		'updated_date'
+//		'mobile_verification_timestamp',
+//		'mobile_alerts_inactivation_timestamp',
+//		'landline_verification_timestamp',
+//		'landline_alerts_inactivation_timestamp',
+//		'email_verification_timestamp',
+//		'email_alerts_inactivation_timestamp',
+//		'created_date',
+//		'updated_date'
 	];
 
 	protected $fillable = [

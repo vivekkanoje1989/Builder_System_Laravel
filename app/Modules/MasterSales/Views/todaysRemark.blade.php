@@ -163,6 +163,9 @@
         position: absolute;
         margin-left: 34%;
     }
+    #followup_by_employee_id{
+        margin-top: -235px;
+    }
 </style>
 
 <div class="modal-body"> 
@@ -237,14 +240,15 @@
                                                         <span class="input-icon icon-right" ng-if="addMob">
                                                             <div style="float: left;margin-left: 15px;width: 66%;">
                                                                 <span class="input-icon icon-right">
-                                                                    <input type="text" ng-model="remarkData.mobile_number" placeholder="Enter Mobile Number" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" id="mobile_number" name="mobile_number" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 500 }"
-                                                                           ng-change="addInfo(remarkData.customerId, remarkData.mobile_calling_code1, remarkData.mobile_number, 'mobile_number')">
+                                                                    <input type="text" ng-model="remarkData.mobile_number" check-mobile-exist placeholder="Enter Mobile Number" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" id="mobile_number" name="mobile_number" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 500 }"
+                                                                           ng-change="numNotExist && addInfo(remarkData.customerId, remarkData.mobile_calling_code1, remarkData.mobile_number, 'mobile_number')">
                                                                     <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeMobText()"></i>
+                                                                    <div ng-show="uniqueMobile">Mobile number already exist</div>
                                                                 </span>
                                                                 <div ng-show="remarkData.mobile_number.length > 0" ng-messages="remarkForm.mobile_number.$error" class="help-block {{ applyClassPMobile}}">
                                                                     <div ng-message="minlength" style="color: red !important;">Length of mobile number minimum 10 digit required</div>
                                                                     <div ng-message="pattern" style="color: red !important;">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
-                                                                    <div ng-message="uniqueMobile">Mobile number already exist</div>
+                                                                    
                                                                 </div>
                                                                 <div ng-if="mobErr" style="color: red;">{{mobErr}}</div>
                                                             </div>
@@ -261,10 +265,11 @@
                                                         @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
                                                         <div class="col-sm-12" style=" margin-left: -13px;" ng-if="emailList.length < 4"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
                                                         <span class="input-icon icon-right" ng-if="addEmail">
-                                                            <input type="email" ng-model="remarkData.email_id" name="email_id" placeholder="Enter Email Address" class="form-control" maxlength="40" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" ng-model-options="{ allowInvalid: true, debounce: 550 }"
-                                                                   ng-change="addInfo(remarkData.customerId, '', remarkData.email_id, 'email_id')">
+                                                            <input type="email" ng-model="remarkData.email_id" name="email_id" check-email-exist placeholder="Enter Email Address" class="form-control" maxlength="40" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" ng-model-options="{ allowInvalid: true, debounce: 550 }"
+                                                                   ng-change="emNotExist && addInfo(remarkData.customerId, '', remarkData.email_id, 'email_id')">
                                                             <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeEmailText()"></i>
                                                             <div ng-if="emailErr" style="color: red;">{{emailErr}}</div>
+                                                            <div ng-if="uniqueEmail">Email id already exist</div>{{uniqueEmail}}{{emNotExist}}
                                                         </span>
                                                         @endif
                                                         <input type="hidden" ng-mode="prevEmail" name="prevEmail" id="prevEmail">
@@ -484,7 +489,7 @@
                                                 <label ng-if="remarkData.sales_status_id == 3">Reassign this booking to</label>
                                                 <ui-select ng-controller="employeesCtrl" ng-model="remarkData.followup_by_employee_id" name="followup_by_employee_id" theme="bootstrap">
                                                     <ui-select-match placeholder="Select Employee">{{remarkData.followup_by_employee_id.first_name}}</ui-select-match>
-                                                    <ui-select-choices repeat="item in employeeList | filter: $select.search">
+                                                    <ui-select-choices repeat="item in employeeList | filter: $select.search" id="followup_by_employee_id">
                                                         <div ng-bind-html="item.first_name | highlight: $select.search"></div>
                                                     </ui-select-choices>
                                                 </ui-select>
@@ -1144,7 +1149,7 @@
                                         <label for="">Birth Date</label>
                                         <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                             <p class="input-group">
-                                                <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" readonly/>
+                                                <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date="maxDate" datepicker-options="dateOptions" close-text="Close" readonly/>
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" ng-click="open($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                 </span>
@@ -1157,7 +1162,7 @@
                                         <label for="">Marriage Date</label>
                                         <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                             <p class="input-group">
-                                                <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly />
+                                                <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" max-date="dt" is-open="opened" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly />
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" ng-click="open($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                 </span>
