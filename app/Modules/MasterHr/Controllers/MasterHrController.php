@@ -1038,7 +1038,7 @@ class MasterHrController extends Controller {
         foreach ($alluser as $team) {
             $employee = Employee::where('id', '=', $team)->update(['team_lead_id' => $employee->team_lead_id]);
         }
-         $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
+        $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
 //        if ($input['status'] == 2) {
 //              $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 2]);
 //              $suspendStatus = 2;
@@ -1589,6 +1589,8 @@ class MasterHrController extends Controller {
                 }
                 $menuItem[] = $menu;
             }
+
+
             ksort($menuItem);
             $result = ['success' => true, "getMenu" => $menuItem, "totalPermissions" => count($permission), 'empName' => $employeedetail, 'role_name' => $employeedetail, 'menuId' => $rolepermission];
         } else {
@@ -1686,24 +1688,25 @@ class MasterHrController extends Controller {
                     }, $input['data']['allChild2Id']);
 
                     if (!empty($input['data']['allChild3Id'])) {
-                        if (($key = array_search($parentId[1], $tempMenuItem)) !== false) {
-                            unset($tempMenuItem[$key]);
-                        }
-                    } else {
-                        if (($key = array_search($submenuId[0], $tempMenuItem)) !== false) {
-                            unset($tempMenuItem[$key]);
-                        }
+                        $key = array_search($submenuId['0'], $tempMenuItem);
+                        unset($tempMenuItem[$key]);
                     }
+//                    foreach ($input['data']['allChild3Id'] as $child3) {
+//                        $key3 = array_search($child3, $tempMenuItem);
+//                        unset($tempMenuItem[$key3]);
+//                    }
+
                     foreach ($allChild2Id as $chk2 => $ch2) {
                         if (in_array($ch2, $tempMenuItem)) {
                             $arrdiff2[] = $ch2;
                         }
                     }
-                    if (count($arrdiff2) == 0) {
-                        $removeId[] = $parentId[0];
-                    }
+
+
+                    $removeId = $input['data']['allChild3Id'];
                 }
-                if (!empty($input['data']['allChild3Id'])) { //[01401,0140102],[014010205], [0140101,0140102], [014010201,014010202,014010203,014010204,014010205]
+
+                if (!empty($input['data']['allChild3Id']) && $input['data']['chils2status'] == 0) { //[01401,0140102],[014010205], [0140101,0140102], [014010201,014010202,014010203,014010204,014010205]
                     $allChild3Id = array_map(function($el) {
                         $firstdigit = substr($el, 0, 1);
                         if ($firstdigit !== '0')
@@ -1722,16 +1725,25 @@ class MasterHrController extends Controller {
                         }
                     }
                     if (count($arrdiff3) == 0) {
-                        $removeId[] = $parentId[1];
+                        $removeId[] = $parentId;
                     }
                 }
 
                 $menuArr = array_merge($removeId, $submenuId);
                 /*                 * ********************************************************************** */
 
-
                 if (!empty($getMenuItem)) {
-                    $menuArr = array_unique(array_diff($getMenuItem, $menuArr)); //merge elements
+                    foreach($getMenuItem as $getMenu) {
+                         foreach($menuArr as $menus) {
+                           if($getMenu == $menus){
+                              $keyremove = array_search($getMenu, $getMenuItem);
+                               unset($getMenuItem[$keyremove]);
+                           }
+                         }
+//                        $menuArr = array_diff($getMenuItem, $menuArr); //merge elements
+                    }
+                    $menuArr = $getMenuItem;
+                
                 }
                 asort($menuArr);
                 $jsonArr = json_encode($menuArr, true);
