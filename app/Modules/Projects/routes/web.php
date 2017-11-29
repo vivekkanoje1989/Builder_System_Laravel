@@ -36,9 +36,9 @@ Route::group(array('module' => 'Projects', 'middleware' => ['auth:admin'], 'name
         return View::make('Projects::uploads.specification');
     }]);
 
-    Route::get( '/projects/manageProjectsExportToExcel', 'ProjectsController@manageProjectsExportToExcel')->middleware('permission:050101'); //for populate dropdown
-    Route::get( '/projects/projectType', 'ProjectsController@projectType')->middleware('permission:050102'); //for populate dropdown
-    Route::get( '/projects/projectStatus', 'ProjectsController@projectStatus')->middleware('permission:05012'); //for populate dropdown
+    Route::get( '/projects/manageProjectsExportToExcel', 'ProjectsController@manageProjectsExportToExcel'); //for populate dropdown
+    Route::get( '/projects/projectType', 'ProjectsController@projectType'); //for populate dropdown
+    Route::get( '/projects/projectStatus', 'ProjectsController@projectStatus'); //for populate dropdown
     Route::get( '/projects/getProjects', 'ProjectsController@getProjects'); //for populate dropdown
     Route::get( '/projects/webpageDetails/{id}', 'ProjectsController@webpageDetails')->middleware('permission:050101'); //show page   
     Route::post( '/projects/webpageSettings', 'ProjectsController@webpageSettings')->middleware('permission:050101'); //get project setting details

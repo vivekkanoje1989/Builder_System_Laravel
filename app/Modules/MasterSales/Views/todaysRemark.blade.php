@@ -230,46 +230,45 @@
                                                             <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">{{value}}</span>
                                                         </span> 
                                                     </div>
-                                                    <div class="col-sm-12" ng-if="displaymobile == '1'">
+                                                
+                                                    <div class="col-sm-12">
                                                         <span ng-if="displaymobile == '1' && mobileList" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
                                                             <img ng-if="displayCallBtn == '1'" src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
                                                             <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">+91-xxxxxx{{  value.substring(value.length - 4, value.length)}}</span>
                                                         </span>
                                                         @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
-                                                        <div class="col-sm-12" ng-if="mobileList.length < 4"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
-                                                        <span class="input-icon icon-right" ng-if="addMob">
-                                                            <div style="float: left;margin-left: 15px;width: 66%;">
-                                                                <span class="input-icon icon-right">
-                                                                    <input type="text" ng-model="remarkData.mobile_number" check-mobile-exist placeholder="Enter Mobile Number" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" id="mobile_number" name="mobile_number" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 500 }"
-                                                                           ng-change="numNotExist && addInfo(remarkData.customerId, remarkData.mobile_calling_code1, remarkData.mobile_number, 'mobile_number')">
-                                                                    <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeMobText()"></i>
-                                                                    <div ng-show="uniqueMobile">Mobile number already exist</div>
-                                                                </span>
-                                                                <div ng-show="remarkData.mobile_number.length > 0" ng-messages="remarkForm.mobile_number.$error" class="help-block {{ applyClassPMobile}}">
-                                                                    <div ng-message="minlength" style="color: red !important;">Length of mobile number minimum 10 digit required</div>
-                                                                    <div ng-message="pattern" style="color: red !important;">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
-                                                                    
-                                                                </div>
-                                                                <div ng-if="mobErr" style="color: red;">{{mobErr}}</div>
+                                                        <div class="col-sm-12" ng-if="mobileList.length < 4 && displaymobile != '1'"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
+                                                        <span class="input-icon icon-right" ng-if="addMob && displaymobile != '1'">
+                                                            <span class="input-icon icon-right">
+                                                                <input type="text" ng-model="remarkData.mobile_number" check-mobile-exist placeholder="Enter Mobile Number" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" id="mobile_number" name="mobile_number" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 500 }"
+                                                                       ng-change="numNotExist && addInfo(remarkData.customerId, remarkData.mobile_calling_code1, remarkData.mobile_number, 'mobile_number')">
+                                                                <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeMobText()"></i>
+                                                                <div ng-show="uniqueMobile" style="color: red;">Mobile number already exist</div>
+                                                            </span>
+                                                            <div ng-show="remarkData.mobile_number.length > 0" ng-messages="remarkForm.mobile_number.$error" class="help-block {{ applyClassPMobile}}">
+                                                                <div ng-message="minlength" style="color: red !important;">Length of mobile number minimum 10 digit required</div>
+                                                                <div ng-message="pattern" style="color: red !important;">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
                                                             </div>
+                                                            <div ng-if="mobErr" style="color: red;">{{mobErr}}</div>
                                                         </span>
                                                         @endif
                                                         <input type="hidden" ng-mode="prevMob" name="prevMob" id="prevMob"><br>
                                                     </div>
-
-                                                    <div class="col-sm-12" ng-if ="displayemail != '-1'">
+                                                   
+                                                    <div class="col-sm-12">
                                                         <span ng-if="emailList.length > 0" ng-repeat="(key, value) in emailList track by $index" style="float: left;  margin: 7px 20px 5px 0px;">    
                                                             <i class="fa fa-envelope" aria-hidden="true" ng-if="value != 'null'"></i>
-                                                            <span class="text" ng-click="manageEmailText(key, value)" ng-if="value != 'null'">{{value}}</span>
+                                                            <span class="text" ng-click="manageEmailText(key, value)" ng-if="value != 'null' && displayemail == '-1'">{{value}}</span>
+                                                            <span class="text" ng-click="manageEmailText(key, value)" ng-if="value != 'null' && displayemail != '-1'">{{ value | emailHider }}</span>
                                                         </span>
                                                         @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
-                                                        <div class="col-sm-12" style=" margin-left: -13px;" ng-if="emailList.length < 4"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
-                                                        <span class="input-icon icon-right" ng-if="addEmail">
+                                                        <div class="col-sm-12" style=" margin-left: -13px;" ng-if="emailList.length < 4 && displayemail == '-1'"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
+                                                        <span class="input-icon icon-right" ng-if="addEmail && displayemail == '-1'">
                                                             <input type="email" ng-model="remarkData.email_id" name="email_id" check-email-exist placeholder="Enter Email Address" class="form-control" maxlength="40" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" ng-model-options="{ allowInvalid: true, debounce: 550 }"
                                                                    ng-change="emNotExist && addInfo(remarkData.customerId, '', remarkData.email_id, 'email_id')">
                                                             <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeEmailText()"></i>
                                                             <div ng-if="emailErr" style="color: red;">{{emailErr}}</div>
-                                                            <div ng-if="uniqueEmail">Email id already exist</div>{{uniqueEmail}}{{emNotExist}}
+                                                            <div ng-if="uniqueEmail" style="color: red;">Email id already exist</div>
                                                         </span>
                                                         @endif
                                                         <input type="hidden" ng-mode="prevEmail" name="prevEmail" id="prevEmail">
@@ -996,7 +995,8 @@
                                                                                         <div class="checkbox" ng-repeat="elist in emailList track by $index">
                                                                                             <label>
                                                                                                 <input type="checkbox" ng-model="email_id" name="email_id" ng-change="checkedEmailId(elist, $index)" value="{{elist}}" id="email_{{$index}}" class="clsEmail" ng-required="divEmail">
-                                                                                                <span class="text">{{elist}}</span>
+                                                                                                <span class="text" ng-if="displayemail == '-1'">{{elist}}</span>
+                                                                                                <span class="text" ng-if="displayemail != '-1'">{{elist | emailHider}}</span>
                                                                                             </label>
                                                                                         </div>
                                                                                     </div>

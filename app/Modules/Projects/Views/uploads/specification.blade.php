@@ -70,7 +70,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" align="center">Specification Details</h4>
             </div>
-            <form novalidate name="modalForm" id="modalForm" ng-submit="modalData.$valid && specicationRow(projectData.prid,modalData,modalImages,'specificationData')">
+            <form novalidate name="modalForm" id="modalForm" ng-submit="modalForm.$valid && specicationRow(projectData.prid,modalData,modalImages,'specificationData')">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="row" ng-init="wings()">

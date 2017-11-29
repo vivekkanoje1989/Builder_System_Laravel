@@ -34,7 +34,7 @@ class Gupshup {
                             } elseif ($sendingType == 2) {
                                 $msgType = "FLASH";
                             }
-                            $mask = "BMSSYS";
+                           // $mask = "BMSSYS";
                             $smsType = "P_sms";
                             $userId = "2000161530";
                             $password = "Nextedge@2016#";
@@ -42,7 +42,7 @@ class Gupshup {
                             //$smsApi = EmailPassword::select('email_id', 'email_pwd', 'client_id', 'type', 'system_id')->where(['id' => 2])->get(); //sms credentials
                             $smsType = "T_sms";
                             $msgType = "TEXT";
-                            $userId = "2000161532";
+                            $userId = "2000161552";
                             $password = "Nextedge@2016#";
                             if ($customer == 'Yes') {
                                 $mask = $sender_id;

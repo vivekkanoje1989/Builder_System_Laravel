@@ -16,15 +16,15 @@
         color:red;
     }    
     .demo-tab .tab-content{
-        display: inline-block !important;
+       /* display: inline-block !important;*/
         -webkit-box-shadow: none;
         -moz-box-shadow: 1px 0 10px 1px rgba(0, 0, 0, .3);
-        box-shadow: none;
+        box-shadow: none; float: left;
         border: 1px solid #e5e5e5;
     }
-    .demo-tab .nav-tabs{
+   /* .demo-tab .nav-tabs{
         display: inline-flex;
-    }
+    }*/
     .custAdress{
         font-size:20px;
     }
@@ -53,7 +53,7 @@
     .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;margin-left: 15px;}
     .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;margin-left: 15px;}
 </style>
-<div class="row"> 
+<div class="row">
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController" ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]], [[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]], 0); manageQuickEnquiry()">
             <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -110,11 +110,12 @@
                         </div>
                         <br><br>
                     </div>
+                    
                     <tabset ng-if="showDivCustomer" class="demo-tab row showDivCustomer">
-                        <tab heading="Customer Information" id="custDiv">
+                        <tab heading="Customer Information" id="custDiv" ng-click="onClickCustTab()">
                             <div data-ng-include=" '/MasterSales/createCustomer'"></div>
                         </tab>
-                        <tab heading="Enquiry Information" active="enquiry_div" id="enquiryDiv" style="display: none;" ng-init="getUrlenquiryId = '[[!empty($editEnquiryId) ?  $editEnquiryId : '']]'">
+                        <tab heading="Enquiry Information" active="enquiry_div" id="enquiryDiv" style="display: none;" ng-init="getUrlenquiryId = '[[!empty($editEnquiryId) ?  $editEnquiryId : '']]'" ng-click="onClickEnqTab()">
                             <div data-ng-include=" '/MasterSales/createEnquiry'"></div>
                         </tab>
                     </tabset>
@@ -609,8 +610,9 @@
 
 <script>
     $(document).ready(function(){
-    $("#closeModal").click(function(){
-    $("#subbtn").trigger("click");
+        $("#closeModal").click(function(){
+            $("#subbtn").trigger("click");
+        });
     });
-    });
-    $("#mobile_calling_code,#landline_calling_code,#mobile_calling_code1").intlTelInput();</script>
+    $("#mobile_calling_code,#landline_calling_code,#mobile_calling_code1").intlTelInput();
+</script>

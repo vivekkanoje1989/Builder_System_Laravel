@@ -172,22 +172,23 @@
                                            ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin')->user()->id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                             <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                         </a>
-                                        <span  ng-if="displayMobilePermission == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                        <span  ng-if="displayMobilePermission != '1'" class="text">{{mobile_obj}}</span>
+                                        <span  ng-if="displayMobile == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                        <span  ng-if="displayMobile != '1'" class="text">{{mobile_obj}}</span>
 
                                     </span>
                                 </div>
                                 <div ng-init="mobile_list = enquiry.mobile.split(',')">
                                     <p ng-if="[[ Auth::guard('admin')->user()->customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
                                         <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
-                                            <span  ng-if="displayMobilePermission == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                            <span  ng-if="displayMobilePermission != '1'" class="text">{{  mobile_obj}}</span>
+                                            <span  ng-if="displayMobile == '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                            <span  ng-if="displayMobile != '1'" class="text">{{  mobile_obj}}</span>
                                         </span>
                                     </p>
-                                    <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
+                                    <p ng-if="enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
                                         <i class="fa fa-envelope" aria-hidden="true" ng-show="all_email_list.length > 0"></i>
                                         <span ng-repeat="emailobj in all_email_list| limitTo:2">
-                                            <span class="text" ng-if="emailobj != 'null'">{{emailobj}}</span>
+                                            <span class="text" ng-if="emailobj != 'null' && displayEmail != '1'">{{emailobj}}</span>
+                                            <span class="text" ng-if="emailobj != 'null' && displayEmail == '1'">{{emailobj | emailHider}}</span>
                                             <span ng-if="$index == 0 && all_email_list.length >= 2 && emailobj != 'null'">
                                                 /
                                             </span>

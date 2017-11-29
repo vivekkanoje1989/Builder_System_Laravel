@@ -1,3 +1,4 @@
+<div id="enquiry-form">
 <form name="enquiryForm" role="form" novalidate ng-submit=" projectsDetails.length > 0 && enquiryForm.$valid && saveEnquiryData(enquiryData)">
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
@@ -178,7 +179,7 @@
                     </div>
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_time.$dirty && enquiryForm.next_followup_time.$invalid)}">
-                            <label for="">Time<span class="sp-err">*</span></label>{{enquiryData.next_followup_time}}
+                            <label for="">Time<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select ng-model="enquiryData.next_followup_time" name="next_followup_time" id="next_followup_time" class="form-control" required="required">
                                     <option value=""> Select Time </option>
@@ -491,3 +492,4 @@
         </div>
     </div>
 </form>
+</div>

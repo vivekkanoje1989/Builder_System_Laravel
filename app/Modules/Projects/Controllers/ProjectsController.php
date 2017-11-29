@@ -129,7 +129,7 @@ class ProjectsController extends Controller {
                         $projectWingName = ProjectWing::select('wing_name')->where('id', $val['wing'])->get();
                         $specificationTitle[$key] = ["image" => $val['specification_images'], "title" => $projectWingName[0]->wing_name . ", Floor:" . implode(",", $val['floors'])];
                     } else {
-                        $specificationTitle[$key] = ["image" => $val['image'], "title" => $val['title']];
+                        $specificationTitle[$key] = ["image" => $val['specification_images'], "title" => $val['title']];
                     }
                 }
             }
@@ -152,7 +152,6 @@ class ProjectsController extends Controller {
             /*************getSpecifiction**************/
                       
             if (!empty($input['projectImages'])) {
-//                unset($input["projectImages"]["prid"],$input["projectImages"]["csrfToken"]);
                 if (count($input['projectImages']) > 1) {
                     unset($input['projectImages']['upload']); 
                    
