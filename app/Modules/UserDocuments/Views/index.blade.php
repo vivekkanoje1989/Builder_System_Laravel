@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12">
-                                <input type="hidden" ng-model="id" class="form-control">
+                                <input type="text" ng-model="id" class="form-control">
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="form-group">
@@ -68,7 +68,7 @@
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i> 
                                                 <div ng-show="sbtBtn" ng-messages="userForm.document_id.$error" class="help-block errMsg">
-                                                    <div ng-message="required" class="sp-err">This field is required</div>
+                                                    <div ng-message="required"  class="sp-err">This field is required</div>
                                                     <div ng-if="errorMsgg">{{errorMsgg}}</div>
                                                 </div>
                                                 <div ng-if="document_id" class="errMsg status sp-err">{{document_id}}</div>

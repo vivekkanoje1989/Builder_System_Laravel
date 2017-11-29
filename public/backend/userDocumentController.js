@@ -1,4 +1,4 @@
-app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster', '$window', '$parse', '$modal','$timeout', function ($scope, Data, Upload, toaster, $window, $parse, $modal,$timeout) {
+app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster', '$window', '$parse', '$modal', '$timeout', function ($scope, Data, Upload, toaster, $window, $parse, $modal, $timeout) {
 
         $scope.action = 'Submit';
         $scope.id = 0;
@@ -44,7 +44,7 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
             $scope.userData.document_id = list.user_documents.id;
             $scope.index = index;
         }
-        
+
         $scope.createUserDocuments = function (documentUrl, userData)
         {
             $scope.userdisables = false;
@@ -68,6 +68,7 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                 data: data
             });
             documentUrl.upload.then(function (response) {
+                console.log(response)
                 if (response.data.success)
                 {
                     $timeout(function () {
@@ -82,8 +83,11 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                         $scope.documentRow.push({'document_id': userData.document_id, 'document_number': userData.document_number, 'document_url': response.data.document_url, 'id': response.data.lastinsertid, 'user_documents': user_documents})
                         $scope.action = 'Submit';
                     } else {
-                        $scope.documentRow.splice($scope.index, 1);
-                        $scope.documentRow.splice($scope.index, 0, {'id': $scope.id, 'document_id': userData.document_id, 'document_number': userData.document_number, 'document_url': response.data.document_url, 'user_documents': user_documents})
+                        alert($scope.id)
+                        if ($scope.id != '') {
+                            $scope.documentRow.splice($scope.index, 1);
+                            $scope.documentRow.splice($scope.index, 0, {'id': $scope.id, 'document_id': userData.document_id, 'document_number': userData.document_number, 'document_url': response.data.document_url, 'user_documents': user_documents})
+                        }
                         $scope.action = 'Submit';
                     }
                     $scope.userData = {'document_id': '', 'document_number': ''};
