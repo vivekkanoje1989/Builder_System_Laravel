@@ -463,7 +463,6 @@ class Employee extends Authenticatable {
     }
 
       public function designationName() {
-        //return $this->belongsTo('App\Models\MlstLmsaDesignation', 'id'); //(designation model name, primary of designation model) 
         return $this->belongsTo('App\Models\MlstBmsbDesignation', 'designation_id')->select('id','designation');
     }
 //    public function designationName()

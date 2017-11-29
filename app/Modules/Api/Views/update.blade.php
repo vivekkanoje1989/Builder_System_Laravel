@@ -442,7 +442,7 @@
                 <p>you have just received enquiry from [#customerName#]  having mobile number [#customerMob1#].</p><br/> 
                 <p> this enquiry was received through [#enquirySource#].</p><br/> 
                 <p>please do the needful.</p><br/> 
-                <p>LMSAuto</p><br/> 
+                <p>BMS</p><br/> 
                 <p>[#greeting#]</p>
             </div>
             <div id="customer_default_sms_template" style="display:none">
@@ -450,7 +450,7 @@
                 <p>We thank you for your Interest in buying vehicle. </p><br/> 
                 <p> kindly click on the link [#website#] to let us know in detail about your requirement. </p><br/> 
                 <p> for any further queries [#employeeName#] [#employeeMobile#] will be in touch with you.</p><br/> 
-                <p> LMSAuto</p><br/> 
+                <p> BMS</p><br/> 
                 <p> [#greeting#]</p><br/> 
             </div>  
         </div>

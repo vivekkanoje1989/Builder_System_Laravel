@@ -40,6 +40,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $rootScope.newEnqFlag1 = 0;
         $scope.hideOnTodayRemark = false;
         $scope.documentExist = true;
+        
         $scope.todayremarkTimeChange = function (selectedDate)
         {
             if (typeof selectedDate == 'undefined') {
@@ -1092,7 +1093,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.flag = true;
                 }
             }
-
             if ($scope.flag) {
                 $timeout(function () {
                     Data.post('/master-sales/addInfo', {
@@ -1257,7 +1257,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $timeout(function () {
                         $scope.customerData = response.customerPersonalDetails[0];
                         $scope.customerContacts = response.customerPersonalDetails.get_customer_contacts[0];
-
+                        $scope.customerData.gender_id = response.customerPersonalDetails[0].gender_id;
                         if (response.customerPersonalDetails[0].aadhar_number === "null" || response.customerPersonalDetails[0].aadhar_number === 0) {
                             $scope.customerData.aadhar_number = "";
                         }
@@ -1276,7 +1276,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                         }
 
-                        if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00") {
+                        //if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00") {
+                        if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === "0000-00-00" || response.customerPersonalDetails[0].marriage_date === 'NaN-aN-NaN') {
                             $scope.customerData.marriage_date = "";
                         } else {
                             var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);

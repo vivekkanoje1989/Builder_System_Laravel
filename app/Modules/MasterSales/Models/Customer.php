@@ -65,7 +65,7 @@ class Customer extends Model
 
 	protected $dates = [
 		//'birth_date',
-		'marriage_date',
+//		'marriage_date',
 		'created_date',
 		'updated_date'
 	];
