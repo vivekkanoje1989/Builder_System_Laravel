@@ -256,13 +256,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
 
-
-//        $scope.$on("listHistory", function (event, args) {
-//            alert('helo')
-//            $scope.initHistoryDataModal(args['id'], args['moduelswisehisory'], args['init']);
-//        });
-
-
         $scope.gethisotryDataModal = function (enquiry_id, modules, htype) {
             /*
              * htype =  1 for the enquiryhistory popup

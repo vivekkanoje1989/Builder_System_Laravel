@@ -155,7 +155,7 @@
                                                         {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}
                                                         <div ng-if="enquiry.mobile_number != ''" ng-init="mobile_number = enquiry.mobile_number.split(',')" class="ng-scope">
                                                             <span ng-repeat="mobile_obj in mobile_number| limitTo:2" class="ng-binding ng-scope">
-                                                                <a style="cursor: pointer;" class="Linkhref ng-scope" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1,<?php echo Auth::guard('admin')->user()->id; ?>,{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
+                                                                <a style="cursor: pointer;" class="Linkhref ng-scope" ng-if="displayCallBtn == '1' && mobile_obj != null" ng-click="cloudCallingLog(1,<?php echo Auth::guard('admin')->user()->id; ?>,{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                                                     <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;">
                                                                 </a>
                                                                 <span ng-if="displayMobile != '1'">{{ mobile_obj }}</span>
