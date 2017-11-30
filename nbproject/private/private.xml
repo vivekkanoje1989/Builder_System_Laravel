@@ -5,9 +5,7 @@
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/previousFollowup.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/OperationalSettings/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/OperationalSettings/Controllers/OperationalSettingsController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
@@ -20,6 +18,7 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysfollowups.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/requestsforme.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Models/Enquiry.php</file>
         </group>
     </open-files>
 </project-private>

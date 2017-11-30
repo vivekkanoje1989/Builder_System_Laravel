@@ -49,7 +49,6 @@ class OperationalSettingsController extends Controller {
     }
 
     public function manageLocation() {
-
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $locations = lstEnquiryLocations::where('city_id', $request['city_id'])->get();

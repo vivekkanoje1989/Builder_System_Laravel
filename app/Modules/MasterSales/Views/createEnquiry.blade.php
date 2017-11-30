@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-            <input type="hidden" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
+            <input type="hidden" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">            
             <div class="row" ng-if="enqType == 1">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6">
@@ -102,7 +102,7 @@
                     </div>
                     <div class="col-sm-3 col-xs-6" ng-if="enqType != 1">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.max_budget.$dirty && enquiryForm.max_budget.$invalid)}">
-                            <label for="">Max Budget <span class="sp-err">*</span></label>
+<!--                        <label for="">Max Budget <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <input class="form-control" type="text" minlength="6" maxlength="7" ng-pattern="/^[1-9]+[0-9]*$/" ng-model="enquiryData.max_budget" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="max_budget" required>
                                 <i class="fa fa-money"></i>
@@ -111,7 +111,19 @@
                                 <div ng-message="minlength">Budget should be equal to or more than 6 digit.</div>
                                 <div ng-message="required">This field is required.</div>
                                 <span ng-message="pattern">Invalid budget</span>
-                            </div>
+                            </div>-->
+                            <label for="">Budget <span class="sp-err">*</span></label>
+                            <span class="input-icon icon-right">
+                                <select class="form-control" ng-model="enquiryData.max_budget" name="max_budget" required>
+                                    <option value="">Select Budget</option>                                       
+                                    <option ng-repeat="list in salesBudgetList" value="{{ list }}" ng-selected="{{ list == enquiryData.max_budget}}">{{ list }}</option>
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.max_budget.$error" class="help-block enqFormBtn">
+                                    <div ng-message="required">This field is required</div>
+                                </div>
+                                <div ng-if="max_budget" class="sp-err blog_title">{{ max_budget }}</div>
+                            </span>
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">
@@ -130,19 +142,24 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
-                    <div class="col-sm-3 col-xs-6" ng-if="enqType != 0 || (enquiryData.id === undefined && enqType == 0 )">
+                    <div class="col-sm-3 col-xs-6" >
                         <div class="form-group">
                             <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id">
                                     <!--<option value="">Select Employee</option>-->
-                                    <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="list.id == [[ Auth::guard('admin')->user()->id ]]">{{list.first_name}} {{list.last_name}}</option>
+                                    <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="{{ list.id == [[ Auth::guard('admin')->user()->id ]] }}" ng-if="enqType != 0 || (enquiryData.id === undefined && enqType == 0 )">{{list.first_name}} {{list.last_name}}</option>
+                                    <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="list.id == enquiryData.followup_by_employee_id"  ng-if="enqType == 0 && enquiryData.id > 0">{{list.first_name}} {{list.last_name}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
+                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.followup_by_employee_id.$error" class="help-block enqFormBtn">
+                                    <div ng-message="required">This field is required</div>
+                                </div>
+                                <div ng-if="followup_by_employee_id" class="sp-err blog_title">{{followup_by_employee_id}}</div>
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6" ng-if="enqType == 0 && enquiryData.id > 0">
+<!--                    <div class="col-sm-3 col-xs-6" ng-if="enqType == 0 && enquiryData.id > 0">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
                             <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
@@ -157,7 +174,7 @@
                                 <div ng-if="followup_by_employee_id" class="sp-err blog_title">{{followup_by_employee_id}}</div>
                             </span>
                         </div>
-                    </div>   
+                    </div>   -->
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_date.$dirty && enquiryForm.next_followup_date.$invalid)}">
                             <label for="">Next Followup Date & Time<span class="sp-err">*</span></label>
@@ -178,7 +195,7 @@
                     </div>
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_time.$dirty && enquiryForm.next_followup_time.$invalid)}">
-                            <label for="">Time<span class="sp-err">*</span></label>{{enquiryData.next_followup_time}}
+                            <label for="">Time<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select ng-model="enquiryData.next_followup_time" name="next_followup_time" id="next_followup_time" class="form-control" required="required">
                                     <option value=""> Select Time </option>

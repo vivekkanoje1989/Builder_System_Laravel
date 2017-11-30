@@ -329,13 +329,15 @@ class CustomerCareController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         $enquiryId = $input['enquiryId'];
-        $modules = $input['moduelswisehisory'];
+//        $modules = $input['moduelswisehisory'];
+        $modules = array(1, 2);
         $cc_followup_history = array();
         /*
          * 1 = Sales Followup
          * 2 = Customer Care Follouwp
          * 
          */
+        //print_r($modules);exit;
         if (in_array(2, $modules)) {
             $cc_followup_history = DB::table('cc_presales_followups as ccf')
                     ->leftjoin('employees as e', 'e.id', '=', 'ccf.followup_by')
