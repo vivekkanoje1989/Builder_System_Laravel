@@ -442,7 +442,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.callBtnPermission = response.callBtnPermission;
                     $scope.displayMobile = response.displayMobilePermission;
                     $scope.displayEmail = response.displayMobilePermission;
-                     $scope.disableBtn = false;
+                    $scope.disableBtn = false;
                 } else
                 {   
                     $scope.disableBtn = true;
@@ -1421,8 +1421,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.useremail = angular.copy(response.useremail);
                         $scope.userpermissions = angular.copy(response.userpermissions);
                         $scope.displayCallBtn = response.outBoundCall;
-                        $scope.displayEmail = $scope.userpermissions.indexOf("01406");
+                        $scope.displayEmail = response.displayMobile;
                         $scope.displayMobile = response.displayMobile;
+                        
                         $scope.mobileList = response.enquiryDetails.mobileNumber;
                         $scope.emailList = response.enquiryDetails.emailId;
                         if ($scope.emailList == 'null') {
@@ -1551,7 +1552,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.disableRemarkSbt = false;
         $scope.insertTodayRemark = function (modalData, sharedemployee) {
             
-             $('.firstDiv').css('opacity', '0.1').css("pointer-events", "none");
+            $('.firstDiv').css('opacity', '0.1').css("pointer-events", "none");
             $('.pleaseWait').css("display", "block").css("z-index", "9999");
             
             if ($scope.editableCustInfo == true) {

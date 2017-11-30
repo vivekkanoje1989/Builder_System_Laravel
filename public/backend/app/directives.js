@@ -148,6 +148,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                     data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId, customerCallingCode: customerCallingCode},
                 }).then(function (response) {
                     if (response.success) { //response true
+                        $scope.displayMobile = response.displayMobile;
+                    $scope.displayEmail = response.displayMobile;
+                    console.log(response);
                         if (response.flag === 0)//if customer exist, enquiry is empty
                         {
                             $scope.disableText = true;
@@ -319,6 +322,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
 //                        $scope.customerData.birth_date = "1990-01-01";
                         $scope.hideloader();
                     }
+                    
                 });
             }
         };
@@ -568,6 +572,18 @@ app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
                 });
 
             }
+        }
+    }
+});
+
+app.filter('mobileHider', function () {
+    return function (input) {
+        if (input != '') {
+            input = input.toString();
+            var num = "xxxxxx" + (input.substring(input.length - 4, input.length));
+            return num;
+        } else {
+            return '';
         }
     }
 });

@@ -257,9 +257,22 @@
                         <tbody>
                             <tr ng-repeat="list in contacts">
                                 <td>{{$index + 1}}</td>
-                                <td><span ng-if="list.mobile_calling_code != '+NaN' ">{{list.mobile_calling_code}}</span> {{list.mobile_number}}</td>
-                                <td>{{list.landline_calling_code}} {{list.landline_number}}</td>
-                                <td>{{list.email_id}}</td>
+                                <td><span ng-if="list.mobile_calling_code != '+NaN' && list.mobile_calling_code != '0' && list.mobile_calling_code != '' ">{{list.mobile_calling_code}} 
+                                        <span ng-if="displayMobile != '1'">{{ list.mobile_number }}</span>
+                                        <span ng-if="displayMobile == '1'">{{ list.mobile_number | mobileHider }}</span>
+                                    </span>
+                                    <span ng-if="list.mobile_number == ''"> - </span>
+                                </td>
+                                <td><span ng-if="list.landline_number == ''"> - </span>
+                                    <span ng-if="list.landline_number != ''"> 
+                                        {{list.landline_calling_code}} 
+                                        {{list.landline_number}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span ng-if="displayMobile != '1'">{{ list.email_id }}</span>
+                                    <span ng-if="displayMobile == '1'">{{ list.email_id | emailHider }}</span>
+                                </td>
                                 <td>{{list.pin}}</td>
                                 <td>
                                     <div class="fa-hover"  >

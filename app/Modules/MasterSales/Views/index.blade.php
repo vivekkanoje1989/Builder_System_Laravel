@@ -158,10 +158,14 @@
                                                                 <a style="cursor: pointer;" class="Linkhref ng-scope" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1,<?php echo Auth::guard('admin')->user()->id; ?>,{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                                                     <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;">
                                                                 </a>
-                                                                {{mobile_obj}}
+                                                                <span ng-if="displayMobile != '1'">{{ mobile_obj }}</span>
+                                                                <span ng-if="displayMobile == '1'">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
                                                             </span>
                                                         </div>
-                                                        <p ng-if="enquiry.email_id != '' && enquiry.email_id != 'null'">{{enquiry.email_id}}</p>
+                                                        <p ng-if="enquiry.email_id != '' && enquiry.email_id != 'null'">
+                                                            <span ng-if="displayMobile != '1'">{{ enquiry.email_id }}</span>
+                                                            <span ng-if="displayMobile == '1'">{{ enquiry.email_id | emailHider }}</span>
+                                                        </p>
                                                         <hr class="enq-hr-line">
                                                         <div>
                                                             <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}" class="ng-binding"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{ enquiry.customer_id}})</a>
