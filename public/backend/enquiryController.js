@@ -396,7 +396,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.enquiriesLength = response.totalCount;
                     $scope.outBoundCall = response.outBoundCall;
                     $scope.displayMobile = response.displayMobile;
-                    $scope.Emailpermissions = response.displayMobile;
+                    $scope.displayEmail = response.displayMobile;
                       $scope.disableBtn = false;
                 } else
                 {
@@ -440,9 +440,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
                     $scope.callBtnPermission = response.callBtnPermission;
-                    $scope.displayMobilePermission = response.displayMobilePermission;
-                    $scope.displayEmailPermission = response.displayMobilePermission;
-                     $scope.disableBtn = false;
+                    $scope.displayMobile = response.displayMobilePermission;
+                    $scope.displayEmail = response.displayMobilePermission;
+                    $scope.disableBtn = false;
                 } else
                 {   
                     $scope.disableBtn = true;
@@ -526,8 +526,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
                     $scope.outBoundCallBtn = response.outBoundCall;
-                    $scope.displayMobileNo = response.displayMobile;
-                    $scope.displayEmailId = response.displayMobile;
+                    $scope.displayMobile = response.displayMobile;
+                    $scope.displayEmail = response.displayMobile;
                       $scope.disableBtn = false;
                 } else
                 {
@@ -568,7 +568,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
-                    $scope.displayMobileN = response.displayMobileN;
+                    $scope.displayMobile = response.displayMobileN;
+                    $scope.displayEmail = response.displayMobileN;
                     $scope.callBtnPermission = response.callBtnPermission;
                     $scope.emailPermission = response.emailPermission;
                       $scope.disableBtn = false;
@@ -663,8 +664,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
                     $scope.callBtnPermission = response.callBtnPermission;
-                    $scope.displayMobileN = response.displayMobileN;
-                    $scope.displayEmailID = response.displayMobileN;
+                    $scope.displayMobile = response.displayMobileN;
+                    $scope.displayEmail = response.displayMobileN;
                       $scope.disableBtn = false;
                 } else
                 {
@@ -1420,8 +1421,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.useremail = angular.copy(response.useremail);
                         $scope.userpermissions = angular.copy(response.userpermissions);
                         $scope.displayCallBtn = response.outBoundCall;
-                        $scope.displayemail = $scope.userpermissions.indexOf("01406");
-                        $scope.displaymobile = response.displayMobile;
+                        $scope.displayEmail = response.displayMobile;
+                        $scope.displayMobile = response.displayMobile;
+                        
                         $scope.mobileList = response.enquiryDetails.mobileNumber;
                         $scope.emailList = response.enquiryDetails.emailId;
                         if ($scope.emailList == 'null') {
@@ -1550,7 +1552,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.disableRemarkSbt = false;
         $scope.insertTodayRemark = function (modalData, sharedemployee) {
             
-             $('.firstDiv').css('opacity', '0.1').css("pointer-events", "none");
+            $('.firstDiv').css('opacity', '0.1').css("pointer-events", "none");
             $('.pleaseWait').css("display", "block").css("z-index", "9999");
             
             if ($scope.editableCustInfo == true) {

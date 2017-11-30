@@ -916,7 +916,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             });
         }
 
-        $scope.accessControl = function (moduleType, empId, checkboxid, parentId, submenuId, allChild2Id, allChild3Id) {
+        $scope.accessControl = function (moduleType, empId, checkboxid, parentId, submenuId, allChild2Id, allChild3Id,chils2status) {
+    
             var isChecked = $("#" + checkboxid).prop("checked");
             var obj = $("#" + checkboxid);
             var level = $("#" + checkboxid).attr("data-level");
@@ -1047,7 +1048,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
             }
             Data.post('master-hr/accessControl', {
-                data: {empId: empId, parentId: $scope.parentId, submenuId: submenuId, isChecked: isChecked, moduleType: moduleType, allChild2Id: allChild2Id, allChild3Id: allChild3Id}
+                data: {empId: empId, parentId: $scope.parentId, submenuId: submenuId, isChecked: isChecked, moduleType: moduleType, allChild2Id: allChild2Id, allChild3Id: allChild3Id,chils2status:chils2status}
             }).then(function (response) {
                 if (response) {
                     $scope.totalPermissions = response.totalPermissions;

@@ -33,6 +33,13 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.hideaddress = false;
         $scope.customerAddress = false;
         $scope.salesBudgetList = [];
+        
+        $scope.onClickEnqTab = function(){ //firefox - design setting
+            $(".demo-tab .tab-content").css("float","none");
+        }
+        $scope.onClickCustTab = function(){//firefox - design setting
+            $(".demo-tab .tab-content").css("float","left");
+        }
         $scope.todayremarkTimeChange = function (selectedDate)
         {
             if ($scope.enquiryData.id <= 0) {
@@ -1249,4 +1256,16 @@ app.controller('enquiryCityCtrl', function ($scope, Data) {
             $scope.cityList = response.records;
         }
     });
+});
+
+app.filter('emailHider', function() {
+  return function(input) {
+     var arr = input.split("@");
+      // process text before @
+       var letter1 = arr[0][0] + "x".repeat(arr[0].length - 2) + arr[0].slice(-1);
+      // process text after @
+//       var letter2 = arr[1][0] + "*".repeat(arr[1].length - 2) + arr[1].slice(-4);
+       var letter2 = arr[1];
+      return letter1 + "@" + letter2;
+  }
 });

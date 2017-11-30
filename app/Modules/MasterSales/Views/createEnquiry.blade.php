@@ -1,3 +1,4 @@
+<div id="enquiry-form">
 <form name="enquiryForm" role="form" novalidate ng-submit=" projectsDetails.length > 0 && enquiryForm.$valid && saveEnquiryData(enquiryData)">
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
@@ -508,3 +509,4 @@
         </div>
     </div>
 </form>
+</div>
