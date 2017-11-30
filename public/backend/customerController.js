@@ -16,7 +16,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.modalForm = {};
         $scope.editProBtnn = false;
         $scope.addProBtnn = true;
-        $scope.initmoduelswisehisory = [1, 2];
+        $scope.initmoduelswisehisory = [1,2];
         $scope.errMobile = '';
         $scope.customerData.sms_privacy_status = $scope.customerData.email_privacy_status = 1;
         resetContactDetails();
@@ -32,6 +32,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.showaddress = true;
         $scope.hideaddress = false;
         $scope.customerAddress = false;
+        $scope.salesBudgetList = [];
         
         $scope.onClickEnqTab = function(){ //firefox - design setting
             $(".demo-tab .tab-content").css("float","none");
@@ -39,7 +40,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.onClickCustTab = function(){//firefox - design setting
             $(".demo-tab .tab-content").css("float","left");
         }
-        
         $scope.todayremarkTimeChange = function (selectedDate)
         {
             if ($scope.enquiryData.id <= 0) {
@@ -507,20 +507,32 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.addContactDetails = function () {
             $scope.modal = {};
         }
-        $scope.manageForm = function (customerId, enquiryId, enqType) {            
-            if(enquiryId === 0)
-            {
-                Data.post('operational-setting/getOperationalSettings').then(function (response) {
-                   //set enquiry creation date 
-                    var date = new Date();
-                   $scope.enqCreationDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - response.records[0].data);
-                   //
-                   
-                })
-            }
+        $scope.manageForm = function (customerId, enquiryId, enqType) {
+                // operational setting for enquiry days,preffered areas,max budget
+            Data.post('operational-setting/getOperationalSettings').then(function (response) {
+               var len = response.records.length;
+                for(var i = 0;i < len ; i++)
+                {
+                //set enquiry creation date 
+                if(response.records[i].id === 1){
+                   var date = new Date();
+                $scope.enqCreationDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - response.records[0].data);
+                continue;
+                }
+                if(response.records[i].id === 4){
+                    var min =  parseInt(response.records[i].min_budget);
+                    var max =  parseInt(response.records[i].max_budget);
+                    var result;
+                    for(var i=min;i<max;i= i+10){
+                        result = i + 10;
+                        var x = i+"00000 - "+result+"00000";
+                        $scope.salesBudgetList.push(x);
+                    }
+                }                    
+                }
+            });
             $scope.enqType = enqType;
-            var date = new Date();
-            
+            var date = new Date();            
             $scope.enquiryData.sales_category_id = $scope.enquiryData.property_possession_type = "1";
             $scope.enquiryData.city_id = $scope.enquiryData.followup_by_employee_id = "";
             $scope.enquiryData.parking_required = $scope.enquiryData.finance_required = "0";
@@ -552,6 +564,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                         var bdate = new Date($scope.customerData.birth_date);
                         $scope.enquiryData.birth_date = (bdate.getFullYear() + '-' + ("0" + (bdate.getMonth() + 1)).slice(-2) + '-' + bdate.getDate());
+                        var mdate = new Date($scope.customerData.marriage_date);
+                        $scope.enquiryData.marriage_date = (mdate.getFullYear() + '-' + ("0" + (mdate.getMonth() + 1)).slice(-2) + '-' + mdate.getDate());
                         $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                         $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
@@ -620,9 +634,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 });
             }
             if (customerId !== 0 && enquiryId !== 0) {
-
                 $scope.pageHeading = 'Edit Enquiry';
-                $scope.btnLabelC = $scope.btnLabelE = "Update";
+                $scope.btnLabelC = $scope.btnLabelE = "Update";                
                 Data.post('master-sales/getEnquiryDetails', {
                     data: {customerId: customerId, enquiryId: enquiryId}}).then(function (response) {
                     if (!response.success) {
@@ -631,24 +644,28 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.showDiv = true;
                         $scope.enquiryformDiv = true;
                     } else {
-                        $scope.enquiryData.max_budget = '555556';
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
                         $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
                         $scope.enquiryData.four_wheeler_parkings_required = (response.enquiryDetails[0].four_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].four_wheeler_parkings_required;
                         $scope.enquiryData.two_wheeler_parkings_required = (response.enquiryDetails[0].two_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].two_wheeler_parkings_required;
-                        $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : response.enquiryDetails[0].max_budget;
+                        if(response.enquiryDetails[0].max_budget !==0 && response.enquiryDetails[0].min_budget !== 0){
+                            var maxbudget = response.enquiryDetails[0].min_budget+" - "+response.enquiryDetails[0].max_budget;
+                            $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : maxbudget;
+                        }                        
                         $scope.enquiryData.next_followup_date = (response.enquiryDetails[0].next_followup_date == '0000-00-00') ? '' : response.enquiryDetails[0].next_followup_date;
                         $scope.enquiryData.next_followup_time = response.enquiryDetails[0].next_followup_time;
 //                        $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00' || response.enquiryDetails[0].property_possession_date == undefined) ? '' : response.enquiryDetails[0].property_possession_date;
+                        if(response.enquiryDetails[0].followup_by_employee_id === '')
+                        {
+                           response.enquiryDetails[0].followup_by_employee_id = $("#loginid").val(); 
+                        }
                         if (response.enquiryDetails[0].property_possession_date === null || response.enquiryDetails[0].property_possession_date === "-0001-11-30 00:00:00" || response.enquiryDetails[0].property_possession_date === "0000-00-00" || response.enquiryDetails[0].property_possession_date == undefined) {
                           
                             $scope.enquiryData.property_possession_date = "";
                         } else {
                             $scope.enquiryData.property_possession_date = response.enquiryDetails[0].property_possession_date;
                         }
-                       
-                        $scope.enquiryData.max_budget = '555556';
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
 
@@ -884,11 +901,20 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.historyList = {};
         $scope.saveEnquiryData = function (enquiryData)
         {
+            if(enquiryData.followup_by_employee_id === '')
+            {
+               enquiryData.followup_by_employee_id = $("#loginid").val(); 
+            } 
+            if(enquiryData.max_budget !== '' && enquiryData.max_budget !==0  && typeof enquiryData.max_budget !== 'undefined'){
+                var arr = enquiryData.max_budget.split(" - ");
+                enquiryData.min_budget = arr[0];
+                enquiryData.max_budget = arr[1];
+            }           
             $scope.disableFinishButton = true;
             var mobilecc = $("#mobile_calling_code").val();
             var date = new Date($scope.enquiryData.next_followup_date);
             $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
-            if ($scope.enquiryData.property_possession_date !== "0000-00-00")
+            if($scope.enquiryData.property_possession_date !== "0000-00-00")
             {
                 var tentativeDate = new Date($scope.enquiryData.property_possession_date);
                 $scope.enquiryData.property_possession_date = (tentativeDate.getFullYear() + '-' + ("0" + (tentativeDate.getMonth() + 1)).slice(-2) + '-' + tentativeDate.getDate());

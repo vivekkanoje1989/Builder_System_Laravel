@@ -63,6 +63,7 @@
                 <div id="customer-form">                    
                     <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'">
                     <input type="hidden" ng-model="searchData.customerId" name="customerId" id="custId" value="{{searchData.customerId}}">
+                    <input type="hidden" name="loginid" id="loginid" value="[[ Auth::guard('admin')->user()->id ]]">
                     <div class="row col-lg-12 col-sm-12 col-xs-12" >
                         <div class="col-lg-12 col-sm-12 col-xs-12">
                             <div class="form-title">

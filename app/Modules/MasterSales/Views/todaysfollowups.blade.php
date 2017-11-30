@@ -164,7 +164,7 @@
                             </td>
                             <td width="20%">
                                 <div>{{enquiry.title}} {{ enquiry.customer_fname |capitalize}} {{ enquiry.customer_lname |capitalize}}</div>
-                                <div ng-if="[[Auth::guard('admin') -> user() -> customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
+                                <div ng-if="[[Auth::guard('admin')->user()->customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
                                     <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                         <a ng-if="displayCallBtn == '1'" style="cursor: pointer;" class="Linkhref"
                                            ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') -> user() -> id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">

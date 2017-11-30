@@ -487,17 +487,17 @@ class CommonFunctions {
                 $result = Gupshup::sendSMS($cust_smsTemplate, $frontuserMobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
             }
         }
-        if (!empty($employee_id > 0)) {
+        if (!empty($employee_id > 0)) {            
             if (!empty($alertdata['emp_cc']) && !empty($template_employee->email_cc_ids)) {
                 $template_employee->email_cc_ids = $template_employee->email_cc_ids . ',' . $alertdata['emp_cc'];
-            } elseif (empty($template_employee->email_cc_ids) && !empty($alertdata['emp_cc'])) {
-                $template_employee->email_cc_ids = $alertdata['emp_cc'];
+            } elseif (empty($template_employee->email_cc_ids) && !empty($alertdata['emp_cc'])) {                
+                $template_employee->email_cc_ids = $alertdata['emp_cc'];                
             }
+            
             if (!empty($template_settings_employee)) {
                 if ($template_settings_employee->email_status == 1 || !empty($alertdata['email_status'])) {
                     $subject = $emp_email_subject;
                     $data = ['mailBody' => $emp_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $emp_email, "cc" => $template_employee->email_cc_ids, "attachment" => $emp_attachedfile];
-
                     $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
                 }
                 if ($template_settings_employee->sms_status == 1 || !empty($alertdata['sms_status'])) {
@@ -511,6 +511,7 @@ class CommonFunctions {
                     $result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
                 }
             }
+            
         }
         return true;
     }
