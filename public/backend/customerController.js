@@ -219,8 +219,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
         $scope.checkEmailValue = function () {
             if (typeof $scope.searchData.searchWithEmail === 'undefined' || $scope.searchData.searchWithEmail === '') {
-                $scope.showDiv = false;
                 $scope.errEmail = false;
+                $scope.showDiv = false;                
                 $scope.showDivCustomer = false;
             } else {
 //                var reg = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -236,6 +236,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     $scope.showDivCustomer = true;
                 }
             }
+            alert($scope.errEmail);
         }
 
         $scope.checkValue = function () {
