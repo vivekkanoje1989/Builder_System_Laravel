@@ -1031,11 +1031,11 @@
                                                                                                     <div text-angular name="email_content" ng-model="remarkData.email_content" ta-text-editor-class="editor-text form-control myform1-height" ta-html-editor-class="editor-text form-control myform1-height" ng-required="divEmail" style="height: 130px;"></div>
                                                                                                 </div>                                                                        
                                                                                             </div>
-                                                                                            <div ng-show="sbtBtn2" ng-messages="remarkForm.email_content.$error" class="help-block">
-                                                                                                <div ng-message="required">This field is required</div>
-                                                                                            </div>
                                                                                         </div>
                                                                                     </span>
+                                                                                    <div ng-show="sbtBtn2" ng-messages="remarkForm.email_content.$error" class="help-block">
+                                                                                        <div ng-message="required">This field is required</div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>

@@ -1,10 +1,10 @@
 <div class="row">
-    <form role="form" name="amenitiesForm" ng-submit="uploadsData(projectData.prid, projectImages, amenityData)">
+    <form role="form" name="amenitiesForm" ng-submit="!amenitiesForm.$pristine && amenitiesForm.$valid && uploadsData(projectData.prid, projectImages, amenityData)">
         <input type="hidden" ng-model="amenitiesForm.csrfToken" name="csrftoken" ng-init="amenitiesForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <label>Amenities Images (Size: W 250 X H 250)</label>
+                    <label>Amenities Images</label>
                     <span class="input-icon icon-right">
                         <input type="file" ngf-select multiple ng-model="projectImages.amenities_images" name="amenities_images" id="amenities_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_thumbnail)">
                     </span>                                                   
@@ -22,10 +22,10 @@
             </div>
             
             <div class="col-sm-6 col-xs-12">
-            <label for="">Select Amenities List <span class="sp-err">*</span></label>
+            <label for="">Amenities List</label>
                 <div class="form-group" ng-controller="amenitiesCtrl">                    	
                     <ui-select multiple ng-model="amenityData.project_amenities_list" name="project_amenities_list" theme="select2" style="width: 100%;">
-                        <ui-select-match>{{$item.name_of_amenity}}</ui-select-match>
+                        <ui-select-match placeholder="Select Amenities">{{$item.name_of_amenity}}</ui-select-match>
                         <ui-select-choices repeat="list in amenitiesList| filter:$select.search">
                             {{list.name_of_amenity}} 
                         </ui-select-choices>

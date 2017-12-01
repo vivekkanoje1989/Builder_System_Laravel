@@ -16,6 +16,8 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.searchDetails = {};
         $scope.searchData = {};
         $scope.lmodalForm = {};
+        $scope.inventoryInfoForm = {};
+        $scope.amenitiesForm = {};
         $scope.wingList = $scope.floorList = [];
         $scope.otherData = {};
 
@@ -152,7 +154,6 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                                 });
                             }
                         });
-                        console.log(response.settingData);
                         $scope.projectName = response.settingData.project_name;
 
                         $scope.showAllTabs = false;
@@ -234,9 +235,8 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                 });
 
             } else { //for insert or update
-
                 $scope.sbtbtnFiles = true;
-                if (typeof uploadData === 'undefined') {
+                if (typeof uploadData === 'undefined' || typeof uploadData === 'string') {
                     uploadData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
                 }
                 uploadData.upload = Upload.upload({
@@ -248,6 +248,8 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                     if (!response.data.success) {
                         $scope.errorMsg = response.data.message;
                     } else {
+                        $scope.amenitiesForm.$setPristine;
+                        $scope.amenitiesForm.$setUntouched;
                         $scope.sbtbtnFiles = false;
                         $scope.uploadData = otherData = "";
                         toaster.pop('success', 'Project', response.data.message);
@@ -297,7 +299,8 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
         $scope.getWingData = function (inventoryList, idataId, wingId, wingName) {
-            $scope.inventoryInfoForm.$pristine;
+            $scope.inventoryInfoForm.$setPristine;
+            $scope.inventoryData.$setUntouched;
             $scope.wingId = $scope.inventoryData.wing_id;
             $scope.idata = [];
             $scope.otherDataMultiple = [{id: 1}];
@@ -347,9 +350,11 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.images_preview = [];
                     $scope.statusImages = [];
                     $scope.statusRow = response.data.records;
-                    for (var i = 0; i < response.data.records.length; i++) {
-                        var array = response.data.records[i].images.split(',');
-                        $scope.statusImages.push(array);
+                    if(response.data.records.length < 0){
+                        for (var i = 0; i < response.data.records.length; i++) {
+                            var array = response.data.records[i].images.split(',');
+                            $scope.statusImages.push(array);
+                        }
                     }
                 }
             }, function (response) {
