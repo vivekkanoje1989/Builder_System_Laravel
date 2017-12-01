@@ -149,8 +149,8 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                 }).then(function (response) {
                     if (response.success) { //response true
                         $scope.displayMobile = response.displayMobile;
-                    $scope.displayEmail = response.displayMobile;
-                    console.log(response);
+                        $scope.displayEmail = response.displayMobile;
+                        $scope.displayCallBtn = response.outBoundCall;
                         if (response.flag === 0)//if customer exist, enquiry is empty
                         {
                             $scope.disableText = true;
@@ -576,6 +576,17 @@ app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
     }
 });
 
+app.filter('emailHider', function() {
+  return function(input) {
+     var arr = input.split("@");
+      // process text before @
+       var letter1 = arr[0][0] + "x".repeat(arr[0].length - 2) + arr[0].slice(-1);
+      // process text after @
+//       var letter2 = arr[1][0] + "*".repeat(arr[1].length - 2) + arr[1].slice(-4);
+       var letter2 = arr[1];
+      return letter1 + "@" + letter2;
+  }
+});
 app.filter('mobileHider', function () {
     return function (input) {
         if (input != '') {

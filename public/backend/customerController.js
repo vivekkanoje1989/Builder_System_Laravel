@@ -1257,15 +1257,14 @@ app.controller('enquiryCityCtrl', function ($scope, Data) {
         }
     });
 });
-
-app.filter('emailHider', function() {
-  return function(input) {
-     var arr = input.split("@");
-      // process text before @
-       var letter1 = arr[0][0] + "x".repeat(arr[0].length - 2) + arr[0].slice(-1);
-      // process text after @
-//       var letter2 = arr[1][0] + "*".repeat(arr[1].length - 2) + arr[1].slice(-4);
-       var letter2 = arr[1];
-      return letter1 + "@" + letter2;
-  }
+app.filter('mobileHider', function () {
+    return function (input) {
+        if (input != '') {
+            input = input.toString();
+            var num = "xxxxxx" + (input.substring(input.length - 4, input.length));
+            return num;
+        } else {
+            return '';
+        }
+    }
 });
