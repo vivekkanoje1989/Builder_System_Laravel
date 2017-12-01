@@ -932,7 +932,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     if (response.success) {
                         $scope.disableFinishButton = true;
                         toaster.pop('success', 'Enquiry', response.message);
-                        $state.reload();
+                        $state.go('enquiries');
                     } else {
                         $scope.disableFinishButton = false;
                         var obj = response.message;

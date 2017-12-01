@@ -296,6 +296,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             $scope.showDivCustomer = false;
                         } else {
                             $scope.showDivCustomer = true;
+                            $scope.customerData.birth_date = '';
                         }
                         $rootScope.newEnqFlag = 1;
                         if ($scope.searchData.searchWithMobile === undefined) {
@@ -577,7 +578,7 @@ app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
 
 app.filter('emailHider', function () {
     return function (input) {
-        if (input != '') {
+        if (input !== '' && input !== 'undefined' && typeof input !== 'undefined') {
             input = input.toString();
             var arr = input.split("@");
             if (arr[0].length < 2)
