@@ -236,7 +236,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     $scope.showDivCustomer = true;
                 }
             }
-            alert($scope.errEmail);
         }
 
         $scope.checkValue = function () {

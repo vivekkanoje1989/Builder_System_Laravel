@@ -53,7 +53,7 @@ class MasterSalesController extends Controller {
     }
 
     public function store() {
-        //try {
+        try {
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
             if (empty($input)) {
@@ -133,10 +133,10 @@ class MasterSalesController extends Controller {
                     CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
                 }
             }
-//        } catch (\Exception $ex) {
-//            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-//            return response()->json($result);
-//        }
+        } catch (\Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+            return response()->json($result);
+        }
         $result = ["success" => true, "customerId" => $createCustomer->id];
         return response()->json($result);
     }
