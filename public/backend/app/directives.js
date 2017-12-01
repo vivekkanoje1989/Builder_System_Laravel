@@ -95,13 +95,7 @@ var compareTo = function () {
     };
 };
 
-
 app.directive("compareTo", compareTo);
-
-
-
-
-
 
 app.directive('checkLoginCredentials', function ($timeout, $q, Data, $http) {
     return {
@@ -174,7 +168,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             else
                                 $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
                             if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN' || response.customerPersonalDetails[0].birth_date === '') {
-                            $scope.customerData.birth_date = '';
+                                $scope.customerData.birth_date = '';
                             } else {
                                 var bdt = new Date(response.customerPersonalDetails[0].birth_date);
                                 if (bdt.getDate() < 10) {
@@ -259,8 +253,8 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }, 200);
                             $scope.hideloader();
                         } else { //enquiry list of customer //customer and enquiry is exist
-                             
-                        if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
+
+                            if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
                                 $scope.customerData.birth_date = "";
                             } else {
                                 var bdt = new Date(response.customerPersonalDetails[0].birth_date);
@@ -271,9 +265,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 }
                                 $scope.customerData.birth_date = response.customerPersonalDetails[0].birth_date;
                             }
-                             if (response.customerPersonalDetails[0].gender_id == 0){
-                                  $scope.customerData.gender_id = ''
-                             }
+                            if (response.customerPersonalDetails[0].gender_id == 0) {
+                                $scope.customerData.gender_id = ''
+                            }
                             var url = $location.path();
                             if (url === "/sales/enquiry" || url === "/sales/quickEnquiry") {
                                 $scope.showDiv = true;
@@ -297,7 +291,13 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                     } else {
                         $scope.locations = [];
                         $scope.showDiv = false;
-                        $scope.showDivCustomer = true;
+                        if ($scope.errEmail == true)
+                        {
+                            $scope.showDivCustomer = false;
+                        } else {
+                            $scope.showDivCustomer = true;
+                            $scope.customerData.birth_date = '';
+                        }
                         $rootScope.newEnqFlag = 1;
                         if ($scope.searchData.searchWithMobile === undefined) {
                             $scope.searchData.searchWithMobile = '';
@@ -322,7 +322,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
 //                        $scope.customerData.birth_date = "1990-01-01";
                         $scope.hideloader();
                     }
-                    
+
                 });
             }
         };
@@ -339,7 +339,7 @@ app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
         require: 'ngModel',
         link: function ($scope, element, attributes, model) {
             model.$asyncValidators.uniqueEmail = function () {
-               
+
                 var personal_email1 = $scope.userContact.personal_email1;
                 if (typeof personal_email1 == 'undefined') {
                     var personal_email1 = $("#personal_email1").val();
@@ -363,7 +363,7 @@ app.directive('checkQuickUserUniqueEmail', function ($timeout, $q, Data) {
         require: 'ngModel',
         link: function ($scope, element, attributes, model) {
             model.$asyncValidators.uniqueEmail = function () {
-               
+
                 var personal_email1 = $scope.userData.personal_email1;
                 if (typeof personal_email1 == 'undefined') {
                     var personal_email1 = $("#personal_email1").val();
@@ -394,7 +394,7 @@ app.directive("checkForSameEmails", function () {
                         var newvari = modelValue != scope.otherModelValue;
                         return newvari;
                     }
-                }else{
+                } else {
                     return true;
                 }
             };
@@ -576,16 +576,23 @@ app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
     }
 });
 
-app.filter('emailHider', function() {
-  return function(input) {
-     var arr = input.split("@");
-      // process text before @
-       var letter1 = arr[0][0] + "x".repeat(arr[0].length - 2) + arr[0].slice(-1);
-      // process text after @
-//       var letter2 = arr[1][0] + "*".repeat(arr[1].length - 2) + arr[1].slice(-4);
-       var letter2 = arr[1];
-      return letter1 + "@" + letter2;
-  }
+app.filter('emailHider', function () {
+    return function (input) {
+        if (input !== '' && input !== 'undefined' && typeof input !== 'undefined') {
+            input = input.toString();
+            var arr = input.split("@");
+            if (arr[0].length < 2)
+            {
+                var letter1 = 'x';
+            } else {
+                var letter1 = arr[0][0] + "x".repeat(arr[0].length - 2) + arr[0].slice(-1);
+            }
+            var letter2 = arr[1];
+            return letter1 + "@" + letter2;
+        } else {
+            return '';
+        }
+    }
 });
 app.filter('mobileHider', function () {
     return function (input) {

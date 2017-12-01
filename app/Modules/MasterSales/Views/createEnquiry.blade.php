@@ -160,22 +160,6 @@
                             </span>
                         </div>
                     </div>
-<!--                    <div class="col-sm-3 col-xs-6" ng-if="enqType == 0 && enquiryData.id > 0">
-                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
-                            <label for="">Reassign To <span class="sp-err">*</span></label>
-                            <span class="input-icon icon-right">
-                                <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id" required>
-                                    <option value="">Select Employee</option>
-                                    <option ng-repeat="list in employeeList" value="{{list.id}}" ng-selected="list.id == enquiryData.followup_by_employee_id">{{list.first_name}} {{list.last_name}}</option>                                              
-                                </select>
-                                <i class="fa fa-sort-desc"></i>
-                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.followup_by_employee_id.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required">This field is required</div>
-                                </div>
-                                <div ng-if="followup_by_employee_id" class="sp-err blog_title">{{followup_by_employee_id}}</div>
-                            </span>
-                        </div>
-                    </div>   -->
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_date.$dirty && enquiryForm.next_followup_date.$invalid)}">
                             <label for="">Next Followup Date & Time<span class="sp-err">*</span></label>

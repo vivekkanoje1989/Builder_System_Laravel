@@ -91,9 +91,6 @@
                         <br><br>
                     </div>
                     <tabset ng-if="showDivCustomer" class="demo-tab showDivCustomer row">
-<!--                        <tab heading="Customer Information" id="custDiv">
-                            <div data-ng-include=" '/MasterSales/createCustomer'"></div>
-                        </tab>-->
                         <tab heading="Enquiry Information" active="enquiry_div" id="enquiryDiv" style="display: none;">
                             <div data-ng-include=" '/MasterSales/createEnquiry'"></div>
                         </tab>

@@ -219,8 +219,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
         $scope.checkEmailValue = function () {
             if (typeof $scope.searchData.searchWithEmail === 'undefined' || $scope.searchData.searchWithEmail === '') {
-                $scope.showDiv = false;
                 $scope.errEmail = false;
+                $scope.showDiv = false;                
                 $scope.showDivCustomer = false;
             } else {
 //                var reg = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -931,7 +931,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     if (response.success) {
                         $scope.disableFinishButton = true;
                         toaster.pop('success', 'Enquiry', response.message);
-                        $state.reload();
+                        $state.go('enquiries');
                     } else {
                         $scope.disableFinishButton = false;
                         var obj = response.message;
