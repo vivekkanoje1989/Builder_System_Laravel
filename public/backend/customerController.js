@@ -524,7 +524,11 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     var max =  parseInt(response.records[i].max_budget);
                     var result;
                     for(var i=min;i<max;i= i+10){
-                        result = i + 10;
+                        result = i + 10;                        
+                        if(result > max)
+                        {
+                            result=max;
+                        }
                         var x = i+"00000 - "+result+"00000";
                         $scope.salesBudgetList.push(x);
                     }
