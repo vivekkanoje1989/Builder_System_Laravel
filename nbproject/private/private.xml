@@ -3,28 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
-=======
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Controllers/ProjectsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/uploads/specification.blade.php</file>
-=======
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/userDocumentController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/UserDocuments/Controllers/UserDocumentsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/UserDocuments/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/userpermissions.blade.php</file>
-=======
->>>>>>> 7facbcd4a1ca4ce6da0b0e887015a998539fcec8
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/previousFollowup.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/directives.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
@@ -38,14 +21,6 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/requestsforme.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/quickEnquiry.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Models/Enquiry.php</file>
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 002030f508049890f97da082e00a3202d5c99c34
->>>>>>> d2ae6ec6233e0229f76cada6148336a1c54239e2
->>>>>>> 19d3cd04cd3ee9965a8282f61bf8645ce2e84eb6
->>>>>>> b897fa0cf08e81aacfc3af5b81fec1e43b4c663b
->>>>>>> 7facbcd4a1ca4ce6da0b0e887015a998539fcec8
         </group>
     </open-files>
 </project-private>
