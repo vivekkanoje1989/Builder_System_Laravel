@@ -578,7 +578,7 @@ app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
 
 app.filter('emailHider', function () {
     return function (input) {
-        if (input !== '' && input !== 'undefined' && typeof input !== 'undefined') {
+        if (input !== '' && input !== 'undefined' && typeof input !== 'undefined' && input !== null) {
             input = input.toString();
             var arr = input.split("@");
             if (arr[0].length < 2)
