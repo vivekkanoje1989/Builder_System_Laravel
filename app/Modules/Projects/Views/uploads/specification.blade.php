@@ -21,7 +21,7 @@
 }
 </style>
 <div class="row">
-    <form role="form" name="specificationForm" ng-submit="uploadsData(projectData.prid,'',specificationData)">
+    <form role="form" name="specificationForm" ng-submit="!specificationForm.$pristine && specificationForm.$valid && uploadsData(projectData.prid,'',specificationData)">
         <input type="hidden" ng-model="specificationData.csrfToken" name="csrftoken" ng-init="specificationData.csrfToken = '[[csrf_token()]]'" class="form-control">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="col-sm-6 col-xs-12">
@@ -94,7 +94,7 @@
                                 <div class="form-group multi-sel-div" ng-class="{ 'has-error' : (modalSbtBtn && (!modalForm.floors.$dirty && modalForm.floors.$invalid))}">
                                     <label for="">Floors<span class="sp-err">*</span></label>	
                                     <ui-select multiple ng-model="modalData.floors" name="floors" theme="select2" ng-required="required">
-                                        <ui-select-match>{{$item.floorName}}</ui-select-match>
+                                        <ui-select-match placeholder="Select Floors">{{$item.floorName}}</ui-select-match>
                                         <ui-select-choices repeat="flist in floorList | filter:$select.search">
                                             {{flist.floorName}} 
                                         </ui-select-choices>
@@ -106,7 +106,7 @@
                         <div class="row">
                             <div class="col-sm-12 col-xs-12">
                                 <div class="form-group" ng-class="{ 'has-error' : modalSbtBtn && (!modalForm.specification_images.$dirty && modalForm.specification_images.$invalid)}">
-                                    <label>Specification Images (Size: W 250 X H 250)<span class="sp-err">*</span></label>
+                                    <label>Specification Images<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
                                         <input type="file" ngf-select ng-model="modalImages.specification_images" name="specification_images" id="specification_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" required>
                                     </span>    

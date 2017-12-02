@@ -1,45 +1,43 @@
 <div class="row">
-    <form role="form">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>Layout Plan</h5>
-                <div class="col-lg-12 col-sm-12 col-xs-12">
-                    <div class="col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <label></label>
-                            <div class="card card-4 img-div2" ng-if="layoutTitle" ng-repeat="t in layoutTitle" style="height: 82px !important;" id="del_layout_plan_images_{{$index}}">
-                                <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{layoutTitle}},'{{t.image}}', {{$index}}, {{projectData.project_id}}, 'project/layout_plan_images/', 'layout_plan_images')"></i>
-                                <img ng-src="[[ config('global.s3Path') ]]/project/layout_plan_images/{{t.image}}" class="thumb photoPreview">
-                                <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
-                            </div>
-                            <span class="input-icon icon-right">
-                                <a href data-toggle="modal" data-target="#layoutDataModal" ng-click="resetDetails()">CLICK HERE TO UPLOAD LAYOUT DETAILS</a> 
-                            </span>                                                  
+            <h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>Layout Plan</h5>
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label></label>
+                        <div class="card card-4 img-div2" ng-if="layoutTitle" ng-repeat="t in layoutTitle" style="height: 82px !important;" id="del_layout_plan_images_{{$index}}">
+                            <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{layoutTitle}},'{{t.image}}', {{$index}}, {{projectData.project_id}}, 'project/layout_plan_images/', 'layout_plan_images')"></i>
+                            <img ng-src="[[ config('global.s3Path') ]]/project/layout_plan_images/{{t.image}}" class="thumb photoPreview">
+                            <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
                         </div>
-                    </div> 
-                </div>
-  
+                        <span class="input-icon icon-right">
+                            <a href data-toggle="modal" data-target="#layoutDataModal" ng-click="resetDetails()">CLICK HERE TO UPLOAD LAYOUT DETAILS</a> 
+                        </span>                                                  
+                    </div>
+                </div> 
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>Floor Plan</h5>
-                <div class="col-lg-12 col-sm-12 col-xs-12">
-                    <div class="col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label></label>
-                            <div class="card card-4 img-div2" ng-if="floorTitle" ng-repeat="t in floorTitle" id="del_floor_plan_images_{{$index}}">
-                                <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{floorTitle}},'{{t.image}}', {{$index}}, {{projectData.project_id}}, 'project/floor_plan_images/', 'floor_plan_images')"></i>
-                                <img ng-src="[[ config('global.s3Path') ]]/project/floor_plan_images/{{t.image}}" class="thumb photoPreview">
-                                <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
-                            </div>
-                            <span class="input-icon icon-right">
-                                <a href data-toggle="modal" data-target="#floorDataModal" ng-click="resetDetails()">CLICK HERE TO UPLOAD FLOOR DETAILS</a> 
-                            </span>                                                   
+
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>Floor Plan</h5>
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label></label>
+                        <div class="card card-4 img-div2" ng-if="floorTitle" ng-repeat="t in floorTitle" id="del_floor_plan_images_{{$index}}">
+                            <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{floorTitle}},'{{t.image}}', {{$index}}, {{projectData.project_id}}, 'project/floor_plan_images/', 'floor_plan_images')"></i>
+                            <img ng-src="[[ config('global.s3Path') ]]/project/floor_plan_images/{{t.image}}" class="thumb photoPreview">
+                            <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
                         </div>
-                    </div> 
-                </div>
+                        <span class="input-icon icon-right">
+                            <a href data-toggle="modal" data-target="#floorDataModal" ng-click="resetDetails()">CLICK HERE TO UPLOAD FLOOR DETAILS</a> 
+                        </span>                                                   
+                    </div>
+                </div> 
             </div>
         </div>
-    </form>
+    </div>
 </div>
 
  <!-- Layout Modal -->
@@ -133,7 +131,7 @@
                                     <label>Select Floors<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
                                         <ui-select multiple ng-model="fmodalData.floors" name="floors" theme="select2" style="width:540px;" ng-required="required">
-                                            <ui-select-match>{{$item.floorName}}</ui-select-match>
+                                            <ui-select-match placeholder="Select Floors">{{$item.floorName}}</ui-select-match>
                                             <ui-select-choices repeat="flist in floorList | filter:$select.search">
                                                 {{flist.floorName}} 
                                             </ui-select-choices>

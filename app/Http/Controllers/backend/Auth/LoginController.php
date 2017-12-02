@@ -115,6 +115,12 @@ use AuthenticatesUsers;
     }
 
     public function getSession(Request $request) {
+        if (isset($_SESSION["LAST_ACTIVITY"]) && (time() - $_SESSION["LAST_ACTIVITY"] > 3600)) {
+            session_destroy();  
+            session_unset();  
+            Auth()->guard('admin')->logout();
+        }
+        $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
         if (Auth::guard('admin')->check()) {
             $authUser = Auth()->guard('admin')->user();
             $result = ['success' => true, 'id' => $authUser->id, 'name' => $authUser->name, 'email' => $authUser->email];

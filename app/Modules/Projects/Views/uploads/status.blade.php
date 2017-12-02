@@ -1,5 +1,5 @@
 <div class="row">
-    <form role="form" name="statusForm" id="statusForm" ng-submit="saveStatusInfo(projectData.prid, stProjectImages, statusData)" enctype="multipart/form-data">
+    <form role="form" name="statusForm" id="statusForm" ng-submit="!statusForm.$pristine && statusForm.$valid && saveStatusInfo(projectData.prid, stProjectImages, statusData)" enctype="multipart/form-data">
         <input type="hidden" ng-model="statusForm.csrfToken" name="csrftoken" ng-init="statusForm.csrfToken = '[[csrf_token()]]'">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <table class="table table-bordered table-responsive">
@@ -31,9 +31,12 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-sm-3 col-xs-6">  
                 <div class="form-group">
-                    <label>Images (Size: W 1000 X H 450)</label>
+                    <label>Images<span class="sp-err">*</span></label>
                     <span class="input-icon icon-right">
-                        <input type="file" multiple ngf-select ng-model="stProjectImages.images" name="images" id="statusimages" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(statusImages.images)">
+                        <input type="file" multiple ngf-select ng-model="stProjectImages.images" name="images" id="statusimages" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(statusImages.images)" required>
+                        <div ng-show="formButton" ng-messages="statusForm.images.$error" class="help-block">
+                            <div ng-message="required">This field is required.</div>
+                        </div>
                     </span>                                                   
                 </div>
                  <div class="col-sm-12 col-xs-12">
@@ -45,18 +48,21 @@
             </div>
             <div class="col-sm-3 col-xs-6">
                 <div class="form-group">
-                    <label for="">Status</label>    
+                    <label for="">Status<span class="sp-err">*</span></label>    
                     <div class="control-group">
                         <div class="radio">
                             <label>
-                                <input name="form-field-radio" type="radio" ng-model="statusData.status" value="1" class="colored-success">
+                                <input name="status" type="radio" ng-model="statusData.status" value="1" class="colored-success" required>
                                 <span class="text">Yes</span>
                             </label>
                             &nbsp;&nbsp;
                             <label>
-                                <input name="form-field-radio" type="radio" ng-model="statusData.status" value="0" class="colored-blue">
+                                <input name="status" type="radio" ng-model="statusData.status" value="0" class="colored-blue" required>
                                 <span class="text">No</span>
                             </label>
+                        </div>
+                        <div ng-show="formButton" ng-messages="statusForm.status.$error" class="help-block">
+                            <div ng-message="required">This field is required.</div>
                         </div>
                     </div>
                 </div>
@@ -66,12 +72,15 @@
             <div class="col-sm-12 col-xs-6">  
                 <div class="widget flat radius-bordered">
                     <div class="widget-header bordered-bottom bordered-themeprimary">
-                        <span class="widget-caption">Short Description</span>
+                        <span class="widget-caption">Short Description<span class="sp-err">*</span></span>
                     </div>
                     <div class="widget-body no-padding">
                         <div ng-controller="TextAngularCtrl">
-                            <div text-angular ng-model="statusData.status_short_description" name="status_short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                            <div text-angular ng-model="statusData.status_short_description" name="status_short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
                         </div>
+                    </div>
+                    <div ng-show="formButton" ng-messages="statusForm.status_short_description.$error" class="help-block">
+                        <div ng-message="required">This field is required.</div>
                     </div>
                 </div>
             </div>
@@ -79,7 +88,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class=""><hr></div>
             <div class="form-group" align="center">
-                <button type="submit" class="btn btn-primary">{{btnLabel}}</button>
+                <button type="submit" class="btn btn-primary" ng-click="formButton=true">{{btnLabel}}</button>
                 <button type="button" class="btn btn-primary" ng-click="cancel_uploads()">Cancel</button>
             </div>
         </div>        
