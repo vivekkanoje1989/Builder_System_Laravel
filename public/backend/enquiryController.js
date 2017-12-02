@@ -1037,6 +1037,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         $scope.manageEmailText = function (key, emailid) {
             $scope.addEmail = true;
+            $scope.emailErr = "";
             selectedEmKey = key;
             if (emailid !== '') {
                 $timeout(function () {
@@ -1061,6 +1062,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         //add new mobile number or email address
         $scope.addInfo = function (custId, callingCode, attrVal, elem) {
+//            alert(valueExist);return false;
             var callingCode1 = parseInt(callingCode);
             $scope.flag = false;
             if (elem === "mobile_number") {
