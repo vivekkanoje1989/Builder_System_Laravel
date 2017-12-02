@@ -126,25 +126,26 @@
                 </div>
             </div>
             <div class="col-lg-12 col-sm-12 col-xs-12">
-                <div class="row">
-                <div class="col-lg-3 col-sm-3 col-xs-3">                       
-                    <div class="form-group">
-                        <label for="">Marriage Date</label>
-                        <div ng-controller="DatepickerDemoCtrl" class="form-group">
-                            <p class="input-group">
-                                <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date="dt" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            <div ng-show="formButton" ng-messages="customerForm.marriage_date.$error" class="help-block errMsg">
-                                <div ng-message="required">This field is required</div>
+                <div class="row" ng-controller="enquirySourceCtrl">
+                    <div class="col-sm-3 col-md-3 col-xs-12">                        
+                        <div class="form-group">
+                            <label for="">Marriage Date</label>
+                            <div ng-controller="DatepickerDemoCtrl" class="form-group">
+                                <p class="input-group">
+                                    <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date="dt" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                <div ng-show="formButton" ng-messages="customerForm.marriage_date.$error" class="help-block errMsg">
+                                    <div ng-message="required">This field is required</div>
+                                </div>
+                                <div ng-if="marriage_date"class="errMsg marriage_date">{{marriage_date}}</div>
+                                </p>
                             </div>
-                            <div ng-if="marriage_date"class="errMsg marriage_date">{{marriage_date}}</div>
-                            </p>
                         </div>
-                    </div>               
-                </div>
-                <div ng-controller="enquirySourceCtrl">
+                    </div>                    
+<!--                </div>
+                <div class="row" ng-controller="enquirySourceCtrl">-->
                     <div class="col-sm-3 col-md-3 col-xs-12">
                         <div class="form-group">
                             <label for="">Source<span class="sp-err">*</span></label>
@@ -174,24 +175,22 @@
                             </span>                                            
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-sm-3 col-xs-3">
-                    <div class="form-group">
-                        <label for="">Source Description</label>
-                        <span class="input-icon icon-right">
-                            <textarea ng-model="customerData.source_description" name="source_description" maxlength="50" class="form-control" ng-disabled="disableSource"></textarea>
-
-                            <!--<input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" ng-disabled="disableSource">-->
-                            <i class="fa fa fa-align-left"></i>
-                            <div ng-show="formButton" ng-messages="customerForm.source_description.$error" class="help-block errMsg">
-                                <div ng-message="required">This field is required</div>
-                            </div>
-                            <div ng-if="source_description" class="errMsg source_description">{{source_description}}</div>
-                        </span>
+                    <div class="col-sm-3 col-md-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="">Source Description</label>
+                            <span class="input-icon icon-right">
+                                <textarea ng-model="customerData.source_description" name="source_description" maxlength="50" class="form-control" ng-disabled="disableSource"></textarea>
+                                
+                                <!--<input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" ng-disabled="disableSource">-->
+                                <i class="fa fa fa-align-left"></i>
+                                <div ng-show="formButton" ng-messages="customerForm.source_description.$error" class="help-block errMsg">
+                                    <div ng-message="required">This field is required</div>
+                                </div>
+                                <div ng-if="source_description" class="errMsg source_description">{{source_description}}</div>
+                            </span>
+                        </div>
                     </div>
-                </div>
-                </div> 
-            </div>
+                </div>  
                 <div class="row">
                     <div class="col-sm-3 col-md-3 col-xs-12">
                         <div class="form-group" >
