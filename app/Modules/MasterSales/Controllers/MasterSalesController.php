@@ -505,7 +505,7 @@ class MasterSalesController extends Controller {
 
     // insert new enquiry 
     public function saveEnquiry() {
-         try {
+        try {
         $validationRules = Enquiry::validationRules();
         $validationMessages = Enquiry::validationMessages();
         $postdata = file_get_contents("php://input");

@@ -179,7 +179,7 @@
                         <div ng-if="enquiryData.id === undefined || enquiryData.id <=0" class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_time.$dirty && enquiryForm.next_followup_time.$invalid)}" >
                             <label for="">Next Followup Time<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select name="next_followup_time" id="next_followup_time" class="form-control" required="required">
+                                <select name="next_followup_time" ng-model="enquiryData.next_followup_time" id="next_followup_time" class="form-control" required="required">
                                     <option value=""> Select Time </option>
                                     <option ng-repeat="time in timeList" value="{{time.value}}">{{time.label}}</option>
                                 </select>                                
@@ -199,10 +199,7 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                             </span>
-                        </div>
-                        
-                        
-                        
+                        </div>                        
                     </div>
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.remarks.$dirty && enquiryForm.remarks.$invalid)}">

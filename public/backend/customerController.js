@@ -926,6 +926,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.historyList = {};
         $scope.saveEnquiryData = function (enquiryData)
         {
+            console.log(enquiryData);
             if (enquiryData.followup_by_employee_id === '')
             {
                 enquiryData.followup_by_employee_id = $("#loginid").val();
