@@ -691,7 +691,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
                         $scope.searchData.searchWithEmail = response.customerContactDetails[0].email_id;
                         $scope.searchData.mobile_calling_code = "+" + response.customerContactDetails[0].mobile_calling_code;
-//                        $scope.searchData.landline_calling_code = "+" + response.customerContactDetails[0].landline_calling_code;
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
 
@@ -847,7 +846,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                     $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                                 }
 
-                                if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00") {
+                                if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === 'NaN-aN-NaN') {
                                     $scope.customerData.marriage_date = "";
                                 } else {
                                     var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);

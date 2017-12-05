@@ -1062,7 +1062,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         //add new mobile number or email address
         $scope.addInfo = function (custId, callingCode, attrVal, elem) {
-//            alert(valueExist);return false;
             var callingCode1 = parseInt(callingCode);
             $scope.flag = false;
             if (elem === "mobile_number") {
@@ -1125,7 +1124,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                             toaster.pop('success', 'Customer Details', "Record updated successfully");
                         }
                     });
-                }, 3000);
+                }, 500);
             }
         }
         //add new company or update company
@@ -1272,7 +1271,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                         }
 
-                        //if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00") {
                         if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === "0000-00-00" || response.customerPersonalDetails[0].marriage_date === 'NaN-aN-NaN') {
                             $scope.customerData.marriage_date = "";
                         } else {
@@ -1282,6 +1280,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                             } else {
                                 $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
                             }
+                        }
+                        if($scope.customerContacts.country_id == 0){
+                            $scope.customerContacts.country_id = '101';
                         }
 
                         Data.post('getStates', {
@@ -1295,6 +1296,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                                 $timeout(function () {
                                     $("#current_state_id").val($scope.customerContacts.state_id);
                                     $scope.customerContacts.state_id = angular.copy($scope.customerContacts.state_id);
+                                    if($scope.customerContacts.state_id == 0){
+                                        $scope.customerContacts.state_id = '';
+                                    }
                                 }, 200);
                             }
                         });
@@ -1310,6 +1314,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                                     $timeout(function () {
                                         $("#current_city_id").val($scope.customerContacts.city_id);
                                         $scope.customerContacts.city_id = angular.copy($scope.customerContacts.city_id);
+                                        if($scope.customerContacts.city_id == 0){
+                                            $scope.customerContacts.city_id = '';
+                                        }
                                     }, 200);
                                 }
                             });
@@ -1547,8 +1554,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.disableRemarkSbt = false;
         $scope.insertTodayRemark = function (modalData, sharedemployee) {
             
-            $('.firstDiv').css('opacity', '0.1').css("pointer-events", "none");
-            $('.pleaseWait').css("display", "block").css("z-index", "9999");
+//            $('.firstDiv').css('opacity', '0.1').css("pointer-events", "none");
+//            $('.pleaseWait').css("display", "block").css("z-index", "9999");
             
             if ($scope.editableCustInfo == true) {
                 if (modalData.customer_fname == '' && modalData.customer_lname == '') {
