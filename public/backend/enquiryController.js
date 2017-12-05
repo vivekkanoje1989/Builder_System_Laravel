@@ -1783,6 +1783,7 @@ app.controller('enquiryCityCtrl', function ($scope, Data) {
     $scope.changeLocations = function (cityId)
     {
         Data.post('master-sales/getAllLocations', {city_id: cityId, }).then(function (response) {
+            $scope.enquiryData.enquiry_locations = [];
             $scope.locations = response.records;
         });
     }

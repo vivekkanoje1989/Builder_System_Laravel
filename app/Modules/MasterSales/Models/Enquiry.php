@@ -4,11 +4,8 @@
  * Created by Reliese Model.
  * Date: Thu, 20 Apr 2017 18:04:56 +0530.
  */
-
 namespace App\Modules\MasterSales\Models;
-
 use Reliese\Database\Eloquent\Model as Eloquent;
-
 /**
  * Class Enquiry
  * 
