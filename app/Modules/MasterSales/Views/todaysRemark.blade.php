@@ -169,7 +169,6 @@
 </style>
 
 <div class="modal-body"> 
-
         <div class="row">
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <tabset>
@@ -241,10 +240,10 @@
                                                         <div class="col-sm-12" style="margin-left: -13px;" ng-if="mobileList.length < 4 && displayMobile != '1'"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
                                                         <span class="input-icon icon-right" ng-if="addMob && displayMobile != '1'">
                                                             <span class="input-icon icon-right">
-                                                                <input type="text" ng-model="remarkData.mobile_number" check-mobile-exist placeholder="Enter Mobile Number" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" id="mobile_number" name="mobile_number" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 500 }"
-                                                                       ng-change="numNotExist && addInfo(remarkData.customerId, remarkData.mobile_calling_code1, remarkData.mobile_number, 'mobile_number')">
+                                                                <input type="text" ng-model="remarkData.mobile_number" placeholder="Enter Mobile Number" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" id="mobile_number" name="mobile_number" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 500 }"
+                                                                       ng-blur="addInfo(remarkData.customerId, remarkData.mobile_calling_code1, remarkData.mobile_number, 'mobile_number')">
                                                                 <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeMobText()"></i>
-                                                                <div ng-show="uniqueMobile" style="color: red;">Mobile number already exist</div>
+                                                                <div ng-show="mobErr" style="color: red;">Mobile number already exist</div>
                                                             </span>
                                                             <div ng-show="remarkData.mobile_number.length > 0" ng-messages="remarkForm.mobile_number.$error" class="help-block {{ applyClassPMobile}}">
                                                                 <div ng-message="minlength" style="color: red !important;">Length of mobile number minimum 10 digit required</div>
@@ -264,14 +263,18 @@
                                                         </span>
                                                         @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
                                                         <div class="col-sm-12" style="margin-left: -13px;" ng-if="emailList.length < 4 && displayEmail != '1'">
-                                                            <a href ng-click="manageEmailText('', '')">Add Email Id</a>
+                                                            <a href ng-click="manageEmailText('', '');">Add Email Id</a>
                                                         </div>
                                                         <span class="input-icon icon-right" ng-if="addEmail && displayEmail != '1'">
-                                                            <input type="email" ng-model="remarkData.email_id" name="email_id" check-email-exist placeholder="Enter Email Address" class="form-control" maxlength="40" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" ng-model-options="{ allowInvalid: true, debounce: 550 }"
-                                                                   ng-change="emNotExist && addInfo(remarkData.customerId, '', remarkData.email_id, 'email_id')">
+                                                            <input type="email" ng-model="remarkData.email_id" name="email_id" placeholder="Enter Email Address" 
+                                                                   class="form-control" maxlength="40" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" 
+                                                                   ng-model-options="{ allowInvalid: true, debounce: 850 }"
+                                                                   ng-blur="addInfo(remarkData.customerId, '', remarkData.email_id, 'email_id')">
                                                             <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeEmailText()"></i>
-                                                            <div ng-if="emailErr" style="color: red;">{{emailErr}}</div>
-                                                            <div ng-if="uniqueEmail" style="color: red;">Email id already exist</div>
+                                                            <div ng-if="emailErr" style="color: red;">Email id already exist</div>
+                                                            <div ng-messages="remarkForm.email_id.$error" class="help-block">
+                                                                <div ng-message="pattern" >Invalid Email Id</div>
+                                                            </div> 
                                                         </span>
                                                         @endif
                                                         <input type="hidden" ng-mode="prevEmail" name="prevEmail" id="prevEmail">
