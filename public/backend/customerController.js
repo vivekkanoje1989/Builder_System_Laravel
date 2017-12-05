@@ -712,7 +712,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
                         $scope.searchData.searchWithEmail = response.customerContactDetails[0].email_id;
                         $scope.searchData.mobile_calling_code = "+" + response.customerContactDetails[0].mobile_calling_code;
-//                        $scope.searchData.landline_calling_code = "+" + response.customerContactDetails[0].landline_calling_code;
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
 

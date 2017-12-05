@@ -482,7 +482,7 @@ class AdminController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $stateId = $request['data']['stateId'];
-        $getCities = MlstCity::select('id', 'name', 'state_id')->where("state_id", $stateId)->get();
+        $getCities = MlstCity::select('id', 'name', 'state_id')->where("state_id", $stateId)->orderBy("name","ASC")->get();
         if (!empty($getCities)) {
             $result = ['success' => true, 'records' => $getCities];
         } else {

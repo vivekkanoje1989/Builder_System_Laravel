@@ -826,12 +826,10 @@ class MasterSalesController extends Controller {
                     //$checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number')->where(['mobile_number' => $input['attrVal'], 'customer_id' => $input['custId']])->get();
                     $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number')->where(['mobile_number' => $input['attrVal']])->get();
                 }
-                if (!empty($checkCustomerExist[0]['mobile_number']) && $checkCustomerExist[0]['customer_id'] != $input['custId']) { //email id exist in db and it is of another customer id
+                if (!empty($checkCustomerExist[0]['mobile_number']) && $checkCustomerExist[0]['customer_id'] != $input['custId']) { //email id exist in db and emailid is of another customer id
                    $result = ["success" => false, "message" => "Mobile number already exist"];
                    return $result;
                 }
-//                echo $checkCustomerExist[0]['mobile_number']."==".$checkCustomerExist[0]['customer_id']."==".$input['custId'];
-//                exit;
                 if (!empty($checkCustomerExist)) {
                     if (!empty($checkCustomerExist[0]['mobile_number'])) {
                         $input['pkid'] = $checkCustomerExist[0]['id'];
@@ -879,12 +877,12 @@ class MasterSalesController extends Controller {
                 }
             } else {
                 if (!empty($input['prevEmail'])) {
-                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'email_id')->where(['email_id' => $input['prevEmail'], 'customer_id' => $input['custId']])->get();
+                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'email_id')->where(['email_id' => $input['prevEmail']])->get();
                 } else {
-                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'email_id')->where(['email_id' => $input['attrVal'], 'customer_id' => $input['custId']])->get();
+                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'email_id')->where(['email_id' => $input['attrVal']])->get();
                 }
                 
-                if (!empty($checkCustomerExist[0]['email_id']) && $checkCustomerExist[0]['customer_id'] != $input['custId']) { //email id exist in db and it is of another customer id
+                if (!empty($checkCustomerExist[0]['email_id']) && $checkCustomerExist[0]['customer_id'] != $input['custId']) { //email id exist in db and emailid is of another customer id
                    $result = ["success" => false, "message" => "Email id already exist"];
                    return $result;
                 }
@@ -1222,6 +1220,7 @@ Regards,
                     $msg = 'Remark inserted successfully';
                     $input['remarks'] = $input['msgRemark'] . " " . $reassignEnq;
                 } else { //for email
+                    echo "<pre>";print_r($input['email_id_arr']);exit;
                     $getCallBackNo = CtSetting::select('virtual_display_number')->where("default_number", 1)->get();
                     $contactText = "
 Regards,<br>
