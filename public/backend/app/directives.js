@@ -178,7 +178,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 }
                                 $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                             }
-                            if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00") {
+                            if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === 'NaN-aN-NaN' || response.customerPersonalDetails[0].marriage_date === '') {
                                 $scope.customerData.marriage_date = "";
                             } else {
                                 var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
@@ -253,8 +253,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }, 200);
                             $scope.hideloader();
                         } else { //enquiry list of customer //customer and enquiry is exist
-
-                            if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
+                             if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN' || response.customerPersonalDetails[0].birth_date === '0000-00-00') {
                                 $scope.customerData.birth_date = "";
                             } else {
                                 var bdt = new Date(response.customerPersonalDetails[0].birth_date);
@@ -267,6 +266,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }
                             if (response.customerPersonalDetails[0].gender_id == 0) {
                                 $scope.customerData.gender_id = ''
+                            }
+                            if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === 'NaN-aN-NaN' || response.customerPersonalDetails[0].marriage_date ==='0000-00-00') {
+                                $scope.customerData.marriage_date = "";
                             }
                             var url = $location.path();
                             if (url === "/sales/enquiry" || url === "/sales/quickEnquiry") {

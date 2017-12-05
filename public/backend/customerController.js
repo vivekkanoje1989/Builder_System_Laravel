@@ -16,7 +16,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.modalForm = {};
         $scope.editProBtnn = false;
         $scope.addProBtnn = true;
-        $scope.initmoduelswisehisory = [1,2];
+        $scope.initmoduelswisehisory = [1, 2];
         $scope.errMobile = '';
         $scope.customerData.sms_privacy_status = $scope.customerData.email_privacy_status = 1;
         resetContactDetails();
@@ -27,18 +27,19 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         var today = new Date();
         today.setYear(today.getFullYear() - 20);
         $scope.maxDates = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        var tdate= new Date();
-        $scope.todaydate = (tdate.getFullYear()+ '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getDate() );
+        var tdate = new Date();
+        //$scope.todaydate = (tdate.getFullYear() + '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getDate());
         $scope.showaddress = true;
         $scope.hideaddress = false;
         $scope.customerAddress = false;
-        $scope.salesBudgetList = [];
-        
-        $scope.onClickEnqTab = function(){ //firefox - design setting
-            $(".demo-tab .tab-content").css("float","none");
+        $scope.salesMinBudgetList = [];
+        $scope.salesMaxBudgetList = [];
+
+        $scope.onClickEnqTab = function () { //firefox - design setting
+            $(".demo-tab .tab-content").css("float", "none");
         }
-        $scope.onClickCustTab = function(){//firefox - design setting
-            $(".demo-tab .tab-content").css("float","left");
+        $scope.onClickCustTab = function () {//firefox - design setting
+            $(".demo-tab .tab-content").css("float", "left");
         }
         $scope.todayremarkTimeChange = function (selectedDate)
         {
@@ -220,7 +221,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.checkEmailValue = function () {
             if (typeof $scope.searchData.searchWithEmail === 'undefined' || $scope.searchData.searchWithEmail === '') {
                 $scope.errEmail = false;
-                $scope.showDiv = false;                
+                $scope.showDiv = false;
                 $scope.showDivCustomer = false;
             } else {
 //                var reg = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -507,36 +508,58 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.addContactDetails = function () {
             $scope.modal = {};
         }
-        $scope.manageForm = function (customerId, enquiryId, enqType) {
-                // operational setting for enquiry days,preffered areas,max budget
-            Data.post('operational-setting/getOperationalSettings').then(function (response) {
-               var len = response.records.length;
-                for(var i = 0;i < len ; i++)
-                {
-                //set enquiry creation date 
-                if(response.records[i].id === 1){
-                   var date = new Date();
-                $scope.enqCreationDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - response.records[0].data);
-                continue;
-                }
-                if(response.records[i].id === 4){
-                    var min =  parseInt(response.records[i].min_budget);
-                    var max =  parseInt(response.records[i].max_budget);
-                    var result;
-                    for(var i=min;i<max;i= i+10){
-                        result = i + 10;                        
-                        if(result > max)
-                        {
-                            result=max;
-                        }
-                        var x = i+"00000 - "+result+"00000";
-                        $scope.salesBudgetList.push(x);
+
+        $scope.calculateBudgetRank = function () {
+            var maxRange = parseInt($scope.enquiryData.min_budget);
+            $scope.salesMaxBudgetList = [];
+            if(maxRange !== 'NaN'){
+                var mx =parseInt($rootScope.MaxBudgetRange+"00000");           
+                for (var i = maxRange; i < mx; i = i + 500000) {
+                    if (i > mx)
+                    {
+                        i = mx;
                     }
-                }                    
+                    var x = i;
+                    $scope.salesMaxBudgetList.push(x);
+                }
+            }
+            else{
+                $scope.salesMaxBudgetList = [];
+                $scope.enquiryData.min_budget = 0;
+                $scope.enquiryData.max_budget = 0;
+            }
+        }
+        $scope.manageForm = function (customerId, enquiryId, enqType) {
+            // operational setting for enquiry days,preffered areas,max budget
+            Data.post('operational-setting/getOperationalSettings').then(function (response) {
+                var len = response.records.length;
+                for (var i = 0; i < len; i++)
+                {
+                    //set enquiry creation date 
+                    if (response.records[i].id === 1) {
+                        var date = new Date();
+                        $scope.enqCreationDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - response.records[0].data);
+                        continue;
+                    }
+                    if (response.records[i].id === 4) {
+                        var min = parseInt(response.records[i].min_budget); //salesMinBudgetList
+                        var max = parseInt(response.records[i].max_budget);
+                        $rootScope.MaxBudgetRange = max;
+                        var result;
+                        for (var i = min; i < max; i = i + 5) {
+                            if (i > max)
+                            {
+                                i = max;
+                            }
+                            var x = i + "00000";
+                            $scope.salesMinBudgetList.push(x);
+                            result = i + 5;
+                        }
+                    }
                 }
             });
             $scope.enqType = enqType;
-            var date = new Date();            
+            var date = new Date();
             $scope.enquiryData.sales_category_id = $scope.enquiryData.property_possession_type = "1";
             $scope.enquiryData.city_id = $scope.enquiryData.followup_by_employee_id = "";
             $scope.enquiryData.parking_required = $scope.enquiryData.finance_required = "0";
@@ -582,11 +605,11 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
                         if (response.customerPersonalDetails[0].birth_date === '0000-00-00' || response.customerPersonalDetails[0].birth_date === 'NaN-aN-NaN') {
                             $scope.customerData.birth_date = '';
-                           
+
                         } else {
                             $scope.customerData.birth_date = response.customerPersonalDetails[0].birth_date;
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
-                            
+
                         }
                         if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === "0000-00-00" || response.customerPersonalDetails[0].marriage_date === 'NaN-aN-NaN') {
                             $scope.customerData.marriage_date = "";
@@ -639,7 +662,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             }
             if (customerId !== 0 && enquiryId !== 0) {
                 $scope.pageHeading = 'Edit Enquiry';
-                $scope.btnLabelC = $scope.btnLabelE = "Update";                
+                $scope.btnLabelC = $scope.btnLabelE = "Update";
                 Data.post('master-sales/getEnquiryDetails', {
                     data: {customerId: customerId, enquiryId: enquiryId}}).then(function (response) {
                     if (!response.success) {
@@ -653,19 +676,17 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
                         $scope.enquiryData.four_wheeler_parkings_required = (response.enquiryDetails[0].four_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].four_wheeler_parkings_required;
                         $scope.enquiryData.two_wheeler_parkings_required = (response.enquiryDetails[0].two_wheeler_parkings_required == 0) ? '' : response.enquiryDetails[0].two_wheeler_parkings_required;
-                        if(response.enquiryDetails[0].max_budget !==0 && response.enquiryDetails[0].min_budget !== 0){
-                            var maxbudget = response.enquiryDetails[0].min_budget+" - "+response.enquiryDetails[0].max_budget;
-                            $scope.enquiryData.max_budget = (response.enquiryDetails[0].max_budget == 0) ? '' : maxbudget;
-                        }                        
+                        $scope.calculateBudgetRank();
+                        
                         $scope.enquiryData.next_followup_date = (response.enquiryDetails[0].next_followup_date == '0000-00-00') ? '' : response.enquiryDetails[0].next_followup_date;
                         $scope.enquiryData.next_followup_time = response.enquiryDetails[0].next_followup_time;
-//                        $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00' || response.enquiryDetails[0].property_possession_date == undefined) ? '' : response.enquiryDetails[0].property_possession_date;
-                        if(response.enquiryDetails[0].followup_by_employee_id === '')
+//                      $scope.enquiryData.property_possession_date = (response.enquiryDetails[0].property_possession_date == '0000-00-00' || response.enquiryDetails[0].property_possession_date == undefined) ? '' : response.enquiryDetails[0].property_possession_date;
+                        if (response.enquiryDetails[0].followup_by_employee_id === '')
                         {
-                           response.enquiryDetails[0].followup_by_employee_id = $("#loginid").val(); 
+                            response.enquiryDetails[0].followup_by_employee_id = $("#loginid").val();
                         }
-                        if (response.enquiryDetails[0].property_possession_date === null || response.enquiryDetails[0].property_possession_date === "-0001-11-30 00:00:00" || response.enquiryDetails[0].property_possession_date === "0000-00-00" || response.enquiryDetails[0].property_possession_date == undefined) {
-                          
+                        if (response.enquiryDetails[0].property_possession_date === 'null' || response.enquiryDetails[0].property_possession_date === "-0001-11-30 00:00:00" || response.enquiryDetails[0].property_possession_date === "0000-00-00" || typeof response.enquiryDetails[0].property_possession_date === undefined || response.enquiryDetails[0].property_possession_date === '1970-01-01') {
+
                             $scope.enquiryData.property_possession_date = "";
                         } else {
                             $scope.enquiryData.property_possession_date = response.enquiryDetails[0].property_possession_date;
@@ -709,11 +730,11 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             } else {
                                 $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
                             }
-                          
+
                             $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                         }
 
-                        if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00") {
+                        if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === 'NaN-aN-NaN' || response.customerPersonalDetails[0].marriage_date === '0000-00-00') {
                             $scope.customerData.marriage_date = "";
                         } else {
                             var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
@@ -847,7 +868,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                     $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                                 }
 
-                                if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00") {
+                                if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00" || response.customerPersonalDetails[0].marriage_date === 'NaN-aN-NaN') {
                                     $scope.customerData.marriage_date = "";
                                 } else {
                                     var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
@@ -905,20 +926,15 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.historyList = {};
         $scope.saveEnquiryData = function (enquiryData)
         {
-            if(enquiryData.followup_by_employee_id === '')
+            if (enquiryData.followup_by_employee_id === '')
             {
-               enquiryData.followup_by_employee_id = $("#loginid").val(); 
-            } 
-            if(enquiryData.max_budget !== '' && enquiryData.max_budget !==0  && typeof enquiryData.max_budget !== 'undefined'){
-                var arr = enquiryData.max_budget.split(" - ");
-                enquiryData.min_budget = arr[0];
-                enquiryData.max_budget = arr[1];
-            }           
+                enquiryData.followup_by_employee_id = $("#loginid").val();
+            }
             $scope.disableFinishButton = true;
             var mobilecc = $("#mobile_calling_code").val();
             var date = new Date($scope.enquiryData.next_followup_date);
             $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
-            if($scope.enquiryData.property_possession_date !== "0000-00-00")
+            if ($scope.enquiryData.property_possession_date !== "0000-00-00")
             {
                 var tentativeDate = new Date($scope.enquiryData.property_possession_date);
                 $scope.enquiryData.property_possession_date = (tentativeDate.getFullYear() + '-' + ("0" + (tentativeDate.getMonth() + 1)).slice(-2) + '-' + tentativeDate.getDate());
@@ -1171,7 +1187,7 @@ app.directive('checkMobileExist', function ($timeout, $q, Data) {
         require: 'ngModel',
         link: function ($scope, element, attributes, model) {
             model.$asyncValidators.uniqueMobile = function (modelValue) {
-                 if (model.$isEmpty(modelValue))
+                if (model.$isEmpty(modelValue))
                     return $q.when();
                 else {
                     var mobileNumber = modelValue;
@@ -1182,7 +1198,7 @@ app.directive('checkMobileExist', function ($timeout, $q, Data) {
                         $timeout(function () {
                             $scope.numNotExist = response.success;
                             model.$setValidity('uniqueMobile', !!response.success);
-                            if($scope.remarkData.customerId != '')
+                            if ($scope.remarkData.customerId != '')
                                 $scope.remarkData.mobile_number = modelValue;
                             else
                                 $scope.contacts.mobile_number = modelValue;
