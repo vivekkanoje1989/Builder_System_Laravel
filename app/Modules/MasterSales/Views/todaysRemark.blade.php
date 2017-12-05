@@ -240,10 +240,10 @@
                                                         <div class="col-sm-12" style="margin-left: -13px;" ng-if="mobileList.length < 4 && displayMobile != '1'"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
                                                         <span class="input-icon icon-right" ng-if="addMob && displayMobile != '1'">
                                                             <span class="input-icon icon-right">
-                                                                <input type="text" ng-model="remarkData.mobile_number" check-mobile-exist placeholder="Enter Mobile Number" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" id="mobile_number" name="mobile_number" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 500 }"
-                                                                       ng-blur="numNotExist && addInfo(remarkData.customerId, remarkData.mobile_calling_code1, remarkData.mobile_number, 'mobile_number')">
+                                                                <input type="text" ng-model="remarkData.mobile_number" placeholder="Enter Mobile Number" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" id="mobile_number" name="mobile_number" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 500 }"
+                                                                       ng-blur="addInfo(remarkData.customerId, remarkData.mobile_calling_code1, remarkData.mobile_number, 'mobile_number')">
                                                                 <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeMobText()"></i>
-                                                                <div ng-show="uniqueMobile" style="color: red;">Mobile number already exist</div>
+                                                                <div ng-show="mobErr" style="color: red;">Mobile number already exist</div>
                                                             </span>
                                                             <div ng-show="remarkData.mobile_number.length > 0" ng-messages="remarkForm.mobile_number.$error" class="help-block {{ applyClassPMobile}}">
                                                                 <div ng-message="minlength" style="color: red !important;">Length of mobile number minimum 10 digit required</div>

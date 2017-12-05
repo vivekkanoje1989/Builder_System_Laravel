@@ -820,14 +820,18 @@ class MasterSalesController extends Controller {
                 $result = ["success" => true, 'updated' => '1'];
             } else if ($input['elem'] == 'mobile_number') {
                 if (!empty($input['prevMob'])) {
-                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number')->where(['mobile_number' => $input['prevMob'], 'customer_id' => $input['custId']])->get();
+//                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number')->where(['mobile_number' => $input['prevMob'], 'customer_id' => $input['custId']])->get();
+                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number')->where(['mobile_number' => $input['prevMob']])->get();
                 } else {
-                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number')->where(['mobile_number' => $input['attrVal'], 'customer_id' => $input['custId']])->get();
+                    //$checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number')->where(['mobile_number' => $input['attrVal'], 'customer_id' => $input['custId']])->get();
+                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number')->where(['mobile_number' => $input['attrVal']])->get();
                 }
                 if (!empty($checkCustomerExist[0]['mobile_number']) && $checkCustomerExist[0]['customer_id'] != $input['custId']) { //email id exist in db and it is of another customer id
                    $result = ["success" => false, "message" => "Mobile number already exist"];
                    return $result;
                 }
+//                echo $checkCustomerExist[0]['mobile_number']."==".$checkCustomerExist[0]['customer_id']."==".$input['custId'];
+//                exit;
                 if (!empty($checkCustomerExist)) {
                     if (!empty($checkCustomerExist[0]['mobile_number'])) {
                         $input['pkid'] = $checkCustomerExist[0]['id'];
