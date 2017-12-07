@@ -235,6 +235,7 @@
                                                     <span ng-if="displayMobile == '1' && mobileList" ng-repeat="(key, value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
                                                         <img ng-if="displayCallBtn == '1'" src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
                                                         <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">+91-xxxxxx{{  value.substring(value.length - 4, value.length)}}</span>
+                                                        <span ng-if="key<mobileList.length - 1">&nbsp; | &nbsp;</span>
                                                     </span>
                                                     @if (strpos(Auth::guard('admin')->user()->employee_submenus,'"040501"'))
                                                     <div class="col-sm-12" style="margin-left: -13px;" ng-if="mobileList.length < 4 && displayMobile != '1'"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>

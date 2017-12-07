@@ -256,10 +256,9 @@
                         <tbody>
                             <tr ng-repeat="list in contacts">
                                 <td>{{$index + 1}}</td>
-                                <td><span ng-if="list.mobile_calling_code != '+NaN' && list.mobile_calling_code != '0' && list.mobile_calling_code != '' ">{{list.mobile_calling_code}} 
-                                        <span ng-if="displayMobile != '1'">{{ list.mobile_number }}</span>
-                                        <span ng-if="displayMobile == '1'">{{ list.mobile_number | mobileHider }}</span>
-                                    </span>
+                                <td><span ng-if="list.mobile_calling_code != '+NaN' && list.mobile_calling_code != '0' && list.mobile_calling_code != '' ">{{list.mobile_calling_code}} </span>
+                                    <span ng-if="displayMobile != '1'">{{ list.mobile_number }}</span>
+                                    <span ng-if="displayMobile == '1'">{{ list.mobile_number | mobileHider }}</span>
                                     <span ng-if="list.mobile_number == ''"> - </span>
                                 </td>
                                 <td><span ng-if="list.landline_number == ''"> - </span>
