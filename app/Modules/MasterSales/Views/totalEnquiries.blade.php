@@ -36,13 +36,11 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-
                         </div>                    
                         <div class="col-sm-4">
-
                         </div>
                         <div class="btn-group pull-right filterBtn">
-                            <a ng-if="enquiriesLength != 0" class="btn btn-default toggleForm" ng-click="procName('proc_get_total_enquiries', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                            <a class="btn btn-default toggleForm" ng-click="procName('proc_get_total_enquiries', '', sharedemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                         </div>
                     </div>
                     <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
