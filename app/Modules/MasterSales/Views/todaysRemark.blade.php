@@ -227,7 +227,7 @@
                                                     <span ng-if="displayMobile != '1'" ng-repeat="(key, value) in mobileList track by $index" style="float: left;">
                                                         <a ng-show="displayCallBtn == '1'"> <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img"></a>
                                                         <span class="text" style="margin-left: 23px;" ng-click="key!=0 && manageMobText(key, value)">{{value}}</span>
-                                                        <span ng-if="key<mobileList.length - 1">&nbsp; | &nbsp;</span>
+                                                        <span ng-if="key<mobileList.length-1">&nbsp; | &nbsp;</span>
                                                     </span> 
                                                 </div>
 
@@ -938,7 +938,7 @@
                                                                             <div class="control-group" ng-style="{'overflow-y': mobileList.length > 2 ? 'scroll' : 'none'}" style="height: 75px;"> 
                                                                                 <div class="checkbox" ng-repeat="mlist in mobileList track by $index">
                                                                                     <label>
-                                                                                        <input type="checkbox" ng-model="mobile_number" name="mobile_number" ng-change="checkedMobileNo(mlist, $index)" value="{{mlist}}" id="mob_{{$index}}" class="clsMobile" ng-required="divSms">
+                                                                                        <input type="checkbox" ng-model="mobile_number" name="mobile_number" ng-change="checkedMobileNo(mlist, $index)" value="{{mlist}}" id="mob_{{$index}}" class="clsMobile" ng-required="mobile_number.length == 0 && divSms">
                                                                                         <span class="text" ng-if="displayMobile == '1'">xxxxxx{{ mlist.substring(mlist.length - 4, mlist.length)}}</span>
                                                                                         <span class="text" ng-if="displayMobile != '1'">{{ mlist}}</span>
                                                                                     </label>
@@ -998,13 +998,13 @@
                                                                                 <label>Select email id<span class="sp-err">*</span></label>
                                                                                 <div class="control-group" ng-style="{'overflow-y': emailList.length > 2 ? 'scroll' : 'none'}" style="height: 65px;">
                                                                                     <div class="checkbox" ng-repeat="elist in emailList track by $index">
-                                                                                        <label>
-                                                                                            <input type="checkbox" ng-model="email_id" name="email_id" ng-change="checkedEmailId(elist, $index)" value="{{elist}}" id="email_{{$index}}" class="clsEmail" ng-required="divEmail">
+                                                                                        <label ng-if="elist != 'null' && elist != ''">
+                                                                                            <input type="checkbox" ng-model="email_id" name="email_id" ng-change="checkedEmailId(elist, $index)" value="{{elist}}" id="email_{{$index}}" class="clsEmail" ng-required="email_id_arr.length == 0 && divEmail">
                                                                                             <span class="text" ng-if="displayEmail != '1'">{{elist}}</span>
                                                                                             <span class="text" ng-if="displayEmail == '1'">{{elist | emailHider}}</span>
                                                                                         </label>
                                                                                     </div>
-                                                                                </div>{{email_id}}{{email_id.length}}
+                                                                                </div>
                                                                             </div>
                                                                             <div ng-show="sbtBtn2" ng-messages="remarkForm.email_id.$error" class="help-block">
                                                                                 <div ng-message="required">This field is required</div>

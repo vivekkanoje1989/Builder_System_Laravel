@@ -40,7 +40,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $rootScope.newEnqFlag1 = 0;
         $scope.hideOnTodayRemark = false;
         $scope.documentExist = true;
-        
+ 
         $scope.todayremarkTimeChange = function (selectedDate)
         {
             if (typeof selectedDate == 'undefined') {
@@ -1373,6 +1373,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $('.clsEmail').prop("checked", false);
             $('#footerContent').removeClass("content2");
             $scope.sbtBtn2 = $scope.sbtBtn3 = false;
+            return false;
         };
         $scope.email = function () {
             $scope.divText = false;

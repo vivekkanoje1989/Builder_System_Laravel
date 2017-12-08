@@ -1005,7 +1005,7 @@ class MasterSalesController extends Controller {
             $request = json_decode($postdata, true);
             $request['data']['prevRemarkStatus'] = '';
             $input = $request['data'];
-
+echo "<pre>";print_r($input['email_id_arr']);exit;
             if (empty($input['userData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
                 $getTitle = MlstTitle::select("title")->where("id", Auth::guard('admin')->user()->title_id)->get();
@@ -1220,7 +1220,7 @@ Regards,
                     $msg = 'Remark inserted successfully';
                     $input['remarks'] = $input['msgRemark'] . " " . $reassignEnq;
                 } else { //for email
-                    echo "<pre>";print_r($input['email_id_arr']);exit;
+                    
                     $getCallBackNo = CtSetting::select('virtual_display_number')->where("default_number", 1)->get();
                     $contactText = "
 Regards,<br>

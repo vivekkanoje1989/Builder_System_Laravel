@@ -121,10 +121,16 @@ use AuthenticatesUsers;
             Auth()->guard('admin')->logout();
         }
         $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
-        if (Auth::guard('admin')->check()) {
+        if (Auth::guard('admin')->check() && Auth()->guard('admin')->user()->employee_status == 1) {
             $authUser = Auth()->guard('admin')->user();
             $result = ['success' => true, 'id' => $authUser->id, 'name' => $authUser->name, 'email' => $authUser->email];
-        } else {
+        } else if (Auth()->guard('admin')->user()->employee_status == 2 || Auth()->guard('admin')->user()->employee_status == 3) {
+            $empId = Auth()->guard('admin')->user()->id;
+            $username = Auth()->guard('admin')->user()->username;
+            CommonFunctions::insertLoginLog($username, "-", $empId, 3, 0, $platformType = 1); //loginStatus = 3(logout)
+            Auth()->guard('admin')->logout();
+        }
+        else{
             $result = ['success' => false];
         }
         return $result;
