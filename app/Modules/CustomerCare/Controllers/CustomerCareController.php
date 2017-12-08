@@ -329,8 +329,8 @@ class CustomerCareController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         $enquiryId = $input['enquiryId'];
-//        $modules = $input['moduelswisehisory'];
-        $modules = array(1, 2);
+        $modules = $input['moduelswisehisory'];
+        //$modules = [1,2];
         $cc_followup_history = array();
         /*
          * 1 = Sales Followup

@@ -105,7 +105,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.min_budget.$dirty && enquiryForm.min_budget.$invalid)}">
                             <label for="">Min Budget <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select class="form-control" ng-model="enquiryData.min_budget" ng-change="calculateBudgetRank()" name="min_budget" required>
+                                <select class="form-control" ng-model="enquiryData.min_budget" ng-change="calculateBudgetRank()" name="min_budget" required style="color:#666;">
                                     <option value="">Select Budget</option>                                       
                                     <option ng-repeat="list in salesMinBudgetList track by $index" value="{{ list }}" ng-selected="{{ list == enquiryData.min_budget}}" >{{ list }}</option>
                                 </select>
@@ -121,7 +121,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.max_budget.$dirty && enquiryForm.max_budget.$invalid)}">
                             <label for="">Max Budget <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select class="form-control" ng-model="enquiryData.max_budget" name="max_budget" required>
+                                <select class="form-control" ng-model="enquiryData.max_budget" name="max_budget" required style="color:#666;">
                                     <option value="">Select Budget</option>                                       
                                     <option ng-repeat="list in salesMaxBudgetList track by $index" value="{{ list }}" ng-selected="{{ list == enquiryData.max_budget}}">{{ list }}</option>
                                 </select>
@@ -179,7 +179,7 @@
                         <div ng-if="enquiryData.id === undefined || enquiryData.id <=0" class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_time.$dirty && enquiryForm.next_followup_time.$invalid)}" >
                             <label for="">Next Followup Time<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select name="next_followup_time" ng-model="enquiryData.next_followup_time" id="next_followup_time" class="form-control" required="required">
+                                <select name="next_followup_time" ng-model="enquiryData.next_followup_time" id="next_followup_time" class="form-control" required="required" style="color:#666;">
                                     <option value=""> Select Time </option>
                                     <option ng-repeat="time in timeList" value="{{time.value}}">{{time.label}}</option>
                                 </select>                                
@@ -193,7 +193,7 @@
                         <div  ng-if="enquiryData.id !== undefined && enquiryData.id > 0" class="form-group">
                             <label for="">Next Followup Time<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">                                
-                                <select disabled="true" ng-model="enquiryData.next_followup_time" name="next_followup_time" id="next_followup_time" class="form-control">
+                                <select disabled="true" ng-model="enquiryData.next_followup_time" name="next_followup_time" id="next_followup_time" class="form-control" style="color:#666;">
                                     <option value=""> Select Time </option>
                                     <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="{{ time.value == enquiryData.next_followup_time}}">{{time.label}}</option>
                                 </select>
@@ -345,7 +345,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.city_id.$dirty && enquiryForm.city_id.$invalid)}">
                             <label for="">Preferred City <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select class="form-control" ng-model="enquiryData.city_id" name="city_id" ng-change="changeLocations(enquiryData.city_id)" required>
+                                <select class="form-control" ng-model="enquiryData.city_id" name="city_id" ng-change="changeLocations(enquiryData.city_id)" required style="color:#666;">
                                     <option value=''>Select Preferred city</option>     
                                     <option ng-repeat="list in cityList" value="{{list.city_id}}" ng-selected="{{ list.city_id == enquiryData.city_id}}">{{ list.get_city_name.name}}</option>                                                                                                                
                                 </select>
@@ -418,6 +418,9 @@
                             <div ng-show="enqFormBtn" class="help-block enqFormBtn">
                                 <div ng-if="projectsDetails.length == 0">This field is required</div>
                             </div>
+                            <div ng-show="addProBtn" ng-messages="enquiryForm.project_id.$valid" class="help-block addProBtn">
+                                <div ng-message="required">This field is required</div>
+                            </div>
                             <div ng-if="project_id" class="sp-err blog_title">{{project_id}}</div>
                         </span>
                     </div>
@@ -444,15 +447,12 @@
                 <div class="col-sm-3 col-xs-6">
                     <div class="form-group multi-sel-div">
                         <label for="">Sub Blocks</label>	
-                        <ui-select multiple ng-model="enquiryData.sub_block_id" name="sub_block_id" theme="select2" ng-disabled="disabled" ng-change="checkSubBlockLength()" >
+                        <ui-select multiple ng-model="enquiryData.sub_block_id" name="sub_block_id" theme="select2" ng-disabled="disabled" ng-change="checkSubBlockLength()">
                             <ui-select-match placeholder='Select sub blocks'>{{ $item.block_sub_type}}</ui-select-match>
                             <ui-select-choices repeat="list1 in subBlockList | filter:$select.search">
                                 {{list1.block_sub_type}} 
                             </ui-select-choices>
-                        </ui-select>
-                        <div ng-show="enqFormBtn" class="help-block enqFormBtn">
-                            <div ng-if="projectsDetails.length == 0">This field is required</div>
-                        </div>
+                        </ui-select>                        
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-6">

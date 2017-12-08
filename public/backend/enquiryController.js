@@ -682,6 +682,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         /****************************FILTER (UMA)***************************************/
 
         $scope.procName = function (procedureName, functionName, shared) {
+            
             if ($("#customerfilter div").hasClass("panel-collapse collapse"))
             {
                 $("#customerfilter div").removeClass("panel-collapse collapse").addClass(".panel-collapse collapse in");
@@ -693,7 +694,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.shared = shared;
         }
 
-        $scope.getFilteredData = function (filterData, page, recordsperpage) {
+        $scope.getFilteredData = function (filterData, page, recordsperpage) {            
             Object.keys($scope.filterData).forEach(function (key) {
                 if ($scope.filterData[key] == '')
                 {

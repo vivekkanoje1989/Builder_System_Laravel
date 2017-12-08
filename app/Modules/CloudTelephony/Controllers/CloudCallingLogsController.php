@@ -2194,7 +2194,6 @@ class CloudCallingLogsController extends Controller {
     }
 
     public function myOutboundLogs() {
-
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         if (!empty($request["employee_id"])) {
